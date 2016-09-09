@@ -21,12 +21,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/iviewui/iview"
+    "url": "https://github.com/iview/iview"
   },
   "author": "Aresn",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/iviewui/iview/issues"
+    "url": "https://github.com/iview/iview/issues"
   },
   "dependencies": {},
   "devDependencies": {
