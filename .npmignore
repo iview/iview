@@ -1,0 +1,7 @@
+.*
+*.md
+*.yml
+build/
+node_modules/
+local/
+gulpfile.js
