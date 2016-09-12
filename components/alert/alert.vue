@@ -1,10 +1,10 @@
 <template>
     <div v-if="!closed" :class="wrapClasses" transition="fade">
-        <slot name="icon" v-if="showIcon">
-            <span :class="iconClasses">
+        <span :class="iconClasses" v-if="showIcon">
+            <slot name="icon">
                 <Icon :type="iconType"></Icon>
-            </span>
-        </slot>
+            </slot>
+        </span>
         <span :class="messageClasses"><slot></slot></span>
         <span :class="descClasses" v-el:desc><slot name="desc"></slot></span>
         <a :class="closeClasses" v-if="closable" @click="close">
@@ -36,7 +36,7 @@
             showIcon: {
                 type: Boolean,
                 default: false
-            },
+            }
         },
         data () {
             return {
