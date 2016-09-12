@@ -1,27 +1,37 @@
 <template>
     <div>
-        <Radio :checked.sync="radio">梁灏</Radio>
-        {{ radio | json }}
-        <div @click="radio = false">单项切换</div>
-        <br><br><br>
-        <Radio-group :model.sync="radioGroup" size="large" type="button" @on-change="changeGroup">
-            <Radio value="梁灏"></Radio>
-            <Radio value="段模"></Radio>
-            <Radio value="倪斌"></Radio>
-        </Radio-group>
-        {{ radioGroup | json }}
-        <div @click="radioGroup = '梁灏'">多项切换</div>
+        <Alert show-icon>
+            成功的提示
+        </Alert>
+        <Alert closable show-icon>
+            成功的提示
+            <span slot="desc">这里是成功的内容</span>
+        </Alert>
+        <Alert type="warning" closable show-icon>
+            成功的提示
+            <span slot="desc">这里是成功的内容</span>
+        </Alert>
+        <Alert type="success" closable show-icon>
+            成功的提示
+            <span slot="desc">这里是成功的内容</span>
+        </Alert>
+        <Alert type="error" closable show-icon @on-close="closed">
+            成功的提示
+            <span slot="desc">这里是成功的内容</span>
+        </Alert>
     </div>
 </template>
 <script>
-    import { Radio } from 'iview';
+    import { Radio, Alert, Icon } from 'iview';
 
     const RadioGroup = Radio.Group;
 
     export default {
         components: {
             Radio,
-            RadioGroup
+            RadioGroup,
+            Alert,
+            Icon
         },
         props: {
         
@@ -38,6 +48,9 @@
         methods: {
             changeGroup (data) {
                 console.log(data);
+            },
+            closed (data) {
+                console.log(data)
             }
         }
     }

@@ -17,6 +17,7 @@ import BackTop from './components/back-top';
 import Spin from './components/spin';
 import Steps from './components/steps';
 import Breadcrumb from './components/breadcrumb';
+import Alert from './components/alert';
 
 const iview = {
     Button,
@@ -38,7 +39,8 @@ const iview = {
     BackTop,
     Spin,
     Steps,
-    Breadcrumb
+    Breadcrumb,
+    Alert
 };
 
 module.exports = iview;
