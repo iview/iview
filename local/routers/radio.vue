@@ -1,37 +1,50 @@
 <template>
     <div>
-        <Alert show-icon>
-            成功的提示
-        </Alert>
-        <Alert closable show-icon>
-            成功的提示
-            <span slot="desc">这里是成功的内容</span>
-        </Alert>
-        <Alert type="warning" closable show-icon>
-            成功的提示
-            <span slot="desc">这里是成功的内容</span>
-        </Alert>
-        <Alert type="success" closable show-icon>
-            成功的提示
-            <span slot="desc">这里是成功的内容</span>
-        </Alert>
-        <Alert type="error" closable show-icon @on-close="closed">
-            成功的提示
-            <span slot="desc">这里是成功的内容</span>
-        </Alert>
+        <Collapse active-key="2">
+            <Panel key="1">
+                Header1
+                <Collapse active-key="2" slot="content">
+                    <Panel key="1">
+                        inHeader1
+                        <p slot="content">inContent1</p>
+                    </Panel>
+                    <Panel key="2">
+                        inHeader2
+                        <p slot="content">inContent2</p>
+                    </Panel>
+                    <Panel key="3">
+                        inHeader3
+                        <p slot="content">inContent3</p>
+                    </Panel>
+                </Collapse>
+            </Panel>
+            <Panel key="2">
+                Header2
+                <p slot="content">A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.</p>
+            </Panel>
+            <Panel key="3">
+                Header3
+                <p slot="content">A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.</p>
+            </Panel>
+        </Collapse>
+        <Button @click="activeKey = '2'">换</Button>
     </div>
 </template>
 <script>
-    import { Radio, Alert, Icon } from 'iview';
+    import { Radio, Alert, Icon, Collapse, Button } from 'iview';
 
     const RadioGroup = Radio.Group;
+    const Panel = Collapse.Panel;
 
     export default {
         components: {
             Radio,
             RadioGroup,
             Alert,
-            Icon
+            Icon,
+            Collapse,
+            Panel,
+            Button
         },
         props: {
         
@@ -39,7 +52,8 @@
         data () {
             return {
                 radio: true,
-                radioGroup: '段模'
+                radioGroup: '段模',
+                activeKey: [1,2]
             }
         },
         computed: {

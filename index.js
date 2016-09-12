@@ -18,6 +18,7 @@ import Spin from './components/spin';
 import Steps from './components/steps';
 import Breadcrumb from './components/breadcrumb';
 import Alert from './components/alert';
+import Collapse from './components/collapse';
 
 const iview = {
     Button,
@@ -40,7 +41,8 @@ const iview = {
     Spin,
     Steps,
     Breadcrumb,
-    Alert
+    Alert,
+    Collapse
 };
 
 module.exports = iview;
