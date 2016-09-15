@@ -1,0 +1,64 @@
+@card-prefix-cls: ~"@{css-prefix}card";
+
+.@{card-prefix-cls}{
+    background: #fff;
+    border-radius: @border-radius-small;
+    font-size: @font-size-base;
+    position: relative;
+    overflow: hidden;
+    transition: all @transition-time @ease-in-out;
+
+    &-bordered {
+        border: 1px solid @border-color-base;
+        border-color: @border-color-split;
+    }
+
+    &-shadow{
+        box-shadow: @shadow-card;
+    }
+
+    &:hover {
+        box-shadow: @shadow-base;
+        border-color: #eee;
+    }
+    &&-dis-hover:hover{
+        box-shadow: none;
+        border-color: transparent;
+    }
+
+    &&-dis-hover&-bordered:hover{
+        border-color: @border-color-split;
+    }
+
+    &&-shadow:hover{
+        box-shadow: @shadow-card;
+    }
+
+    &-head {
+        border-bottom: 1px solid @border-color-split;
+        padding: 10px 16px;
+        line-height: 1;
+
+        p {
+            display: inline-block;
+            width: 100%;
+            height: 20px;
+            line-height: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    &-extra {
+        position: absolute;
+        right: 16px;
+        top: 10px;
+    }
+
+    &-body {
+        padding: 16px;
+    }
+}

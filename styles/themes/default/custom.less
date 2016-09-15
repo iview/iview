@@ -13,12 +13,6 @@
 
 // Base
 @body-background        : #fff;
-
-// Border color
-@border-color-base      : #d9d9d9;  // base
-// Background color
-@background-color-base  : #f7f7f7;  // base
-
 @font-family            : "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 @code-family            : Consolas,Menlo,Courier,monospace;
 @text-color             : #525558;
@@ -26,6 +20,23 @@
 @line-height-base       : 1.5;
 @line-height-computed   : floor((@font-size-base * @line-height-base));
 @border-radius-base     : 6px;
+@border-radius-small    : 4px;
+
+// Border color
+@border-color-base      : #d9d9d9;  // outside
+@border-color-split     : #e9e9e9;  // inside
+
+// Background color
+@background-color-base  : #f7f7f7;  // base
+
+// Shadow
+@shadow-color           : rgba(100, 100, 100, .2);
+@shadow-base            : @shadow-down;
+@shadow-card            : 0 1px 1px 0 rgba(0,0,0,.1);
+@shadow-up              : 0 -1px 6px @shadow-color;
+@shadow-down            : 0 1px 6px @shadow-color;
+@shadow-left            : -1px 0 6px @shadow-color;
+@shadow-right           : 1px 0 6px @shadow-color;
 
 // Layout and Grid
 @grid-columns           : 24;

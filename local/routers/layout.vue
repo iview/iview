@@ -1,20 +1,24 @@
 <template>
-    <Row>
-        <i-col span="4">
-            我在左边
-        </i-col>
-        <i-col span="20">
-            我在右边
-        </i-col>
-    </Row>
+    <Card :bordered="true" style="width:300px">
+        <template slot="title">
+            <p>放寒假的发货会计师</p>
+        </template>
+        <a href="#" slot="extra">More</a>
+    </Card>
+    <Card style="width:300px">
+        <p>hello</p>
+        <p>hndshf</p>
+        <h3>jfds</h3>
+    </Card>
 </template>
 <script>
-    import { Row, Col } from 'iview';
+    import { Row, Col, Card } from 'iview';
 
     export default {
         components: {
             Row,
-            iCol: Col
+            iCol: Col,
+            Card
         },
         props: {
         
