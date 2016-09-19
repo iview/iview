@@ -63,7 +63,7 @@
         },
         methods: {
             add (notice) {
-                const key = getUuid();
+                const key = notice.key || getUuid();
 
                 let _notice = Object.assign({
                     style: {

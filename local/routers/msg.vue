@@ -3,7 +3,7 @@
     <Button @click="success">success</Button>
     <Button @click="error">error</Button>
     <Button @click="warning">warning</Button>
-    <Button @click="loading">loading</Button>
+    <Button @click="loading">手动消失</Button>
 </template>
 <script>
     import { Message, Button } from 'iview';
@@ -42,14 +42,16 @@
                 Message.warning('来个警告');
             },
             loading () {
-                Message.loading('我是loading');
+                const hide = Message.loading('我是loading', 0);
+
+                setTimeout(hide, 5000);
             }
         },
         ready () {
-            Message.config({
-                top: 50,
-                duration: 8
-            });
+//            Message.config({
+//                top: 50,
+//                duration: 8
+//            });
         }
     }
 </script>

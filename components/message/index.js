@@ -2,11 +2,13 @@ import Notification from '../base/notification';
 
 const prefixCls = 'ivu-message';
 const iconPrefixCls = 'ivu-icon';
+const prefixKey = 'ivu_message_key_';
 
 let defaultDuration = 1.5;
 
 let top;
 let messageInstance;
+let key = 1;
 
 const iconTypes = {
     'info': 'information-circled',
@@ -42,6 +44,7 @@ function notice (content, duration = defaultDuration, type, onClose) {
     let instance = getMessageInstance();
 
     instance.notice({
+        key: `${prefixKey}${key}`,
         duration: duration,
         style: {},
         content: `
@@ -52,6 +55,15 @@ function notice (content, duration = defaultDuration, type, onClose) {
         `,
         onClose: onClose
     });
+
+    // 用于手动消除
+    return (function () {
+        let target = key++;
+
+        return function () {
+            instance.remove(`${prefixKey}${target}`);
+        }
+    })();
 }
 
 export default {
