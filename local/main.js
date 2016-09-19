@@ -45,6 +45,11 @@ router.map({
         component: function (resolve) {
             require(['./routers/radio.vue'], resolve);
         }
+    },
+    '/msg': {
+        component: function (resolve) {
+            require(['./routers/msg.vue'], resolve);
+        }
     }
 });
 

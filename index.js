@@ -20,6 +20,7 @@ import Breadcrumb from './components/breadcrumb';
 import Alert from './components/alert';
 import Collapse from './components/collapse';
 import Card from './components/card';
+import Message from './components/message';
 
 const iview = {
     Button,
@@ -44,7 +45,8 @@ const iview = {
     Breadcrumb,
     Alert,
     Collapse,
-    Card
+    Card,
+    Message
 };
 
 module.exports = iview;
