@@ -4,6 +4,7 @@
     <Button @click="error">error</Button>
     <Button @click="warning">warning</Button>
     <Button @click="loading">手动消失</Button>
+    <Button @click="destroy">destroy</Button>
 </template>
 <script>
     import { Message, Button } from 'iview';
@@ -45,6 +46,9 @@
                 const hide = Message.loading('我是loading', 0);
 
                 setTimeout(hide, 5000);
+            },
+            destroy () {
+                Message.destroy();
             }
         },
         ready () {

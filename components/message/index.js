@@ -89,5 +89,10 @@ export default {
         if (options.duration) {
             defaultDuration = options.duration;
         }
+    },
+    destroy () {
+        let instance = getMessageInstance();
+        messageInstance = null;
+        instance.destroy();
     }
 }
