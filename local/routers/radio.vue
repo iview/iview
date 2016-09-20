@@ -74,12 +74,41 @@
         <Radio value="爪哇犀牛"></Radio>
         <Radio value="印度黑羚"></Radio>
     </Radio-group>
+    <br><br><br><br>
+    <Checkbox :checked.sync="radio">Checkbox</Checkbox>
+    <br><br>
+    <Checkbox-group :model="social">
+        <Checkbox value="twitter">
+            <Icon type="social-twitter"></Icon>
+            <span>Twitter</span>
+        </Checkbox>
+        <Checkbox value="facebook">
+            <Icon type="social-facebook"></Icon>
+            <span>Facebook</span>
+        </Checkbox>
+        <Checkbox value="github">
+            <Icon type="social-github"></Icon>
+            <span>Github</span>
+        </Checkbox>
+        <Checkbox value="snapchat">
+            <Icon type="social-snapchat"></Icon>
+            <span>Snapchat</span>
+        </Checkbox>
+    </Checkbox-group>
+    <br><br>
+    <Checkbox :checked.sync="disabledSingle" disabled>Checkbox</Checkbox>
+    <Checkbox-group :model="disabledGroup">
+        <Checkbox value="香蕉" disabled></Checkbox>
+        <Checkbox value="苹果" disabled></Checkbox>
+        <Checkbox value="西瓜"></Checkbox>
+    </Checkbox-group>
 </template>
 <script>
-    import { Radio, Alert, Icon, Collapse, Button } from 'iview';
+    import { Radio, Alert, Icon, Collapse, Button, Checkbox } from 'iview';
 
     const RadioGroup = Radio.Group;
     const Panel = Collapse.Panel;
+    const CheckboxGroup = Checkbox.Group;
 
     export default {
         components: {
@@ -89,7 +118,9 @@
             Icon,
             Collapse,
             Panel,
-            Button
+            Button,
+            Checkbox,
+            CheckboxGroup
         },
         props: {
         
@@ -100,7 +131,10 @@
                 radioGroup: '段模',
                 activeKey: [1,2],
                 phone: 'apple',
-                animal: '爪哇犀牛'
+                animal: '爪哇犀牛',
+                social: ['facebook', 'github'],
+                disabledSingle: true,
+                disabledGroup: ['苹果']
             }
         },
         computed: {

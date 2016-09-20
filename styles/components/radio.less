@@ -41,7 +41,7 @@
         background-color: #fff;
         border: 1px solid @border-color-base;
         border-radius: 50%;
-        .transition(all @animation-time @ease-in-out);
+        .transition(all @transition-time @ease-in-out);
 
         &:after {
             position: absolute;
@@ -56,7 +56,7 @@
             content: ' ';
             background-color: @primary-color;
             opacity: 0;
-            .transition(all @animation-time @ease-in-out);
+            .transition(all @transition-time @ease-in-out);
             .transform(scale(0));
         }
     }
@@ -80,7 +80,7 @@
         &:after {
             opacity: 1;
             .transform(scale(1));
-            .transition(all @animation-time @ease-in-out);
+            .transition(all @transition-time @ease-in-out);
         }
     }
 }
@@ -126,7 +126,7 @@ span.@{radio-prefix-cls} + * {
         line-height: 26px;
         color: @btn-default-color;
         display: inline-block;
-        .transition(all @animation-time ease-in-out);
+        .transition(all @transition-time ease-in-out);
         cursor: pointer;
         border: 1px solid @border-color-base;
         border-left: 0;
@@ -145,7 +145,7 @@ span.@{radio-prefix-cls} + * {
             left: -1px;
             background: @border-color-base;
             visibility: hidden;
-            .transition(all @animation-time ease-in-out);
+            .transition(all @transition-time ease-in-out);
         }
 
         &:first-child {
