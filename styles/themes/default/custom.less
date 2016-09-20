@@ -1,6 +1,6 @@
 // Prefix
 @css-prefix             : ivu-;
-
+@css-prefix-iconfont    : ivu-icon;
 // Color
 @primary-color          : #0099e5;
 @info-color             : #2db7f5;
@@ -21,6 +21,7 @@
 @line-height-computed   : floor((@font-size-base * @line-height-base));
 @border-radius-base     : 6px;
 @border-radius-small    : 4px;
+@cursor-disabled        : not-allowed;
 
 // Border color
 @border-color-base      : #d9d9d9;  // outside
@@ -37,6 +38,36 @@
 @shadow-down            : 0 1px 6px @shadow-color;
 @shadow-left            : -1px 0 6px @shadow-color;
 @shadow-right           : 1px 0 6px @shadow-color;
+
+// Button
+@btn-font-weight        : 400;
+@btn-padding-base       : 4px 15px;
+@btn-padding-large      : 4px 15px 5px 15px;
+@btn-padding-small      : 1px 7px;
+@btn-font-size          : 12px;
+@btn-font-size-large    : 14px;
+@btn-border-radius      : 4px;
+@btn-border-radius-small: 3px;
+@btn-group-border       : shade(@primary-color, 5%);
+
+@btn-disable-color      : #ccc;
+@btn-disable-bg         : @background-color-base;
+@btn-disable-border     : @border-color-base;
+
+@btn-default-color      : @text-color;
+@btn-default-bg         : @background-color-base;
+@btn-default-border     : @border-color-base;
+
+@btn-primary-color      : #fff;
+@btn-primary-bg         : @primary-color;
+
+@btn-ghost-color        : @text-color;
+@btn-ghost-bg           : transparent;
+@btn-ghost-border       : @border-color-base;
+
+@btn-circle-size        : 28px;
+@btn-circle-size-large  : 32px;
+@btn-circle-size-small  : 22px;
 
 // Layout and Grid
 @grid-columns           : 24;

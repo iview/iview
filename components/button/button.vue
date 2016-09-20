@@ -1,7 +1,7 @@
 <template>
     <button :type="htmlType" :class="classes" :disabled="disabled">
-        <Icon type="loading" v-if="loading"></Icon>
-        <Icon :type="icon" v-if="icon && !loading"></Icon>
+        <i :class="loadingIconClasses" v-if="loading"></i>
+        <i :class="typeIconClasses" v-if="icon && !loading"></i>
         <slot></slot>
     </button>
 </template>
@@ -10,6 +10,7 @@
     import { oneOf } from '../../utils/assist';
 
     const prefixCls = 'ivu-btn';
+    const iconPrefixCls = 'ivu-icon';
 
     export default {
         components: { Icon },
@@ -48,6 +49,17 @@
                         [`${prefixCls}-${this.shape}`]: !!this.shape,
                         [`${prefixCls}-${this.size}`]: !!this.size,
                         [`${prefixCls}-loading`]: this.loading != null && this.loading
+                    }
+                ]
+            },
+            loadingIconClasses () {
+                return `${iconPrefixCls} ivu-load-loop ${iconPrefixCls}-load-c`;
+            },
+            typeIconClasses () {
+                return [
+                    `${iconPrefixCls}`,
+                    {
+                        [`${iconPrefixCls}-${this.icon}`]: !!this.icon
                     }
                 ]
             }
