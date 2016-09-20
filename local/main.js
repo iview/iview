@@ -50,6 +50,11 @@ router.map({
         component: function (resolve) {
             require(['./routers/msg.vue'], resolve);
         }
+    },
+    '/notice': {
+        component: function (resolve) {
+            require(['./routers/notice.vue'], resolve);
+        }
     }
 });
 

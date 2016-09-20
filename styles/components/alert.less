@@ -26,6 +26,7 @@
         color: @legend-color;
         line-height: 21px;
         display: none;
+        text-align: justify;
     }
 
     &-success {
@@ -69,14 +70,7 @@
         cursor: pointer;
 
         .@{icon-prefix-cls}-ios-close-empty {
-            font-size: 22px;
-            color: @legend-color;
-            transition: color @transition-time ease;
-            position: relative;
-            top: -3px;
-            &:hover {
-                color: #444;
-            }
+            .close-base(-3px);
         }
     }
 

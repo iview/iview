@@ -7,6 +7,7 @@
             :duration="notice.duration"
             :closable="notice.closable"
             :key="notice.key"
+            :transition-name="notice.transitionName"
             :on-close="notice.onClose">
         </Notice>
     </div>
@@ -43,8 +44,7 @@
             },
             className: {
                 type: String
-            },
-            transitionName: String
+            }
         },
         data () {
             return {

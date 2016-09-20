@@ -5,7 +5,6 @@ const iconPrefixCls = 'ivu-icon';
 const prefixKey = 'ivu_message_key_';
 
 let defaultDuration = 1.5;
-
 let top;
 let messageInstance;
 let key = 1;
@@ -21,7 +20,6 @@ const iconTypes = {
 function getMessageInstance () {
     messageInstance = messageInstance || Notification.newInstance({
         prefixCls: prefixCls,
-        transitionName: 'slide',
         style: {
             top: `${top}px`
         }
@@ -36,7 +34,7 @@ function notice (content, duration = defaultDuration, type, onClose) {
 
         }
     }
-    let iconType = iconTypes[type];
+    const iconType = iconTypes[type];
 
     // if loading
     const loadCls = type === 'loading' ? ' ivu-load-loop' : '';
@@ -47,6 +45,7 @@ function notice (content, duration = defaultDuration, type, onClose) {
         key: `${prefixKey}${key}`,
         duration: duration,
         style: {},
+        transitionName: 'move-up',
         content: `
             <div class="${prefixCls}-custom-content ${prefixCls}-${type}">
                 <i class="${iconPrefixCls} ${iconPrefixCls}-${iconType}${loadCls}"></i>

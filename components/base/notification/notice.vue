@@ -1,11 +1,9 @@
 <template>
-    <div :class="classes" :style="style" transition="move-up">
+    <div :class="classes" :style="style" :transition="transitionName">
         <div :class="[`${baseClass}-content`]" v-el:content>{{{ content }}}</div>
-        <span v-if="closable">
-            <a :class="[`${baseClass}-close`]" @click="close">
-                <span :class="[`${baseClass}-close-x`]"></span>
-            </a>
-        </span>
+        <a :class="[`${baseClass}-close`]" @click="close" v-if="closable">
+            <i class="ivu-icon ivu-icon-ios-close-empty"></i>
+        </a>
     </div>
 </template>
 <script>
@@ -44,6 +42,9 @@
             },
             onClose: {
                 type: Function
+            },
+            transitionName: {
+                type: String
             }
         },
         computed: {
