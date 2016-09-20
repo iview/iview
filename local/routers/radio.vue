@@ -29,6 +29,51 @@
         </Collapse>
         <Button @click="activeKey = '2'">换</Button>
     </div>
+    <Radio :checked.sync="radio">Radio</Radio>
+    <Button @click="radio = !radio">change radio</Button>
+    <br>
+    <br>
+    <Radio-group :model.sync="phone" type="button">
+        <Radio value="apple">
+            <Icon type="social-apple"></Icon>
+            <span>Apple</span>
+        </Radio>
+        <Radio value="android">
+            <Icon type="social-android"></Icon>
+            <span>Android</span>
+        </Radio>
+        <Radio value="windows">
+            <Icon type="social-windows"></Icon>
+            <span>Windows</span>
+        </Radio>
+    </Radio-group>
+    <Radio-group :model.sync="animal" type="button">
+        <Radio value="金斑蝶"></Radio>
+        <Radio value="爪哇犀牛"></Radio>
+        <Radio value="印度黑羚"></Radio>
+    </Radio-group>
+
+    <Radio-group :model.sync="animal" type="button">
+        <Radio value="金斑蝶" disabled></Radio>
+        <Radio value="爪哇犀牛" disabled></Radio>
+        <Radio value="印度黑羚"></Radio>
+    </Radio-group>
+    <br><br>
+    <Radio-group :model.sync="animal" type="button" size="large">
+        <Radio value="金斑蝶"></Radio>
+        <Radio value="爪哇犀牛"></Radio>
+        <Radio value="印度黑羚"></Radio>
+    </Radio-group>
+    <Radio-group :model.sync="animal" type="button">
+        <Radio value="金斑蝶"></Radio>
+        <Radio value="爪哇犀牛"></Radio>
+        <Radio value="印度黑羚"></Radio>
+    </Radio-group>
+    <Radio-group :model.sync="animal" type="button" size="small">
+        <Radio value="金斑蝶"></Radio>
+        <Radio value="爪哇犀牛"></Radio>
+        <Radio value="印度黑羚"></Radio>
+    </Radio-group>
 </template>
 <script>
     import { Radio, Alert, Icon, Collapse, Button } from 'iview';
@@ -51,9 +96,11 @@
         },
         data () {
             return {
-                radio: true,
+                radio: false,
                 radioGroup: '段模',
-                activeKey: [1,2]
+                activeKey: [1,2],
+                phone: 'apple',
+                animal: '爪哇犀牛'
             }
         },
         computed: {
