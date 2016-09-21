@@ -116,9 +116,14 @@
     </Switch>
     <Switch disabled></Switch>
     <Switch size="small"></Switch>
+    <br><br>
+    <Input-number :max="10" :min="1" :step="1.2" :value="1"></Input-number>
+    <Input-number :value="2" size="small"></Input-number>
+    <Input-number :value="2"></Input-number>
+    <Input-number :value="2" size="large"></Input-number>
 </template>
 <script>
-    import { Radio, Alert, Icon, Collapse, Button, Checkbox, Switch } from 'iview';
+    import { Radio, Alert, Icon, Collapse, Button, Checkbox, Switch, InputNumber } from 'iview';
 
     const RadioGroup = Radio.Group;
     const Panel = Collapse.Panel;
@@ -135,7 +140,8 @@
             Button,
             Checkbox,
             CheckboxGroup,
-            Switch
+            Switch,
+            InputNumber
         },
         props: {
         

@@ -5,17 +5,13 @@
                 @click="up"
                 @mouse.down="preventDefault"
                 :class="upClasses">
-                <span
-                    :class="innerUpClasses"
-                    @click="preventDefault">+</span>
+                <span :class="innerUpClasses" @click="preventDefault"></span>
             </a>
             <a
                 @click="down"
                 @mouse.down="preventDefault"
                 :class="downClasses">
-                <span
-                    :class="innerDownClasses"
-                    @click="preventDefault">-</span>
+                <span :class="innerDownClasses" @click="preventDefault"></span>
             </a>
         </div>
         <div :class="inputWrapClasses">
@@ -35,6 +31,7 @@
     import { oneOf } from '../../utils/assist';
 
     const prefixCls = 'ivu-input-number';
+    const iconPrefixCls = 'ivu-icon';
 
     function isValueNumber (value) {
         return (/(^-?[0-9]+\.{1}\d+$)|(^-?[1-9][0-9]*$)/).test(value + '');
@@ -122,7 +119,7 @@
                 ]
             },
             innerUpClasses () {
-                return `${prefixCls}-handler-up-inner`;
+                return `${prefixCls}-handler-up-inner ${iconPrefixCls} ${iconPrefixCls}-ios-arrow-up`;
             },
             downClasses () {
                 return [
@@ -134,10 +131,13 @@
                 ]
             },
             innerDownClasses () {
-                return `${prefixCls}-handler-down-inner`;
+                return `${prefixCls}-handler-down-inner ${iconPrefixCls} ${iconPrefixCls}-ios-arrow-down`;
             },
             inputWrapClasses () {
                 return `${prefixCls}-input-wrap`;
+            },
+            inputClasses () {
+                return `${prefixCls}-input`;
             }
         },
         methods: {
