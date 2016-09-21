@@ -121,13 +121,41 @@
     <Input-number :value="2" size="small"></Input-number>
     <Input-number :value="2"></Input-number>
     <Input-number :value="2" size="large"></Input-number>
+    <br><br>
+    <Breadcrumb>
+        <Breadcrumb-item href="/">Home</Breadcrumb-item>
+        <Breadcrumb-item href="/components/breadcrumb">Components</Breadcrumb-item>
+        <Breadcrumb-item>Breadcrumb</Breadcrumb-item>
+    </Breadcrumb>
+    <Breadcrumb>
+        <Breadcrumb-item href="/">
+            <Icon type="ios-home-outline"></Icon> Home
+        </Breadcrumb-item>
+        <Breadcrumb-item href="/components/breadcrumb">
+            <Icon type="social-buffer-outline"></Icon> Components
+        </Breadcrumb-item>
+        <Breadcrumb-item>
+            <Icon type="pound"></Icon> Breadcrumb
+        </Breadcrumb-item>
+    </Breadcrumb>
+    <Breadcrumb separator=">">
+        <Breadcrumb-item href="/">Home</Breadcrumb-item>
+        <Breadcrumb-item href="/components/breadcrumb">Components</Breadcrumb-item>
+        <Breadcrumb-item>Breadcrumb</Breadcrumb-item>
+    </Breadcrumb>
+    <Breadcrumb separator="<b class='demo-breadcrumb-separator'>=></b>">
+        <Breadcrumb-item href="/">Home</Breadcrumb-item>
+        <Breadcrumb-item href="/components/breadcrumb">Components</Breadcrumb-item>
+        <Breadcrumb-item>Breadcrumb</Breadcrumb-item>
+    </Breadcrumb>
 </template>
 <script>
-    import { Radio, Alert, Icon, Collapse, Button, Checkbox, Switch, InputNumber } from 'iview';
+    import { Radio, Alert, Icon, Collapse, Button, Checkbox, Switch, InputNumber, Breadcrumb } from 'iview';
 
     const RadioGroup = Radio.Group;
     const Panel = Collapse.Panel;
     const CheckboxGroup = Checkbox.Group;
+    const BreadcrumbItem = Breadcrumb.Item;
 
     export default {
         components: {
@@ -141,7 +169,9 @@
             Checkbox,
             CheckboxGroup,
             Switch,
-            InputNumber
+            InputNumber,
+            Breadcrumb,
+            BreadcrumbItem
         },
         props: {
         
