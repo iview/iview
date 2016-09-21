@@ -18,7 +18,7 @@
                 v-model="checked"
                 @change="change">
         </span>
-        <slot>{{ value }}</slot>
+        <slot><span>{{ value }}</span></slot>
     </label>
 </template>
 <script>

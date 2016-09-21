@@ -102,9 +102,23 @@
         <Checkbox value="苹果" disabled></Checkbox>
         <Checkbox value="西瓜"></Checkbox>
     </Checkbox-group>
+    <br><br>
+    <Switch @on-change="change"></Switch>
+    <br><br>
+    <Switch>
+        <span slot="open">开</span>
+        <span slot="close">关</span>
+    </Switch>
+    <br><br>
+    <Switch>
+        <Icon type="android-done" slot="open"></Icon>
+        <Icon type="android-close" slot="close"></Icon>
+    </Switch>
+    <Switch disabled></Switch>
+    <Switch size="small"></Switch>
 </template>
 <script>
-    import { Radio, Alert, Icon, Collapse, Button, Checkbox } from 'iview';
+    import { Radio, Alert, Icon, Collapse, Button, Checkbox, Switch } from 'iview';
 
     const RadioGroup = Radio.Group;
     const Panel = Collapse.Panel;
@@ -120,7 +134,8 @@
             Panel,
             Button,
             Checkbox,
-            CheckboxGroup
+            CheckboxGroup,
+            Switch
         },
         props: {
         
@@ -146,6 +161,9 @@
             },
             closed (data) {
                 console.log(data)
+            },
+            change (status) {
+                console.log(status);
             }
         }
     }

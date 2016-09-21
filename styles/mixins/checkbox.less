@@ -84,7 +84,7 @@
                 border-top: 0;
                 border-left: 0;
                 .transform(rotate(45deg) scale(1));
-                .transition(all @transition-time @ease-in-out .1s);
+                .transition(all @transition-time @ease-in-out);
             }
         }
     }
@@ -145,8 +145,8 @@
 
     .@{checkbox-prefix-cls}-wrapper + span,
     .@{checkbox-prefix-cls} + span {
-        margin-left: 8px;
-        margin-right: 8px;
+        margin-left: 4px;
+        margin-right: 4px;
     }
 
     .@{checkbox-prefix-cls}-group {
