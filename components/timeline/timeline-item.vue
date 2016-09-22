@@ -1,9 +1,7 @@
 <template>
     <li :class="itemClasses">
         <div :class="tailClasses"></div>
-        <div :class="headClasses" :style="customColor">
-            <slot name="dot"></slot>
-        </div>
+        <div :class="headClasses" :style="customColor" v-el:dot><slot name="dot"></slot></div>
         <div :class="contentClasses">
             <slot></slot>
         </div>
@@ -25,7 +23,7 @@
             }
         },
         ready () {
-            this.dot = this.$children.length ? true : false;
+            this.dot = this.$els.dot.innerHTML.length ? true : false;
         },
         computed: {
             itemClasses () {
