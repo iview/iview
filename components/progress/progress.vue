@@ -1,5 +1,10 @@
 <template>
     <div :class="wrapClasses">
+        <div :class="outerClasses">
+            <div :class="innerClasses">
+                <div :class="bgClasses" :style="bgStyle"></div>
+            </div>
+        </div>
         <span v-if="!hideInfo" :class="textClasses">
             <slot>
                 <span v-if="isStatus" :class="textInnerClasses">
@@ -10,11 +15,6 @@
                 </span>
             </slot>
         </span>
-        <div :class="outerClasses">
-            <div :class="innerClasses">
-                <div :class="bgClasses" :style="bgStyle"></div>
-            </div>
-        </div>
     </div>
 </template>
 <script>
@@ -53,10 +53,10 @@
                 let type = '';
                 switch (this.status) {
                     case 'wrong':
-                        type = 'ios-close-empty';
+                        type = 'ios-close';
                         break;
                     case 'success':
-                         type = 'ios-checkmark-empty';
+                         type = 'ios-checkmark';
                         break;
                 }
 
