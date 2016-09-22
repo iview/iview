@@ -150,7 +150,7 @@
     </Breadcrumb>
 </template>
 <script>
-    import { Radio, Alert, Icon, Collapse, Button, Checkbox, Switch, InputNumber, Breadcrumb } from 'iview';
+    import { Radio, Alert, Icon, Collapse, Button, Checkbox, Switch, InputNumber, Breadcrumb, LoadingBar } from 'iview';
 
     const RadioGroup = Radio.Group;
     const Panel = Collapse.Panel;
@@ -171,7 +171,8 @@
             Switch,
             InputNumber,
             Breadcrumb,
-            BreadcrumbItem
+            BreadcrumbItem,
+            LoadingBar
         },
         props: {
         
@@ -201,6 +202,9 @@
             change (status) {
                 console.log(status);
             }
+        },
+        ready () {
+            LoadingBar.start();
         }
     }
 </script>

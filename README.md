@@ -1,15 +1,10 @@
-# iview
+# iView
 
 ### A high quality  UI components Library with Vue.js
 
 ## Docs
 
-### [中文文档](https://iview.github.io)
-
-## Tip
-
-### Most of the components are not yet UI, so stay tuned.
-###部分组件还没有UI,敬请期待。
+### [中文文档](https://www.iviewui.com)
 
 ## Programming 
 

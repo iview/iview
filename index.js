@@ -22,6 +22,7 @@ import Collapse from './components/collapse';
 import Card from './components/card';
 import Message from './components/message';
 import Notice from './components/notice';
+import LoadingBar from './components/loading-bar';
 
 const iview = {
     Button,
@@ -48,7 +49,8 @@ const iview = {
     Collapse,
     Card,
     Message,
-    Notice
+    Notice,
+    LoadingBar
 };
 
 module.exports = iview;
