@@ -6,21 +6,22 @@
         <Button @click="error">error</Button>
         <Button @click="update">update</Button>
         <br><br>
-        <Timeline>
-            <Timeline-item>
-                <Icon type="close-circled" slot="dot"></Icon>
-                <p class="time">1976年</p>
-                <p class="content">Apple I 问世</p>
-            </Timeline-item>
-            <Timeline-item>
-                <p class="time">1984年</p>
-                <p class="content">发布 Macintosh</p>
-            </Timeline-item>
-        </Timeline>
+        <Page :total="100"></Page>
+        <Page :total="100" show-sizer></Page>
+        <Page :total="100" show-elevator></Page>
+        <Page :total="100" show-total></Page>
+        <br><br>
+        <Page :current="2" :total="50" simple></Page>
+        <br>
+        <Page :total="400" size="small"></Page>
+        <br>
+        <Page :total="400" size="small" show-elevator show-sizer></Page>
+        <br>
+        <Page :total="400" size="small" show-total></Page>
     </div>
 </template>
 <script>
-    import { Tag, LoadingBar, Button, Progress, Icon, Timeline } from 'iview';
+    import { Tag, LoadingBar, Button, Progress, Icon, Timeline, Page } from 'iview';
     const ButtonGroup = Button.Group;
     const TimelineItem = Timeline.Item;
     export default {
@@ -31,7 +32,8 @@
             ButtonGroup,
             Timeline,
             TimelineItem,
-            Icon
+            Icon,
+            Page
         },
         props: {
         
