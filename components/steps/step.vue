@@ -1,6 +1,6 @@
 <template>
-    <div :class="wrapClasses">
-        <div :class="[`${prefixCls}-tail`]"></div>
+    <div :class="wrapClasses" :style="styles">
+        <div :class="[`${prefixCls}-tail`]"><i></i></div>
         <div :class="[`${prefixCls}-head`]">
             <div :class="[`${prefixCls}-head-inner`]">
                 <span v-if="!icon && status != 'finish' && status != 'error'">{{ stepNumber }}</span>
@@ -41,7 +41,8 @@
             return {
                 prefixCls: prefixCls,
                 stepNumber: '',
-                nextError: false
+                nextError: false,
+                total: 1
             }
         },
         computed: {
@@ -75,6 +76,11 @@
                         [`${iconPrefixCls}-${icon}`]: icon != ''
                     }
                 ]
+            },
+            styles () {
+                return {
+                    width: `${1/this.total*100}%`
+                }
             }
         },
         watch: {
