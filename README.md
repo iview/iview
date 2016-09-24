@@ -4,7 +4,7 @@
     </a>
 </p>
 
-# iView ![iView](https://img.shields.io/npm/v/iview.svg?style=flat-square)(https://www.npmjs.org/package/iview)
+# iView [![iView](https://img.shields.io/npm/v/iview.svg?style=flat-square)](https://www.npmjs.org/package/iview)
 
 ### A high quality  UI Components Library with Vue.js
 
