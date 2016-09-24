@@ -35,6 +35,7 @@
                 });
             },
             change (data) {
+                this.model = data;
                 this.$emit('on-change', data);
             }
         },
