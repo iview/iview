@@ -23,6 +23,7 @@ import Card from './components/card';
 import Message from './components/message';
 import Notice from './components/notice';
 import LoadingBar from './components/loading-bar';
+import Modal from './components/modal';
 
 const iview = {
     Button,
@@ -50,7 +51,8 @@ const iview = {
     Card,
     Message,
     Notice,
-    LoadingBar
+    LoadingBar,
+    Modal
 };
 
 module.exports = iview;

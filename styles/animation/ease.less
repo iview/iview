@@ -1,0 +1,36 @@
+.ease-motion(@className, @keyframeName) {
+    .make-motion(@className, @keyframeName);
+    .@{className}-enter, .@{className}-appear {
+        opacity: 0;
+        animation-timing-function: linear;
+        animation-duration: @transition-time;
+    }
+    .@{className}-leave {
+        animation-timing-function: linear;
+        animation-duration: @transition-time;
+    }
+}
+
+.ease-motion(ease, ivuEase);
+
+@keyframes ivuEaseIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes ivuEaseOut {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}

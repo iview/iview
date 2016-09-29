@@ -5,14 +5,25 @@
     <Button @click="warning">warning</Button>
     <Button @click="loading">手动消失</Button>
     <Button @click="destroy">destroy</Button>
+    <Alert closable>消息提示文案</Alert>
+    <Alert type="success" show-icon closable>
+        成功提示文案
+        <span slot="desc">成功的提示描述文案成功的提示描述文案成功的提示描述文案成功的提示描述文案成功的提示描述文案</span>
+    </Alert>
+    <Card :bordered="false">
+        <p slot="title">无边框标题</p>
+        <p>无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充。</p>
+    </Card>
 </template>
 <script>
-    import { Message, Button } from 'iview';
+    import { Message, Button, Alert, Card } from 'iview';
 
     export default {
         components: {
             Message,
-            Button
+            Button,
+            Alert,
+            Card
         },
         props: {
         
