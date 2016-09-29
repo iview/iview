@@ -25,7 +25,7 @@ import Notice from './components/notice';
 import LoadingBar from './components/loading-bar';
 import Modal from './components/modal';
 
-const iview = {
+export const iview = {
     Button,
     Icon,
     Input,
@@ -55,4 +55,10 @@ const iview = {
     Modal
 };
 
-module.exports = iview;
+export default {
+  install (Vue) {
+    Object.keys(iview).forEach((name) => {
+      Vue.component(name, iview[name]);
+    })
+  }
+}
