@@ -43,7 +43,8 @@ npm install iview --save
 ```js
 module: {
     loaders: [
-        { test: /iview\/.*?js$/, loader: 'babel' },
+        { test: /iview\/.*?js$/, loader: 'babel' },// for Mac
+        { test: /iview\\.*?js$/, loader: 'babel' },// for Windows
         { test: /\.js$/, loader: 'babel', exclude: /node_modules/ }
     ]
 }
