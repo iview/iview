@@ -41,7 +41,7 @@
         <li :title="current + 1" v-if="current + 1 < allPages" :class="[`${prefixCls}-item`]" @click="changePage(current + 1)"><a>{{ current + 1 }}</a></li>
         <li :title="current + 2" v-if="current + 2 < allPages" :class="[`${prefixCls}-item`]" @click="changePage(current + 2)"><a>{{ current + 2 }}</a></li>
         <li title="向后 5 页" v-if="current + 3 < allPages" :class="[`${prefixCls}-item-jump-next`]" @click="fastNext"><a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a></li>
-        <li :title="'最后一页:' + allPages" :class="[`${prefixCls}-item`, {[`${prefixCls}-item-active`]: current == allPages}]" @click="changePage(allPages)"><a>{{ allPages }}</a></li>
+        <li :title="'最后一页:' + allPages" v-if="allPages > 1" :class="[`${prefixCls}-item`, {[`${prefixCls}-item-active`]: current == allPages}]" @click="changePage(allPages)"><a>{{ allPages }}</a></li>
         <li
             title="下一页"
             :class="nextClasses"
@@ -117,7 +117,8 @@
         },
         computed: {
             allPages () {
-                return Math.ceil(this.total / this.pageSize);
+                const allPage = Math.ceil(this.total / this.pageSize);
+                return (allPage === 0) ? 1 : allPage;
             },
             simpleWrapClasses () {
                 return [
