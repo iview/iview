@@ -175,7 +175,10 @@
                 this.setValue(val);
             },
             setValue (val) {
-                this.value = val;
+                this.$nextTick(() => {
+                    this.value = val;
+                });
+
                 this.$emit('on-change', val);
             },
             focus () {
@@ -201,6 +204,8 @@
 
                 if (isValueNumber(val)) {
                     val = Number(val);
+                    this.value = val;
+
                     if (val > max) {
                         this.setValue(max);
                     } else if (val < min) {
@@ -211,25 +216,26 @@
                 } else {
                     event.target.value = this.value;
                 }
-            }
-        },
-        watch: {
-            value (val) {
+            },
+            changeVal (val) {
                 if (isValueNumber(val) || val === 0) {
                     val = Number(val);
                     const step = this.step;
-                    if (val + step > this.max) {
-                        this.upDisabled = true;
-                    } else if (val - step < this.min) {
-                        this.downDisabled = true;
-                    } else {
-                        this.upDisabled = false;
-                        this.downDisabled = false;
-                    }
+
+                    this.upDisabled = val + step > this.max;
+                    this.downDisabled = val - step < this.min;
                 } else {
                     this.upDisabled = true;
                     this.downDisabled = true;
                 }
+            }
+        },
+        ready () {
+            this.changeVal(this.value);
+        },
+        watch: {
+            value (val) {
+                this.changeVal(val);
             }
         }
     }
