@@ -4,7 +4,7 @@
             <Icon type="arrow-right-b"></Icon>
             <slot></slot>
         </div>
-        <div :class="concentClasses" v-show="isActive" transition="height">
+        <div :class="concentClasses" v-show="isActive">
             <div :class="boxClasses"><slot name="content"></slot></div>
         </div>
     </div>

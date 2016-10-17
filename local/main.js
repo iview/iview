@@ -60,6 +60,11 @@ router.map({
         component: function (resolve) {
             require(['./routers/tag.vue'], resolve);
         }
+    },
+    '/select': {
+        component: function (resolve) {
+            require(['./routers/select.vue'], resolve);
+        }
     }
 });
 

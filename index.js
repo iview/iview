@@ -24,6 +24,7 @@ import Message from './components/message';
 import Notice from './components/notice';
 import LoadingBar from './components/loading-bar';
 import Modal from './components/modal';
+import { Select, Option, OptionGroup } from './components/select';
 
 const iview = {
     Button,
@@ -52,7 +53,10 @@ const iview = {
     Message,
     Notice,
     LoadingBar,
-    Modal
+    Modal,
+    iSelect: Select,
+    iOption: Option,
+    iOptionGroup: OptionGroup
 };
 
 module.exports = iview;
