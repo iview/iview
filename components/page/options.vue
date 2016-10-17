@@ -1,9 +1,9 @@
 <template>
     <div v-if="showSizer || showElevator" :class="optsClasses">
         <div v-if="showSizer" :class="sizerClasses">
-            <select v-model="pageSize" @change="changeSize">
-                <option :value="item" v-for="item in pageSizeOpts">{{ item }} 条/页</option>
-            </select>
+            <i-select :model.sync="pageSize" @on-change="changeSize">
+                <i-option v-for="item in pageSizeOpts" :value="item" style="text-align:center;">{{ item }} 条/页</i-option>
+            </i-select>
         </div>
         <div v-if="showElevator" :class="ElevatorClasses">
             跳至
@@ -13,6 +13,9 @@
     </div>
 </template>
 <script>
+    import iSelect from '../../components/select/select.vue';
+    import iOption from '../../components/select/option.vue';
+
     const prefixCls = 'ivu-page';
 
     function isValueNumber (value) {
@@ -20,6 +23,7 @@
     }
 
     export default {
+        components: { iSelect, iOption },
         props: {
             pageSizeOpts: Array,
             showSizer: Boolean,

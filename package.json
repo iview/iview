@@ -1,6 +1,6 @@
 {
   "name": "iview",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "title": "iView",
   "description": "A high quality  UI components Library with Vue.js",
   "homepage": "http://www.iviewui.com",
@@ -29,6 +29,7 @@
     "url": "https://github.com/iview/iview/issues"
   },
   "dependencies": {
+    "popper.js": "^0.6.4",
     "vue": "^1.0.26"
   },
   "devDependencies": {

@@ -1,78 +1,29 @@
 <template>
-    <div>
-        <Button @click="start">start</Button>
-        <Button @click="destroy">destroy</Button>
-        <Button @click="finish">finish</Button>
-        <Button @click="error">error</Button>
-        <Button @click="update">update</Button>
-        <br><br>
-        <Page :total="100"></Page>
-        <Page :total="100" show-sizer></Page>
-        <Page :total="100" show-elevator></Page>
-        <Page :total="100" show-total></Page>
-        <br><br>
-        <Page :current="2" :total="50" simple></Page>
-        <br>
-        <Page :total="400" size="small"></Page>
-        <br>
-        <Page :total="400" size="small" show-elevator show-sizer></Page>
-        <br>
-        <Page :total="400" size="small" show-total></Page>
-    </div>
+    <Collapse active-key="1">
+        <Panel key="1">
+            史蒂夫·乔布斯
+            <p slot="content">史蒂夫·乔布斯（Steve Jobs），1955年2月24日生于美国加利福尼亚州旧金山，美国发明家、企业家、美国苹果公司联合创办人。</p>
+        </Panel>
+        <Panel key="2">
+            斯蒂夫·盖瑞·沃兹尼亚克
+            <p slot="content">斯蒂夫·盖瑞·沃兹尼亚克（Stephen Gary Wozniak），美国电脑工程师，曾与史蒂夫·乔布斯合伙创立苹果电脑（今之苹果公司）。斯蒂夫·盖瑞·沃兹尼亚克曾就读于美国科罗拉多大学，后转学入美国著名高等学府加州大学伯克利分校（UC Berkeley）并获得电机工程及计算机（EECS）本科学位（1987年）。</p>
+        </Panel>
+        <Panel key="3">
+            乔纳森·伊夫
+            <p slot="content">乔纳森·伊夫是一位工业设计师，现任Apple公司设计师兼资深副总裁，英国爵士。他曾参与设计了iPod，iMac，iPhone，iPad等众多苹果产品。除了乔布斯，他是对苹果那些著名的产品最有影响力的人。</p>
+        </Panel>
+    </Collapse>
+    <Input-number :max="10" :min="1" :value="1" @on-change="change"></Input-number>
+    <Input-number :max="10" :min="1" :step="1.2" :value="1"></Input-number>
 </template>
 <script>
-    import { Tag, LoadingBar, Button, Progress, Icon, Timeline, Page } from 'iview';
-    const ButtonGroup = Button.Group;
-    const TimelineItem = Timeline.Item;
+    import { Collapse, InputNumber } from 'iview';
+    const Panel = Collapse.Panel;
     export default {
-        components: {
-            Tag,
-            Button,
-            Progress,
-            ButtonGroup,
-            Timeline,
-            TimelineItem,
-            Icon,
-            Page
-        },
-        props: {
-        
-        },
-        data () {
-            return {
-                percent: 0
-            }
-        },
-        computed: {
-        
-        },
+        components: { Collapse, Panel, InputNumber },
         methods: {
-            start () {
-                LoadingBar.start();
-            },
-            destroy () {
-                LoadingBar.destroy();
-            },
-            finish () {
-                LoadingBar.finish();
-            },
-            error () {
-                LoadingBar.error();
-            },
-            update () {
-                LoadingBar.update(50);
-            },
-            add () {
-                if (this.percent >= 100) {
-                    return false;
-                }
-                this.percent += 10;
-            },
-            minus () {
-                if (this.percent <= 0) {
-                    return false;
-                }
-                this.percent -= 10;
+            change (data) {
+                console.log(data);
             }
         }
     }
