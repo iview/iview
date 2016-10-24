@@ -16,7 +16,8 @@
                 v-if="filterable"
                 v-model="query"
                 :placeholder="placeholder"
-                :style="inputStyle">
+                :style="inputStyle"
+                @blur="handleBlur">
             <Icon type="ios-close" :class="[`${prefixCls}-arrow`]" v-show="showCloseIcon" @click.stop="clearSingleSelect"></Icon>
             <Icon type="arrow-down-b" :class="[`${prefixCls}-arrow`]"></Icon>
         </div>
@@ -209,6 +210,10 @@
                         child.selected = false;
                     });
                     this.model = '';
+
+                    if (this.filterable) {
+                        this.query = '';
+                    }
                 }
             },
             updateMultipleSelected (init = false) {
@@ -342,24 +347,32 @@
                 }
 
                 let child_status = {
-                    disabled: false
+                    disabled: false,
+                    hidden: false
                 };
+
+                let find_deep = false;    // can next find allowed
 
                 this.findChild((child) => {
                     if (child.index === this.focusIndex) {
                         child_status.disabled = child.disabled;
+                        child_status.hidden = child.hidden;
 
-                        if (!child.disabled) {
+                        if (!child.disabled && !child.hidden) {
                             child.isFocus = true;
                         }
                     } else {
                         child.isFocus = false;
                     }
+
+                    if (!child.hidden && !child.disabled) {
+                        find_deep = true;
+                    }
                 });
 
                 this.resetScrollTop();
 
-                if (child_status.disabled) {
+                if ((child_status.disabled || child_status.hidden) && find_deep) {
                     this.navigateOptions(direction);
                 }
             },
@@ -374,6 +387,23 @@
                 if (topOverflowDistance < 0) {
                     this.$refs.dropdown.$el.scrollTop += topOverflowDistance;
                 }
+            },
+            handleBlur () {
+                setTimeout(() => {
+                    const model = this.model;
+
+                    if (this.multiple) {
+
+                    } else {
+                        if (model !== '') {
+                            this.findChild((child) => {
+                                if (child.value === model) {
+                                    this.query = child.searchLabel;
+                                }
+                            });
+                        }
+                    }
+                }, 300);
             }
         },
         ready () {
@@ -397,6 +427,9 @@
                 } else {
 
                 }
+            },
+            query (val) {
+                this.$broadcast('on-query-change', val);
             }
         },
         events: {
@@ -413,6 +446,14 @@
                         }
                     } else {
                         this.model = value;
+
+                        if (this.filterable) {
+                            this.findChild((child) => {
+                                if (child.value === value) {
+                                    this.query = child.searchLabel;
+                                }
+                            });
+                        }
                     }
                 }
             }

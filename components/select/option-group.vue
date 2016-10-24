@@ -18,7 +18,8 @@
         },
         data () {
             return {
-                prefixCls: prefixCls
+                prefixCls: prefixCls,
+                hidden: false    // for search
             }
         }
     }
