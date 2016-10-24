@@ -4,7 +4,7 @@
         {{ city | json }}<br>
         <Button @click="city = 'hangzhou'">切换城市</Button>
         <br>
-        <i-select :model.sync="city" style="width:200px" @on-change="change">
+        <i-select v-if="true" :model.sync="city" style="width:200px" @on-change="change">
             <i-option-group label="热门城市">
                 <i-option value="beijing">北京市</i-option>
                 <i-option value="shanghai" disabled label="上海市">上海市2</i-option>
@@ -38,11 +38,12 @@
         </i-select>
 
         <i-select :model.sync="focus" style="width:200px" @on-change="change" clearable filterable label-in-value>
-            <i-option value="beijing">北京市</i-option>
+            <i-option value="beijing">北京</i-option>
             <i-option value="shanghai" label="上海市">上海市</i-option>
             <i-option value="shenzhen" disabled>深圳市</i-option>
             <i-option value="guangzhou" label="广州市">广州市2</i-option>
             <i-option value="shijiazhuang" disabled>石家庄市</i-option>
+            <!--<i-option value="shijiazhuang2">石家庄市2</i-option>-->
             <i-option value="a">a市</i-option>
             <i-option value="b">b市</i-option>
             <i-option value="c">c市</i-option>
@@ -50,8 +51,8 @@
             <i-option value="e">e市</i-option>
         </i-select>
 
-        <i-select :model.sync="focus2" style="width:300px" @on-change="change" clearable multiple>
-            <i-option value="beijing">北京市</i-option>
+        <i-select v-if="true" :model.sync="focus2" style="width:300px" @on-change="change" clearable multiple>
+            <i-option value="beijing" label="北京市">北京2</i-option>
             <i-option value="shanghai">上海市</i-option>
             <i-option value="shenzhen" disabled>深圳市</i-option>
             <i-option value="guangzhou">广州市</i-option>

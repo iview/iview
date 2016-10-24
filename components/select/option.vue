@@ -1,5 +1,5 @@
 <template>
-    <li :class="classes" @click.stop="select" @mouseout.stop="blur"><slot>{{ showLabel }}</slot></li>
+    <li :class="classes" @click.stop="select" @mouseout.stop="blur" v-show="!hidden"><slot>{{ showLabel }}</slot></li>
 </template>
 <script>
     const prefixCls = 'ivu-select-item';
@@ -23,7 +23,9 @@
             return {
                 selected: false,
                 index: 0,    // for up and down to focus
-                isFocus: false
+                isFocus: false,
+                hidden: false,    // for search
+                searchLabel: ''    // the value is slot,only for search
             }
         },
         computed: {
@@ -51,14 +53,20 @@
             },
             blur () {
                 this.isFocus = false;
+            },
+            queryChange (val) {
+                this.hidden = !new RegExp(val, 'i').test(this.searchLabel);
             }
         },
         ready () {
-
+            this.searchLabel = this.$el.innerHTML;
         },
         events: {
             'on-select-close' () {
                 this.isFocus = false;
+            },
+            'on-query-change' (val) {
+                this.queryChange(val);
             }
         }
     }
