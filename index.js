@@ -26,7 +26,7 @@ import LoadingBar from './components/loading-bar';
 import Modal from './components/modal';
 import { Select, Option, OptionGroup } from './components/select';
 
-const iview = {
+export const iview = {
     Button,
     Icon,
     Input,
@@ -59,4 +59,10 @@ const iview = {
     iOptionGroup: OptionGroup
 };
 
-module.exports = iview;
+export default {
+  install (Vue) {
+    Object.keys(iview).forEach((name) => {
+      Vue.component(name, iview[name]);
+    })
+  }
+}
