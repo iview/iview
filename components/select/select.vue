@@ -455,7 +455,10 @@
                     }
                     this.$broadcast('on-update-popper');
                 } else {
-
+                    if (this.filterable) {
+                        this.$els.input.blur();
+                    }
+                    this.$broadcast('on-destroy-popper');
                 }
             },
             query (val) {
