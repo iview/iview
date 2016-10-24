@@ -12,17 +12,21 @@
             <span :class="[`${prefixCls}-selected-value`]" v-show="!showPlaceholder && !multiple && !filterable">{{ selectedSingle }}</span>
             <input
                 type="text"
-                :class="[`${prefixCls}-input`]"
                 v-if="filterable"
                 v-model="query"
-                :placeholder="placeholder"
+                :class="[`${prefixCls}-input`]"
+                :placeholder="showPlaceholder ? placeholder : ''"
                 :style="inputStyle"
-                @blur="handleBlur">
+                @blur="handleBlur"
+                @keydown="resetInputState"
+                @keydown.delete="handleInputDelete"
+                v-el:input>
             <Icon type="ios-close" :class="[`${prefixCls}-arrow`]" v-show="showCloseIcon" @click.stop="clearSingleSelect"></Icon>
             <Icon type="arrow-down-b" :class="[`${prefixCls}-arrow`]"></Icon>
         </div>
         <Dropdown v-show="visible" transition="slide-up" v-ref:dropdown>
-            <ul :class="[`${prefixCls}-dropdown-list`]"><slot></slot></ul>
+            <ul v-show="notFound" :class="[`${prefixCls}-not-found`]"><li>未找到</li></ul>
+            <ul v-else :class="[`${prefixCls}-dropdown-list`]"><slot></slot></ul>
         </Dropdown>
     </div>
 </template>
@@ -85,7 +89,8 @@
                 selectedMultiple: [],
                 focusIndex: 0,
                 query: '',
-                inputLength: 20
+                inputLength: 20,
+                notFound: false
             }
         },
         computed: {
@@ -124,7 +129,11 @@
                 let style = {};
 
                 if (this.multiple) {
-                    style.width = `${this.inputLength}px`;
+                    if (this.showPlaceholder) {
+                        style.width = '100%';
+                    } else {
+                        style.width = `${this.inputLength}px`;
+                    }
                 }
 
                 return style;
@@ -245,6 +254,12 @@
                     return false;
                 }
                 this.model.splice(index, 1);
+
+                if (this.filterable && this.visible) {
+                    this.$els.input.focus();
+                }
+
+                this.$broadcast('on-update-popper');
             },
             // to select option for single
             toggleSingleSelected (value, init = false) {
@@ -404,6 +419,14 @@
                         }
                     }
                 }, 300);
+            },
+            resetInputState () {
+                this.inputLength = this.$els.input.value.length * 12 + 20;
+            },
+            handleInputDelete () {
+                if (this.multiple && this.model.length && this.query === '') {
+                    this.removeTag(this.model.length - 1);
+                }
             }
         },
         ready () {
@@ -423,6 +446,9 @@
             },
             visible (val) {
                 if (val) {
+                    if (this.multiple && this.filterable) {
+                        this.$els.input.focus();
+                    }
                     this.$broadcast('on-update-popper');
                 } else {
 
@@ -430,6 +456,16 @@
             },
             query (val) {
                 this.$broadcast('on-query-change', val);
+                let is_hidden = true;
+
+                this.$nextTick(() => {
+                    this.findChild((child) => {
+                        if (!child.hidden) {
+                            is_hidden = false;
+                        }
+                    });
+                    this.notFound = is_hidden;
+                });
             }
         },
         events: {
@@ -443,6 +479,12 @@
                             this.removeTag(index);
                         } else {
                             this.model.push(value);
+                            this.$broadcast('on-update-popper');
+                        }
+
+                        if (this.filterable) {
+                            this.query = '';
+                            this.$els.input.focus();
                         }
                     } else {
                         this.model = value;
