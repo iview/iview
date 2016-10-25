@@ -1,7 +1,7 @@
 <template>
     <div v-if="showSizer || showElevator" :class="optsClasses">
         <div v-if="showSizer" :class="sizerClasses">
-            <i-select :model.sync="pageSize" @on-change="changeSize">
+            <i-select :model.sync="pageSize" :size="size" @on-change="changeSize">
                 <i-option v-for="item in pageSizeOpts" :value="item" style="text-align:center;">{{ item }} 条/页</i-option>
             </i-select>
         </div>
@@ -31,9 +31,13 @@
             current: Number,
             _current: Number,
             pageSize: Number,
-            allPages: Number
+            allPages: Number,
+            isSmall: Boolean
         },
         computed: {
+            size () {
+                return this.isSmall ? 'small' : 'default';
+            },
             optsClasses () {
                 return [
                     `${prefixCls}-options`
