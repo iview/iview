@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!--<br><br><br><br><br><br><br><br><br><br><br>-->
+        <br><br><br><br><br><br><br><br><br><br><br>
         {{ city | json }}<br>
         <Button @click="city = 'hangzhou'">切换城市</Button>
         <br>

@@ -56,6 +56,7 @@
             :_current.once="current"
             :current.sync="current"
             :all-pages="allPages"
+            :is-small="isSmall"
             @on-size="onSize"
             @on-page="onPage">
         </Options>
@@ -116,6 +117,9 @@
             }
         },
         computed: {
+            isSmall () {
+                return !!this.size;
+            },
             allPages () {
                 const allPage = Math.ceil(this.total / this.pageSize);
                 return (allPage === 0) ? 1 : allPage;
