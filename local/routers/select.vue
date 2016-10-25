@@ -76,7 +76,7 @@
             Button
         },
         props: {
-        
+
         },
         data () {
             return {
@@ -87,7 +87,7 @@
             }
         },
         computed: {
-        
+
         },
         methods: {
             change (data) {
