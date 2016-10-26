@@ -1,7 +1,5 @@
 <style>
-    body{
-        padding: 100px;
-    }
+
 </style>
 <template>
     <Steps :current="1" size="small">

@@ -1,8 +1,8 @@
 <style scoped>
-    body{
-        padding: 50px;
-        height: 2000px;
-    }
+    /*body{*/
+        /*padding: 50px;*/
+        /*height: 2000px;*/
+    /*}*/
     .example-badge{
         width: 42px;
         height: 42px;
