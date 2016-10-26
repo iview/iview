@@ -1,8 +1,8 @@
+/**
+ * https://github.com/freeze-component/vue-popper
+ * */
 import Popper from 'popper.js';
 
-/**
-* https://github.com/freeze-component/vue-popper
-* */
 export default {
     props: {
         placement: {
@@ -19,12 +19,13 @@ export default {
             default: 0
         },
         value: Boolean,
-        visibleArrow: Boolean,
         transition: String,
         options: {
             type: Object,
             default () {
-                return {};
+                return {
+                    gpuAcceleration: false
+                };
             }
         }
     },
@@ -57,9 +58,6 @@ export default {
             const reference = this.reference || this.$els.reference;
 
             if (!popper || !reference) return;
-            if (this.visibleArrow) {
-                this.appendArrow(popper);
-            }
 
             if (this.popperJS && this.popperJS.hasOwnProperty('destroy')) {
                 this.popperJS.destroy();
@@ -102,30 +100,6 @@ export default {
             let placement = popper._popper.getAttribute('x-placement').split('-')[0];
             let origin = placementMap[placement];
             popper._popper.style.transformOrigin = ['top', 'bottom'].indexOf(placement) > -1 ? `center ${ origin }` : `${ origin } center`;
-        },
-        appendArrow(element) {
-            let hash;
-            if (this.appended) {
-                return;
-            }
-
-            this.appended = true;
-
-            for (let item in element.attributes) {
-                if (/^_v-/.test(element.attributes[item].name)) {
-                    hash = element.attributes[item].name;
-                    break;
-                }
-            }
-
-            const arrow = document.createElement('div');
-
-            if (hash) {
-                arrow.setAttribute(hash, '');
-            }
-            arrow.setAttribute('x-arrow', '');
-            arrow.className = 'popper__arrow';
-            element.appendChild(arrow);
         }
     },
     beforeDestroy() {

@@ -3,7 +3,7 @@
         <div :class="[`${prefixCls}-rel`]" v-el:reference>
             <slot></slot>
         </div>
-        <div :class="popperClasses" transition="fade" v-el:popper v-show="!disabled && showPopper">
+        <div :class="[`${prefixCls}-popper`]" transition="fade" v-el:popper v-show="!disabled && showPopper">
             <div :class="[`${prefixCls}-content`]">
                 <div :class="[`${prefixCls}-arrow`]"></div>
                 <div :class="[`${prefixCls}-inner`]"><slot name="content">{{ content }}</slot></div>
@@ -42,14 +42,6 @@
         data () {
             return {
                 prefixCls: prefixCls
-            }
-        },
-        computed: {
-            popperClasses () {
-                return [
-                    `${prefixCls}-popper`,
-                    `${prefixCls}-placement-${this.placement}`
-                ]
             }
         },
         methods: {
