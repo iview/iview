@@ -25,6 +25,7 @@ import Notice from './components/notice';
 import LoadingBar from './components/loading-bar';
 import Modal from './components/modal';
 import { Select, Option, OptionGroup } from './components/select';
+import Tooltip from './components/tooltip';
 
 const iview = {
     Button,
@@ -63,7 +64,8 @@ const iview = {
     Modal,
     iSelect: Select,
     iOption: Option,
-    iOptionGroup: OptionGroup
+    iOptionGroup: OptionGroup,
+    Tooltip
 };
 
 module.exports = iview;
