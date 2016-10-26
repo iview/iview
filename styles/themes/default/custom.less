@@ -11,6 +11,7 @@
 @link-hover-color       : tint(@link-color, 20%);
 @link-active-color      : shade(@link-color, 5%);
 @selected-color         : fade(@primary-color, 90%);
+@tooltip-color          : #fff;
 
 // Base
 @body-background        : #fff;
@@ -18,6 +19,7 @@
 @code-family            : Consolas,Menlo,Courier,monospace;
 @text-color             : #525558;
 @font-size-base         : 14px;
+@font-size-small        : 12px;
 @line-height-base       : 1.5;
 @line-height-computed   : floor((@font-size-base * @line-height-base));
 @border-radius-base     : 6px;
@@ -31,6 +33,7 @@
 // Background color
 @background-color-base        : #f7f7f7;  // base
 @background-color-select-hover: @input-disabled-bg;
+@tooltip-bg                   : #373737;
 
 // Shadow
 @shadow-color           : rgba(100, 100, 100, .2);
@@ -108,6 +111,7 @@
 @zindex-modal           : 1000;
 @zindex-message         : 1010;
 @zindex-notification    : 1010;
+@zindex-tooltip         : 1060;
 @zindex-loading-bar     : 2000;
 
 // Animation
