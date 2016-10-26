@@ -24,8 +24,9 @@ export default {
             type: Object,
             default () {
                 return {
-                    gpuAcceleration: false
-                };
+                    gpuAcceleration: false,
+                    boundariesElement: 'body'
+                }
             }
         }
     },
@@ -66,24 +67,15 @@ export default {
             options.placement = this.placement;
             options.offset = this.offset;
 
-            this.$nextTick(() => {
-                this.popperJS = new Popper(
-                    reference,
-                    popper,
-                    options
-                );
-                this.popperJS.onCreate(popper => {
-                    this.resetTransformOrigin(popper);
-                    this.$emit('created', this);
-                });
+            this.popperJS = new Popper(reference, popper, options);
+            this.popperJS.onCreate(popper => {
+                this.resetTransformOrigin(popper);
+                this.$nextTick(this.updatePopper);
+                this.$emit('created', this);
             });
         },
         updatePopper() {
-            if (this.popperJS) {
-                this.popperJS.update();
-            } else {
-                this.createPopper();
-            }
+            this.popperJS ? this.popperJS.update() : this.createPopper();
         },
         doDestroy() {
             if (this.showPopper) return;

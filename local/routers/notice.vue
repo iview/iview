@@ -1,7 +1,7 @@
 <style>
     .tooltip_out{
         border: 1px solid #ccc;
-        padding: 20px;
+        padding: 50px;
     }
     body{
         height: 1000px;
@@ -13,7 +13,9 @@
         123
     </div>
     <div class="tooltip_out">
-
+        <Tooltip content="Top23321" placement="left">
+            <Button>上面的左面</Button>
+        </Tooltip>
     </div>
     <Row>
         <i-col span="12">
