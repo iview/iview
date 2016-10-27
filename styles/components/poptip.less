@@ -25,7 +25,21 @@
     }
 
     &-body{
-        overflow: auto;
+        padding: 8px 16px;
+
+        &-content{
+            overflow: auto;
+        }
+    }
+
+    &-inner{
+        width: 100%;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid @border-color-split;
+        border-radius: @border-radius-small;
+        box-shadow: @shadow-base;
+        white-space: nowrap;
     }
 
     &-popper{
@@ -66,17 +80,6 @@
         }
     }
 
-    &-inner{
-        width: 100%;
-        padding: 8px 16px;
-        background-color: #fff;
-        background-clip: padding-box;
-        border: 1px solid @border-color-split;
-        border-radius: @border-radius-small;
-        box-shadow: @shadow-base;
-        white-space: nowrap;
-    }
-
     &-arrow{
         &, &:after{
             display: block;
@@ -100,10 +103,10 @@
     }
     &-confirm &-inner{
         white-space: normal;
-        padding: 16px 16px 8px;
     }
 
     &-confirm &-body{
+        padding: 16px 16px 8px;
         .ivu-icon{
             color: @warning-color;
             line-height: 17px;
@@ -117,7 +120,7 @@
 
     &-confirm &-footer{
         text-align: right;
-        padding: 16px 0 8px 0;
+        padding: 8px 16px 16px;
         button {
             margin-left: 4px;
         }

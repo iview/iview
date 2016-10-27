@@ -27,7 +27,9 @@
                 </div>
                 <div :class="[`${prefixCls}-inner`]" v-if="!confirm">
                     <div :class="[`${prefixCls}-title`]" v-if="showTitle" v-el:title><slot name="title">{{ title }}</slot></div>
-                    <div :class="[`${prefixCls}-body`]"><slot name="content">{{ content }}</slot></div>
+                    <div :class="[`${prefixCls}-body`]">
+                        <div :class="[`${prefixCls}-body-content`]"><slot name="content">{{ content }}</slot></div>
+                    </div>
                 </div>
             </div>
         </div>

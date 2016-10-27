@@ -30,6 +30,13 @@
 </style>
 <template>
     <div class="tooltip_out">
+        <Poptip>
+            <a>click 激活</a>
+            <div slot="title"><i>自定义标题</i></div>
+            <div slot="content">
+                <a>关闭提示框</a>
+            </div>
+        </Poptip>
         <Poptip placement="right" width="300">
             <Button type="ghost">click 激活</Button>
             <div class="api" slot="content">
