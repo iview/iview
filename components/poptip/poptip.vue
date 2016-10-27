@@ -26,7 +26,7 @@
                     </div>
                 </div>
                 <div :class="[`${prefixCls}-inner`]" v-if="!confirm">
-                    <div :class="[`${prefixCls}-title`]" v-if="!!title"><slot name="title">{{ title }}</slot></div>
+                    <div :class="[`${prefixCls}-title`]" v-if="showTitle" v-el:title><slot name="title">{{ title }}</slot></div>
                     <div :class="[`${prefixCls}-body`]"><slot name="content">{{ content }}</slot></div>
                 </div>
             </div>
@@ -83,7 +83,8 @@
         },
         data () {
             return {
-                prefixCls: prefixCls
+                prefixCls: prefixCls,
+                showTitle: true
             }
         },
         computed: {
@@ -156,6 +157,11 @@
             ok () {
                 this.visible = false;
                 this.$emit('on-ok');
+            }
+        },
+        ready () {
+            if (!this.confirm) {
+                this.showTitle = this.$els.title.innerHTML != '';
             }
         }
     }

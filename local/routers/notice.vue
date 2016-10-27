@@ -15,18 +15,24 @@
         <!--<Poptip title="标题" content="内容" trigger="hover">-->
             <!--<Button>hover 触发</Button>-->
         <!--</Poptip>-->
-        <Poptip title="确定删除这条信息吗？" content="内容" trigger="focus" @on-ok="ok" @on-cancel="cancel" ok-text="yes" cancel-text="no" width="200">
-            <a>Delete</a>
+        <Poptip title="确定删除这条信息吗？" confirm content="内容" trigger="focus" @on-ok="ok" @on-cancel="cancel">
+            <a><strong>Delete</strong></a>
         </Poptip>
-        <Poptip title="标题" content="内容" trigger="focus">
-            <input type="text">
-        </Poptip>
+        <!--<Poptip title="标题" content="内容" trigger="focus">-->
+            <!--<input type="text">-->
+        <!--</Poptip>-->
         <!--<Poptip title="标题" content="内容" trigger="focus">-->
             <!--<Button>focus 触发</Button>-->
         <!--</Poptip>-->
-        <Tooltip content="这里是提示文字">
-            当鼠标经过这段文字时，会显示一个气泡框
-        </Tooltip>
+        <!--<Tooltip content="这里是提示文字">-->
+            <!--当鼠标经过这段文字时，会显示一个气泡框-->
+        <!--</Tooltip>-->
+        <Poptip>
+            <a>click 激活</a>
+            <div slot="content">
+                <a>关闭提示框</a>
+            </div>
+        </Poptip>
     </div>
 </template>
 <script>
