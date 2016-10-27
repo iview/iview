@@ -25,7 +25,7 @@
     }
 
     &-body{
-        padding: 8px 16px;
+        overflow: auto;
     }
 
     &-popper{
@@ -68,6 +68,7 @@
 
     &-inner{
         width: 100%;
+        padding: 8px 16px;
         background-color: #fff;
         background-clip: padding-box;
         border: 1px solid @border-color-split;
@@ -99,10 +100,10 @@
     }
     &-confirm &-inner{
         white-space: normal;
+        padding: 16px 16px 8px;
     }
 
     &-confirm &-body{
-        padding: 16px 16px 8px;
         .ivu-icon{
             color: @warning-color;
             line-height: 17px;
@@ -116,7 +117,7 @@
 
     &-confirm &-footer{
         text-align: right;
-        padding: 8px 16px 16px;
+        padding: 16px 0 8px 0;
         button {
             margin-left: 4px;
         }
