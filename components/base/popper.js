@@ -28,22 +28,21 @@ export default {
                     boundariesElement: 'body'
                 }
             }
+        },
+        visible: {
+            type: Boolean,
+            default: false
         }
-    },
-    data() {
-        return {
-            showPopper: false
-        };
     },
     watch: {
         value: {
             immediate: true,
             handler(val) {
-                this.showPopper = val;
+                this.visible = val;
                 this.$emit('input', val);
             }
         },
-        showPopper(val) {
+        visible(val) {
             val ? this.updatePopper() : this.destroyPopper();
             this.$emit('input', val);
         }
@@ -78,7 +77,7 @@ export default {
             this.popperJS ? this.popperJS.update() : this.createPopper();
         },
         doDestroy() {
-            if (this.showPopper) return;
+            if (this.visible) return;
             this.popperJS.destroy();
             this.popperJS = null;
         },

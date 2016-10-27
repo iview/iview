@@ -3,7 +3,7 @@
         <div :class="[`${prefixCls}-rel`]" v-el:reference>
             <slot></slot>
         </div>
-        <div :class="[`${prefixCls}-popper`]" transition="fade" v-el:popper v-show="!disabled && showPopper">
+        <div :class="[`${prefixCls}-popper`]" transition="fade" v-el:popper v-show="!disabled && visible">
             <div :class="[`${prefixCls}-content`]">
                 <div :class="[`${prefixCls}-arrow`]"></div>
                 <div :class="[`${prefixCls}-inner`]"><slot name="content">{{ content }}</slot></div>
@@ -47,12 +47,12 @@
         methods: {
             handleShowPopper() {
                 this.timeout = setTimeout(() => {
-                    this.showPopper = true;
+                    this.visible = true;
                 }, this.delay);
             },
             handleClosePopper() {
                 clearTimeout(this.timeout);
-                this.showPopper = false;
+                this.visible = false;
             }
         }
     }
