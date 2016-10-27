@@ -13,11 +13,11 @@
     "ui",
     "framework"
   ],
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "init": "webpack --progress --config build/webpack.config.js",
-    "dev": "webpack-dev-server --inline --hot --compress --history-api-fallback --port 8081 --config build/webpack.config.js",
-    "build": "gulp --gulpfile build/build-style.js"
+    "dev": "webpack-dev-server --content-base test/dist/ --inline --hot --compress --history-api-fallback --port 8081 --config build/webpack.config.js",
+    "build:css": "gulp --gulpfile build/build-style.js"
   },
   "repository": {
     "type": "git",

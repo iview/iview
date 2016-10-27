@@ -10,13 +10,13 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     // 入口
     entry: {
-        main: './local/main',
+        main: './test/main',
         vendors: ['vue', 'vue-router']
     },
     // 输出
     output: {
-        path: path.join(__dirname, '.././local/dist'),
-        publicPath: '/local/dist/',
+        path: path.join(__dirname, '../test/dist'),
+        publicPath: '/test/dist/',
         filename: '[name].js',
         chunkFilename: '[name].chunk.js'
     },
@@ -38,7 +38,7 @@ module.exports = {
                 "style-loader",
                 "css-loader?sourceMap",
                 {
-                    publicPath: "../local/dist/"
+                    publicPath: "/test/dist/"
                 }
             ),
             less: ExtractTextPlugin.extract(
@@ -57,15 +57,15 @@ module.exports = {
         // require时省略的扩展名，如：require('module') 不需要module.js
         extensions: ['', '.js', '.vue'],
         alias: {
-            iview: '../.././index'
+            iview: '../../src/index'
         }
     },
     plugins: [
         new ExtractTextPlugin("[name].css",{ allChunks : true,resolve : ['modules'] }),             // 提取CSS
         new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js'),                           // 提取第三方库
         new HtmlWebpackPlugin({                                                                     // 构建html文件
-            filename: '../../index.html',
-            template: './local/template/index.html',
+            filename: 'index.html',
+            template: './test/index.html',
             inject: 'body'
         })
     ]

@@ -17,4 +17,4 @@ npm-debug.log
 *.log
 /index.html
 /index_prod.html
-local/dist
+test/dist/

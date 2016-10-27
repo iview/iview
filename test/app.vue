@@ -1,6 +1,6 @@
 <style lang="less">
-    @import "../../styles/index.less";
-    @import "../../styles/package.less";
+    @import "../src/styles/index.less";
+    @import "../src/styles/package.less";
 </style>
 <template>
     <div>
@@ -15,13 +15,13 @@
             }
         },
         ready: function() {
-            
+
         },
         beforeDestroy: function() {
 
         },
         methods: {
-            
+
         }
     }
 </script>
