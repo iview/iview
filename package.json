@@ -28,7 +28,9 @@
     "url": "https://github.com/iview/iview/issues"
   },
   "dependencies": {
-    "popper.js": "^0.6.4",
+    "popper.js": "^0.6.4"
+  },
+  "peerDependencies": {
     "vue": "^1.0.26"
   },
   "devDependencies": {
