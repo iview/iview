@@ -15,7 +15,7 @@ module.exports = {
     },
     // 输出
     output: {
-        path: path.join(__dirname, '.././test/dist'),
+        path: path.join(__dirname, '../test/dist'),
         publicPath: '/test/dist/',
         filename: '[name].js',
         chunkFilename: '[name].chunk.js'
@@ -38,7 +38,7 @@ module.exports = {
                 "style-loader",
                 "css-loader?sourceMap",
                 {
-                    publicPath: "../test/dist/"
+                    publicPath: "/test/dist/"
                 }
             ),
             less: ExtractTextPlugin.extract(
@@ -64,8 +64,8 @@ module.exports = {
         new ExtractTextPlugin("[name].css",{ allChunks : true,resolve : ['modules'] }),             // 提取CSS
         new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js'),                           // 提取第三方库
         new HtmlWebpackPlugin({                                                                     // 构建html文件
-            filename: '../../test/index.html',
-            template: './test/template/index.html',
+            filename: 'index.html',
+            template: './test/index.html',
             inject: 'body'
         })
     ]
