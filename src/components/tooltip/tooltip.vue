@@ -1,12 +1,12 @@
 <template>
-    <div :class="[prefix]" @mouseenter="handleShowPopper" @mouseleave="handleClosePopper">
-        <div :class="[prefix + '-rel']" v-el:reference>
+    <div :class="[prefixCls]" @mouseenter="handleShowPopper" @mouseleave="handleClosePopper">
+        <div :class="[prefixCls + '-rel']" v-el:reference>
             <slot></slot>
         </div>
-        <div :class="[prefix + '-popper']" transition="fade" v-el:popper v-show="!disabled && visible">
-            <div :class="[prefix + '-content']">
-                <div :class="[prefix + '-arrow']"></div>
-                <div :class="[prefix + '-inner']"><slot name="content">{{ content }}</slot></div>
+        <div :class="[prefixCls + '-popper']" transition="fade" v-el:popper v-show="!disabled && visible">
+            <div :class="[prefixCls + '-content']">
+                <div :class="[prefixCls + '-arrow']"></div>
+                <div :class="[prefixCls + '-inner']"><slot name="content">{{ content }}</slot></div>
             </div>
         </div>
     </div>

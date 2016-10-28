@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Modal from './modal.vue';
 import Icon from '../icon/icon.vue';
-import Button from '../button/button.vue';
+import iButton from '../button/button.vue';
 import { camelcaseToHyphen } from '../../utils/assist';
 
 const prefixCls = 'ivu-modal-confirm';
@@ -26,8 +26,8 @@ Modal.newInstance = properties => {
                     {{{ body }}}
                 </div>
                 <div class="${prefixCls}-footer">
-                    <Button type="ghost" size="large" v-if="showCancel" @click="cancel">{{ cancelText }}</Button>
-                    <Button type="primary" size="large" :loading="buttonLoading" @click="ok">{{ okText }}</Button>
+                    <i-button type="ghost" size="large" v-if="showCancel" @click="cancel">{{ cancelText }}</i-button>
+                    <i-button type="primary" size="large" :loading="buttonLoading" @click="ok">{{ okText }}</i-button>
                 </div>
             </div>
         </Modal>
@@ -36,7 +36,7 @@ Modal.newInstance = properties => {
 
     const modal = new Vue({
         el: div,
-        components: { Modal, Button, Icon },
+        components: { Modal, iButton, Icon },
         data: Object.assign(_props, {
             visible: false,
             width: 416,

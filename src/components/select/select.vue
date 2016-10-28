@@ -100,14 +100,14 @@
         computed: {
             classes () {
                 return [
-                    prefixCls + '',
+                    `${prefixCls}`,
                     {
-                        [prefixCls + '-visible']: this.visible,
-                        [prefixCls + '-disabled']: this.disabled,
-                        [prefixCls + '-multiple']: this.multiple,
-                        [prefixCls + '-single']: !this.multiple,
-                        [prefixCls + '-show-clear']: this.showCloseIcon,
-                        [prefixCls + '-${this.size}']: !!this.size
+                        [`${prefixCls}-visible`]: this.visible,
+                        [`${prefixCls}-disabled`]: this.disabled,
+                        [`${prefixCls}-multiple`]: this.multiple,
+                        [`${prefixCls}-single`]: !this.multiple,
+                        [`${prefixCls}-show-clear`]: this.showCloseIcon,
+                        [`${prefixCls}-${this.size}`]: !!this.size
                     }
                 ]
             },
@@ -136,7 +136,7 @@
                     if (this.showPlaceholder) {
                         style.width = '100%';
                     } else {
-                        style.width = '${this.inputLength}px';
+                        style.width = `${this.inputLength}px`;
                     }
                 }
 
