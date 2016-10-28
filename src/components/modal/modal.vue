@@ -2,15 +2,15 @@
     <div :class="wrapClasses">
         <div :class="maskClasses" v-show="visible" @click="mask" transition="fade"></div>
         <div :class="classes" :style="styles" v-show="visible" transition="ease">
-            <div :class="[`${prefixCls}-content`]">
-                <a :class="[`${prefixCls}-close`]" v-if="closable" @click="close">
+            <div :class="[prefixCls + '-content]">
+                <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
                     <slot name="close">
                         <Icon type="ios-close-empty"></Icon>
                     </slot>
                 </a>
-                <div :class="[`${prefixCls}-header`]" v-if="showHead" v-el:head><slot name="header"><p>{{ title }}</p></slot></div>
-                <div :class="[`${prefixCls}-body`]"><slot></slot></div>
-                <div :class="[`${prefixCls}-footer`]" v-if="!footerHide">
+                <div :class="[prefixCls + '-header']" v-if="showHead" v-el:head><slot name="header"><p>{{ title }}</p></slot></div>
+                <div :class="[prefixCls + '-body']"><slot></slot></div>
+                <div :class="[prefixCls + '-footer']" v-if="!footerHide">
                     <slot name="footer">
                         <Button type="ghost" size="large" @click="cancel">{{ cancelText }}</Button>
                         <Button type="primary" size="large" :loading="buttonLoading" @click="ok">{{ okText }}</Button>

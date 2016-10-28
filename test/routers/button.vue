@@ -1,73 +1,73 @@
 <template>
-    <Button>Default</Button>
-    <Button type="primary">Primary</Button>
-    <Button type="ghost">Ghost</Button>
+    <i-button>Default</i-button>
+    <i-button type="primary">Primary</i-button>
+    <i-button type="ghost">Ghost</i-button>
     <br><br>
-    <Button type="primary" size="large">Large</Button>
-    <Button type="primary">Default</Button>
-    <Button type="primary" size="small">Small</Button>
+    <i-button type="primary" size="large">Large</i-button>
+    <i-button type="primary">Default</i-button>
+    <i-button type="primary" size="small">Small</i-button>
     <br><br>
-    <Button>Default</Button>
-    <Button disabled>Default(Disabled)</Button>
+    <i-button>Default</i-button>
+    <i-button disabled>Default(Disabled)</i-button>
     <br><br>
-    <Button type="primary">Primary</Button>
-    <Button type="primary" disabled>Primary(Disabled)</Button>
+    <i-button type="primary">Primary</i-button>
+    <i-button type="primary" disabled>Primary(Disabled)</i-button>
     <br><br>
-    <Button type="ghost">Ghost</Button>
-    <Button type="ghost" disabled>Ghost(Disabled)</Button>
+    <i-button type="ghost">Ghost</i-button>
+    <i-button type="ghost" disabled>Ghost(Disabled)</i-button>
     <br><br>
-    <Button type="primary" shape="circle" icon="ios-search"></Button>
-    <Button type="primary" icon="ios-search">搜索</Button>
+    <i-button type="primary" shape="circle" icon="ios-search"></i-button>
+    <i-button type="primary" icon="ios-search">搜索</i-button>
     <br><br>
-    <Button type="ghost" shape="circle">
+    <i-button type="ghost" shape="circle">
         <Icon type="search"></Icon>
-    </Button>
-    <Button type="ghost">
+    </i-button>
+    <i-button type="ghost">
         <Icon type="search"></Icon>
         搜索
-    </Button>
-    <Button type="ghost" shape="circle" size="large">
+    </i-button>
+    <i-button type="ghost" shape="circle" size="large">
         <Icon type="search"></Icon>
-    </Button>
-    <Button type="ghost" shape="circle" size="small">
+    </i-button>
+    <i-button type="ghost" shape="circle" size="small">
         <Icon type="search"></Icon>
-    </Button>
+    </i-button>
     <br><br><br>
-    <Button type="primary" loading>Loading...</Button>
-    <Button type="primary" loading size="large">Loading...</Button>
-    <Button type="primary" loading size="small">Loading...</Button>
-    <Button type="primary" :loading="loading" @click="toLoading">
+    <i-button type="primary" loading>Loading...</i-button>
+    <i-button type="primary" loading size="large">Loading...</i-button>
+    <i-button type="primary" loading size="small">Loading...</i-button>
+    <i-button type="primary" :loading="loading" @click="toLoading">
         <span v-if="!loading">Click me!</span>
         <span v-else>Loading...</span>
-    </Button>
-    <Button type="primary" :loading="loading2" icon="checkmark-round" @click="toLoading2">
+    </i-button>
+    <i-button type="primary" :loading="loading2" icon="checkmark-round" @click="toLoading2">
         <span v-if="!loading2">Click me!</span>
         <span v-else>Loading...</span>
-    </Button>
+    </i-button>
     <h4>基本</h4>
     <Button-group size="large">
-        <Button>取消</Button>
-        <Button type="primary">确定</Button>
+        <i-button>取消</i-button>
+        <i-button type="primary">确定</i-button>
     </Button-group>
     <Button-group>
-        <Button type="primary">L</Button>
-        <Button>M</Button>
-        <Button type="ghost">R</Button>
+        <i-button type="primary">L</i-button>
+        <i-button>M</i-button>
+        <i-button type="ghost">R</i-button>
     </Button-group>
     <h4>配合图标</h4>
     <Button-group>
-        <Button type="primary">
+        <i-button type="primary">
             <Icon type="chevron-left"></Icon>
             前进
-        </Button>
-        <Button type="primary">
+        </i-button>
+        <i-button type="primary">
             后退
             <Icon type="chevron-right"></Icon>
-        </Button>
+        </i-button>
     </Button-group>
     <Button-group>
-        <Button type="primary" icon="cloud"></Button>
-        <Button type="primary" icon="upload"></Button>
+        <i-button type="primary" icon="cloud"></i-button>
+        <i-button type="primary" icon="upload"></i-button>
     </Button-group>
 </template>
 <script>
@@ -78,7 +78,7 @@
 
     export default {
         components: {
-            Button,
+            iButton: Button,
             ButtonGroup,
             Icon,
             iInput: Input,
@@ -93,13 +93,13 @@
             Page
         },
         props: {
-        
+
         },
         data () {
             return {
                 loading: false,
                 loading2: false
-            }        
+            }
         },
         methods: {
             toLoading () {
