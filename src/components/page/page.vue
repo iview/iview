@@ -145,7 +145,7 @@
                 return [
                     `${prefixCls}-prev`,
                     {
-                        [`${prefixCls}-disabled`]: this.current == 1
+                        [`${prefixCls}-disabled`]: this.current === 1
                     }
                 ]
             },
@@ -153,7 +153,7 @@
                 return [
                     `${prefixCls}-next`,
                     {
-                        [`${prefixCls}-disabled`]: this.current == this.allPages
+                        [`${prefixCls}-disabled`]: this.current === this.allPages
                     }
                 ]
             },
@@ -161,7 +161,7 @@
                 return [
                     `${prefixCls}-item`,
                     {
-                        [`${prefixCls}-item-active`]: this.current == 1
+                        [`${prefixCls}-item-active`]: this.current === 1
                     }
                 ]
             },
@@ -169,7 +169,7 @@
                 return [
                     `${prefixCls}-item`,
                     {
-                        [`${prefixCls}-item-active`]: this.current == this.allPages
+                        [`${prefixCls}-item-active`]: this.current === this.allPages
                     }
                 ]
             }
