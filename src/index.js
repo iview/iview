@@ -31,6 +31,7 @@ import Slider from './components/slider';
 
 const iview = {
     Button,
+    iButton: Button,
     ButtonGroup: Button.Group,
     Icon,
     Input,

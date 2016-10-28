@@ -12,8 +12,8 @@
                 <div :class="[prefixCls + '-body']"><slot></slot></div>
                 <div :class="[prefixCls + '-footer']" v-if="!footerHide">
                     <slot name="footer">
-                        <Button type="ghost" size="large" @click="cancel">{{ cancelText }}</Button>
-                        <Button type="primary" size="large" :loading="buttonLoading" @click="ok">{{ okText }}</Button>
+                        <i-button type="ghost" size="large" @click="cancel">{{ cancelText }}</i-button>
+                        <i-button type="primary" size="large" :loading="buttonLoading" @click="ok">{{ okText }}</i-button>
                     </slot>
                 </div>
             </div>
@@ -22,13 +22,13 @@
 </template>
 <script>
     import Icon from '../icon';
-    import Button from '../button';
+    import iButton from '../button/button.vue';
     import { getScrollBarSize } from '../../utils/assist';
 
     const prefixCls = 'ivu-modal';
 
     export default {
-        components: { Icon, Button },
+        components: { Icon, iButton },
         props: {
             visible: {
                 type: Boolean,

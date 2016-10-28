@@ -37,7 +37,7 @@
 </template>
 <script>
     import Popper from '../base/popper';
-    import Button from '../button/button.vue';
+    import iButton from '../button/button.vue';
     import clickoutside from '../../directives/clickoutside';
     import { oneOf } from '../../utils/assist';
 
@@ -46,7 +46,7 @@
     export default {
         mixins: [Popper],
         directives: { clickoutside },
-        components: { iButton: Button },
+        components: { iButton },
         props: {
             trigger: {
                 validator (value) {
@@ -92,9 +92,9 @@
         computed: {
             classes () {
                 return [
-                    prefixCls + '',
+                    `${prefixCls}`,
                     {
-                        [prefixCls + '-confirm']: this.confirm
+                        [`${prefixCls}-confirm`]: this.confirm
                     }
                 ]
             },
@@ -102,7 +102,7 @@
                 let style = {};
 
                 if (!!this.width) {
-                    style.width = '${this.width}px';
+                    style.width = `${this.width}px`;
                 }
                 return style;
             }
