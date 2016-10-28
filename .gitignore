@@ -15,4 +15,4 @@ npm-debug.log
 *.swp
 *.swo
 *.log
-test/dist
+test/dist/
