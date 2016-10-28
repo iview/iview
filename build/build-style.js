@@ -14,7 +14,7 @@ var concat = require('gulp-concat');
 
 // 组件的基础css
 gulp.task('base', function () {
-     gulp.src('../styles/index.less')
+     gulp.src('../src/styles/index.less')
          .pipe(less())
          .pipe(minifyCSS())
          .pipe(rename('iview.css'))
@@ -23,13 +23,13 @@ gulp.task('base', function () {
 
 // 字体
 gulp.task('fonts', function () {
-    gulp.src('../styles/common/iconfont/fonts/*.*')
+    gulp.src('../src/styles/common/iconfont/fonts/*.*')
         .pipe(gulp.dest('../dist/styles/fonts'))
 });
 
 // 文章排版
 gulp.task('article', function () {
-    gulp.src('../styles/article/index.less')
+    gulp.src('../src/styles/article/index.less')
         .pipe(less())
         .pipe(minifyCSS())
         .pipe(rename('article.css'))
@@ -38,7 +38,7 @@ gulp.task('article', function () {
 
 // 套装的全部css
 gulp.task('pack-all', function () {
-    gulp.src('../styles/package.less')
+    gulp.src('../src/styles/package.less')
         .pipe(less())
         .pipe(minifyCSS())
         .pipe(rename('iview.pack.css'))
@@ -47,7 +47,7 @@ gulp.task('pack-all', function () {
 
 // 每个套装的css
 gulp.task('pack', function () {
-    gulp.src(['../styles/packages/*.less', '!../styles/packages/index.less'])
+    gulp.src(['../src/styles/packages/*.less', '!../src/styles/packages/index.less'])
         .pipe(less())
         .pipe(minifyCSS())
         .pipe(rename({
@@ -58,7 +58,7 @@ gulp.task('pack', function () {
 
 // 全部css(包含组件和套装)
 gulp.task('all', function () {
-    gulp.src(['../styles/index.less', '../styles/package.less'])
+    gulp.src(['../src/styles/index.less', '../src/styles/package.less'])
         .pipe(less())
         .pipe(concat('iview.all.css'))
         .pipe(minifyCSS())

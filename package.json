@@ -13,10 +13,10 @@
     "ui",
     "framework"
   ],
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "init": "webpack --progress --config build/webpack.config.js",
-    "dev": "webpack-dev-server --inline --hot --compress --history-api-fallback --port 8081 --config build/webpack.config.js",
+    "dev": "webpack-dev-server --content-base test --inline --hot --compress --history-api-fallback --port 8081 --config build/webpack.config.js",
     "build": "gulp --gulpfile build/build-style.js"
   },
   "repository": {
