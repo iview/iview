@@ -1,8 +1,8 @@
 <template>
-    <li :class="[`${prefixCls}-wrap`]">
-        <div :class="[`${prefixCls}-title`]">{{ label }}</div>
+    <li :class="[prefixCls + '-wrap']">
+        <div :class="[prefixCls + '-title']">{{ label }}</div>
         <ul>
-            <li :class="[`${prefixCls}`]"><slot></slot></li>
+            <li :class="[prefixCls]"><slot></slot></li>
         </ul>
     </li>
 </template>

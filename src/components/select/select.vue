@@ -1,32 +1,32 @@
 <template>
     <div :class="classes" v-clickoutside="handleClose">
         <div
-            :class="[`${prefixCls}-selection`]"
+            :class="[prefixCls + '-selection']"
             v-el:reference
             @click="toggleMenu">
             <div class="ivu-tag" v-for="item in selectedMultiple">
                 <span class="ivu-tag-text">{{ item.label }}</span>
                 <Icon type="ios-close-empty" @click.stop="removeTag($index)"></Icon>
             </div>
-            <span :class="[`${prefixCls}-placeholder`]" v-show="showPlaceholder && !filterable">{{ placeholder }}</span>
-            <span :class="[`${prefixCls}-selected-value`]" v-show="!showPlaceholder && !multiple && !filterable">{{ selectedSingle }}</span>
+            <span :class="[prefixCls + '-placeholder']" v-show="showPlaceholder && !filterable">{{ placeholder }}</span>
+            <span :class="[prefixCls + '-selected-value']" v-show="!showPlaceholder && !multiple && !filterable">{{ selectedSingle }}</span>
             <input
                 type="text"
                 v-if="filterable"
                 v-model="query"
-                :class="[`${prefixCls}-input`]"
+                :class="[prefixCls + '-input']"
                 :placeholder="showPlaceholder ? placeholder : ''"
                 :style="inputStyle"
                 @blur="handleBlur"
                 @keydown="resetInputState"
                 @keydown.delete="handleInputDelete"
                 v-el:input>
-            <Icon type="ios-close" :class="[`${prefixCls}-arrow`]" v-show="showCloseIcon" @click.stop="clearSingleSelect"></Icon>
-            <Icon type="arrow-down-b" :class="[`${prefixCls}-arrow`]"></Icon>
+            <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.stop="clearSingleSelect"></Icon>
+            <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']"></Icon>
         </div>
         <Dropdown v-show="visible" transition="slide-up" v-ref:dropdown>
-            <ul v-show="notFound" :class="[`${prefixCls}-not-found`]"><li>{{ notFoundText }}</li></ul>
-            <ul v-else :class="[`${prefixCls}-dropdown-list`]"><slot></slot></ul>
+            <ul v-show="notFound" :class="[prefixCls + '-not-found']"><li>{{ notFoundText }}</li></ul>
+            <ul v-else :class="[prefixCls + '-dropdown-list']"><slot></slot></ul>
         </Dropdown>
     </div>
 </template>
@@ -100,14 +100,14 @@
         computed: {
             classes () {
                 return [
-                    `${prefixCls}`,
+                    prefixCls + '',
                     {
-                        [`${prefixCls}-visible`]: this.visible,
-                        [`${prefixCls}-disabled`]: this.disabled,
-                        [`${prefixCls}-multiple`]: this.multiple,
-                        [`${prefixCls}-single`]: !this.multiple,
-                        [`${prefixCls}-show-clear`]: this.showCloseIcon,
-                        [`${prefixCls}-${this.size}`]: !!this.size
+                        [prefixCls + '-visible']: this.visible,
+                        [prefixCls + '-disabled']: this.disabled,
+                        [prefixCls + '-multiple']: this.multiple,
+                        [prefixCls + '-single']: !this.multiple,
+                        [prefixCls + '-show-clear']: this.showCloseIcon,
+                        [prefixCls + '-${this.size}']: !!this.size
                     }
                 ]
             },
@@ -136,7 +136,7 @@
                     if (this.showPlaceholder) {
                         style.width = '100%';
                     } else {
-                        style.width = `${this.inputLength}px`;
+                        style.width = '${this.inputLength}px';
                     }
                 }
 

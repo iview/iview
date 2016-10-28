@@ -24,7 +24,7 @@
         </li>
     </ul>
     <ul :class="wrapClasses" v-else>
-        <span :class="[`${prefixCls}-total`]" v-if="showTotal">
+        <span :class="[prefixCls + '-total']" v-if="showTotal">
             <slot>共 {{ total }} 条</slot>
         </span>
         <li
@@ -33,15 +33,15 @@
             @click="prev">
             <a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a>
         </li>
-        <li title="第一页" :class="[`${prefixCls}-item`,{[`${prefixCls}-item-active`]: current == 1}]" @click="changePage(1)"><a>1</a></li>
-        <li title="向前 5 页" v-if="current - 3 > 1" :class="[`${prefixCls}-item-jump-prev`]" @click="fastPrev"><a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a></li>
-        <li :title="current - 2" v-if="current - 2 > 1" :class="[`${prefixCls}-item`]" @click="changePage(current - 2)"><a>{{ current - 2 }}</a></li>
-        <li :title="current - 1" v-if="current - 1 > 1" :class="[`${prefixCls}-item`]" @click="changePage(current - 1)"><a>{{ current - 1 }}</a></li>
-        <li :title="current" v-if="current != 1 && current != allPages" :class="[`${prefixCls}-item`,`${prefixCls}-item-active`]"><a>{{ current }}</a></li>
-        <li :title="current + 1" v-if="current + 1 < allPages" :class="[`${prefixCls}-item`]" @click="changePage(current + 1)"><a>{{ current + 1 }}</a></li>
-        <li :title="current + 2" v-if="current + 2 < allPages" :class="[`${prefixCls}-item`]" @click="changePage(current + 2)"><a>{{ current + 2 }}</a></li>
-        <li title="向后 5 页" v-if="current + 3 < allPages" :class="[`${prefixCls}-item-jump-next`]" @click="fastNext"><a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a></li>
-        <li :title="'最后一页:' + allPages" v-if="allPages > 1" :class="[`${prefixCls}-item`, {[`${prefixCls}-item-active`]: current == allPages}]" @click="changePage(allPages)"><a>{{ allPages }}</a></li>
+        <li title="第一页" :class="firstPageClasses" @click="changePage(1)"><a>1</a></li>
+        <li title="向前 5 页" v-if="current - 3 > 1" :class="[prefixCls + '-item-jump-prev']" @click="fastPrev"><a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a></li>
+        <li :title="current - 2" v-if="current - 2 > 1" :class="[prefixCls + '-item']" @click="changePage(current - 2)"><a>{{ current - 2 }}</a></li>
+        <li :title="current - 1" v-if="current - 1 > 1" :class="[prefixCls + '-item']" @click="changePage(current - 1)"><a>{{ current - 1 }}</a></li>
+        <li :title="current" v-if="current != 1 && current != allPages" :class="[prefixCls + '-item',prefixCls + '-item-active']"><a>{{ current }}</a></li>
+        <li :title="current + 1" v-if="current + 1 < allPages" :class="[prefixCls + '-item']" @click="changePage(current + 1)"><a>{{ current + 1 }}</a></li>
+        <li :title="current + 2" v-if="current + 2 < allPages" :class="[prefixCls + '-item']" @click="changePage(current + 2)"><a>{{ current + 2 }}</a></li>
+        <li title="向后 5 页" v-if="current + 3 < allPages" :class="[prefixCls + '-item-jump-next']" @click="fastNext"><a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a></li>
+        <li :title="'最后一页:' + allPages" v-if="allPages > 1" :class="lastPageClasses" @click="changePage(allPages)"><a>{{ allPages }}</a></li>
         <li
             title="下一页"
             :class="nextClasses"
@@ -154,6 +154,22 @@
                     `${prefixCls}-next`,
                     {
                         [`${prefixCls}-disabled`]: this.current == this.allPages
+                    }
+                ]
+            },
+            firstPageClasses () {
+                return [
+                    `${prefixCls}-item`,
+                    {
+                        [`${prefixCls}-item-active`]: this.current == 1
+                    }
+                ]
+            },
+            lastPageClasses () {
+                return [
+                    `${prefixCls}-item`,
+                    {
+                        [`${prefixCls}-item-active`]: this.current == this.allPages
                     }
                 ]
             }

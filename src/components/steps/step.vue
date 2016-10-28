@@ -1,15 +1,15 @@
 <template>
     <div :class="wrapClasses" :style="styles">
-        <div :class="[`${prefixCls}-tail`]"><i></i></div>
-        <div :class="[`${prefixCls}-head`]">
-            <div :class="[`${prefixCls}-head-inner`]">
+        <div :class="[prefixCls + '-tail']"><i></i></div>
+        <div :class="[prefixCls + '-head']">
+            <div :class="[prefixCls + '-head-inner']">
                 <span v-if="!icon && status != 'finish' && status != 'error'">{{ stepNumber }}</span>
                 <span v-else :class="iconClasses"></span>
             </div>
         </div>
-        <div :class="[`${prefixCls}-main`]">
-            <div :class="[`${prefixCls}-title`]">{{ title }}</div>
-            <div v-if="content" :class="[`${prefixCls}-content`]">{{ content }}</div>
+        <div :class="[prefixCls + '-main']">
+            <div :class="[prefixCls + '-title']">{{ title }}</div>
+            <div v-if="content" :class="[prefixCls + '-content']">{{ content }}</div>
         </div>
     </div>
 </template>

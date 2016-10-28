@@ -5,30 +5,30 @@
         @mouseleave="handleMouseleave"
         v-clickoutside="handleClose">
         <div
-            :class="[`${prefixCls}-rel`]"
+            :class="[prefixCls + '-rel']"
             v-el:reference
             @click="handleClick"
             @mousedown="handleFocus"
             @mouseup="handleBlur">
             <slot></slot>
         </div>
-        <div :class="[`${prefixCls}-popper`]" :style="styles" transition="fade" v-el:popper v-show="visible">
-            <div :class="[`${prefixCls}-content`]">
-                <div :class="[`${prefixCls}-arrow`]"></div>
-                <div :class="[`${prefixCls}-inner`]" v-if="confirm">
-                    <div :class="[`${prefixCls}-body`]">
+        <div :class="[prefixCls + '-popper']" :style="styles" transition="fade" v-el:popper v-show="visible">
+            <div :class="[prefixCls + '-content']">
+                <div :class="[prefixCls + '-arrow']"></div>
+                <div :class="[prefixCls + '-inner']" v-if="confirm">
+                    <div :class="[prefixCls + '-body']">
                         <i class="ivu-icon ivu-icon-help-circled"></i>
-                        <div :class="[`${prefixCls}-body-message`]"><slot name="title">{{ title }}</slot></div>
+                        <div :class="[prefixCls + '-body-message']"><slot name="title">{{ title }}</slot></div>
                     </div>
-                    <div :class="[`${prefixCls}-footer`]">
-                        <Button type="ghost" size="small" @click="cancel">{{ cancelText }}</Button>
-                        <Button type="primary" size="small" @click="ok">{{ okText }}</Button>
+                    <div :class="[prefixCls + '-footer']">
+                        <i-button type="ghost" size="small" @click="cancel">{{ cancelText }}</i-button>
+                        <i-button type="primary" size="small" @click="ok">{{ okText }}</i-button>
                     </div>
                 </div>
-                <div :class="[`${prefixCls}-inner`]" v-if="!confirm">
-                    <div :class="[`${prefixCls}-title`]" v-if="showTitle" v-el:title><slot name="title">{{ title }}</slot></div>
-                    <div :class="[`${prefixCls}-body`]">
-                        <div :class="[`${prefixCls}-body-content`]"><slot name="content">{{ content }}</slot></div>
+                <div :class="[prefixCls + '-inner']" v-if="!confirm">
+                    <div :class="[prefixCls + '-title']" v-if="showTitle" v-el:title><slot name="title">{{ title }}</slot></div>
+                    <div :class="[prefixCls + '-body']">
+                        <div :class="[prefixCls + '-body-content']"><slot name="content">{{ content }}</slot></div>
                     </div>
                 </div>
             </div>
@@ -46,7 +46,7 @@
     export default {
         mixins: [Popper],
         directives: { clickoutside },
-        components: { Button },
+        components: { iButton: Button },
         props: {
             trigger: {
                 validator (value) {
@@ -92,9 +92,9 @@
         computed: {
             classes () {
                 return [
-                    `${prefixCls}`,
+                    prefixCls + '',
                     {
-                        [`${prefixCls}-confirm`]: this.confirm
+                        [prefixCls + '-confirm']: this.confirm
                     }
                 ]
             },
@@ -102,7 +102,7 @@
                 let style = {};
 
                 if (!!this.width) {
-                    style.width = `${this.width}px`;
+                    style.width = '${this.width}px';
                 }
                 return style;
             }

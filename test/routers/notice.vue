@@ -38,7 +38,7 @@
             </div>
         </Poptip>
         <Poptip placement="right" width="300">
-            <Button type="ghost">click 激活</Button>
+            <i-button type="ghost">click 激活</i-button>
             <div class="api" slot="content">
                 <table>
                     <thead>
@@ -108,9 +108,9 @@
     import { Tooltip, Button, Row, iCol, Poptip, iSelect, iOption, Message } from 'iview';
 
     export default {
-        components: { Tooltip, Button, Row, iCol, Poptip, iSelect, iOption, Message },
+        components: { Tooltip, iButton: Button, Row, iCol, Poptip, iSelect, iOption, Message },
         props: {
-        
+
         },
         data () {
             return {
@@ -118,7 +118,7 @@
             }
         },
         computed: {
-        
+
         },
         methods: {
             ok () {
