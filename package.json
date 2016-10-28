@@ -15,8 +15,7 @@
   ],
   "main": "src/index.js",
   "scripts": {
-    "init": "webpack --progress --config build/webpack.config.js",
-    "dev": "webpack-dev-server --content-base test/dist/ --open --inline --hot --compress --history-api-fallback --port 8081 --config build/webpack.config.js",
+    "dev": "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 8081 --config build/webpack.config.js",
     "build": "gulp --gulpfile build/build-style.js"
   },
   "repository": {
@@ -52,7 +51,6 @@
     "gulp-minify-css": "^1.2.4",
     "gulp-rename": "^1.2.2",
     "html-loader": "^0.3.0",
-    "html-webpack-plugin": "^2.22.0",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "style-loader": "^0.13.1",
