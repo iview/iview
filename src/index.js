@@ -27,6 +27,7 @@ import Modal from './components/modal';
 import { Select, Option, OptionGroup } from './components/select';
 import Tooltip from './components/tooltip';
 import Poptip from './components/poptip';
+import Slider from './components/slider';
 
 const iview = {
     Button,
@@ -67,7 +68,8 @@ const iview = {
     iOption: Option,
     iOptionGroup: OptionGroup,
     Tooltip,
-    Poptip
+    Poptip,
+    Slider
 };
 
 module.exports = iview;
