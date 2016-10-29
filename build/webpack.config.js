@@ -5,7 +5,6 @@
 var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     // 入口
@@ -63,10 +62,5 @@ module.exports = {
     plugins: [
         new ExtractTextPlugin("[name].css",{ allChunks : true,resolve : ['modules'] }),             // 提取CSS
         new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js'),                           // 提取第三方库
-        new HtmlWebpackPlugin({                                                                     // 构建html文件
-            filename: 'index.html',
-            template: './test/index.html',
-            inject: 'body'
-        })
     ]
 };
