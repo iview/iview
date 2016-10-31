@@ -29,7 +29,7 @@
     <Timeline pending>
         <Timeline-item color="red">发布3.0版本</Timeline-item>
         <Timeline-item color="green">
-            <Icon type="time" slot="dot"></Icon>
+            <Icon type="cloak" slot="dot"></Icon>
             发布2.0版本
         </Timeline-item>
         <Timeline-item color="#ff6600">发布1.0版本</Timeline-item>

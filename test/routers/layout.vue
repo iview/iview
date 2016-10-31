@@ -1,23 +1,54 @@
+<style>
+    .example-demo .ivu-col div{
+        color: #fff;
+        padding: 10px 0;
+        text-align: center;
+        background: rgba(0, 153, 229, .9);
+    }
+    .example-demo  .ivu-col:nth-child(odd) div{
+        background: rgba(0, 153, 229, .7);
+    }
+</style>
 <template>
-    <Card :bordered="true" style="width:300px">
-        <template slot="title">
-            <p>放寒假的发货会计师</p>
-        </template>
-        <a href="#" slot="extra">More</a>
-    </Card>
-    <Card style="width:300px">
-        <p>hello</p>
-        <p>hndshf</p>
-        <h3>jfds</h3>
-    </Card>
+    <div class="example-demo">
+        <Row :gutter="16">
+            <i-col span="6">
+                <div>1 | order-4</div>
+            </i-col>
+            <i-col span="6">
+                <div>1 | order-4</div>
+            </i-col>
+            <i-col span="6">
+                <div>1 | order-4</div>
+            </i-col>
+            <i-col span="6">
+                <div>1 | order-4</div>
+            </i-col>
+        </Row>
+
+        <Row>
+            <i-col span="6">
+                <div>1 | order-4</div>
+            </i-col>
+            <i-col span="6">
+                <div>1 | order-4</div>
+            </i-col>
+            <i-col span="6">
+                <div>1 | order-4</div>
+            </i-col>
+            <i-col span="6">
+                <div>1 | order-4</div>
+            </i-col>
+        </Row>
+    </div>
 </template>
 <script>
-    import { Row, Col, Card } from 'iview';
+    import { Row, iCol, Card } from 'iview';
 
     export default {
         components: {
             Row,
-            iCol: Col,
+            iCol,
             Card
         },
         props: {

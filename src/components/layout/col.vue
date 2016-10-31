@@ -1,5 +1,5 @@
 <template>
-    <div :class="classes">
+    <div :class="classes" :style="styles">
         <slot></slot>
     </div>
 </template>
@@ -17,6 +17,11 @@
             pull: [Number, String],
             className: String
         },
+        data () {
+            return {
+                gutter: 0
+            }
+        },
         computed: {
             classes () {
                 return [
@@ -30,6 +35,17 @@
                         [`${this.className}`]: !!this.className
                     }
                 ]
+            },
+            styles () {
+                let style = {};
+                if (this.gutter !== 0) {
+                    style = {
+                        paddingLeft: this.gutter / 2 + 'px',
+                        paddingRight: this.gutter / 2 + 'px'
+                    }
+                }
+
+                return style;
             }
         }
     }
