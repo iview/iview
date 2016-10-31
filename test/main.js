@@ -16,19 +16,19 @@ var router = new VueRouter({
 });
 
 router.map({
-    '/index': {
-        component: function (resolve) {
-            require(['./routers/index.vue'], resolve);
-        }
-    },
     '/button': {
         component: function (resolve) {
             require(['./routers/button.vue'], resolve);
         }
     },
-    '/page': {
+    '/card': {
         component: function (resolve) {
-            require(['./routers/page.vue'], resolve);
+            require(['./routers/card.vue'], resolve);
+        }
+    },
+    '/message': {
+        component: function (resolve) {
+            require(['./routers/message.vue'], resolve);
         }
     },
     '/more': {
@@ -36,9 +36,14 @@ router.map({
             require(['./routers/more.vue'], resolve);
         }
     },
-    '/layout': {
+    '/page': {
         component: function (resolve) {
-            require(['./routers/layout.vue'], resolve);
+            require(['./routers/page.vue'], resolve);
+        }
+    },
+    '/poptip': {
+        component: function (resolve) {
+            require(['./routers/poptip.vue'], resolve);
         }
     },
     '/radio': {
@@ -46,24 +51,19 @@ router.map({
             require(['./routers/radio.vue'], resolve);
         }
     },
-    '/msg': {
-        component: function (resolve) {
-            require(['./routers/msg.vue'], resolve);
-        }
-    },
-    '/notice': {
-        component: function (resolve) {
-            require(['./routers/notice.vue'], resolve);
-        }
-    },
-    '/tag': {
-        component: function (resolve) {
-            require(['./routers/tag.vue'], resolve);
-        }
-    },
     '/select': {
         component: function (resolve) {
             require(['./routers/select.vue'], resolve);
+        }
+    },
+    '/slider': {
+        component: function (resolve) {
+            require(['./routers/slider.vue'], resolve);
+        }
+    },
+    '/step': {
+        component: function (resolve) {
+            require(['./routers/step.vue'], resolve);
         }
     }
 });
@@ -77,6 +77,6 @@ router.afterEach(function (transition) {
 });
 
 router.redirect({
-    '*': "/index"
+    '*': "/button"
 });
 router.start(App, '#app');
