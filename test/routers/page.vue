@@ -2,95 +2,56 @@
 
 </style>
 <template>
-    <Steps :current="1" size="small">
-        <Step title="已完成" content="这里是该步骤的描述信息这里是该步骤的描述信息这里是该步骤的描述信息"></Step>
-        <Step title="进行中" content="这里是该步骤的描述信息"></Step>
-        <Step title="待进行" content="这里是该步骤的描述信息这里是该步骤的描述信息这里是该步骤的描述信息"></Step>
-        <Step title="待进行" content="这里是该步骤的描述信息"></Step>
-    </Steps>
-    <br>
-    <Steps :current="2">
-        <Step title="已完成"></Step>
-        <Step title="进行中"></Step>
-        <Step title="待进行"></Step>
-        <Step title="待进行"></Step>
-    </Steps>
-    <br>
-    <Steps :current="1" size="small">
-        <Step title="已完成"></Step>
-        <Step title="进行中"></Step>
-        <Step title="待进行"></Step>
-        <Step title="待进行"></Step>
-    </Steps>
-    <br>
-    <Steps :current="1" direction="vertical" size="small">
-        <Step title="注册" icon="person-add"></Step>
-        <Step title="上传头像" icon="camera" content="这里是该步骤的描述信息这里是该步骤的描述信息这里是该步骤的描述信息"></Step>
-        <Step title="验证邮箱" icon="email"></Step>
-    </Steps>
-    <Steps :current="1" direction="vertical">
-        <Step title="注册" icon="person-add"></Step>
-        <Step title="上传头像" icon="camera" content="这里是该步骤的描述信息这里是该步骤的描述信息这里是该步骤的描述信息"></Step>
-        <Step title="验证邮箱" icon="email"></Step>
-    </Steps>
-    <br>
-    <p>当前正在进行第 {{ current + 1 }} 步</p>
-    <Steps :current="current">
-        <Step title="步骤1"></Step>
-        <Step title="步骤2"></Step>
-        <Step title="步骤3"></Step>
-        <Step title="步骤4"></Step>
-    </Steps>
-    <i-button type="primary" @click="next">下一步</i-button>
-    <br><br>
-    <Steps :current="1" direction="vertical" size="small">
-        <Step title="已完成" content="这里是该步骤的描述信息这里是该步骤的描述信息这里是该步骤的描述信息"></Step>
-        <Step title="进行中" content="这里是该步骤的描述信息"></Step>
-        <Step title="待进行" content="这里是该步骤的描述信息这里是该步骤的描述信息这里是该步骤的描述信息"></Step>
-        <Step title="待进行" content="这里是该步骤的描述信息"></Step>
-    </Steps>
-    <br><br>
-    <Steps :current="1" status="error">
-        <Step title="已完成" content="这里是该步骤的描述信息"></Step>
-        <Step title="进行中" content="这里是该步骤的描述信息"></Step>
-        <Step title="待进行" content="这里是该步骤的描述信息"></Step>
-        <Step title="待进行" content="这里是该步骤的描述信息"></Step>
-    </Steps>
+    <Page :total="40" size="small"></Page>
+    <Page :total="40" size="small" show-elevator show-sizer></Page>
+    <Page :total="40" size="small" show-total></Page>
 </template>
 <script>
-    import { Page, Steps, Button } from 'iview';
-
-    const Step = Steps.Step;
+    import { Modal, Button, Message, Page } from 'iview';
 
     export default {
-        components: {
-            Page,
-            Steps,
-            Step,
-            iButton: Button
-        },
+        components: { Modal, Button, Page },
         props: {
-
+        
         },
         data () {
             return {
-                total: 512,
-                current: 0
-            }
-        },
-        computed: {
 
+            }        
         },
         methods: {
-            setPage (page) {
-                console.log(page)
+            info () {
+                Modal.info({
+                    title: '这是对话框标题',
+                    content: `<p>这是对话框内容</p><p>这是对话框内容这是对话框内容这是对话框内容这是对话框内容这是对话框内容这是对话框内容这是对话框内容这是对话框内容这是对话框内容这是对话框内容</p>`
+                });
             },
-            next () {
-                if (this.current == 3) {
-                    this.current = 0;
-                } else {
-                    this.current += 1;
-                }
+            success () {
+                Modal.success();
+            },
+            warning () {
+                Modal.warning();
+            },
+            error () {
+                Modal.error();
+            },
+            confirm () {
+                Modal.confirm({
+//                    okText: 'OK',
+//                    cancelText: 'Cancel',
+                    title: '删除提示',
+                    content: '删除后将不可找回，您确定要删除吗？',
+                    onCancel () {
+                        Message.info('cancel it');
+                    },
+                    onOk () {
+                        setTimeout(() => {
+                            Modal.remove();
+                            Message.success('OK!');
+                        }, 2000);
+                    },
+                    loading: true
+                });
             }
         }
     }

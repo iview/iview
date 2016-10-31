@@ -1,8 +1,3 @@
-<style>
-    body{
-        padding: 50px;
-    }
-</style>
 <template>
     <Slider :value="10" :tip-format="format">
 
