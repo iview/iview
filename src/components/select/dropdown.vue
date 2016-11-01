@@ -22,7 +22,8 @@
                             gpuAcceleration: false,
                             placement: 'bottom-start',
                             boundariesPadding: 0,
-                            forceAbsolute: true
+                            forceAbsolute: true,
+                            boundariesElement: 'body'
                         });
                         this.popper.onCreate(popper => {
                             this.resetTransformOrigin(popper);
