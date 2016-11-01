@@ -2,7 +2,7 @@
     <button :type="htmlType" :class="classes" :disabled="disabled">
         <i :class="loadingIconClasses" v-if="loading"></i>
         <i :class="typeIconClasses" v-if="icon && !loading"></i>
-        <slot></slot>
+        <span v-if="showSlot" v-el:slot><slot></slot></span>
     </button>
 </template>
 <script>
@@ -17,7 +17,7 @@
         props: {
             type: {
                 validator (value) {
-                    return oneOf(value, ['primary', 'ghost']);
+                    return oneOf(value, ['primary', 'ghost', 'dashed', 'text']);
                 }
             },
             shape: {
@@ -40,6 +40,11 @@
             },
             icon: String
         },
+        data () {
+            return {
+                showSlot: true
+            }
+        },
         computed: {
             classes () {
                 return [
@@ -48,7 +53,8 @@
                         [`${prefixCls}-${this.type}`]: !!this.type,
                         [`${prefixCls}-${this.shape}`]: !!this.shape,
                         [`${prefixCls}-${this.size}`]: !!this.size,
-                        [`${prefixCls}-loading`]: this.loading != null && this.loading
+                        [`${prefixCls}-loading`]: this.loading != null && this.loading,
+                        [`${prefixCls}-icon-only`]: !this.showSlot && (!!this.icon || this.loading)
                     }
                 ]
             },
@@ -63,6 +69,9 @@
                     }
                 ]
             }
+        },
+        ready () {
+            this.showSlot = this.$els.slot.innerHTML !== '';
         }
     }
 </script>

@@ -1,7 +1,17 @@
 <template>
+    <i-button type="primary" icon="ios-search" shape="circle" size="small"></i-button>
+    <i-button type="primary" icon="ios-search" shape="circle"></i-button>
+    <i-button type="primary" icon="ios-search" shape="circle" size="large"></i-button>
+    <i-button type="primary" icon="ios-search" shape="circle" size="small">搜索</i-button>
+    <i-button type="primary" icon="ios-search" shape="circle">搜索</i-button>
+    <i-button type="primary" icon="ios-search" shape="circle" size="large">搜索</i-button>
+    <br><br>
     <i-button>Default</i-button>
     <i-button type="primary">Primary</i-button>
     <i-button type="ghost">Ghost</i-button>
+    <i-button type="dashed">Dashed</i-button>
+    <i-button type="text">文字按钮</i-button>
+    <i-button type="text" disabled>文字按钮</i-button>
     <br><br>
     <i-button type="primary" size="large">Large</i-button>
     <i-button type="primary">Default</i-button>
@@ -15,6 +25,9 @@
     <br><br>
     <i-button type="ghost">Ghost</i-button>
     <i-button type="ghost" disabled>Ghost(Disabled)</i-button>
+    <br><br>
+    <i-button type="dashed">dashed</i-button>
+    <i-button type="dashed" disabled>dashed(Disabled)</i-button>
     <br><br>
     <i-button type="primary" shape="circle" icon="ios-search"></i-button>
     <i-button type="primary" icon="ios-search">搜索</i-button>
@@ -53,6 +66,7 @@
         <i-button type="primary">L</i-button>
         <i-button>M</i-button>
         <i-button type="ghost">R</i-button>
+        <i-button type="dashed">R</i-button>
     </Button-group>
     <h4>配合图标</h4>
     <Button-group>
@@ -69,29 +83,9 @@
         <i-button type="primary" icon="cloud"></i-button>
         <i-button type="primary" icon="upload"></i-button>
     </Button-group>
-    <Modal
-            :visible="true"
-            title="普通的Modal对话框标题">
-        <p>对话框内容</p>
-        <p>对话框内容</p>
-        <p>对话框内容</p>
-        <div style="width: 200px">
-            <i-select :model.sync="model6" >
-                <i-option value="beijing">北京市</i-option>
-                <i-option value="shanghai" disabled>上海市</i-option>
-                <i-option value="shenzhen">深圳市</i-option>
-            </i-select>
-        </div>
-
-    </Modal>
-    <i-select :model.sync="model6" >
-        <i-option value="beijing">北京市</i-option>
-        <i-option value="shanghai" disabled>上海市</i-option>
-        <i-option value="shenzhen">深圳市</i-option>
-    </i-select>
 </template>
 <script>
-    import { Button, Icon, Input, Switch, Radio, Checkbox, InputNumber, Row, Col, Page, Modal, iSelect, iOption } from 'iview';
+    import { Button, Icon, Input, Switch, Radio, Checkbox, InputNumber, Row, Col, Page } from 'iview';
     const ButtonGroup = Button.Group;
     const RadioGroup = Radio.Group;
     const CheckboxGroup = Checkbox.Group;
@@ -110,10 +104,7 @@
             InputNumber,
             Row,
             iCol: Col,
-            Page,
-            Modal,
-            iSelect,
-            iOption
+            Page
         },
         props: {
 
