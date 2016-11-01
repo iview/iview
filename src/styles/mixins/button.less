@@ -65,15 +65,29 @@
         }
     }
 
-    // size
-    &-large > .@{btnClassName} {
-        .button-size(@btn-padding-large; @btn-font-size-large; @btn-border-radius);
+    &-circle .@{btnClassName} {
+        border-radius: @btn-circle-size;
     }
 
-    &-small > .@{btnClassName} {
-        .button-size(@btn-padding-small; @btn-font-size; @btn-border-radius-small);
-        > .@{css-prefix-iconfont} {
-            font-size: @btn-font-size;
+    // size
+    &-large&-circle .@{btnClassName} {
+        border-radius: @btn-circle-size-large;
+    }
+    &-large {
+        & > .@{btnClassName} {
+            .button-size(@btn-padding-large; @btn-font-size-large; @btn-border-radius);
+        }
+    }
+
+    &-small&-circle .@{btnClassName} {
+        border-radius: @btn-circle-size-small;
+    }
+    &-small {
+        & > .@{btnClassName}{
+            .button-size(@btn-padding-small; @btn-font-size; @btn-border-radius-small);
+            > .@{css-prefix-iconfont} {
+                font-size: @btn-font-size;
+            }
         }
     }
 }
@@ -220,14 +234,14 @@
 
 // Circle for Icon
 .btn-circle(@btnClassName: ivu-btn) {
-    border-radius: 28px;
+    border-radius: @btn-circle-size;
 
     &.@{btnClassName}-large{
-        border-radius: 36px;
+        border-radius: @btn-circle-size-large;
     }
 
     &.@{btnClassName}-size{
-        border-radius: 24px;
+        border-radius: @btn-circle-size-small;
     }
 
     &.@{btnClassName}-icon-only{
@@ -259,8 +273,6 @@
 
     .@{btnClassName}:not(:first-child):not(:last-child) {
         border-radius: 0;
-        padding-left: 8px;
-        padding-right: 8px;
     }
 
     > .@{btnClassName}:first-child {
@@ -268,14 +280,12 @@
         &:not(:last-child) {
             border-bottom-right-radius: 0;
             border-top-right-radius: 0;
-            padding-right: 8px;
         }
     }
 
     > .@{btnClassName}:last-child:not(:first-child) {
         border-bottom-left-radius: 0;
         border-top-left-radius: 0;
-        padding-left: 8px;
     }
 
     & > & {

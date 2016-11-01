@@ -15,13 +15,19 @@
                     return oneOf(value, ['small', 'large']);
                 }
             },
+            shape: {
+                validator (value) {
+                    return oneOf(value, ['circle', 'circle-outline']);
+                }
+            }
         },
         computed: {
             classes () {
                 return [
                     `${prefixCls}`,
                     {
-                        [`${prefixCls}-${this.size}`]: !!this.size
+                        [`${prefixCls}-${this.size}`]: !!this.size,
+                        [`${prefixCls}-${this.shape}`]: !!this.shape
                     }
                 ]
             }
