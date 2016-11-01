@@ -69,9 +69,29 @@
         <i-button type="primary" icon="cloud"></i-button>
         <i-button type="primary" icon="upload"></i-button>
     </Button-group>
+    <Modal
+            :visible="true"
+            title="普通的Modal对话框标题">
+        <p>对话框内容</p>
+        <p>对话框内容</p>
+        <p>对话框内容</p>
+        <div style="width: 200px">
+            <i-select :model.sync="model6" >
+                <i-option value="beijing">北京市</i-option>
+                <i-option value="shanghai" disabled>上海市</i-option>
+                <i-option value="shenzhen">深圳市</i-option>
+            </i-select>
+        </div>
+
+    </Modal>
+    <i-select :model.sync="model6" >
+        <i-option value="beijing">北京市</i-option>
+        <i-option value="shanghai" disabled>上海市</i-option>
+        <i-option value="shenzhen">深圳市</i-option>
+    </i-select>
 </template>
 <script>
-    import { Button, Icon, Input, Switch, Radio, Checkbox, InputNumber, Row, Col, Page } from 'iview';
+    import { Button, Icon, Input, Switch, Radio, Checkbox, InputNumber, Row, Col, Page, Modal, iSelect, iOption } from 'iview';
     const ButtonGroup = Button.Group;
     const RadioGroup = Radio.Group;
     const CheckboxGroup = Checkbox.Group;
@@ -90,7 +110,10 @@
             InputNumber,
             Row,
             iCol: Col,
-            Page
+            Page,
+            Modal,
+            iSelect,
+            iOption
         },
         props: {
 
@@ -98,7 +121,8 @@
         data () {
             return {
                 loading: false,
-                loading2: false
+                loading2: false,
+                model6: ''
             }
         },
         methods: {
