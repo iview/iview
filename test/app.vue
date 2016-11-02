@@ -37,6 +37,7 @@ li + li {
                 <li><a v-link="'/step'">Step</a></li>
                 <li><a v-link="'/switch'">Switch</a></li>
                 <li><a v-link="'/alert'">Alert</a></li>
+                <li><a v-link="'/tag'">Tag</a></li>
             </ul>
         </nav>
         <router-view></router-view>

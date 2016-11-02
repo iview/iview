@@ -5,6 +5,7 @@
     <Page :total="40" size="small"></Page>
     <Page :total="40" size="small" show-elevator show-sizer></Page>
     <Page :total="40" size="small" show-total></Page>
+    <Page :total="100" show-sizer :page-size="5" :page-size-opts="[5,10,15,20]"></Page>
 </template>
 <script>
     import { Modal, Button, Message, Page } from 'iview';

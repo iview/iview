@@ -75,6 +75,11 @@ router.map({
         component: function (resolve) {
             require(['./routers/alert.vue'], resolve);
         }
+    },
+    '/tag': {
+        component: function (resolve) {
+            require(['./routers/tag.vue'], resolve);
+        }
     }
 });
 
