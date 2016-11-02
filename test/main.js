@@ -65,6 +65,11 @@ router.map({
         component: function (resolve) {
             require(['./routers/step.vue'], resolve);
         }
+    },
+    '/switch': {
+        component: function (resolve) {
+            require(['./routers/switch.vue'], resolve);
+        }
     }
 });
 
