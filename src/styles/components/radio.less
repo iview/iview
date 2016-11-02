@@ -33,8 +33,8 @@
     }
     &-inner {
         display: inline-block;
-        width: 16px;
-        height: 16px;
+        width: 14px;
+        height: 14px;
         position: relative;
         top: 0;
         left: 0;
@@ -45,8 +45,8 @@
 
         &:after {
             position: absolute;
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             left: 2px;
             top: 2px;
             border-radius: @border-radius-base;
@@ -68,24 +68,34 @@
         left: 0;
         right: 0;
         z-index: 1;
-        cursor: pointer;
         opacity: 0;
+        cursor: pointer;
     }
 }
 
 // 选中状态
 .@{radio-prefix-cls}-checked {
     .@{radio-inner-prefix-cls} {
-        border-color: @border-color-base;
+        border-color: @primary-color;
         &:after {
             opacity: 1;
             .transform(scale(1));
             .transition(all @transition-time @ease-in-out);
         }
     }
+    &:hover {
+        .@{radio-inner-prefix-cls} {
+            border-color: @primary-color;
+        }
+    }
 }
 
 .@{radio-prefix-cls}-disabled {
+    cursor: @cursor-disabled;
+    .@{radio-prefix-cls}-input {
+        cursor: @cursor-disabled;
+    }
+
     &:hover {
         .@{radio-inner-prefix-cls} {
             border-color: @border-color-base;
@@ -99,13 +109,8 @@
         }
     }
 
-    .@{radio-inner-prefix-cls}-input {
-        cursor: default;
-    }
-
     .@{radio-prefix-cls}-disabled + span {
         color: #ccc;
-        cursor: @cursor-disabled;
     }
 }
 
@@ -203,7 +208,7 @@ span.@{radio-prefix-cls} + * {
         &-disabled {
             border-color: @border-color-base;
             background-color: @background-color-base;
-            cursor: not-allowed;
+            cursor: @cursor-disabled;
             color: #ccc;
 
             &:first-child,

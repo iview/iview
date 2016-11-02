@@ -1,32 +1,25 @@
 <template>
     <div>
-        <Collapse active-key="2">
-            <Panel key="1">
-                Header1
-                <Collapse active-key="2" slot="content">
-                    <Panel key="1">
-                        inHeader1
-                        <p slot="content">inContent1</p>
-                    </Panel>
-                    <Panel key="2">
-                        inHeader2
-                        <p slot="content">inContent2</p>
-                    </Panel>
-                    <Panel key="3">
-                        inHeader3
-                        <p slot="content">inContent3</p>
-                    </Panel>
-                </Collapse>
-            </Panel>
-            <Panel key="2">
-                Header2
-                <p slot="content">A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.</p>
-            </Panel>
-            <Panel key="3">
-                Header3
-                <p slot="content">A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.</p>
-            </Panel>
-        </Collapse>
+        <Radio-group :model.sync="phone">
+            <Radio value="apple">
+                <Icon type="social-apple"></Icon>
+                <span>Apple</span>
+            </Radio>
+            <Radio value="android" disabled>
+                <Icon type="social-android"></Icon>
+                <span>Android</span>
+            </Radio>
+            <Radio value="windows">
+                <Icon type="social-windows"></Icon>
+                <span>Windows</span>
+            </Radio>
+        </Radio-group>
+        <Radio-group :model.sync="animal">
+            <Radio value="金斑蝶"></Radio>
+            <Radio value="爪哇犀牛"></Radio>
+            <Radio value="印度黑羚"></Radio>
+        </Radio-group>
+        <br><br>
         <Button @click="activeKey = '2'">换</Button>
     </div>
     <Radio :checked.sync="radio">Radio</Radio>
@@ -175,7 +168,7 @@
             LoadingBar
         },
         props: {
-        
+
         },
         data () {
             return {
@@ -190,7 +183,7 @@
             }
         },
         computed: {
-        
+
         },
         methods: {
             changeGroup (data) {
