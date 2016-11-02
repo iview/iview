@@ -70,6 +70,11 @@ router.map({
         component: function (resolve) {
             require(['./routers/switch.vue'], resolve);
         }
+    },
+    '/alert': {
+        component: function (resolve) {
+            require(['./routers/alert.vue'], resolve);
+        }
     }
 });
 

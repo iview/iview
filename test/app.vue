@@ -36,6 +36,7 @@ li + li {
                 <li><a v-link="'/slider'">Slider</a></li>
                 <li><a v-link="'/step'">Step</a></li>
                 <li><a v-link="'/switch'">Switch</a></li>
+                <li><a v-link="'/alert'">Alert</a></li>
             </ul>
         </nav>
         <router-view></router-view>
