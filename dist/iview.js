@@ -1333,6 +1333,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return cached;
 	}
 
+	var MutationObserver = exports.MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver || false;
+
 /***/ },
 /* 58 */
 /***/ function(module, exports) {
@@ -15308,8 +15310,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            focusIndex: 0,
 	            query: '',
 	            inputLength: 20,
-	            notFound: false
-	        };
+	            notFound: false,
+	            slotChangeDuration: false };
 	    },
 
 	    computed: {
@@ -15389,6 +15391,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        updateOptions: function updateOptions(init) {
 	            var _this = this;
 
+	            var slot = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
 	            var options = [];
 	            var index = 1;
 
@@ -15407,21 +15411,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.options = options;
 
 	            if (init) {
-	                this.updateSingleSelected(true);
-	                this.updateMultipleSelected(true);
+	                this.updateSingleSelected(true, slot);
+	                this.updateMultipleSelected(true, slot);
 	            }
 	        },
 	        updateSingleSelected: function updateSingleSelected() {
 	            var init = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+	            var slot = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
 	            var type = (0, _typeof3.default)(this.model);
 
 	            if (type === 'string' || type === 'number') {
+	                var findModel = false;
+
 	                for (var i = 0; i < this.options.length; i++) {
 	                    if (this.model === this.options[i].value) {
 	                        this.selectedSingle = this.options[i].label;
+	                        findModel = true;
 	                        break;
 	                    }
+	                }
+
+	                if (slot && !findModel) {
+	                    this.model = '';
+	                    this.query = '';
 	                }
 	            }
 
@@ -15441,6 +15454,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 	        updateMultipleSelected: function updateMultipleSelected() {
 	            var init = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+	            var slot = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
 	            if (this.multiple && Array.isArray(this.model)) {
 	                var selected = [];
@@ -15461,8 +15475,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 
 	                this.selectedMultiple = selected;
-	            }
 
+	                if (slot) {
+	                    var selectedModel = [];
+
+	                    for (var _i = 0; _i < selected.length; _i++) {
+	                        selectedModel.push(selected[_i].value);
+	                    }
+
+	                    if (this.model.length === selectedModel.length) {
+	                        this.slotChangeDuration = true;
+	                    }
+
+	                    this.model = selectedModel;
+	                }
+	            }
 	            this.toggleMultipleSelected(this.model, init);
 	        },
 	        removeTag: function removeTag(index) {
@@ -15651,20 +15678,46 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (this.multiple && this.model.length && this.query === '') {
 	                this.removeTag(this.model.length - 1);
 	            }
+	        },
+	        slotChange: function slotChange() {
+	            this.options = [];
+	            this.optionInstances = [];
 	        }
 	    },
 	    ready: function ready() {
+	        var _this5 = this;
+
 	        this.updateOptions(true);
 	        document.addEventListener('keydown', this.handleKeydown);
+
+	        if (_assist.MutationObserver) {
+	            this.observer = new _assist.MutationObserver(function () {
+	                _this5.slotChange();
+	                _this5.updateOptions(true, true);
+	            });
+
+	            this.observer.observe(this.$els.options, {
+	                childList: true,
+	                characterData: true,
+	                subtree: true
+	            });
+	        }
 	    },
 	    beforeDestroy: function beforeDestroy() {
 	        document.removeEventListener('keydown', this.handleKeydown);
+	        if (this.observer) {
+	            this.observer.disconnect();
+	        }
 	    },
 
 	    watch: {
 	        model: function model() {
 	            if (this.multiple) {
-	                this.updateMultipleSelected();
+	                if (this.slotChangeDuration) {
+	                    this.slotChangeDuration = false;
+	                } else {
+	                    this.updateMultipleSelected();
+	                }
 	            } else {
 	                this.updateSingleSelected();
 	            }
@@ -15683,24 +15736,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        },
 	        query: function query(val) {
-	            var _this5 = this;
+	            var _this6 = this;
 
 	            this.$broadcast('on-query-change', val);
 	            var is_hidden = true;
 
 	            this.$nextTick(function () {
-	                _this5.findChild(function (child) {
+	                _this6.findChild(function (child) {
 	                    if (!child.hidden) {
 	                        is_hidden = false;
 	                    }
 	                });
-	                _this5.notFound = is_hidden;
+	                _this6.notFound = is_hidden;
 	            });
 	        }
 	    },
 	    events: {
 	        'on-select-selected': function onSelectSelected(value) {
-	            var _this6 = this;
+	            var _this7 = this;
 
 	            if (this.model === value) {
 	                this.hideMenu();
@@ -15724,7 +15777,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    if (this.filterable) {
 	                        this.findChild(function (child) {
 	                            if (child.value === value) {
-	                                _this6.query = child.searchLabel;
+	                                _this7.query = child.searchLabel;
 	                            }
 	                        });
 	                    }
@@ -18054,7 +18107,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 178 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<div :class=\"classes\" v-clickoutside=\"handleClose\">\n    <div\n        :class=\"[prefixCls + '-selection']\"\n        v-el:reference\n        @click=\"toggleMenu\">\n        <div class=\"ivu-tag\" v-for=\"item in selectedMultiple\">\n            <span class=\"ivu-tag-text\">{{ item.label }}</span>\n            <Icon type=\"ios-close-empty\" @click.stop=\"removeTag($index)\"></Icon>\n        </div>\n        <span :class=\"[prefixCls + '-placeholder']\" v-show=\"showPlaceholder && !filterable\">{{ placeholder }}</span>\n        <span :class=\"[prefixCls + '-selected-value']\" v-show=\"!showPlaceholder && !multiple && !filterable\">{{ selectedSingle }}</span>\n        <input\n            type=\"text\"\n            v-if=\"filterable\"\n            v-model=\"query\"\n            :class=\"[prefixCls + '-input']\"\n            :placeholder=\"showPlaceholder ? placeholder : ''\"\n            :style=\"inputStyle\"\n            @blur=\"handleBlur\"\n            @keydown=\"resetInputState\"\n            @keydown.delete=\"handleInputDelete\"\n            v-el:input>\n        <Icon type=\"ios-close\" :class=\"[prefixCls + '-arrow']\" v-show=\"showCloseIcon\" @click.stop=\"clearSingleSelect\"></Icon>\n        <Icon type=\"arrow-down-b\" :class=\"[prefixCls + '-arrow']\"></Icon>\n    </div>\n    <Dropdown v-show=\"visible\" transition=\"slide-up\" v-ref:dropdown>\n        <ul v-show=\"notFound\" :class=\"[prefixCls + '-not-found']\"><li>{{ notFoundText }}</li></ul>\n        <ul v-else :class=\"[prefixCls + '-dropdown-list']\"><slot></slot></ul>\n    </Dropdown>\n</div>\n";
+	module.exports = "\n<div :class=\"classes\" v-clickoutside=\"handleClose\">\n    <div\n        :class=\"[prefixCls + '-selection']\"\n        v-el:reference\n        @click=\"toggleMenu\">\n        <div class=\"ivu-tag\" v-for=\"item in selectedMultiple\">\n            <span class=\"ivu-tag-text\">{{ item.label }}</span>\n            <Icon type=\"ios-close-empty\" @click.stop=\"removeTag($index)\"></Icon>\n        </div>\n        <span :class=\"[prefixCls + '-placeholder']\" v-show=\"showPlaceholder && !filterable\">{{ placeholder }}</span>\n        <span :class=\"[prefixCls + '-selected-value']\" v-show=\"!showPlaceholder && !multiple && !filterable\">{{ selectedSingle }}</span>\n        <input\n            type=\"text\"\n            v-if=\"filterable\"\n            v-model=\"query\"\n            :class=\"[prefixCls + '-input']\"\n            :placeholder=\"showPlaceholder ? placeholder : ''\"\n            :style=\"inputStyle\"\n            @blur=\"handleBlur\"\n            @keydown=\"resetInputState\"\n            @keydown.delete=\"handleInputDelete\"\n            v-el:input>\n        <Icon type=\"ios-close\" :class=\"[prefixCls + '-arrow']\" v-show=\"showCloseIcon\" @click.stop=\"clearSingleSelect\"></Icon>\n        <Icon type=\"arrow-down-b\" :class=\"[prefixCls + '-arrow']\"></Icon>\n    </div>\n    <Dropdown v-show=\"visible\" transition=\"slide-up\" v-ref:dropdown>\n        <ul v-show=\"notFound\" :class=\"[prefixCls + '-not-found']\"><li>{{ notFoundText }}</li></ul>\n        <ul v-else :class=\"[prefixCls + '-dropdown-list']\" v-el:options><slot></slot></ul>\n    </Dropdown>\n</div>\n";
 
 /***/ },
 /* 179 */
