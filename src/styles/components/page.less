@@ -14,7 +14,7 @@
         float: left;
         min-width: 28px;
         height: 28px;
-        line-height: 28px;
+        line-height: 26px;
         margin-right: 4px;
         text-align: center;
         list-style: none;
@@ -54,7 +54,7 @@
         &:after {
             content: "•••";
             display: block;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             color: #ccc;
             text-align: center;
         }
@@ -85,11 +85,19 @@
         }
     }
 
-    &-prev,
-    &-item-jump-prev,
-    &-item-jump-next {
+    &-prev{
         margin-right: 8px;
     }
+
+    &-item-jump-prev,
+    &-item-jump-next{
+        margin-right: 4px;
+    }
+
+    &-next{
+        margin-left: 4px;
+    }
+
     &-prev,
     &-next,
     &-item-jump-prev,
@@ -98,19 +106,19 @@
         float: left;
         min-width: 28px;
         height: 28px;
-        line-height: 28px;
+        line-height: 26px;
         list-style: none;
         text-align: center;
         cursor: pointer;
         color: #666;
         font-family: Arial;
+        border: 1px solid @border-color-base;
         border-radius: @btn-border-radius;
         .transition(all @transition-time @ease-in-out);
     }
 
     &-prev,
     &-next {
-        border: 1px solid @border-color-base;
         background-color: #fff;
 
         a {
@@ -237,6 +245,8 @@
     &.mini &-item-jump-next {
         height: 20px;
         line-height: 20px;
+        border: none;
+        margin-right: 0;
     }
 
     &.mini &-options {
