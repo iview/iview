@@ -80,4 +80,15 @@ const iview = {
     iSelect: Select
 };
 
-module.exports = iview;
+const install = function (Vue) {
+    Object.keys(iview).forEach((key) => {
+        Vue.component(key, iview[name])
+    })
+}
+
+// auto install
+if (typeof window !== 'undefined' && window.Vue) {
+    install(window.Vue);
+};
+
+module.exports = Object.assign(iview, {install});
