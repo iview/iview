@@ -38,7 +38,7 @@
         },
         methods: {
             info () {
-                Message.info('欢迎来到iView', 3, () => {
+                Message.info('欢迎来到iView', 1000, () => {
                     console.log('close info');
                 });
             },
