@@ -76,15 +76,47 @@
 
         &.@{tag-prefix-cls}-blue {
             color: @link-color !important;
+            border: 1px solid @link-color !important;
+
+            &:after{
+                background: @link-color;
+            }
+            .@{tag-close-prefix-cls}{
+                color: @link-color !important;
+            }
         }
         &.@{tag-prefix-cls}-green {
             color: @success-color !important;
+            border: 1px solid @success-color !important;
+
+            &:after{
+                background: @success-color;
+            }
+            .@{tag-close-prefix-cls}{
+                color: @success-color !important;
+            }
         }
         &.@{tag-prefix-cls}-yellow {
             color: @warning-color !important;
+            border: 1px solid @warning-color !important;
+
+            &:after{
+                background: @warning-color;
+            }
+            .@{tag-close-prefix-cls}{
+                color: @warning-color !important;
+            }
         }
         &.@{tag-prefix-cls}-red {
             color: @error-color !important;
+            border: 1px solid @error-color !important;
+
+            &:after{
+                background: @error-color;
+            }
+            .@{tag-close-prefix-cls}{
+                color: @error-color !important;
+            }
         }
     }
 
