@@ -1,29 +1,23 @@
 <template>
-    <Button @click="info">info</Button>
-    <Button @click="success">success</Button>
-    <Button @click="error">error</Button>
-    <Button @click="warning">warning</Button>
-    <Button @click="loading">手动消失</Button>
-    <Button @click="destroy">destroy</Button>
-    <Alert closable>消息提示文案</Alert>
-    <Alert type="success" show-icon closable>
-        成功提示文案
-        <span slot="desc">成功的提示描述文案成功的提示描述文案成功的提示描述文案成功的提示描述文案成功的提示描述文案</span>
-    </Alert>
-    <Card :bordered="false">
-        <p slot="title">无边框标题</p>
-        <p>无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充无边框内容填充。</p>
-    </Card>
+    <i-button @click="mInfo">m信息</i-button>
+    <i-button @click="open">打开</i-button>
+    <i-button @click="info2">消息2</i-button>
+    <i-button @click="info">消息</i-button>
+    <i-button @click="success">成功</i-button>
+    <i-button @click="warning">警告</i-button>
+    <i-button @click="error">错误</i-button>
 </template>
 <script>
-    import { Message, Button, Alert, Card } from 'iview';
+    import { Message, Button, Alert, Card, Notice, iButton } from 'iview';
 
     export default {
         components: {
             Message,
             Button,
             Alert,
-            Card
+            Card,
+            Notice,
+            iButton
         },
         props: {
         
@@ -37,32 +31,82 @@
 
         },
         methods: {
+            open () {
+                Notice.open({
+                    duration: 1000,
+                    title: '这是通知标题',
+                    desc: '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描述这里是通知描述'
+                })
+            },
             info () {
-                Message.info('欢迎来到iView', 1000, () => {
-                    console.log('close info');
+                Notice.info({
+                    duration: 1000,
+                    title: '这是通知标题',
+//                    desc: '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描述这里是通知描述'
+                });
+            },
+            info2 () {
+                Notice.open({
+                    duration: 1000,
+                    title: '这是通知标题这是通知标题这是通知标题这是通知标题这是通知标题这是通知标题'
+                });
+                Notice.info({
+                    duration: 1000,
+                    title: '这是通知标题这是通知标题这是通知标题这是通知标题这是通知标题这是通知标题'
+                });
+                Notice.open({
+                    duration: 1000,
+                    title: '这是通知标题这是通知标题这是通知标题这是通知标题这是通知标题这是通知标题',
+                    desc: '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描'
+                });
+                Notice.info({
+                    duration: 1000,
+                    title: '这是通知标题这是通知标题这是通知标题这是通知标题这是通知标题这是通知标题',
+                    desc: '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描'
+                });
+                Notice.success({
+                    duration: 1000,
+                    title: '这是通知标题',
+                    desc: '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描'
+                });
+                Notice.warning({
+                    duration: 1000,
+                    title: '这是通知标题',
+                    desc: '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描'
+                });
+                Notice.error({
+                    duration: 1000,
+                    title: '这是通知标题',
+                    desc: '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描'
                 });
             },
             success () {
-                Message.success('成功啦', 5, () => {
-                    console.log('close successs');
+                Notice.success({
+                    duration: 1000,
+                    title: '这是通知标题',
+                    desc: '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描'
+                });
+            },
+            warning () {
+                Notice.warning({
+                    duration: 1000,
+                    title: '这是通知标题',
+                    desc: '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描'
                 });
             },
             error () {
-                Message.error('错误啦');
+                Notice.error({
+                    duration: 1000,
+                    title: '这是通知标题',
+                    desc: '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描'
+                });
             },
-            warning () {
-                Message.warning('来个警告');
-            },
-            loading () {
-                const hide = Message.loading('我是loading', 0);
-
-                setTimeout(hide, 5000);
-            },
-            destroy () {
-                Message.destroy();
+            mInfo () {
+                Message.info('飞机飞士大夫', 1000);
             }
         },
         ready () {
+            this.info2();
 //            Message.config({
 //                top: 50,
 //                duration: 8
