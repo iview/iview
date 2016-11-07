@@ -45,7 +45,6 @@ const iview = {
     Col,
     Collapse,
     Icon,
-    Input,
     InputNumber,
     LoadingBar,
     Message,

@@ -27,9 +27,47 @@
         padding: 8px 16px;
         text-align: left;
     }
+    .tip{
+        width: 24px;
+        position: fixed;
+        top: 10px;
+        right: 10px;
+    }
+    .tip-inner{
+        width: 24px;
+        height: 24px;
+        line-height: 22px;
+        text-align: center;
+        background: #fff;
+        border: 1px solid #3399ff;
+        color: #3399ff;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+    .tip-content{
+        width: 200px;
+        height: 100px;
+        white-space: normal;
+    }
 </style>
 <template>
     <div class="tooltip_out">
+        <!--<Poptip class="tip" placement="left-start" trigger="hover">-->
+            <!--<div class="tip-inner">-->
+                <!--<Icon type="information"></Icon>-->
+            <!--</div>-->
+            <!--<div class="tip-content" slot="content">-->
+                <!--<p>iView 最新版本为 0.9.7，该版本对很多组件 UI 进行了调整</p>-->
+            <!--</div>-->
+        <!--</Poptip>-->
+        <Tooltip class="tip" placement="left-start" trigger="hover">
+            <div class="tip-inner">
+                <Icon type="information"></Icon>
+            </div>
+            <div class="tip-content" slot="content">
+                <p>iView 最新版本为 0.9.7，该版本对很多组件 UI 进行了调整</p>
+            </div>
+        </Tooltip>
         <Poptip>
             <a>click 激活</a>
             <div slot="title"><i>自定义标题</i></div>
@@ -105,10 +143,10 @@
     </div>
 </template>
 <script>
-    import { Tooltip, Button, Row, iCol, Poptip, iSelect, iOption, Message } from 'iview';
+    import { Tooltip, Button, Row, iCol, Poptip, iSelect, iOption, Message, Icon } from 'iview';
 
     export default {
-        components: { Tooltip, iButton: Button, Row, iCol, Poptip, iSelect, iOption, Message },
+        components: { Tooltip, iButton: Button, Row, iCol, Poptip, iSelect, iOption, Message, Icon },
         props: {
 
         },

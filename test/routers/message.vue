@@ -106,7 +106,6 @@
             }
         },
         ready () {
-            this.info2();
 //            Message.config({
 //                top: 50,
 //                duration: 8

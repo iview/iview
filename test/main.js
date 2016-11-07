@@ -80,6 +80,11 @@ router.map({
         component: function (resolve) {
             require(['./routers/tag.vue'], resolve);
         }
+    },
+    '/input': {
+        component: function (resolve) {
+            require(['./routers/input.vue'], resolve);
+        }
     }
 });
 

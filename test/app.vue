@@ -38,6 +38,7 @@ li + li {
                 <li><a v-link="'/switch'">Switch</a></li>
                 <li><a v-link="'/alert'">Alert</a></li>
                 <li><a v-link="'/tag'">Tag</a></li>
+                <li><a v-link="'/input'">Input</a></li>
             </ul>
         </nav>
         <router-view></router-view>

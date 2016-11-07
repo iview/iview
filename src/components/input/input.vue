@@ -1,10 +1,12 @@
 <template>
-    <input
-        :class="classes"
-        :type="type"
-        :placeholder="placeholder"
-        :name="name"
-        v-model="value">
+    <div :class="wrapClasses">
+        <input
+            :class="classes"
+            :type="type"
+            :placeholder="placeholder"
+            :name="name"
+            v-model="value">
+    </div>
 </template>
 <script>
     import { oneOf } from '../../utils/assist';
@@ -36,6 +38,9 @@
             }        
         },
         computed: {
+            wrapClasses () {
+
+            },
             classes () {
                 return [
                     `${prefixCls}`,
