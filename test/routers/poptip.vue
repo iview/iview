@@ -51,6 +51,9 @@
     }
 </style>
 <template>
+    <Tooltip content="这里是提示文字">
+        当鼠标经过这段文字时，会显示一个气泡框
+    </Tooltip>
     <div class="tooltip_out">
         <!--<Poptip class="tip" placement="left-start" trigger="hover">-->
             <!--<div class="tip-inner">-->

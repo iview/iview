@@ -31,6 +31,7 @@ li + li {
                 <li><a v-link="'/more'">More</a></li>
                 <li><a v-link="'/page'">Page</a></li>
                 <li><a v-link="'/poptip'">Poptip</a></li>
+                <li><a v-link="'/tooltip'">Tooltip</a></li>
                 <li><a v-link="'/radio'">Radio</a></li>
                 <li><a v-link="'/select'">Select</a></li>
                 <li><a v-link="'/slider'">Slider</a></li>
