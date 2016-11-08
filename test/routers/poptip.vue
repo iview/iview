@@ -55,14 +55,17 @@
         当鼠标经过这段文字时，会显示一个气泡框
     </Tooltip>
     <div class="tooltip_out">
-        <!--<Poptip class="tip" placement="left-start" trigger="hover">-->
-            <!--<div class="tip-inner">-->
-                <!--<Icon type="information"></Icon>-->
-            <!--</div>-->
-            <!--<div class="tip-content" slot="content">-->
-                <!--<p>iView 最新版本为 0.9.7，该版本对很多组件 UI 进行了调整</p>-->
-            <!--</div>-->
-        <!--</Poptip>-->
+
+        <Poptip trigger="hover" title="提示标题" content="提示内容">
+            <i-button>hover 激活</i-button>
+        </Poptip>
+        <Poptip content="提示内容" title="tip">
+            <i-button>click 激活</i-button>
+        </Poptip>
+        <Poptip content="提示内容">
+            <div slot="title"><i>自定义标题</i></div>
+            <i-button>click 激活</i-button>
+        </Poptip>
         <Tooltip class="tip" placement="left-start" trigger="hover">
             <div class="tip-inner">
                 <Icon type="information"></Icon>
