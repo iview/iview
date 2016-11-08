@@ -1,0 +1,35 @@
+@input-prefix-cls: ~"@{css-prefix}input";
+
+.@{input-prefix-cls} {
+    .input;
+    &-wrapper{
+        display: inline-block;
+        width: 100%;
+        position: relative;
+    }
+    &-icon {
+        width: 28px;
+        height: 100%;
+        font-size: 16px;
+        text-align: center;
+        color: @subsidiary-color;
+        position: absolute;
+        right: 0;
+        z-index: 1;
+        &:after{
+            content: '';
+            display: inline-block;
+            width: 0;
+            height: 100%;
+            vertical-align: middle;
+        }
+    }
+
+    &-icon + &{
+        padding-right: 28px;
+    }
+}
+
+.@{input-prefix-cls}-group{
+    .input-group(~"@{input-prefix-cls}");
+}

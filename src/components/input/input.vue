@@ -1,22 +1,44 @@
 <template>
     <div :class="wrapClasses">
-        <input
-            :class="classes"
-            :type="type"
+        <template v-if="type !== 'textarea'">
+            <div :class="[prefixCls + '-group-prepend']" v-if="prepend" v-el:prepend><slot name="prepend"></slot></div>
+            <i class="ivu-icon" :class="['ivu-icon-' + icon, prefixCls + '-icon']" v-if="icon" @click="handleIconClick"></i>
+            <input
+                type="text"
+                :class="inputClasses"
+                :placeholder="placeholder"
+                :disabled="disabled"
+                :maxlength="maxlength"
+                v-model="value"
+                @keyup.enter="handleEnter">
+            <div :class="[prefixCls + '-group-append']" v-if="append" v-el:append><slot name="append"></slot></div>
+        </template>
+        <textarea
+            v-else
+            v-el:textarea
+            :class="textareaClasses"
+            :style="textareaStyles"
             :placeholder="placeholder"
-            :name="name"
-            v-model="value">
+            :disabled="disabled"
+            :rows="rows"
+            :maxlength="maxlength"
+            v-model="value"
+            @keyup.enter="handleEnter">
+        </textarea>
     </div>
 </template>
 <script>
     import { oneOf } from '../../utils/assist';
+    import calcTextareaHeight from '../../utils/calcTextareaHeight';
 
     const prefixCls = 'ivu-input';
 
     export default {
         props: {
             type: {
-                type: String,
+                validator (value) {
+                    return oneOf(value, ['text', 'textarea']);
+                },
                 default: 'text'
             },
             value: {
@@ -24,31 +46,105 @@
                 default: '',
                 twoWay: true
             },
-            placeholder: String,
-            name: String,
             size: {
                 validator (value) {
                     return oneOf(value, ['small', 'large']);
                 }
+            },
+            placeholder: {
+                type: String,
+                default: ''
+            },
+            maxlength: {
+                type: Number
+            },
+            disabled: {
+                type: Boolean,
+                default: false
+            },
+            icon: String,
+            autosize: {
+                type: [Boolean, Object],
+                default: false
+            },
+            rows: {
+                type: Number,
+                default: 2
             }
         },
         data () {
             return {
-            
+                prefixCls: prefixCls,
+                prepend: true,
+                append: true,
+                textareaStyles: {}
             }        
         },
         computed: {
             wrapClasses () {
-
+                return [
+                    `${prefixCls}-wrapper`,
+                    {
+                        [`${prefixCls}-type`]: this.type,
+                        [`${prefixCls}-group`]: this.prepend || this.append,
+                        [`${prefixCls}-group-${this.size}`]: (this.prepend || this.append) && !!this.size
+                    }
+                ]
             },
-            classes () {
+            inputClasses () {
                 return [
                     `${prefixCls}`,
                     {
-                        [`${prefixCls}-${this.size}`]: !!this.size
+                        [`${prefixCls}-${this.size}`]: !!this.size,
+                        [`${prefixCls}-disabled`]: this.disabled
+                    }
+                ]
+            },
+            textareaClasses () {
+                return [
+                    `${prefixCls}`,
+                    {
+                        [`${prefixCls}-disabled`]: this.disabled
                     }
                 ]
             }
+        },
+        methods: {
+            handleEnter () {
+                this.$emit('on-enter');
+            },
+            handleIconClick () {
+                this.$emit('on-click');
+            },
+            resizeTextarea () {
+                const autosize = this.autosize;
+                if (!autosize || this.type !== 'textarea') {
+                    return false;
+                }
+
+                const minRows = autosize.minRows;
+                const maxRows = autosize.maxRows;
+
+                this.textareaStyles = calcTextareaHeight(this.$els.textarea, minRows, maxRows);
+            }
+        },
+        watch: {
+            value (val) {
+                this.$nextTick(() => {
+                    this.resizeTextarea();
+                });
+                this.$emit('on-change', val);
+            }
+        },
+        ready () {
+            if (this.type === 'text') {
+                this.prepend = this.$els.prepend.innerHTML !== '';
+                this.append = this.$els.append.innerHTML !== '';
+            } else {
+                this.prepend = false;
+                this.append = false;
+            }
+            this.resizeTextarea();
         }
     }
 </script>
