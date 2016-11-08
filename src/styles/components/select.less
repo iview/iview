@@ -91,6 +91,7 @@
             display: block;
             height: 26px;
             line-height: 26px;
+            font-size: @font-size-small;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -105,6 +106,7 @@
         .@{select-prefix-cls}-placeholder, .@{select-prefix-cls}-selected-value{
             height: 34px;
             line-height: 34px;
+            font-size: @font-size-base;
         }
     }
 
@@ -141,7 +143,7 @@
         height: @input-height-base;
         line-height: @input-height-base;
         padding: 0 24px 0 8px;
-        font-size: @font-size-base;
+        font-size: @font-size-small;
         outline: none;
         border: none;
         box-sizing: border-box;
@@ -157,6 +159,7 @@
     }
 
     &-large &-input{
+        font-size: @font-size-base;
         height: @input-height-large;
     }
 
