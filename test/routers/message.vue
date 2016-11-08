@@ -6,9 +6,17 @@
     <i-button @click="success">成功</i-button>
     <i-button @click="warning">警告</i-button>
     <i-button @click="error">错误</i-button>
+    <i-button @click="modal1 = true"></i-button>
+    <Modal
+            :visible.sync="modal1"
+            title="普通的Modal对话框标题">
+        <p>对话框内容</p>
+        <p>对话框内容</p>
+        <p>对话框内容</p>
+    </Modal>
 </template>
 <script>
-    import { Message, Button, Alert, Card, Notice, iButton } from 'iview';
+    import { Message, Button, Alert, Card, Notice, iButton, Modal } from 'iview';
 
     export default {
         components: {
@@ -17,14 +25,15 @@
             Alert,
             Card,
             Notice,
-            iButton
+            iButton,
+            Modal
         },
         props: {
         
         },
         data () {
             return {
-            
+                modal1: true
             }
         },
         computed: {
