@@ -206,7 +206,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    Notice: _notice2.default,
 	    iOption: _select.Option,
 	    OptionGroup: _select.OptionGroup,
-	    iOptionGroup: _select.OptionGroup,
 	    Page: _page2.default,
 	    Panel: _collapse2.default.Panel,
 	    Poptip: _poptip2.default,

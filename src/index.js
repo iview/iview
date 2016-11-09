@@ -53,7 +53,6 @@ const iview = {
     Notice,
     iOption: Option,
     OptionGroup,
-    iOptionGroup: OptionGroup,
     Page,
     Panel: Collapse.Panel,
     Poptip,
