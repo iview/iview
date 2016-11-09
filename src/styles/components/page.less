@@ -12,9 +12,9 @@
 
     &-item {
         float: left;
-        min-width: 28px;
-        height: 28px;
-        line-height: 26px;
+        min-width: @btn-circle-size;
+        height: @btn-circle-size;
+        line-height: @btn-circle-size - 2px;
         margin-right: 4px;
         text-align: center;
         list-style: none;
@@ -104,9 +104,9 @@
     &-item-jump-next {
         display: inline-block;
         float: left;
-        min-width: 28px;
-        height: 28px;
-        line-height: 26px;
+        min-width: @btn-circle-size;
+        height: @btn-circle-size;
+        line-height: @btn-circle-size - 2px;
         list-style: none;
         text-align: center;
         cursor: pointer;
@@ -123,6 +123,7 @@
 
         a {
             color: #666;
+            font-size: 14px;
         }
 
         &:hover {
@@ -158,8 +159,8 @@
 
         &-elevator {
             float: left;
-            height: 28px;
-            line-height: 28px;
+            height: @btn-circle-size;
+            line-height: @btn-circle-size;
 
             input {
                 .input;
@@ -172,8 +173,8 @@
 
     &-total {
         float: left;
-        height: 30px;
-        line-height: 30px;
+        height: @btn-circle-size;
+        line-height: @btn-circle-size;
         margin-right: 10px;
     }
 
@@ -207,44 +208,48 @@
                 border-color: @primary-color;
             }
         }
+
+        span{
+            padding: 0 8px 0 2px;
+        }
     }
 }
 
 .@{page-prefix-cls} {
     &.mini &-total {
-        height: 20px;
-        line-height: 20px;
+        height: @btn-circle-size-small;
+        line-height: @btn-circle-size-small;
     }
 
     &.mini &-item {
         border: 0;
         margin: 0;
-        min-width: 20px;
-        height: 20px;
-        line-height: 20px;
+        min-width: @btn-circle-size-small;
+        height: @btn-circle-size-small;
+        line-height: @btn-circle-size-small;
         border-radius: @btn-border-radius-small;
     }
 
     &.mini &-prev,
     &.mini &-next {
         margin: 0;
-        min-width: 20px;
-        height: 20px;
-        line-height: 20px;
+        min-width: @btn-circle-size-small;
+        height: @btn-circle-size-small;
+        line-height: @btn-circle-size-small;
         border: 0;
 
         a {
             i:after {
-                height: 20px;
-                line-height: 20px;
+                height: @btn-circle-size-small;
+                line-height: @btn-circle-size-small;
             }
         }
     }
 
     &.mini &-item-jump-prev,
     &.mini &-item-jump-next {
-        height: 20px;
-        line-height: 20px;
+        height: @btn-circle-size-small;
+        line-height: @btn-circle-size-small;
         border: none;
         margin-right: 0;
     }
@@ -252,8 +257,8 @@
     &.mini &-options {
         margin-left: 8px;
         &-elevator {
-            height: 20px;
-            line-height: 20px;
+            height: @btn-circle-size-small;
+            line-height: @btn-circle-size-small;
 
             input {
                 .input-small;
