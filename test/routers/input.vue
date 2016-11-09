@@ -71,10 +71,13 @@
                 <i-option value="io">.io</i-option>
             </i-select>
         </i-input>
+        <Input-number :value="2" size="small"></Input-number>
+        <Input-number :value="2"></Input-number>
+        <Input-number :value="2" size="large"></Input-number>
     </div>
 </template>
 <script>
-    import { iInput, Icon, iButton, iSelect, iOption } from 'iview';
+    import { iInput, Icon, iButton, iSelect, iOption, InputNumber } from 'iview';
 
     export default {
         components: {
@@ -82,7 +85,8 @@
             Icon,
             iButton,
             iSelect,
-            iOption
+            iOption,
+            InputNumber
         },
         props: {
 

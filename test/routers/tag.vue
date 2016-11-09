@@ -31,10 +31,14 @@
     <i-button type="primary" @click="modal1 = true">显示对话框</i-button>
     <Modal
             :visible.sync="modal1"
-            title="普通的Modal对话框标题">
+            title="普通的Modal对话框标题"
+            :loading="loading" @on-ok="ok">
         <p>对话框内容</p>
         <p>对话框内容</p>
         <p>对话框内容</p>
+        {{ loading }}
+        <i-button @click="loading = true">true</i-button>
+        <i-button @click="loading = false">false</i-button>
     </Modal>
 </template>
 <script>
@@ -43,7 +47,13 @@
         components: { Tag, Modal, iButton },
         data () {
             return {
-                modal1: false
+                modal1: false,
+                loading: true
+            }
+        },
+        methods: {
+            ok () {
+
             }
         }
     }

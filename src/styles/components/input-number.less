@@ -13,8 +13,8 @@
     margin: 0;
     padding: 0;
     width: 80px;
-    height: 28px;
-    line-height: 28px;
+    height: @input-height-base;
+    line-height: @input-height-base;
     vertical-align: middle;
     border: 1px solid @border-color-base;
     border-radius: @btn-border-radius;
@@ -53,7 +53,7 @@
     &-handler {
         display: block;
         width: 100%;
-        height: 14px;
+        height: @input-height-base / 2;
         line-height: 0;
         text-align: center;
         overflow: hidden;
@@ -93,13 +93,13 @@
 
     &-input-wrap {
         overflow: hidden;
-        height: 28px;
+        height: @input-height-base;
     }
 
     &-input {
         width: 100%;
-        height: 28px;
-        line-height: 28px;
+        height: @input-height-base;
+        line-height: @input-height-base;
         padding: 0 7px;
         text-align: left;
         outline: 0;
@@ -117,15 +117,15 @@
     &-large {
         padding: 0;
         .@{input-number-prefix-cls}-input-wrap {
-            height: 32px;
+            height: @input-height-large;
         }
         .@{input-number-prefix-cls}-handler {
-            height: 16px;
+            height: @input-height-large / 2;
         }
 
         input {
-            height: 32px;
-            line-height: 32px;
+            height: @input-height-large;
+            line-height: @input-height-large;
         }
 
         .@{input-number-prefix-cls}-handler-up-inner {
@@ -139,15 +139,15 @@
     &-small {
         padding: 0;
         .@{input-number-prefix-cls}-input-wrap {
-            height: 22px;
+            height: @input-height-small;
         }
         .@{input-number-prefix-cls}-handler {
-            height: 11px;
+            height: @input-height-small / 2;
         }
 
         input {
-            height: 22px;
-            line-height: 22px;
+            height: @input-height-small;
+            line-height: @input-height-small;
             margin-top: -1px;
             vertical-align: top;
         }

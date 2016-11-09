@@ -199,6 +199,11 @@
                     this.wrapShow = true;
                     this.addScrollEffect();
                 }
+            },
+            loading (val) {
+                if (!val) {
+                    this.buttonLoading = false;
+                }
             }
         }
     }
