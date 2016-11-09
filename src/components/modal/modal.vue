@@ -8,7 +8,7 @@
                         <Icon type="ios-close-empty"></Icon>
                     </slot>
                 </a>
-                <div :class="[prefixCls + '-header']" v-if="showHead" v-el:head><slot name="header"><p>{{ title }}</p></slot></div>
+                <div :class="[prefixCls + '-header']" v-if="showHead" v-el:head><slot name="header"><div :class="[prefixCls + '-header-inner']">{{ title }}</div></slot></div>
                 <div :class="[prefixCls + '-body']"><slot></slot></div>
                 <div :class="[prefixCls + '-footer']" v-if="!footerHide">
                     <slot name="footer">
@@ -175,7 +175,7 @@
 
             let showHead = true;
 
-            if (this.$els.head.innerHTML == '<p></p>' && !this.title) {
+            if (this.$els.head.innerHTML == `<div class="${prefixCls}-header-inner"></div>` && !this.title) {
                 showHead = false;
             }
 
@@ -198,6 +198,11 @@
                 } else {
                     this.wrapShow = true;
                     this.addScrollEffect();
+                }
+            },
+            loading (val) {
+                if (!val) {
+                    this.buttonLoading = false;
                 }
             }
         }

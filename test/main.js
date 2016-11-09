@@ -80,6 +80,16 @@ router.map({
         component: function (resolve) {
             require(['./routers/tag.vue'], resolve);
         }
+    },
+    '/input': {
+        component: function (resolve) {
+            require(['./routers/input.vue'], resolve);
+        }
+    },
+    '/tooltip': {
+        component: function (resolve) {
+            require(['./routers/tooltip.vue'], resolve);
+        }
     }
 });
 

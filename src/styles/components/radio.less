@@ -5,12 +5,12 @@
 
 .@{radio-group-prefix-cls} {
     display: inline-block;
-    font-size: @font-size-base;
+    font-size: @font-size-small;
 }
 
 // 普通状态
 .@{radio-prefix-cls}-wrapper {
-    font-size: @font-size-base;
+    font-size: @font-size-small;
     vertical-align: middle;
     display: inline-block;
     position: relative;
@@ -19,9 +19,10 @@
 }
 
 .@{radio-prefix-cls} {
+    display: inline-block;
+    margin-right: 4px;
     white-space: nowrap;
     outline: none;
-    display: inline-block;
     position: relative;
     line-height: 1;
     vertical-align: middle;
@@ -124,19 +125,24 @@ span.@{radio-prefix-cls} + * {
     font-size: 0;
     -webkit-text-size-adjust:none;
 
+    .@{radio-prefix-cls}{
+        width: 0;
+        margin-right: 0;
+    }
+
     .@{radio-prefix-cls}-wrapper {
-        font-size: 14px;
-        margin: 0;
-        height: 28px;
-        line-height: 26px;
-        color: @btn-default-color;
         display: inline-block;
+        height: @btn-circle-size;
+        line-height: @btn-circle-size - 2px;
+        margin: 0;
+        padding: 0 16px;
+        font-size: @font-size-small;
+        color: @btn-default-color;
         .transition(all @transition-time ease-in-out);
         cursor: pointer;
         border: 1px solid @border-color-base;
         border-left: 0;
         background: #fff;
-        padding: 0 16px;
 
         > span {
             margin-left: 0;
@@ -232,15 +238,16 @@ span.@{radio-prefix-cls} + * {
 }
 
 .@{radio-group-button-prefix-cls}.@{radio-group-prefix-cls}-large .@{radio-prefix-cls}-wrapper{
-    height: 32px;
-    line-height: 30px;
+    height: @btn-circle-size-large;
+    line-height: @btn-circle-size-large - 2px;
+    font-size: @font-size-base;
 }
 
 .@{radio-group-button-prefix-cls}.@{radio-group-prefix-cls}-small .@{radio-prefix-cls}-wrapper{
-    height: 22px;
-    line-height: 20px;
+    height: @btn-circle-size-small;
+    line-height: @btn-circle-size-small - 2px;
     padding: 0 12px;
-    font-size: 12px;
+    font-size: @font-size-small;
     &:first-child {
         border-radius: @btn-border-radius-small 0 0 @btn-border-radius-small;
     }

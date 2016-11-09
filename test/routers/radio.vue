@@ -141,6 +141,8 @@
         <Breadcrumb-item href="/components/breadcrumb">Components</Breadcrumb-item>
         <Breadcrumb-item>Breadcrumb</Breadcrumb-item>
     </Breadcrumb>
+    <br><br>
+    <Checkbox :checked.sync="single"></Checkbox>
 </template>
 <script>
     import { Radio, Alert, Icon, Collapse, iButton, Checkbox, Switch, InputNumber, Breadcrumb, LoadingBar } from 'iview';
@@ -172,6 +174,7 @@
         },
         data () {
             return {
+                single: false,
                 radio: false,
                 radioGroup: '段模',
                 activeKey: [1,2],

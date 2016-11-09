@@ -18,7 +18,7 @@
                 v-model="checked"
                 @change="change">
         </span>
-        <slot><span>{{ value }}</span></slot>
+        <slot v-if="showSlot"><span v-el:slot>{{ value }}</span></slot>
     </label>
 </template>
 <script>
@@ -42,7 +42,8 @@
             return {
                 model: [],
                 selected: false,
-                group: false
+                group: false,
+                showSlot: true
             }
         },
         computed: {
@@ -75,6 +76,9 @@
         ready () {
             if (!this.group) {
                 this.updateModel();
+                if (this.$els.slot && this.$els.slot.innerHTML === '') {
+                    this.showSlot = false;
+                }
             }
         },
         methods: {
