@@ -105,10 +105,10 @@
     </div>
 </template>
 <script>
-    import { Tooltip, Button, Row, iCol, Poptip, iSelect, iOption, Message } from 'iview';
+    import { Tooltip, iButton, Row, iCol, Poptip, iSelect, iOption, Message } from 'iview';
 
     export default {
-        components: { Tooltip, iButton: Button, Row, iCol, Poptip, iSelect, iOption, Message },
+        components: { Tooltip, iButton, Row, iCol, Poptip, iSelect, iOption, Message },
         props: {
 
         },

@@ -20,10 +20,10 @@
             <Radio value="印度黑羚"></Radio>
         </Radio-group>
         <br><br>
-        <Button @click="activeKey = '2'">换</Button>
+        <i-button @click="activeKey = '2'">换</i-button>
     </div>
     <Radio :checked.sync="radio">Radio</Radio>
-    <Button @click="radio = !radio">change radio</Button>
+    <i-button @click="radio = !radio">change radio</i-button>
     <br>
     <br>
     <Radio-group :model.sync="phone" type="button">
@@ -143,7 +143,7 @@
     </Breadcrumb>
 </template>
 <script>
-    import { Radio, Alert, Icon, Collapse, Button, Checkbox, Switch, InputNumber, Breadcrumb, LoadingBar } from 'iview';
+    import { Radio, Alert, Icon, Collapse, iButton, Checkbox, Switch, InputNumber, Breadcrumb, LoadingBar } from 'iview';
 
     const RadioGroup = Radio.Group;
     const Panel = Collapse.Panel;
@@ -158,7 +158,7 @@
             Icon,
             Collapse,
             Panel,
-            Button,
+            iButton,
             Checkbox,
             CheckboxGroup,
             Switch,

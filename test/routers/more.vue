@@ -67,10 +67,10 @@
         <Step title="待进行" content="这里是该步骤的描述信息"></Step>
         <Step title="待进行" content="这里是该步骤的描述信息"></Step>
     </Steps>
-    <Button @click="testStatus = 'process'">change Status</Button>
+    <i-button @click="testStatus = 'process'">change Status</i-button>
 </template>
 <script>
-    import { Badge, Tag, Progress, Circle, Timeline, Icon, Affix, Button, BackTop, Spin, Steps, Breadcrumb} from 'iview';
+    import { Badge, Tag, Progress, Circle, Timeline, Icon, Affix, iButton, BackTop, Spin, Steps, Breadcrumb} from 'iview';
     const TimelineItem = Timeline.Item;
     const Step = Steps.Step;
     const BreadcrumbItem = Breadcrumb.Item;
@@ -85,7 +85,7 @@
             TimelineItem,
             Icon,
             Affix,
-            Button,
+            iButton,
             BackTop,
             Spin,
             Steps,
@@ -94,7 +94,7 @@
             BreadcrumbItem
         },
         props: {
-        
+
         },
         data () {
             return {
@@ -108,7 +108,7 @@
             }
         },
         computed: {
-        
+
         },
         methods: {
             closed (e) {

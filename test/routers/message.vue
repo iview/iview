@@ -1,10 +1,10 @@
 <template>
-    <Button @click="info">info</Button>
-    <Button @click="success">success</Button>
-    <Button @click="error">error</Button>
-    <Button @click="warning">warning</Button>
-    <Button @click="loading">手动消失</Button>
-    <Button @click="destroy">destroy</Button>
+    <i-button @click="info">info</i-button>
+    <i-button @click="success">success</i-button>
+    <i-button @click="error">error</i-button>
+    <i-button @click="warning">warning</i-button>
+    <i-button @click="loading">手动消失</i-button>
+    <i-button @click="destroy">destroy</i-button>
     <Alert closable>消息提示文案</Alert>
     <Alert type="success" show-icon closable>
         成功提示文案
@@ -16,21 +16,21 @@
     </Card>
 </template>
 <script>
-    import { Message, Button, Alert, Card } from 'iview';
+    import { Message, iButton, Alert, Card } from 'iview';
 
     export default {
         components: {
             Message,
-            Button,
+            iButton,
             Alert,
             Card
         },
         props: {
-        
+
         },
         data () {
             return {
-            
+
             }
         },
         computed: {
