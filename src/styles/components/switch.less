@@ -2,10 +2,10 @@
 
 .@{switch-prefix-cls} {
     display: inline-block;
-    width: 44px;
+    width: 48px;
     height: 24px;
     line-height: 22px;
-    border-radius: 22px;
+    border-radius: 24px;
     vertical-align: middle;
     border: 1px solid #ccc;
     background-color: #ccc;
@@ -16,9 +16,9 @@
 
     &-inner {
         color: #fff;
-        font-size: 12px;
+        font-size: @font-size-small;
         position: absolute;
-        left: 24px;
+        left: 25px;
 
         i{
             width: 12px;
@@ -29,13 +29,13 @@
 
     &:after {
         content: '';
-        width: 22px;
-        height: 22px;
-        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        border-radius: 20px;
         background-color: #fff;
         position: absolute;
-        left: 0;
-        top: 0;
+        left: 1px;
+        top: 1px;
         cursor: pointer;
         .transition2(left @transition-time @ease-in-out, width @transition-time @ease-in-out);
     }
@@ -54,26 +54,45 @@
     }
 
     &-small {
-        height: 14px;
-        line-height: 12px;
-        width: 28px;
+        width: 24px;
+        height: 12px;
+        line-height: 10px;
         &:after {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             top: 0;
             left: 0;
         }
         &:active:after {
-            width: 16px;
+            width: 14px;
         }
     }
 
     &-small&-checked:after {
-        left: 14px;
+        left: 12px;
     }
 
     &-small:active&-checked:after {
-        left: 10px;
+        left: 8px;
+    }
+
+    &-large{
+        width: 60px;
+        &:active:after {
+            width: 26px;
+        }
+    }
+
+    &-large:active:after {
+        width: 32px;
+    }
+
+    &-large&-checked:after {
+        left: 37px;
+    }
+
+    &-large:active&-checked:after {
+        left: 25px;
     }
 
     &-checked {
@@ -81,15 +100,15 @@
         background-color: @primary-color;
 
         .@{switch-prefix-cls}-inner {
-            left: 6px;
+            left: 8px;
         }
 
         &:after {
-            left: 20px;
+            left: 25px;
         }
 
         &:active:after {
-            left: 16px;
+            left: 19px;
         }
     }
 

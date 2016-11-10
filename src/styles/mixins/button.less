@@ -65,15 +65,45 @@
         }
     }
 
-    // size
-    &-large > .@{btnClassName} {
-        .button-size(@btn-padding-large; @btn-font-size-large; @btn-border-radius);
+    & .@{btnClassName}-icon-only .ivu-icon {
+        font-size: 14px;
+        position: relative;
+        top: 1px;
     }
 
-    &-small > .@{btnClassName} {
-        .button-size(@btn-padding-small; @btn-font-size; @btn-border-radius-small);
-        > .@{css-prefix-iconfont} {
-            font-size: @btn-font-size;
+    &-large .@{btnClassName}-icon-only .ivu-icon{
+        font-size: 16px;
+        top: 2px;
+    }
+
+    &-small .@{btnClassName}-icon-only .ivu-icon{
+        font-size: 12px;
+        top: 0;
+    }
+
+    &-circle .@{btnClassName} {
+        border-radius: @btn-circle-size;
+    }
+
+    // size
+    &-large&-circle .@{btnClassName} {
+        border-radius: @btn-circle-size-large;
+    }
+    &-large {
+        & > .@{btnClassName} {
+            .button-size(@btn-padding-large; @btn-font-size-large; @btn-border-radius);
+        }
+    }
+
+    &-small&-circle .@{btnClassName} {
+        border-radius: @btn-circle-size-small;
+    }
+    &-small {
+        & > .@{btnClassName}{
+            .button-size(@btn-padding-small; @btn-font-size; @btn-border-radius-small);
+            > .@{css-prefix-iconfont} {
+                font-size: @btn-font-size;
+            }
         }
     }
 }
@@ -93,7 +123,8 @@
     user-select: none;
     .button-size(@btn-padding-base; @btn-font-size; @btn-border-radius);
     .transform(translate3d(0, 0, 0));
-    .transition(all @transition-time linear);
+    //.transition(all @transition-time linear);
+    .transition3(color @transition-time linear, background-color @transition-time linear, border @transition-time linear);
 
     > .@{css-prefix-iconfont} {
         line-height: 1;
@@ -189,19 +220,59 @@
     }
 }
 
-// Circle for Icon
-.btn-circle(@btnClassName: ivu-btn) {
-    .square(@btn-circle-size);
-    .button-size(0; @font-size-base + 2; 50%);
+// Text
+.btn-text() {
+    .button-variant(@link-color, @btn-ghost-bg, transparent);
 
-    &.@{btnClassName}-large {
-        .square(@btn-circle-size-large);
-        .button-size(0; @btn-font-size-large + 2; 50%);
+    // for disabled
+    &.disabled,
+    &[disabled],
+    fieldset[disabled] & {
+        &,
+        &:hover,
+        &:focus,
+        &:active,
+        &.active {
+            .button-color(@btn-disable-color; @btn-ghost-bg; transparent);
+        }
     }
 
-    &.@{btnClassName}-small {
-        .square(@btn-circle-size-small);
-        .button-size(0; @font-size-base; 50%);
+    &:hover
+        //&:focus
+    {
+        .button-color(tint(@primary-color, 20%); @btn-ghost-bg; transparent);
+    }
+    &:active,
+    &.active {
+        .button-color(shade(@primary-color, 5%); @btn-ghost-bg; transparent);
+    }
+}
+
+// Circle for Icon
+.btn-circle(@btnClassName: ivu-btn) {
+    border-radius: @btn-circle-size;
+
+    &.@{btnClassName}-large{
+        border-radius: @btn-circle-size-large;
+    }
+
+    &.@{btnClassName}-size{
+        border-radius: @btn-circle-size-small;
+    }
+
+    &.@{btnClassName}-icon-only{
+        .square(@btn-circle-size);
+        .button-size(0; @font-size-base + 2; 50%);
+
+        &.@{btnClassName}-large{
+            .square(@btn-circle-size-large);
+            .button-size(0; @btn-font-size-large + 2; 50%);
+        }
+
+        &.@{btnClassName}-small{
+            .square(@btn-circle-size-small);
+            .button-size(0; @font-size-base; 50%);
+        }
     }
 }
 
@@ -218,8 +289,6 @@
 
     .@{btnClassName}:not(:first-child):not(:last-child) {
         border-radius: 0;
-        padding-left: 8px;
-        padding-right: 8px;
     }
 
     > .@{btnClassName}:first-child {
@@ -227,14 +296,12 @@
         &:not(:last-child) {
             border-bottom-right-radius: 0;
             border-top-right-radius: 0;
-            padding-right: 8px;
         }
     }
 
     > .@{btnClassName}:last-child:not(:first-child) {
         border-bottom-left-radius: 0;
         border-top-left-radius: 0;
-        padding-left: 8px;
     }
 
     & > & {

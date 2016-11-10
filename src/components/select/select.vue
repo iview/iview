@@ -26,7 +26,7 @@
         </div>
         <Dropdown v-show="visible" transition="slide-up" v-ref:dropdown>
             <ul v-show="notFound" :class="[prefixCls + '-not-found']"><li>{{ notFoundText }}</li></ul>
-            <ul v-else :class="[prefixCls + '-dropdown-list']"><slot></slot></ul>
+            <ul v-else :class="[prefixCls + '-dropdown-list']" v-el:options><slot></slot></ul>
         </Dropdown>
     </div>
 </template>
@@ -34,7 +34,7 @@
     import Icon from '../icon';
     import Dropdown from './dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
-    import { oneOf } from '../../utils/assist';
+    import { oneOf, MutationObserver } from '../../utils/assist';
 
     const prefixCls = 'ivu-select';
 
@@ -94,7 +94,8 @@
                 focusIndex: 0,
                 query: '',
                 inputLength: 20,
-                notFound: false
+                notFound: false,
+                slotChangeDuration: false    // if slot change duration and in multiple, set true and after slot change, set false
             }
         },
         computed: {
@@ -180,7 +181,7 @@
                     });
                 }
             },
-            updateOptions (init) {
+            updateOptions (init, slot = false) {
                 let options = [];
                 let index = 1;
 
@@ -199,19 +200,27 @@
                 this.options = options;
 
                 if (init) {
-                    this.updateSingleSelected(true);
-                    this.updateMultipleSelected(true);
+                    this.updateSingleSelected(true, slot);
+                    this.updateMultipleSelected(true, slot);
                 }
             },
-            updateSingleSelected (init = false) {
+            updateSingleSelected (init = false, slot = false) {
                 const type = typeof this.model;
 
                 if (type === 'string' || type === 'number') {
+                    let findModel = false;
+
                     for (let i = 0; i < this.options.length; i++) {
                         if (this.model === this.options[i].value) {
                             this.selectedSingle = this.options[i].label;
+                            findModel = true;
                             break;
                         }
+                    }
+
+                    if (slot && !findModel) {
+                        this.model = '';
+                        this.query = '';
                     }
                 }
 
@@ -229,7 +238,7 @@
                     }
                 }
             },
-            updateMultipleSelected (init = false) {
+            updateMultipleSelected (init = false, slot = false) {
                 if (this.multiple && Array.isArray(this.model)) {
                     let selected = [];
 
@@ -249,8 +258,22 @@
                     }
 
                     this.selectedMultiple = selected;
-                }
 
+                    if (slot) {
+                        let selectedModel = [];
+
+                        for (let i = 0; i < selected.length; i++) {
+                            selectedModel.push(selected[i].value);
+                        }
+
+                        // if slot change and remove a selected option, emit user
+                        if (this.model.length === selectedModel.length) {
+                            this.slotChangeDuration = true;
+                        }
+
+                        this.model = selectedModel;
+                    }
+                }
                 this.toggleMultipleSelected(this.model, init);
             },
             removeTag (index) {
@@ -431,19 +454,46 @@
                 if (this.multiple && this.model.length && this.query === '') {
                     this.removeTag(this.model.length - 1);
                 }
+            },
+            // use when slot changed
+            slotChange () {
+                this.options = [];
+                this.optionInstances = [];
             }
         },
         ready () {
             this.updateOptions(true);
             document.addEventListener('keydown', this.handleKeydown);
+
+            // watch slot changed
+            if (MutationObserver) {
+                this.observer = new MutationObserver(() => {
+                    this.slotChange();
+                    this.updateOptions(true, true);
+                });
+
+                this.observer.observe(this.$els.options, {
+//                attributes: true,
+                    childList: true,
+                    characterData: true,
+                    subtree: true
+                });
+            }
         },
         beforeDestroy () {
             document.removeEventListener('keydown', this.handleKeydown);
+            if (this.observer) {
+                this.observer.disconnect();
+            }
         },
         watch: {
             model () {
                 if (this.multiple) {
-                    this.updateMultipleSelected();
+                    if (this.slotChangeDuration) {
+                        this.slotChangeDuration = false;
+                    } else {
+                        this.updateMultipleSelected();
+                    }
                 } else {
                     this.updateSingleSelected();
                 }

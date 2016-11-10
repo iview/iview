@@ -1,97 +1,88 @@
 <template>
-    <div>
-        <br><br><br><br><br><br><br><br><br><br><br>
-        {{ city | json }}<br>
-        <Button @click="city = 'hangzhou'">切换城市</Button>
-        <br>
-        <i-select v-if="true" :model.sync="city" style="width:200px" filterable @on-change="change">
-            <i-option-group label="热门城市">
-                <i-option value="beijing">北京市</i-option>
-                <i-option value="shanghai" disabled label="上海市">上海市2</i-option>
-                <i-option value="shenzhen">深圳市</i-option>
-            </i-option-group>
-            <i-option-group label="二线城市">
-                <i-option value="nanjing">南京市</i-option>
-                <i-option value="hangzhou">杭州市</i-option>
-                <i-option value="heilongjiang" disabled>黑龙江市</i-option>
-            </i-option-group>
-            <i-option-group label="其它城市">
-                <i-option value="jyg">嘉峪关市</i-option>
-                <i-option value="lanzhou">兰州市</i-option>
-                <i-option value="beijingxi">北京西</i-option>
-            </i-option-group>
-        </i-select>
-
-        <i-select v-show="true" :model.sync="focus" style="width:200px" @on-change="change" clearable filterable label-in-value>
-            <i-option value="beijing">北京</i-option>
-            <i-option value="shanghai" label="上海市">上海市</i-option>
-            <i-option value="shenzhen" disabled>深圳市</i-option>
-            <i-option value="guangzhou" label="广州市">广州市2</i-option>
-            <i-option value="shijiazhuang" disabled>石家庄市</i-option>
-            <!--<i-option value="shijiazhuang2">石家庄市2</i-option>-->
-            <i-option value="a">a市</i-option>
-            <i-option value="b">b市</i-option>
-            <i-option value="c">c市</i-option>
-            <i-option value="d">d市</i-option>
-            <i-option value="e">e市</i-option>
-        </i-select>
-
-        <i-select v-if="true" :model.sync="focus2" style="width:300px" @on-change="change" clearable filterable multiple>
-            <i-option value="beijing" label="北京市">北京2</i-option>
-            <i-option value="shanghai">上海市</i-option>
-            <i-option value="shenzhen" disabled>深圳市</i-option>
-            <i-option value="guangzhou">广州市</i-option>
-            <i-option value="shijiazhuang">石家庄市</i-option>
-            <i-option value="a">a1市</i-option>
-            <i-option value="b">b2市</i-option>
-            <i-option value="c">c1市</i-option>
-            <i-option value="d">d2市</i-option>
-            <i-option value="e">e1市</i-option>
-        </i-select>
-
-        <i-select v-if="true" :model.sync="focus2" style="width:300px" @on-change="change" clearable multiple>
-            <i-option value="beijing" label="北京市">北京2</i-option>
-            <i-option value="shanghai">上海市</i-option>
-            <i-option value="shenzhen" disabled>深圳市</i-option>
-            <i-option value="guangzhou">广州市</i-option>
-            <i-option value="shijiazhuang">石家庄市</i-option>
-            <i-option value="a">a市</i-option>
-            <i-option value="b">b市</i-option>
-            <i-option value="c">c市</i-option>
-            <i-option value="d">d市</i-option>
-            <i-option value="e">e市</i-option>
-        </i-select>
-
-        <br><br><br><br><br><br><br><br><br><br><br><br>
-    </div>
+    <i-select :model.sync="model1" style="width:200px" clearable>
+        <i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>
+    </i-select>
+    {{ model1 | json }}
+    <i-button @click="change">修改数据</i-button>
+    <i-select :model.sync="model10" multiple style="width:240px" @on-change="datachange">
+        <i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>
+    </i-select>
+    {{ model10 | json }}
+    <i-select :model.sync="model11" filterable style="width:200px" @on-change="datachange">
+        <i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>
+    </i-select>
+    {{ model11 | json }}
+    <i-select :model.sync="model12" filterable multiple style="width:240px" @on-change="datachange">
+        <i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>
+    </i-select>
+    {{ model12 | json }}
+    <br><br>
+    <i-select :model.sync="model2" size="small" style="width:100px">
+        <i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>
+    </i-select>
+    <i-select :model.sync="model3" style="width:100px">
+        <i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>
+    </i-select>
+    <i-select :model.sync="model4" size="large" style="width:100px">
+        <i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>
+    </i-select>
+    <i-select :model.sync="model7" style="width:200px">
+        <i-option-group label="热门城市">
+            <i-option v-for="item in cityList | limitBy 3" :value="item.value">{{ item.label }}</i-option>
+        </i-option-group>
+        <i-option-group label="其它城市">
+            <i-option v-for="item in cityList | limitBy 3 3" :value="item.value">{{ item.label }}</i-option>
+        </i-option-group>
+    </i-select>
 </template>
 <script>
-    import { iSelect, iOption, iOptionGroup, Button } from 'iview';
-
+    import { iSelect, iOption, iButton, iOptionGroup } from 'iview';
     export default {
-        components: {
-            iSelect,
-            iOption,
-            iOptionGroup,
-            Button
-        },
-        props: {
-
-        },
+        components: { iSelect, iOption, iButton, iOptionGroup },
         data () {
             return {
-                city: '',
-                focus: '',
-                focus2: ['beijing']
-//                focus2: []
+                cityList: [
+                    {
+                        value: 'beijing',
+                        label: '北京市'
+                    },
+                    {
+                        value: 'shanghai',
+                        label: '上海市'
+                    },
+                    {
+                        value: 'shenzhen',
+                        label: '深圳市'
+                    },
+//                    {
+//                        value: 'hangzhou',
+//                        label: '杭州市'
+//                    },
+//                    {
+//                        value: 'nanjing',
+//                        label: '南京市'
+//                    },
+//                    {
+//                        value: 'chongqing',
+//                        label: '重庆市'
+//                    }
+                ],
+                model1: '',
+                model10: [],
+                model11: '',
+                model12: [],
+                model2: '',
+                model3: '',
+                model4: '',
+                model7: ''
             }
         },
-        computed: {
-
-        },
         methods: {
-            change (data) {
-                console.log(data)
+            change () {
+                this.cityList.splice(2, 1);
+            },
+            datachange (data) {
+                console.log(data);
             }
         }
     }

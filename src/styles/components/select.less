@@ -80,7 +80,7 @@
     }
 
     &-single &-selection{
-        height: 28px;
+        height: @input-height-base;
         position: relative;
 
         .@{select-prefix-cls}-placeholder{
@@ -89,8 +89,9 @@
 
         .@{select-prefix-cls}-placeholder, .@{select-prefix-cls}-selected-value{
             display: block;
-            height: 26px;
-            line-height: 26px;
+            height: @input-height-base - 2px;
+            line-height: @input-height-base - 2px;
+            font-size: @font-size-small;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -100,32 +101,33 @@
     }
 
     &-large&-single &-selection{
-        height: 32px;
+        height: @input-height-large;
 
         .@{select-prefix-cls}-placeholder, .@{select-prefix-cls}-selected-value{
-            height: 30px;
-            line-height: 30px;
+            height: @input-height-large - 2px;
+            line-height: @input-height-large - 2px;
+            font-size: @font-size-base;
         }
     }
 
     &-small&-single &-selection{
-        height: 22px;
+        height: @input-height-small;
         border-radius: @btn-border-radius-small;
 
         .@{select-prefix-cls}-placeholder, .@{select-prefix-cls}-selected-value{
-            height: 20px;
-            line-height: 20px;
+            height: @input-height-small - 2px;
+            line-height: @input-height-small - 2px;
         }
     }
 
     &-multiple &-selection{
-        padding: 0 24px 0 2px;
-        min-height: 28px;
+        padding: 0 24px 0 4px;
+        min-height: @input-height-base;
 
         .@{select-prefix-cls}-placeholder{
             display: block;
-            height: 26px;
-            line-height: 26px;
+            height: @input-height-base - 2px;
+            line-height: @input-height-base - 2px;
             color: @input-placeholder-color;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -141,7 +143,7 @@
         height: @input-height-base;
         line-height: @input-height-base;
         padding: 0 24px 0 8px;
-        font-size: @font-size-base;
+        font-size: @font-size-small;
         outline: none;
         border: none;
         box-sizing: border-box;
@@ -157,6 +159,7 @@
     }
 
     &-large &-input{
+        font-size: @font-size-base;
         height: @input-height-large;
     }
 
@@ -165,8 +168,8 @@
     }
 
     &-multiple &-input{
-        height: 25px;
-        line-height: 28px;
+        height: @input-height-base - 3px;
+        line-height: @input-height-base;
         padding: 0 0 0 6px;
     }
 
@@ -174,13 +177,18 @@
         text-align: center;
         color: @btn-disable-color;
     }
+
+    &-multiple .@{css-prefix}tag{
+        margin: 3px 4px 2px 0;
+    }
 }
 
 .@{select-item-prefix-cls} {
     margin: 0;
-    padding: 7px 15px;
+    padding: 7px 16px;
     clear: both;
     color: @text-color;
+    font-size: @font-size-small !important;
     //border-radius: @btn-border-radius-small;
     white-space: nowrap;
     cursor: pointer;
@@ -215,6 +223,11 @@
     }
 }
 
+.@{select-prefix-cls}-large .@{select-item-prefix-cls}{
+    padding: 7px 16px 8px;
+    font-size: @font-size-base !important;
+}
+
 .@{select-prefix-cls}-multiple .@{select-item-prefix-cls} {
     &-selected{
         color: @selected-color;
@@ -244,7 +257,7 @@
     padding: 0;
 
     &-title {
-        padding-left: 10px;
+        padding-left: 8px;
         font-size: 12px;
         color: @legend-color;
         height: 30px;

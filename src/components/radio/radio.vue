@@ -8,8 +8,7 @@
                 :disabled="disabled"
                 :checked="selected"
                 @change="change">
-        </span>
-        <slot>{{ value }}</slot>
+        </span><slot>{{ value }}</slot>
     </label>
 </template>
 <script>

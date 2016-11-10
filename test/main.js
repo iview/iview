@@ -16,19 +16,19 @@ var router = new VueRouter({
 });
 
 router.map({
-    '/index': {
-        component: function (resolve) {
-            require(['./routers/index.vue'], resolve);
-        }
-    },
     '/button': {
         component: function (resolve) {
             require(['./routers/button.vue'], resolve);
         }
     },
-    '/page': {
+    '/card': {
         component: function (resolve) {
-            require(['./routers/page.vue'], resolve);
+            require(['./routers/card.vue'], resolve);
+        }
+    },
+    '/message': {
+        component: function (resolve) {
+            require(['./routers/message.vue'], resolve);
         }
     },
     '/more': {
@@ -36,9 +36,14 @@ router.map({
             require(['./routers/more.vue'], resolve);
         }
     },
-    '/layout': {
+    '/page': {
         component: function (resolve) {
-            require(['./routers/layout.vue'], resolve);
+            require(['./routers/page.vue'], resolve);
+        }
+    },
+    '/poptip': {
+        component: function (resolve) {
+            require(['./routers/poptip.vue'], resolve);
         }
     },
     '/radio': {
@@ -46,14 +51,29 @@ router.map({
             require(['./routers/radio.vue'], resolve);
         }
     },
-    '/msg': {
+    '/select': {
         component: function (resolve) {
-            require(['./routers/msg.vue'], resolve);
+            require(['./routers/select.vue'], resolve);
         }
     },
-    '/notice': {
+    '/slider': {
         component: function (resolve) {
-            require(['./routers/notice.vue'], resolve);
+            require(['./routers/slider.vue'], resolve);
+        }
+    },
+    '/step': {
+        component: function (resolve) {
+            require(['./routers/step.vue'], resolve);
+        }
+    },
+    '/switch': {
+        component: function (resolve) {
+            require(['./routers/switch.vue'], resolve);
+        }
+    },
+    '/alert': {
+        component: function (resolve) {
+            require(['./routers/alert.vue'], resolve);
         }
     },
     '/tag': {
@@ -61,9 +81,14 @@ router.map({
             require(['./routers/tag.vue'], resolve);
         }
     },
-    '/select': {
+    '/input': {
         component: function (resolve) {
-            require(['./routers/select.vue'], resolve);
+            require(['./routers/input.vue'], resolve);
+        }
+    },
+    '/tooltip': {
+        component: function (resolve) {
+            require(['./routers/tooltip.vue'], resolve);
         }
     }
 });
@@ -77,6 +102,6 @@ router.afterEach(function (transition) {
 });
 
 router.redirect({
-    '*': "/index"
+    '*': "/button"
 });
 router.start(App, '#app');

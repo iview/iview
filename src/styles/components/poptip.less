@@ -17,11 +17,24 @@
 
     &-title {
         margin: 0;
-        padding: 0 16px;
-        height: 32px;
-        line-height: 32px;
-        border-bottom: 1px solid @border-color-split;
-        color: #666;
+        padding: 8px 16px;
+        position: relative;
+
+        &:after{
+            content: '';
+            display: block;
+            height: 1px;
+            position: absolute;
+            left: 8px;
+            right: 8px;
+            bottom: 0;
+            background-color: @border-color-split;
+        }
+
+        &-inner{
+            color: @title-color;
+            font-size: @font-size-base;
+        }
     }
 
     &-body{
@@ -29,6 +42,10 @@
 
         &-content{
             overflow: auto;
+
+            &-inner{
+                color: @text-color;
+            }
         }
     }
 
@@ -36,7 +53,7 @@
         width: 100%;
         background-color: #fff;
         background-clip: padding-box;
-        border: 1px solid @border-color-split;
+        //border: 1px solid @border-color-split;
         border-radius: @border-radius-small;
         box-shadow: @shadow-base;
         white-space: nowrap;
@@ -108,8 +125,9 @@
     &-confirm &-body{
         padding: 16px 16px 8px;
         .ivu-icon{
+            font-size: 16px;
             color: @warning-color;
-            line-height: 17px;
+            line-height: 18px;
             position: absolute;
         }
 

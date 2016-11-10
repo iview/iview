@@ -18,7 +18,7 @@
             <input
                 :class="inputClasses"
                 :disabled="disabled"
-                autoComplete="off"
+                autocomplete="off"
                 @focus="focus"
                 @blur="blur"
                 @keydown.stop="keyDown"

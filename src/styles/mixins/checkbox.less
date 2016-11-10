@@ -19,23 +19,23 @@
 
         &-inner {
             display: inline-block;
-            width: 16px;
-            height: 16px;
+            width: 14px;
+            height: 14px;
             position: relative;
             top: 0;
             left: 0;
             border: 1px solid @border-color-base;
-            border-radius: 3px;
+            border-radius: 2px;
             background-color: #fff;
             .transition2(border-color @transition-time @ease-in-out,background-color @transition-time @ease-in-out);
             
             &:after {
                 content: '';
                 display: table;
-                width: 5px;
+                width: 4px;
                 height: 8px;
                 position: absolute;
-                top: 2px;
+                top: 1px;
                 left: 4px;
                 border: 2px solid #fff;
                 border-top: 0;
@@ -75,10 +75,10 @@
             &:after {
                 content: '';
                 display: table;
-                width: 5px;
+                width: 4px;
                 height: 8px;
                 position: absolute;
-                top: 2px;
+                top: 1px;
                 left: 4px;
                 border: 2px solid #fff;
                 border-top: 0;
@@ -136,7 +136,7 @@
 
     .@{checkbox-prefix-cls}-wrapper {
         cursor: pointer;
-        font-size: @font-size-base;
+        font-size: @font-size-small;
         display: inline-block;
         & + & {
             margin-left: 8px;
@@ -145,7 +145,7 @@
 
     .@{checkbox-prefix-cls}-wrapper + span,
     .@{checkbox-prefix-cls} + span {
-        margin-left: 4px;
+        //margin-left: 4px;
         margin-right: 4px;
     }
 

@@ -50,3 +50,6 @@ export function getScrollBarSize (fresh) {
     }
     return cached;
 }
+
+// watch DOM change
+export const MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver || false;

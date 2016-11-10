@@ -23,7 +23,7 @@
             },
             size: {
                 validator (value) {
-                    return oneOf(value, ['small']);
+                    return oneOf(value, ['large', 'small']);
                 }
             }
         },

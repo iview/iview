@@ -47,6 +47,11 @@
                 type: String
             }
         },
+        data () {
+            return {
+                withDesc: false
+            }
+        },
         computed: {
             baseClass () {
                 return `${this.prefixCls}-notice`;
@@ -56,7 +61,8 @@
                     this.baseClass,
                     {
                         [`${this.className}`]: !!this.className,
-                        [`${this.baseClass}-closable`]: this.closable
+                        [`${this.baseClass}-closable`]: this.closable,
+                        [`${this.baseClass}-with-desc`]: this.withDesc
                     }
                 ]
             },
@@ -84,6 +90,11 @@
                 this.closeTimer = setTimeout(() => {
                     this.close();
                 }, this.duration * 1000)
+            }
+
+            // check if with desc in Notice component
+            if (this.prefixCls === 'ivu-notice') {
+                this.withDesc = this.$els.content.querySelectorAll(`.${this.prefixCls}-desc`)[0].innerHTML !== '';
             }
         },
         beforeDestroy () {
