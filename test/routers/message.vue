@@ -33,7 +33,7 @@
         },
         data () {
             return {
-                modal1: true
+                modal1: false
             }
         },
         computed: {
