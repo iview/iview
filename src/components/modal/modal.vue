@@ -2,7 +2,7 @@
     <div :class="wrapClasses">
         <div :class="maskClasses" v-show="visible" @click="mask" transition="fade"></div>
         <div :class="classes" :style="styles" v-show="visible" transition="ease">
-            <div :class="[prefixCls + '-content]">
+            <div :class="[prefixCls + '-content']">
                 <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
                     <slot name="close">
                         <Icon type="ios-close-empty"></Icon>

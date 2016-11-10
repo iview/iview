@@ -1,7 +1,7 @@
 <template>
     <div :class="classes" :style="style" :transition="transitionName">
         <div :class="[baseClass + '-content']" v-el:content>{{{ content }}}</div>
-        <a :class="[baseClass + '-close]" @click="close" v-if="closable">
+        <a :class="[baseClass + '-close']" @click="close" v-if="closable">
             <i class="ivu-icon ivu-icon-ios-close-empty"></i>
         </a>
     </div>
