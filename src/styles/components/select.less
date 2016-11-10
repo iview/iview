@@ -185,7 +185,7 @@
 
 .@{select-item-prefix-cls} {
     margin: 0;
-    padding: 7px 16px 8px;
+    padding: 7px 16px;
     clear: both;
     color: @text-color;
     font-size: @font-size-small !important;
@@ -221,6 +221,11 @@
     &-selected&-focus {
         background: shade(@selected-color, 10%);
     }
+}
+
+.@{select-prefix-cls}-large .@{select-item-prefix-cls}{
+    padding: 7px 16px 8px;
+    font-size: @font-size-base !important;
 }
 
 .@{select-prefix-cls}-multiple .@{select-item-prefix-cls} {
