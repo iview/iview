@@ -1,0 +1,28 @@
+.motion-common() {
+    animation-duration: @animation-time;
+    animation-fill-mode: both;
+}
+
+.make-motion(@className, @keyframeName) {
+    .@{className}-enter, .@{className}-appear {
+        .motion-common();
+        animation-play-state: paused;
+    }
+    .@{className}-leave {
+        .motion-common();
+        animation-play-state: paused;
+    }
+    .@{className}-enter, .@{className}-appear {
+        animation-name: ~"@{keyframeName}In";
+        animation-play-state: running;
+    }
+    .@{className}-leave {
+        animation-name: ~"@{keyframeName}Out";
+        animation-play-state: running;
+    }
+}
+
+@import "fade";
+@import "move";
+@import "ease";
+@import "slide";

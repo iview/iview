@@ -1,0 +1,132 @@
+@notice-prefix-cls: ~"@{css-prefix}notice";
+@icon-prefix-cls: ~"@{css-prefix}icon";
+
+@notice-width: 335px;
+@notice-padding: 16px;
+@notice-margin-bottom: 10px;
+
+.@{notice-prefix-cls} {
+    width: @notice-width;
+    margin-right: 24px;
+    position: fixed;
+    z-index: @zindex-notification;
+
+    &-notice {
+        margin-bottom: @notice-margin-bottom;
+        padding: @notice-padding;
+        //border: 1px solid @border-color-split;
+        border-radius: @border-radius-small;
+        box-shadow: @shadow-base;
+        background: #fff;
+        line-height: 1;
+        position: relative;
+        overflow: hidden;
+
+        &-close {
+            position: absolute;
+            right: 16px;
+            top: 15px;
+            color: #999;
+            outline: none;
+
+            i{
+                .close-base(-3px);
+            }
+        }
+
+        &-with-desc{
+            .@{notice-prefix-cls}-notice-close{
+                top: 11px;
+            }
+        }
+    }
+
+    &-title {
+        font-size: @font-size-base;
+        color: @title-color;
+        padding-right: 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    &-with-desc &-title{
+        margin-bottom: 8px;
+    }
+    &-with-desc&-with-icon &-title{
+        margin-left: 51px;
+    }
+
+    &-desc {
+        font-size: 12px;
+        color: @legend-color;
+        text-align: justify;
+        line-height: 1.5;
+    }
+    &-with-desc&-with-icon &-desc{
+        margin-left: 51px;
+    }
+
+    &-with-icon &-title{
+        margin-left: 26px;
+    }
+
+    &-icon {
+        position: absolute;
+        left: 20px;
+        margin-top: -1px;
+        font-size: 16px;
+
+        &-success {
+            color: @success-color;
+        }
+        &-info {
+            color: @primary-color;
+        }
+        &-warning {
+            color: @warning-color;
+        }
+        &-error {
+            color: @error-color;
+        }
+    }
+    &-with-desc &-icon{
+        font-size: 36px;
+    }
+
+    &-custom-content{
+        &:after{
+            content: "";
+            display: block;
+            width: 4px;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+        }
+    }
+    &-with-normal{
+        &:after{
+            background: @primary-color;
+        }
+    }
+    &-with-info{
+        &:after{
+            background: @primary-color;
+        }
+    }
+    &-with-success{
+        &:after{
+            background: @success-color;
+        }
+    }
+    &-with-warning{
+        &:after{
+            background: @warning-color;
+        }
+    }
+    &-with-error{
+        &:after{
+            background: @error-color;
+        }
+    }
+}

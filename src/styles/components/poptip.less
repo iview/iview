@@ -1,0 +1,146 @@
+@poptip-prefix-cls: ~"@{css-prefix}poptip";
+@poptip-arrow: ~"@{poptip-prefix-cls}-arrow";
+@poptip-max-width: 250px;
+@poptip-arrow-width: 5px;
+@poptip-arrow-outer-width: (@poptip-arrow-width + 1);
+@poptip-distance: @poptip-arrow-width - 1 + 4;
+//@poptip-arrow-color: fadein(@border-color-base, 5%);
+@poptip-arrow-color: hsla(0,0%,85%,.5);
+
+.@{poptip-prefix-cls} {
+    display: inline-block;
+
+    &-rel{
+        display: inline-block;
+        position: relative;
+    }
+
+    &-title {
+        margin: 0;
+        padding: 8px 16px;
+        position: relative;
+
+        &:after{
+            content: '';
+            display: block;
+            height: 1px;
+            position: absolute;
+            left: 8px;
+            right: 8px;
+            bottom: 0;
+            background-color: @border-color-split;
+        }
+
+        &-inner{
+            color: @title-color;
+            font-size: @font-size-base;
+        }
+    }
+
+    &-body{
+        padding: 8px 16px;
+
+        &-content{
+            overflow: auto;
+
+            &-inner{
+                color: @text-color;
+            }
+        }
+    }
+
+    &-inner{
+        width: 100%;
+        background-color: #fff;
+        background-clip: padding-box;
+        //border: 1px solid @border-color-split;
+        border-radius: @border-radius-small;
+        box-shadow: @shadow-base;
+        white-space: nowrap;
+    }
+
+    &-popper{
+        min-width: 150px;
+        font-size: @font-size-small;
+        .popper(@poptip-arrow, @poptip-arrow-width, @poptip-distance, @poptip-arrow-color);
+
+        &[x-placement^="top"] .@{poptip-arrow}:after {
+            content: " ";
+            bottom: 1px;
+            margin-left: -@poptip-arrow-width;
+            border-bottom-width: 0;
+            border-top-color: #fff;
+        }
+
+        &[x-placement^="right"] .@{poptip-arrow}:after {
+            content: " ";
+            left: 1px;
+            bottom: -@poptip-arrow-width;
+            border-left-width: 0;
+            border-right-color: #fff;
+        }
+
+        &[x-placement^="bottom"] .@{poptip-arrow}:after {
+            content: " ";
+            top: 1px;
+            margin-left: -@poptip-arrow-width;
+            border-top-width: 0;
+            border-bottom-color: #fff;
+        }
+
+        &[x-placement^="left"] .@{poptip-arrow}:after {
+            content: " ";
+            right: 1px;
+            border-right-width: 0;
+            border-left-color: #fff;
+            bottom: -@poptip-arrow-width;
+        }
+    }
+
+    &-arrow{
+        &, &:after{
+            display: block;
+            width: 0;
+            height: 0;
+            position: absolute;
+            border-color: transparent;
+            border-style: solid;
+        }
+    }
+    &-arrow {
+        border-width: @poptip-arrow-outer-width;
+    }
+    &-arrow:after{
+        content: "";
+        border-width: @poptip-arrow-width;
+    }
+
+    &-confirm &-popper{
+        max-width: 300px;
+    }
+    &-confirm &-inner{
+        white-space: normal;
+    }
+
+    &-confirm &-body{
+        padding: 16px 16px 8px;
+        .ivu-icon{
+            font-size: 16px;
+            color: @warning-color;
+            line-height: 18px;
+            position: absolute;
+        }
+
+        &-message{
+            padding-left: 20px;
+        }
+    }
+
+    &-confirm &-footer{
+        text-align: right;
+        padding: 8px 16px 16px;
+        button {
+            margin-left: 4px;
+        }
+    }
+}

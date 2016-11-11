@@ -1,0 +1,35 @@
+@icon-prefix-cls: ~"@{css-prefix}icon";
+
+.content-header() {
+    border-bottom: 1px solid @border-color-split;
+    padding: 14px 16px;
+    line-height: 1;
+
+    p,
+    &-inner
+    {
+        display: inline-block;
+        width: 100%;
+        height: 20px;
+        line-height: 20px;
+        font-size: @font-size-base;
+        color: @title-color;
+        font-weight: bold;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+.content-close(@top: 0, @icon-font-size: 22px) {
+    font-size: @font-size-small;
+    position: absolute;
+    right: 16px;
+    top: 8px;
+    overflow: hidden;
+    cursor: pointer;
+
+    .@{icon-prefix-cls}-ios-close-empty {
+        .close-base(@top, @icon-font-size);
+    }
+}
