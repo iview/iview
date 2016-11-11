@@ -85,6 +85,7 @@
                 return [
                     `${prefixCls}-wrapper`,
                     {
+                        [`${prefixCls}-wrapper-${this.size}`]: !!this.size,
                         [`${prefixCls}-type`]: this.type,
                         [`${prefixCls}-group`]: this.prepend || this.append,
                         [`${prefixCls}-group-${this.size}`]: (this.prepend || this.append) && !!this.size
