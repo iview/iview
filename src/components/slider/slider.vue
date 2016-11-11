@@ -253,6 +253,7 @@
             // for single use
             onSingleButtonDown (event) {
                 if (this.disabled) return;
+                event.preventDefault();
                 this.onSingleDragStart(event);
                 window.addEventListener('mousemove', this.onSingleDragging);
                 window.addEventListener('mouseup', this.onSingleDragEnd);
@@ -306,6 +307,7 @@
             // for range use first
             onFirstButtonDown (event) {
                 if (this.disabled) return;
+                event.preventDefault();
                 this.onFirstDragStart(event);
                 window.addEventListener('mousemove', this.onFirstDragging);
                 window.addEventListener('mouseup', this.onFirstDragEnd);
@@ -354,6 +356,7 @@
             // for range use second
             onSecondButtonDown (event) {
                 if (this.disabled) return;
+                event.preventDefault();
                 this.onSecondDragStart(event);
                 window.addEventListener('mousemove', this.onSecondDragging);
                 window.addEventListener('mouseup', this.onSecondDragEnd);
