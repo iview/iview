@@ -7,12 +7,13 @@
         <!--<Slider :max="10"></Slider>-->
         <!--<Slider :step="13"></Slider>-->
         <!--<Slider :step="13" :max="60"></Slider>-->
+        <Icon type="checkmark-circled" size="40" color="#f60"></Icon>
     </div>
 </template>
 <script>
-    import { Slider } from 'iview';
+    import { Slider, Icon } from 'iview';
     export default {
-        components: { Slider },
+        components: { Slider, Icon },
         data () {
             return {
                 value: [20, 50]
