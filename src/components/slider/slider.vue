@@ -18,7 +18,7 @@
                     :class="[prefixCls + '-button-wrap']"
                     :style="{left: firstPosition + '%'}"
                     @mousedown="onFirstButtonDown">
-                    <Tooltip placement="top" :content="tipFormat(value[0])" :disabled="tipFormat(value[0]) === null" v-ref:tooltip>
+                    <Tooltip :controlled="firstDragging" placement="top" :content="tipFormat(value[0])" :disabled="tipFormat(value[0]) === null" v-ref:tooltip>
                         <div :class="button1Classes"></div>
                     </Tooltip>
                 </div>
@@ -26,7 +26,7 @@
                     :class="[prefixCls + '-button-wrap']"
                     :style="{left: secondPosition + '%'}"
                     @mousedown="onSecondButtonDown">
-                    <Tooltip placement="top" :content="tipFormat(value[1])" :disabled="tipFormat(value[1]) === null" v-ref:tooltip2>
+                    <Tooltip :controlled="secondDragging" placement="top" :content="tipFormat(value[1])" :disabled="tipFormat(value[1]) === null" v-ref:tooltip2>
                         <div :class="button2Classes"></div>
                     </Tooltip>
                 </div>
@@ -36,7 +36,7 @@
                     :class="[prefixCls + '-button-wrap']"
                     :style="{left: singlePosition + '%'}"
                     @mousedown="onSingleButtonDown">
-                    <Tooltip placement="top" :content="tipFormat(value)" :disabled="tipFormat(value) === null" v-ref:tooltip>
+                    <Tooltip :controlled="dragging" placement="top" :content="tipFormat(value)" :disabled="tipFormat(value) === null" v-ref:tooltip>
                         <div :class="buttonClasses"></div>
                     </Tooltip>
                 </div>
