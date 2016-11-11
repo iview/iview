@@ -8,17 +8,17 @@
             :value="value"
             :disabled="disabled"
             @on-change="handleInputChange"></Input-number>
-        <div :class="[prefixCls + '-wrap']" v-el:slider @click="sliderClick">
+        <div :class="[prefixCls + '-wrap']" v-el:slider @click.self="sliderClick">
             <template v-if="showStops">
-                <div :class="[prefixCls + '-stop']" v-for="item in stops" :style="{ 'left': item + '%' }"></div>
+                <div :class="[prefixCls + '-stop']" v-for="item in stops" :style="{ 'left': item + '%' }" @click.self="sliderClick"></div>
             </template>
-            <div :class="[prefixCls + '-bar']" :style="barStyle"></div>
+            <div :class="[prefixCls + '-bar']" :style="barStyle" @click.self="sliderClick"></div>
             <template v-if="range">
                 <div
                     :class="[prefixCls + '-button-wrap']"
                     :style="{left: firstPosition + '%'}"
                     @mousedown="onFirstButtonDown">
-                    <Tooltip placement="top" :content="tipFormat(value[0])" v-ref:tooltip>
+                    <Tooltip placement="top" :content="tipFormat(value[0])" :disabled="tipFormat(value[0]) === null" v-ref:tooltip>
                         <div :class="button1Classes"></div>
                     </Tooltip>
                 </div>
@@ -26,7 +26,7 @@
                     :class="[prefixCls + '-button-wrap']"
                     :style="{left: secondPosition + '%'}"
                     @mousedown="onSecondButtonDown">
-                    <Tooltip placement="top" :content="tipFormat(value[1])" v-ref:tooltip2>
+                    <Tooltip placement="top" :content="tipFormat(value[1])" :disabled="tipFormat(value[1]) === null" v-ref:tooltip2>
                         <div :class="button2Classes"></div>
                     </Tooltip>
                 </div>
@@ -36,7 +36,7 @@
                     :class="[prefixCls + '-button-wrap']"
                     :style="{left: singlePosition + '%'}"
                     @mousedown="onSingleButtonDown">
-                    <Tooltip placement="top" :content="tipFormat(value)" v-ref:tooltip>
+                    <Tooltip placement="top" :content="tipFormat(value)" :disabled="tipFormat(value) === null" v-ref:tooltip>
                         <div :class="buttonClasses"></div>
                     </Tooltip>
                 </div>
@@ -163,15 +163,6 @@
                 return style;
             },
             stops() {
-//                let stopCount = (this.max - this.value) / this.step;
-//                let result = [];
-//                let currentLeft = parseFloat(this.singlePosition);
-//                let stepWidth = 100 * this.step / (this.max - this.min);
-//                for (let i = 1; i < stopCount; i++) {
-//                    result.push(currentLeft + i * stepWidth);
-//                }
-//                return result;
-
                 let stopCount = (this.max - this.min) / this.step;
                 let result = [];
                 let stepWidth = 100 * this.step / (this.max - this.min);

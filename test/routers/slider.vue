@@ -1,7 +1,8 @@
 <template>
     <div style="width: 400px;margin:100px;">
         {{ value }}
-        <Slider @on-change="change" :step="10" show-stops></Slider>
+        <Slider @on-change="change"></Slider>
+        <Slider :value="40" :tip-format="format"></Slider>
         <Slider :value.sync="value" show-input show-stops range @on-change="change" :step="13"></Slider>
         <!--<Slider :max="10"></Slider>-->
         <!--<Slider :step="13"></Slider>-->
@@ -19,10 +20,11 @@
         },
         methods: {
             format (val) {
+                return null;
                 return `进度：${val}%`
             },
             change (data) {
-                console.log(data)
+//                console.log(data)
             }
         }
     }
