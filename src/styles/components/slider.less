@@ -57,6 +57,14 @@
         border-radius: @btn-border-radius-small;
         position: absolute;
     }
+
+    &-stop{
+        position: absolute;
+        .square(@slider-height);
+        border-radius: 50%;
+        background-color: @slider-disabled-color;
+        .transform(translateX(-50%));
+    }
 }
 
 .@{slider-prefix-cls}-disabled{

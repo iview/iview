@@ -163,7 +163,22 @@
                 return style;
             },
             stops() {
-                return this.max / this.step;
+//                let stopCount = (this.max - this.value) / this.step;
+//                let result = [];
+//                let currentLeft = parseFloat(this.singlePosition);
+//                let stepWidth = 100 * this.step / (this.max - this.min);
+//                for (let i = 1; i < stopCount; i++) {
+//                    result.push(currentLeft + i * stepWidth);
+//                }
+//                return result;
+
+                let stopCount = (this.max - this.min) / this.step;
+                let result = [];
+                let stepWidth = 100 * this.step / (this.max - this.min);
+                for (let i = 1; i < stopCount; i++) {
+                    result.push(i * stepWidth);
+                }
+                return result;
             },
             sliderWidth () {
                 return parseInt(getStyle(this.$els.slider, 'width'), 10);

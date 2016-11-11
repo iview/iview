@@ -2,7 +2,7 @@
     <div style="width: 400px;margin:100px;">
         {{ value }}
         <Slider @on-change="change" :step="10" show-stops></Slider>
-        <Slider :value.sync="value" show-input range @on-change="change" :step="13"></Slider>
+        <Slider :value.sync="value" show-input show-stops range @on-change="change" :step="13"></Slider>
         <!--<Slider :max="10"></Slider>-->
         <!--<Slider :step="13"></Slider>-->
         <!--<Slider :step="13" :max="60"></Slider>-->
