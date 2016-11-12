@@ -9,6 +9,9 @@
         <!--<Slider :step="13" :max="60"></Slider>-->
         <Icon type="checkmark-circled" size="40" color="#f60"></Icon>
         <p>附近的首付款是东方红看就是</p>
+        <div class="ivu-article">
+            <a href="http://www.iviewui.com" target="_blank">iView</a>
+        </div>
     </div>
 </template>
 <script>

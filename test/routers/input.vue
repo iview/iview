@@ -74,6 +74,7 @@
         <Input-number :value="2" size="small"></Input-number>
         <Input-number :value="2"></Input-number>
         <Input-number :value="2" size="large"></Input-number>
+        <i-input type="password"></i-input>
     </div>
 </template>
 <script>
