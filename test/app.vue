@@ -1,6 +1,7 @@
 <style lang="less">
     @import "../src/styles/index.less";
     @import "../src/styles/package.less";
+    @import "../src/styles/article/index.less";
 </style>
 <style scoped>
 nav {

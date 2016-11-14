@@ -9,20 +9,26 @@
     }
     &-icon {
         width: 32px;
-        height: 100%;
+        height: @input-height-base;
+        line-height: @input-height-base;
         font-size: 16px;
         text-align: center;
         color: @subsidiary-color;
         position: absolute;
         right: 0;
         z-index: 1;
-        &:after{
-            content: '';
-            display: inline-block;
-            width: 0;
-            height: 100%;
-            vertical-align: middle;
-        }
+    }
+
+    &-wrapper-large &-icon{
+        font-size: 18px;
+        height: @input-height-large;
+        line-height: @input-height-large;
+    }
+    &-wrapper-small &-icon{
+        width: 24px;
+        font-size: 14px;
+        height: @input-height-small;
+        line-height: @input-height-small;
     }
 
     &-icon + &{

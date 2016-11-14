@@ -4,7 +4,7 @@
             <div :class="[prefixCls + '-group-prepend']" v-if="prepend" v-el:prepend><slot name="prepend"></slot></div>
             <i class="ivu-icon" :class="['ivu-icon-' + icon, prefixCls + '-icon']" v-if="icon" @click="handleIconClick"></i>
             <input
-                type="text"
+                :type="type"
                 :class="inputClasses"
                 :placeholder="placeholder"
                 :disabled="disabled"
@@ -37,7 +37,7 @@
         props: {
             type: {
                 validator (value) {
-                    return oneOf(value, ['text', 'textarea']);
+                    return oneOf(value, ['text', 'textarea', 'password']);
                 },
                 default: 'text'
             },
@@ -85,6 +85,7 @@
                 return [
                     `${prefixCls}-wrapper`,
                     {
+                        [`${prefixCls}-wrapper-${this.size}`]: !!this.size,
                         [`${prefixCls}-type`]: this.type,
                         [`${prefixCls}-group`]: this.prepend || this.append,
                         [`${prefixCls}-group-${this.size}`]: (this.prepend || this.append) && !!this.size

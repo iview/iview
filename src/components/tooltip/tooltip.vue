@@ -37,6 +37,10 @@
             disabled: {
                 type: Boolean,
                 default: false
+            },
+            controlled: {    // under this prop,Tooltip will not close when mouseleave
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -52,7 +56,9 @@
             },
             handleClosePopper() {
                 clearTimeout(this.timeout);
-                this.visible = false;
+                if (!this.controlled) {
+                    this.visible = false;
+                }
             }
         }
     }

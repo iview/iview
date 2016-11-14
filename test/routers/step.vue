@@ -58,7 +58,7 @@
     </Steps>
 </template>
 <script>
-    import { Page, Steps, Button } from 'iview';
+    import { Page, Steps, iButton } from 'iview';
 
     const Step = Steps.Step;
 
@@ -67,7 +67,7 @@
             Page,
             Steps,
             Step,
-            iButton: Button
+            iButton
         },
         props: {
 

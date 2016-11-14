@@ -27,18 +27,18 @@
         <i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>
     </i-select>
     <i-select :model.sync="model7" style="width:200px">
-        <i-option-group label="热门城市">
+        <Option-group label="热门城市">
             <i-option v-for="item in cityList | limitBy 3" :value="item.value">{{ item.label }}</i-option>
-        </i-option-group>
-        <i-option-group label="其它城市">
+        </Option-group>
+        <Option-group label="其它城市">
             <i-option v-for="item in cityList | limitBy 3 3" :value="item.value">{{ item.label }}</i-option>
-        </i-option-group>
+        </Option-group>
     </i-select>
 </template>
 <script>
-    import { iSelect, iOption, iButton, iOptionGroup } from 'iview';
+    import { iSelect, iOption, iButton, OptionGroup } from 'iview';
     export default {
-        components: { iSelect, iOption, iButton, iOptionGroup },
+        components: { iSelect, iOption, iButton, OptionGroup },
         data () {
             return {
                 cityList: [

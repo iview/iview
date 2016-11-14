@@ -21,7 +21,7 @@
     export default {
         components: {
             Message,
-            Button,
+            iButton,
             Alert,
             Card,
             Notice,
@@ -29,7 +29,7 @@
             Modal
         },
         props: {
-        
+
         },
         data () {
             return {

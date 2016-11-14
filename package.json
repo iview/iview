@@ -1,6 +1,6 @@
 {
   "name": "iview",
-  "version": "0.9.7",
+  "version": "0.9.8-rc-1",
   "title": "iView",
   "description": "A high quality  UI components Library with Vue.js",
   "homepage": "http://www.iviewui.com",
@@ -13,10 +13,13 @@
     "ui",
     "framework"
   ],
-  "main": "src/index.js",
+  "main": "dist/iview.js",
   "scripts": {
-    "dev": "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 8081 --config build/webpack.config.js",
-    "build": "gulp --gulpfile build/build-style.js"
+    "dev": "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 8081 --config build/webpack.dev.config.js",
+    "dist:style": "gulp --gulpfile build/build-style.js",
+    "dist:dev": "webpack --config build/webpack.dist.dev.config.js",
+    "dist:prod": "webpack --config build/webpack.dist.prod.config.js",
+    "build": "npm run dist:style && npm run dist:dev && npm run dist:prod"
   },
   "repository": {
     "type": "git",
@@ -31,7 +34,7 @@
     "popper.js": "^0.6.4"
   },
   "peerDependencies": {
-    "vue": "^1.0.26"
+    "vue": "^1.0.17"
   },
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",
