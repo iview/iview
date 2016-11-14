@@ -169,14 +169,14 @@
     </Button-group>
 </template>
 <script>
-    import { Button, Icon, Input, Switch, Radio, Checkbox, InputNumber, Row, Col, Page } from 'iview';
-    const ButtonGroup = Button.Group;
+    import { iButton, Icon, Input, Switch, Radio, Checkbox, InputNumber, Row, Col, Page } from 'iview';
+    const ButtonGroup = iButton.Group;
     const RadioGroup = Radio.Group;
     const CheckboxGroup = Checkbox.Group;
 
     export default {
         components: {
-            iButton: Button,
+            iButton,
             ButtonGroup,
             Icon,
             iInput: Input,

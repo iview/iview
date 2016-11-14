@@ -36,22 +36,23 @@ const iview = {
     Badge,
     Breadcrumb,
     BreadcrumbItem: Breadcrumb.Item,
-    Button,
+    iButton: Button,
     ButtonGroup: Button.Group,
     Card,
     Checkbox,
     CheckboxGroup: Checkbox.Group,
     Circle,
-    Col,
+    iCol: Col,
     Collapse,
     Icon,
+    iInput: Input,
     InputNumber,
     LoadingBar,
     Message,
     Modal,
     Notice,
-    Option,
-    OptionGroup: OptionGroup,
+    iOption: Option,
+    OptionGroup,
     Page,
     Panel: Collapse.Panel,
     Poptip,
@@ -59,7 +60,7 @@ const iview = {
     Radio,
     RadioGroup: Radio.Group,
     Row,
-    Select,
+    iSelect: Select,
     Slider,
     Spin,
     Step: Steps.Step,
@@ -68,15 +69,18 @@ const iview = {
     Tag,
     Timeline,
     TimelineItem: Timeline.Item,
-    Tooltip,
-
-    iButton: Button,
-    iButtonGroup: Button.Group,
-    iCol: Col,
-    iInput: Input,
-    iOption: Option,
-    iOptionGroup: OptionGroup,
-    iSelect: Select
+    Tooltip
 };
 
-module.exports = iview;
+const install = function (Vue) {
+    Object.keys(iview).forEach((key) => {
+        Vue.component(key, iview[key])
+    })
+}
+
+// auto install
+if (typeof window !== 'undefined' && window.Vue) {
+    install(window.Vue);
+};
+
+module.exports = Object.assign(iview, {install});

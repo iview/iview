@@ -47,11 +47,6 @@ module.exports = {
             js: 'babel'
         }
     },
-    // 转es5
-    babel: {
-        presets: ['es2015'],
-        plugins: ['transform-runtime']
-    },
     resolve: {
         // require时省略的扩展名，如：require('module') 不需要module.js
         extensions: ['', '.js', '.vue'],

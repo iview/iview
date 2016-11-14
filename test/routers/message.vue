@@ -21,7 +21,7 @@
     export default {
         components: {
             Message,
-            Button,
+            iButton,
             Alert,
             Card,
             Notice,
