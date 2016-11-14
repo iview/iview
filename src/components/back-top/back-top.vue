@@ -10,19 +10,6 @@
 <script>
     const prefixCls = 'ivu-back-top';
 
-    function getScroll(target, top) {
-        const prop = top ? 'pageYOffset' : 'pageXOffset';
-        const method = top ? 'scrollTop' : 'scrollLeft';
-
-        let ret = target[prop];
-
-        if (typeof ret !== 'number') {
-            ret = window.document.documentElement[method];
-        }
-
-        return ret;
-    }
-
     export default {
         props: {
             height: {
@@ -72,14 +59,7 @@
         },
         methods: {
             handleScroll () {
-                const backTop = this.backTop;
-                const scrollTop = getScroll(window, true);
-
-                if (this.height <= scrollTop && !backTop) {
-                    this.backTop = true;
-                } else if (this.height > scrollTop && backTop) {
-                    this.backTop = false;
-                }
+                this.backTop = window.pageYOffset >= this.height;
             },
             back () {
                 window.scrollTo(0, 0);

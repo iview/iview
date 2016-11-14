@@ -50,9 +50,9 @@
     <div @click="spinShow = !spinShow">消失</div>
     <br><br>
 
-    <Button @click="nextStep">下一步</Button>
-    <Button @click="step_status = 'error'">步骤3切换为错误</Button>
-    <Button @click="step_process = 'error'">切换steps状态为error</Button>
+    <i-button @click="nextStep">下一步</i-button>
+    <i-button @click="step_status = 'error'">步骤3切换为错误</i-button>
+    <i-button @click="step_process = 'error'">切换steps状态为error</i-button>
     <Breadcrumb separator="<b>=></b>">
         <Breadcrumb-item href="/index">首页</Breadcrumb-item>
         <Breadcrumb-item href="/my">我的</Breadcrumb-item>
