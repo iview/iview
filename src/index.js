@@ -75,12 +75,17 @@ const iview = {
 const install = function (Vue) {
     Object.keys(iview).forEach((key) => {
         Vue.component(key, iview[key])
-    })
-}
+    });
+
+    Vue.prototype.$Loading = LoadingBar;
+    Vue.prototype.$Message = Message;
+    Vue.prototype.$Modal = Modal;
+    Vue.prototype.$Notice = Notice;
+};
 
 // auto install
 if (typeof window !== 'undefined' && window.Vue) {
     install(window.Vue);
-};
+}
 
 module.exports = Object.assign(iview, {install});
