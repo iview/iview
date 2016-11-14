@@ -35,10 +35,12 @@ Use [iview-project](https://github.com/iview/iview-project)(Recommended) Or [vue
 
 ### Install iView
 
-```bash
-// using npm
+using npm
+```
 npm install iview --save
-// using script tag for global use
+```
+Or using script tag for global use
+```
 <script type="text/javascript" src="iview.min.js"></script>
 ```
 
