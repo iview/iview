@@ -31,36 +31,30 @@
 
 ### Install vue-webpack project in the first place 
 
-Use [vue-vueRouter-webpack](https://github.com/icarusion/vue-vueRouter-webpack)(Recommended) Or [vue-cli](https://github.com/vuejs/vue-cli)
+Use [iview-project](https://github.com/iview/iview-project)(Recommended) Or [vue-cli](https://github.com/vuejs/vue-cli)
 
 ### Install iView
 
 ```bash
+// using npm
 npm install iview --save
-```
-
-### Babel support for iView in webpack
-```js
-module: {
-    loaders: [
-        { test: /iview.src.*?js$/, loader: 'babel' },
-        { test: /\.js$/, loader: 'babel', exclude: /node_modules/ }
-    ]
-}
+// using script tag for global use
+<script type="text/javascript" src="iview.min.js"></script>
 ```
 
 ## Usage
 
-Use component as required
-
 ```html
 <template>
-    <Page :current="1" :total="100"></Page>
+    <Slider :value.sync="value" range></Slider>
 </template>
 <script>
-    import { Page } from 'iview';
     export default {
-        components: { Page }
+        data () {
+            return {
+                value: [20, 50]
+            }
+        }
     }
 </script>
 ```
