@@ -16,3 +16,4 @@ npm-debug.log
 *.swo
 *.log
 test/dist/
+dist/
