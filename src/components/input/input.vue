@@ -9,8 +9,11 @@
                 :placeholder="placeholder"
                 :disabled="disabled"
                 :maxlength="maxlength"
+                :readonly="readonly"
                 v-model="value"
-                @keyup.enter="handleEnter">
+                @keyup.enter="handleEnter"
+                @focus="handleFocus"
+                @blur="handleBlur">
             <div :class="[prefixCls + '-group-append']" v-if="append" v-el:append><slot name="append"></slot></div>
         </template>
         <textarea
@@ -22,8 +25,11 @@
             :disabled="disabled"
             :rows="rows"
             :maxlength="maxlength"
+            :readonly="readonly"
             v-model="value"
-            @keyup.enter="handleEnter">
+            @keyup.enter="handleEnter"
+            @focus="handleFocus"
+            @blur="handleBlur">
         </textarea>
     </div>
 </template>
@@ -70,6 +76,10 @@
             rows: {
                 type: Number,
                 default: 2
+            },
+            readonly: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -116,6 +126,12 @@
             },
             handleIconClick () {
                 this.$emit('on-click');
+            },
+            handleFocus () {
+                this.$emit('on-focus');
+            },
+            handleBlur () {
+                this.$emit('on-blur');
             },
             resizeTextarea () {
                 const autosize = this.autosize;

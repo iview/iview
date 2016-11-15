@@ -41,6 +41,7 @@ li + li {
                 <li><a v-link="'/alert'">Alert</a></li>
                 <li><a v-link="'/tag'">Tag</a></li>
                 <li><a v-link="'/input'">Input</a></li>
+                <li><a v-link="'/cascader'">Cascader</a></li>
             </ul>
         </nav>
         <router-view></router-view>

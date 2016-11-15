@@ -1,5 +1,5 @@
 <template>
-    <i-input icon="ios-clock-outline" style="width:200px;" :value.sync="v" @on-enter="enter" @on-click="iconclick" size="large" placeholder="请输入"></i-input>
+    <i-input icon="ios-clock-outline" @on-focus="focus" @on-blur="blur" readonly style="width:200px;" :value.sync="v" @on-enter="enter" @on-click="iconclick" size="large" placeholder="请输入"></i-input>
     <i-input icon="ios-clock-outline" style="width:200px;" :value.sync="v" @on-enter="enter" placeholder="请输入"></i-input>
     <i-input icon="ios-clock-outline" style="width:200px;" :value.sync="v" @on-enter="enter" size="small" placeholder="请输入"></i-input>
     <br>
@@ -10,7 +10,7 @@
     {{ v }}
     <br>
     <br>
-    <i-input placeholder="this is something" style="width:200px;" :value.sync="t" type="textarea" :autosize="autosize"></i-input>
+    <i-input readonly placeholder="this is something" style="width:200px;" :value.sync="t" type="textarea" :autosize="autosize"></i-input>
     {{ t }}
     <br>
     <br>
@@ -116,6 +116,12 @@
             },
             change (val) {
                 console.log(val)
+            },
+            focus () {
+                this.$Message.info('focus');
+            },
+            blur () {
+                this.$Message.info('blur');
             }
         }
     }

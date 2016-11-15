@@ -92,6 +92,11 @@ router.map({
         component: function (resolve) {
             require(['./routers/tooltip.vue'], resolve);
         }
+    },
+    '/cascader': {
+        component: function (resolve) {
+            require(['./routers/cascader.vue'], resolve);
+        }
     }
 });
 

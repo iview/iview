@@ -5,6 +5,7 @@ import Badge from './components/badge';
 import Breadcrumb from './components/breadcrumb';
 import Button from './components/button';
 import Card from './components/card';
+import Cascader from './components/cascader';
 import Checkbox from './components/checkbox';
 import Circle from './components/circle';
 import Collapse from './components/collapse';
@@ -40,6 +41,7 @@ const iview = {
     iButton: Button,
     ButtonGroup: Button.Group,
     Card,
+    Cascader,
     Checkbox,
     CheckboxGroup: Checkbox.Group,
     Circle,
