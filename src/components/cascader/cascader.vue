@@ -12,11 +12,12 @@
         <Dropdown v-show="visible" transition="slide-up">
             <div>
                 <Caspanel
+                    v-ref:caspanel
                     :prefix-cls="prefixCls"
                     :data.sync="data"
                     :disabled="disabled"
-                    :trigger="trigger"
-                    @on-update-result="updateResult"></Caspanel>
+                    :change-on-select="changeOnSelect"
+                    :trigger="trigger"></Caspanel>
             </div>
         </Dropdown>
     </div>
@@ -74,7 +75,7 @@
             renderFormat: {
                 type: Function,
                 default (label, selectedData) {
-                    return label.join('/');
+                    return label.join(' / ');
                 }
             }
         },
@@ -118,12 +119,46 @@
                 this.visible = true;
             },
             updateResult (result) {
-                console.log(JSON.stringify(result))
-                this.selected = result;
+                this.tmpSelected = result;
+            },
+            updateSelected () {
+                this.$broadcast('on-find-selected', this.value);
             }
         },
         ready () {
+            this.updateSelected();
+        },
+        events: {
+            // lastValue: is click the final val
+            // fromInit: is this emit from update value
+            'on-result-change' (lastValue, changeOnSelect, fromInit) {
+                if (lastValue || changeOnSelect) {
+                    const oldVal = JSON.stringify(this.value);
+                    this.selected = this.tmpSelected;
 
+                    let newVal = [];
+                    this.selected.forEach((item) => {
+                        newVal.push(item.value);
+                    });
+                    this.value = newVal;
+
+                    if (JSON.stringify(this.value) !== oldVal) {
+                        this.$emit('on-change', this.value);
+                    }
+                }
+                if (lastValue && !fromInit) {
+                    this.handleClose();
+                }
+            }
+        },
+        watch: {
+            visible (val) {
+                if (val) {
+                    if (this.value.length) {
+                        this.updateSelected();
+                    }
+                }
+            }
         }
     }
 </script>

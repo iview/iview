@@ -13,7 +13,8 @@
                 return [
                     `${this.prefixCls}-menu-item`,
                     {
-                        [`${this.prefixCls}-menu-item-active`]: this.tmpItem.value === this.data.value
+                        [`${this.prefixCls}-menu-item-active`]: this.tmpItem.value === this.data.value,
+                        [`${this.prefixCls}-menu-item-disabled`]: this.data.disabled
                     }
                 ]
             }

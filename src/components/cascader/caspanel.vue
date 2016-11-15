@@ -7,7 +7,7 @@
             :tmp-item="tmpItem"
             @click.stop="handleClickItem(item)"
             @mouseenter.stop="handleHoverItem(item)"></Casitem>
-    </ul><Caspanel v-if="sublist && sublist.length" :prefix-cls="prefixCls" :data.sync="sublist" :disabled="disabled" :trigger="trigger" @on-update-result="updateResult"></Caspanel>
+    </ul><Caspanel v-if="sublist && sublist.length" :prefix-cls="prefixCls" :data.sync="sublist" :disabled="disabled" :trigger="trigger" :change-on-select="changeOnSelect"></Caspanel>
 </template>
 <script>
     import Casitem from './casitem.vue';
@@ -31,11 +31,7 @@
             },
             disabled: Boolean,
             changeOnSelect: Boolean,
-            trigger: {
-                validator (value) {
-                    return oneOf(value, ['click', 'hover']);
-                }
-            },
+            trigger: String,
             prefixCls: String
         },
         data () {
@@ -46,33 +42,32 @@
         },
         methods: {
             handleClickItem (item) {
-                if (this.trigger !== 'click') return;
+                if (this.trigger !== 'click' && item.children) return;
                 this.handleTriggerItem(item);
             },
             handleHoverItem (item) {
-                if (this.trigger !== 'hover') return;
+                if (this.trigger !== 'hover' || !item.children) return;
                 this.handleTriggerItem(item);
             },
-            handleTriggerItem (item) {
+            handleTriggerItem (item, fromInit = false) {
                 if (item.disabled) return;
+
+                // return value back recursion
+                const backItem = this.getBaseItem(item);
+                this.tmpItem = backItem;
+                this.emitUpdate([backItem]);
 
                 if (item.children && item.children.length){
                     this.sublist = item.children;
-                    // todo 实时选择
+                    this.$dispatch('on-result-change', false, this.changeOnSelect, fromInit);
                 } else {
                     this.sublist = [];
-                    // todo 选择
+                    this.$dispatch('on-result-change', true, this.changeOnSelect, fromInit);
                 }
-
-                // return value back
-                const backItem = this.getBaseItem(item);
-
-                this.tmpItem = backItem;
-                this.$emit('on-update-result', [backItem]);
             },
             updateResult (item) {
                 this.result = [this.tmpItem].concat(item);
-                this.$emit('on-update-result', this.result);
+                this.emitUpdate(this.result);
             },
             getBaseItem (item) {
                 let backItem = Object.assign({}, item);
@@ -81,6 +76,13 @@
                 }
 
                 return backItem;
+            },
+            emitUpdate (result) {
+                if (this.$parent.$options.name === 'Caspanel') {
+                    this.$parent.updateResult(result);
+                } else {
+                    this.$parent.$parent.updateResult(result);
+                }
             }
         },
         watch: {
@@ -88,8 +90,22 @@
                 this.sublist = [];
             }
         },
-        ready () {
-            // todo 初始化时，判断预设的值
+        events: {
+            'on-find-selected' (val) {
+                let value = [...val];
+                for (let i = 0; i < value.length; i++) {
+                    for (let j = 0; j < this.data.length; j++) {
+                        if (value[i] === this.data[j].value) {
+                            this.handleTriggerItem(this.data[j], true);
+                            value.splice(0, 1);
+                            this.$nextTick(() => {
+                                this.$broadcast('on-find-selected', value);
+                            });
+                            return false;
+                        }
+                    }
+                }
+            }
         }
     }
 </script>
