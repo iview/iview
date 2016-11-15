@@ -14,12 +14,17 @@
     "framework"
   ],
   "main": "dist/iview.js",
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "dev": "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 8081 --config build/webpack.dev.config.js",
     "dist:style": "gulp --gulpfile build/build-style.js",
     "dist:dev": "webpack --config build/webpack.dist.dev.config.js",
     "dist:prod": "webpack --config build/webpack.dist.prod.config.js",
-    "build": "npm run dist:style && npm run dist:dev && npm run dist:prod"
+    "dist": "npm run dist:style && npm run dist:dev && npm run dist:prod",
+    "prepublish": "npm run dist"
   },
   "repository": {
     "type": "git",
