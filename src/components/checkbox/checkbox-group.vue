@@ -10,7 +10,9 @@
         props: {
             model: {
                 type: Array,
-                default: []
+                default () {
+                    return []
+                }
             }
         },
         computed: {

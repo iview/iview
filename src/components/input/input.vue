@@ -1,7 +1,7 @@
 <template>
     <div :class="wrapClasses">
         <template v-if="type !== 'textarea'">
-            <div :class="[prefixCls + '-group-prepend']" v-if="prepend" v-el:prepend><slot name="prepend"></slot></div>
+            <div :class="[prefixCls + '-group-prepend']" v-if="prepend" v-show="slotReady" v-el:prepend><slot name="prepend"></slot></div>
             <i class="ivu-icon" :class="['ivu-icon-' + icon, prefixCls + '-icon']" v-if="icon" @click="handleIconClick"></i>
             <input
                 :type="type"
@@ -14,7 +14,7 @@
                 @keyup.enter="handleEnter"
                 @focus="handleFocus"
                 @blur="handleBlur">
-            <div :class="[prefixCls + '-group-append']" v-if="append" v-el:append><slot name="append"></slot></div>
+            <div :class="[prefixCls + '-group-append']" v-if="append" v-show="slotReady" v-el:append><slot name="append"></slot></div>
         </template>
         <textarea
             v-else
@@ -87,6 +87,7 @@
                 prefixCls: prefixCls,
                 prepend: true,
                 append: true,
+                slotReady: false,
                 textareaStyles: {}
             }        
         },
@@ -161,6 +162,7 @@
                 this.prepend = false;
                 this.append = false;
             }
+            this.slotReady = true;
             this.resizeTextarea();
         }
     }
