@@ -77,7 +77,7 @@
             },
             renderFormat: {
                 type: Function,
-                default (label, selectedData) {
+                default (label) {
                     return label.join(' / ');
                 }
             }
@@ -96,7 +96,8 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-show-clear`]: this.showCloseIcon,
-                        [`${prefixCls}-visible`]: this.visible
+                        [`${prefixCls}-visible`]: this.visible,
+                        [`${prefixCls}-disabled`]: this.disabled
                     }
                 ]
             },
