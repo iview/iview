@@ -9,7 +9,6 @@ import Cascader from './components/cascader';
 import Checkbox from './components/checkbox';
 import Circle from './components/circle';
 import Collapse from './components/collapse';
-import Dialog from './components/dialog';
 import Icon from './components/icon';
 import Input from './components/input';
 import InputNumber from './components/input-number';
@@ -82,7 +81,7 @@ const install = function (Vue) {
 
     Vue.prototype.$Loading = LoadingBar;
     Vue.prototype.$Message = Message;
-    Vue.prototype.$Modal = Dialog;
+    Vue.prototype.$Modal = Modal;
     Vue.prototype.$Notice = Notice;
 };
 
