@@ -43,7 +43,10 @@
                 }
             },
             value: {
-                type: Array
+                type: Array,
+                default () {
+                    return []
+                }
             },
             disabled: {
                 type: Boolean,

@@ -1,7 +1,7 @@
 <template>
     <div style="margin: 50px;width:300px">
         {{ value | json }}
-        <Cascader size="large" :data="data" :value.sync="value" @on-change="change" trigger="hover" :render-format="format"></Cascader>
+        <Cascader size="large" :data="data" @on-change="change" trigger="hover" :render-format="format"></Cascader>
     </div>
 </template>
 <script>
