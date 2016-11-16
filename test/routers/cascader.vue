@@ -1,6 +1,7 @@
 <template>
     <div style="margin: 50px;width:300px">
-        <Cascader :data="data" :value.sync="value" @on-change="change" trigger="click"></Cascader>
+        {{ value | json }}
+        <Cascader size="large" :data="data" :value.sync="value" @on-change="change" trigger="hover" :render-format="format"></Cascader>
     </div>
 </template>
 <script>
@@ -50,8 +51,12 @@
 
         },
         methods: {
-            change (data) {
-                console.log(data)
+            change (data, opts) {
+                console.log(data);
+                console.log(opts)
+            },
+            format (label, data) {
+                return label[label.length - 1];
             }
         }
     }

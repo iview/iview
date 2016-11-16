@@ -105,6 +105,10 @@
                         }
                     }
                 }
+            },
+            'on-clear' () {
+                this.sublist = [];
+                this.tmpItem = {};
             }
         }
     }

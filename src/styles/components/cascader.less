@@ -24,14 +24,10 @@
     }
 
     &-arrow {
-        position: absolute;
-        top: 50%;
-        right: 8px;
-        line-height: 1;
-        margin-top: -6px;
-        font-size: @font-size-base;
-        color: @subsidiary-color;
-        .transition(all @transition-time @ease-in-out);
+        .inner-arrow();
+    }
+    &-visible &-arrow:nth-of-type(2){
+        .transform(rotate(180deg));
     }
 
     .@{select-dropdown-prefix-cls} {
@@ -78,7 +74,7 @@
 
             &-active{
                 background-color: @background-color-select-hover;
-                font-weight: bold;
+                color: @primary-color;
             }
         }
     }

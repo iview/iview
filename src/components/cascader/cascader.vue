@@ -92,7 +92,8 @@
                 return [
                     `${prefixCls}`,
                     {
-                        [`${prefixCls}-show-clear`]: this.showCloseIcon
+                        [`${prefixCls}-show-clear`]: this.showCloseIcon,
+                        [`${prefixCls}-visible`]: this.visible
                     }
                 ]
             },
@@ -105,28 +106,42 @@
                     label.push(this.selected[i].label);
                 }
 
-                return this.renderFormat(label);
+                return this.renderFormat(label, this.selected);
             }
         },
         methods: {
             clearSelect () {
-
+                const oldVal = JSON.stringify(this.value);
+                this.value = this.selected = this.tmpSelected = [];
+                this.handleClose();
+                this.emitValue(this.value, oldVal);
+                this.$broadcast('on-clear');
             },
             handleClose () {
                 this.visible = false;
             },
             onFocus () {
                 this.visible = true;
+                if (!this.value.length) {
+                    this.$broadcast('on-clear');
+                }
             },
             updateResult (result) {
                 this.tmpSelected = result;
             },
-            updateSelected () {
-                this.$broadcast('on-find-selected', this.value);
+            updateSelected (init = false) {
+                if (!this.changeOnSelect || init) {
+                    this.$broadcast('on-find-selected', this.value);
+                }
+            },
+            emitValue (val, oldVal) {
+                if (JSON.stringify(val) !== oldVal) {
+                    this.$emit('on-change', this.value, JSON.parse(JSON.stringify(this.selected)));
+                }
             }
         },
         ready () {
-            this.updateSelected();
+            this.updateSelected(true);
         },
         events: {
             // lastValue: is click the final val
@@ -140,10 +155,10 @@
                     this.selected.forEach((item) => {
                         newVal.push(item.value);
                     });
-                    this.value = newVal;
 
-                    if (JSON.stringify(this.value) !== oldVal) {
-                        this.$emit('on-change', this.value);
+                    if (!fromInit) {
+                        this.value = newVal;
+                        this.emitValue(this.value, oldVal);
                     }
                 }
                 if (lastValue && !fromInit) {
