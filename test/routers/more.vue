@@ -37,7 +37,7 @@
     </Timeline>
     <br><br>
     <Affix :offset-top="50" @on-change="affixChange">
-        <Button>固定的图钉</Button>
+        <i-button>固定的图钉</i-button>
     </Affix>
     <Back-top @on-click="backtop">
 

@@ -14,7 +14,7 @@ module.exports = {
         umdNamedDefine: true
     },
     externals: {
-        'vue': 'Vue'
+        'vue': 'vue'
     },
     resolve: {
         extensions: ['', '.js', '.vue']
