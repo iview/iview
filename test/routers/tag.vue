@@ -42,7 +42,7 @@
     </Modal>
 </template>
 <script>
-    import { Tag, Modal, iButton } from 'iview';
+    import { Tag, Modal, iButton } from '../../dist/iview.js';
     export default {
         components: { Tag, Modal, iButton },
         data () {
@@ -53,7 +53,9 @@
         },
         methods: {
             ok () {
-
+                setTimeout(() => {
+                    this.modal1 = false;
+                }, 2000);
             }
         }
     }
