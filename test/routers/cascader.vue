@@ -1,62 +1,61 @@
 <template>
-    <div style="margin: 50px;width:300px">
-        {{ value | json }}
-        <Cascader size="large" :data="data" @on-change="change" trigger="hover" :render-format="format"></Cascader>
+    <div style="width: 150px;margin:100px">
+        <Cascader :data="data" :value.sync="value1"></Cascader>
     </div>
+
 </template>
 <script>
-    import { Cascader } from 'iview';
     export default {
-        props: {
-
-        },
         data () {
             return {
-                value: ['jiangsu', 'hhh', 'ddd'],
-//                value: [],
+                value1: [],
                 data: [{
-                    value: 'zhejiang',
-                    label: 'Zhejiang',
-                    children: [{
-                        value: 'hangzhou',
-                        label: 'Hangzhou'
-                    }],
+                    value: 'beijing',
+                    label: '北京',
+                    children: [
+                        {
+                            value: 'gugong',
+                            label: '故宫'
+                        },
+                        {
+                            value: 'tiantan',
+                            label: '天坛'
+                        },
+                        {
+                            value: 'wangfujing',
+                            label: '王府井'
+                        }
+                    ]
                 }, {
                     value: 'jiangsu',
-                    label: 'Jiangsu',
-                    children: [{
-                        value: 'nanjing',
-                        label: 'Nanjing',
-//                        disabled: true,
-                        children: [{
-                            value: 'zhonghuamen',
-                            label: 'Zhong Hua Men',
-                            children: [{
-                                value: 'abc',
-                                label: 'ABC'
-                            }]
-                        }]
-                    }, {
-                        value: 'hhh',
-                        label: 'HHH',
-                        children: [{
-                            value: 'ddd',
-                            label: 'DDD'
-                        }]
-                    }]
+                    label: '江苏',
+                    children: [
+                        {
+                            value: 'nanjing',
+                            label: '南京',
+                            children: [
+                                {
+                                    value: 'fuzimiao',
+                                    label: '夫子庙',
+                                }
+                            ]
+                        },
+                        {
+                            value: 'suzhou',
+                            label: '苏州',
+                            children: [
+                                {
+                                    value: 'zhuozhengyuan',
+                                    label: '拙政园',
+                                },
+                                {
+                                    value: 'shizilin',
+                                    label: '狮子林',
+                                }
+                            ]
+                        }
+                    ],
                 }]
-            }
-        },
-        computed: {
-
-        },
-        methods: {
-            change (data, opts) {
-                console.log(data);
-                console.log(opts)
-            },
-            format (label, data) {
-                return label[label.length - 1];
             }
         }
     }
