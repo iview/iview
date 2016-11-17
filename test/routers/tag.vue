@@ -42,7 +42,7 @@
     </Modal>
 </template>
 <script>
-    import { Tag, Modal, iButton } from '../../dist/iview.js';
+    import { Tag, Modal, iButton } from 'iview';
     export default {
         components: { Tag, Modal, iButton },
         data () {
