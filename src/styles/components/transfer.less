@@ -11,17 +11,16 @@
         height: 210px;
         font-size: @font-size-small;
         vertical-align: middle;
-        border: 1px solid @border-color-base;
-        border-radius: @border-radius-base @border-radius-base 0 0;
         position: relative;
         padding-top: 35px;
 
         &-header {
             padding: 8px 16px;
-            border-radius: @border-radius-base @border-radius-base 0 0;
             background: @head-bg;
             color: @text-color;
+            border: 1px solid @border-color-base;
             border-bottom: 1px solid @border-color-split;
+            border-radius: @border-radius-base @border-radius-base 0 0;
             overflow: hidden;
             position: absolute;
             top: 0;
@@ -40,6 +39,9 @@
 
         &-body{
             height: 100%;
+            border: 1px solid @border-color-base;
+            border-top: none;
+            border-radius: 0 0 @border-radius-base @border-radius-base;
             position: relative;
 
             &-with-search{

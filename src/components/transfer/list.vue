@@ -23,9 +23,7 @@
                 <li :class="prefixCls + '-content-not-found'">{{ notFoundText }}</li>
             </ul>
         </div>
-        <div :class="prefixCls + '-footer'">
-            <slot></slot>
-        </div>
+        <div :class="prefixCls + '-footer'" v-if="showFooter" v-el:footer><slot></slot></div>
     </div>
 </template>
 <script>
@@ -50,7 +48,8 @@
         data () {
             return {
                 showItems: [],
-                query: ''
+                query: '',
+                showFooter: true
             }
         },
         computed: {
@@ -99,6 +98,10 @@
         },
         created () {
             this.updateFilteredData();
+
+        },
+        ready () {
+            this.showFooter = this.$els.footer.innerHTML !== '';
         },
         watch: {
             data () {
