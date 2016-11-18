@@ -1,0 +1,108 @@
+<template>
+    <div :class="prefixCls" :style="style">
+        <div :class="prefixCls + '-header'">
+            <Checkbox :checked.sync="checkedAll" :disabled="checkedAllDisabled" @on-change="toggleSelectAll">{{ title }}</Checkbox>
+            <span :class="prefixCls + '-header-count'">{{ count }}</span>
+        </div>
+        <div :class="bodyClasses">
+            <div :class="prefixCls + '-body-search-wrapper'" v-if="filterable">
+                <Search
+                    :prefix-cls="prefixCls + '-search'"
+                    :query.sync="query"
+                    :placeholder="filterPlaceholder"></Search>
+            </div>
+            <ul :class="prefixCls + '-content'" v-if="showItems.length">
+                <li
+                    v-for="item in showItems | filterBy filterData"
+                    :class="[prefixCls + '-content-item', {[prefixCls + '-content-item-disabled']: item.disabled}]"
+                    @click.prevent="select(item)"><Checkbox :checked="isCheck(item)" :disabled="item.disabled">{{ showLabel(item) }}</Checkbox></li>
+            </ul>
+            <div :class="prefixCls + '-body-not-found'" v-else>{{ notFoundText }}</div>
+        </div>
+        <div :class="prefixCls + '-footer'">
+            <slot></slot>
+        </div>
+    </div>
+</template>
+<script>
+    import Search from './search.vue';
+    import Checkbox from '../checkbox/checkbox.vue';
+
+    export default {
+        components: { Search, Checkbox },
+//        filters: { filterData: this.filterData },
+        props: {
+            prefixCls: String,
+            data: Array,
+            renderFormat: Function,
+            checkedKeys: Array,
+            style: Object,
+            title: [String, Number],
+            filterable: Boolean,
+            filterPlaceholder: String,
+            filterMethod: Function,
+            notFoundText: String,
+            validKeysCount: Number
+        },
+        data () {
+            return {
+                showItems: [],
+                query: ''
+            }
+        },
+        computed: {
+            bodyClasses () {
+                return [
+                    `${this.prefixCls}-body`,
+                    {
+                        [`${this.prefixCls}-body-with-search`]: this.filterable
+                    }
+                ]
+            },
+            count () {
+                const validKeysCount = this.validKeysCount;
+                return (validKeysCount > 0 ? `${validKeysCount}/` : '') + `${this.data.length}条`;
+            },
+            checkedAll () {
+                return this.data.filter(data => !data.disabled).length === this.validKeysCount && this.validKeysCount !== 0;
+            },
+            checkedAllDisabled () {
+                return this.data.filter(data => !data.disabled).length <= 0;
+            }
+        },
+        methods: {
+            showLabel (item) {
+                return this.renderFormat(item);
+            },
+            isCheck (item) {
+                return this.checkedKeys.some(key => key === item.key);
+            },
+            select (item) {
+                if (item.disabled) return;
+                const index = this.checkedKeys.indexOf(item.key);
+                index > -1 ? this.checkedKeys.splice(index, 1) : this.checkedKeys.push(item.key);
+            },
+            updateFilteredData () {
+                this.showItems = this.data.map(item => {
+                    return item;
+                })
+            },
+            toggleSelectAll (status) {
+                this.checkedKeys = status ?
+                        this.data.filter(data => !data.disabled || this.checkedKeys.indexOf(data.key) > -1).map(data => data.key) :
+                        this.data.filter(data => data.disabled && this.checkedKeys.indexOf(data.key) > -1).map(data => data.key);
+            },
+            filterData (value) {
+                return this.filterMethod(value, this.query);
+            }
+        },
+        created () {
+            this.updateFilteredData();
+        },
+        watch: {
+            data () {
+                this.updateFilteredData();
+            }
+        }
+    }
+</script>

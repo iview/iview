@@ -1,0 +1,89 @@
+@transfer-prefix-cls: ~"@{css-prefix}transfer";
+@transfer-item-prefix-cls: ~"@{css-prefix}transfer-list-content-item";
+
+.@{transfer-prefix-cls} {
+    position: relative;
+    line-height: @line-height-base;
+
+    &-list{
+        display: inline-block;
+        width: 180px;
+        height: 210px;
+        font-size: @font-size-small;
+        vertical-align: middle;
+        border: 1px solid @border-color-base;
+        border-radius: @border-radius-base;
+        position: relative;
+        padding-top: 35px;
+
+        &-header {
+            padding: 8px 16px;
+            border-radius: @border-radius-base @border-radius-base 0 0;
+            background: #fff;
+            color: @text-color;
+            border-bottom: 1px solid @border-color-split;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+
+            &-count {
+                margin: 0 !important;
+                float: right;
+            }
+        }
+
+        &-body{
+            height: 100%;
+            position: relative;
+
+            &-with-search{
+                padding-top: 40px;
+            }
+        }
+
+        &-content{
+            height: 100%;
+            padding: 4px 0;
+            overflow: auto;
+
+            &-item{
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
+        &-body-with-search &-content{
+            padding: 0;
+        }
+
+        &-body-search-wrapper{
+            padding: 8px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        &-search{
+            position: relative;
+        }
+    }
+    &-operation {
+        display: inline-block;
+        overflow: hidden;
+        margin: 0 16px;
+        vertical-align: middle;
+
+        .@{btn-prefix-cls} {
+            display: block;
+            min-width: @btn-circle-size-small;
+
+            &:first-child {
+                margin-bottom: 12px;
+            }
+        }
+    }
+}
+.select-item(@transfer-prefix-cls, @transfer-item-prefix-cls);

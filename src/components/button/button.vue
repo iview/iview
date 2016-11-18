@@ -71,7 +71,7 @@
             }
         },
         ready () {
-            this.showSlot = this.$els.slot.innerHTML !== '';
+            this.showSlot = this.$els.slot.innerHTML.replace(/\n/g, '').replace(/<!--[\w\W\r\n]*?-->/gmi, '') !== '';
         }
     }
 </script>

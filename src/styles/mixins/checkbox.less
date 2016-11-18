@@ -11,6 +11,10 @@
         line-height: 1;
         position: relative;
 
+        &-disabled{
+            cursor: @cursor-disabled;
+        }
+
         &:hover {
             .@{checkbox-inner-prefix-cls} {
                 border-color: #bcbcbc;
@@ -56,6 +60,10 @@
             z-index: 1;
             cursor: pointer;
             opacity: 0;
+
+            &[disabled]{
+                cursor: @cursor-disabled;
+            }
         }
     }
 
@@ -140,6 +148,9 @@
         display: inline-block;
         & + & {
             margin-left: 8px;
+        }
+        &-disabled{
+            cursor: @cursor-disabled;
         }
     }
 

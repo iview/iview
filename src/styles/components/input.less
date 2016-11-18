@@ -19,6 +19,10 @@
         z-index: 1;
     }
 
+    &-icon + &{
+        padding-right: 32px;
+    }
+
     &-wrapper-large &-icon{
         font-size: 18px;
         height: @input-height-large;
@@ -29,10 +33,10 @@
         font-size: 14px;
         height: @input-height-small;
         line-height: @input-height-small;
-    }
 
-    &-icon + &{
-        padding-right: 32px;
+        + .@{input-prefix-cls} {
+            padding-right: 24px;
+        }
     }
 }
 

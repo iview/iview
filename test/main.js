@@ -97,6 +97,11 @@ router.map({
         component: function (resolve) {
             require(['./routers/cascader.vue'], resolve);
         }
+    },
+    '/transfer': {
+        component: function (resolve) {
+            require(['./routers/transfer.vue'], resolve);
+        }
     }
 });
 

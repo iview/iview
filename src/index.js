@@ -27,6 +27,7 @@ import Switch from './components/switch';
 import Tag from './components/tag';
 import Timeline from './components/timeline';
 import Tooltip from './components/tooltip';
+import Transfer from './components/transfer';
 import { Row, Col } from './components/layout';
 import { Select, Option, OptionGroup } from './components/select';
 
@@ -71,7 +72,8 @@ const iview = {
     Tag,
     Timeline,
     TimelineItem: Timeline.Item,
-    Tooltip
+    Tooltip,
+    Transfer
 };
 
 const install = function (Vue) {
