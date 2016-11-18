@@ -1,7 +1,8 @@
 <template>
     <div :class="prefixCls" :style="style">
         <div :class="prefixCls + '-header'">
-            <Checkbox :checked.sync="checkedAll" :disabled="checkedAllDisabled" @on-change="toggleSelectAll">{{ title }}</Checkbox>
+            <Checkbox :checked.sync="checkedAll" :disabled="checkedAllDisabled" @on-change="toggleSelectAll"></Checkbox>
+            <span>{{ title }}</span>
             <span :class="prefixCls + '-header-count'">{{ count }}</span>
         </div>
         <div :class="bodyClasses">
@@ -15,7 +16,10 @@
                 <li
                     v-for="item in showItems | filterBy filterData"
                     :class="[prefixCls + '-content-item', {[prefixCls + '-content-item-disabled']: item.disabled}]"
-                    @click.prevent="select(item)"><Checkbox :checked="isCheck(item)" :disabled="item.disabled">{{ showLabel(item) }}</Checkbox></li>
+                    @click.prevent="select(item)">
+                    <Checkbox :checked="isCheck(item)" :disabled="item.disabled"></Checkbox>
+                    <span>{{ showLabel(item) }}</span>
+                </li>
                 <li :class="prefixCls + '-content-not-found'">{{ notFoundText }}</li>
             </ul>
         </div>
@@ -82,9 +86,7 @@
                 index > -1 ? this.checkedKeys.splice(index, 1) : this.checkedKeys.push(item.key);
             },
             updateFilteredData () {
-                this.showItems = this.data.map(item => {
-                    return item;
-                })
+                this.showItems = this.data;
             },
             toggleSelectAll (status) {
                 this.checkedKeys = status ?

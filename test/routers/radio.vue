@@ -1,5 +1,6 @@
 <template>
     <div>
+        <Checkbox>hello</Checkbox>
         <Radio-group :model.sync="phone">
             <Radio value="apple">
                 <Icon type="social-apple"></Icon>

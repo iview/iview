@@ -10,11 +10,16 @@
             filterable
             :target-keys.sync="targetKeys"
             :operations="['向左移动','向右移动']"
-            @on-change="change"></Transfer>
+            :filter-method="filterMethod"
+            @on-change="change">
+            <div :style="{float: 'right', margin: '5px'}">
+                <i-button type="ghost" size="small" @click="getMock">刷新</i-button>
+            </div>
+        </Transfer>
     </div>
 </template>
 <script>
-    import { Transfer } from 'iview';
+    import { Transfer, iButton } from 'iview';
 
     export default {
         props: {
@@ -38,6 +43,9 @@
             filterMethod (data, query) {
                 if (query === '') return true;
                 return data.label === query;
+            },
+            getMock () {
+
             }
         }
     }
