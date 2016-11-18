@@ -56,7 +56,7 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
     "gulp": "^3.9.1",
-    "gulp-concat": "^2.6.0",
+    "gulp-autoprefixer": "^3.1.1",
     "gulp-less": "^3.1.0",
     "gulp-minify-css": "^1.2.4",
     "gulp-rename": "^1.2.2",
