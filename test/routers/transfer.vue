@@ -4,7 +4,7 @@
     }
 </style>
 <template>
-    <div style="margin: 50px;">
+    <div class="ivu-article" style="margin: 50px;">
         <Transfer
             :data="data"
             filterable

@@ -1,5 +1,5 @@
 <template>
-    <div :class="prefixCls" :style="style">
+    <div :class="classes" :style="style">
         <div :class="prefixCls + '-header'">
             <Checkbox :checked.sync="checkedAll" :disabled="checkedAllDisabled" @on-change="toggleSelectAll"></Checkbox>
             <span>{{ title }}</span>
@@ -53,6 +53,14 @@
             }
         },
         computed: {
+            classes () {
+                return [
+                    `${this.prefixCls}`,
+                    {
+                        [`${this.prefixCls}-with-footer`]: this.showFooter
+                    }
+                ]
+            },
             bodyClasses () {
                 return [
                     `${this.prefixCls}-body`,

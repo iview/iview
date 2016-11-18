@@ -14,6 +14,10 @@
         position: relative;
         padding-top: 35px;
 
+        &-with-footer{
+            padding-bottom: 35px;
+        }
+
         &-header {
             padding: 8px 16px;
             background: @head-bg;
@@ -97,6 +101,10 @@
             border: 1px solid @border-color-base;
             border-top: none;
             border-radius: 0 0 @border-radius-base @border-radius-base;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
 
             .clearfix();
         }
