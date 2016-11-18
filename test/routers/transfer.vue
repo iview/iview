@@ -9,7 +9,6 @@
             :data="data"
             filterable
             :target-keys.sync="targetKeys"
-            :selected-keys="selectedKeys"
             :operations="['向左移动','向右移动']"
             @on-change="change"></Transfer>
     </div>
@@ -35,6 +34,10 @@
             change (newTargetKeys, direction, moveKeys) {
 //                console.log(newTargetKeys)
                 this.targetKeys = newTargetKeys;
+            },
+            filterMethod (data, query) {
+                if (query === '') return true;
+                return data.label === query;
             }
         }
     }

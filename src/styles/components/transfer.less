@@ -53,6 +53,15 @@
                 white-space: nowrap;
                 text-overflow: ellipsis;
             }
+
+            &-not-found{
+                display: none;
+                text-align: center;
+                color: @btn-disable-color;
+            }
+            li&-not-found:only-child{
+                display: block;
+            }
         }
         &-body-with-search &-content{
             padding: 0;

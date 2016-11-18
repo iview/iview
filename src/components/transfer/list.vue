@@ -11,13 +11,13 @@
                     :query.sync="query"
                     :placeholder="filterPlaceholder"></Search>
             </div>
-            <ul :class="prefixCls + '-content'" v-if="showItems.length">
+            <ul :class="prefixCls + '-content'">
                 <li
                     v-for="item in showItems | filterBy filterData"
                     :class="[prefixCls + '-content-item', {[prefixCls + '-content-item-disabled']: item.disabled}]"
                     @click.prevent="select(item)"><Checkbox :checked="isCheck(item)" :disabled="item.disabled">{{ showLabel(item) }}</Checkbox></li>
+                <li :class="prefixCls + '-content-not-found'">{{ notFoundText }}</li>
             </ul>
-            <div :class="prefixCls + '-body-not-found'" v-else>{{ notFoundText }}</div>
         </div>
         <div :class="prefixCls + '-footer'">
             <slot></slot>
@@ -30,7 +30,6 @@
 
     export default {
         components: { Search, Checkbox },
-//        filters: { filterData: this.filterData },
         props: {
             prefixCls: String,
             data: Array,
