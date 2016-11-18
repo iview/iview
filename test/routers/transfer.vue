@@ -12,9 +12,9 @@
             :operations="['向左移动','向右移动']"
             :filter-method="filterMethod"
             @on-change="change">
-            <!--<div :style="{float: 'right', margin: '5px'}">-->
-                <!--<i-button type="ghost" size="small" @click="getMock">刷新</i-button>-->
-            <!--</div>-->
+            <div :style="{float: 'right', margin: '5px'}">
+                <i-button type="ghost" size="small" @click="getMock">刷新</i-button>
+            </div>
         </Transfer>
     </div>
 </template>

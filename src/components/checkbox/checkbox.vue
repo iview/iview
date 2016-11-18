@@ -18,7 +18,7 @@
                 v-model="checked"
                 @change="change">
         </span>
-        <slot v-if="showSlot"><span v-el:slot style="display:none">{{ value }}</span></slot>
+        <slot v-if="showSlot"><span v-el:slot>{{ value }}</span></slot>
     </label>
 </template>
 <script>
@@ -78,8 +78,6 @@
                 this.updateModel();
                 if (this.$els.slot && this.$els.slot.innerHTML === '') {
                     this.showSlot = false;
-                } else {
-                    this.$els.slot.style.display = 'inline';
                 }
             }
         },

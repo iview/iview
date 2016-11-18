@@ -43,9 +43,13 @@
             border-top: none;
             border-radius: 0 0 @border-radius-base @border-radius-base;
             position: relative;
+            overflow: hidden;
 
             &-with-search{
                 padding-top: 34px;
+            }
+            &-with-footer{
+                border-radius: 0;
             }
         }
 
@@ -90,7 +94,6 @@
         }
 
         &-footer{
-            margin: 0 -1px;
             border: 1px solid @border-color-base;
             border-top: none;
             border-radius: 0 0 @border-radius-base @border-radius-base;

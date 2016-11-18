@@ -57,7 +57,8 @@
                 return [
                     `${this.prefixCls}-body`,
                     {
-                        [`${this.prefixCls}-body-with-search`]: this.filterable
+                        [`${this.prefixCls}-body-with-search`]: this.filterable,
+                        [`${this.prefixCls}-body-with-footer`]: this.showFooter
                     }
                 ]
             },
@@ -100,7 +101,7 @@
             this.updateFilteredData();
 
         },
-        ready () {
+        compiled () {
             this.showFooter = this.$els.footer.innerHTML !== '';
         },
         watch: {
