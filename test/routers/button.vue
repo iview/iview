@@ -1,6 +1,11 @@
 <template>
     <h4>基本</h4>
     <br><br>
+    <i-button type="success">按钮</i-button>
+    <i-button type="warning">按钮</i-button>
+    <i-button type="error">按钮</i-button>
+    <i-button type="info">按钮</i-button>
+    <br><br>
     <Button-group>
         <i-button>取消</i-button>
         <i-button type="primary">确定</i-button>

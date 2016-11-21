@@ -248,6 +248,18 @@
     }
 }
 
+// Color
+.btn-color(@color) {
+    .button-variant(@btn-primary-color; @color; @color);
+
+    &:hover,
+        //&:focus,
+    &:active,
+    &.active {
+        color: @btn-primary-color;
+    }
+}
+
 // Circle for Icon
 .btn-circle(@btnClassName: ivu-btn) {
     border-radius: @btn-circle-size;
