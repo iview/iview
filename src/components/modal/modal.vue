@@ -193,8 +193,8 @@
                     this.buttonLoading = false;
                     setTimeout(() => {
                         this.wrapShow = false;
+                        this.removeScrollEffect();
                     }, 300);
-                    this.removeScrollEffect();
                 } else {
                     this.wrapShow = true;
                     this.addScrollEffect();
