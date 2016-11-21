@@ -38,7 +38,11 @@
                     return oneOf(value, ['button', 'submit', 'reset']);
                 }
             },
-            icon: String
+            icon: String,
+            long: {
+                type: Boolean,
+                default: false
+            }
         },
         data () {
             return {
@@ -51,6 +55,7 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-${this.type}`]: !!this.type,
+                        [`${prefixCls}-long`]: this.long,
                         [`${prefixCls}-${this.shape}`]: !!this.shape,
                         [`${prefixCls}-${this.size}`]: !!this.size,
                         [`${prefixCls}-loading`]: this.loading != null && this.loading,
@@ -70,7 +75,7 @@
                 ]
             }
         },
-        ready () {
+        compiled () {
             this.showSlot = this.$els.slot.innerHTML.replace(/\n/g, '').replace(/<!--[\w\W\r\n]*?-->/gmi, '') !== '';
         }
     }
