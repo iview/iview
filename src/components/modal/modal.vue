@@ -186,6 +186,7 @@
         },
         beforeDestroy () {
             document.removeEventListener('keydown', this.EscClose);
+            this.removeScrollEffect();
         },
         watch: {
             visible (val) {
