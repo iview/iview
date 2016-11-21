@@ -19,14 +19,14 @@ Modal.newInstance = properties => {
         <Modal${props} :visible.sync="visible" :width="width">
             <div class="${prefixCls}">
                 <div class="${prefixCls}-head">
-                    <div :class="iconTypeCls"><i :class="iconNameCls"></i></div>
                     <div class="${prefixCls}-head-title">{{{ title }}}</div>
                 </div>
                 <div class="${prefixCls}-body">
+                    <div :class="iconTypeCls"><i :class="iconNameCls"></i></div>
                     {{{ body }}}
                 </div>
                 <div class="${prefixCls}-footer">
-                    <i-button type="ghost" size="large" v-if="showCancel" @click="cancel">{{ cancelText }}</i-button>
+                    <i-button type="text" size="large" v-if="showCancel" @click="cancel">{{ cancelText }}</i-button>
                     <i-button type="primary" size="large" :loading="buttonLoading" @click="ok">{{ okText }}</i-button>
                 </div>
             </div>
@@ -53,8 +53,8 @@ Modal.newInstance = properties => {
         computed: {
             iconTypeCls () {
                 return [
-                    `${prefixCls}-head-icon`,
-                    `${prefixCls}-head-icon-${this.iconType}`
+                    `${prefixCls}-body-icon`,
+                    `${prefixCls}-body-icon-${this.iconType}`
                 ]
             },
             iconNameCls () {

@@ -12,7 +12,7 @@
                 <div :class="[prefixCls + '-body']"><slot></slot></div>
                 <div :class="[prefixCls + '-footer']" v-if="!footerHide">
                     <slot name="footer">
-                        <i-button type="ghost" size="large" @click="cancel">{{ cancelText }}</i-button>
+                        <i-button type="text" size="large" @click="cancel">{{ cancelText }}</i-button>
                         <i-button type="primary" size="large" :loading="buttonLoading" @click="ok">{{ okText }}</i-button>
                     </slot>
                 </div>

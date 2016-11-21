@@ -7,7 +7,7 @@
     <i-button type="info">按钮</i-button>
     <i-button icon="ios-search" type="success"></i-button>
     <br><br>
-    <div style="width:400px;height:200px;">
+    <div style="width:400px">
         <i-button type="error" long size="small">按钮</i-button>
     </div>
     <br><br>

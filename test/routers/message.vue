@@ -1,41 +1,43 @@
 <template>
-    <i-button @click="instance('info')">消息</i-button>
-    <i-button @click="instance('success')">成功</i-button>
-    <i-button @click="instance('warning')">警告</i-button>
-    <i-button @click="instance('error')">错误</i-button>
+    <i-button @click="confirm">标准</i-button>
+    <i-button @click="custom">自定义按钮文字</i-button>
+    <i-button @click="async">异步关闭</i-button>
 </template>
 <script>
     export default {
         methods: {
-            instance (type) {
-                const title = '对话框的标题';
-                const content = '<p>一些对话框内容</p><p>一些对话框内容</p>';
-                switch (type) {
-                    case 'info':
-                        this.$Modal.info({
-                            title: title,
-                            content: content
-                        });
-                        break;
-                    case 'success':
-                        this.$Modal.success({
-                            title: title,
-                            content: content
-                        });
-                        break;
-                    case 'warning':
-                        this.$Modal.warning({
-                            title: title,
-                            content: content
-                        });
-                        break;
-                    case 'error':
-                        this.$Modal.error({
-                            title: title,
-                            content: content
-                        });
-                        break;
-                }
+            confirm () {
+                this.$Modal.confirm({
+                    title: '确认对话框标题',
+                    content: '<p>一些对话框内容</p><p>一些对话框内容</p>',
+                    onOk: () => {
+                        this.$Message.info('点击了确定');
+                    },
+                    onCancel: () => {
+                        this.$Message.info('点击了取消');
+                    }
+                });
+            },
+            custom () {
+                this.$Modal.confirm({
+                    title: '确认对话框标题',
+                    content: '<p>一些对话框内容</p><p>一些对话框内容</p>',
+                    okText: 'OK',
+                    cancelText: 'Cancel'
+                });
+            },
+            async () {
+                this.$Modal.confirm({
+                    title: '确认对话框标题',
+                    content: '<p>对话框将在 2秒 后关闭</p>',
+                    loading: true,
+                    onOk: () => {
+                        setTimeout(() => {
+                            this.$Modal.remove();
+                            this.$Message.info('异步关闭了对话框');
+                        }, 2000);
+                    }
+                });
             }
         }
     }
