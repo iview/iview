@@ -1,7 +1,7 @@
 <template>
     <thead>
         <tr>
-            <th v-for="column in columns">{{{ renderHeader(column, $index) }}}</th>
+            <th v-for="column in columns" :class="fixedCls(column)">{{{ renderHeader(column, $index) }}}</th>
         </tr>
     </thead>
 </template>
@@ -26,6 +26,9 @@
                 } else {
                     return column.title || '#';
                 }
+            },
+            fixedCls (column) {
+                return column.fixed ? `${this.prefixCls}-${column.fixed}` : '';
             }
         }
     }

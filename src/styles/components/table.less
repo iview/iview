@@ -1,0 +1,35 @@
+@table-prefix-cls: ~"@{css-prefix}table";
+
+.@{table-prefix-cls} {
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+    max-width: 100%;
+    background-color: #fff;
+    border-collapse: collapse;
+    border: 1px solid @border-color-base;
+    color: @text-color;
+    font-size: @font-size-small;
+
+    &-large {
+        font-size: @font-size-base;
+    }
+
+    & th {
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    & th,
+    td
+    {
+        min-width: 0;
+        height: 40px;
+        box-sizing: border-box;
+        text-align: left;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+        position: relative;
+        border-bottom: 1px solid @border-color-base;
+    }
+}

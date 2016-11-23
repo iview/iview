@@ -13,11 +13,15 @@
                 columns: [
                     {
                         title: '姓名',
-                        key: 'name'
+                        key: 'name',
+                        fixed: 'left',
+//                        width: 100
                     },
                     {
                         title: '年龄',
                         key: 'age',
+                        fixed: 'right',
+//                        width: 100
 //                        render (row) {
 //                            return `<i-button>${row.age}</i-button>`
 //                        }
@@ -25,6 +29,8 @@
                     {
                         title: '地址',
                         key: 'address',
+                        fixed: 'center',
+//                        width: 100
 //                        render (row, column, index) {
 //                            if (row.edit) {
 //                                return `<i-input :value.sync="data[${index}].name"></i-input>`;
@@ -36,6 +42,7 @@
                     {
                         title: '操作',
                         key: 'action',
+//                        width: 200,
                         render (row, column, index) {
                             return `<i-button @click="edit(${index})">编辑</i-button>`
                         }
@@ -76,6 +83,7 @@
         },
         ready () {
             setTimeout(() => {
+                return;
                 this.data.push({
                     name: '刘天娇2',
                     age: 272,

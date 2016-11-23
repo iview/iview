@@ -1,14 +1,21 @@
 <template>
     <div :class="classes">
-        <div :class="[prefixCls + '-body']">
-            <table>
+        <div :class="[prefixCls + '-header']">
+            <table cellspacing="0" cellpadding="0" border="0" :style="{width: tableWidth + 'px'}">
                 <colgroup>
-                    <col v-for="column in columns" :width="column.width">
+                    <col v-for="column in columns" :width="setCellWidth(column, $index)">
                 </colgroup>
                 <thead
                     is="table-head"
                     :prefix-cls="prefixCls + '-thead'"
                     :columns="columns"></thead>
+            </table>
+        </div>
+        <div :class="[prefixCls + '-body']">
+            <table cellspacing="0" cellpadding="0" border="0" :style="{width: tableWidth + 'px'}" v-el:tbody>
+                <colgroup>
+                    <col v-for="column in columns" :width="setCellWidth(column, $index)">
+                </colgroup>
                 <tbody :class="[prefixCls + '-tbody']" v-el:render>
                     <tr :class="[prefixCls + '-row']" v-for="(index, row) in data">
                         <td v-for="column in columns">{{{ renderRow(row, column) }}}</td>
@@ -20,7 +27,7 @@
 </template>
 <script>
     import TableHead from './table-head.vue';
-    import { oneOf } from '../../utils/assist';
+    import { oneOf, getStyle } from '../../utils/assist';
     const prefixCls = 'ivu-table';
 
     export default {
@@ -72,6 +79,8 @@
         },
         data () {
             return {
+                tableWidth: 0,
+                columnsWidth: [],
                 prefixCls: prefixCls,
                 compiledUids: []
             }
@@ -108,7 +117,7 @@
                         const column = this.columns[i];
                         if (column.render) {
                             for (let j = 0; j < this.data.length; j++) {
-                                // todo 做一个深度缓存，只在需要改render时再重新编译，否则data改变时不用再编译
+                                // todo 做一个缓存，只在需要改render时再重新编译，否则data改变时不用再编译
                                 const row = this.data[j];
                                 const template = column.render(row, column, j);
                                 const cell = document.createElement('div');
@@ -125,11 +134,28 @@
                             }
                         }
                     }
+                    this.handleResize();
                 });
+            },
+            handleResize () {
+                this.tableWidth = parseInt(getStyle(this.$el, 'width'));
+                this.$nextTick(() => {
+                    this.columnsWidth = [];
+                    this.$els.tbody.querySelectorAll('tbody tr')[0].querySelectorAll('td').forEach((cell) => {
+                        this.columnsWidth.push(parseInt(getStyle(cell, 'width')));
+                    });
+                });
+            },
+            setCellWidth (column, index) {
+                return column.width ? column.width : this.columnsWidth[index];
             }
         },
         ready () {
             this.compileRender();
+            window.addEventListener('resize', this.handleResize, false);
+        },
+        beforeDestroy () {
+            window.removeEventListener('resize', this.handleResize, false);
         },
         watch: {
             data: {
