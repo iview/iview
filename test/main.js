@@ -102,6 +102,11 @@ router.map({
         component: function (resolve) {
             require(['./routers/transfer.vue'], resolve);
         }
+    },
+    '/table': {
+        component: function (resolve) {
+            require(['./routers/table.vue'], resolve);
+        }
     }
 });
 

@@ -76,3 +76,15 @@ export function getStyle (element, styleName) {
         return element.style[styleName];
     }
 }
+
+// firstUpperCase
+function firstUpperCase(str) {
+    return str.toString()[0].toUpperCase() + str.toString().slice(1);
+}
+
+// Warn
+export function warnProp(component, prop, correctType, wrongType) {
+    correctType = firstUpperCase(correctType);
+    wrongType = firstUpperCase(wrongType);
+    console.error(`[iView warn]: Invalid prop: type check failed for prop ${prop}. Expected ${correctType}, got ${wrongType}. (found in component: ${component})`);
+}

@@ -24,6 +24,7 @@ import Slider from './components/slider';
 import Spin from './components/spin';
 import Steps from './components/steps';
 import Switch from './components/switch';
+import Table from './components/table';
 import Tag from './components/tag';
 import Timeline from './components/timeline';
 import Tooltip from './components/tooltip';
@@ -69,6 +70,7 @@ const iview = {
     Step: Steps.Step,
     Steps,
     Switch,
+    iTable: Table,
     Tag,
     Timeline,
     TimelineItem: Timeline.Item,

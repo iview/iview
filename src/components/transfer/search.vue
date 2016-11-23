@@ -12,6 +12,7 @@
     import iInput from '../input/input.vue';
 
     export default {
+        components: { iInput },
         props: {
             prefixCls: String,
             placeholder: String,
