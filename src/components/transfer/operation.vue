@@ -13,6 +13,7 @@
     import Icon from '../icon/icon.vue';
 
     export default {
+        components: { iButton, Icon },
         props: {
             prefixCls: String,
             operations: Array,
