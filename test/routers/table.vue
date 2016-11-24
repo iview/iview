@@ -1,8 +1,26 @@
+<style>
+    body{
+        height: auto;
+    }
+</style>
 <template>
     <div>
         <!--<i-table size="large" border stripe :columns="columns" :data="data"></i-table>-->
         <br>
-        <i-table border :columns="columns" :data="data" @on-current-change="current" @on-select="select" @on-selection-change="schange" @on-select-all="sall"></i-table>
+        <i-table
+                border
+                :height="height"
+                highlight-row
+                :columns="columns"
+                :data="data"
+                :row-class-name="rowClsName"
+                @on-current-change="current"
+                @on-select="select"
+                @on-selection-change="schange"
+                @on-select-all="sall">
+            <!--<div slot="header">表格标题</div>-->
+            <!--<div slot="footer">表格标题</div>-->
+        </i-table>
         <br>
         <!--<i-table size="small" border stripe :columns="columns" :data="data"></i-table>-->
     </div>
@@ -81,7 +99,8 @@
                         address: '北京市西城区',
                         edit: false
                     }
-                ]
+                ],
+                height: 200
             }
         },
         computed: {
@@ -108,11 +127,19 @@
             },
             sall (a) {
                 console.log(a)
+            },
+            rowClsName (row, index) {
+                if (index == 1) {
+                    return 'row-success';
+                } else {
+                    return '';
+                }
             }
         },
         ready () {
             setTimeout(() => {
-//                return
+//                this.height = 150;
+                return
                 this.data.push({
                     name: '刘天娇2',
                     age: 272,

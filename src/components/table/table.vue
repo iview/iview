@@ -1,6 +1,7 @@
 <template>
-    <div :class="classes">
-        <div :class="[prefixCls + '-header']" v-if="showHeader">
+    <div :class="classes" :style="styles">
+        <div :class="[prefixCls + '-title']" v-if="showSlotHeader" v-el:title><slot name="header"></slot></div>
+        <div :class="[prefixCls + '-header']" v-if="showHeader" v-el:header>
             <table cellspacing="0" cellpadding="0" border="0" :style="tableStyle">
                 <colgroup>
                     <col v-for="column in columns" :width="setCellWidth(column, $index)">
@@ -12,7 +13,7 @@
                     :columns="columns"></thead>
             </table>
         </div>
-        <div :class="[prefixCls + '-body']">
+        <div :class="[prefixCls + '-body']" :style="bodyStyle">
             <table cellspacing="0" cellpadding="0" border="0" :style="tableStyle" v-el:tbody>
                 <colgroup>
                     <col v-for="column in columns" :width="setCellWidth(column, $index)">
@@ -20,7 +21,7 @@
                 <tbody :class="[prefixCls + '-tbody']" v-el:render>
                     <tr
                         v-for="(index, row) in data"
-                        :class="[prefixCls + '-row', {[prefixCls + '-row-highlight']: cloneData[index] && cloneData[index]._isHighlight}]"
+                        :class="[prefixCls + '-row', rowClsName(index), {[prefixCls + '-row-highlight']: cloneData[index] && cloneData[index]._isHighlight}]"
                         @click.stop="highlightCurrentRow(index)">
                         <td v-for="column in columns" :class="alignCls(column)">
                             <div :class="[prefixCls + '-cell']">
@@ -34,6 +35,7 @@
                 </tbody>
             </table>
         </div>
+        <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" v-el:footer><slot name="footer"></slot></div>
     </div>
 </template>
 <script>
@@ -64,6 +66,9 @@
                     return oneOf(value, ['small', 'large']);
                 }
             },
+            height: {
+                type: [Number, String]
+            },
             stripe: {
                 type: Boolean,
                 default: false
@@ -79,6 +84,12 @@
             highlightRow: {
                 type: Boolean,
                 default: false
+            },
+            rowClassName: {
+                type: Function,
+                default () {
+                    return '';
+                }
             }
         },
         data () {
@@ -87,7 +98,10 @@
                 columnsWidth: [],
                 prefixCls: prefixCls,
                 compiledUids: [],
-                cloneData: deepCopy(this.data)
+                cloneData: deepCopy(this.data),
+                showSlotHeader: true,
+                showSlotFooter: true,
+                bodyHeight: 0
             }
         },
         computed: {
@@ -97,17 +111,33 @@
                     {
                         [`${prefixCls}-${this.size}`]: !!this.size,
                         [`${prefixCls}-border`]: this.border,
-                        [`${prefixCls}-stripe`]: this.stripe
+                        [`${prefixCls}-stripe`]: this.stripe,
+                        [`${prefixCls}-with-header`]: this.showSlotHeader,
+                        [`${prefixCls}-with-footer`]: this.showSlotFooter,
+                        [`${prefixCls}-with-fixed-top`]: !!this.height
                     }
                 ]
+            },
+            styles () {
+                let style = {};
+                if (!!this.height) style.height = `${this.height}px`;
+                return style;
             },
             tableStyle () {
                 let style = {};
                 if (this.tableWidth !== 0) style.width = `${this.tableWidth}px`;
                 return style;
+            },
+            bodyStyle () {
+                let style = {};
+                if (this.bodyHeight !== 0) style.height = `${this.bodyHeight}px`;
+                return style;
             }
         },
         methods: {
+            rowClsName (index) {
+                return this.rowClassName(this.data[index], index);
+            },
             renderRow (row, column, index) {
                 return column.type === 'index' ? index + 1 : column.render ? '' : row[column.key];
             },
@@ -203,10 +233,25 @@
             },
             selectAll () {
                 this.$emit('on-select-all', this.getSelection());
+            },
+            fixedHeader () {
+                if (!!this.height) {
+                    this.$nextTick(() => {
+                        const titleHeight = parseInt(getStyle(this.$els.title, 'height')) || 0;
+                        const headerHeight = parseInt(getStyle(this.$els.header, 'height')) || 0;
+                        const footerHeight = parseInt(getStyle(this.$els.footer, 'height')) || 0;
+                        this.bodyHeight = this.height - titleHeight - headerHeight - footerHeight;
+                    })
+                }
             }
+        },
+        compiled () {
+            this.showSlotHeader = this.$els.title.innerHTML.replace(/\n/g, '').replace(/<!--[\w\W\r\n]*?-->/gmi, '') !== '';
+            this.showSlotFooter = this.$els.footer.innerHTML.replace(/\n/g, '').replace(/<!--[\w\W\r\n]*?-->/gmi, '') !== '';
         },
         ready () {
             this.compileRender();
+            this.fixedHeader();
             window.addEventListener('resize', this.handleResize, false);
         },
         beforeDestroy () {
@@ -225,6 +270,9 @@
                     this.compileRender(true);
                 },
                 deep: true
+            },
+            height () {
+                this.fixedHeader();
             }
         }
     }
