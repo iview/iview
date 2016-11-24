@@ -1,6 +1,10 @@
 <template>
     <div>
-        <i-table :columns="columns" :data="data"></i-table>
+        <!--<i-table size="large" border stripe :columns="columns" :data="data"></i-table>-->
+        <br>
+        <i-table border :columns="columns" :data="data" @on-current-change="current" @on-select="select" @on-selection-change="schange" @on-select-all="sall"></i-table>
+        <br>
+        <!--<i-table size="small" border stripe :columns="columns" :data="data"></i-table>-->
     </div>
 </template>
 <script>
@@ -12,15 +16,19 @@
             return {
                 columns: [
                     {
+                        type: 'selection',
+                        width: 50
+                    },
+                    {
                         title: '姓名',
                         key: 'name',
-                        fixed: 'left',
+                        align: 'left',
 //                        width: 100
                     },
                     {
                         title: '年龄',
                         key: 'age',
-                        fixed: 'right',
+                        align: 'right',
 //                        width: 100
 //                        render (row) {
 //                            return `<i-button>${row.age}</i-button>`
@@ -29,7 +37,7 @@
                     {
                         title: '地址',
                         key: 'address',
-                        fixed: 'center',
+                        align: 'center',
 //                        width: 100
 //                        render (row, column, index) {
 //                            if (row.edit) {
@@ -65,7 +73,13 @@
                         name: '刘天娇',
                         age: 27,
                         address: '北京市东城区',
-                        edit: true
+                        edit: false
+                    },
+                    {
+                        name: '胡国伟',
+                        age: 28,
+                        address: '北京市西城区',
+                        edit: false
                     }
                 ]
             }
@@ -78,12 +92,27 @@
                 this.$Message.info(name);
             },
             edit (index) {
-                this.data[index].edit = true;
+//                this.data[index].edit = true;
+                this.$Message.info(this.data[index].name);
+            },
+            current (newData, oldData) {
+                console.log(newData);
+                console.log(oldData);
+            },
+            select (a,b){
+                console.log(a);
+                console.log(b);
+            },
+            schange (a) {
+                console.log(a)
+            },
+            sall (a) {
+                console.log(a)
             }
         },
         ready () {
             setTimeout(() => {
-                return;
+//                return
                 this.data.push({
                     name: '刘天娇2',
                     age: 272,

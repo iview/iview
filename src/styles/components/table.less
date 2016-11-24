@@ -1,35 +1,118 @@
 @table-prefix-cls: ~"@{css-prefix}table";
 
 .@{table-prefix-cls} {
-    position: relative;
-    overflow: hidden;
-    box-sizing: border-box;
+    width: 100%;
     max-width: 100%;
-    background-color: #fff;
-    border-collapse: collapse;
-    border: 1px solid @border-color-base;
+    overflow: hidden;
     color: @text-color;
     font-size: @font-size-small;
+    background-color: #fff;
+    border: 1px solid @border-color-base;
+    border-bottom: 0;
+    border-collapse: collapse;
+    box-sizing: border-box;
+    position: relative;
 
-    &-large {
-        font-size: @font-size-base;
-    }
-
-    & th {
-        white-space: nowrap;
-        overflow: hidden;
-    }
-
-    & th,
-    td
+    th, td
     {
         min-width: 0;
-        height: 40px;
+        height: 48px;
         box-sizing: border-box;
         text-align: left;
         text-overflow: ellipsis;
         vertical-align: middle;
         position: relative;
-        border-bottom: 1px solid @border-color-base;
+        border-bottom: 1px solid @border-color-split;
+    }
+
+    th {
+        height: 40px;
+        white-space: nowrap;
+        overflow: hidden;
+        background-color: @table-thead-bg;
+    }
+    td{
+        background-color: #fff;
+        transition: background-color @transition-time @ease-in-out;
+    }
+
+    th&-column,
+    td&-column
+    {
+        &-left{
+            text-align: left;
+        }
+        &-center{
+            text-align: center;
+        }
+        &-right{
+            text-align: right;
+        }
+    }
+
+    & table{
+        width: 100%;
+    }
+    &-border{
+        th,td{
+            border-right: 1px solid @border-color-split;
+        }
+    }
+    &-cell{
+        padding-left: 18px;
+        padding-right: 18px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+        word-break: break-all;
+        box-sizing: border-box;
+    }
+    th &-cell{
+        display: inline-block;
+        position: relative;
+        word-wrap: normal;
+        vertical-align: middle;
+    }
+
+    &-stripe &-body{
+        tr:nth-child(2n) {
+            td{
+                background-color: @table-td-stripe-bg;
+            }
+        }
+    }
+
+    tr:hover{
+        td{
+            background-color: @table-td-hover-bg;
+        }
+    }
+
+    &-large {
+        font-size: @font-size-base;
+        th{
+            height: 48px;
+        }
+        td{
+            height: 60px;
+        }
+    }
+
+    &-small{
+        th{
+            height: 32px;
+        }
+        td{
+            height: 40px;
+        }
+    }
+
+    &-row-highlight,
+    tr&-row-highlight:hover,
+    &-stripe &-body tr&-row-highlight:nth-child(2n)
+    {
+        td{
+            background-color: @table-td-highlight-bg;
+        }
     }
 }

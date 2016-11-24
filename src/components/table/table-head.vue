@@ -1,15 +1,27 @@
 <template>
     <thead>
         <tr>
-            <th v-for="column in columns" :class="fixedCls(column)">{{{ renderHeader(column, $index) }}}</th>
+            <th v-for="column in columns" :class="alignCls(column)">
+                <div :class="[prefixCls + '-cell']">
+                    <template v-if="column.type === 'selection'"><Checkbox :checked="isSelectAll" @on-change="selectAll"></Checkbox></template>
+                    <template v-else>{{{ renderHeader(column, $index) }}}</template>
+                </div>
+            </th>
         </tr>
     </thead>
 </template>
 <script>
+    import Checkbox from '../checkbox/checkbox.vue';
+    import Mixin from './mixin';
+    import { deepCopy } from '../../utils/assist';
+
     export default {
+        mixins: [ Mixin ],
+        components: { Checkbox },
         props: {
             prefixCls: String,
-            columns: Array
+            columns: Array,
+            cloneData: Array
         },
         data () {
             return {
@@ -17,7 +29,9 @@
             }
         },
         computed: {
-        
+            isSelectAll () {
+                return !this.cloneData.some(data => !data._isChecked);
+            }
         },
         methods: {
             renderHeader (column, $index) {
@@ -27,8 +41,18 @@
                     return column.title || '#';
                 }
             },
-            fixedCls (column) {
-                return column.fixed ? `${this.prefixCls}-${column.fixed}` : '';
+            selectAll () {
+                const status = !this.isSelectAll;
+
+                let tmpData = deepCopy(this.cloneData);
+                tmpData.forEach((data) => {
+                    data._isChecked = status;
+                });
+                this.cloneData = tmpData;
+
+                if (status) {
+                    this.$parent.selectAll();
+                }
             }
         }
     }
