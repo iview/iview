@@ -1,21 +1,38 @@
 <template>
-    <div :class="[prefixCls + '-cell']">
+    <div :class="classes">
         <template v-if="renderType === 'index'">{{index + 1}}</template>
+        <template v-if="renderType === 'selection'">
+            <Checkbox :checked="checked" @on-change="toggleSelect(index)"></Checkbox>
+        </template>
         <template v-if="renderType === 'normal'">{{{ row[column.key] }}}</template>
     </div>
 </template>
 <script>
+    import Checkbox from '../checkbox/checkbox.vue';
+
     export default {
+        components: { Checkbox },
         props: {
             prefixCls: String,
             row: Object,
             column: Object,
-            index: Number
+            index: Number,
+            checked: Boolean
         },
         data () {
             return {
                 renderType: '',
                 uid: -1
+            }
+        },
+        computed: {
+            classes () {
+                return [
+                    `${this.prefixCls}-cell`,
+                    {
+                        [`${this.prefixCls}-hidden`]: this.column.fixed && (this.column.fixed === 'left' || this.column.fixed === 'right')
+                    }
+                ]
             }
         },
         methods: {
@@ -41,11 +58,16 @@
                         this.$parent.$parent.$children[i].$destroy();
                     }
                 }
+            },
+            toggleSelect (index) {
+                this.$parent.toggleSelect(index);
             }
         },
         compiled () {
             if (this.column.type === 'index') {
                 this.renderType = 'index';
+            } else if (this.column.type === 'selection') {
+                this.renderType = 'selection';
             } else if (this.column.render) {
                 this.renderType = 'render';
             } else {

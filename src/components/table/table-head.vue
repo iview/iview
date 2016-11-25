@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th v-for="column in columns" :class="alignCls(column)">
-                <div :class="[prefixCls + '-cell']">
+                <div :class="[prefixCls + '-cell', {[prefixCls + '-hidden']: column.fixed && (column.fixed === 'left' || column.fixed === 'right')}]">
                     <template v-if="column.type === 'selection'"><Checkbox :checked="isSelectAll" @on-change="selectAll"></Checkbox></template>
                     <template v-else>{{{ renderHeader(column, $index) }}}</template>
                 </div>

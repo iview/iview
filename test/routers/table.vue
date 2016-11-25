@@ -8,9 +8,8 @@
         <!--<i-table size="large" border stripe :columns="columns" :data="data"></i-table>-->
         <br>
         <i-table
-                style="width:450px"
+                width="450"
                 border
-                highlight-row
                 :columns="columns"
                 :data="data"
                 :row-class-name="rowClsName"
@@ -38,6 +37,10 @@
                         width: 50
                     },
                     {
+                        type: 'index',
+                        width: 50
+                    },
+                    {
                         title: '姓名',
                         key: 'name',
                         align: 'left',
@@ -48,7 +51,7 @@
                         title: '年龄',
                         key: 'age',
                         align: 'right',
-                        fixed: 'left',
+//                        fixed: 'left',
                         width: 100
 //                        render (row) {
 //                            return `<i-button>${row.age}</i-button>`
@@ -151,7 +154,7 @@
 //                    address: '北京市东城区2',
 //                    edit: false
 //                });
-                this.data.splice(1, 1)
+//                this.data.splice(1, 1)
             }, 1000);
         }
     }

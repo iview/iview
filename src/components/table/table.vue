@@ -13,7 +13,7 @@
                     :columns="cloneColumns"></thead>
             </table>
         </div>
-        <div :class="[prefixCls + '-body']" :style="bodyStyle" @scroll="handleBodyScroll">
+        <div :class="[prefixCls + '-body']" :style="bodyStyle" v-el:body @scroll="handleBodyScroll">
             <table cellspacing="0" cellpadding="0" border="0" :style="tableStyle" v-el:tbody>
                 <colgroup>
                     <col v-for="column in cloneColumns" :width="setCellWidth(column, $index)">
@@ -26,26 +26,28 @@
                         @mouseleave.stop="handleMouseOut(index)"
                         @click.stop="highlightCurrentRow(index)">
                         <td v-for="column in cloneColumns" :class="alignCls(column)">
-                            <div :class="[prefixCls + '-cell']" v-if="column.type === 'selection'">
-                                <Checkbox :checked="cloneData[index] && cloneData[index]._isChecked" @on-change="toggleSelect(index)"></Checkbox>
-                            </div>
-                            <Cell v-else :prefix-cls="prefixCls" :row="row" :column="column" :index="index"></Cell>
-                            <!--<div :class="[prefixCls + '-cell']" v-else>-->
-                                <!--{{{ renderRow(row, column, index) }}}-->
-                            <!--</div>-->
-                            <!--<div :class="[prefixCls + '-cell']">-->
-                                <!--<template v-if="column.type === 'selection'">-->
-                                    <!--<Checkbox :checked="cloneData[index] && cloneData[index]._isChecked" @on-change="toggleSelect(index)"></Checkbox>-->
-                                <!--</template>-->
-                                <!--<template v-else>{{{ renderRow(row, column, index) }}}</template>-->
-                            <!--</div>-->
+                            <Cell
+                                :prefix-cls="prefixCls"
+                                :row="row"
+                                :column="column"
+                                :index="index"
+                                :checked="cloneData[index] && cloneData[index]._isChecked"></Cell>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div :class="[prefixCls + '-fixed']">
+            <table cellspacing="0" cellpadding="0" border="0">
+                <colgroup>
+                    <col v-for="column in leftFixedColumns" :width="setCellWidth(column, $index)">
+                </colgroup>
+                <tbody :class="[prefixCls + '-tbody']">
+                    <tr>
 
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <div :class="[prefixCls + '-fixed-right']">
 
@@ -81,6 +83,9 @@
                 validator (value) {
                     return oneOf(value, ['small', 'large']);
                 }
+            },
+            width: {
+                type: [Number, String]
             },
             height: {
                 type: [Number, String]
@@ -141,6 +146,7 @@
             styles () {
                 let style = {};
                 if (!!this.height) style.height = `${this.height}px`;
+                if (!!this.width) style.width = `${this.width}px`;
                 return style;
             },
             tableStyle () {
@@ -277,8 +283,15 @@
 
                 // todo 固定时上下滚动，固定的表头也滚动 scrollTop
             },
-            handleMouseWheel () {
-                console.log(111)
+            handleMouseWheel (event) {
+                const deltaX = event.deltaX;
+                const $body = this.$els.body;
+
+                if (deltaX > 0) {
+                    $body.scrollLeft = $body.scrollLeft + 10;
+                } else {
+                    $body.scrollLeft = $body.scrollLeft - 10;
+                }
             }
         },
         compiled () {
