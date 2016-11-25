@@ -1,7 +1,7 @@
 <template>
     <div :class="classes" :style="styles">
         <div :class="[prefixCls + '-title']" v-if="showSlotHeader" v-el:title><slot name="header"></slot></div>
-        <div :class="[prefixCls + '-header']" v-if="showHeader" v-el:header>
+        <div :class="[prefixCls + '-header']" v-if="showHeader" v-el:header @mousewheel="handleMouseWheel">
             <table cellspacing="0" cellpadding="0" border="0" :style="tableStyle">
                 <colgroup>
                     <col v-for="column in cloneColumns" :width="setCellWidth(column, $index)">
@@ -13,7 +13,7 @@
                     :columns="cloneColumns"></thead>
             </table>
         </div>
-        <div :class="[prefixCls + '-body']" :style="bodyStyle">
+        <div :class="[prefixCls + '-body']" :style="bodyStyle" @scroll="handleBodyScroll">
             <table cellspacing="0" cellpadding="0" border="0" :style="tableStyle" v-el:tbody>
                 <colgroup>
                     <col v-for="column in cloneColumns" :width="setCellWidth(column, $index)">
@@ -168,15 +168,17 @@
                     }
                     this.$nextTick(() => {
                         this.columnsWidth = [];
-                        let autoWidthIndex = -1
+                        let autoWidthIndex = -1;
                         if (allWidth) autoWidthIndex = this.cloneColumns.findIndex(cell => !cell.width);
-                        this.$els.tbody.querySelectorAll('tbody tr')[0].querySelectorAll('td').forEach((cell, index) => {
-                            if (index === autoWidthIndex) {
-                                this.columnsWidth.push(parseInt(getStyle(cell, 'width')) - 1);
+
+                        const $td = this.$els.tbody.querySelectorAll('tbody tr')[0].querySelectorAll('td');
+                        for (let i = 0; i < $td.length; i++) {    // can not use forEach in Firefox
+                            if (i === autoWidthIndex) {
+                                this.columnsWidth.push(parseInt(getStyle($td[i], 'width')) - 1);
                             } else {
-                                this.columnsWidth.push(parseInt(getStyle(cell, 'width')));
+                                this.columnsWidth.push(parseInt(getStyle($td[i], 'width')));
                             }
-                        });
+                        }
                     });
                 });
             },
@@ -269,6 +271,14 @@
                 this.rightFixedColumns = right;
                 this.centerColumns = center;
                 this.cloneColumns = left.concat(center).concat(right);
+            },
+            handleBodyScroll (event) {
+                this.$els.header.scrollLeft = event.target.scrollLeft;
+
+                // todo 固定时上下滚动，固定的表头也滚动 scrollTop
+            },
+            handleMouseWheel () {
+                console.log(111)
             }
         },
         compiled () {

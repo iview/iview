@@ -58,16 +58,14 @@
         border-bottom: none;
     }
 
+    &-header{
+        overflow: hidden;
+    }
     &-body{
-        //overflow-x: hidden;
-        //overflow-y: auto;
         overflow: auto;
         position: relative;
     }
 
-    &-with-fixed-top{
-        border-bottom: 1px solid @border-color-base;
-    }
     &-with-fixed-top&-with-footer{
         .@{table-prefix-cls}-footer{
             border-top: 1px solid @border-color-base;
