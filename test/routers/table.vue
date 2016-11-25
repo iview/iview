@@ -9,7 +9,6 @@
         <br>
         <i-table
                 border
-                :height="height"
                 highlight-row
                 :columns="columns"
                 :data="data"
@@ -41,13 +40,15 @@
                         title: '姓名',
                         key: 'name',
                         align: 'left',
-//                        width: 100
+                        fixed: 'left',
+                        width: 100
                     },
                     {
                         title: '年龄',
                         key: 'age',
                         align: 'right',
-//                        width: 100
+                        fixed: 'left',
+                        width: 100
 //                        render (row) {
 //                            return `<i-button>${row.age}</i-button>`
 //                        }
@@ -68,7 +69,8 @@
                     {
                         title: '操作',
                         key: 'action',
-//                        width: 200,
+                        fixed: 'right',
+                        width: 200,
                         render (row, column, index) {
                             return `<i-button @click="edit(${index})">编辑</i-button>`
                         }

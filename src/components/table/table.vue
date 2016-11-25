@@ -4,26 +4,28 @@
         <div :class="[prefixCls + '-header']" v-if="showHeader" v-el:header>
             <table cellspacing="0" cellpadding="0" border="0" :style="tableStyle">
                 <colgroup>
-                    <col v-for="column in columns" :width="setCellWidth(column, $index)">
+                    <col v-for="column in cloneColumns" :width="setCellWidth(column, $index)">
                 </colgroup>
                 <thead
                     is="table-head"
                     :prefix-cls="prefixCls"
                     :clone-data.sync="cloneData"
-                    :columns="columns"></thead>
+                    :columns="cloneColumns"></thead>
             </table>
         </div>
         <div :class="[prefixCls + '-body']" :style="bodyStyle">
             <table cellspacing="0" cellpadding="0" border="0" :style="tableStyle" v-el:tbody>
                 <colgroup>
-                    <col v-for="column in columns" :width="setCellWidth(column, $index)">
+                    <col v-for="column in cloneColumns" :width="setCellWidth(column, $index)">
                 </colgroup>
                 <tbody :class="[prefixCls + '-tbody']" v-el:render>
                     <tr
                         v-for="(index, row) in data"
-                        :class="[prefixCls + '-row', rowClsName(index), {[prefixCls + '-row-highlight']: cloneData[index] && cloneData[index]._isHighlight}]"
+                        :class="[prefixCls + '-row', rowClsName(index), {[prefixCls + '-row-highlight']: cloneData[index] && cloneData[index]._isHighlight, [prefixCls + '-row-hover']: cloneData[index] && cloneData[index]._isHover}]"
+                        @mouseenter.stop="handleMouseIn(index)"
+                        @mouseleave.stop="handleMouseOut(index)"
                         @click.stop="highlightCurrentRow(index)">
-                        <td v-for="column in columns" :class="alignCls(column)">
+                        <td v-for="column in cloneColumns" :class="alignCls(column)">
                             <div :class="[prefixCls + '-cell']">
                                 <template v-if="column.type === 'selection'">
                                     <Checkbox :checked="cloneData[index] && cloneData[index]._isChecked" @on-change="toggleSelect(index)"></Checkbox>
@@ -34,6 +36,12 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div :class="[prefixCls + '-fixed']">
+
+        </div>
+        <div :class="[prefixCls + '-fixed-right']">
+
         </div>
         <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" v-el:footer><slot name="footer"></slot></div>
     </div>
@@ -99,6 +107,7 @@
                 prefixCls: prefixCls,
                 compiledUids: [],
                 cloneData: deepCopy(this.data),
+                cloneColumns: deepCopy(this.columns),
                 showSlotHeader: true,
                 showSlotFooter: true,
                 bodyHeight: 0
@@ -155,8 +164,8 @@
                     }
 
                     const $el = this.$els.render;
-                    for (let i = 0; i < this.columns.length; i++) {
-                        const column = this.columns[i];
+                    for (let i = 0; i < this.cloneColumns.length; i++) {
+                        const column = this.cloneColumns[i];
                         if (column.render) {
                             for (let j = 0; j < this.data.length; j++) {
                                 // todo 做一个缓存，只在需要改render时再重新编译，data改变时不用再编译
@@ -191,6 +200,22 @@
             setCellWidth (column, index) {
                 return column.width ? column.width : this.columnsWidth[index];
             },
+            assignRow (index, obj) {
+                return Object.assign({}, this.cloneData[index], obj);
+            },
+            handleMouseIn (index) {
+                if (this.cloneData[index]._isHover) return;
+                const row = this.assignRow(index, {
+                    _isHover: true
+                });
+                this.cloneData.$set(index, row);
+            },
+            handleMouseOut (index) {
+                const row = this.assignRow(index, {
+                    _isHover: false
+                });
+                this.cloneData.$set(index, row);
+            },
             highlightCurrentRow (index) {
                 if (!this.highlightRow || this.cloneData[index]._isHighlight) return;
 
@@ -202,7 +227,7 @@
                         return true;
                     }
                 });
-                const row = Object.assign({}, this.cloneData[index], {
+                const row = this.assignRow(index, {
                     _isHighlight: true
                 });
                 this.cloneData.$set(index, row);
@@ -220,7 +245,7 @@
             },
             toggleSelect (index) {
                 const status = !this.cloneData[index]._isChecked;
-                const row = Object.assign({}, this.cloneData[index], {
+                const row = this.assignRow(index, {
                     _isChecked: status
                 });
                 this.cloneData.$set(index, row);
@@ -243,9 +268,25 @@
                         this.bodyHeight = this.height - titleHeight - headerHeight - footerHeight;
                     })
                 }
+            },
+            parseColumns () {
+                let left = [];
+                let right = [];
+                let center = [];
+                this.cloneColumns.forEach((col) => {
+                    if (col.fixed && col.fixed === 'left') {
+                        left.push(col);
+                    } else if (col.fixed && col.fixed === 'right') {
+                        right.push(col);
+                    } else {
+                        center.push(col);
+                    }
+                });
+                this.cloneColumns = left.concat(center).concat(right);
             }
         },
         compiled () {
+            this.parseColumns();
             this.showSlotHeader = this.$els.title.innerHTML.replace(/\n/g, '').replace(/<!--[\w\W\r\n]*?-->/gmi, '') !== '';
             this.showSlotFooter = this.$els.footer.innerHTML.replace(/\n/g, '').replace(/<!--[\w\W\r\n]*?-->/gmi, '') !== '';
         },
@@ -267,6 +308,7 @@
             },
             columns: {
                 handler () {
+                    this.parseColumns();
                     this.compileRender(true);
                 },
                 deep: true
