@@ -8,6 +8,7 @@
         <!--<i-table size="large" border stripe :columns="columns" :data="data"></i-table>-->
         <br>
         <i-table
+                style="width:450px"
                 border
                 highlight-row
                 :columns="columns"
@@ -57,7 +58,7 @@
                         title: '地址',
                         key: 'address',
                         align: 'center',
-//                        width: 100
+                        width: 100,
 //                        render (row, column, index) {
 //                            if (row.edit) {
 //                                return `<i-input :value.sync="data[${index}].name"></i-input>`;
@@ -72,7 +73,8 @@
                         fixed: 'right',
                         width: 200,
                         render (row, column, index) {
-                            return `<i-button @click="edit(${index})">编辑</i-button>`
+                            return `<i-button @click="edit(${index})">${row.name}</i-button>`
+//                            return `<a>${row.name}</a>`
                         }
                     }
                 ],
@@ -140,14 +142,16 @@
         },
         ready () {
             setTimeout(() => {
+                return;
 //                this.height = 150;
-                return
-                this.data.push({
-                    name: '刘天娇2',
-                    age: 272,
-                    address: '北京市东城区2',
-                    edit: false
-                });
+//                return
+//                this.data.push({
+//                    name: '刘天娇2',
+//                    age: 272,
+//                    address: '北京市东城区2',
+//                    edit: false
+//                });
+                this.data.splice(1, 1)
             }, 1000);
         }
     }

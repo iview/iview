@@ -26,12 +26,19 @@
                         @mouseleave.stop="handleMouseOut(index)"
                         @click.stop="highlightCurrentRow(index)">
                         <td v-for="column in cloneColumns" :class="alignCls(column)">
-                            <div :class="[prefixCls + '-cell']">
-                                <template v-if="column.type === 'selection'">
-                                    <Checkbox :checked="cloneData[index] && cloneData[index]._isChecked" @on-change="toggleSelect(index)"></Checkbox>
-                                </template>
-                                <template v-else>{{{ renderRow(row, column, index) }}}</template>
+                            <div :class="[prefixCls + '-cell']" v-if="column.type === 'selection'">
+                                <Checkbox :checked="cloneData[index] && cloneData[index]._isChecked" @on-change="toggleSelect(index)"></Checkbox>
                             </div>
+                            <Cell v-else :prefix-cls="prefixCls" :row="row" :column="column" :index="index"></Cell>
+                            <!--<div :class="[prefixCls + '-cell']" v-else>-->
+                                <!--{{{ renderRow(row, column, index) }}}-->
+                            <!--</div>-->
+                            <!--<div :class="[prefixCls + '-cell']">-->
+                                <!--<template v-if="column.type === 'selection'">-->
+                                    <!--<Checkbox :checked="cloneData[index] && cloneData[index]._isChecked" @on-change="toggleSelect(index)"></Checkbox>-->
+                                <!--</template>-->
+                                <!--<template v-else>{{{ renderRow(row, column, index) }}}</template>-->
+                            <!--</div>-->
                         </td>
                     </tr>
                 </tbody>
@@ -49,13 +56,14 @@
 <script>
     import TableHead from './table-head.vue';
     import Checkbox from '../checkbox/checkbox.vue';
+    import Cell from './cell.vue';
     import Mixin from './mixin';
     import { oneOf, getStyle, deepCopy } from '../../utils/assist';
     const prefixCls = 'ivu-table';
 
     export default {
         mixins: [ Mixin ],
-        components: { TableHead, Checkbox },
+        components: { TableHead, Checkbox, Cell },
         props: {
             data: {
                 type: Array,
@@ -108,6 +116,9 @@
                 compiledUids: [],
                 cloneData: deepCopy(this.data),
                 cloneColumns: deepCopy(this.columns),
+                leftFixedColumns: [],
+                rightFixedColumns: [],
+                centerColumns: [],
                 showSlotHeader: true,
                 showSlotFooter: true,
                 bodyHeight: 0
@@ -147,53 +158,25 @@
             rowClsName (index) {
                 return this.rowClassName(this.data[index], index);
             },
-            renderRow (row, column, index) {
-                return column.type === 'index' ? index + 1 : column.render ? '' : row[column.key];
-            },
-            compileRender (update = false) {
-                this.$nextTick(() => {
-                    if (update) {
-                        for (let i = 0; i < this.$parent.$children.length; i++) {
-                            const index = this.compiledUids.indexOf(this.$parent.$children[i]._uid);
-                            if (index > -1) {
-                                this.$parent.$children[i].$destroy();
-                                this.compiledUids.splice(index, 1);
-                                i--;
-                            }
-                        }
-                    }
-
-                    const $el = this.$els.render;
-                    for (let i = 0; i < this.cloneColumns.length; i++) {
-                        const column = this.cloneColumns[i];
-                        if (column.render) {
-                            for (let j = 0; j < this.data.length; j++) {
-                                // todo 做一个缓存，只在需要改render时再重新编译，data改变时不用再编译
-                                const row = this.data[j];
-                                const template = column.render(row, column, j);
-                                const cell = document.createElement('div');
-                                cell.innerHTML = template;
-                                const _oldParentChildLen = this.$parent.$children.length;
-                                this.$parent.$compile(cell);
-                                const _newParentChildLen = this.$parent.$children.length;
-
-                                if (_oldParentChildLen !== _newParentChildLen) {    // if render normal html node, do not tag
-                                    this.compiledUids.push(this.$parent.$children[this.$parent.$children.length - 1]._uid);    // tag it, and delete when data or columns update
-                                }
-                                $el.children[j].children[i].children[0].innerHTML = '';
-                                $el.children[j].children[i].children[0].appendChild(cell);
-                            }
-                        }
-                    }
-                    this.handleResize();
-                });
-            },
             handleResize () {
-                this.tableWidth = parseInt(getStyle(this.$el, 'width'));
                 this.$nextTick(() => {
-                    this.columnsWidth = [];
-                    this.$els.tbody.querySelectorAll('tbody tr')[0].querySelectorAll('td').forEach((cell) => {
-                        this.columnsWidth.push(parseInt(getStyle(cell, 'width')));
+                    const allWidth = !this.columns.some(cell => !cell.width);
+                    if (allWidth) {
+                        this.tableWidth = this.columns.map(cell => cell.width).reduce((a, b) => a + b);
+                    } else {
+                        this.tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
+                    }
+                    this.$nextTick(() => {
+                        this.columnsWidth = [];
+                        let autoWidthIndex = -1
+                        if (allWidth) autoWidthIndex = this.cloneColumns.findIndex(cell => !cell.width);
+                        this.$els.tbody.querySelectorAll('tbody tr')[0].querySelectorAll('td').forEach((cell, index) => {
+                            if (index === autoWidthIndex) {
+                                this.columnsWidth.push(parseInt(getStyle(cell, 'width')) - 1);
+                            } else {
+                                this.columnsWidth.push(parseInt(getStyle(cell, 'width')));
+                            }
+                        });
                     });
                 });
             },
@@ -282,6 +265,9 @@
                         center.push(col);
                     }
                 });
+                this.leftFixedColumns = left;
+                this.rightFixedColumns = right;
+                this.centerColumns = center;
                 this.cloneColumns = left.concat(center).concat(right);
             }
         },
@@ -291,7 +277,7 @@
             this.showSlotFooter = this.$els.footer.innerHTML.replace(/\n/g, '').replace(/<!--[\w\W\r\n]*?-->/gmi, '') !== '';
         },
         ready () {
-            this.compileRender();
+            this.handleResize();
             this.fixedHeader();
             window.addEventListener('resize', this.handleResize, false);
         },
@@ -302,14 +288,14 @@
             data: {
                 handler () {
                     this.cloneData = deepCopy(this.data);
-                    this.compileRender(true);
+                    this.handleResize();
                 },
                 deep: true
             },
             columns: {
                 handler () {
                     this.parseColumns();
-                    this.compileRender(true);
+                    this.handleResize();
                 },
                 deep: true
             },
