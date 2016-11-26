@@ -19,18 +19,18 @@
         text-align: center;
         list-style: none;
         background-color: #fff;
-        .user-select();
+        user-select: none;
         cursor: pointer;
         font-family: Arial;
         border: 1px solid @border-color-base;
         border-radius: @btn-border-radius;
-        .transition(all @transition-time @ease-in-out);
+        transition: all @transition-time @ease-in-out;
 
         a {
             margin: 0 6px;
             text-decoration: none;
             color: @text-color;
-            //.transition(none);
+            //transition: none;
         }
 
         &:hover {
@@ -114,7 +114,7 @@
         font-family: Arial;
         border: 1px solid @border-color-base;
         border-radius: @btn-border-radius;
-        .transition(all @transition-time @ease-in-out);
+        transition: all @transition-time @ease-in-out;
     }
 
     &-prev,
@@ -202,7 +202,7 @@
             outline: none;
             border: 1px solid @border-color-base;
             border-radius: @btn-border-radius;
-            .transition(border-color @transition-time @ease-in-out);
+            transition: border-color @transition-time @ease-in-out;
 
             &:hover {
                 border-color: @primary-color;

@@ -29,8 +29,8 @@
     &-arrow {
         .inner-arrow();
     }
-    &-visible &-arrow:nth-of-type(2){
-        .transform(rotate(180deg));
+    &-visible &-arrow:nth-of-type(2) {
+        transform: rotate(180deg);
     }
 
     .@{select-dropdown-prefix-cls} {
@@ -67,7 +67,7 @@
         & &-item{
             position: relative;
             padding-right: 24px;
-            .transition(all @transition-time @ease-in-out);
+            transition: all @transition-time @ease-in-out;
 
             i{
                 font-size: @font-size-small;
