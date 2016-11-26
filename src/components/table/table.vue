@@ -18,7 +18,13 @@
                 :clone-data="cloneData"></table-body>
         </div>
         <div :class="[prefixCls + '-fixed']">
-            <!--todo设置个div头部-->
+            <!--todo 设置个div头部-->
+            <table-head
+                fixed
+                :prefix-cls="prefixCls"
+                :style="fixedTableStyle"
+                :columns="leftFixedColumns"
+                :clone-data="cloneData"></table-head>
             <table-body
                 fixed
                 :prefix-cls="prefixCls"
@@ -28,6 +34,12 @@
                 :clone-data="cloneData"></table-body>
         </div>
         <div :class="[prefixCls + '-fixed-right']">
+            <table-head
+                fixed
+                :prefix-cls="prefixCls"
+                :style="fixedRightTableStyle"
+                :columns="rightFixedColumns"
+                :clone-data="cloneData"></table-head>
             <table-body
                 fixed
                 :prefix-cls="prefixCls"
@@ -238,8 +250,16 @@
                 }
                 this.$emit('on-selection-change', selection);
             },
-            selectAll () {
-                this.$emit('on-select-all', this.getSelection());
+            selectAll (status) {
+                let tmpData = deepCopy(this.cloneData);
+                tmpData.forEach((data) => {
+                    data._isChecked = status;
+                });
+                this.cloneData = tmpData;
+
+                if (status) {
+                    this.$emit('on-select-all', this.getSelection());
+                }
             },
             fixedHeader () {
                 if (!!this.height) {
