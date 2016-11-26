@@ -2,70 +2,51 @@
     <div :class="classes" :style="styles">
         <div :class="[prefixCls + '-title']" v-if="showSlotHeader" v-el:title><slot name="header"></slot></div>
         <div :class="[prefixCls + '-header']" v-if="showHeader" v-el:header @mousewheel="handleMouseWheel">
-            <table cellspacing="0" cellpadding="0" border="0" :style="tableStyle">
-                <colgroup>
-                    <col v-for="column in cloneColumns" :width="setCellWidth(column, $index)">
-                </colgroup>
-                <thead
-                    is="table-head"
-                    :prefix-cls="prefixCls"
-                    :clone-data.sync="cloneData"
-                    :columns="cloneColumns"></thead>
-            </table>
+            <table-head
+                :prefix-cls="prefixCls"
+                :style="tableStyle"
+                :columns="cloneColumns"
+                :clone-data="cloneData"></table-head>
         </div>
         <div :class="[prefixCls + '-body']" :style="bodyStyle" v-el:body @scroll="handleBodyScroll">
-            <table cellspacing="0" cellpadding="0" border="0" :style="tableStyle" v-el:tbody>
-                <colgroup>
-                    <col v-for="column in cloneColumns" :width="setCellWidth(column, $index)">
-                </colgroup>
-                <tbody :class="[prefixCls + '-tbody']" v-el:render>
-                    <tr
-                        v-for="(index, row) in data"
-                        :class="[prefixCls + '-row', rowClsName(index), {[prefixCls + '-row-highlight']: cloneData[index] && cloneData[index]._isHighlight, [prefixCls + '-row-hover']: cloneData[index] && cloneData[index]._isHover}]"
-                        @mouseenter.stop="handleMouseIn(index)"
-                        @mouseleave.stop="handleMouseOut(index)"
-                        @click.stop="highlightCurrentRow(index)">
-                        <td v-for="column in cloneColumns" :class="alignCls(column)">
-                            <Cell
-                                :prefix-cls="prefixCls"
-                                :row="row"
-                                :column="column"
-                                :index="index"
-                                :checked="cloneData[index] && cloneData[index]._isChecked"></Cell>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <table-body
+                v-ref:tbody
+                :prefix-cls="prefixCls"
+                :style="tableStyle"
+                :columns="cloneColumns"
+                :data="data"
+                :clone-data="cloneData"></table-body>
         </div>
         <div :class="[prefixCls + '-fixed']">
-            <table cellspacing="0" cellpadding="0" border="0">
-                <colgroup>
-                    <col v-for="column in leftFixedColumns" :width="setCellWidth(column, $index)">
-                </colgroup>
-                <tbody :class="[prefixCls + '-tbody']">
-                    <tr>
-
-                    </tr>
-                </tbody>
-            </table>
+            <!--todo设置个div头部-->
+            <table-body
+                fixed
+                :prefix-cls="prefixCls"
+                :style="fixedTableStyle"
+                :columns="leftFixedColumns"
+                :data="data"
+                :clone-data="cloneData"></table-body>
         </div>
         <div :class="[prefixCls + '-fixed-right']">
-
+            <table-body
+                fixed
+                :prefix-cls="prefixCls"
+                :style="fixedRightTableStyle"
+                :columns="rightFixedColumns"
+                :data="data"
+                :clone-data="cloneData"></table-body>
         </div>
         <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" v-el:footer><slot name="footer"></slot></div>
     </div>
 </template>
 <script>
-    import TableHead from './table-head.vue';
-    import Checkbox from '../checkbox/checkbox.vue';
-    import Cell from './cell.vue';
-    import Mixin from './mixin';
+    import tableHead from './table-head.vue';
+    import tableBody from './table-body.vue';
     import { oneOf, getStyle, deepCopy } from '../../utils/assist';
     const prefixCls = 'ivu-table';
 
     export default {
-        mixins: [ Mixin ],
-        components: { TableHead, Checkbox, Cell },
+        components: { tableHead, tableBody },
         props: {
             data: {
                 type: Array,
@@ -154,6 +135,16 @@
                 if (this.tableWidth !== 0) style.width = `${this.tableWidth}px`;
                 return style;
             },
+            fixedTableStyle () {
+                let style = {};
+                if (this.leftFixedColumns.length) style.width = this.leftFixedColumns.reduce((a, b) => a + b);
+                return style;
+            },
+            fixedRightTableStyle () {
+                let style = {};
+                if (this.rightFixedColumns.length) style.width = this.rightFixedColumns.reduce((a, b) => a + b);
+                return style;
+            },
             bodyStyle () {
                 let style = {};
                 if (this.bodyHeight !== 0) style.height = `${this.bodyHeight}px`;
@@ -177,7 +168,7 @@
                         let autoWidthIndex = -1;
                         if (allWidth) autoWidthIndex = this.cloneColumns.findIndex(cell => !cell.width);
 
-                        const $td = this.$els.tbody.querySelectorAll('tbody tr')[0].querySelectorAll('td');
+                        const $td = this.$refs.tbody.$el.querySelectorAll('tbody tr')[0].querySelectorAll('td');
                         for (let i = 0; i < $td.length; i++) {    // can not use forEach in Firefox
                             if (i === autoWidthIndex) {
                                 this.columnsWidth.push(parseInt(getStyle($td[i], 'width')) - 1);

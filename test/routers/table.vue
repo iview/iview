@@ -145,7 +145,7 @@
         },
         ready () {
             setTimeout(() => {
-                return;
+//                return;
 //                this.height = 150;
 //                return
 //                this.data.push({

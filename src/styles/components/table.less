@@ -189,4 +189,29 @@
             background-color: @table-td-highlight-bg;
         }
     }
+
+    &-fixed, &-fixed-right{
+        position: absolute;
+        top: 0;
+        left: 0;
+        box-shadow: 1px 0 8px #d3d4d6;
+        overflow-x: hidden;
+
+        &::before {
+            content: '';
+            width: 100%;
+            height: 1px;
+            background-color: @border-color-base;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            z-index: 4;
+        }
+    }
+    &-fixed-right{
+        top: 0;
+        left: auto;
+        right: 0;
+        box-shadow: -1px 0 8px #d3d4d6;
+    }
 }

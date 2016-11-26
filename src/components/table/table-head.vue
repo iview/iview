@@ -1,14 +1,19 @@
 <template>
-    <thead>
-        <tr>
-            <th v-for="column in columns" :class="alignCls(column)">
-                <div :class="[prefixCls + '-cell', {[prefixCls + '-hidden']: column.fixed && (column.fixed === 'left' || column.fixed === 'right')}]">
-                    <template v-if="column.type === 'selection'"><Checkbox :checked="isSelectAll" @on-change="selectAll"></Checkbox></template>
-                    <template v-else>{{{ renderHeader(column, $index) }}}</template>
-                </div>
-            </th>
-        </tr>
-    </thead>
+    <table cellspacing="0" cellpadding="0" border="0" :style="style">
+        <colgroup>
+            <col v-for="column in columns" :width="setCellWidth(column, $index)">
+        </colgroup>
+        <thead>
+            <tr>
+                <th v-for="column in columns" :class="alignCls(column)">
+                    <div :class="[prefixCls + '-cell', {[prefixCls + '-hidden']: !fixed && column.fixed && (column.fixed === 'left' || column.fixed === 'right')}]">
+                        <template v-if="column.type === 'selection'"><Checkbox :checked="isSelectAll" @on-change="selectAll"></Checkbox></template>
+                        <template v-else>{{{ renderHeader(column, $index) }}}</template>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+    </table>
 </template>
 <script>
     import Checkbox from '../checkbox/checkbox.vue';
@@ -20,13 +25,10 @@
         components: { Checkbox },
         props: {
             prefixCls: String,
+            style: Object,
             columns: Array,
-            cloneData: Array
-        },
-        data () {
-            return {
-            
-            }
+            cloneData: Array,
+            fixed: Boolean
         },
         computed: {
             isSelectAll () {
@@ -34,6 +36,9 @@
             }
         },
         methods: {
+            setCellWidth (column, index) {
+                return this.$parent.setCellWidth(column, index);
+            },
             renderHeader (column, $index) {
                 if ('renderHeader' in this.columns[$index]) {
                     return this.columns[$index].renderHeader(column, $index);
