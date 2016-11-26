@@ -6,7 +6,7 @@
         <tbody :class="[prefixCls + '-tbody']">
             <tr
                 v-for="(index, row) in data"
-                :class="[prefixCls + '-row', rowClsName(index), {[prefixCls + '-row-highlight']: cloneData[index] && cloneData[index]._isHighlight, [prefixCls + '-row-hover']: cloneData[index] && cloneData[index]._isHover}]"
+                :class="rowClasses(row, index)"
                 @mouseenter.stop="handleMouseIn(index)"
                 @mouseleave.stop="handleMouseOut(index)"
                 @click.stop="highlightCurrentRow(index)">
@@ -39,6 +39,17 @@
             fixed: Boolean
         },
         methods: {
+            rowClasses (row, index) {
+                return [
+                    `${this.prefixCls}-row`,
+                    this.rowClsName(index),
+                    {
+                        [`${this.prefixCls}-row-highlight`]: this.cloneData[index] && this.cloneData[index]._isHighlight,
+                        [`${this.prefixCls}-row-hover`]: this.cloneData[index] && this.cloneData[index]._isHover
+                    }
+
+                ]
+            },
             setCellWidth (column, index) {
                 return this.$parent.setCellWidth(column, index);
             },

@@ -15,7 +15,7 @@
             <ul :class="prefixCls + '-content'">
                 <li
                     v-for="item in showItems | filterBy filterData"
-                    :class="[prefixCls + '-content-item', {[prefixCls + '-content-item-disabled']: item.disabled}]"
+                    :class="itemClasses(item)"
                     @click.prevent="select(item)">
                     <Checkbox :checked="isCheck(item)" :disabled="item.disabled"></Checkbox>
                     <span>{{ showLabel(item) }}</span>
@@ -72,7 +72,7 @@
             },
             count () {
                 const validKeysCount = this.validKeysCount;
-                return (validKeysCount > 0 ? `${validKeysCount}/` : '') + `${this.data.length}条`;
+                return (validKeysCount > 0 ? `${validKeysCount}/` : '') + `${this.data.length}`;
             },
             checkedAll () {
                 return this.data.filter(data => !data.disabled).length === this.validKeysCount && this.validKeysCount !== 0;
@@ -82,6 +82,14 @@
             }
         },
         methods: {
+            itemClasses (item) {
+                return [
+                    `${this.prefixCls}-content-item`,
+                    {
+                        [`${this.prefixCls}-content-item-disabled`]: item.disabled
+                    }
+                ]
+            },
             showLabel (item) {
                 return this.renderFormat(item);
             },
