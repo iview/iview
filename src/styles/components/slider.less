@@ -18,11 +18,11 @@
         background-color: transparent;
         position: absolute;
         top: @slider-button-wrap-offset;
-        .transform(translateX(-50%));
+        transform: translateX(-50%);
 
         .@{tooltip-prefix-cls} {
             display: block;
-            .user-select();
+            user-select: none;
         }
     }
 
@@ -32,13 +32,13 @@
         border: 2px solid @slider-color;
         border-radius: 50%;
         background-color: #fff;
-        .transition(all @transition-time linear);
+        transition: all @transition-time linear;
 
         &:hover,
         &-dragging
         {
             border-color: @primary-color;
-            .transform(scale(1.5));
+            transform: scale(1.5);
         }
 
         &:hover{
@@ -63,7 +63,7 @@
         .square(@slider-height);
         border-radius: 50%;
         background-color: @slider-disabled-color;
-        .transform(translateX(-50%));
+        transform: translateX(-50%);
     }
 }
 

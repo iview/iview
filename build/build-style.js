@@ -1,5 +1,5 @@
 var gulp = require('gulp');
-var minifyCSS = require('gulp-minify-css');
+var cleanCSS = require('gulp-clean-css');
 var less = require('gulp-less');
 var rename = require('gulp-rename');
 var autoprefixer = require('gulp-autoprefixer');
@@ -9,9 +9,9 @@ gulp.task('css', function () {
      gulp.src('../src/styles/index.less')
          .pipe(less())
          .pipe(autoprefixer({
-            browsers: ['last 2 versions']
+            browsers: ['last 2 versions', 'ie > 8']
          }))
-         .pipe(minifyCSS())
+         .pipe(cleanCSS())
          .pipe(rename('iview.css'))
          .pipe(gulp.dest('../dist/styles'))
 });

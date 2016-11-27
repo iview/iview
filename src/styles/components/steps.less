@@ -61,7 +61,7 @@
             .@{steps-prefix-cls}-tail > i:after {
                 width: 100%;
                 background: @primary-color;
-                .transition(all @transition-time @ease-in-out);
+                transition: all @transition-time @ease-in-out;
                 opacity: 1;
             }
             .@{steps-prefix-cls}-title {
@@ -142,7 +142,7 @@
         border: 1px solid @steps-wait-icon-color;
         border-radius: 50%;
         font-size: 14px;
-        .transition(background-color @transition-time @ease-in-out);
+        transition: background-color @transition-time @ease-in-out;
 
         > .@{steps-prefix-cls}-icon {
             line-height: 1;

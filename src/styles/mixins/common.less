@@ -14,12 +14,6 @@
     }
 }
 
-.user-select(@type: none) {
-    -webkit-user-select: @type;
-    -moz-user-select: @type;
-    user-select: @type;
-}
-
 // for select and input like component's arrow
 .inner-arrow() {
     position: absolute;
@@ -29,5 +23,5 @@
     margin-top: -7px;
     font-size: @font-size-base;
     color: @subsidiary-color;
-    .transition(all @transition-time @ease-in-out);
+    transition: all @transition-time @ease-in-out;
 }

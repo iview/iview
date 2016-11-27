@@ -30,7 +30,7 @@
         top: 0;
         right: 0;
         opacity: 0;
-        .transition(opacity @transition-time @ease-in-out);
+        transition: opacity @transition-time @ease-in-out;
     }
 
     &:hover &-handler-wrap {
@@ -73,10 +73,10 @@
         line-height: 12px;
         font-size: 14px;
         color: #999;
-        .user-select();
+        user-select: none;
         position: absolute;
         right: 4px;
-        .transition(all @transition-time linear);
+        transition: all @transition-time linear;
     }
 
     &:hover {
@@ -107,7 +107,7 @@
         color: #666;
         border: 0;
         border-radius: @btn-border-radius;
-        .transition(all @transition-time linear);
+        transition: all @transition-time linear;
 
         &[disabled] {
             .disabled();
