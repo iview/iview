@@ -36,6 +36,7 @@
     "url": "https://github.com/iview/iview/issues"
   },
   "dependencies": {
+    "core-js": "^2.4.1",
     "popper.js": "^0.6.4"
   },
   "peerDependencies": {

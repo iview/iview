@@ -6,7 +6,7 @@
         <thead>
             <tr>
                 <th v-for="column in columns" :class="alignCls(column)">
-                    <div :class="[prefixCls + '-cell', {[prefixCls + '-hidden']: !fixed && column.fixed && (column.fixed === 'left' || column.fixed === 'right')}]">
+                    <div :class="cellClasses(column)">
                         <template v-if="column.type === 'selection'"><Checkbox :checked="isSelectAll" @on-change="selectAll"></Checkbox></template>
                         <template v-else>{{{ renderHeader(column, $index) }}}</template>
                     </div>
@@ -36,6 +36,14 @@
             }
         },
         methods: {
+            cellClasses (column) {
+                return [
+                    `${this.prefixCls}-cell`,
+                    {
+                        [`${this.prefixCls}-hidden`]: !this.fixed && column.fixed && (column.fixed === 'left' || column.fixed === 'right')
+                    }
+                ]
+            },
             setCellWidth (column, index) {
                 return this.$parent.setCellWidth(column, index);
             },
