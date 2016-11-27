@@ -57,16 +57,6 @@
             selectAll () {
                 const status = !this.isSelectAll;
                 this.$parent.selectAll(status);
-
-//                let tmpData = deepCopy(this.cloneData);
-//                tmpData.forEach((data) => {
-//                    data._isChecked = status;
-//                });
-//                this.cloneData = tmpData;
-//
-//                if (status) {
-//                    this.$parent.selectAll();
-//                }
             }
         }
     }

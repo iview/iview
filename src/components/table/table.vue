@@ -179,6 +179,7 @@
                         this.columnsWidth = [];
                         let autoWidthIndex = -1;
                         if (allWidth) autoWidthIndex = this.cloneColumns.findIndex(cell => !cell.width);
+                        console.log(1)
 
                         const $td = this.$refs.tbody.$el.querySelectorAll('tbody tr')[0].querySelectorAll('td');
                         for (let i = 0; i < $td.length; i++) {    // can not use forEach in Firefox
@@ -328,6 +329,7 @@
             },
             columns: {
                 handler () {
+                    this.cloneColumns = deepCopy(this.columns);
                     this.parseColumns();
                     this.handleResize();
                 },

@@ -74,7 +74,7 @@
                         title: '操作',
                         key: 'action',
                         fixed: 'right',
-                        width: 200,
+                        width: 120,
                         render (row, column, index) {
                             return `<i-button @click="edit(${index})">${row.name}</i-button>`
 //                            return `<a>${row.name}</a>`
@@ -145,6 +145,8 @@
         },
         ready () {
             setTimeout(() => {
+//                this.columns[3].width = 300;
+//                this.columns[2].width = 150;
 //                return;
 //                this.height = 150;
 //                return
@@ -155,7 +157,7 @@
 //                    edit: false
 //                });
 //                this.data.splice(1, 1)
-            }, 1000);
+            }, 2000);
         }
     }
 </script>

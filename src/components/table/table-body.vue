@@ -47,7 +47,6 @@
                         [`${this.prefixCls}-row-highlight`]: this.cloneData[index] && this.cloneData[index]._isHighlight,
                         [`${this.prefixCls}-row-hover`]: this.cloneData[index] && this.cloneData[index]._isHover
                     }
-
                 ]
             },
             setCellWidth (column, index) {
