@@ -8,7 +8,13 @@
                 <th v-for="column in columns" :class="alignCls(column)">
                     <div :class="cellClasses(column)">
                         <template v-if="column.type === 'selection'"><Checkbox :checked="isSelectAll" @on-change="selectAll"></Checkbox></template>
-                        <template v-else>{{{ renderHeader(column, $index) }}}</template>
+                        <template v-else>
+                            {{{ renderHeader(column, $index) }}}
+                            <span :class="[prefixCls + '-sort']" v-if="column.sortable">
+                                <i class="ivu-icon ivu-icon-arrow-up-b" @click="handleSortAsc($index)"></i>
+                                <i class="ivu-icon ivu-icon-arrow-down-b" @click="handleSortDesc($index)"></i>
+                            </span>
+                        </template>
                     </div>
                 </th>
             </tr>
@@ -57,6 +63,12 @@
             selectAll () {
                 const status = !this.isSelectAll;
                 this.$parent.selectAll(status);
+            },
+            handleSortAsc (index) {
+                this.$parent.handleSort(index, 'asc');
+            },
+            handleSortDesc (index) {
+                this.$parent.handleSort(index, 'desc');
             }
         }
     }

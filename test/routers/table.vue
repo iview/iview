@@ -9,8 +9,9 @@
         <br>
         <i-table
                 width="450"
-                height="200"
+                :height="height"
                 stripe
+                border
                 highlight-row
                 :show-header="true"
                 :columns="columns"
@@ -55,6 +56,7 @@
                         key: 'age',
                         align: 'right',
 //                        fixed: 'left',
+                        sortable: true,
                         width: 100
 //                        render (row) {
 //                            return `<i-button>${row.age}</i-button>`
@@ -80,7 +82,7 @@
                         fixed: 'right',
                         width: 120,
                         render (row, column, index) {
-                            return `<i-button @click="edit(${index})">${row.name}</i-button>`
+                            return `<i-button @click="edit(${index})">${row.name}${index}</i-button>`
 //                            return `<a>${row.name}</a>`
                         }
                     }
@@ -153,7 +155,6 @@
 //                this.columns[2].width = 150;
 //                return;
 //                this.height = 150;
-//                return
 //                this.data.push({
 //                    name: '刘天娇2',
 //                    age: 272,
@@ -161,6 +162,7 @@
 //                    edit: false
 //                });
 //                this.data.splice(1, 1)
+//                this.columns.splice(2,1)
             }, 2000);
         }
     }

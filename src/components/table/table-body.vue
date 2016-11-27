@@ -5,7 +5,7 @@
         </colgroup>
         <tbody :class="[prefixCls + '-tbody']">
             <tr
-                v-for="(index, row) in data"
+                v-for="(index, row) in cloneData"
                 :class="rowClasses(row, index)"
                 @mouseenter.stop="handleMouseIn(index)"
                 @mouseleave.stop="handleMouseOut(index)"
@@ -34,7 +34,6 @@
             prefixCls: String,
             style: Object,
             columns: Array,
-            data: Array,
             cloneData: Array,
             fixed: Boolean
         },
@@ -53,7 +52,7 @@
                 return this.$parent.setCellWidth(column, index);
             },
             rowClsName (index) {
-                return this.$parent.rowClassName(this.data[index], index);
+                return this.$parent.rowClassName(this.cloneData[index], index);
             },
             handleMouseIn (index) {
                 this.$parent.handleMouseIn(index);

@@ -14,7 +14,6 @@
                 :prefix-cls="prefixCls"
                 :style="tableStyle"
                 :columns="cloneColumns"
-                :data="data"
                 :clone-data="cloneData"></table-body>
         </div>
         <div :class="[prefixCls + '-fixed']">
@@ -32,7 +31,6 @@
                     :prefix-cls="prefixCls"
                     :style="fixedTableStyle"
                     :columns="leftFixedColumns"
-                    :data="data"
                     :clone-data="cloneData"></table-body>
             </div>
         </div>
@@ -51,7 +49,6 @@
                     :prefix-cls="prefixCls"
                     :style="fixedRightTableStyle"
                     :columns="rightFixedColumns"
-                    :data="data"
                     :clone-data="cloneData"></table-body>
             </div>
         </div>
@@ -269,9 +266,11 @@
                 });
                 this.cloneData = tmpData;
 
+                const selection = this.getSelection();
                 if (status) {
-                    this.$emit('on-select-all', this.getSelection());
+                    this.$emit('on-select-all', selection);
                 }
+                this.$emit('on-selection-change', selection);
             },
             fixedHeader () {
                 if (!!this.height) {
@@ -314,6 +313,13 @@
                     $body.scrollLeft = $body.scrollLeft + 10;
                 } else {
                     $body.scrollLeft = $body.scrollLeft - 10;
+                }
+            },
+            handleSort (index, type) {
+                if (type === 'asc') {
+
+                } else if (type === 'desc') {
+
                 }
             }
         },

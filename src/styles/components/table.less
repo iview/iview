@@ -197,7 +197,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        box-shadow: 1px 0 8px #d3d4d6;
+        box-shadow: @shadow-right;
         overflow-x: hidden;
 
         &::before {
@@ -215,7 +215,7 @@
         top: 0;
         left: auto;
         right: 0;
-        box-shadow: -1px 0 8px #d3d4d6;
+        box-shadow: @shadow-left;
     }
     &-fixed-header{
         overflow: hidden;
@@ -226,5 +226,9 @@
         overflow: hidden;
         position: relative;
         z-index: 3;
+    }
+
+    &-sort{
+        .sortable();
     }
 }
