@@ -18,35 +18,42 @@
                 :clone-data="cloneData"></table-body>
         </div>
         <div :class="[prefixCls + '-fixed']">
-            <!--todo 设置个div头部-->
-            <table-head
-                fixed
-                :prefix-cls="prefixCls"
-                :style="fixedTableStyle"
-                :columns="leftFixedColumns"
-                :clone-data="cloneData"></table-head>
-            <table-body
-                fixed
-                :prefix-cls="prefixCls"
-                :style="fixedTableStyle"
-                :columns="leftFixedColumns"
-                :data="data"
-                :clone-data="cloneData"></table-body>
+            <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
+                <table-head
+                    fixed
+                    :prefix-cls="prefixCls"
+                    :style="fixedTableStyle"
+                    :columns="leftFixedColumns"
+                    :clone-data="cloneData"></table-head>
+            </div>
+            <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" v-el:fixed-body>
+                <table-body
+                    fixed
+                    :prefix-cls="prefixCls"
+                    :style="fixedTableStyle"
+                    :columns="leftFixedColumns"
+                    :data="data"
+                    :clone-data="cloneData"></table-body>
+            </div>
         </div>
         <div :class="[prefixCls + '-fixed-right']">
-            <table-head
-                fixed
-                :prefix-cls="prefixCls"
-                :style="fixedRightTableStyle"
-                :columns="rightFixedColumns"
-                :clone-data="cloneData"></table-head>
-            <table-body
-                fixed
-                :prefix-cls="prefixCls"
-                :style="fixedRightTableStyle"
-                :columns="rightFixedColumns"
-                :data="data"
-                :clone-data="cloneData"></table-body>
+            <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
+                <table-head
+                    fixed
+                    :prefix-cls="prefixCls"
+                    :style="fixedRightTableStyle"
+                    :columns="rightFixedColumns"
+                    :clone-data="cloneData"></table-head>
+            </div>
+            <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" v-el:fixed-right-body>
+                <table-body
+                    fixed
+                    :prefix-cls="prefixCls"
+                    :style="fixedRightTableStyle"
+                    :columns="rightFixedColumns"
+                    :data="data"
+                    :clone-data="cloneData"></table-body>
+            </div>
         </div>
         <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" v-el:footer><slot name="footer"></slot></div>
     </div>
@@ -161,6 +168,11 @@
                 let style = {};
                 if (this.bodyHeight !== 0) style.height = `${this.bodyHeight}px`;
                 return style;
+            },
+            fixedBodyStyle () {
+                let style = {};
+                if (this.bodyHeight !== 0) style.height = `${this.bodyHeight - 1}px`;
+                return style;
             }
         },
         methods: {
@@ -179,7 +191,6 @@
                         this.columnsWidth = [];
                         let autoWidthIndex = -1;
                         if (allWidth) autoWidthIndex = this.cloneColumns.findIndex(cell => !cell.width);
-                        console.log(1)
 
                         const $td = this.$refs.tbody.$el.querySelectorAll('tbody tr')[0].querySelectorAll('td');
                         for (let i = 0; i < $td.length; i++) {    // can not use forEach in Firefox
@@ -291,9 +302,9 @@
                 this.cloneColumns = left.concat(center).concat(right);
             },
             handleBodyScroll (event) {
-                this.$els.header.scrollLeft = event.target.scrollLeft;
-
-                // todo 固定时上下滚动，固定的表头也滚动 scrollTop
+                if (this.showHeader) this.$els.header.scrollLeft = event.target.scrollLeft;
+                if (this.leftFixedColumns.length) this.$els.fixedBody.scrollTop = event.target.scrollTop;
+                if (this.rightFixedColumns.length) this.$els.fixedRightBody.scrollTop = event.target.scrollTop;
             },
             handleMouseWheel (event) {
                 const deltaX = event.deltaX;

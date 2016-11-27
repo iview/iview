@@ -9,7 +9,10 @@
         <br>
         <i-table
                 width="450"
-                border
+                height="200"
+                stripe
+                highlight-row
+                :show-header="true"
                 :columns="columns"
                 :data="data"
                 :row-class-name="rowClsName"
@@ -61,6 +64,7 @@
                         title: '地址',
                         key: 'address',
                         align: 'center',
+//                        fixed: 'right',
                         width: 100,
 //                        render (row, column, index) {
 //                            if (row.edit) {

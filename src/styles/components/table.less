@@ -33,7 +33,7 @@
         top: 0;
         right: 0;
         background-color: @border-color-base;
-        z-index: 1;
+        z-index: 3;
     }
 
     &-with-header{
@@ -140,7 +140,9 @@
         vertical-align: middle;
     }
 
-    &-stripe &-body{
+    &-stripe &-body,
+    &-stripe &-fixed-body
+    {
         tr:nth-child(2n) {
             td{
                 background-color: @table-td-stripe-bg;
@@ -183,7 +185,8 @@
 
     &-row-highlight,
     tr&-row-highlight&-row-hover,
-    &-stripe &-body tr&-row-highlight:nth-child(2n)
+    &-stripe &-body tr&-row-highlight:nth-child(2n),
+    &-stripe &-fixed-body tr&-row-highlight:nth-child(2n)
     {
         td{
             background-color: @table-td-highlight-bg;
@@ -213,5 +216,15 @@
         left: auto;
         right: 0;
         box-shadow: -1px 0 8px #d3d4d6;
+    }
+    &-fixed-header{
+        overflow: hidden;
+        position: relative;
+        z-index: 3;
+    }
+    &-fixed-body{
+        overflow: hidden;
+        position: relative;
+        z-index: 3;
     }
 }
