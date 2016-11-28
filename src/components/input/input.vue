@@ -10,6 +10,7 @@
                 :disabled="disabled"
                 :maxlength="maxlength"
                 :readonly="readonly"
+                :name="name"
                 v-model="value"
                 @keyup.enter="handleEnter"
                 @focus="handleFocus"
@@ -26,6 +27,7 @@
             :rows="rows"
             :maxlength="maxlength"
             :readonly="readonly"
+            :name="name"
             v-model="value"
             @keyup.enter="handleEnter"
             @focus="handleFocus"
@@ -80,6 +82,9 @@
             readonly: {
                 type: Boolean,
                 default: false
+            },
+            name: {
+                type: String
             }
         },
         data () {

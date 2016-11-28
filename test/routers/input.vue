@@ -1,7 +1,7 @@
 <template>
-    <i-input icon="ios-clock-outline" @on-focus="focus" @on-blur="blur" readonly style="width:200px;" :value.sync="v" @on-enter="enter" @on-click="iconclick" size="large" placeholder="请输入"></i-input>
+    <i-input name="a" icon="ios-clock-outline" @on-focus="focus" @on-blur="blur" readonly style="width:200px;" :value.sync="v" @on-enter="enter" @on-click="iconclick" size="large" placeholder="请输入"></i-input>
     <i-input icon="ios-clock-outline" style="width:200px;" :value.sync="v" @on-enter="enter" placeholder="请输入"></i-input>
-    <i-input icon="ios-clock-outline" style="width:200px;" :value.sync="v" @on-enter="enter" size="small" placeholder="请输入"></i-input>
+    <i-input name="b" icon="ios-clock-outline" style="width:200px;" :value.sync="v" @on-enter="enter" size="small" placeholder="请输入"></i-input>
     <br>
     <br>
     <i-input style="width:200px;" :value.sync="v" @on-enter="enter" size="large" placeholder="请输入"></i-input>
