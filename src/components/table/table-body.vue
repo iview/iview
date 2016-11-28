@@ -6,10 +6,10 @@
         <tbody :class="[prefixCls + '-tbody']">
             <tr
                 v-for="(index, row) in data"
-                :class="rowClasses(index, row._index)"
-                @mouseenter.stop="handleMouseIn(index)"
-                @mouseleave.stop="handleMouseOut(index)"
-                @click.stop="highlightCurrentRow(index)">
+                :class="rowClasses(row._index)"
+                @mouseenter.stop="handleMouseIn(row._index)"
+                @mouseleave.stop="handleMouseOut(row._index)"
+                @click.stop="highlightCurrentRow(row._index)">
                 <td v-for="column in columns" :class="alignCls(column)">
                     <Cell
                         :fixed="fixed"
@@ -18,7 +18,7 @@
                         :column="column"
                         :natural-index="index"
                         :index="row._index"
-                        :checked="rowChecked(index, row._index)"></Cell>
+                        :checked="rowChecked(row._index)"></Cell>
                 </td>
             </tr>
         </tbody>
@@ -36,40 +36,37 @@
             style: Object,
             columns: Array,
             data: Array,    // rebuildData
-            cloneData: Array,
             objData: Object,
             fixed: Boolean
         },
         methods: {
-            rowClasses (index, _index) {
+            rowClasses (_index) {
                 return [
                     `${this.prefixCls}-row`,
                     this.rowClsName(_index),
                     {
-                        [`${this.prefixCls}-row-highlight`]: this.cloneData[index] && this.cloneData[index]._isHighlight,
-                        [`${this.prefixCls}-row-hover`]: this.cloneData[index] && this.cloneData[index]._isHover
+                        [`${this.prefixCls}-row-highlight`]: this.objData[_index]._isHighlight,
+                        [`${this.prefixCls}-row-hover`]: this.objData[_index]._isHover
                     }
                 ]
             },
-            rowChecked (index, _index) {
-//                const data = this.cloneData.filter(row => row._index === _index);
-//                return data && data._isChecked;
+            rowChecked (_index) {
                 return this.objData[_index]._isChecked;
             },
             setCellWidth (column, index) {
                 return this.$parent.setCellWidth(column, index);
             },
-            rowClsName (index) {
-                return this.$parent.rowClassName(this.cloneData[index], index);
+            rowClsName (_index) {
+                return this.$parent.rowClassName(this.objData[_index], _index);
             },
-            handleMouseIn (index) {
-                this.$parent.handleMouseIn(index);
+            handleMouseIn (_index) {
+                this.$parent.handleMouseIn(_index);
             },
-            handleMouseOut (index) {
-                this.$parent.handleMouseOut(index);
+            handleMouseOut (_index) {
+                this.$parent.handleMouseOut(_index);
             },
-            highlightCurrentRow (index) {
-                this.$parent.highlightCurrentRow(index);
+            highlightCurrentRow (_index) {
+                this.$parent.highlightCurrentRow(_index);
             }
         }
     }

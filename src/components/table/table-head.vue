@@ -33,7 +33,7 @@
             prefixCls: String,
             style: Object,
             columns: Array,
-            cloneData: Array,
+            objData: Object,
             fixed: Boolean
         },
         data () {
@@ -43,7 +43,12 @@
         },
         computed: {
             isSelectAll () {
-                return !this.cloneData.some(data => !data._isChecked);
+                let isSelectAll = true;
+                for (let i in this.objData) {
+                    if (!this.objData[i]._isChecked) isSelectAll = false;
+                }
+
+                return isSelectAll;
             }
         },
         methods: {

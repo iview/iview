@@ -1,5 +1,5 @@
 <template>
-    {{cloneData|json}}
+    {{objData|json}}
     <div :class="classes" :style="styles">
         <div :class="[prefixCls + '-title']" v-if="showSlotHeader" v-el:title><slot name="header"></slot></div>
         <div :class="[prefixCls + '-header']" v-if="showHeader" v-el:header @mousewheel="handleMouseWheel">
@@ -7,7 +7,7 @@
                 :prefix-cls="prefixCls"
                 :style="tableStyle"
                 :columns="cloneColumns"
-                :clone-data="cloneData"></table-head>
+                :obj-data="objData"></table-head>
         </div>
         <div :class="[prefixCls + '-body']" :style="bodyStyle" v-el:body @scroll="handleBodyScroll">
             <table-body
@@ -16,8 +16,7 @@
                 :style="tableStyle"
                 :columns="cloneColumns"
                 :data="rebuildData"
-                :obj-data="objData"
-                :clone-data="cloneData"></table-body>
+                :obj-data="objData"></table-body>
         </div>
         <div :class="[prefixCls + '-fixed']">
             <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
@@ -26,7 +25,7 @@
                     :prefix-cls="prefixCls"
                     :style="fixedTableStyle"
                     :columns="leftFixedColumns"
-                    :clone-data="cloneData"></table-head>
+                    :obj-data="objData"></table-head>
             </div>
             <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" v-el:fixed-body>
                 <table-body
@@ -35,8 +34,7 @@
                     :style="fixedTableStyle"
                     :columns="leftFixedColumns"
                     :data="rebuildData"
-                    :obj-data="objData"
-                    :clone-data="cloneData"></table-body>
+                    :obj-data="objData"></table-body>
             </div>
         </div>
         <div :class="[prefixCls + '-fixed-right']">
@@ -46,7 +44,7 @@
                     :prefix-cls="prefixCls"
                     :style="fixedRightTableStyle"
                     :columns="rightFixedColumns"
-                    :clone-data="cloneData"></table-head>
+                    :obj-data="objData"></table-head>
             </div>
             <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" v-el:fixed-right-body>
                 <table-body
@@ -55,8 +53,7 @@
                     :style="fixedRightTableStyle"
                     :columns="rightFixedColumns"
                     :data="rebuildData"
-                    :obj-data="objData"
-                    :clone-data="cloneData"></table-body>
+                    :obj-data="objData"></table-body>
             </div>
         </div>
         <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" v-el:footer><slot name="footer"></slot></div>
@@ -123,7 +120,7 @@
                 columnsWidth: [],
                 prefixCls: prefixCls,
                 compiledUids: [],
-                cloneData: this.makeData(),
+                objData: this.makeObjData(),
                 rebuildData: this.makeData(),    // for sort or filter
                 cloneColumns: deepCopy(this.columns),
                 leftFixedColumns: [],
@@ -178,13 +175,6 @@
                 let style = {};
                 if (this.bodyHeight !== 0) style.height = `${this.bodyHeight - 1}px`;
                 return style;
-            },
-            objData () {
-                let objData = {};
-                this.cloneData.forEach((data) => {
-                    objData[data._index] = data;
-                });
-                return objData;
             }
         },
         methods: {
@@ -218,63 +208,47 @@
             setCellWidth (column, index) {
                 return column.width ? column.width : this.columnsWidth[index];
             },
-            assignRow (index, obj) {
-                return Object.assign({}, this.cloneData[index], obj);
+            handleMouseIn (_index) {
+                if (this.objData[_index]._isHover) return;
+                this.objData[_index]._isHover = true;
             },
-            handleMouseIn (index) {
-                if (this.cloneData[index]._isHover) return;
-                const row = this.assignRow(index, {
-                    _isHover: true
-                });
-                this.cloneData.$set(index, row);
+            handleMouseOut (_index) {
+                this.objData[_index]._isHover = false;
             },
-            handleMouseOut (index) {
-                const row = this.assignRow(index, {
-                    _isHover: false
-                });
-                this.cloneData.$set(index, row);
-            },
-            highlightCurrentRow (index) {
-                if (!this.highlightRow || this.cloneData[index]._isHighlight) return;
+            highlightCurrentRow (_index) {
+                if (!this.highlightRow || this.objData[_index]._isHighlight) return;
 
                 let oldIndex = -1;
-                this.cloneData.forEach((item, index) => {
-                    if (item._isHighlight) {
-                        oldIndex = index;
-                        item._isHighlight = false;
-                        return true;
+                for (let i in this.objData) {
+                    if (this.objData[i]._isHighlight) {
+                        oldIndex = parseInt(i);
+                        this.objData[i]._isHighlight = false;
                     }
-                });
-                const row = this.assignRow(index, {
-                    _isHighlight: true
-                });
-                this.cloneData.$set(index, row);
-
-                const oldData = oldIndex < 0 ? null : JSON.parse(JSON.stringify(this.data[this.rebuildData[oldIndex]._index]));
-                this.$emit('on-current-change', JSON.parse(JSON.stringify(this.data[this.rebuildData[index]._index])), oldData);
+                }
+                this.objData[_index]._isHighlight = true;
+                const oldData = oldIndex < 0 ? null : JSON.parse(JSON.stringify(this.data[oldIndex]));
+                this.$emit('on-current-change', JSON.parse(JSON.stringify(this.data[_index])), oldData);
             },
             getSelection () {
                 let selectionIndexes = [];
-                this.cloneData.forEach((data) => {
-                    if (data._isChecked) selectionIndexes.push(data._index);
-                });
+                for (let i in this.objData) {
+                    if (this.objData[i]._isChecked) selectionIndexes.push(parseInt(i));
+                }
                 return JSON.parse(JSON.stringify(this.data.filter((data, index) => selectionIndexes.indexOf(index) > -1)));
             },
-            toggleSelect (_index) {    // _index
+            toggleSelect (_index) {
                 let data = {};
                 let index = -1;
-                for (let i = 0; i < this.cloneData.length; i++) {
-                    if (this.cloneData[i]._index === _index) {
-                        data = this.cloneData[i];
+
+                for (let i in this.objData) {
+                    if (parseInt(i) === _index) {
+                        data = this.objData[i];
                         index = i;
-                        break;
                     }
                 }
                 const status = !data._isChecked;
-                const row = this.assignRow(index, {
-                    _isChecked: status
-                });
-                this.cloneData.$set(index, row);
+
+                this.objData[_index]._isChecked = status;
 
                 const selection = this.getSelection();
                 if (status) {
@@ -283,11 +257,9 @@
                 this.$emit('on-selection-change', selection);
             },
             selectAll (status) {
-                let tmpData = deepCopy(this.cloneData);
-                tmpData.forEach((data) => {
-                    data._isChecked = status;
-                });
-                this.cloneData = tmpData;
+                for (let i in this.objData) {
+                    this.objData[i]._isChecked = status;
+                }
 
                 const selection = this.getSelection();
                 if (status) {
@@ -353,6 +325,17 @@
                 let data = deepCopy(this.data);
                 data.forEach((row, index) => row._index = index);
                 return data;
+            },
+            makeObjData () {
+                let data = {};
+                this.data.forEach((row, index) => {
+                    const newRow = deepCopy(row);// todo 直接替换
+                    newRow._isHover = false;
+                    newRow._isChecked = false;
+                    newRow._isHighlight = false;
+                    data[index] = newRow;
+                });
+                return data;
             }
         },
         compiled () {
@@ -371,7 +354,7 @@
         watch: {
             data: {
                 handler () {
-                    this.cloneData = this.makeData();
+                    this.objData = this.makeObjData();
                     this.rebuildData = this.makeData();
                     this.handleResize();
                 },
