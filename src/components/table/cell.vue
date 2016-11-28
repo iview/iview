@@ -1,8 +1,8 @@
 <template>
     <div :class="classes">
-        <template v-if="renderType === 'index'">{{index + 1}}</template>
+        <template v-if="renderType === 'index'">{{naturalIndex + 1}}</template>
         <template v-if="renderType === 'selection'">
-            <Checkbox :checked="checked" @on-change="toggleSelect(index)"></Checkbox>
+            <Checkbox :checked="checked" @on-change="toggleSelect">{{checked}}</Checkbox>
         </template>
         <template v-if="renderType === 'normal'">{{{ row[column.key] }}}</template>
     </div>
@@ -16,7 +16,8 @@
             prefixCls: String,
             row: Object,
             column: Object,
-            index: Number,
+            naturalIndex: Number,    // index of rebuildData
+            index: Number,           // _index of data
             checked: Boolean,
             fixed: Boolean
         },
@@ -62,8 +63,8 @@
                     }
                 }
             },
-            toggleSelect (index) {
-                this.$parent.$parent.toggleSelect(index);
+            toggleSelect () {
+                this.$parent.$parent.toggleSelect(this.index);
             }
         },
         compiled () {
@@ -84,7 +85,7 @@
             this.destroy();
         },
         watch: {
-            index () {
+            naturalIndex () {
                 this.destroy();
                 this.compile();
             }

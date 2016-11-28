@@ -8,8 +8,7 @@
         <!--<i-table size="large" border stripe :columns="columns" :data="data"></i-table>-->
         <br>
         <i-table
-                width="450"
-                :height="height"
+                width="550"
                 stripe
                 border
                 highlight-row
@@ -38,7 +37,7 @@
                 columns: [
                     {
                         type: 'selection',
-                        width: 50
+                        width: 150
                     },
                     {
                         type: 'index',
@@ -96,7 +95,7 @@
                     },
                     {
                         name: '段模',
-                        age: 26,
+                        age: 21,
                         address: '北京市海淀区',
                         edit: false
                     },
@@ -108,7 +107,7 @@
                     },
                     {
                         name: '胡国伟',
-                        age: 28,
+                        age: 22,
                         address: '北京市西城区',
                         edit: false
                     }
@@ -128,15 +127,15 @@
                 this.$Message.info(this.data[index].name);
             },
             current (newData, oldData) {
-                console.log(newData);
-                console.log(oldData);
+//                console.log(newData);
+//                console.log(oldData);
             },
             select (a,b){
-                console.log(a);
-                console.log(b);
+                console.log(JSON.stringify(b));
+//                console.log(b);
             },
             schange (a) {
-                console.log(a)
+//                console.log(a)
             },
             sall (a) {
                 console.log(a)
@@ -161,7 +160,7 @@
 //                    address: '北京市东城区2',
 //                    edit: false
 //                });
-//                this.data.splice(1, 1)
+//                this.data.splice(0, 1)
 //                this.columns.splice(2,1)
             }, 2000);
         }

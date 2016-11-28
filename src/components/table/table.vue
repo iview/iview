@@ -1,4 +1,5 @@
 <template>
+    {{cloneData|json}}
     <div :class="classes" :style="styles">
         <div :class="[prefixCls + '-title']" v-if="showSlotHeader" v-el:title><slot name="header"></slot></div>
         <div :class="[prefixCls + '-header']" v-if="showHeader" v-el:header @mousewheel="handleMouseWheel">
@@ -14,6 +15,8 @@
                 :prefix-cls="prefixCls"
                 :style="tableStyle"
                 :columns="cloneColumns"
+                :data="rebuildData"
+                :obj-data="objData"
                 :clone-data="cloneData"></table-body>
         </div>
         <div :class="[prefixCls + '-fixed']">
@@ -31,6 +34,8 @@
                     :prefix-cls="prefixCls"
                     :style="fixedTableStyle"
                     :columns="leftFixedColumns"
+                    :data="rebuildData"
+                    :obj-data="objData"
                     :clone-data="cloneData"></table-body>
             </div>
         </div>
@@ -49,6 +54,8 @@
                     :prefix-cls="prefixCls"
                     :style="fixedRightTableStyle"
                     :columns="rightFixedColumns"
+                    :data="rebuildData"
+                    :obj-data="objData"
                     :clone-data="cloneData"></table-body>
             </div>
         </div>
@@ -116,7 +123,8 @@
                 columnsWidth: [],
                 prefixCls: prefixCls,
                 compiledUids: [],
-                cloneData: deepCopy(this.data),
+                cloneData: this.makeData(),
+                rebuildData: this.makeData(),    // for sort or filter
                 cloneColumns: deepCopy(this.columns),
                 leftFixedColumns: [],
                 rightFixedColumns: [],
@@ -170,6 +178,13 @@
                 let style = {};
                 if (this.bodyHeight !== 0) style.height = `${this.bodyHeight - 1}px`;
                 return style;
+            },
+            objData () {
+                let objData = {};
+                this.cloneData.forEach((data) => {
+                    objData[data._index] = data;
+                });
+                return objData;
             }
         },
         methods: {
@@ -235,19 +250,27 @@
                 });
                 this.cloneData.$set(index, row);
 
-                const oldData = oldIndex < 0 ? null : JSON.parse(JSON.stringify(this.data[oldIndex]));
-                this.$emit('on-current-change', JSON.parse(JSON.stringify(this.data[index])), oldData);
+                const oldData = oldIndex < 0 ? null : JSON.parse(JSON.stringify(this.data[this.rebuildData[oldIndex]._index]));
+                this.$emit('on-current-change', JSON.parse(JSON.stringify(this.data[this.rebuildData[index]._index])), oldData);
             },
             getSelection () {
                 let selectionIndexes = [];
-                this.cloneData.forEach((data, index) => {
-                    if (data._isChecked) selectionIndexes.push(index);
+                this.cloneData.forEach((data) => {
+                    if (data._isChecked) selectionIndexes.push(data._index);
                 });
-
                 return JSON.parse(JSON.stringify(this.data.filter((data, index) => selectionIndexes.indexOf(index) > -1)));
             },
-            toggleSelect (index) {
-                const status = !this.cloneData[index]._isChecked;
+            toggleSelect (_index) {    // _index
+                let data = {};
+                let index = -1;
+                for (let i = 0; i < this.cloneData.length; i++) {
+                    if (this.cloneData[i]._index === _index) {
+                        data = this.cloneData[i];
+                        index = i;
+                        break;
+                    }
+                }
+                const status = !data._isChecked;
                 const row = this.assignRow(index, {
                     _isChecked: status
                 });
@@ -255,7 +278,7 @@
 
                 const selection = this.getSelection();
                 if (status) {
-                    this.$emit('on-select', selection, JSON.parse(JSON.stringify(this.data[index])));
+                    this.$emit('on-select', selection, JSON.parse(JSON.stringify(this.data[_index])));
                 }
                 this.$emit('on-selection-change', selection);
             },
@@ -317,10 +340,19 @@
             },
             handleSort (index, type) {
                 if (type === 'asc') {
-
+                    this.rebuildData.sort((a, b) => {
+                        return a.age > b.age;
+                    })
                 } else if (type === 'desc') {
 
+                } else if (type === 'normal') {
+                    this.rebuildData = this.makeData();
                 }
+            },
+            makeData () {
+                let data = deepCopy(this.data);
+                data.forEach((row, index) => row._index = index);
+                return data;
             }
         },
         compiled () {
@@ -339,7 +371,8 @@
         watch: {
             data: {
                 handler () {
-                    this.cloneData = deepCopy(this.data);
+                    this.cloneData = this.makeData();
+                    this.rebuildData = this.makeData();
                     this.handleResize();
                 },
                 deep: true

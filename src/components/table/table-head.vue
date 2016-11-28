@@ -11,8 +11,8 @@
                         <template v-else>
                             {{{ renderHeader(column, $index) }}}
                             <span :class="[prefixCls + '-sort']" v-if="column.sortable">
-                                <i class="ivu-icon ivu-icon-arrow-up-b" @click="handleSortAsc($index)"></i>
-                                <i class="ivu-icon ivu-icon-arrow-down-b" @click="handleSortDesc($index)"></i>
+                                <i class="ivu-icon ivu-icon-arrow-up-b" :class="{on: sortType === 'asc'}" @click="handleSortAsc($index)"></i>
+                                <i class="ivu-icon ivu-icon-arrow-down-b" :class="{on: sortType === 'desc'}" @click="handleSortDesc($index)"></i>
                             </span>
                         </template>
                     </div>
@@ -35,6 +35,11 @@
             columns: Array,
             cloneData: Array,
             fixed: Boolean
+        },
+        data () {
+            return {
+                sortType: 'normal'
+            }
         },
         computed: {
             isSelectAll () {
@@ -65,10 +70,22 @@
                 this.$parent.selectAll(status);
             },
             handleSortAsc (index) {
-                this.$parent.handleSort(index, 'asc');
+                if (this.sortType === 'asc') {
+                    this.sortType = 'normal';
+                    this.$parent.handleSort(index, 'normal');
+                } else {
+                    this.sortType = 'asc';
+                    this.$parent.handleSort(index, 'asc');
+                }
             },
             handleSortDesc (index) {
-                this.$parent.handleSort(index, 'desc');
+                if (this.sortType === 'desc') {
+                    this.sortType = 'normal';
+                    this.$parent.handleSort(index, 'normal');
+                } else {
+                    this.sortType = 'desc';
+                    this.$parent.handleSort(index, 'desc');
+                }
             }
         }
     }
