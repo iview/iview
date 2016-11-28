@@ -1,5 +1,4 @@
 <template>
-    {{objData|json}}
     <div :class="classes" :style="styles">
         <div :class="[prefixCls + '-title']" v-if="showSlotHeader" v-el:title><slot name="header"></slot></div>
         <div :class="[prefixCls + '-header']" v-if="showHeader" v-el:header @mousewheel="handleMouseWheel">
@@ -120,12 +119,9 @@
                 columnsWidth: [],
                 prefixCls: prefixCls,
                 compiledUids: [],
-                objData: this.makeObjData(),
+                objData: this.makeObjData(),     // checkbox or highlight-row
                 rebuildData: this.makeData(),    // for sort or filter
-                cloneColumns: deepCopy(this.columns),
-                leftFixedColumns: [],
-                rightFixedColumns: [],
-                centerColumns: [],
+                cloneColumns: this.makeColumns(),
                 showSlotHeader: true,
                 showSlotFooter: true,
                 bodyHeight: 0
@@ -175,6 +171,24 @@
                 let style = {};
                 if (this.bodyHeight !== 0) style.height = `${this.bodyHeight - 1}px`;
                 return style;
+            },
+            leftFixedColumns () {
+                let left = [];
+                this.cloneColumns.forEach((col) => {
+                    if (col.fixed && col.fixed === 'left') {
+                        left.push(col);
+                    }
+                });
+                return left;
+            },
+            rightFixedColumns () {
+                let right = [];
+                this.cloneColumns.forEach((col) => {
+                    if (col.fixed && col.fixed === 'right') {
+                        right.push(col);
+                    }
+                });
+                return right;
             }
         },
         methods: {
@@ -277,24 +291,6 @@
                     })
                 }
             },
-            parseColumns () {
-                let left = [];
-                let right = [];
-                let center = [];
-                this.cloneColumns.forEach((col) => {
-                    if (col.fixed && col.fixed === 'left') {
-                        left.push(col);
-                    } else if (col.fixed && col.fixed === 'right') {
-                        right.push(col);
-                    } else {
-                        center.push(col);
-                    }
-                });
-                this.leftFixedColumns = left;
-                this.rightFixedColumns = right;
-                this.centerColumns = center;
-                this.cloneColumns = left.concat(center).concat(right);
-            },
             handleBodyScroll (event) {
                 if (this.showHeader) this.$els.header.scrollLeft = event.target.scrollLeft;
                 if (this.leftFixedColumns.length) this.$els.fixedBody.scrollTop = event.target.scrollTop;
@@ -311,15 +307,36 @@
                 }
             },
             handleSort (index, type) {
+                this.cloneColumns.forEach((col) => col._sortType = 'normal');
+
+                const key = this.cloneColumns[index].key;
                 if (type === 'asc') {
                     this.rebuildData.sort((a, b) => {
-                        return a.age > b.age;
-                    })
+                        if (this.cloneColumns[index].sortMethod) {
+                            return this.cloneColumns[index].sortMethod(a, b);
+                        } else {
+                            return a[key] > b[key];
+                        }
+                    });
                 } else if (type === 'desc') {
-
+                    this.rebuildData.sort((a, b) => {
+                        if (this.cloneColumns[index].sortMethod) {
+                            return this.cloneColumns[index].sortMethod(a, b);
+                        } else {
+                            return a[key] < b[key];
+                        }
+                    });
                 } else if (type === 'normal') {
                     this.rebuildData = this.makeData();
                 }
+
+                this.cloneColumns[index]._sortType = type;
+
+                this.$emit('on-sort-change', {
+                    column: JSON.parse(JSON.stringify(this.columns[this.cloneColumns[index]._index])),
+                    key: key,
+                    order: type
+                })
             },
             makeData () {
                 let data = deepCopy(this.data);
@@ -336,10 +353,29 @@
                     data[index] = newRow;
                 });
                 return data;
+            },
+            makeColumns () {
+                let columns = deepCopy(this.columns);
+                let left = [];
+                let right = [];
+                let center = [];
+
+                columns.forEach((column, index) => {
+                    column._sortType = 'normal';
+                    column._index = index;
+
+                    if (column.fixed && column.fixed === 'left') {
+                        left.push(column);
+                    } else if (column.fixed && column.fixed === 'right') {
+                        right.push(column);
+                    } else {
+                        center.push(column);
+                    }
+                });
+                return left.concat(center).concat(right);
             }
         },
         compiled () {
-            this.parseColumns();
             this.showSlotHeader = this.$els.title.innerHTML.replace(/\n/g, '').replace(/<!--[\w\W\r\n]*?-->/gmi, '') !== '';
             this.showSlotFooter = this.$els.footer.innerHTML.replace(/\n/g, '').replace(/<!--[\w\W\r\n]*?-->/gmi, '') !== '';
         },
@@ -362,8 +398,7 @@
             },
             columns: {
                 handler () {
-                    this.cloneColumns = deepCopy(this.columns);
-                    this.parseColumns();
+                    this.cloneColumns = this.makeColumns();
                     this.handleResize();
                 },
                 deep: true

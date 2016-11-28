@@ -11,8 +11,8 @@
                         <template v-else>
                             {{{ renderHeader(column, $index) }}}
                             <span :class="[prefixCls + '-sort']" v-if="column.sortable">
-                                <i class="ivu-icon ivu-icon-arrow-up-b" :class="{on: sortType === 'asc'}" @click="handleSortAsc($index)"></i>
-                                <i class="ivu-icon ivu-icon-arrow-down-b" :class="{on: sortType === 'desc'}" @click="handleSortDesc($index)"></i>
+                                <i class="ivu-icon ivu-icon-arrow-up-b" :class="{on: column._sortType === 'asc'}" @click="handleSort($index, 'asc')"></i>
+                                <i class="ivu-icon ivu-icon-arrow-down-b" :class="{on: column._sortType === 'desc'}" @click="handleSort($index, 'desc')"></i>
                             </span>
                         </template>
                     </div>
@@ -35,11 +35,6 @@
             columns: Array,
             objData: Object,
             fixed: Boolean
-        },
-        data () {
-            return {
-                sortType: 'normal'
-            }
         },
         computed: {
             isSelectAll () {
@@ -74,23 +69,11 @@
                 const status = !this.isSelectAll;
                 this.$parent.selectAll(status);
             },
-            handleSortAsc (index) {
-                if (this.sortType === 'asc') {
-                    this.sortType = 'normal';
-                    this.$parent.handleSort(index, 'normal');
-                } else {
-                    this.sortType = 'asc';
-                    this.$parent.handleSort(index, 'asc');
+            handleSort (index, type) {
+                if (this.columns[index]._sortType === type) {
+                    type = 'normal';
                 }
-            },
-            handleSortDesc (index) {
-                if (this.sortType === 'desc') {
-                    this.sortType = 'normal';
-                    this.$parent.handleSort(index, 'normal');
-                } else {
-                    this.sortType = 'desc';
-                    this.$parent.handleSort(index, 'desc');
-                }
+                this.$parent.handleSort(index, type);
             }
         }
     }

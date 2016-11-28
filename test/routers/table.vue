@@ -19,7 +19,8 @@
                 @on-current-change="current"
                 @on-select="select"
                 @on-selection-change="schange"
-                @on-select-all="sall">
+                @on-select-all="sall"
+                @on-sort-change="sortChange">
             <!--<div slot="header">表格标题</div>-->
             <!--<div slot="footer">表格标题</div>-->
         </i-table>
@@ -48,6 +49,7 @@
                         key: 'name',
                         align: 'left',
                         fixed: 'left',
+                        sortable: true,
                         width: 100
                     },
                     {
@@ -146,6 +148,9 @@
                 } else {
                     return '';
                 }
+            },
+            sortChange (data) {
+                console.log(data)
             }
         },
         ready () {
