@@ -310,24 +310,26 @@
                 this.cloneColumns.forEach((col) => col._sortType = 'normal');
 
                 const key = this.cloneColumns[index].key;
-                if (type === 'asc') {
-                    this.rebuildData.sort((a, b) => {
-                        if (this.cloneColumns[index].sortMethod) {
-                            return this.cloneColumns[index].sortMethod(a, b);
-                        } else {
-                            return a[key] > b[key];
-                        }
-                    });
-                } else if (type === 'desc') {
-                    this.rebuildData.sort((a, b) => {
-                        if (this.cloneColumns[index].sortMethod) {
-                            return this.cloneColumns[index].sortMethod(a, b);
-                        } else {
-                            return a[key] < b[key];
-                        }
-                    });
-                } else if (type === 'normal') {
-                    this.rebuildData = this.makeData();
+                if (this.cloneColumns[index].sortable !== 'custom') {    // custom is for remote sort
+                    if (type === 'asc') {
+                        this.rebuildData.sort((a, b) => {
+                            if (this.cloneColumns[index].sortMethod) {
+                                return this.cloneColumns[index].sortMethod(a, b);
+                            } else {
+                                return a[key] > b[key];
+                            }
+                        });
+                    } else if (type === 'desc') {
+                        this.rebuildData.sort((a, b) => {
+                            if (this.cloneColumns[index].sortMethod) {
+                                return this.cloneColumns[index].sortMethod(a, b);
+                            } else {
+                                return a[key] < b[key];
+                            }
+                        });
+                    } else if (type === 'normal') {
+                        this.rebuildData = this.makeData();
+                    }
                 }
 
                 this.cloneColumns[index]._sortType = type;

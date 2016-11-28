@@ -8,7 +8,8 @@
         <!--<i-table size="large" border stripe :columns="columns" :data="data"></i-table>-->
         <br>
         <i-table
-                width="550"
+                width="450"
+                :height="height"
                 stripe
                 border
                 highlight-row
@@ -38,7 +39,8 @@
                 columns: [
                     {
                         type: 'selection',
-                        width: 150
+                        width: 50,
+                        align: 'center'
                     },
                     {
                         type: 'index',
@@ -50,15 +52,54 @@
                         align: 'left',
                         fixed: 'left',
                         sortable: true,
-                        width: 100
+                        width: 100,
+                        filters: [
+                            {
+                                label: '家',
+                                value: 'home'
+                            },
+                            {
+                                label: '公司',
+                                value: 'company'
+                            }
+                        ],
+                    },
+                    {
+                        title: '标签',
+                        key: 'tag',
+                        width: 100,
+                        filters: [
+                            {
+                                label: '家',
+                                value: 'home'
+                            },
+                            {
+                                label: '公司',
+                                value: 'company'
+                            }
+                        ],
+                        render (row) {
+                            const type = `${row.tag}` === 'home' ? 'green' : 'red';
+                            return `<tag color="${type}">${row.tag}</tag>`;
+                        }
                     },
                     {
                         title: '年龄',
                         key: 'age',
                         align: 'right',
 //                        fixed: 'left',
-                        sortable: true,
-                        width: 100
+                        sortable: 'custom',
+                        width: 100,
+                        filters: [
+                            {
+                                label: '家',
+                                value: 'home'
+                            },
+                            {
+                                label: '公司',
+                                value: 'company'
+                            }
+                        ],
 //                        render (row) {
 //                            return `<i-button>${row.age}</i-button>`
 //                        }
@@ -93,25 +134,29 @@
                         name: '梁灏',
                         age: 25,
                         address: '北京市朝阳区',
-                        edit: false
+                        edit: false,
+                        tag: 'home'
                     },
                     {
                         name: '段模',
                         age: 21,
                         address: '北京市海淀区',
-                        edit: false
+                        edit: false,
+                        tag: 'company'
                     },
                     {
                         name: '刘天娇',
                         age: 27,
                         address: '北京市东城区',
-                        edit: false
+                        edit: false,
+                        tag: 'company'
                     },
                     {
                         name: '胡国伟',
                         age: 22,
                         address: '北京市西城区',
-                        edit: false
+                        edit: false,
+                        tag: 'home'
                     }
                 ],
                 height: 200

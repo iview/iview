@@ -14,6 +14,16 @@
                                 <i class="ivu-icon ivu-icon-arrow-up-b" :class="{on: column._sortType === 'asc'}" @click="handleSort($index, 'asc')"></i>
                                 <i class="ivu-icon ivu-icon-arrow-down-b" :class="{on: column._sortType === 'desc'}" @click="handleSort($index, 'desc')"></i>
                             </span>
+                            <Poptip v-if="column.filters" placement="bottom-end">
+                                <span :class="[prefixCls + '-filter']">
+                                    <i class="ivu-icon ivu-icon-chevron-down" @click="handleFilter($index)"></i>
+                                </span>
+                                <div slot="content">
+                                    <ul>
+                                        <li v-for="item in column.filters"><Checkbox>{{ item.label }}</Checkbox></li>
+                                    </ul>
+                                </div>
+                            </Poptip>
                         </template>
                     </div>
                 </th>
@@ -23,12 +33,13 @@
 </template>
 <script>
     import Checkbox from '../checkbox/checkbox.vue';
+    import Poptip from '../poptip/poptip.vue';
     import Mixin from './mixin';
     import { deepCopy } from '../../utils/assist';
 
     export default {
         mixins: [ Mixin ],
-        components: { Checkbox },
+        components: { Checkbox, Poptip },
         props: {
             prefixCls: String,
             style: Object,
@@ -74,6 +85,9 @@
                     type = 'normal';
                 }
                 this.$parent.handleSort(index, type);
+            },
+            handleFilter (index) {
+
             }
         }
     }
