@@ -19,6 +19,10 @@
                 validator (value) {
                     return oneOf(value, ['circle', 'circle-outline']);
                 }
+            },
+            vertical: {
+                type: Boolean,
+                default: false
             }
         },
         computed: {
@@ -27,7 +31,8 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-${this.size}`]: !!this.size,
-                        [`${prefixCls}-${this.shape}`]: !!this.shape
+                        [`${prefixCls}-${this.shape}`]: !!this.shape,
+                        [`${prefixCls}-vertical`]: this.vertical
                     }
                 ]
             }
