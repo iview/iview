@@ -132,7 +132,7 @@
         <!--<Poptip title="标题" content="内容" trigger="hover">-->
             <!--<Button>hover 触发</Button>-->
         <!--</Poptip>-->
-        <Poptip title="确定删除这条信息吗？" confirm content="内容" trigger="focus" @on-ok="ok" @on-cancel="cancel">
+        <Poptip title="确定删除这条信息吗？" confirm content="内容" trigger="focus" @on-ok="ok" @on-cancel="cancel" @on-popper-hide="hide">
             <a><strong>Delete</strong></a>
         </Poptip>
         <!--<Poptip title="标题" content="内容" trigger="focus">-->
@@ -174,6 +174,9 @@
             },
             cancel () {
                 Message.info('cancel');
+            },
+            hide () {
+                Message.info('hide')
             }
         }
     }

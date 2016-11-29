@@ -43,7 +43,12 @@ export default {
             }
         },
         visible(val) {
-            val ? this.updatePopper() : this.destroyPopper();
+            if (val) {
+                this.updatePopper();
+            } else {
+                this.destroyPopper();
+                this.$emit('on-popper-hide');
+            }
             this.$emit('input', val);
         }
     },
