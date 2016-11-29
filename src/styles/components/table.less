@@ -2,17 +2,21 @@
 @table-select-item-prefix-cls: ~"@{table-prefix-cls}-filter-select-item";
 
 .@{table-prefix-cls} {
+    &-wrapper{
+        position: relative;
+        border: 1px solid @border-color-base;
+        border-bottom: 0;
+        border-right: 0;
+    }
     width: 100%;
     max-width: 100%;
     overflow: hidden;
     color: @text-color;
     font-size: @font-size-small;
     background-color: #fff;
-    border: 1px solid @border-color-base;
-    border-bottom: 0;
-    border-right: 0;
+
     box-sizing: border-box;
-    position: relative;
+    //position: relative;
 
     &-hide{
         opacity: 0;
@@ -202,7 +206,6 @@
         top: 0;
         left: 0;
         box-shadow: @shadow-right;
-        //overflow-x: hidden;
 
         &::before {
             content: '';

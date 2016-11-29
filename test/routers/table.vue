@@ -9,7 +9,6 @@
         <br>
         <i-table
                 width="450"
-                :height="height"
                 stripe
                 border
                 highlight-row
@@ -40,6 +39,7 @@
                     {
                         type: 'selection',
                         width: 50,
+                        fixed: 'left',
                         align: 'center'
                     },
                     {
@@ -55,15 +55,22 @@
                         width: 100,
                         filters: [
                             {
-                                label: '家',
-                                value: 'home'
+                                label: '大于25岁',
+                                value: 1
                             },
                             {
-                                label: '公司',
-                                value: 'company'
+                                label: '小于25岁',
+                                value: 2
                             }
                         ],
-                        filterMultiple: false
+                        filterMultiple: false,
+                        filterMethod (value, row) {
+                            if (value === 1) {
+                                return row.age >= 25;
+                            } else if (value === 2) {
+                                return row.age < 25;
+                            }
+                        }
                     },
                     {
                         title: '标签',
@@ -128,8 +135,8 @@
                         fixed: 'right',
                         width: 120,
                         render (row, column, index) {
-                            return `<i-button @click="edit(${index})">${row.name}${index}</i-button>`
-//                            return `<a>${row.name}</a>`
+                            return `<i-button @click="edit(${index})">${row.name}${index}</i-button>`;
+                            return `<a>${row.name}</a>`;
                         }
                     }
                 ],
@@ -139,28 +146,32 @@
                         age: 25,
                         address: '北京市朝阳区',
                         edit: false,
-                        tag: 'home'
+                        tag: 'home',
+                        action: 1
                     },
                     {
                         name: '段模',
                         age: 21,
                         address: '北京市海淀区',
                         edit: false,
-                        tag: 'company'
+                        tag: 'company',
+                        action: 2
                     },
                     {
                         name: '刘天娇',
                         age: 27,
                         address: '北京市东城区',
                         edit: false,
-                        tag: 'company'
+                        tag: 'company',
+                        action: 3
                     },
                     {
                         name: '胡国伟',
                         age: 22,
                         address: '北京市西城区',
                         edit: false,
-                        tag: 'home'
+                        tag: 'home',
+                        action: 4
                     }
                 ],
                 height: 200

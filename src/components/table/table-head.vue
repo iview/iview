@@ -5,7 +5,7 @@
         </colgroup>
         <thead>
             <tr>
-                <th v-for="column in columns" :class="alignCls(column)">
+                <th v-for="(index, column) in columns" :class="alignCls(column)">
                     <div :class="cellClasses(column)">
                         <template v-if="column.type === 'selection'"><Checkbox :checked="isSelectAll" @on-change="selectAll"></Checkbox></template>
                         <template v-else>
@@ -35,8 +35,13 @@
                                 </div>
                                 <div slot="content" :class="[prefixCls + '-filter-list']" v-else>
                                     <ul>
-                                        <li :class="[prefixCls + '-filter-select-item', {[prefixCls + '-filter-select-item-selected']: !column._filterChecked.lengtg}]">全部</li>
-                                        <li :class="[prefixCls + '-filter-select-item', {[prefixCls + '-filter-select-item-selected']: column._filterChecked[0] === item.value}]" v-for="item in column.filters">{{ item.label }}</li>
+                                        <li
+                                            :class="[prefixCls + '-filter-select-item', {[prefixCls + '-filter-select-item-selected']: !column._filterChecked.length}]"
+                                            @click="handleReset($index)">全部</li>
+                                        <li
+                                            :class="[prefixCls + '-filter-select-item', {[prefixCls + '-filter-select-item-selected']: column._filterChecked[0] === item.value}]"
+                                            v-for="item in column.filters"
+                                            @click="handleSelect(index, item.value)">{{ item.label }}</li>
                                     </ul>
                                 </div>
                             </Poptip>
@@ -106,6 +111,9 @@
             },
             handleFilter (index) {
                 this.$parent.handleFilter(index);
+            },
+            handleSelect (index, value) {
+                this.$parent.handleFilterSelect(index, value);
             },
             handleReset (index) {
                 this.$parent.handleFilterReset(index);
