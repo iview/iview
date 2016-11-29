@@ -321,39 +321,35 @@
                     $body.scrollLeft = $body.scrollLeft - 10;
                 }
             },
+            sortData (data, type, index) {
+                const key = this.cloneColumns[index].key;
+                data.sort((a, b) => {
+                    if (this.cloneColumns[index].sortMethod) {
+                        return this.cloneColumns[index].sortMethod(a, b);
+                    } else {
+                        return type === 'asc' ? a[key] > b[key] : a[key] < b[key];
+                    }
+                });
+                return data;
+            },
             handleSort (index, type) {
                 this.cloneColumns.forEach((col) => col._sortType = 'normal');
 
                 const key = this.cloneColumns[index].key;
                 if (this.cloneColumns[index].sortable !== 'custom') {    // custom is for remote sort
-                    if (type === 'asc') {
-                        this.rebuildData.sort((a, b) => {
-                            if (this.cloneColumns[index].sortMethod) {
-                                return this.cloneColumns[index].sortMethod(a, b);
-                            } else {
-                                return a[key] > b[key];
-                            }
-                        });
-                    } else if (type === 'desc') {
-                        this.rebuildData.sort((a, b) => {
-                            if (this.cloneColumns[index].sortMethod) {
-                                return this.cloneColumns[index].sortMethod(a, b);
-                            } else {
-                                return a[key] < b[key];
-                            }
-                        });
-                    } else if (type === 'normal') {
+                    if (type === 'normal') {
                         this.rebuildData = this.makeData();
+                    } else {
+                        this.rebuildData = this.sortData(this.rebuildData, type, index);
                     }
                 }
-
                 this.cloneColumns[index]._sortType = type;
 
                 this.$emit('on-sort-change', {
                     column: JSON.parse(JSON.stringify(this.columns[this.cloneColumns[index]._index])),
                     key: key,
                     order: type
-                })
+                });
             },
             handleFilterHide (index) {    // clear checked that not filter now
                 if (!this.cloneColumns[index]._isFiltered) this.cloneColumns[index]._filterChecked = [];
@@ -378,7 +374,7 @@
             },
             handleFilter (index) {
                 const column = this.cloneColumns[index];
-                let filterData = this.makeData();
+                let filterData = this.makeDataWithSort();
 
                 // filter others first, after filter this column
                 filterData = this.filterOtherData(filterData, index);
@@ -396,13 +392,27 @@
                 this.cloneColumns[index]._filterVisible = false;
                 this.cloneColumns[index]._filterChecked = [];
 
-                let filterData = this.makeData();
+                let filterData = this.makeDataWithSort();
                 filterData = this.filterOtherData(filterData, index);
                 this.rebuildData = filterData;
             },
             makeData () {
                 let data = deepCopy(this.data);
                 data.forEach((row, index) => row._index = index);
+                return data;
+            },
+            makeDataWithSort () {
+                let data = this.makeData();
+                let sortType = 'normal';
+                let sortIndex = -1;
+                for (let i = 0; i < this.cloneColumns.length; i++) {
+                    if (this.cloneColumns[i]._sortType !== 'normal') {
+                        sortType = this.cloneColumns[i]._sortType;
+                        sortIndex = i;
+                        break;
+                    }
+                }
+                if (sortType !== 'normal') data =  this.sortData(data, sortType, sortIndex);
                 return data;
             },
             makeObjData () {

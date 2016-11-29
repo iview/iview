@@ -99,7 +99,7 @@
                         key: 'age',
                         align: 'right',
 //                        fixed: 'left',
-                        sortable: 'custom',
+                        sortable: true,
                         width: 100,
                         filters: [
                             {
@@ -235,7 +235,7 @@
 //                });
 //                this.data.splice(0, 1)
 //                this.columns.splice(2,1)
-            }, 2000);
+            }, 3000);
         }
     }
 </script>
