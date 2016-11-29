@@ -358,18 +358,32 @@
             handleFilterHide (index) {    // clear checked that not filter now
                 if (!this.cloneColumns[index]._isFiltered) this.cloneColumns[index]._filterChecked = [];
             },
-            handleFilter (index) {
-                const column = this.cloneColumns[index];
-                const filterData = this.makeData();
-
-                this.rebuildData = filterData.filter((row) => {
-                    let status = false;
+            filterData (data, column) {
+                return data.filter((row) => {
+                    let status = !column._filterChecked.length;
                     for (let i = 0; i < column._filterChecked.length; i++) {
                         status = column.filterMethod(column._filterChecked[i], row);
                         if (status) break;
                     }
                     return status;
                 });
+            },
+            filterOtherData (data, index) {
+                this.cloneColumns.forEach((col, colIndex) => {
+                    if (colIndex !== index) {
+                        data = this.filterData(data, col);
+                    }
+                });
+                return data;
+            },
+            handleFilter (index) {
+                const column = this.cloneColumns[index];
+                let filterData = this.makeData();
+
+                // filter others first, after filter this column
+                filterData = this.filterOtherData(filterData, index);
+                this.rebuildData = this.filterData(filterData, column);
+
                 this.cloneColumns[index]._isFiltered = true;
                 this.cloneColumns[index]._filterVisible = false;
             },
@@ -381,7 +395,10 @@
                 this.cloneColumns[index]._isFiltered = false;
                 this.cloneColumns[index]._filterVisible = false;
                 this.cloneColumns[index]._filterChecked = [];
-                this.rebuildData = this.makeData();
+
+                let filterData = this.makeData();
+                filterData = this.filterOtherData(filterData, index);
+                this.rebuildData = filterData;
             },
             makeData () {
                 let data = deepCopy(this.data);

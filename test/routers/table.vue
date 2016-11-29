@@ -8,7 +8,7 @@
         <!--<i-table size="large" border stripe :columns="columns" :data="data"></i-table>-->
         <br>
         <i-table
-                width="450"
+                width="850"
                 stripe
                 border
                 highlight-row
@@ -55,20 +55,20 @@
                         width: 100,
                         filters: [
                             {
-                                label: '大于25岁',
+                                label: '两个字',
                                 value: 1
                             },
                             {
-                                label: '小于25岁',
+                                label: '三个字',
                                 value: 2
                             }
                         ],
                         filterMultiple: false,
                         filterMethod (value, row) {
                             if (value === 1) {
-                                return row.age >= 25;
+                                return row.name.length == 2;
                             } else if (value === 2) {
-                                return row.age < 25;
+                                return row.name.length == 3;
                             }
                         }
                     },
@@ -103,14 +103,22 @@
                         width: 100,
                         filters: [
                             {
-                                label: '家',
-                                value: 'home'
+                                label: '大于25岁',
+                                value: 1
                             },
                             {
-                                label: '公司',
-                                value: 'company'
+                                label: '小于25岁',
+                                value: 2
                             }
                         ],
+                        filterMultiple: false,
+                        filterMethod (value, row) {
+                            if (value === 1) {
+                                return row.age >= 25;
+                            } else if (value === 2) {
+                                return row.age < 25;
+                            }
+                        }
 //                        render (row) {
 //                            return `<i-button>${row.age}</i-button>`
 //                        }
