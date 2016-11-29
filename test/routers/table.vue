@@ -25,6 +25,7 @@
             <!--<div slot="footer">表格标题</div>-->
         </i-table>
         <br>
+        <i-button @click="showChildren">显示子节点</i-button>
         <!--<i-table size="small" border stripe :columns="columns" :data="data"></i-table>-->
     </div>
 </template>
@@ -219,6 +220,9 @@
             },
             sortChange (data) {
                 console.log(data)
+            },
+            showChildren () {
+                console.log(this.$children)
             }
         },
         ready () {
@@ -233,8 +237,8 @@
 //                    address: '北京市东城区2',
 //                    edit: false
 //                });
-//                this.data.splice(0, 1)
-//                this.columns.splice(2,1)
+//                this.data.splice(0, 1);
+                this.columns.splice(2,1)
             }, 3000);
         }
     }

@@ -45,13 +45,13 @@
                     `${this.prefixCls}-row`,
                     this.rowClsName(_index),
                     {
-                        [`${this.prefixCls}-row-highlight`]: this.objData[_index]._isHighlight,
-                        [`${this.prefixCls}-row-hover`]: this.objData[_index]._isHover
+                        [`${this.prefixCls}-row-highlight`]: this.objData[_index] && this.objData[_index]._isHighlight,
+                        [`${this.prefixCls}-row-hover`]: this.objData[_index] && this.objData[_index]._isHover
                     }
                 ]
             },
             rowChecked (_index) {
-                return this.objData[_index]._isChecked;
+                return this.objData[_index] && this.objData[_index]._isChecked;
             },
             setCellWidth (column, index) {
                 return this.$parent.setCellWidth(column, index);

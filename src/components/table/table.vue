@@ -338,7 +338,7 @@
                 const key = this.cloneColumns[index].key;
                 if (this.cloneColumns[index].sortable !== 'custom') {    // custom is for remote sort
                     if (type === 'normal') {
-                        this.rebuildData = this.makeData();
+                        this.rebuildData = this.makeDataWithFilter();
                     } else {
                         this.rebuildData = this.sortData(this.rebuildData, type, index);
                     }
@@ -415,6 +415,16 @@
                 if (sortType !== 'normal') data =  this.sortData(data, sortType, sortIndex);
                 return data;
             },
+            makeDataWithFilter () {
+                let data = this.makeData();
+                this.cloneColumns.forEach(col => data = this.filterData(data, col));
+                return data;
+            },
+            makeDataWithSortAndFilter () {
+                let data = this.makeDataWithSort();
+                this.cloneColumns.forEach(col => data = this.filterData(data, col));
+                return data;
+            },
             makeObjData () {
                 let data = {};
                 this.data.forEach((row, index) => {
@@ -473,7 +483,7 @@
             data: {
                 handler () {
                     this.objData = this.makeObjData();
-                    this.rebuildData = this.makeData();
+                    this.rebuildData = this.makeDataWithSortAndFilter();
                     this.handleResize();
                 },
                 deep: true
@@ -481,6 +491,7 @@
             columns: {
                 handler () {
                     this.cloneColumns = this.makeColumns();
+                    this.rebuildData = this.makeDataWithSortAndFilter();
                     this.handleResize();
                 },
                 deep: true
