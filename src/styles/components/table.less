@@ -1,4 +1,5 @@
 @table-prefix-cls: ~"@{css-prefix}table";
+@table-select-item-prefix-cls: ~"@{table-prefix-cls}-filter-select-item";
 
 .@{table-prefix-cls} {
     width: 100%;
@@ -12,6 +13,10 @@
     border-right: 0;
     box-sizing: border-box;
     position: relative;
+
+    &-hide{
+        opacity: 0;
+    }
 
     &:before{
         content: '';
@@ -262,6 +267,10 @@
                     }
                 }
             }
+            ul{
+                padding-bottom: 8px;
+            }
+            .select-item(@table-prefix-cls, @table-select-item-prefix-cls);
         }
         &-footer{
             padding: 4px;

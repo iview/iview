@@ -14,24 +14,30 @@
                                 <i class="ivu-icon ivu-icon-arrow-up-b" :class="{on: column._sortType === 'asc'}" @click="handleSort($index, 'asc')"></i>
                                 <i class="ivu-icon ivu-icon-arrow-down-b" :class="{on: column._sortType === 'desc'}" @click="handleSort($index, 'desc')"></i>
                             </span>
-                            <Poptip v-if="column.filters" :visible.sync="column._filterVisible" placement="bottom">
+                            <Poptip
+                                v-if="column.filters && (fixed || (!fixed && !column.fixed))"
+                                :visible.sync="column._filterVisible"
+                                placement="bottom"
+                                @on-popper-hide="handleFilterHide($index)">
                                 <span :class="[prefixCls + '-filter']">
                                     <i class="ivu-icon ivu-icon-funnel" :class="{on: column._isFiltered}"></i>
                                 </span>
-                                <div slot="content" :class="[prefixCls + '-filter-list']">
+                                <div slot="content" :class="[prefixCls + '-filter-list']" v-if="column._filterMultiple">
                                     <div :class="[prefixCls + '-filter-list-item']">
                                         <checkbox-group :model.sync="column._filterChecked">
                                             <checkbox v-for="item in column.filters" :value="item.value">{{ item.label }}</checkbox>
                                         </checkbox-group>
                                     </div>
-                                    <ul>
-                                        <!--<li v-for="(filterIndex, item) in column.filters"><Checkbox :checked="column._filterChecked.indexOf(item.value) > -1" @on-change="handleFilterChecked(index, filterIndex)">{{ item.label }}</Checkbox></li>-->
-
-                                    </ul>
                                     <div :class="[prefixCls + '-filter-footer']">
-                                        <i-button type="text" size="small" @click="handleFilter($index)">筛选</i-button>
+                                        <i-button type="text" size="small" :disabled="!column._filterChecked.length" @click="handleFilter($index)">筛选</i-button>
                                         <i-button type="text" size="small" @click="handleReset($index)">重置</i-button>
                                     </div>
+                                </div>
+                                <div slot="content" :class="[prefixCls + '-filter-list']" v-else>
+                                    <ul>
+                                        <li :class="[prefixCls + '-filter-select-item', {[prefixCls + '-filter-select-item-selected']: !column._filterChecked.lengtg}]">全部</li>
+                                        <li :class="[prefixCls + '-filter-select-item', {[prefixCls + '-filter-select-item-selected']: column._filterChecked[0] === item.value}]" v-for="item in column.filters">{{ item.label }}</li>
+                                    </ul>
                                 </div>
                             </Poptip>
                         </template>
@@ -99,13 +105,13 @@
                 this.$parent.handleSort(index, type);
             },
             handleFilter (index) {
-
+                this.$parent.handleFilter(index);
             },
             handleReset (index) {
-
+                this.$parent.handleFilterReset(index);
             },
-            handleFilterChecked (index, filterIndex) {
-
+            handleFilterHide (index) {
+                this.$parent.handleFilterHide(index);
             }
         }
     }

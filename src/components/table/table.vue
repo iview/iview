@@ -115,6 +115,7 @@
         },
         data () {
             return {
+                ready: false,
                 tableWidth: 0,
                 columnsWidth: [],
                 prefixCls: prefixCls,
@@ -132,6 +133,7 @@
                 return [
                     `${prefixCls}`,
                     {
+                        [`${prefixCls}-hide`]: !this.ready,
                         [`${prefixCls}-${this.size}`]: !!this.size,
                         [`${prefixCls}-border`]: this.border,
                         [`${prefixCls}-stripe`]: this.stripe,
@@ -344,6 +346,27 @@
                     order: type
                 })
             },
+            handleFilterHide (index) {    // clear checked that not filter now
+                if (!this.cloneColumns[index]._isFiltered) this.cloneColumns[index]._filterChecked = [];
+            },
+            handleFilter (index) {
+                const column = this.cloneColumns[index];
+                const filterData = this.makeData();
+
+                this.rebuildData = filterData.filter((row) => {
+                    let status = false;
+                    for (let i = 0; i < column._filterChecked.length; i++) {
+                        status = column.filterMethod(column._filterChecked[i], row);
+                        if (status) break;
+                    }
+                    return status;
+                });
+                this.cloneColumns[index]._isFiltered = true;
+                this.cloneColumns[index]._filterVisible = false;
+            },
+            handleFilterReset (index) {
+                this.cloneColumns[index]._isFiltered = false;
+            },
             makeData () {
                 let data = deepCopy(this.data);
                 data.forEach((row, index) => row._index = index);
@@ -373,6 +396,12 @@
                     column._isFiltered = false;
                     column._filterChecked = [];
 
+                    if ('filterMultiple' in column) {
+                        column._filterMultiple = column.filterMultiple;
+                    } else {
+                        column._filterMultiple = true;
+                    }
+
                     if (column.fixed && column.fixed === 'left') {
                         left.push(column);
                     } else if (column.fixed && column.fixed === 'right') {
@@ -391,6 +420,7 @@
         ready () {
             this.handleResize();
             this.fixedHeader();
+            this.$nextTick(() => this.ready = true);
             window.addEventListener('resize', this.handleResize, false);
         },
         beforeDestroy () {
