@@ -198,8 +198,8 @@
                 this.$Message.info(this.data[index].name);
             },
             current (newData, oldData) {
-                console.log(newData);
-                console.log(oldData);
+//                console.log(newData);
+//                console.log(oldData);
             },
             select (a,b){
 //                console.log(a);
@@ -209,7 +209,7 @@
 //                console.log(a)
             },
             sall (a) {
-//                console.log(a)
+                console.log(a)
             },
             rowClsName (row, index) {
                 if (index == 1) {
@@ -238,7 +238,7 @@
 //                    edit: false
 //                });
 //                this.data.splice(0, 1);
-                this.columns.splice(2,1)
+//                this.columns.splice(2,1)
             }, 3000);
         }
     }

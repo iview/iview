@@ -68,13 +68,18 @@
             style: Object,
             columns: Array,
             objData: Object,
+            data: Array,    // rebuildData
             fixed: Boolean
         },
         computed: {
             isSelectAll () {
                 let isSelectAll = true;
-                for (let i in this.objData) {
-                    if (!this.objData[i]._isChecked) isSelectAll = false;
+
+                for (let i = 0; i < this.data.length; i++) {
+                    if (!this.objData[this.data[i]._index]._isChecked) {
+                        isSelectAll = false;
+                        break;
+                    }
                 }
 
                 return isSelectAll;

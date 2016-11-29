@@ -7,7 +7,8 @@
                         :prefix-cls="prefixCls"
                         :style="tableStyle"
                         :columns="cloneColumns"
-                        :obj-data="objData"></table-head>
+                        :obj-data="objData"
+                        :data="rebuildData"></table-head>
             </div>
             <div :class="[prefixCls + '-body']" :style="bodyStyle" v-el:body @scroll="handleBodyScroll">
                 <table-body
@@ -25,7 +26,8 @@
                             :prefix-cls="prefixCls"
                             :style="fixedTableStyle"
                             :columns="leftFixedColumns"
-                            :obj-data="objData"></table-head>
+                            :obj-data="objData"
+                            :data="rebuildData"></table-head>
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" v-el:fixed-body>
                     <table-body
@@ -44,7 +46,8 @@
                             :prefix-cls="prefixCls"
                             :style="fixedRightTableStyle"
                             :columns="rightFixedColumns"
-                            :obj-data="objData"></table-head>
+                            :obj-data="objData"
+                            :data="rebuildData"></table-head>
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" v-el:fixed-right-body>
                     <table-body
@@ -282,9 +285,9 @@
                 this.$emit('on-selection-change', selection);
             },
             selectAll (status) {
-                for (let i in this.objData) {
-                    this.objData[i]._isChecked = status;
-                }
+                this.rebuildData.forEach((data) => {
+                    this.objData[data._index]._isChecked = status;
+                });
 
                 const selection = this.getSelection();
                 if (status) {
