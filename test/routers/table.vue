@@ -8,9 +8,10 @@
         <!--<i-table size="large" border stripe :columns="columns" :data="data"></i-table>-->
         <br>
         <i-table
-                width="850"
+                width="450"
+                :height="height"
                 stripe
-                border
+                :border="true"
                 highlight-row
                 :show-header="true"
                 :columns="columns"
@@ -239,6 +240,14 @@
 //                });
 //                this.data.splice(0, 1);
 //                this.columns.splice(2,1)
+//                this.data.push({
+//                    name: '梁灏2',
+//                    age: 25,
+//                    address: '北京市朝阳区',
+//                    edit: false,
+//                    tag: 'home',
+//                    action: 1
+//                })
             }, 3000);
         }
     }

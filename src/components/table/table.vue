@@ -1,62 +1,62 @@
 <template>
     <div :class="wrapClasses" :style="styles">
-        <div :class="classes" :style="styles">
+        <div :class="classes">
             <div :class="[prefixCls + '-title']" v-if="showSlotHeader" v-el:title><slot name="header"></slot></div>
             <div :class="[prefixCls + '-header']" v-if="showHeader" v-el:header @mousewheel="handleMouseWheel">
                 <table-head
-                        :prefix-cls="prefixCls"
-                        :style="tableStyle"
-                        :columns="cloneColumns"
-                        :obj-data="objData"
-                        :data="rebuildData"></table-head>
+                    :prefix-cls="prefixCls"
+                    :style="tableStyle"
+                    :columns="cloneColumns"
+                    :obj-data="objData"
+                    :data="rebuildData"></table-head>
             </div>
             <div :class="[prefixCls + '-body']" :style="bodyStyle" v-el:body @scroll="handleBodyScroll">
                 <table-body
-                        v-ref:tbody
-                        :prefix-cls="prefixCls"
-                        :style="tableStyle"
-                        :columns="cloneColumns"
-                        :data="rebuildData"
-                        :obj-data="objData"></table-body>
+                    v-ref:tbody
+                    :prefix-cls="prefixCls"
+                    :style="tableStyle"
+                    :columns="cloneColumns"
+                    :data="rebuildData"
+                    :obj-data="objData"></table-body>
             </div>
             <div :class="[prefixCls + '-fixed']">
                 <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
                     <table-head
-                            fixed
-                            :prefix-cls="prefixCls"
-                            :style="fixedTableStyle"
-                            :columns="leftFixedColumns"
-                            :obj-data="objData"
-                            :data="rebuildData"></table-head>
+                        fixed
+                        :prefix-cls="prefixCls"
+                        :style="fixedTableStyle"
+                        :columns="leftFixedColumns"
+                        :obj-data="objData"
+                        :data="rebuildData"></table-head>
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" v-el:fixed-body>
                     <table-body
-                            fixed
-                            :prefix-cls="prefixCls"
-                            :style="fixedTableStyle"
-                            :columns="leftFixedColumns"
-                            :data="rebuildData"
-                            :obj-data="objData"></table-body>
+                        fixed
+                        :prefix-cls="prefixCls"
+                        :style="fixedTableStyle"
+                        :columns="leftFixedColumns"
+                        :data="rebuildData"
+                        :obj-data="objData"></table-body>
                 </div>
             </div>
             <div :class="[prefixCls + '-fixed-right']">
                 <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
                     <table-head
-                            fixed
-                            :prefix-cls="prefixCls"
-                            :style="fixedRightTableStyle"
-                            :columns="rightFixedColumns"
-                            :obj-data="objData"
-                            :data="rebuildData"></table-head>
+                        fixed
+                        :prefix-cls="prefixCls"
+                        :style="fixedRightTableStyle"
+                        :columns="rightFixedColumns"
+                        :obj-data="objData"
+                        :data="rebuildData"></table-head>
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" v-el:fixed-right-body>
                     <table-body
-                            fixed
-                            :prefix-cls="prefixCls"
-                            :style="fixedRightTableStyle"
-                            :columns="rightFixedColumns"
-                            :data="rebuildData"
-                            :obj-data="objData"></table-body>
+                        fixed
+                        :prefix-cls="prefixCls"
+                        :style="fixedRightTableStyle"
+                        :columns="rightFixedColumns"
+                        :data="rebuildData"
+                        :obj-data="objData"></table-body>
                 </div>
             </div>
             <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" v-el:footer><slot name="footer"></slot></div>
