@@ -14,14 +14,24 @@
                                 <i class="ivu-icon ivu-icon-arrow-up-b" :class="{on: column._sortType === 'asc'}" @click="handleSort($index, 'asc')"></i>
                                 <i class="ivu-icon ivu-icon-arrow-down-b" :class="{on: column._sortType === 'desc'}" @click="handleSort($index, 'desc')"></i>
                             </span>
-                            <Poptip v-if="column.filters" placement="bottom-end">
+                            <Poptip v-if="column.filters" :visible.sync="column._filterVisible" placement="bottom">
                                 <span :class="[prefixCls + '-filter']">
-                                    <i class="ivu-icon ivu-icon-chevron-down" @click="handleFilter($index)"></i>
+                                    <i class="ivu-icon ivu-icon-funnel" :class="{on: column._isFiltered}"></i>
                                 </span>
-                                <div slot="content">
+                                <div slot="content" :class="[prefixCls + '-filter-list']">
+                                    <div :class="[prefixCls + '-filter-list-item']">
+                                        <checkbox-group :model.sync="column._filterChecked">
+                                            <checkbox v-for="item in column.filters" :value="item.value">{{ item.label }}</checkbox>
+                                        </checkbox-group>
+                                    </div>
                                     <ul>
-                                        <li v-for="item in column.filters"><Checkbox>{{ item.label }}</Checkbox></li>
+                                        <!--<li v-for="(filterIndex, item) in column.filters"><Checkbox :checked="column._filterChecked.indexOf(item.value) > -1" @on-change="handleFilterChecked(index, filterIndex)">{{ item.label }}</Checkbox></li>-->
+
                                     </ul>
+                                    <div :class="[prefixCls + '-filter-footer']">
+                                        <i-button type="text" size="small" @click="handleFilter($index)">筛选</i-button>
+                                        <i-button type="text" size="small" @click="handleReset($index)">重置</i-button>
+                                    </div>
                                 </div>
                             </Poptip>
                         </template>
@@ -32,14 +42,16 @@
     </table>
 </template>
 <script>
+    import CheckboxGroup from '../checkbox/checkbox-group.vue';
     import Checkbox from '../checkbox/checkbox.vue';
     import Poptip from '../poptip/poptip.vue';
+    import iButton from '../button/button.vue';
     import Mixin from './mixin';
     import { deepCopy } from '../../utils/assist';
 
     export default {
         mixins: [ Mixin ],
-        components: { Checkbox, Poptip },
+        components: { CheckboxGroup, Checkbox, Poptip, iButton },
         props: {
             prefixCls: String,
             style: Object,
@@ -87,6 +99,12 @@
                 this.$parent.handleSort(index, type);
             },
             handleFilter (index) {
+
+            },
+            handleReset (index) {
+
+            },
+            handleFilterChecked (index, filterIndex) {
 
             }
         }

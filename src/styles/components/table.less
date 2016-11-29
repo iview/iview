@@ -197,7 +197,7 @@
         top: 0;
         left: 0;
         box-shadow: @shadow-right;
-        overflow-x: hidden;
+        //overflow-x: hidden;
 
         &::before {
             content: '';
@@ -241,10 +241,39 @@
             &:hover{
                 color: inherit;
             }
+            &.on{
+                color: @primary-color;
+            }
+        }
+        &-list{
+            padding: 8px 0 0;
+            &-item{
+                padding: 0 12px 8px;
+
+                .ivu-checkbox-wrapper + .ivu-checkbox-wrapper{
+                    margin: 0;
+                }
+                label {
+                    display: block;
+                    margin-bottom: 4px;
+
+                    & > span{
+                        margin-right: 4px;
+                    }
+                }
+            }
+        }
+        &-footer{
+            padding: 4px;
+            border-top: 1px solid @border-color-split;
         }
     }
     .ivu-poptip-popper{
         min-width: 0;
         text-align: left;
+
+        .ivu-poptip-body{
+            padding: 0;
+        }
     }
 }

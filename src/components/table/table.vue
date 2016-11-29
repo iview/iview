@@ -291,10 +291,14 @@
                     })
                 }
             },
+            hideColumnFilter () {
+                this.cloneColumns.forEach((col) => col._filterVisible = false);
+            },
             handleBodyScroll (event) {
                 if (this.showHeader) this.$els.header.scrollLeft = event.target.scrollLeft;
                 if (this.leftFixedColumns.length) this.$els.fixedBody.scrollTop = event.target.scrollTop;
                 if (this.rightFixedColumns.length) this.$els.fixedRightBody.scrollTop = event.target.scrollTop;
+                this.hideColumnFilter();
             },
             handleMouseWheel (event) {
                 const deltaX = event.deltaX;
@@ -363,8 +367,11 @@
                 let center = [];
 
                 columns.forEach((column, index) => {
-                    column._sortType = 'normal';
                     column._index = index;
+                    column._sortType = 'normal';
+                    column._filterVisible = false;
+                    column._isFiltered = false;
+                    column._filterChecked = [];
 
                     if (column.fixed && column.fixed === 'left') {
                         left.push(column);

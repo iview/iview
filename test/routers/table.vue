@@ -79,7 +79,7 @@
                             }
                         ],
                         render (row) {
-                            const type = `${row.tag}` === 'home' ? 'green' : 'red';
+                            const type = `${row.tag}` === '家' ? 'green' : 'red';
                             return `<tag color="${type}">${row.tag}</tag>`;
                         }
                     },
@@ -135,28 +135,28 @@
                         age: 25,
                         address: '北京市朝阳区',
                         edit: false,
-                        tag: 'home'
+                        tag: '家'
                     },
                     {
                         name: '段模',
                         age: 21,
                         address: '北京市海淀区',
                         edit: false,
-                        tag: 'company'
+                        tag: '公司'
                     },
                     {
                         name: '刘天娇',
                         age: 27,
                         address: '北京市东城区',
                         edit: false,
-                        tag: 'company'
+                        tag: '公司'
                     },
                     {
                         name: '胡国伟',
                         age: 22,
                         address: '北京市西城区',
                         edit: false,
-                        tag: 'home'
+                        tag: '家'
                     }
                 ],
                 height: 200
