@@ -1,5 +1,5 @@
 <template>
-    <i-table :columns="columns1" :data="data1"></i-table>
+    <i-table border :columns="columns1" :data="data1"></i-table>
 </template>
 <script>
     export default {
@@ -12,7 +12,9 @@
                     },
                     {
                         title: '年龄',
-                        key: 'age'
+                        key: 'age',
+                        fixed: 'left',
+//                        width: 200
                     },
                     {
                         title: '地址',

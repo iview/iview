@@ -1,7 +1,7 @@
 <template>
     <table cellspacing="0" cellpadding="0" border="0" :style="style">
         <colgroup>
-            <col v-for="item in setCellWidth" :width="setCellWidth($index)">
+            <col v-for="column in columns" :width="setCellWidth(column, $index)">
         </colgroup>
         <thead>
             <tr>
@@ -69,7 +69,7 @@
             columns: Array,
             objData: Object,
             data: Array,    // rebuildData
-            columnsWidth: Array,
+            columnsWidth: Object,
             fixed: {
                 type: [Boolean, String],
                 default: false

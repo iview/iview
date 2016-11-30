@@ -8,7 +8,7 @@
                     :style="tableStyle"
                     :columns="cloneColumns"
                     :obj-data="objData"
-                    :columns-width.sync="columnsWidth"
+                    :columns-width="columnsWidth"
                     :data="rebuildData"></table-head>
             </div>
             <div :class="[prefixCls + '-body']" :style="bodyStyle" v-el:body @scroll="handleBodyScroll">
@@ -18,7 +18,7 @@
                     :style="tableStyle"
                     :columns="cloneColumns"
                     :data="rebuildData"
-                    :columns-width.sync="columnsWidth"
+                    :columns-width="columnsWidth"
                     :obj-data="objData"></table-body>
             </div>
             <div :class="[prefixCls + '-fixed']" :style="fixedTableStyle">
@@ -39,7 +39,7 @@
                         :style="fixedTableStyle"
                         :columns="leftFixedColumns"
                         :data="rebuildData"
-                        :columns-width.sync="columnsWidth"
+                        :columns-width="columnsWidth"
                         :obj-data="objData"></table-body>
                 </div>
             </div>
@@ -61,7 +61,7 @@
                         :style="fixedRightTableStyle"
                         :columns="rightFixedColumns"
                         :data="rebuildData"
-                        :columns-width.sync="columnsWidth"
+                        :columns-width="columnsWidth"
                         :obj-data="objData"></table-body>
                 </div>
             </div>
@@ -128,7 +128,7 @@
             return {
                 ready: false,
                 tableWidth: 0,
-                columnsWidth: [],
+                columnsWidth: {},
                 prefixCls: prefixCls,
                 compiledUids: [],
                 objData: this.makeObjData(),     // checkbox or highlight-row
@@ -176,7 +176,7 @@
                 let style = {};
                 let width = 0;
                 this.leftFixedColumns.forEach((col) => {
-                    if (col.fixed && col.fixed === 'left') width += col.width;
+                    if (col.fixed && col.fixed === 'left') width += col._width;
                 });
                 style.width = `${width}px`;
                 return style;
@@ -185,7 +185,7 @@
                 let style = {};
                 let width = 0;
                 this.rightFixedColumns.forEach((col) => {
-                    if (col.fixed && col.fixed === 'right') width += col.width;
+                    if (col.fixed && col.fixed === 'right') width += col._width;
                 });
                 style.width = `${width}px`;
                 return style;
@@ -231,25 +231,35 @@
             },
             handleResize () {
                 this.$nextTick(() => {
-                    const allWidth = !this.columns.some(cell => !cell.width);
+                    const allWidth = !this.columns.some(cell => !cell.width);    // each column set a width
                     if (allWidth) {
                         this.tableWidth = this.columns.map(cell => cell.width).reduce((a, b) => a + b);
                     } else {
                         this.tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
                     }
+                    this.columnsWidth = {};
                     this.$nextTick(() => {
-                        this.columnsWidth = [];
+                        let columnsWidth = {};
                         let autoWidthIndex = -1;
-                        if (allWidth) autoWidthIndex = this.cloneColumns.findIndex(cell => !cell.width);
+                        if (allWidth) autoWidthIndex = this.cloneColumns.findIndex(cell => !cell.width);//todo 这行可能有问题
 
                         const $td = this.$refs.tbody.$el.querySelectorAll('tbody tr')[0].querySelectorAll('td');
                         for (let i = 0; i < $td.length; i++) {    // can not use forEach in Firefox
+                            const column = this.cloneColumns[i];
+
+                            let width = parseInt(getStyle($td[i], 'width'));
                             if (i === autoWidthIndex) {
-                                this.columnsWidth.push(parseInt(getStyle($td[i], 'width')) - 1);
-                            } else {
-                                this.columnsWidth.push(parseInt(getStyle($td[i], 'width')));
+                                width = parseInt(getStyle($td[i], 'width')) - 1;
+                            }
+                            if (column.width) width = column.width;
+
+                            this.cloneColumns[i]._width = width;
+
+                            columnsWidth[column._index] = {
+                                width: width
                             }
                         }
+                        this.columnsWidth = columnsWidth;
                     });
                 });
             },
@@ -464,6 +474,7 @@
 
                 columns.forEach((column, index) => {
                     column._index = index;
+                    column._width = column.width ? column.width : '';    // update in handleResize()
                     column._sortType = 'normal';
                     column._filterVisible = false;
                     column._isFiltered = false;
