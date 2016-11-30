@@ -1,7 +1,7 @@
 <template>
     <button :type="htmlType" :class="classes" :disabled="disabled">
-        <i :class="loadingIconClasses" v-if="loading"></i>
-        <i :class="typeIconClasses" v-if="icon && !loading"></i>
+        <Icon class="ivu-load-loop" type="load-c" v-if="loading"></Icon>
+        <Icon :type="icon" v-if="icon && !loading"></Icon>
         <span v-if="showSlot" v-el:slot><slot></slot></span>
     </button>
 </template>
@@ -60,17 +60,6 @@
                         [`${prefixCls}-${this.size}`]: !!this.size,
                         [`${prefixCls}-loading`]: this.loading != null && this.loading,
                         [`${prefixCls}-icon-only`]: !this.showSlot && (!!this.icon || this.loading)
-                    }
-                ]
-            },
-            loadingIconClasses () {
-                return `${iconPrefixCls} ivu-load-loop ${iconPrefixCls}-load-c`;
-            },
-            typeIconClasses () {
-                return [
-                    `${iconPrefixCls}`,
-                    {
-                        [`${iconPrefixCls}-${this.icon}`]: !!this.icon
                     }
                 ]
             }
