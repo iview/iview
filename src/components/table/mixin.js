@@ -10,6 +10,9 @@ export default {
         },
         isPopperShow (column) {
             return column.filters && ((!this.fixed && !column.fixed) || (this.fixed === 'left' && column.fixed === 'left') || (this.fixed === 'right' && column.fixed === 'right'));
+        },
+        setCellWidth (index) {
+            return this.column[index].width ? this.column.width : this.columnsWidth[index];
         }
     }
 }

@@ -1,7 +1,7 @@
 <template>
     <table cellspacing="0" cellpadding="0" border="0" :style="style">
         <colgroup>
-            <col v-for="column in columns" :width="setCellWidth(column, $index)">
+            <col v-for="item in setCellWidth" :width="setCellWidth($index)">
         </colgroup>
         <tbody :class="[prefixCls + '-tbody']">
             <tr
@@ -37,6 +37,7 @@
             columns: Array,
             data: Array,    // rebuildData
             objData: Object,
+            columnsWidth: Array,
             fixed: {
                 type: [Boolean, String],
                 default: false
@@ -55,9 +56,6 @@
             },
             rowChecked (_index) {
                 return this.objData[_index] && this.objData[_index]._isChecked;
-            },
-            setCellWidth (column, index) {
-                return this.$parent.setCellWidth(column, index);
             },
             rowClsName (_index) {
                 return this.$parent.rowClassName(this.objData[_index], _index);

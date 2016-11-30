@@ -1,7 +1,7 @@
 <template>
     <table cellspacing="0" cellpadding="0" border="0" :style="style">
         <colgroup>
-            <col v-for="column in columns" :width="setCellWidth(column, $index)">
+            <col v-for="item in setCellWidth" :width="setCellWidth($index)">
         </colgroup>
         <thead>
             <tr>
@@ -69,6 +69,7 @@
             columns: Array,
             objData: Object,
             data: Array,    // rebuildData
+            columnsWidth: Array,
             fixed: {
                 type: [Boolean, String],
                 default: false
@@ -96,9 +97,6 @@
                         [`${this.prefixCls}-hidden`]: !this.fixed && column.fixed && (column.fixed === 'left' || column.fixed === 'right')
                     }
                 ]
-            },
-            setCellWidth (column, index) {
-                return this.$parent.setCellWidth(column, index);
             },
             renderHeader (column, $index) {
                 if ('renderHeader' in this.columns[$index]) {

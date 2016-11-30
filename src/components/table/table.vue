@@ -8,6 +8,7 @@
                     :style="tableStyle"
                     :columns="cloneColumns"
                     :obj-data="objData"
+                    :columns-width.sync="columnsWidth"
                     :data="rebuildData"></table-head>
             </div>
             <div :class="[prefixCls + '-body']" :style="bodyStyle" v-el:body @scroll="handleBodyScroll">
@@ -17,6 +18,7 @@
                     :style="tableStyle"
                     :columns="cloneColumns"
                     :data="rebuildData"
+                    :columns-width.sync="columnsWidth"
                     :obj-data="objData"></table-body>
             </div>
             <div :class="[prefixCls + '-fixed']" :style="fixedTableStyle">
@@ -27,6 +29,7 @@
                         :style="fixedTableStyle"
                         :columns="leftFixedColumns"
                         :obj-data="objData"
+                        :columns-width.sync="columnsWidth"
                         :data="rebuildData"></table-head>
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" v-el:fixed-body>
@@ -36,6 +39,7 @@
                         :style="fixedTableStyle"
                         :columns="leftFixedColumns"
                         :data="rebuildData"
+                        :columns-width.sync="columnsWidth"
                         :obj-data="objData"></table-body>
                 </div>
             </div>
@@ -47,6 +51,7 @@
                         :style="fixedRightTableStyle"
                         :columns="rightFixedColumns"
                         :obj-data="objData"
+                        :columns-width.sync="columnsWidth"
                         :data="rebuildData"></table-head>
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" v-el:fixed-right-body>
@@ -56,6 +61,7 @@
                         :style="fixedRightTableStyle"
                         :columns="rightFixedColumns"
                         :data="rebuildData"
+                        :columns-width.sync="columnsWidth"
                         :obj-data="objData"></table-body>
                 </div>
             </div>
@@ -246,9 +252,6 @@
                         }
                     });
                 });
-            },
-            setCellWidth (column, index) {
-                return column.width ? column.width : this.columnsWidth[index];
             },
             handleMouseIn (_index) {
                 if (this.objData[_index]._isHover) return;

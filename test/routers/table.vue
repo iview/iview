@@ -1,273 +1,47 @@
-<style>
-    body{
-        height: auto;
-    }
-</style>
 <template>
-    <div>
-        <!--<i-table size="large" border stripe :columns="columns" :data="data"></i-table>-->
-        <br>
-        <i-table
-                width="850"
-                :height="height"
-                stripe
-                :border="true"
-                highlight-row
-                :show-header="true"
-                :columns="columns"
-                :data="data"
-                :row-class-name="rowClsName"
-                @on-current-change="current"
-                @on-select="select"
-                @on-selection-change="schange"
-                @on-select-all="sall"
-                @on-sort-change="sortChange">
-            <!--<div slot="header">表格标题</div>-->
-            <!--<div slot="footer">表格标题</div>-->
-        </i-table>
-        <br>
-        <i-button @click="showChildren">显示子节点</i-button>
-        <!--<i-table size="small" border stripe :columns="columns" :data="data"></i-table>-->
-    </div>
+    <i-table :columns="columns1" :data="data1"></i-table>
 </template>
 <script>
     export default {
-        props: {
-        
-        },
         data () {
             return {
-                columns: [
-                    {
-                        type: 'selection',
-                        width: 90,
-//                        fixed: 'left',
-                        align: 'center'
-                    },
-                    {
-                        type: 'index',
-                        width: 50
-                    },
+                columns1: [
                     {
                         title: '姓名',
-                        key: 'name',
-                        align: 'left',
-//                        fixed: 'left',
-                        sortable: true,
-                        width: 100,
-                        filters: [
-                            {
-                                label: '两个字',
-                                value: 1
-                            },
-                            {
-                                label: '三个字',
-                                value: 2
-                            }
-                        ],
-                        filterMultiple: false,
-                        filterMethod (value, row) {
-                            if (value === 1) {
-                                return row.name.length == 2;
-                            } else if (value === 2) {
-                                return row.name.length == 3;
-                            }
-                        }
-                    },
-                    {
-                        title: '标签',
-                        key: 'tag',
-                        width: 100,
-                        filters: [
-                            {
-                                label: '家',
-                                value: 'home'
-                            },
-                            {
-                                label: '公司',
-                                value: 'company'
-                            }
-                        ],
-                        filterMethod (value, row) {
-                            return row.tag === value;
-                        },
-//                        filteredValue: ['company'],
-                        render (row) {
-                            const type = `${row.tag}` === 'home' ? 'green' : 'red';
-                            return `<tag color="${type}">${row.tag}</tag>`;
-                        }
+                        key: 'name'
                     },
                     {
                         title: '年龄',
-                        key: 'age',
-                        align: 'right',
-//                        fixed: 'left',
-                        sortable: true,
-                        width: 100,
-                        filters: [
-                            {
-                                label: '大于25岁',
-                                value: 1
-                            },
-                            {
-                                label: '小于25岁',
-                                value: 2
-                            }
-                        ],
-                        filterMultiple: false,
-                        filterMethod (value, row) {
-                            if (value === 1) {
-                                return row.age >= 25;
-                            } else if (value === 2) {
-                                return row.age < 25;
-                            }
-                        }
-//                        render (row) {
-//                            return `<i-button>${row.age}</i-button>`
-//                        }
+                        key: 'age'
                     },
                     {
                         title: '地址',
-                        key: 'address',
-                        align: 'center',
-//                        fixed: 'left',
-                        width: 100,
-//                        render (row, column, index) {
-//                            if (row.edit) {
-//                                return `<i-input :value.sync="data[${index}].name"></i-input>`;
-//                            } else {
-//                                return `<Tooltip content="${row.address}"><i-button @click="show(${index})">${row.name}</i-button></Tooltip>`;
-//                            }
-//                        }
-                    },
-                    {
-                        title: '操作',
-                        key: 'action',
-//                        fixed: 'right',
-                        width: 250,
-                        render (row, column, index) {
-                            return `<i-button @click="edit(${index})">${row.name}${index}</i-button>`;
-//                            return `<a href="#">${row.name}</a>`;
-                        },
-                        filters: [
-                            {
-                                label: '两个字',
-                                value: 1
-                            },
-                            {
-                                label: '三个字',
-                                value: 2
-                            }
-                        ],
-                        filterMultiple: false,
-                        filterMethod (value, row) {
-                            if (value === 1) {
-                                return row.name.length == 2;
-                            } else if (value === 2) {
-                                return row.name.length == 3;
-                            }
-                        }
+                        key: 'address'
                     }
                 ],
-                data: [
+                data1: [
                     {
-                        name: '梁灏梁灏梁灏梁灏梁灏梁灏梁灏',
+                        name: '王小明',
+                        age: 18,
+                        address: '北京市朝阳区芍药居'
+                    },
+                    {
+                        name: '张小刚',
                         age: 25,
-                        address: '北京市朝阳区',
-                        edit: false,
-                        tag: 'home',
-                        action: 1
+                        address: '北京市海淀区西二旗'
                     },
                     {
-                        name: '段模',
-                        age: 21,
-                        address: '北京市海淀区',
-                        edit: false,
-                        tag: 'company',
-                        action: 2
+                        name: '李小红',
+                        age: 30,
+                        address: '上海市浦东新区世纪大道'
                     },
                     {
-                        name: '刘天娇',
-                        age: 27,
-                        address: '北京市东城区',
-                        edit: false,
-                        tag: 'company',
-                        action: 3
-                    },
-                    {
-                        name: '胡国伟',
-                        age: 22,
-                        address: '北京市西城区',
-                        edit: false,
-                        tag: 'home',
-                        action: 4
+                        name: '周小伟',
+                        age: 26,
+                        address: '深圳市南山区深南大道'
                     }
-                ],
-                height: 200
+                ]
             }
-        },
-        computed: {
-        
-        },
-        methods: {
-            show (name) {
-                this.$Message.info(name);
-            },
-            edit (index) {
-//                this.data[index].edit = true;
-                this.$Message.info(this.data[index].name);
-            },
-            current (newData, oldData) {
-//                console.log(newData);
-//                console.log(oldData);
-            },
-            select (a,b){
-//                console.log(a);
-//                console.log(b);
-            },
-            schange (a) {
-//                console.log(a)
-            },
-            sall (a) {
-                console.log(a)
-            },
-            rowClsName (row, index) {
-                if (index == 1) {
-                    return 'row-success';
-                } else {
-                    return '';
-                }
-            },
-            sortChange (data) {
-                console.log(data)
-            },
-            showChildren () {
-                console.log(this.$children)
-            }
-        },
-        ready () {
-            setTimeout(() => {
-//                this.columns[3].width = 300;
-//                this.columns[2].width = 150;
-//                return;
-//                this.height = 150;
-//                this.data.push({
-//                    name: '刘天娇2',
-//                    age: 272,
-//                    address: '北京市东城区2',
-//                    edit: false
-//                });
-//                this.data.splice(0, 1);
-//                this.columns.splice(2,1)
-//                this.data.push({
-//                    name: '梁灏2',
-//                    age: 25,
-//                    address: '北京市朝阳区',
-//                    edit: false,
-//                    tag: 'home',
-//                    action: 1
-//                })
-            }, 3000);
         }
     }
 </script>
