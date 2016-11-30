@@ -10,7 +10,6 @@
     import { oneOf } from '../../utils/assist';
 
     const prefixCls = 'ivu-btn';
-    const iconPrefixCls = 'ivu-icon';
 
     export default {
         components: { Icon },
