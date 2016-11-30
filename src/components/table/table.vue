@@ -19,10 +19,10 @@
                     :data="rebuildData"
                     :obj-data="objData"></table-body>
             </div>
-            <div :class="[prefixCls + '-fixed']">
+            <div :class="[prefixCls + '-fixed']" :style="fixedTableStyle">
                 <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
                     <table-head
-                        fixed
+                        fixed="left"
                         :prefix-cls="prefixCls"
                         :style="fixedTableStyle"
                         :columns="leftFixedColumns"
@@ -31,7 +31,7 @@
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" v-el:fixed-body>
                     <table-body
-                        fixed
+                        fixed="left"
                         :prefix-cls="prefixCls"
                         :style="fixedTableStyle"
                         :columns="leftFixedColumns"
@@ -39,10 +39,10 @@
                         :obj-data="objData"></table-body>
                 </div>
             </div>
-            <div :class="[prefixCls + '-fixed-right']">
+            <div :class="[prefixCls + '-fixed-right']" :style="fixedRightTableStyle">
                 <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
                     <table-head
-                        fixed
+                        fixed="right"
                         :prefix-cls="prefixCls"
                         :style="fixedRightTableStyle"
                         :columns="rightFixedColumns"
@@ -51,7 +51,7 @@
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" v-el:fixed-right-body>
                     <table-body
-                        fixed
+                        fixed="right"
                         :prefix-cls="prefixCls"
                         :style="fixedRightTableStyle"
                         :columns="rightFixedColumns"
@@ -126,7 +126,7 @@
                 prefixCls: prefixCls,
                 compiledUids: [],
                 objData: this.makeObjData(),     // checkbox or highlight-row
-                rebuildData: this.makeData(),    // for sort or filter
+                rebuildData: [],    // for sort or filter
                 cloneColumns: this.makeColumns(),
                 showSlotHeader: true,
                 showSlotFooter: true,
@@ -168,12 +168,20 @@
             },
             fixedTableStyle () {
                 let style = {};
-                if (this.leftFixedColumns.length) style.width = this.leftFixedColumns.reduce((a, b) => a + b);
+                let width = 0;
+                this.leftFixedColumns.forEach((col) => {
+                    if (col.fixed && col.fixed === 'left') width += col.width;
+                });
+                style.width = `${width}px`;
                 return style;
             },
             fixedRightTableStyle () {
                 let style = {};
-                if (this.rightFixedColumns.length) style.width = this.rightFixedColumns.reduce((a, b) => a + b);
+                let width = 0;
+                this.rightFixedColumns.forEach((col) => {
+                    if (col.fixed && col.fixed === 'right') width += col.width;
+                });
+                style.width = `${width}px`;
                 return style;
             },
             bodyStyle () {
@@ -188,21 +196,27 @@
             },
             leftFixedColumns () {
                 let left = [];
+                let other = [];
                 this.cloneColumns.forEach((col) => {
                     if (col.fixed && col.fixed === 'left') {
                         left.push(col);
+                    } else {
+                        other.push(col);
                     }
                 });
-                return left;
+                return left.concat(other);
             },
             rightFixedColumns () {
                 let right = [];
+                let other = [];
                 this.cloneColumns.forEach((col) => {
                     if (col.fixed && col.fixed === 'right') {
                         right.push(col);
+                    } else {
+                        other.push(col);
                     }
                 });
-                return right;
+                return right.concat(other);
             }
         },
         methods: {
@@ -457,6 +471,10 @@
                     } else {
                         column._filterMultiple = true;
                     }
+                    if ('filteredValue' in column) {
+                        column._filterChecked = column.filteredValue;
+                        column._isFiltered = true;
+                    }
 
                     if (column.fixed && column.fixed === 'left') {
                         left.push(column);
@@ -472,6 +490,7 @@
         compiled () {
             this.showSlotHeader = this.$els.title.innerHTML.replace(/\n/g, '').replace(/<!--[\w\W\r\n]*?-->/gmi, '') !== '';
             this.showSlotFooter = this.$els.footer.innerHTML.replace(/\n/g, '').replace(/<!--[\w\W\r\n]*?-->/gmi, '') !== '';
+            this.rebuildData = this.makeDataWithSortAndFilter();
         },
         ready () {
             this.handleResize();

@@ -8,7 +8,7 @@
         <!--<i-table size="large" border stripe :columns="columns" :data="data"></i-table>-->
         <br>
         <i-table
-                width="450"
+                width="850"
                 :height="height"
                 stripe
                 :border="true"
@@ -40,8 +40,8 @@
                 columns: [
                     {
                         type: 'selection',
-                        width: 50,
-                        fixed: 'left',
+                        width: 90,
+//                        fixed: 'left',
                         align: 'center'
                     },
                     {
@@ -52,7 +52,7 @@
                         title: '姓名',
                         key: 'name',
                         align: 'left',
-                        fixed: 'left',
+//                        fixed: 'left',
                         sortable: true,
                         width: 100,
                         filters: [
@@ -91,6 +91,7 @@
                         filterMethod (value, row) {
                             return row.tag === value;
                         },
+//                        filteredValue: ['company'],
                         render (row) {
                             const type = `${row.tag}` === 'home' ? 'green' : 'red';
                             return `<tag color="${type}">${row.tag}</tag>`;
@@ -129,7 +130,7 @@
                         title: '地址',
                         key: 'address',
                         align: 'center',
-//                        fixed: 'right',
+//                        fixed: 'left',
                         width: 100,
 //                        render (row, column, index) {
 //                            if (row.edit) {
@@ -142,17 +143,35 @@
                     {
                         title: '操作',
                         key: 'action',
-                        fixed: 'right',
-                        width: 120,
+//                        fixed: 'right',
+                        width: 250,
                         render (row, column, index) {
                             return `<i-button @click="edit(${index})">${row.name}${index}</i-button>`;
-                            return `<a>${row.name}</a>`;
+//                            return `<a href="#">${row.name}</a>`;
+                        },
+                        filters: [
+                            {
+                                label: '两个字',
+                                value: 1
+                            },
+                            {
+                                label: '三个字',
+                                value: 2
+                            }
+                        ],
+                        filterMultiple: false,
+                        filterMethod (value, row) {
+                            if (value === 1) {
+                                return row.name.length == 2;
+                            } else if (value === 2) {
+                                return row.name.length == 3;
+                            }
                         }
                     }
                 ],
                 data: [
                     {
-                        name: '梁灏',
+                        name: '梁灏梁灏梁灏梁灏梁灏梁灏梁灏',
                         age: 25,
                         address: '北京市朝阳区',
                         edit: false,

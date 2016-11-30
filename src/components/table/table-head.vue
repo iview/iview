@@ -15,7 +15,7 @@
                                 <i class="ivu-icon ivu-icon-arrow-down-b" :class="{on: column._sortType === 'desc'}" @click="handleSort($index, 'desc')"></i>
                             </span>
                             <Poptip
-                                v-if="column.filters && (fixed || (!fixed && !column.fixed))"
+                                v-if="isPopperShow(column)"
                                 :visible.sync="column._filterVisible"
                                 placement="bottom"
                                 @on-popper-hide="handleFilterHide($index)">
@@ -69,7 +69,10 @@
             columns: Array,
             objData: Object,
             data: Array,    // rebuildData
-            fixed: Boolean
+            fixed: {
+                type: [Boolean, String],
+                default: false
+            }
         },
         computed: {
             isSelectAll () {

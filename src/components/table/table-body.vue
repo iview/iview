@@ -37,7 +37,10 @@
             columns: Array,
             data: Array,    // rebuildData
             objData: Object,
-            fixed: Boolean
+            fixed: {
+                type: [Boolean, String],
+                default: false
+            }
         },
         methods: {
             rowClasses (_index) {

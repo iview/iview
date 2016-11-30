@@ -19,7 +19,10 @@
             naturalIndex: Number,    // index of rebuildData
             index: Number,           // _index of data
             checked: Boolean,
-            fixed: Boolean
+            fixed: {
+                type: [Boolean, String],
+                default: false
+            }
         },
         data () {
             return {
