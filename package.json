@@ -19,7 +19,7 @@
     "src"
   ],
   "scripts": {
-    "dev": "webpack-dev-server --content-base test/ --open --inline --host 172.30.116.62 --hot --compress --history-api-fallback --port 8081 --config build/webpack.dev.config.js",
+    "dev": "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 8081 --config build/webpack.dev.config.js",
     "dist:style": "gulp --gulpfile build/build-style.js",
     "dist:dev": "webpack --config build/webpack.dist.dev.config.js",
     "dist:prod": "webpack --config build/webpack.dist.prod.config.js",
