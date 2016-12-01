@@ -21,7 +21,7 @@
                     :columns-width="columnsWidth"
                     :obj-data="objData"></table-body>
             </div>
-            <div :class="[prefixCls + '-fixed']" :style="fixedTableStyle">
+            <div :class="[prefixCls + '-fixed']" :style="fixedTableStyle" v-if="isLeftFixed">
                 <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
                     <table-head
                         fixed="left"
@@ -43,7 +43,7 @@
                         :obj-data="objData"></table-body>
                 </div>
             </div>
-            <div :class="[prefixCls + '-fixed-right']" :style="fixedRightTableStyle">
+            <div :class="[prefixCls + '-fixed-right']" :style="fixedRightTableStyle" v-if="isRightFixed">
                 <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
                     <table-head
                         fixed="right"
@@ -226,6 +226,12 @@
                     }
                 });
                 return right.concat(other);
+            },
+            isLeftFixed () {
+                return this.columns.some(col => col.fixed && col.fixed === 'left');
+            },
+            isRightFixed () {
+                return this.columns.some(col => col.fixed && col.fixed === 'right');
             }
         },
         methods: {
@@ -342,8 +348,8 @@
             },
             handleBodyScroll (event) {
                 if (this.showHeader) this.$els.header.scrollLeft = event.target.scrollLeft;
-                if (this.leftFixedColumns.length) this.$els.fixedBody.scrollTop = event.target.scrollTop;
-                if (this.rightFixedColumns.length) this.$els.fixedRightBody.scrollTop = event.target.scrollTop;
+                if (this.isLeftFixed) this.$els.fixedBody.scrollTop = event.target.scrollTop;
+                if (this.isRightFixed) this.$els.fixedRightBody.scrollTop = event.target.scrollTop;
                 this.hideColumnFilter();
             },
             handleMouseWheel (event) {

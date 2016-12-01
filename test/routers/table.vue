@@ -9,21 +9,21 @@
             return {
                 self: this,
                 columns7: [
-//                    {
-//                        title: '姓名',
-//                        key: 'name',
-//                        render (row, column, index) {
-//                            return `<strong>${row.name}</strong>`;
-//                        }
-//                    },
-//                    {
-//                        title: '年龄',
-//                        key: 'age'
-//                    },
-//                    {
-//                        title: '地址',
-//                        key: 'address'
-//                    },
+                    {
+                        title: '姓名',
+                        key: 'name',
+                        render (row, column, index) {
+                            return `<strong>${row.name}</strong>`;
+                        }
+                    },
+                    {
+                        title: '年龄',
+                        key: 'age'
+                    },
+                    {
+                        title: '地址',
+                        key: 'address'
+                    },
                     {
                         title: '操作',
                         key: 'action',
