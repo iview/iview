@@ -122,6 +122,9 @@
                 default () {
                     return '';
                 }
+            },
+            content: {
+                type: Object
             }
         },
         data () {
@@ -243,23 +246,25 @@
                         let autoWidthIndex = -1;
                         if (allWidth) autoWidthIndex = this.cloneColumns.findIndex(cell => !cell.width);//todo 这行可能有问题
 
-                        const $td = this.$refs.tbody.$el.querySelectorAll('tbody tr')[0].querySelectorAll('td');
-                        for (let i = 0; i < $td.length; i++) {    // can not use forEach in Firefox
-                            const column = this.cloneColumns[i];
+                        if (this.data.length) {
+                            const $td = this.$refs.tbody.$el.querySelectorAll('tbody tr')[0].querySelectorAll('td');
+                            for (let i = 0; i < $td.length; i++) {    // can not use forEach in Firefox
+                                const column = this.cloneColumns[i];
 
-                            let width = parseInt(getStyle($td[i], 'width'));
-                            if (i === autoWidthIndex) {
-                                width = parseInt(getStyle($td[i], 'width')) - 1;
+                                let width = parseInt(getStyle($td[i], 'width'));
+                                if (i === autoWidthIndex) {
+                                    width = parseInt(getStyle($td[i], 'width')) - 1;
+                                }
+                                if (column.width) width = column.width;
+
+                                this.cloneColumns[i]._width = width;
+
+                                columnsWidth[column._index] = {
+                                    width: width
+                                }
                             }
-                            if (column.width) width = column.width;
-
-                            this.cloneColumns[i]._width = width;
-
-                            columnsWidth[column._index] = {
-                                width: width
-                            }
+                            this.columnsWidth = columnsWidth;
                         }
-                        this.columnsWidth = columnsWidth;
                     });
                 });
             },
@@ -502,6 +507,7 @@
             }
         },
         compiled () {
+            if (!this.content) this.content = this.$parent;
             this.showSlotHeader = this.$els.title.innerHTML.replace(/\n/g, '').replace(/<!--[\w\W\r\n]*?-->/gmi, '') !== '';
             this.showSlotFooter = this.$els.footer.innerHTML.replace(/\n/g, '').replace(/<!--[\w\W\r\n]*?-->/gmi, '') !== '';
             this.rebuildData = this.makeDataWithSortAndFilter();

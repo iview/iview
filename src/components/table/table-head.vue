@@ -34,7 +34,7 @@
                                     </div>
                                 </div>
                                 <div slot="content" :class="[prefixCls + '-filter-list']" v-else>
-                                    <ul>
+                                    <ul :class="[prefixCls + '-filter-list-single']">
                                         <li
                                             :class="[prefixCls + '-filter-select-item', {[prefixCls + '-filter-select-item-selected']: !column._filterChecked.length}]"
                                             @click="handleReset($index)">全部</li>
