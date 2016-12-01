@@ -368,7 +368,11 @@
                     if (this.cloneColumns[index].sortMethod) {
                         return this.cloneColumns[index].sortMethod(a, b);
                     } else {
-                        return type === 'asc' ? a[key] > b[key] : a[key] < b[key];
+                        if (type === 'asc') {
+                            return a[key] > b[key] ? 1 : -1;
+                        } else if (type === 'desc') {
+                            return a[key] < b[key] ? 1 : -1;
+                        }
                     }
                 });
                 return data;

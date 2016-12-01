@@ -36,10 +36,10 @@
                                 <div slot="content" :class="[prefixCls + '-filter-list']" v-else>
                                     <ul :class="[prefixCls + '-filter-list-single']">
                                         <li
-                                            :class="[prefixCls + '-filter-select-item', {[prefixCls + '-filter-select-item-selected']: !column._filterChecked.length}]"
+                                            :class="itemAllClasses(column)"
                                             @click="handleReset($index)">全部</li>
                                         <li
-                                            :class="[prefixCls + '-filter-select-item', {[prefixCls + '-filter-select-item-selected']: column._filterChecked[0] === item.value}]"
+                                            :class="itemClasses(column, item)"
                                             v-for="item in column.filters"
                                             @click="handleSelect(index, item.value)">{{ item.label }}</li>
                                     </ul>
@@ -95,6 +95,22 @@
                     `${this.prefixCls}-cell`,
                     {
                         [`${this.prefixCls}-hidden`]: !this.fixed && column.fixed && (column.fixed === 'left' || column.fixed === 'right')
+                    }
+                ]
+            },
+            itemClasses (column, item) {
+                return [
+                    `${this.prefixCls}-filter-select-item`,
+                    {
+                        [`${this.prefixCls}-filter-select-item-selected`]: column._filterChecked[0] === item.value
+                    }
+                ]
+            },
+            itemAllClasses (column) {
+                return [
+                    `${this.prefixCls}-filter-select-item`,
+                    {
+                        [`${this.prefixCls}-filter-select-item-selected`]: !column._filterChecked.length
                     }
                 ]
             },
