@@ -92,7 +92,7 @@
             },
             size: {
                 validator (value) {
-                    return oneOf(value, ['small', 'large']);
+                    return oneOf(value, ['small', 'large', 'default']);
                 }
             },
             width: {
@@ -341,6 +341,8 @@
                         const footerHeight = parseInt(getStyle(this.$els.footer, 'height')) || 0;
                         this.bodyHeight = this.height - titleHeight - headerHeight - footerHeight;
                     })
+                } else {
+                    this.bodyHeight = 0;
                 }
             },
             hideColumnFilter () {
@@ -542,6 +544,7 @@
             },
             columns: {
                 handler () {
+                    // todo 这里有性能问题，可能是左右固定计算属性影响的
                     this.cloneColumns = this.makeColumns();
                     this.rebuildData = this.makeDataWithSortAndFilter();
                     this.handleResize();
