@@ -147,7 +147,9 @@
                 return [
                     `${prefixCls}-wrapper`,
                     {
-                        [`${prefixCls}-hide`]: !this.ready
+                        [`${prefixCls}-hide`]: !this.ready,
+                        [`${prefixCls}-with-header`]: this.showSlotHeader,
+                        [`${prefixCls}-with-footer`]: this.showSlotFooter
                     }
                 ]
             },
@@ -158,8 +160,6 @@
                         [`${prefixCls}-${this.size}`]: !!this.size,
                         [`${prefixCls}-border`]: this.border,
                         [`${prefixCls}-stripe`]: this.stripe,
-                        [`${prefixCls}-with-header`]: this.showSlotHeader,
-                        [`${prefixCls}-with-footer`]: this.showSlotFooter,
                         [`${prefixCls}-with-fixed-top`]: !!this.height
                     }
                 ]
