@@ -41,7 +41,9 @@
                         this.$parent.$parent.visible = true;
                     });
                 } else {
-                    this.$parent.$parent.visible = false;
+                    if (this.$parent.$parent.trigger === 'hover') {
+                        this.$parent.$parent.visible = false;
+                    }
                 }
                 this.$parent.$parent.$emit('on-click', this.key);
             }

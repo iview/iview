@@ -1,33 +1,33 @@
-<style>
-    body{
-        padding: 50px;
-    }
-</style>
 <template>
-    <Dropdown trigger="click" align="right" @on-click="click">
-        <i-button type="primary">
-            下拉菜单
+    <Dropdown>
+        <a href="javascript:void(0)">
+            hover 触发
             <Icon type="arrow-down-b"></Icon>
-        </i-button>
+        </a>
         <Dropdown-menu slot="list">
-            <Dropdown-item>张三</Dropdown-item>
-            <Dropdown-item disabled>李四</Dropdown-item>
-            <Dropdown-item>王五</Dropdown-item>
-            <Dropdown-item divided>周六</Dropdown-item>
+            <Dropdown-item>驴打滚</Dropdown-item>
+            <Dropdown-item>炸酱面</Dropdown-item>
+            <Dropdown-item>豆汁儿</Dropdown-item>
+            <Dropdown-item>冰糖葫芦</Dropdown-item>
+            <Dropdown-item>北京烤鸭</Dropdown-item>
+        </Dropdown-menu>
+    </Dropdown>
+    <Dropdown trigger="click" style="margin-left: 20px">
+        <a href="javascript:void(0)">
+            click 触发
+            <Icon type="arrow-down-b"></Icon>
+        </a>
+        <Dropdown-menu slot="list">
+            <Dropdown-item>驴打滚</Dropdown-item>
+            <Dropdown-item>炸酱面</Dropdown-item>
+            <Dropdown-item>豆汁儿</Dropdown-item>
+            <Dropdown-item>冰糖葫芦</Dropdown-item>
+            <Dropdown-item>北京烤鸭</Dropdown-item>
         </Dropdown-menu>
     </Dropdown>
 </template>
 <script>
     export default {
-        props: {},
-        data () {
-            return {}
-        },
-        computed: {},
-        methods: {
-            click (key) {
-                console.log(key)
-            }
-        }
+
     }
 </script>
