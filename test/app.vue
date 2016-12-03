@@ -42,6 +42,7 @@ li + li {
                 <li><a v-link="'/cascader'">Cascader</a></li>
                 <li><a v-link="'/transfer'">Transfer</a></li>
                 <li><a v-link="'/table'">Table</a></li>
+                <li><a v-link="'/dropdown'">Dropdown</a></li>
             </ul>
         </nav>
         <router-view></router-view>

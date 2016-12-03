@@ -5,6 +5,12 @@
     import Popper from 'popper.js';
 
     export default {
+        props: {
+            placement: {
+                type: String,
+                default: 'bottom-start'
+            }
+        },
         data () {
             return {
                 popper: null
@@ -20,7 +26,7 @@
                     this.$nextTick(() => {
                         this.popper = new Popper(this.$parent.$els.reference, this.$el, {
                             gpuAcceleration: false,
-                            placement: 'bottom-start',
+                            placement: this.placement,
                             boundariesPadding: 0,
                             forceAbsolute: true,
                             boundariesElement: 'body'

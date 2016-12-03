@@ -1,0 +1,17 @@
+@dropdown-prefix-cls: ~"@{css-prefix}dropdown";
+@dropdown-item-prefix-cls: ~"@{dropdown-prefix-cls}-item";
+
+.@{dropdown-prefix-cls} {
+    display: inline-block;
+    position: relative;
+
+    &-rel{
+        display: inline-block;
+    }
+
+    &-menu{
+        min-width: 100px;
+    }
+}
+
+.select-item(@dropdown-prefix-cls, @dropdown-item-prefix-cls);

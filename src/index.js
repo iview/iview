@@ -12,6 +12,7 @@ import Cascader from './components/cascader';
 import Checkbox from './components/checkbox';
 import Circle from './components/circle';
 import Collapse from './components/collapse';
+import Dropdown from './components/dropdown';
 import Icon from './components/icon';
 import Input from './components/input';
 import InputNumber from './components/input-number';
@@ -49,6 +50,9 @@ const iview = {
     Checkbox,
     CheckboxGroup: Checkbox.Group,
     Circle,
+    Dropdown,
+    DropdownItem: Dropdown.Item,
+    DropdownMenu: Dropdown.Menu,
     iCol: Col,
     Collapse,
     Icon,
