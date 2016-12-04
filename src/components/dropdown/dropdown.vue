@@ -87,6 +87,13 @@
                 if ($parent && $parent.$options.name === 'Dropdown') {
                     $parent.$emit('on-click', key);
                 }
+            },
+            'on-hover-click' () {
+                const $parent = this.$parent.$parent;
+                if ($parent && $parent.$options.name === 'Dropdown') {
+                    $parent.visible = false;
+                    $parent.$emit('on-hover-click');
+                }
             }
         }
     }

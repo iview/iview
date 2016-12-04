@@ -1,5 +1,5 @@
 <template>
-    <Dropdown trigger="click" @on-click="click" style="margin-left: 20px">
+    <Dropdown trigger="hover" @on-click="click" style="margin-left: 20px">
         <a href="javascript:void(0)">
             click 触发
             <Icon type="arrow-down-b"></Icon>

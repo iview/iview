@@ -36,16 +36,18 @@
         },
         methods: {
             handleClick () {
+                const $parent = this.$parent.$parent;
                 if (this.disabled) {
                     this.$nextTick(() => {
-                        this.$parent.$parent.visible = true;
+                        $parent.visible = true;
                     });
                 } else {
-                    if (this.$parent.$parent.trigger === 'hover') {
-                        this.$parent.$parent.visible = false;
+                    if ($parent.trigger === 'hover') {
+                        $parent.visible = false;
+                        $parent.$emit('on-hover-click');
                     }
                 }
-                this.$parent.$parent.$emit('on-click', this.key);
+                $parent.$emit('on-click', this.key);
             }
         }
     }
