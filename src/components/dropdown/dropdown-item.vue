@@ -37,13 +37,15 @@
         methods: {
             handleClick () {
                 const $parent = this.$parent.$parent;
+                const hasChildren = this.$parent && this.$parent.$options.name === 'Dropdown';
                 if (this.disabled) {
                     this.$nextTick(() => {
                         $parent.visible = true;
                     });
+                } else if (hasChildren) {
+                    this.$parent.$emit('on-haschild-click');
                 } else {
-                    if ($parent.trigger === 'hover') {
-                        $parent.visible = false;
+                    if ($parent && $parent.$options.name === 'Dropdown') {
                         $parent.$emit('on-hover-click');
                     }
                 }

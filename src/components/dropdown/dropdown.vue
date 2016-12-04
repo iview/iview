@@ -70,6 +70,14 @@
                     return false;
                 }
                 this.visible = false;
+            },
+            hasParent () {
+                const $parent = this.$parent.$parent;
+                if ($parent && $parent.$options.name === 'Dropdown') {
+                    return $parent;
+                } else {
+                    return false;
+                }
             }
         },
         watch: {
@@ -83,17 +91,22 @@
         },
         events: {
             'on-click' (key) {
-                const $parent = this.$parent.$parent;
-                if ($parent && $parent.$options.name === 'Dropdown') {
-                    $parent.$emit('on-click', key);
-                }
+                const $parent = this.hasParent();
+                if ($parent ) $parent.$emit('on-click', key)
             },
             'on-hover-click' () {
-                const $parent = this.$parent.$parent;
-                if ($parent && $parent.$options.name === 'Dropdown') {
-                    $parent.visible = false;
-                    $parent.$emit('on-hover-click');
-                }
+                this.$nextTick(() => {
+                    this.visible = false;
+                });
+                const $parent = this.hasParent();
+                if ($parent) $parent.$emit('on-hover-click');
+            },
+            'on-haschild-click' () {
+                this.$nextTick(() => {
+                    this.visible = true;
+                });
+                const $parent = this.hasParent();
+                if ($parent) $parent.$emit('on-haschild-click');
             }
         }
     }
