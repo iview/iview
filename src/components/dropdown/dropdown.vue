@@ -6,7 +6,7 @@
         @mouseleave="handleMouseleave"
         v-clickoutside="handleClose">
         <div :class="[prefixCls-rel]" v-el:reference><slot></slot></div>
-        <Drop v-show="visible" :placement="placement" transition="slide-up"><slot name="list"></slot></Drop>
+        <Drop v-show="visible" :placement="placement" transition="slide-up" v-ref:drop><slot name="list"></slot></Drop>
     </div>
 </template>
 <script>
@@ -17,6 +17,7 @@
     const prefixCls = 'ivu-dropdown';
 
     export default {
+        name: 'Dropdown',
         directives: { clickoutside },
         components: { Drop },
         props: {
@@ -26,22 +27,17 @@
                 },
                 default: 'hover'
             },
-            align: {
+            placement: {
                 validator (value) {
-                    return oneOf(value, ['left', 'center', 'right']);
+                    return oneOf(value, ['top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left', 'left-start', 'left-end', 'right', 'right-start', 'right-end']);
                 },
-                default: 'center'
+                default: 'bottom'
             }
         },
         data () {
             return {
                 prefixCls: prefixCls,
                 visible: false
-            }
-        },
-        computed: {
-            placement () {
-                return this.align === 'left' ? 'bottom-start' : this.align === 'center' ? 'bottom' : 'bottom-end';
             }
         },
         methods: {
@@ -79,9 +75,17 @@
         watch: {
             visible (val) {
                 if (val) {
-                    this.$broadcast('on-update-popper');
+                    this.$refs.drop.update();
                 } else {
-                    this.$broadcast('on-destroy-popper');
+                    this.$refs.drop.destroy();
+                }
+            }
+        },
+        events: {
+            'on-click' (key) {
+                const $parent = this.$parent.$parent;
+                if ($parent && $parent.$options.name === 'Dropdown') {
+                    $parent.$emit('on-click', key);
                 }
             }
         }
