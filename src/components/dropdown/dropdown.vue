@@ -1,12 +1,14 @@
 <template>
     <div
         :class="[prefixCls]"
-        @click="handleClick"
+        v-clickoutside="handleClose"
         @mouseenter="handleMouseenter"
-        @mouseleave="handleMouseleave"
-        v-clickoutside="handleClose">
-        <div :class="[prefixCls-rel]" v-el:reference><slot></slot></div>
-        <Drop v-show="visible" :placement="placement" transition="slide-up" v-ref:drop><slot name="list"></slot></Drop>
+        @mouseleave="handleMouseleave">
+        <div
+            :class="[prefixCls-rel]"
+            v-el:reference
+            @click="handleClick"><slot></slot></div>
+        <Drop v-show="visible" :placement="placement" :transition="transition" v-ref:drop><slot name="list"></slot></Drop>
     </div>
 </template>
 <script>
@@ -32,6 +34,11 @@
                     return oneOf(value, ['top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left', 'left-start', 'left-end', 'right', 'right-start', 'right-end']);
                 },
                 default: 'bottom'
+            }
+        },
+        computed: {
+            transition () {
+                return ['bottom-start', 'bottom', 'bottom-end'].indexOf(this.placement) > -1 ? 'slide-up' : 'fade';
             }
         },
         data () {
@@ -92,14 +99,20 @@
         events: {
             'on-click' (key) {
                 const $parent = this.hasParent();
-                if ($parent ) $parent.$emit('on-click', key)
+                if ($parent ) $parent.$emit('on-click', key);
             },
             'on-hover-click' () {
-                this.$nextTick(() => {
-                    this.visible = false;
-                });
                 const $parent = this.hasParent();
-                if ($parent) $parent.$emit('on-hover-click');
+                if ($parent) {
+                    this.$nextTick(() => {
+                        this.visible = false;
+                    });
+                    $parent.$emit('on-hover-click');
+                } else {
+                    this.$nextTick(() => {
+                        this.visible = false;
+                    });
+                }
             },
             'on-haschild-click' () {
                 this.$nextTick(() => {
