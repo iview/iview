@@ -1,106 +1,27 @@
+<style>
+
+</style>
 <template>
-    <Card>
-        <Dropdown>
-            <a href="javascript:void(0)">
-                hover 触发
-                <Icon type="arrow-down-b"></Icon>
-            </a>
-            <Dropdown-menu slot="list">
-                <Dropdown-item>驴打滚</Dropdown-item>
-                <Dropdown-item>炸酱面</Dropdown-item>
-                <Dropdown-item>豆汁儿</Dropdown-item>
-                <Dropdown-item>冰糖葫芦</Dropdown-item>
-                <Dropdown-item>北京烤鸭</Dropdown-item>
-            </Dropdown-menu>
-        </Dropdown>
-        <Dropdown trigger="click" style="margin-left: 20px">
-            <a href="javascript:void(0)">
-                click 触发
-                <Icon type="arrow-down-b"></Icon>
-            </a>
-            <Dropdown-menu slot="list">
-                <Dropdown-item>驴打滚</Dropdown-item>
-                <Dropdown-item>炸酱面</Dropdown-item>
-                <Dropdown-item>豆汁儿</Dropdown-item>
-                <Dropdown-item>冰糖葫芦</Dropdown-item>
-                <Dropdown-item>北京烤鸭</Dropdown-item>
-            </Dropdown-menu>
-        </Dropdown>
-        <Dropdown trigger="hover" @on-click="click" style="margin-left: 20px">
-            <a href="javascript:void(0)">
-                hover 触发
-                <Icon type="arrow-down-b"></Icon>
-            </a>
-            <Dropdown-menu slot="list">
-                <Dropdown-item>驴打滚</Dropdown-item>
-                <Dropdown placement="right-start">
-                    <Dropdown-item>
-                        炸酱面
-                        <Icon type="arrow-right-b"></Icon>
-                    </Dropdown-item>
-                    <Dropdown-menu slot="list">
-                        <Dropdown-item>驴打滚</Dropdown-item>
-                        <Dropdown-item>炸酱面</Dropdown-item>
-                        <Dropdown-item>豆汁儿</Dropdown-item>
-                        <Dropdown placement="right-start">
-                            <Dropdown-item>
-                                冰糖葫芦
-                                <Icon type="arrow-right-b"></Icon>
-                            </Dropdown-item>
-                            <Dropdown-menu slot="list">
-                                <Dropdown-item>驴打滚</Dropdown-item>
-                                <Dropdown-item key="123">炸酱面</Dropdown-item>
-                                <Dropdown-item>豆汁儿</Dropdown-item>
-                                <Dropdown-item>冰糖葫芦</Dropdown-item>
-                                <Dropdown-item>北京烤鸭</Dropdown-item>
-                            </Dropdown-menu>
-                        </Dropdown>
-                        <Dropdown-item>北京烤鸭</Dropdown-item>
-                    </Dropdown-menu>
-                </Dropdown>
-                <Dropdown-item>豆汁儿</Dropdown-item>
-                <Dropdown-item>冰糖葫芦</Dropdown-item>
-                <Dropdown-item>北京烤鸭</Dropdown-item>
-            </Dropdown-menu>
-        </Dropdown>
-        <Dropdown trigger="click" @on-click="click" style="margin-left: 20px">
-            <a href="javascript:void(0)">
-                click 触发
-                <Icon type="arrow-down-b"></Icon>
-            </a>
-            <Dropdown-menu slot="list">
-                <Dropdown-item>驴打滚</Dropdown-item>
-                <Dropdown placement="right-start">
-                    <Dropdown-item>
-                        炸酱面
-                        <Icon type="arrow-right-b"></Icon>
-                    </Dropdown-item>
-                    <Dropdown-menu slot="list">
-                        <Dropdown-item>驴打滚</Dropdown-item>
-                        <Dropdown-item>炸酱面</Dropdown-item>
-                        <Dropdown-item>豆汁儿</Dropdown-item>
-                        <Dropdown placement="right-start">
-                            <Dropdown-item>
-                                冰糖葫芦
-                                <Icon type="arrow-right-b"></Icon>
-                            </Dropdown-item>
-                            <Dropdown-menu slot="list">
-                                <Dropdown-item>驴打滚</Dropdown-item>
-                                <Dropdown-item key="123">炸酱面</Dropdown-item>
-                                <Dropdown-item>豆汁儿</Dropdown-item>
-                                <Dropdown-item>冰糖葫芦</Dropdown-item>
-                                <Dropdown-item>北京烤鸭</Dropdown-item>
-                            </Dropdown-menu>
-                        </Dropdown>
-                        <Dropdown-item>北京烤鸭</Dropdown-item>
-                    </Dropdown-menu>
-                </Dropdown>
-                <Dropdown-item>豆汁儿</Dropdown-item>
-                <Dropdown-item>冰糖葫芦</Dropdown-item>
-                <Dropdown-item>北京烤鸭</Dropdown-item>
-            </Dropdown-menu>
-        </Dropdown>
-    </Card>
+    <Dropdown trigger="click">
+        <a href="javascript:void(0)">
+            北京小吃
+            <Icon type="arrow-down-b"></Icon>
+        </a>
+        <Dropdown-menu slot="list">
+            <Dropdown-item>炸酱面</Dropdown-item>
+            <Dropdown placement="right-start" trigger="click">
+                <Dropdown-item>
+                    北京烤鸭
+                    <Icon type="ios-arrow-right"></Icon>
+                </Dropdown-item>
+                <Dropdown-menu slot="list">
+                    <Dropdown-item>挂炉烤鸭</Dropdown-item>
+                    <Dropdown-item>焖炉烤鸭</Dropdown-item>
+                </Dropdown-menu>
+            </Dropdown>
+            <Dropdown-item>冰糖葫芦</Dropdown-item>
+        </Dropdown-menu>
+    </Dropdown>
 </template>
 <script>
     export default {
