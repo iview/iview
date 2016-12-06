@@ -1,5 +1,5 @@
 <template>
-    <i-button @click="toggleClose" :animated="false">closable</i-button>
+    <i-button @click="toggleClose">closable</i-button>
 
     <Tabs type="line" :closable="closable" :animated="false">
         <Tab-pane label="Tab 1">Tab1 content</Tab-pane>

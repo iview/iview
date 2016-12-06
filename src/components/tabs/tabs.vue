@@ -74,13 +74,17 @@
             contentClasses () {
                 return [
                     `${prefixCls}-content`,
-                    `${prefixCls}-content-animated`
+                    {
+                        [`${prefixCls}-content-animated`]: this.animated
+                    }
                 ]
             },
             barClasses () {
                 return [
                     `${prefixCls}-ink-bar`,
-                    `${prefixCls}-ink-bar-animated`
+                    {
+                        [`${prefixCls}-ink-bar-animated`]: this.animated
+                    }
                 ]
             },
             contentStyle () {
@@ -98,10 +102,14 @@
             barStyle () {
                 let style = {
                     display: 'none',
-                    width: `${this.barWidth}px`,
-                    transform: `translate3d(${this.barOffset}px, 0px, 0px)`
+                    width: `${this.barWidth}px`
                 };
                 if (this.type === 'line') style.display = 'block';
+                if (this.animated) {
+                    style.transform = `translate3d(${this.barOffset}px, 0px, 0px)`;
+                } else {
+                    style.left = `${this.barOffset}px`;
+                }
 
                 return style;
             }
@@ -124,6 +132,7 @@
                         if (!this.activeKey) this.activeKey = pane.key || index;
                     }
                 });
+                this.updateStatus();
                 this.updateBar();
             },
             updateBar () {
@@ -146,6 +155,10 @@
                     }
                 });
             },
+            updateStatus () {
+                const tabs = this.getTabs();
+                tabs.forEach(tab => tab.show = (tab.key === this.activeKey) || this.animated);
+            },
             tabCls (item) {
                 return [
                     `${prefixCls}-tab`,
@@ -159,6 +172,7 @@
                 const nav = this.navList[index];
                 if (nav.disabled) return;
                 this.activeKey = nav.key;
+                this.updateStatus();
                 this.$emit('on-click', nav.key);
             },
             handleRemove (index) {
