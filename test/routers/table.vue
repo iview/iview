@@ -1,17 +1,18 @@
 <template>
-    <i-table border :columns="columns1" :data="data1">
-        <div slot="header">表格标题</div>
-        <div slot="footer">表格页脚</div>
-    </i-table>
+    <i-table border :content="self" :columns="columns7" :data="data6"></i-table>
 </template>
 <script>
     export default {
         data () {
             return {
-                columns1: [
+                self: this,
+                columns7: [
                     {
                         title: '姓名',
-                        key: 'name'
+                        key: 'name',
+                        render (row, column, index) {
+                            return `<Icon type="person"></Icon> <strong>${row.name}</strong>`;
+                        }
                     },
                     {
                         title: '年龄',
@@ -20,9 +21,18 @@
                     {
                         title: '地址',
                         key: 'address'
+                    },
+                    {
+                        title: '操作',
+                        key: 'action',
+                        width: 150,
+                        align: 'center',
+                        render (row, column, index) {
+                            return `<i-button type="primary" size="small" @click="show(${index})">查看</i-button> <i-button type="error" size="small" @click="remove(${index})">删除</i-button>`;
+                        }
                     }
                 ],
-                data1: [
+                data6: [
                     {
                         name: '王小明',
                         age: 18,
@@ -44,6 +54,17 @@
                         address: '深圳市南山区深南大道'
                     }
                 ]
+            }
+        },
+        methods: {
+            show (index) {
+                this.$Modal.info({
+                    title: '用户信息',
+                    content: `姓名：${this.data6[index].name}<br>年龄：${this.data6[index].age}<br>地址：${this.data6[index].address}`
+                })
+            },
+            remove (index) {
+                this.data6.splice(index, 1);
             }
         }
     }

@@ -112,6 +112,11 @@ router.map({
         component: function (resolve) {
             require(['./routers/dropdown.vue'], resolve);
         }
+    },
+    '/tabs': {
+        component: function (resolve) {
+            require(['./routers/tabs.vue'], resolve);
+        }
     }
 });
 
