@@ -4,10 +4,7 @@
         v-clickoutside="handleClose"
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave">
-        <div
-            :class="[prefixCls-rel]"
-            v-el:reference
-            @click="handleClick"><slot></slot></div>
+        <div :class="[prefixCls-rel]" v-el:reference @click="handleClick"><slot></slot></div>
         <Drop v-show="visible" :placement="placement" :transition="transition" v-ref:drop><slot name="list"></slot></Drop>
     </div>
 </template>

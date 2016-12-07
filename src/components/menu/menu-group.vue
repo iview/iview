@@ -1,13 +1,30 @@
 <template>
-
+    <li :class="[prefixCls + '-item-group']">
+        <div :class="[prefixCls + '-item-group-title']">{{ title }}</div>
+        <ul><slot></slot></ul>
+    </li>
 </template>
 <script>
+    const prefixCls = 'ivu-menu';
+
     export default {
-        props: {},
-        data () {
-            return {}
+        name: 'MenuGroup',
+        props: {
+            title: {
+                type: String,
+                default: ''
+            }
         },
-        computed: {},
-        methods: {}
+        data () {
+            return {
+                prefixCls: prefixCls
+            }
+        },
+        computed: {
+
+        },
+        methods: {
+
+        }
     }
 </script>

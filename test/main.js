@@ -117,6 +117,11 @@ router.map({
         component: function (resolve) {
             require(['./routers/tabs.vue'], resolve);
         }
+    },
+    '/menu': {
+        component: function (resolve) {
+            require(['./routers/menu.vue'], resolve);
+        }
     }
 });
 
