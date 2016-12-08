@@ -1,5 +1,5 @@
 <template>
-    <ul :class="classes"><slot></slot></ul>
+    <ul :class="classes" :style="styles"><slot></slot></ul>
 </template>
 <script>
     import { oneOf } from '../../utils/assist';
@@ -32,11 +32,10 @@
             accordion: {
                 type: Boolean,
                 default: false
-            }
-        },
-        data () {
-            return {
-
+            },
+            width: {
+                type: String,
+                default: '240px'
             }
         },
         computed: {
@@ -51,12 +50,21 @@
                         [`${prefixCls}-${this.mode}`]: this.mode
                     }
                 ]
+            },
+            styles () {
+                let style = {};
+
+                if (this.mode === 'vertical') style.width = this.width;
+
+                return style;
             }
         },
         methods: {
             updateActiveKey () {
                 this.$children.forEach((item, index) => {
-                    if (!this.activeKey && index === 0) this.activeKey = item.key;
+                    if (!this.activeKey && index === 0) {
+                        this.activeKey = -1;
+                    }
 
                     if (item.$options.name === 'Submenu') {
                         item.active = false;
@@ -95,10 +103,18 @@
                 } else {
                     this.openKeys.push(key);
                 }
+            },
+            updateOpened () {
+                this.$children.forEach(item => {
+                    if (item.$options.name === 'Submenu') {
+                        if (this.openKeys.indexOf(item.key) > -1) item.opened = true;
+                    }
+                })
             }
         },
         compiled () {
             this.updateActiveKey();
+            this.updateOpened();
         },
         events: {
             'on-menu-item-select' (key) {

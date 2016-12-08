@@ -19,12 +19,6 @@
             return {
                 prefixCls: prefixCls
             }
-        },
-        computed: {
-
-        },
-        methods: {
-
         }
     }
 </script>
