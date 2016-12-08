@@ -459,6 +459,10 @@
             slotChange () {
                 this.options = [];
                 this.optionInstances = [];
+            },
+            setQuery (query) {
+                if (!this.filterable) return;
+                this.query = query;
             }
         },
         ready () {
