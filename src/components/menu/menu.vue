@@ -45,7 +45,7 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-${this.mode}`]: this.mode,
-                        [`${prefixCls}-${this.theme}`]: this.theme
+                        [`${prefixCls}-${this.theme}`]: this.mode === 'horizontal' || (this.mode === 'vertical' && this.theme !== 'primary')
                     }
                 ]
             }

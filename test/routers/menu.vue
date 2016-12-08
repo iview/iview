@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Menu mode="horizontal" active-key="1">
+        <Menu mode="horizontal" :theme="theme" active-key="1">
             <Menu-item key="1">
                 <Icon type="ionic"></Icon><span>导航一</span>
             </Menu-item>
@@ -19,7 +19,13 @@
             <Menu-item key="4">导航四</Menu-item>
         </Menu>
         <br><br>
-        <Menu :mode="mode" active-key="1" @on-open-change="change">
+        <Radio-group :model.sync="theme">
+            <Radio value="light"></Radio>
+            <Radio value="dark"></Radio>
+            <Radio value="primary"></Radio>
+        </Radio-group>
+        <br><br>
+        <Menu :mode="mode" :theme="theme" active-key="1" @on-open-change="change">
             <Menu-item key="1">
                 <Icon type="ionic"></Icon>
                 <span>导航一</span>
@@ -114,7 +120,8 @@
         props: {},
         data () {
             return {
-                mode: 'vertical'
+                mode: 'vertical',
+                theme: 'dark'
             }
         },
         computed: {},
