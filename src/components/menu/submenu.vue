@@ -102,7 +102,7 @@
         },
         events: {
             'on-menu-item-select' () {
-                this.opened = false;
+                if (this.mode === 'horizontal') this.opened = false;
                 return true;
             }
         }

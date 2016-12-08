@@ -41,11 +41,14 @@
         },
         computed: {
             classes () {
+                let theme = this.theme;
+                if (this.mode === 'vertical' && this.theme === 'primary') theme = 'light';
+
                 return [
                     `${prefixCls}`,
+                    `${prefixCls}-${theme}`,
                     {
-                        [`${prefixCls}-${this.mode}`]: this.mode,
-                        [`${prefixCls}-${this.theme}`]: this.mode === 'horizontal' || (this.mode === 'vertical' && this.theme !== 'primary')
+                        [`${prefixCls}-${this.mode}`]: this.mode
                     }
                 ]
             }
