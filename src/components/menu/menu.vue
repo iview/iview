@@ -73,6 +73,10 @@
                                 }
                             }
                         })
+                    } else if (item.$options.name === 'MenuGroup') {
+                        item.$children.forEach(groupItem => {
+                            groupItem.active = groupItem.key === this.activeKey;
+                        })
                     } else {
                         item.active = item.key === this.activeKey;
                     }

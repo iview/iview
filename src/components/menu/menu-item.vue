@@ -35,6 +35,7 @@
         },
         methods: {
             handleClick () {
+                if (this.disabled) return;
                 this.$dispatch('on-menu-item-select', this.key);
             }
         }
