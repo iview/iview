@@ -58,6 +58,7 @@
 
                 clearTimeout(this.timeout);
                 this.timeout = setTimeout(() => {
+                    this.$parent.updateOpenKeys(this.key);
                     this.opened = true;
                 }, 250);
             },
@@ -67,6 +68,7 @@
 
                 clearTimeout(this.timeout);
                 this.timeout = setTimeout(() => {
+                    this.$parent.updateOpenKeys(this.key);
                     this.opened = false;
                 }, 150);
             },
@@ -80,6 +82,7 @@
                     });
                 }
                 this.opened = !opened;
+                this.$parent.updateOpenKeys(this.key);
             }
         },
         watch: {

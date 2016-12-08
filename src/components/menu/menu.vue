@@ -24,7 +24,10 @@
                 type: [String, Number]
             },
             openKeys: {
-                type: Array
+                type: Array,
+                default () {
+                    return []
+                }
             },
             accordion: {
                 type: Boolean,
@@ -81,6 +84,14 @@
                         item.active = item.key === this.activeKey;
                     }
                 })
+            },
+            updateOpenKeys (key) {
+                const index = this.openKeys.indexOf(key);
+                if (index > -1) {
+                    this.openKeys.splice(index, 1);
+                } else {
+                    this.openKeys.push(key);
+                }
             }
         },
         compiled () {
@@ -91,6 +102,11 @@
                 this.activeKey = key;
                 this.updateActiveKey();
                 this.$emit('on-select', key);
+            }
+        },
+        watch: {
+            openKeys () {
+                this.$emit('on-open-change', this.openKeys);
             }
         }
     }

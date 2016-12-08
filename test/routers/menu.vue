@@ -19,7 +19,7 @@
             <Menu-item key="4">导航四</Menu-item>
         </Menu>
         <br><br>
-        <Menu :mode="mode" active-key="1" accordion>
+        <Menu :mode="mode" active-key="1" @on-open-change="change">
             <Menu-item key="1">
                 <Icon type="ionic"></Icon>
                 <span>导航一</span>
@@ -121,6 +121,9 @@
         methods: {
             toggleMode () {
                 this.mode = this.mode === 'horizontal' ? 'vertical' : 'horizontal';
+            },
+            change (d) {
+                console.log(d)
             }
         }
     }
