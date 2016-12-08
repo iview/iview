@@ -121,11 +121,11 @@
     &-item-group{
         line-height: normal;
         &-title {
+            height: 30px;
+            line-height: 30px;
             padding-left: 8px;
             font-size: @font-size-small;
             color: @legend-color;
-            height: 48px;
-            line-height: 48px;
         }
 
         & > ul{
@@ -166,6 +166,8 @@
     }
     &-vertical &-item-group{
         &-title{
+            height: 48px;
+            line-height: 48px;
             font-size: @font-size-base;
             padding-left: 28px;
         }
@@ -224,3 +226,8 @@
     }
 }
 .select-item(@menu-prefix-cls, @menu-dropdown-item-prefix-cls);
+
+.@{menu-dropdown-item-prefix-cls} {
+    padding: 7px 16px 8px;
+    font-size: @font-size-base !important;
+}

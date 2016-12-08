@@ -78,7 +78,7 @@
                                         groupItem.active = false;
                                     }
                                 })
-                            } else {
+                            } else if (subitem.$options.name === 'MenuItem') {
                                 if (subitem.key === this.activeKey) {
                                     subitem.active = true;
                                     subitem.$parent.active = true;
@@ -91,7 +91,7 @@
                         item.$children.forEach(groupItem => {
                             groupItem.active = groupItem.key === this.activeKey;
                         })
-                    } else {
+                    } else if (item.$options.name === 'MenuItem') {
                         item.active = item.key === this.activeKey;
                     }
                 })
