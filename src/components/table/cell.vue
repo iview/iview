@@ -19,12 +19,16 @@
             naturalIndex: Number,    // index of rebuildData
             index: Number,           // _index of data
             checked: Boolean,
-            fixed: Boolean
+            fixed: {
+                type: [Boolean, String],
+                default: false
+            }
         },
         data () {
             return {
                 renderType: '',
-                uid: -1
+                uid: -1,
+                content: this.$parent.$parent.content
             }
         },
         computed: {
@@ -40,7 +44,7 @@
         methods: {
             compile () {
                 if (this.column.render) {
-                    const $parent = this.$parent.$parent.$parent;
+                    const $parent = this.content;
                     const template = this.column.render(this.row, this.column, this.index);
                     const cell = document.createElement('div');
                     cell.innerHTML = template;
@@ -56,7 +60,7 @@
                 }
             },
             destroy () {
-                const $parent = this.$parent.$parent.$parent;
+                const $parent = this.content;
                 for (let i = 0; i < $parent.$children.length; i++) {
                     if ($parent.$children[i]._uid === this.uid) {
                         $parent.$children[i].$destroy();

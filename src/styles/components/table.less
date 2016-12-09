@@ -46,16 +46,16 @@
     }
 
     &-with-header{
-        border-radius: @border-radius-base @border-radius-base 0 0;
+        //border-radius: @border-radius-base @border-radius-base 0 0;
     }
 
     &-with-footer{
-        border: 1px solid @border-color-base;
-        border-radius: 0 0 @border-radius-base @border-radius-base;
+        //border: 1px solid @border-color-base;
+        //border-radius: 0 0 @border-radius-base @border-radius-base;
     }
 
     &-with-header&-with-footer{
-        border-radius: @border-radius-base;
+        //border-radius: @border-radius-base;
     }
 
     &-title, &-footer{
@@ -206,7 +206,6 @@
         position: absolute;
         top: 0;
         left: 0;
-        //box-shadow: @shadow-right;
         box-shadow: 2px 0 6px -2px rgba(0, 0, 0, 0.2);
 
         &::before {
@@ -224,13 +223,10 @@
         top: 0;
         left: auto;
         right: 0;
-        //box-shadow: @shadow-left;
         box-shadow: -2px 0 6px -2px rgba(0, 0, 0, 0.2);
     }
     &-fixed-header{
         overflow: hidden;
-        //position: relative;
-        //z-index: 3;
     }
     &-fixed-body{
         overflow: hidden;

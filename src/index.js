@@ -12,10 +12,12 @@ import Cascader from './components/cascader';
 import Checkbox from './components/checkbox';
 import Circle from './components/circle';
 import Collapse from './components/collapse';
+import Dropdown from './components/dropdown';
 import Icon from './components/icon';
 import Input from './components/input';
 import InputNumber from './components/input-number';
 import LoadingBar from './components/loading-bar';
+import Menu from './components/menu';
 import Message from './components/message';
 import Modal from './components/modal';
 import Notice from './components/notice';
@@ -28,6 +30,7 @@ import Spin from './components/spin';
 import Steps from './components/steps';
 import Switch from './components/switch';
 import Table from './components/table';
+import Tabs from './components/tabs';
 import Tag from './components/tag';
 import Timeline from './components/timeline';
 import Tooltip from './components/tooltip';
@@ -49,12 +52,19 @@ const iview = {
     Checkbox,
     CheckboxGroup: Checkbox.Group,
     Circle,
+    Dropdown,
+    DropdownItem: Dropdown.Item,
+    DropdownMenu: Dropdown.Menu,
     iCol: Col,
     Collapse,
     Icon,
     iInput: Input,
     InputNumber,
     LoadingBar,
+    Menu,
+    MenuGroup: Menu.Group,
+    MenuItem: Menu.Item,
+    Submenu: Menu.Sub,
     Message,
     Modal,
     Notice,
@@ -74,6 +84,8 @@ const iview = {
     Steps,
     Switch,
     iTable: Table,
+    Tabs: Tabs,
+    TabPane: Tabs.Pane,
     Tag,
     Timeline,
     TimelineItem: Timeline.Item,

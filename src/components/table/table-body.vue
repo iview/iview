@@ -37,7 +37,11 @@
             columns: Array,
             data: Array,    // rebuildData
             objData: Object,
-            fixed: Boolean
+            columnsWidth: Object,
+            fixed: {
+                type: [Boolean, String],
+                default: false
+            }
         },
         methods: {
             rowClasses (_index) {
@@ -52,9 +56,6 @@
             },
             rowChecked (_index) {
                 return this.objData[_index] && this.objData[_index]._isChecked;
-            },
-            setCellWidth (column, index) {
-                return this.$parent.setCellWidth(column, index);
             },
             rowClsName (_index) {
                 return this.$parent.rowClassName(this.objData[_index], _index);

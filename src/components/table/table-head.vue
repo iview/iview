@@ -15,7 +15,7 @@
                                 <i class="ivu-icon ivu-icon-arrow-down-b" :class="{on: column._sortType === 'desc'}" @click="handleSort($index, 'desc')"></i>
                             </span>
                             <Poptip
-                                v-if="column.filters && (fixed || (!fixed && !column.fixed))"
+                                v-if="isPopperShow(column)"
                                 :visible.sync="column._filterVisible"
                                 placement="bottom"
                                 @on-popper-hide="handleFilterHide($index)">
@@ -34,12 +34,12 @@
                                     </div>
                                 </div>
                                 <div slot="content" :class="[prefixCls + '-filter-list']" v-else>
-                                    <ul>
+                                    <ul :class="[prefixCls + '-filter-list-single']">
                                         <li
-                                            :class="[prefixCls + '-filter-select-item', {[prefixCls + '-filter-select-item-selected']: !column._filterChecked.length}]"
+                                            :class="itemAllClasses(column)"
                                             @click="handleReset($index)">全部</li>
                                         <li
-                                            :class="[prefixCls + '-filter-select-item', {[prefixCls + '-filter-select-item-selected']: column._filterChecked[0] === item.value}]"
+                                            :class="itemClasses(column, item)"
                                             v-for="item in column.filters"
                                             @click="handleSelect(index, item.value)">{{ item.label }}</li>
                                     </ul>
@@ -69,7 +69,11 @@
             columns: Array,
             objData: Object,
             data: Array,    // rebuildData
-            fixed: Boolean
+            columnsWidth: Object,
+            fixed: {
+                type: [Boolean, String],
+                default: false
+            }
         },
         computed: {
             isSelectAll () {
@@ -94,8 +98,21 @@
                     }
                 ]
             },
-            setCellWidth (column, index) {
-                return this.$parent.setCellWidth(column, index);
+            itemClasses (column, item) {
+                return [
+                    `${this.prefixCls}-filter-select-item`,
+                    {
+                        [`${this.prefixCls}-filter-select-item-selected`]: column._filterChecked[0] === item.value
+                    }
+                ]
+            },
+            itemAllClasses (column) {
+                return [
+                    `${this.prefixCls}-filter-select-item`,
+                    {
+                        [`${this.prefixCls}-filter-select-item-selected`]: !column._filterChecked.length
+                    }
+                ]
             },
             renderHeader (column, $index) {
                 if ('renderHeader' in this.columns[$index]) {

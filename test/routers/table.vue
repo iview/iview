@@ -1,254 +1,157 @@
-<style>
-    body{
-        height: auto;
-    }
-</style>
 <template>
-    <div>
-        <!--<i-table size="large" border stripe :columns="columns" :data="data"></i-table>-->
-        <br>
-        <i-table
-                width="450"
-                :height="height"
-                stripe
-                :border="true"
-                highlight-row
-                :show-header="true"
-                :columns="columns"
-                :data="data"
-                :row-class-name="rowClsName"
-                @on-current-change="current"
-                @on-select="select"
-                @on-selection-change="schange"
-                @on-select-all="sall"
-                @on-sort-change="sortChange">
-            <!--<div slot="header">表格标题</div>-->
-            <!--<div slot="footer">表格标题</div>-->
-        </i-table>
-        <br>
-        <i-button @click="showChildren">显示子节点</i-button>
-        <!--<i-table size="small" border stripe :columns="columns" :data="data"></i-table>-->
-    </div>
+    <i-button @click="down">down</i-button>
+    <checkbox-group :model.sync="tableColumnsChecked" @on-change="changeTableColumns">
+        <checkbox value="show">展示</checkbox>
+        <checkbox value="weak">唤醒</checkbox>
+        <checkbox value="signin">登录</checkbox>
+        <checkbox value="click">点击</checkbox>
+        <checkbox value="active">激活</checkbox>
+        <checkbox value="day7">7日留存</checkbox>
+        <checkbox value="day30">30日留存</checkbox>
+        <checkbox value="tomorrow">次日留存</checkbox>
+        <checkbox value="day">日活跃</checkbox>
+        <checkbox value="week">周活跃</checkbox>
+        <checkbox value="month">月活跃</checkbox>
+    </checkbox-group>
+    <i-table :content="self" :data="tableData2" :columns="tableColumns2" border v-ref:table></i-table>
 </template>
 <script>
     export default {
-        props: {
-        
-        },
         data () {
             return {
-                columns: [
-                    {
-                        type: 'selection',
-                        width: 50,
-                        fixed: 'left',
-                        align: 'center'
-                    },
-                    {
-                        type: 'index',
-                        width: 50
-                    },
-                    {
-                        title: '姓名',
-                        key: 'name',
-                        align: 'left',
-                        fixed: 'left',
-                        sortable: true,
-                        width: 100,
-                        filters: [
-                            {
-                                label: '两个字',
-                                value: 1
-                            },
-                            {
-                                label: '三个字',
-                                value: 2
-                            }
-                        ],
-                        filterMultiple: false,
-                        filterMethod (value, row) {
-                            if (value === 1) {
-                                return row.name.length == 2;
-                            } else if (value === 2) {
-                                return row.name.length == 3;
-                            }
-                        }
-                    },
-                    {
-                        title: '标签',
-                        key: 'tag',
-                        width: 100,
-                        filters: [
-                            {
-                                label: '家',
-                                value: 'home'
-                            },
-                            {
-                                label: '公司',
-                                value: 'company'
-                            }
-                        ],
-                        filterMethod (value, row) {
-                            return row.tag === value;
-                        },
-                        render (row) {
-                            const type = `${row.tag}` === 'home' ? 'green' : 'red';
-                            return `<tag color="${type}">${row.tag}</tag>`;
-                        }
-                    },
-                    {
-                        title: '年龄',
-                        key: 'age',
-                        align: 'right',
-//                        fixed: 'left',
-                        sortable: true,
-                        width: 100,
-                        filters: [
-                            {
-                                label: '大于25岁',
-                                value: 1
-                            },
-                            {
-                                label: '小于25岁',
-                                value: 2
-                            }
-                        ],
-                        filterMultiple: false,
-                        filterMethod (value, row) {
-                            if (value === 1) {
-                                return row.age >= 25;
-                            } else if (value === 2) {
-                                return row.age < 25;
-                            }
-                        }
-//                        render (row) {
-//                            return `<i-button>${row.age}</i-button>`
-//                        }
-                    },
-                    {
-                        title: '地址',
-                        key: 'address',
-                        align: 'center',
-//                        fixed: 'right',
-                        width: 100,
-//                        render (row, column, index) {
-//                            if (row.edit) {
-//                                return `<i-input :value.sync="data[${index}].name"></i-input>`;
-//                            } else {
-//                                return `<Tooltip content="${row.address}"><i-button @click="show(${index})">${row.name}</i-button></Tooltip>`;
-//                            }
-//                        }
-                    },
-                    {
-                        title: '操作',
-                        key: 'action',
-                        fixed: 'right',
-                        width: 120,
-                        render (row, column, index) {
-                            return `<i-button @click="edit(${index})">${row.name}${index}</i-button>`;
-                            return `<a>${row.name}</a>`;
-                        }
-                    }
-                ],
-                data: [
-                    {
-                        name: '梁灏',
-                        age: 25,
-                        address: '北京市朝阳区',
-                        edit: false,
-                        tag: 'home',
-                        action: 1
-                    },
-                    {
-                        name: '段模',
-                        age: 21,
-                        address: '北京市海淀区',
-                        edit: false,
-                        tag: 'company',
-                        action: 2
-                    },
-                    {
-                        name: '刘天娇',
-                        age: 27,
-                        address: '北京市东城区',
-                        edit: false,
-                        tag: 'company',
-                        action: 3
-                    },
-                    {
-                        name: '胡国伟',
-                        age: 22,
-                        address: '北京市西城区',
-                        edit: false,
-                        tag: 'home',
-                        action: 4
-                    }
-                ],
-                height: 200
+                self: this,
+                tableData2: this.mockTableData2(),
+                tableColumns2: [],
+                tableColumnsChecked: ['show', 'weak', 'signin', 'click', 'active', 'day7', 'day30', 'tomorrow', 'day', 'week', 'month']
             }
         },
-        computed: {
-        
-        },
         methods: {
-            show (name) {
-                this.$Message.info(name);
-            },
-            edit (index) {
-//                this.data[index].edit = true;
-                this.$Message.info(this.data[index].name);
-            },
-            current (newData, oldData) {
-//                console.log(newData);
-//                console.log(oldData);
-            },
-            select (a,b){
-//                console.log(a);
-//                console.log(b);
-            },
-            schange (a) {
-//                console.log(a)
-            },
-            sall (a) {
-                console.log(a)
-            },
-            rowClsName (row, index) {
-                if (index == 1) {
-                    return 'row-success';
-                } else {
-                    return '';
+            mockTableData2 () {
+                let data = [];
+                function getNum() {
+                    return Math.floor(Math.random () * 10000 + 1);
                 }
+                for (let i = 0; i < 10; i++) {
+                    data.push({
+                        name: '推广名称' + (i+1),
+                        fav: 0,
+                        show: getNum(),
+                        weak: getNum(),
+                        signin: getNum(),
+                        click: getNum(),
+                        active: getNum(),
+                        day7: getNum(),
+                        day30: getNum(),
+                        tomorrow: getNum(),
+                        day: getNum(),
+                        week: getNum(),
+                        month: getNum()
+                    })
+                }
+                return data;
             },
-            sortChange (data) {
-                console.log(data)
+            getTable2Columns () {
+                const table2ColumnList = {
+                    name: {
+                        title: '名称',
+                        key: 'name',
+                        fixed: 'left',
+                        width: 200,
+                        render (row, column, index) {
+                            return `<Icon style="cursor: pointer" type="ios-star-outline" v-if="tableData2[${index}].fav === 0" @click="toggleFav(${index})"></Icon>
+                                    <Icon style="cursor: pointer;color:#f60" type="ios-star" v-if="tableData2[${index}].fav === 1" @click="toggleFav(${index})"></Icon>
+                                    <span>${row.name}</span>`;
+                        }
+                    },
+                    show: {
+                        title: '展示',
+                        key: 'show',
+                        width: 150,
+                        sortable: true
+                    },
+                    weak: {
+                        title: '唤醒',
+                        key: 'weak',
+                        width: 150,
+                        sortable: true
+                    },
+                    signin: {
+                        title: '登录',
+                        key: 'signin',
+                        width: 150,
+                        sortable: true
+                    },
+                    click: {
+                        title: '点击',
+                        key: 'click',
+                        width: 150,
+                        sortable: true
+                    },
+                    active: {
+                        title: '激活',
+                        key: 'active',
+                        width: 150,
+                        sortable: true
+                    },
+                    day7: {
+                        title: '7日留存',
+                        key: 'day7',
+                        width: 150,
+                        sortable: true
+                    },
+                    day30: {
+                        title: '30日留存',
+                        key: 'day30',
+                        width: 150,
+                        sortable: true
+                    },
+                    tomorrow: {
+                        title: '次日留存',
+                        key: 'tomorrow',
+                        width: 150,
+                        sortable: true
+                    },
+                    day: {
+                        title: '日活跃',
+                        key: 'day',
+                        width: 150,
+                        sortable: true
+                    },
+                    week: {
+                        title: '周活跃',
+                        key: 'week',
+                        width: 150,
+                        sortable: true
+                    },
+                    month: {
+                        title: '月活跃',
+                        key: 'month',
+                        width: 150,
+                        sortable: true
+                    }
+                };
+
+                let data = [table2ColumnList.name];
+
+                this.tableColumnsChecked.forEach(col => data.push(table2ColumnList[col]));
+
+                return data;
             },
-            showChildren () {
-                console.log(this.$children)
+            changeTableColumns () {
+                this.tableColumns2 = this.getTable2Columns();
+            },
+            toggleFav (index) {
+                this.tableData2[index].fav = this.tableData2[index].fav === 0 ? 1 : 0;
+            },
+            down () {
+                this.$refs.table.exportCsv({
+                    filename: '2132',
+                    original: false
+                });
             }
         },
         ready () {
-            setTimeout(() => {
-//                this.columns[3].width = 300;
-//                this.columns[2].width = 150;
-//                return;
-//                this.height = 150;
-//                this.data.push({
-//                    name: '刘天娇2',
-//                    age: 272,
-//                    address: '北京市东城区2',
-//                    edit: false
-//                });
-//                this.data.splice(0, 1);
-//                this.columns.splice(2,1)
-//                this.data.push({
-//                    name: '梁灏2',
-//                    age: 25,
-//                    address: '北京市朝阳区',
-//                    edit: false,
-//                    tag: 'home',
-//                    action: 1
-//                })
-            }, 3000);
+            this.changeTableColumns();
         }
     }
 </script>

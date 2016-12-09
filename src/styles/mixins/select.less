@@ -37,6 +37,20 @@
         &-selected&-focus {
             background: shade(@selected-color, 10%);
         }
+
+        &-divided{
+            margin-top: 5px;
+            border-top: 1px solid @border-color-split;
+            &:before{
+                content: '';
+                height: 5px;
+                display: block;
+                margin: 0 -16px;
+                background-color: #fff;
+                position: relative;
+                top: -7px;
+            }
+        }
     }
 
     .@{size-class}-large .@{item-class} {
