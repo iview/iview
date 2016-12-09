@@ -73,6 +73,8 @@
     import tableHead from './table-head.vue';
     import tableBody from './table-body.vue';
     import { oneOf, getStyle, deepCopy } from '../../utils/assist';
+    import Csv from '../../utils/csv';
+    import ExportCsv from './export-csv';
     const prefixCls = 'ivu-table';
 
     export default {
@@ -516,6 +518,32 @@
                     }
                 });
                 return left.concat(center).concat(right);
+            },
+            exportCsv (params) {
+                if (params.filename) {
+                    if (params.filename.indexOf('.csv') === -1) {
+                        params.filename += '.csv';
+                    }
+                } else {
+                    params.filename = 'table.csv';
+                }
+
+                let columns = [];
+                let datas = [];
+                if (params.columns && params.data) {
+                    columns = params.columns;
+                    datas = params.data;
+                } else {
+                    columns = this.columns;
+                    if (!('original' in params)) params.original = true;
+                    datas = params.original ? this.data : this.rebuildData;
+                }
+
+                let noHeader = false;
+                if ('noHeader' in params) noHeader = params.noHeader;
+
+                const data = Csv(columns, datas, ',', noHeader);
+                ExportCsv.download(params.filename, data);
             }
         },
         compiled () {
