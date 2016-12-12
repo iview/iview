@@ -9,11 +9,15 @@ const getPanel = function (type) {
     return DatePanel;
 };
 
+import { oneOf } from '../../../utils/assist';
+
 export default {
     mixins: [Picker],
     props: {
         type: {
-            type: String,
+            validator (value) {
+                return oneOf(value, ['year', 'month', 'week', 'date', 'daterange', 'datetime', 'datetimerange']);
+            },
             default: 'date'
         }
     },
