@@ -37,7 +37,7 @@
         return (/(^-?[0-9]+\.{1}\d+$)|(^-?[1-9][0-9]*$)/).test(value + '');
     }
     function addNum (num1, num2) {
-        var sq1, sq2, m;
+        let sq1, sq2, m;
         try {
             sq1 = num1.toString().split(".")[1].length;
         }
