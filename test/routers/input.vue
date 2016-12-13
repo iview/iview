@@ -15,7 +15,7 @@
     <br>
     <br>
     <div style="width: 400px">
-        <i-input :value.sync="v">
+        <i-input :value.sync="v" type="password">
             <span slot="prepend">http://</span>
             <span slot="append">
                 <i-button icon="ios-search"></i-button>

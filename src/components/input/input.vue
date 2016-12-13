@@ -160,7 +160,7 @@
             }
         },
         ready () {
-            if (this.type === 'text') {
+            if (this.type !== 'textarea') {
                 this.prepend = this.$els.prepend.innerHTML !== '';
                 this.append = this.$els.append.innerHTML !== '';
             } else {
