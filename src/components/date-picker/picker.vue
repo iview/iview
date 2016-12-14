@@ -27,6 +27,7 @@
     import Drop from '../../components/select/dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
     import { oneOf } from '../../utils/assist';
+    import { formatDate } from './util';
 
     const prefixCls = 'ivu-date-picker';
 
@@ -90,7 +91,8 @@
                 showClose: false,
                 visualValue: '',
                 visible: false,
-                picker: null
+                picker: null,
+                internalValue: ''
             }
         },
         computed: {
@@ -126,6 +128,13 @@
             showPicker () {
                 if (!this.picker) {
                     this.picker = new Vue(this.panel).$mount(this.$els.picker);
+                    this.picker.value = this.internalValue;
+                    if (this.format) this.picker.format = this.format;
+
+                    const options = this.options;
+                    for (const option in options) {
+                        this.picker[option] = options[option];
+                    }
                 }
             }
         },
@@ -136,6 +145,12 @@
                     this.$refs.drop.update();
                 } else {
                     this.$refs.drop.destroy();
+                }
+            },
+            value: {
+                immediate: true,
+                handler (val) {
+                    this.internalValue = formatDate(val);
                 }
             }
         },

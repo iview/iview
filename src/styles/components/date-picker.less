@@ -1,0 +1,103 @@
+@date-picker-prefix-cls: ~"@{css-prefix}date-picker";
+
+.@{date-picker-prefix-cls} {
+    position: relative;
+    .@{select-dropdown-prefix-cls} {
+        width: auto;
+        overflow: visible;
+        max-height: none;
+    }
+    &-cells{
+        width: 196px;
+        margin: 10px;
+        span{
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+
+            em{
+                display: inline-block;
+                width: 24px;
+                height: 24px;
+                line-height: 24px;
+                margin: 2px;
+                font-style: normal;
+                border-radius: @btn-border-radius-small;
+                text-align: center;
+                transition: all @transition-time @ease-in-out;
+            }
+        }
+        &-header span{
+            line-height: 24px;
+            text-align: center;
+            margin: 2px;
+            color: @btn-disable-color;
+        }
+        &-cell{
+            span&{
+                width: 28px;
+                height: 28px;
+                cursor: pointer;
+            }
+            &:hover{
+                em{
+                    background: @date-picker-cell-hover-bg;
+                }
+            }
+            &-prev-month,&-next-month{
+                em{
+                    color: @btn-disable-color;
+                }
+                &:hover{
+                    em{
+                        background: transparent;
+                    }
+                }
+            }
+            span&-disabled,span&-disabled:hover{
+                cursor: @cursor-disabled;
+                background: @btn-disable-bg;
+                color: @btn-disable-color;
+                em{
+                    color: inherit;
+                    background: inherit;
+                }
+            }
+            &-today{
+                em {
+                    position: relative;
+                    &:after{
+                        content: '';
+                        display: block;
+                        width: 6px;
+                        height: 6px;
+                        border-radius: 50%;
+                        background: @primary-color;
+                        position: absolute;
+                        top: 1px;
+                        right: 1px;
+                    }
+                }
+            }
+            &-selected,&-selected:hover {
+                em{
+                    background: @primary-color;
+                    color: #fff;
+                }
+            }
+            span&-disabled&-selected{
+                em {
+                    background: @btn-disable-color;
+                    color: @btn-disable-bg;
+                }
+            }
+            &-today&-selected{
+                em{
+                    &:after{
+                        background: #fff;
+                    }
+                }
+            }
+        }
+    }
+}

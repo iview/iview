@@ -32,7 +32,14 @@
             </div>
             <div :class="[prefixCls + '-content']">
                 <date-table
-                    v-show="currentView === 'date'"></date-table>
+                    v-show="currentView === 'date'"
+                    :year="year"
+                    :month="month"
+                    :date="date"
+                    :value="value"
+                    :week="week"
+                    :selection-mode="selectionMode"
+                    :disabled-date="disabledDate"></date-table>
                 <year-table
                     v-show="currentView === 'year'"></year-table>
                 <month-table
@@ -56,10 +63,37 @@
                 prefixCls: prefixCls,
                 datePrefixCls: datePrefixCls,
                 shortcuts: [],
-                currentView: 'date'
+                currentView: 'date',
+                date: new Date(),
+                value: '',
+                showTime: false,
+                selectionMode: 'day',
+                visible: false,
+                disabledDate: '',
+                year: null,
+                month: null,
+                week: null,
+                showWeekNumber: false,
+                timePickerVisible: false
             }
         },
-        computed: {},
+        computed: {
+
+        },
+        watch: {
+            value (newVal) {
+                newVal = new Date(newVal);
+                if (!isNaN(newVal)) {
+                    // todo
+//                    if (typeof this.disabledDate === 'function' && this.disabledDate(new Date(newVal))) return;
+
+                    this.date = newVal;
+                    this.year = newVal.getFullYear();
+                    this.month = newVal.getMonth();
+//                    this.$emit('on-pick', newVal, true);
+                }
+            }
+        },
         methods: {
             handleShortcutClick (shortcut) {
 
@@ -90,11 +124,18 @@
 
             }
         },
-        ready () {
-            console.log(123)
+        compiled () {
+            if (this.selectionMode === 'month') {
+                this.currentView = 'month';
+            }
+
+            if (this.date && !this.year) {
+                this.year = this.date.getFullYear();
+                this.month = this.date.getMonth();
+            }
         },
         beforeDestroy () {
-            console.log(456)
+
         }
     }
 </script>

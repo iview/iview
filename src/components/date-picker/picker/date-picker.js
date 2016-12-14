@@ -19,9 +19,20 @@ export default {
                 return oneOf(value, ['year', 'month', 'week', 'date', 'daterange', 'datetime', 'datetimerange']);
             },
             default: 'date'
+        },
+        value: {
+            type: [String, Array]
         }
     },
-    created() {
+    created () {
+        if (!this.value) {
+            if (this.type === 'daterange' || this.type === 'datetimerange') {
+                this.value = ['',''];
+            } else {
+                this.value = '';
+            }
+        }
+
         this.panel = getPanel(this.type);
     }
 }
