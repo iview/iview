@@ -14,7 +14,8 @@
                 v-model="value"
                 @keyup.enter="handleEnter"
                 @focus="handleFocus"
-                @blur="handleBlur">
+                @blur="handleBlur"
+                @change="handleChange">
             <div :class="[prefixCls + '-group-append']" v-if="append" v-show="slotReady" v-el:append><slot name="append"></slot></div>
         </template>
         <textarea
@@ -31,7 +32,8 @@
             v-model="value"
             @keyup.enter="handleEnter"
             @focus="handleFocus"
-            @blur="handleBlur">
+            @blur="handleBlur"
+            @change="handleChange">
         </textarea>
     </div>
 </template>
@@ -52,7 +54,7 @@
             value: {
                 type: [String, Number],
                 default: '',
-                twoWay: true
+//                twoWay: true
             },
             size: {
                 validator (value) {
@@ -139,6 +141,9 @@
             handleBlur () {
                 this.$emit('on-blur');
             },
+            handleChange () {
+                this.$emit('on-change', this.value);
+            },
             resizeTextarea () {
                 const autosize = this.autosize;
                 if (!autosize || this.type !== 'textarea') {
@@ -152,11 +157,10 @@
             }
         },
         watch: {
-            value (val) {
+            value () {
                 this.$nextTick(() => {
                     this.resizeTextarea();
                 });
-                this.$emit('on-change', val);
             }
         },
         ready () {

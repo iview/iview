@@ -20,9 +20,7 @@ export default {
             },
             default: 'date'
         },
-        value: {
-            type: [String, Array]
-        }
+        value: {}
     },
     created () {
         if (!this.value) {

@@ -1,9 +1,11 @@
 @date-picker-prefix-cls: ~"@{css-prefix}date-picker";
+@picker-prefix-cls: ~"@{css-prefix}picker";
 
 .@{date-picker-prefix-cls} {
     position: relative;
     .@{select-dropdown-prefix-cls} {
         width: auto;
+        padding: 0;
         overflow: visible;
         max-height: none;
     }
@@ -97,6 +99,77 @@
                         background: #fff;
                     }
                 }
+            }
+        }
+    }
+
+    &-cells-year,&-cells-month{
+        margin-top: 14px;
+        span{
+            width: 40px;
+            height: 28px;
+            line-height: 28px;
+            margin: 10px 12px;
+            border-radius: @btn-border-radius-small;
+            em{
+                width: 40px;
+                height: 28px;
+                line-height: 28px;
+                margin: 0;
+            }
+        }
+    }
+
+    &-header{
+        height: 32px;
+        line-height: 32px;
+        text-align: center;
+        border-bottom: 1px solid @border-color-split;
+        &-label{
+            cursor: pointer;
+            transition: color @transition-time @ease-in-out;
+            &:hover{
+                color: @primary-color;
+            }
+        }
+    }
+    &-prev-btn{
+        float: left;
+        &-arrow-double{
+            margin-left: 10px;
+            i:after{
+                content: "\F3D2";
+            }
+        }
+    }
+    &-next-btn{
+        float: right;
+        &-arrow-double{
+            margin-right: 10px;
+            i:after{
+                content: "\F3D3";
+            }
+        }
+    }
+}
+
+.@{picker-prefix-cls} {
+    &-panel{
+        &-icon-btn{
+            display: inline-block;
+            width: 20px;
+            height: 24px;
+            line-height: 26px;
+            margin-top: 4px;
+            text-align: center;
+            cursor: pointer;
+            color: @btn-disable-color;
+            transition: color @transition-time @ease-in-out;
+            &:hover{
+                color: @primary-color;
+            }
+            i{
+                font-size: 14px;
             }
         }
     }

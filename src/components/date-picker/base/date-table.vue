@@ -6,7 +6,7 @@
         <div :class="[prefixCls + '-header']">
             <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
         </div>
-        <span :class="getCellCls(cell)" v-for="cell in cells"><em>{{ cell.text }}</em></span>
+        <span :class="getCellCls(cell)" v-for="cell in cells"><em :index="$index">{{ cell.text }}</em></span>
     </div>
 </template>
 <script>
@@ -126,8 +126,40 @@
             }
         },
         methods: {
-            handleClick () {
+            handleClick (event) {
+                const target = event.target;
+                if (target.tagName === 'EM') {
+                    const cell = this.cells[parseInt(event.target.getAttribute('index'))];
+                    if (cell.disabled) return;
 
+                    let year = this.year;
+                    let month = this.month;
+                    let day = cell.text;
+
+                    if (cell.type === 'prev-month') {
+                        if (month === 0) {
+                            month = 11;
+                            year--;
+                        } else {
+                            month--;
+                        }
+                    } else if (cell.type === 'next-month') {
+                        if (month === 11) {
+                            month = 0;
+                            year++;
+                        } else {
+                            month++;
+                        }
+                    }
+
+                    const newDate = new Date(year, month, day);
+
+                    if (this.selectionMode === 'range') {
+                        // todo
+                    } else {
+                        this.$emit('on-pick', newDate);
+                    }
+                }
             },
             handleMouseMove () {
 
