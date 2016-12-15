@@ -18,10 +18,12 @@
 
 ## Features
 
-- Using .vue file development mode
-- Based on npm + webpack + babel, support ES2015
 - High quality and rich functions
 - Friendly APIs,free and flexible
+- Great Documentation
+- It is quite beautiful
+- Using .vue file development mode
+- Based on npm + webpack + babel, using ES2015
 
 ## Programming 
 
