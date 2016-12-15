@@ -177,6 +177,9 @@
                         this.updateSelected();
                     }
                 }
+            },
+            value () {
+                this.updateSelected();
             }
         }
     }

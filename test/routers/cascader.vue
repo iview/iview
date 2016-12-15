@@ -1,14 +1,10 @@
 <template>
-    <div style="width: 150px;margin:100px">
-        <Cascader :data="data" :value.sync="value1"></Cascader>
-    </div>
-
+    <Cascader :data="data" change-on-select></Cascader>
 </template>
 <script>
     export default {
         data () {
             return {
-                value1: [],
                 data: [{
                     value: 'beijing',
                     label: '北京',
