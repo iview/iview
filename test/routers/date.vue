@@ -3,7 +3,14 @@
         <br>
         <row>
             <i-col span="4">
-                <date-picker style="width:200px" placeholder="请选择日期" :value.sync="value" :options="options" @on-change="change" @on-open-change="change2" :format="format"></date-picker>
+                <date-picker
+                        style="width:200px"
+                        placeholder="请选择日期"
+                        :value.sync="value"
+                        :options="options"
+                        @on-change="change"
+                        :format="format"
+                        @on-open-change="change2"></date-picker>
             </i-col>
             <i-col span="4">
                 <date-picker type="year" style="width:200px" placeholder="请选择日期" :value.sync="value" :options="options"></date-picker>

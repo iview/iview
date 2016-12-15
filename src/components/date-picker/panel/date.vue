@@ -103,7 +103,6 @@
         },
         watch: {
             value (newVal) {
-                console.log(12331)
                 if (!newVal) return;
                 newVal = new Date(newVal);
                 if (!isNaN(newVal)) {

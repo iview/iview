@@ -181,7 +181,6 @@
             return {
                 prefixCls: prefixCls,
                 showClose: false,
-                visualValue: '',
                 visible: false,
                 picker: null,
                 internalValue: ''
@@ -226,7 +225,6 @@
                             TYPE_VALUE_RESOLVER_MAP['default']
                         ).parser;
                         const parsedValue = parser(value, this.format || DEFAULT_FORMATS[type]);
-
                         if (parsedValue) {
                             if (this.picker) this.picker.value = parsedValue;
                         }
@@ -241,13 +239,36 @@
                 this.visible = false;
             },
             handleFocus () {
+                if (this.readonly) return;
                 this.visible = true;
             },
             handleBlur () {
 
             },
-            handleInputChange (val) {
-                this.visualValue = val;
+            handleInputChange (event) {
+                const oldValue = this.visualValue;
+                const value = event.target.value;
+
+                let correctValue = '';
+                const format = this.format || DEFAULT_FORMATS[this.type];
+                const parsedDate = parseDate(value, format);
+
+                if (parsedDate instanceof Date) {
+                    const options = this.options;
+                    if (options.disabledDate && typeof options.disabledDate === 'function' && options.disabledDate(new Date(parsedDate))) {
+                        correctValue = oldValue;
+                    } else {
+                        correctValue = formatDate(parsedDate, format);
+                    }
+                } else {
+                    correctValue = oldValue;
+                }
+
+                const correctDate = parseDate(correctValue, format);
+
+                this.visualValue = correctValue;
+                event.target.value = correctValue;
+                this.internalValue = correctDate;
             },
             handleInputMouseenter () {
                 if (this.readonly || this.disabled) return;
@@ -277,9 +298,10 @@
                     }
 
                     this.picker.$on('on-pick', (date, visible = false) => {
-                        this.$emit('on-change', date);
+                        this.$emit('on-change', formatDate(date, this.format || DEFAULT_FORMATS[this.type]));
                         this.value = date;
                         this.visible = visible;
+                        this.picker.value = date;
                         this.picker.resetView && this.picker.resetView();
                     });
 

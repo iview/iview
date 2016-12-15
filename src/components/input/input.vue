@@ -141,8 +141,8 @@
             handleBlur () {
                 this.$emit('on-blur');
             },
-            handleChange () {
-                this.$emit('on-change', this.value);
+            handleChange (event) {
+                this.$emit('on-change', event);
             },
             resizeTextarea () {
                 const autosize = this.autosize;
