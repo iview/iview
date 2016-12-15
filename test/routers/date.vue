@@ -33,13 +33,13 @@
 //                        return time && time.valueOf() < Date.now();
                     }
                 },
-                format: 'yyyy/MM/dd'
+                format: 'yyyy年MM月dd日'
             }
         },
         computed: {},
         methods: {
             change (date) {
-//                console.log(date)
+                console.log(date)
             },
             change2 (s) {
 //                console.log(s)

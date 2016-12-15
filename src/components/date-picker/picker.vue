@@ -269,6 +269,8 @@
                 this.visualValue = correctValue;
                 event.target.value = correctValue;
                 this.internalValue = correctDate;
+
+                if (correctValue !== oldValue) this.emitChange(correctDate);
             },
             handleInputMouseenter () {
                 if (this.readonly || this.disabled) return;
@@ -298,7 +300,7 @@
                     }
 
                     this.picker.$on('on-pick', (date, visible = false) => {
-                        this.$emit('on-change', formatDate(date, this.format || DEFAULT_FORMATS[this.type]));
+                        this.emitChange(date);
                         this.value = date;
                         this.visible = visible;
                         this.picker.value = date;
@@ -313,6 +315,9 @@
                     this.picker.value = this.internalValue;
                 }
                 this.picker.resetView && this.picker.resetView();
+            },
+            emitChange (date) {
+                this.$emit('on-change', formatDate(date, this.format || DEFAULT_FORMATS[this.type]));
             }
         },
         watch: {

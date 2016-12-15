@@ -67,6 +67,7 @@
                 if (target.tagName === 'EM') {
                     const cell = this.cells[parseInt(event.target.getAttribute('index'))];
                     if (cell.disabled) return;
+
                     this.$emit('on-pick', cell.text);
                 }
             }

@@ -178,7 +178,7 @@
 
                 this.date.setFullYear(year);
                 if (this.selectionMode === 'year') {
-                    this.$emit('on-pick', new Date(year));
+                    this.$emit('on-pick', new Date(year, 0, 1));
                 } else {
                     this.currentView = 'month';
                 }
