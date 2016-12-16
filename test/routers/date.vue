@@ -27,7 +27,7 @@
         data () {
             return {
 //                value: new Date(),
-                value: '',
+                value: '2016-12-25',
                 options: {
                     disabledDate(time) {
 //                        console.log(time)
@@ -39,9 +39,10 @@
                         {
                             text: '今天',
                             value () {
-                                return new Date();
+//                                return new Date();
+                                return '1/2/19'
                             },
-                            onClick () {
+                            onClick (picker) {
                                 console.log('点击了今天');
                             }
                         },
@@ -63,9 +64,9 @@
                                 date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
                                 return date;
                             },
-//                            onClick () {
-//                                console.log('点击了一周前');
-//                            }
+                            onClick () {
+                                console.log('点击了一周前');
+                            }
                         }
                     ]
                 },

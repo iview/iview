@@ -183,11 +183,19 @@
             position: absolute;
             top: 0;
             bottom: 0;
-            background: @border-color-split;
+            background: @table-thead-bg;
+            border-right: 1px solid @border-color-split;
             border-radius: @border-radius-small 0 0 @border-radius-small;
+            overflow: auto;
         }
         &-shortcut{
+            padding: @btn-padding-large;
+            transition: all @transition-time @ease-in-out;
+            cursor: pointer;
 
+            &:hover{
+                background: @border-color-split;
+            }
         }
         &-body{
             float: left;
