@@ -29,6 +29,8 @@
 //                value: '',
                 options: {
                     disabledDate(time) {
+//                        console.log(time)
+//                        return time.getFullYear() < 2016;
                         return time.getTime() < Date.now() - 8.64e7;
 //                        return time && time.valueOf() < Date.now();
                     }

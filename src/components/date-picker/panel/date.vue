@@ -37,7 +37,6 @@
                     :month="month"
                     :date="date"
                     :value="value"
-                    :week="week"
                     :selection-mode="selectionMode"
                     :disabled-date="disabledDate"
                     @on-pick="handleDatePick"></date-table>
@@ -46,6 +45,7 @@
                     v-show="currentView === 'year'"
                     :year="year"
                     :date="date"
+                    :selection-mode="selectionMode"
                     :disabled-date="disabledDate"
                     @on-pick="handleYearPick"></year-table>
                 <month-table
@@ -53,6 +53,7 @@
                     v-show="currentView === 'month'"
                     :month="month"
                     :date="date"
+                    :selection-mode="selectionMode"
                     :disabled-date="disabledDate"
                     @on-pick="handleMonthPick"></month-table>
             </div>
@@ -85,7 +86,6 @@
                 disabledDate: '',
                 year: null,
                 month: null,
-                week: null,
                 showWeekNumber: false,
                 timePickerVisible: false
             }

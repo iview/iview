@@ -13,7 +13,10 @@
             month: {
                 type: Number
             },
-            disabledDate: {}
+            disabledDate: {},
+            selectionMode: {
+                default: 'month'
+            }
         },
         computed: {
             classes () {
@@ -36,7 +39,7 @@
 
                     const date = new Date(this.date);
                     date.setMonth(i);
-                    cell.disabled = typeof this.disabledDate === 'function' && this.disabledDate(date);
+                    cell.disabled = typeof this.disabledDate === 'function' && this.disabledDate(date)  && this.selectionMode === 'month';
 
                     cell.selected = Number(this.month) === i;
                     cells.push(cell);

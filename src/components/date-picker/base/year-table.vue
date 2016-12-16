@@ -11,7 +11,10 @@
         props: {
             date: {},
             year: {},
-            disabledDate: {}
+            disabledDate: {},
+            selectionMode: {
+                default: 'year'
+            }
         },
         computed: {
             classes () {
@@ -37,7 +40,7 @@
 
                     const date = new Date(this.date);
                     date.setFullYear(cell.text);
-                    cell.disabled = typeof this.disabledDate === 'function' && this.disabledDate(date);
+                    cell.disabled = typeof this.disabledDate === 'function' && this.disabledDate(date) && this.selectionMode === 'year';
 
                     cell.selected = Number(this.year) === cell.text;
                     cells.push(cell);
