@@ -1,8 +1,8 @@
 <template>
-    <div style="margin: 50px">
+    <div style="margin: 150px">
         <br>
         <row>
-            <i-col span="4">
+            <i-col span="8">
                 <!--<i-button @click="setDate">set date</i-button>-->
                 <date-picker
                         style="width:200px"
@@ -11,12 +11,13 @@
                         :options="options"
                         @on-change="change"
                         :format="format"
+                        :editable="false"
                         @on-open-change="change2"></date-picker>
             </i-col>
-            <i-col span="4">
+            <i-col span="8">
                 <date-picker type="year" style="width:200px" placeholder="请选择日期" :value.sync="value" :options="options"></date-picker>
             </i-col>
-            <i-col span="4">
+            <i-col span="8">
                 <date-picker type="month" style="width:200px" placeholder="请选择日期" :value.sync="value" :options="options"></date-picker>
             </i-col>
         </row>

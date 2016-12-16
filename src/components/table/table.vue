@@ -306,12 +306,10 @@
             },
             toggleSelect (_index) {
                 let data = {};
-                let index = -1;
 
                 for (let i in this.objData) {
                     if (parseInt(i) === _index) {
                         data = this.objData[i];
-                        index = i;
                     }
                 }
                 const status = !data._isChecked;
