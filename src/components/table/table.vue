@@ -454,14 +454,17 @@
                 let data = this.makeData();
                 let sortType = 'normal';
                 let sortIndex = -1;
+                let isCustom = false;
+
                 for (let i = 0; i < this.cloneColumns.length; i++) {
                     if (this.cloneColumns[i]._sortType !== 'normal') {
                         sortType = this.cloneColumns[i]._sortType;
                         sortIndex = i;
+                        isCustom = this.cloneColumns[i].sortable === 'custom';
                         break;
                     }
                 }
-                if (sortType !== 'normal') data =  this.sortData(data, sortType, sortIndex);
+                if (sortType !== 'normal' && !isCustom) data =  this.sortData(data, sortType, sortIndex);
                 return data;
             },
             makeDataWithFilter () {

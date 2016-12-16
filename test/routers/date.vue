@@ -3,6 +3,7 @@
         <br>
         <row>
             <i-col span="4">
+                <!--<i-button @click="setDate">set date</i-button>-->
                 <date-picker
                         style="width:200px"
                         placeholder="请选择日期"
@@ -25,17 +26,50 @@
     export default {
         data () {
             return {
-                value: new Date(),
-//                value: '',
+//                value: new Date(),
+                value: '',
                 options: {
                     disabledDate(time) {
 //                        console.log(time)
 //                        return time.getFullYear() < 2016;
                         return time.getTime() < Date.now() - 8.64e7;
 //                        return time && time.valueOf() < Date.now();
-                    }
+                    },
+                    shortcuts: [
+                        {
+                            text: '今天',
+                            value () {
+                                return new Date();
+                            },
+                            onClick () {
+                                console.log('点击了今天');
+                            }
+                        },
+                        {
+                            text: '昨天',
+                            value () {
+                                const date = new Date();
+                                date.setTime(date.getTime() - 3600 * 1000 * 24);
+                                return date;
+                            },
+                            onClick () {
+                                console.log('点击了昨天');
+                            }
+                        },
+                        {
+                            text: '一周前',
+                            value () {
+                                const date = new Date();
+                                date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                                return date;
+                            },
+//                            onClick () {
+//                                console.log('点击了一周前');
+//                            }
+                        }
+                    ]
                 },
-                format: 'yyyy年MM月dd日'
+                format: 'yyyy-MM-dd'
             }
         },
         computed: {},
@@ -45,6 +79,9 @@
             },
             change2 (s) {
 //                console.log(s)
+            },
+            setDate () {
+                this.value = '2016-12-24'
             }
         }
     }

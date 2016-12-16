@@ -1,5 +1,5 @@
 <template>
-    <div :class="[prefixCls + '-body-wrapper']">
+    <div :class="classes">
         <div :class="[prefixCls + '-sidebar']" v-if="shortcuts">
             <div
                 :class="[prefixCls + '-shortcut']"
@@ -91,6 +91,14 @@
             }
         },
         computed: {
+            classes () {
+                return [
+                    `${prefixCls}-body-wrapper`,
+                    {
+                        [`${prefixCls}-with-sidebar`]: this.shortcuts.length
+                    }
+                ]
+            },
             yearLabel () {
                 const year = this.year;
                 if (!year) return '';
@@ -122,7 +130,8 @@
                 this.$emit('on-pick', '');
             },
             handleShortcutClick (shortcut) {
-
+                if (shortcut.value) this.$emit('on-pick', shortcut.value());
+                if (shortcut.onClick) shortcut.onClick(this);
             },
             iconBtnCls (direction, type = '') {
                 return [
