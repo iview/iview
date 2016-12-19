@@ -13,9 +13,6 @@ export default {
         handleShortcutClick (shortcut) {
             if (shortcut.value) this.$emit('on-pick', shortcut.value());
             if (shortcut.onClick) shortcut.onClick(this);
-        },
-        resetDate () {
-            this.date = new Date(this.date);
         }
     }
 }

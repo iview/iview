@@ -234,14 +234,29 @@
             }
         },
         methods: {
+            resetDate () {
+                this.date = new Date(this.date);
+                this.leftTableYear = this.date.getFullYear();
+                this.rightTableYear = this.rightDate.getFullYear();
+            },
             handleClear() {
                 this.minDate = null;
                 this.maxDate = null;
+                this.date = new Date();
                 this.handleConfirm();
+            },
+            resetView() {
+                this.leftCurrentView = 'date';
+                this.rightCurrentView = 'date';
+
+                this.leftTableYear = this.leftYear;
+                this.rightTableYear = this.rightYear;
             },
             prevYear (direction) {
                 if (this[`${direction}CurrentView`] === 'year') {
                     this.$refs[`${direction}YearTable`].prevTenYear();
+                } else if (this[`${direction}CurrentView`] === 'month') {
+                    this[`${direction}TableYear`]--;
                 } else {
                     const date = this.date;
                     date.setFullYear(date.getFullYear() - 1);
@@ -251,6 +266,8 @@
             nextYear (direction) {
                 if (this[`${direction}CurrentView`] === 'year') {
                     this.$refs[`${direction}YearTable`].nextTenYear();
+                } else if (this[`${direction}CurrentView`] === 'month') {
+                    this[`${direction}TableYear`]--;
                 } else {
                     const date = this.date;
                     date.setFullYear(date.getFullYear() + 1);

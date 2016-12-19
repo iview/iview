@@ -124,6 +124,9 @@
             }
         },
         methods: {
+            resetDate () {
+                this.date = new Date(this.date);
+            },
             handleClear() {
                 this.date = new Date();
                 this.$emit('on-pick', '');
