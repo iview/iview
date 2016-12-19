@@ -73,8 +73,11 @@
                     });
                 }
             },
-            cells (cells) {
-                this.readCells = cells;
+            cells: {
+                handler (cells) {
+                    this.readCells = cells;
+                },
+                immediate: true
             }
         },
         computed: {

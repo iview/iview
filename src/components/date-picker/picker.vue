@@ -248,21 +248,47 @@
                 const value = event.target.value;
 
                 let correctValue = '';
-                const format = this.format || DEFAULT_FORMATS[this.type];
-                const parsedDate = parseDate(value, format);
+                let correctDate = '';
+                const type = this.type;
+                const format = this.format || DEFAULT_FORMATS[type];
 
-                if (parsedDate instanceof Date) {
-                    const options = this.options;
-                    if (options.disabledDate && typeof options.disabledDate === 'function' && options.disabledDate(new Date(parsedDate))) {
-                        correctValue = oldValue;
+                if (type === 'daterange' || type === 'timerange' || type === 'datetimerange') {
+                    const parser = (
+                        TYPE_VALUE_RESOLVER_MAP[type] ||
+                        TYPE_VALUE_RESOLVER_MAP['default']
+                    ).parser;
+
+                    const formatter = (
+                        TYPE_VALUE_RESOLVER_MAP[type] ||
+                        TYPE_VALUE_RESOLVER_MAP['default']
+                    ).formatter;
+
+                    const parsedValue = parser(value, format);
+
+                    if (parsedValue) {
+                        // todo 判断disabledDate
+                        correctValue = formatter(parsedValue, format);
                     } else {
-                        correctValue = formatDate(parsedDate, format);
+                        correctValue = oldValue;
                     }
-                } else {
-                    correctValue = oldValue;
-                }
 
-                const correctDate = parseDate(correctValue, format);
+                    correctDate = parsedValue;
+                } else {
+                    const parsedDate = parseDate(value, format);
+
+                    if (parsedDate instanceof Date) {
+                        const options = this.options;
+                        if (options.disabledDate && typeof options.disabledDate === 'function' && options.disabledDate(new Date(parsedDate))) {
+                            correctValue = oldValue;
+                        } else {
+                            correctValue = formatDate(parsedDate, format);
+                        }
+                    } else {
+                        correctValue = oldValue;
+                    }
+
+                    correctDate = parseDate(correctValue, format);
+                }
 
                 this.visualValue = correctValue;
                 event.target.value = correctValue;
