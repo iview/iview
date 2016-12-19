@@ -6,7 +6,7 @@
         <div :class="[prefixCls + '-header']">
             <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
         </div>
-        <span :class="getCellCls(cell)" v-for="cell in cells"><em :index="$index">{{ cell.text }}</em></span>
+        <span :class="getCellCls(cell)" v-for="cell in readCells"><em :index="$index">{{ cell.text }}</em></span>
     </div>
 </template>
 <script>
@@ -44,7 +44,8 @@
         },
         data () {
             return {
-                prefixCls: prefixCls
+                prefixCls: prefixCls,
+                readCells: []
             }
         },
         watch: {
@@ -72,6 +73,9 @@
                         maxDate: this.maxDate
                     });
                 }
+            },
+            cells (cells) {
+                this.readCells = cells;
             }
         },
         computed: {

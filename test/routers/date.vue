@@ -1,5 +1,6 @@
 <template>
     <div style="margin: 50px">
+        <i-button @click="setDate">change date</i-button>
         <br>
         <row>
             <i-col span="8">
@@ -122,7 +123,8 @@
 //                console.log(s)
             },
             setDate () {
-                this.value = '2016-12-24'
+//                this.value = '2016-12-24'
+//                this.value2 = ['2016-9-1', '2016-9-20']
             }
         }
     }
