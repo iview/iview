@@ -22,9 +22,22 @@
         <i-col :xs="{ span: 11, offset: 1 }" :lg="{ span: 6, offset: 2 }"><div class="aaaaa">Col 2</div></i-col>
         <i-col :xs="{ span: 5, offset: 1 }" :lg="{ span: 6, offset: 2 }"><div class="aaaaa">Col 3</div></i-col>
     </Row>
+    <i-button @click="start">Start</i-button>
+    <i-button @click="finish">Finish</i-button>
+    <i-button @click="error">Error</i-button>
 </template>
 <script>
     export default {
-
+        methods: {
+            start () {
+                this.$Loading.start();
+            },
+            finish () {
+                this.$Loading.finish();
+            },
+            error () {
+                this.$Loading.error();
+            }
+        }
     }
 </script>

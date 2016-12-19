@@ -44,6 +44,8 @@ function clearTimer() {
 
 export default {
     start () {
+        if (timer) return;
+
         let percent = 0;
 
         update({

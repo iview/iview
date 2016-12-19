@@ -59,7 +59,7 @@
                             }
                         },
                         {
-                            text: '一周前',
+                            text: '最近三个月',
                             value () {
                                 const date = new Date();
                                 date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
