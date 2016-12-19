@@ -15,10 +15,7 @@
                         @on-open-change="change2"></date-picker>
             </i-col>
             <i-col span="8">
-                <date-picker type="year" style="width:200px" placeholder="请选择日期" :value.sync="value" :options="options"></date-picker>
-            </i-col>
-            <i-col span="8">
-                <date-picker type="month" style="width:200px" placeholder="请选择日期" :value.sync="value" :options="options"></date-picker>
+                <date-picker type="daterange" style="width:200px" placeholder="请选择日期" :value.sync="value2" :options="options2"></date-picker>
             </i-col>
         </row>
     </div>
@@ -29,6 +26,10 @@
             return {
 //                value: new Date(),
                 value: '2016-12-25',
+                value2: '',
+                options2: {
+
+                },
                 options: {
                     disabledDate(time) {
 //                        console.log(time)

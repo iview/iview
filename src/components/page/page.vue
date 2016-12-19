@@ -1,5 +1,5 @@
 <template>
-    <ul :class="simpleWrapClasses" v-if="simple">
+    <ul :class="simpleWrapClasses" :style="style" v-if="simple">
         <li
             title="上一页"
             :class="prevClasses"
@@ -23,7 +23,7 @@
             <a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a>
         </li>
     </ul>
-    <ul :class="wrapClasses" v-else>
+    <ul :class="wrapClasses" :style="style" v-else>
         <span :class="[prefixCls + '-total']" v-if="showTotal">
             <slot>共 {{ total }} 条</slot>
         </span>
@@ -109,6 +109,12 @@
             showSizer: {
                 type: Boolean,
                 default: false
+            },
+            class: {
+                type: String
+            },
+            style: {
+                type: Object
             }
         },
         data () {
@@ -127,7 +133,10 @@
             simpleWrapClasses () {
                 return [
                     `${prefixCls}`,
-                    `${prefixCls}-simple`
+                    `${prefixCls}-simple`,
+                    {
+                        [`${this.class}`]: !!this.class
+                    }
                 ]
             },
             simplePagerClasses () {
@@ -137,6 +146,7 @@
                 return [
                     `${prefixCls}`,
                     {
+                        [`${this.class}`]: !!this.class,
                         'mini': !!this.size
                     }
                 ]

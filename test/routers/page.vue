@@ -1,7 +1,7 @@
 <template>
-    <Page :total="1000" show-sizer show-elevator show-total></Page>
+    <Page :total="1000" show-sizer show-elevator show-total class="classr" :style="{float: 'right'}"></Page>
     <br><br>
-    <Page :total="1000" show-sizer show-elevator show-total size="small"></Page>
+    <Page :total="1000" show-sizer show-elevator show-total size="small" class="classr2"></Page>
     <br><br>
     <Page :current="2" :total="50" simple></Page>
 </template>
