@@ -8,24 +8,28 @@
         </div>
         <div :class="[prefixCls + '-body']">
             <div :class="[prefixCls + '-content', prefixCls + '-content-left']">
-                <div :class="[datePrefixCls + '-header']" v-show="currentView !== 'time'">
+                <div :class="[datePrefixCls + '-header']" v-show="leftCurrentView !== 'time'">
                     <span
                         :class="iconBtnCls('prev', '-double')"
-                        @click="prevYear"><Icon type="ios-arrow-left"></Icon></span>
+                        @click="prevYear('left')"><Icon type="ios-arrow-left"></Icon></span>
                     <span
                         :class="iconBtnCls('prev')"
                         @click="prevMonth"
-                        v-show="currentView === 'date'"><Icon type="ios-arrow-left"></Icon></span>
+                        v-show="leftCurrentView === 'date'"><Icon type="ios-arrow-left"></Icon></span>
                     <span
                         :class="[datePrefixCls + '-header-label']"
-                        @click="showYearPicker">{{ leftYear }} 年</span>
+                        @click="showYearPicker('left')">{{ leftYearLabel }}</span>
                     <span
                         :class="[datePrefixCls + '-header-label']"
-                        @click="showMonthPicker"
-                        v-show="currentView === 'date'">{{ leftMonth + 1 }} 月</span>
+                        @click="showMonthPicker('left')"
+                        v-show="leftCurrentView === 'date'">{{ leftMonth + 1 }} 月</span>
+                    <span
+                        :class="iconBtnCls('next', '-double')"
+                        @click="nextYear('left')"
+                        v-show="leftCurrentView === 'year' || leftCurrentView === 'month'"><Icon type="ios-arrow-right"></Icon></span>
                 </div>
                 <date-table
-                    v-show="currentView === 'date'"
+                    v-show="leftCurrentView === 'date'"
                     :year="leftYear"
                     :month="leftMonth"
                     :date="date"
@@ -36,26 +40,46 @@
                     :disabled-date="disabledDate"
                     @on-changerange="handleChangeRange"
                     @on-pick="handleRangePick"></date-table>
+                <year-table
+                    v-ref:left-year-table
+                    v-show="leftCurrentView === 'year'"
+                    :year="leftYear"
+                    :date="date"
+                    selection-mode="range"
+                    :disabled-date="disabledDate"
+                    @on-pick="handleLeftYearPick"></year-table>
+                <month-table
+                    v-ref:left-month-table
+                    v-show="leftCurrentView === 'month'"
+                    :month="leftMonth"
+                    :date="date"
+                    selection-mode="range"
+                    :disabled-date="disabledDate"
+                    @on-pick="handleLeftMonthPick"></month-table>
             </div>
             <div :class="[prefixCls + '-content', prefixCls + '-content-right']">
-                <div :class="[datePrefixCls + '-header']" v-show="currentView !== 'time'">
+                <div :class="[datePrefixCls + '-header']" v-show="rightCurrentView !== 'time'">
+                     <span
+                         :class="iconBtnCls('prev', '-double')"
+                         @click="prevYear('right')"
+                         v-show="rightCurrentView === 'year' || rightCurrentView === 'month'"><Icon type="ios-arrow-left"></Icon></span>
                     <span
                         :class="[datePrefixCls + '-header-label']"
-                        @click="showYearPicker">{{ rightYear }} 年</span>
+                        @click="showYearPicker('right')">{{ rightYearLabel }}</span>
                     <span
                         :class="[datePrefixCls + '-header-label']"
-                        @click="showMonthPicker"
-                        v-show="currentView === 'date'">{{ rightMonth + 1 }} 月</span>
+                        @click="showMonthPicker('right')"
+                        v-show="rightCurrentView === 'date'">{{ rightMonth + 1 }} 月</span>
                     <span
                         :class="iconBtnCls('next', '-double')"
-                        @click="nextYear"><Icon type="ios-arrow-right"></Icon></span>
+                        @click="nextYear('right')"><Icon type="ios-arrow-right"></Icon></span>
                     <span
                         :class="iconBtnCls('next')"
                         @click="nextMonth"
-                        v-show="currentView === 'date'"><Icon type="ios-arrow-right"></Icon></span>
+                        v-show="rightCurrentView === 'date'"><Icon type="ios-arrow-right"></Icon></span>
                 </div>
                 <date-table
-                    v-show="currentView === 'date'"
+                    v-show="rightCurrentView === 'date'"
                     :year="rightYear"
                     :month="rightMonth"
                     :date="rightDate"
@@ -66,6 +90,22 @@
                     :disabled-date="disabledDate"
                     @on-changerange="handleChangeRange"
                     @on-pick="handleRangePick"></date-table>
+                <year-table
+                    v-ref:right-year-table
+                    v-show="rightCurrentView === 'year'"
+                    :year="rightYear"
+                    :date="rightDate"
+                    selection-mode="range"
+                    :disabled-date="disabledDate"
+                    @on-pick="handleRightYearPick"></year-table>
+                <month-table
+                    v-ref:right-month-table
+                    v-show="rightCurrentView === 'month'"
+                    :month="rightMonth"
+                    :date="rightDate"
+                    selection-mode="range"
+                    :disabled-date="disabledDate"
+                    @on-pick="handleRightMonthPick"></month-table>
             </div>
         </div>
     </div>
@@ -73,7 +113,9 @@
 <script>
     import Icon from '../../icon/icon.vue';
     import DateTable from '../base/date-table.vue';
-    import { toDate } from '../util';
+    import YearTable from '../base/year-table.vue';
+    import MonthTable from '../base/month-table.vue';
+    import { toDate, prevMonth, nextMonth } from '../util';
 
     import Mixin from './mixin';
 
@@ -82,7 +124,7 @@
 
     export default {
         mixins: [Mixin],
-        components: { Icon, DateTable },
+        components: { Icon, DateTable, YearTable, MonthTable },
         data () {
             return {
                 prefixCls: prefixCls,
@@ -98,7 +140,8 @@
                 },
                 showTime: false,
                 disabledDate: '',
-                currentView: 'date',
+                leftCurrentView: 'date',
+                rightCurrentView: 'date',
                 selectionMode: 'range'
             }
         },
@@ -115,11 +158,29 @@
             leftYear() {
                 return this.date.getFullYear();
             },
+            leftYearLabel () {
+                const year = this.leftYear;
+                if (!year) return '';
+                if (this.leftCurrentView === 'year') {
+                    const startYear = Math.floor(year / 10) * 10;
+                    return `${startYear}年 - ${startYear + 9}年`;
+                }
+                return `${year}年`;
+            },
             leftMonth() {
                 return this.date.getMonth();
             },
             rightYear() {
                 return this.rightDate.getFullYear();
+            },
+            rightYearLabel () {
+                const year = this.rightYear;
+                if (!year) return '';
+                if (this.rightCurrentView === 'year') {
+                    const startYear = Math.floor(year / 10) * 10;
+                    return `${startYear}年 - ${startYear + 9}年`;
+                }
+                return `${year}年`;
             },
             rightMonth() {
                 return this.rightDate.getMonth();
@@ -147,7 +208,6 @@
                     this.minDate = newVal[0] ? toDate(newVal[0]) : null;
                     this.maxDate = newVal[1] ? toDate(newVal[1]) : null;
                     if (this.minDate) this.date = new Date(this.minDate);
-//                    this.handleConfirm(true);    // todo 稍后测试
                 }
             }
         },
@@ -157,23 +217,59 @@
                 this.maxDate = null;
                 this.handleConfirm();
             },
-            prevYear () {
-
+            prevYear (direction) {
+                if (this[`${direction}CurrentView`] === 'year') {
+                    this.$refs[`${direction}YearTable`].prevTenYear();
+                } else {
+                    const date = this.date;
+                    date.setFullYear(date.getFullYear() - 1);
+                    this.resetDate();
+                }
             },
-            nextYear () {
-
+            nextYear (direction) {
+                if (this[`${direction}CurrentView`] === 'year') {
+                    this.$refs[`${direction}YearTable`].nextTenYear();
+                } else {
+                    const date = this.date;
+                    date.setFullYear(date.getFullYear() + 1);
+                    this.resetDate();
+                }
             },
             prevMonth () {
-
+                this.date = prevMonth(this.date);
             },
             nextMonth () {
-
+                this.date = nextMonth(this.date);
             },
-            showYearPicker () {
-
+            handleLeftYearPick (year, close = true) {
+                this.handleYearPick(year, close, 'left');
             },
-            showMonthPicker () {
+            handleRightYearPick (year, close = true) {
+                this.handleYearPick(year, close, 'right');
+            },
+            handleYearPick (year, close, direction) {
+                this.date.setFullYear(year);
+                this.resetDate();
+                if (!close) return;
 
+                this[`${direction}CurrentView`] = 'month';
+            },
+            handleLeftMonthPick (month) {
+                this.handleMonthPick(month, 'left');
+            },
+            handleRightMonthPick (month) {
+                this.handleMonthPick(month, 'right');
+            },
+            handleMonthPick (month, direction) {
+                this.date.setMonth(month);
+                this[`${direction}CurrentView`] = 'date';
+                this.resetDate();
+            },
+            showYearPicker (direction) {
+                this[`${direction}CurrentView`] = 'year';
+            },
+            showMonthPicker (direction) {
+                this[`${direction}CurrentView`] = 'month';
             },
             handleConfirm(visible) {
                 this.$emit('on-pick', [this.minDate, this.maxDate], visible);

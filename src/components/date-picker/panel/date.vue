@@ -109,7 +109,7 @@
                     const startYear = Math.floor(year / 10) * 10;
                     return `${startYear}年 - ${startYear + 9}年`;
                 }
-                return `${year}年`
+                return `${year}年`;
             }
         },
         watch: {
@@ -128,8 +128,17 @@
                 this.date = new Date();
                 this.$emit('on-pick', '');
             },
-            resetDate () {
-                this.date = new Date(this.date);
+            resetView() {
+                if (this.selectionMode === 'month') {
+                    this.currentView = 'month';
+                } else if (this.selectionMode === 'year') {
+                    this.currentView = 'year';
+                } else {
+                    this.currentView = 'date';
+                }
+
+                this.year = this.date.getFullYear();
+                this.month = this.date.getMonth();
             },
             prevYear () {
                 if (this.currentView === 'year') {

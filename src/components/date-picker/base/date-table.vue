@@ -67,7 +67,6 @@
                 if (newVal && !oldVal) {
                     this.rangeState.selecting = false;
                     this.markRange(newVal);
-                    // todo 待验证
                     this.$emit('on-pick', {
                         minDate: this.minDate,
                         maxDate: this.maxDate
