@@ -36,9 +36,7 @@
                 default () {
                     return {
                         endDate: null,
-                        selecting: false,
-                        row: null,
-                        column: null
+                        selecting: false
                     };
                 }
             },
@@ -64,6 +62,8 @@
                 day = (day === 0 ? 7 : day);
                 const today = clearHours(new Date());    // timestamp of today
                 const selectDay = clearHours(new Date(this.value));    // timestamp of selected day
+                const minDay = clearHours(new Date(this.minDate));
+                const maxDay = clearHours(new Date(this.maxDate));
 
                 const dateCountOfMonth = getDayCountOfMonth(date.getFullYear(), date.getMonth());
                 const dateCountOfLastMonth = getDayCountOfMonth(date.getFullYear(), (date.getMonth() === 0 ? 11 : date.getMonth() - 1));
@@ -75,7 +75,10 @@
                     text: '',
                     type: '',
                     selected: false,
-                    disabled: false
+                    disabled: false,
+                    range: false,
+                    start: false,
+                    end: false
                 };
                 if (day !== 7) {
                     for (let i = 0; i < day; i++) {
@@ -102,6 +105,10 @@
                     cell.text = i;
                     cell.selected = time === selectDay;
                     cell.disabled = typeof disabledDate === 'function' && disabledDate(new Date(time));
+                    cell.range = time >= minDay && time <= maxDay;
+                    cell.start = this.minDate && time === minDay;
+                    cell.end = this.maxDate && time === maxDay;
+
                     cells.push(cell);
                 }
 
@@ -156,6 +163,30 @@
 
                     if (this.selectionMode === 'range') {
                         // todo
+                        if (this.minDate && this.maxDate) {
+                            const minDate = new Date(newDate.getTime());
+                            const maxDate = null;
+                            this.$emit('on-pick', {minDate, maxDate}, false);
+                            this.rangeState.selecting = true;
+                            this.markRange(this.minDate);
+                        } else if (this.minDate && !this.maxDate) {
+                            if (newDate >= this.minDate) {
+                                const maxDate = new Date(newDate.getTime());
+                                this.rangeState.selecting = false;
+
+                                this.$emit('on-pick', {minDate: this.minDate, maxDate});
+                            } else {
+                                const minDate = new Date(newDate.getTime());
+
+                                this.$emit('on-pick', {minDate, maxDate: this.maxDate}, false);
+                            }
+                        } else if (!this.minDate) {
+                            const minDate = new Date(newDate.getTime());
+
+                            this.$emit('on-pick', {minDate, maxDate: this.maxDate}, false);
+                            this.rangeState.selecting = true;
+                            this.markRange(this.minDate);
+                        }
                     } else {
                         this.$emit('on-pick', newDate);
                     }
@@ -164,15 +195,39 @@
             handleMouseMove () {
 
             },
+            markRange (maxDate) {
+                const startDate = this.startDate;
+                if (!maxDate) {
+                    maxDate = this.maxDate;
+                }
+
+                const rows = this.rows;
+                const minDate = this.minDate;
+                for (var i = 0, k = rows.length; i < k; i++) {
+                    const row = rows[i];
+                    for (var j = 0, l = row.length; j < l; j++) {
+                        if (this.showWeekNumber && j === 0) continue;
+
+                        const cell = row[j];
+                        const index = i * 7 + j + (this.showWeekNumber ? -1 : 0);
+                        const time = startDate.getTime() + DAY_DURATION * index;
+
+                        cell.inRange = minDate && time >= clearHours(minDate) && time <= clearHours(maxDate);
+                        cell.start = minDate && time === clearHours(minDate.getTime());
+                        cell.end = maxDate && time === clearHours(maxDate.getTime());
+                    }
+                }
+            },
             getCellCls (cell) {
                 return [
                     `${prefixCls}-cell`,
                     {
-                        [`${prefixCls}-cell-selected`]: cell.selected,
+                        [`${prefixCls}-cell-selected`]: cell.selected || cell.start || cell.end,
                         [`${prefixCls}-cell-disabled`]: cell.disabled,
                         [`${prefixCls}-cell-today`]: cell.type === 'today',
                         [`${prefixCls}-cell-prev-month`]: cell.type === 'prev-month',
-                        [`${prefixCls}-cell-next-month`]: cell.type === 'next-month'
+                        [`${prefixCls}-cell-next-month`]: cell.type === 'next-month',
+                        [`${prefixCls}-cell-range`]: cell.range && !cell.start && !cell.end
                     }
                 ]
             },

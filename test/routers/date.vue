@@ -1,5 +1,5 @@
 <template>
-    <div style="margin: 150px">
+    <div style="margin: 50px">
         <br>
         <row>
             <i-col span="8">
@@ -11,11 +11,16 @@
                         :options="options"
                         @on-change="change"
                         :format="format"
-                        :editable="false"
                         @on-open-change="change2"></date-picker>
             </i-col>
             <i-col span="8">
-                <date-picker type="daterange" style="width:200px" placeholder="请选择日期" :value.sync="value2" :options="options2"></date-picker>
+                <date-picker
+                        type="daterange"
+                        style="width:200px"
+                        placeholder="请选择日期"
+                        :value.sync="value2"
+                        align="right"
+                        :options="options2"></date-picker>
             </i-col>
         </row>
     </div>
@@ -26,9 +31,42 @@
             return {
 //                value: new Date(),
                 value: '2016-12-25',
-                value2: '',
+                value2: ['2016-12-17', '2017-01-05'],
                 options2: {
-
+                    shortcuts: [
+                        {
+                            text: '今天',
+                            value () {
+//                                return new Date();
+                                return '1/2/19'
+                            },
+                            onClick (picker) {
+                                console.log('点击了今天');
+                            }
+                        },
+                        {
+                            text: '昨天',
+                            value () {
+                                const date = new Date();
+                                date.setTime(date.getTime() - 3600 * 1000 * 24);
+                                return date;
+                            },
+                            onClick () {
+                                console.log('点击了昨天');
+                            }
+                        },
+                        {
+                            text: '最近三个月',
+                            value () {
+                                const date = new Date();
+                                date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                                return date;
+                            },
+                            onClick () {
+                                console.log('点击了一周前');
+                            }
+                        }
+                    ]
                 },
                 options: {
                     disabledDate(time) {

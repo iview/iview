@@ -1,6 +1,6 @@
 <template>
     <div :class="classes">
-        <div :class="[prefixCls + '-sidebar']" v-if="shortcuts">
+        <div :class="[prefixCls + '-sidebar']" v-if="shortcuts.length">
             <div
                 :class="[prefixCls + '-shortcut']"
                 v-for="shortcut in shortcuts"
@@ -67,10 +67,13 @@
     import MonthTable from '../base/month-table.vue';
     import { formatDate, parseDate } from '../util';
 
+    import Mixin from './mixin';
+
     const prefixCls = 'ivu-picker-panel';
     const datePrefixCls = 'ivu-date-picker';
 
     export default {
+        mixins: [Mixin],
         components: { Icon, DateTable, YearTable, MonthTable },
         data () {
             return {
@@ -114,13 +117,9 @@
                 if (!newVal) return;
                 newVal = new Date(newVal);
                 if (!isNaN(newVal)) {
-                    // todo
-//                    if (typeof this.disabledDate === 'function' && this.disabledDate(new Date(newVal))) return;
-
                     this.date = newVal;
                     this.year = newVal.getFullYear();
                     this.month = newVal.getMonth();
-//                    this.$emit('on-pick', newVal, true);
                 }
             }
         },
@@ -128,17 +127,6 @@
             handleClear() {
                 this.date = new Date();
                 this.$emit('on-pick', '');
-            },
-            handleShortcutClick (shortcut) {
-                if (shortcut.value) this.$emit('on-pick', shortcut.value());
-                if (shortcut.onClick) shortcut.onClick(this);
-            },
-            iconBtnCls (direction, type = '') {
-                return [
-                    `${prefixCls}-icon-btn`,
-                    `${datePrefixCls}-${direction}-btn`,
-                    `${datePrefixCls}-${direction}-btn-arrow${type}`,
-                ]
             },
             resetDate () {
                 this.date = new Date(this.date);

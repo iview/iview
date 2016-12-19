@@ -1,6 +1,8 @@
 @date-picker-prefix-cls: ~"@{css-prefix}date-picker";
 @picker-prefix-cls: ~"@{css-prefix}picker";
 
+@date-picker-cells-width: 196px;
+
 .@{date-picker-prefix-cls} {
     position: relative;
     .@{select-dropdown-prefix-cls} {
@@ -10,7 +12,7 @@
         max-height: none;
     }
     &-cells{
-        width: 196px;
+        width: @date-picker-cells-width;
         margin: 10px;
         span{
             display: inline-block;
@@ -81,7 +83,27 @@
                     }
                 }
             }
-            &-selected,&-selected:hover {
+            &-range{
+                position: relative;
+                em{
+                    position: relative;
+                    z-index: 1;
+                }
+                &:before{
+                    content: '';
+                    display: block;
+                    background: @date-picker-cell-hover-bg;
+                    border-radius: 0;
+                    border: 0;
+                    position: absolute;
+                    top: 2px;
+                    bottom: 2px;
+                    left: 0;
+                    right: 0;
+                }
+            }
+            &-selected,&-selected:hover
+            {
                 em{
                     background: @primary-color;
                     color: #fff;
@@ -93,7 +115,8 @@
                     color: @btn-disable-bg;
                 }
             }
-            &-today&-selected{
+            &-today&-selected
+            {
                 em{
                     &:after{
                         background: #fff;
@@ -148,6 +171,17 @@
             margin-right: 10px;
             i:after{
                 content: "\F3D3";
+            }
+        }
+    }
+
+    &-with-range{
+        .@{picker-prefix-cls}-panel{
+            &-body{
+                min-width: (@date-picker-cells-width + 20) * 2;
+            }
+            &-content{
+                float: left;
             }
         }
     }
