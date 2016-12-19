@@ -43,8 +43,8 @@
                 <year-table
                     v-ref:left-year-table
                     v-show="leftCurrentView === 'year'"
-                    :year="leftYear"
-                    :date="date"
+                    :year="leftTableYear"
+                    :date="leftTableDate"
                     selection-mode="range"
                     :disabled-date="disabledDate"
                     @on-pick="handleLeftYearPick"></year-table>
@@ -52,7 +52,7 @@
                     v-ref:left-month-table
                     v-show="leftCurrentView === 'month'"
                     :month="leftMonth"
-                    :date="date"
+                    :date="leftTableDate"
                     selection-mode="range"
                     :disabled-date="disabledDate"
                     @on-pick="handleLeftMonthPick"></month-table>
@@ -93,8 +93,8 @@
                 <year-table
                     v-ref:right-year-table
                     v-show="rightCurrentView === 'year'"
-                    :year="rightYear"
-                    :date="rightDate"
+                    :year="rightTableYear"
+                    :date="rightTableDate"
                     selection-mode="range"
                     :disabled-date="disabledDate"
                     @on-pick="handleRightYearPick"></year-table>
@@ -102,7 +102,7 @@
                     v-ref:right-month-table
                     v-show="rightCurrentView === 'month'"
                     :month="rightMonth"
-                    :date="rightDate"
+                    :date="rightTableDate"
                     selection-mode="range"
                     :disabled-date="disabledDate"
                     @on-pick="handleRightMonthPick"></month-table>
@@ -142,7 +142,9 @@
                 disabledDate: '',
                 leftCurrentView: 'date',
                 rightCurrentView: 'date',
-                selectionMode: 'range'
+                selectionMode: 'range',
+                leftTableYear: null,
+                rightTableYear: null
             }
         },
         computed: {
@@ -155,37 +157,57 @@
                     }
                 ]
             },
-            leftYear() {
+            leftYear () {
                 return this.date.getFullYear();
             },
+            leftTableDate () {
+                if (this.leftCurrentView === 'year' || this.leftCurrentView === 'month') {
+                    return new Date(this.leftTableYear);
+                } else {
+                    return this.date;
+                }
+            },
             leftYearLabel () {
-                const year = this.leftYear;
-                if (!year) return '';
                 if (this.leftCurrentView === 'year') {
+                    const year = this.leftTableYear;
+                    if (!year) return '';
                     const startYear = Math.floor(year / 10) * 10;
                     return `${startYear}年 - ${startYear + 9}年`;
+                } else {
+                    const year = this.leftCurrentView === 'month' ? this.leftTableYear : this.leftYear;
+                    if (!year) return '';
+                    return `${year}年`;
                 }
-                return `${year}年`;
             },
-            leftMonth() {
+            leftMonth () {
                 return this.date.getMonth();
             },
-            rightYear() {
+            rightYear () {
                 return this.rightDate.getFullYear();
             },
+            rightTableDate () {
+                if (this.rightCurrentView === 'year' || this.rightCurrentView === 'month') {
+                    return new Date(this.rightTableYear);
+                } else {
+                    return this.date;
+                }
+            },
             rightYearLabel () {
-                const year = this.rightYear;
-                if (!year) return '';
                 if (this.rightCurrentView === 'year') {
+                    const year = this.rightTableYear;
+                    if (!year) return '';
                     const startYear = Math.floor(year / 10) * 10;
                     return `${startYear}年 - ${startYear + 9}年`;
+                } else {
+                    const year = this.rightCurrentView === 'month' ? this.rightTableYear : this.rightYear;
+                    if (!year) return '';
+                    return `${year}年`;
                 }
-                return `${year}年`;
             },
-            rightMonth() {
+            rightMonth () {
                 return this.rightDate.getMonth();
             },
-            rightDate() {
+            rightDate () {
                 const newDate = new Date(this.date);
                 const month = newDate.getMonth();
                 newDate.setDate(1);
@@ -248,8 +270,7 @@
                 this.handleYearPick(year, close, 'right');
             },
             handleYearPick (year, close, direction) {
-                this.date.setFullYear(year);
-                this.resetDate();
+                this[`${direction}TableYear`] = year;
                 if (!close) return;
 
                 this[`${direction}CurrentView`] = 'month';
@@ -261,12 +282,24 @@
                 this.handleMonthPick(month, 'right');
             },
             handleMonthPick (month, direction) {
+                let year = this[`${direction}TableYear`];
+                if (direction === 'right') {
+                    if (month === 0) {
+                        month = 11;
+                        year--;
+                    } else {
+                        month--;
+                    }
+                }
+
+                this.date.setYear(year);
                 this.date.setMonth(month);
                 this[`${direction}CurrentView`] = 'date';
                 this.resetDate();
             },
             showYearPicker (direction) {
                 this[`${direction}CurrentView`] = 'year';
+                this[`${direction}TableYear`] = this[`${direction}Year`];
             },
             showMonthPicker (direction) {
                 this[`${direction}CurrentView`] = 'month';
