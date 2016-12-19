@@ -186,8 +186,6 @@
                     const cell = this.cells[parseInt(event.target.getAttribute('index'))];
                     if (cell.disabled) return;
 
-
-
                     const newDate = this.getDateOfCell(cell);
 
                     if (this.selectionMode === 'range') {
