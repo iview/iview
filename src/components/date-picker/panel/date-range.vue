@@ -32,9 +32,10 @@
                     :min-date="minDate"
                     :max-date="maxDate"
                     :range-state="rangeState"
-                    :selection-mode="selectionMode"
+                    selection-mode="range"
                     :disabled-date="disabledDate"
-                    @on-pick="handleDatePick"></date-table>
+                    @on-changerange="handleChangeRange"
+                    @on-pick="handleRangePick"></date-table>
             </div>
             <div :class="[prefixCls + '-content', prefixCls + '-content-right']">
                 <div :class="[datePrefixCls + '-header']" v-show="currentView !== 'time'">
@@ -61,9 +62,10 @@
                     :min-date="minDate"
                     :max-date="maxDate"
                     :range-state="rangeState"
-                    :selection-mode="selectionMode"
+                    selection-mode="range"
                     :disabled-date="disabledDate"
-                    @on-pick="handleDatePick"></date-table>
+                    @on-changerange="handleChangeRange"
+                    @on-pick="handleRangePick"></date-table>
             </div>
         </div>
     </div>
@@ -150,6 +152,11 @@
             }
         },
         methods: {
+            handleClear() {
+                this.minDate = null;
+                this.maxDate = null;
+                this.handleConfirm();
+            },
             prevYear () {
 
             },
@@ -168,11 +175,24 @@
             showMonthPicker () {
 
             },
-            handleDatePick () {
-
-            },
             handleConfirm(visible) {
                 this.$emit('on-pick', [this.minDate, this.maxDate], visible);
+            },
+            handleRangePick (val, close = true) {
+                if (this.maxDate === val.maxDate && this.minDate === val.minDate) return;
+
+                this.minDate = val.minDate;
+                this.maxDate = val.maxDate;
+
+                if (!close) return;
+                if (!this.showTime) {
+                    this.handleConfirm(false);
+                }
+            },
+            handleChangeRange (val) {
+                this.minDate = val.minDate;
+                this.maxDate = val.maxDate;
+                this.rangeState = val.rangeState;
             }
         }
     }

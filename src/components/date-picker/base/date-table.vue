@@ -47,14 +47,38 @@
                 prefixCls: prefixCls
             }
         },
+        watch: {
+            'rangeState.endDate' (newVal) {
+                this.markRange(newVal);
+            },
+            minDate(newVal, oldVal) {
+                if (newVal && !oldVal) {
+                    this.rangeState.selecting = true;
+                    this.markRange(newVal);
+                } else if (!newVal) {
+                    this.rangeState.selecting = false;
+                    this.markRange(newVal);
+                } else {
+                    this.markRange();
+                }
+            },
+            maxDate(newVal, oldVal) {
+                if (newVal && !oldVal) {
+                    this.rangeState.selecting = false;
+                    this.markRange(newVal);
+                    // todo 待验证
+                    this.$emit('on-pick', {
+                        minDate: this.minDate,
+                        maxDate: this.maxDate
+                    });
+                }
+            }
+        },
         computed: {
             classes () {
                 return [
                     `${prefixCls}`
                 ]
-            },
-            startDate() {
-                return getStartDateOfMonth(this.year, this.month);
             },
             cells () {
                 const date = new Date(this.year, this.month, 1);
@@ -133,42 +157,47 @@
             }
         },
         methods: {
+            getDateOfCell (cell) {
+                let year = this.year;
+                let month = this.month;
+                let day = cell.text;
+
+                if (cell.type === 'prev-month') {
+                    if (month === 0) {
+                        month = 11;
+                        year--;
+                    } else {
+                        month--;
+                    }
+                } else if (cell.type === 'next-month') {
+                    if (month === 11) {
+                        month = 0;
+                        year++;
+                    } else {
+                        month++;
+                    }
+                }
+
+                return new Date(year, month, day);
+            },
             handleClick (event) {
                 const target = event.target;
                 if (target.tagName === 'EM') {
                     const cell = this.cells[parseInt(event.target.getAttribute('index'))];
                     if (cell.disabled) return;
 
-                    let year = this.year;
-                    let month = this.month;
-                    let day = cell.text;
 
-                    if (cell.type === 'prev-month') {
-                        if (month === 0) {
-                            month = 11;
-                            year--;
-                        } else {
-                            month--;
-                        }
-                    } else if (cell.type === 'next-month') {
-                        if (month === 11) {
-                            month = 0;
-                            year++;
-                        } else {
-                            month++;
-                        }
-                    }
 
-                    const newDate = new Date(year, month, day);
+                    const newDate = this.getDateOfCell(cell);
 
                     if (this.selectionMode === 'range') {
-                        // todo
                         if (this.minDate && this.maxDate) {
                             const minDate = new Date(newDate.getTime());
                             const maxDate = null;
-                            this.$emit('on-pick', {minDate, maxDate}, false);
                             this.rangeState.selecting = true;
                             this.markRange(this.minDate);
+
+                            this.$emit('on-pick', {minDate, maxDate}, false);
                         } else if (this.minDate && !this.maxDate) {
                             if (newDate >= this.minDate) {
                                 const maxDate = new Date(newDate.getTime());
@@ -182,41 +211,47 @@
                             }
                         } else if (!this.minDate) {
                             const minDate = new Date(newDate.getTime());
-
-                            this.$emit('on-pick', {minDate, maxDate: this.maxDate}, false);
                             this.rangeState.selecting = true;
                             this.markRange(this.minDate);
+
+                            this.$emit('on-pick', {minDate, maxDate: this.maxDate}, false);
                         }
                     } else {
                         this.$emit('on-pick', newDate);
                     }
                 }
             },
-            handleMouseMove () {
+            handleMouseMove (event) {
+                if (!this.rangeState.selecting) return;
 
+                this.$emit('on-changerange', {
+                    minDate: this.minDate,
+                    maxDate: this.maxDate,
+                    rangeState: this.rangeState
+                });
+
+                const target = event.target;
+                if (target.tagName === 'EM') {
+                    const cell = this.cells[parseInt(event.target.getAttribute('index'))];
+//                    if (cell.disabled) return;    // todo 待确定
+                    this.rangeState.endDate = this.getDateOfCell(cell);
+                }
             },
             markRange (maxDate) {
-                const startDate = this.startDate;
-                if (!maxDate) {
-                    maxDate = this.maxDate;
-                }
-
-                const rows = this.rows;
                 const minDate = this.minDate;
-                for (var i = 0, k = rows.length; i < k; i++) {
-                    const row = rows[i];
-                    for (var j = 0, l = row.length; j < l; j++) {
-                        if (this.showWeekNumber && j === 0) continue;
+                if (!maxDate) maxDate = this.maxDate;
 
-                        const cell = row[j];
-                        const index = i * 7 + j + (this.showWeekNumber ? -1 : 0);
-                        const time = startDate.getTime() + DAY_DURATION * index;
+                const minDay = clearHours(new Date(minDate));
+                const maxDay = clearHours(new Date(maxDate));
 
-                        cell.inRange = minDate && time >= clearHours(minDate) && time <= clearHours(maxDate);
-                        cell.start = minDate && time === clearHours(minDate.getTime());
-                        cell.end = maxDate && time === clearHours(maxDate.getTime());
+                this.cells.forEach(cell => {
+                    if (cell.type === 'today' || cell.type === 'normal') {
+                        const time = clearHours(new Date(this.year, this.month, cell.text));
+                        cell.range = time >= minDay && time <= maxDay;
+                        cell.start = minDate && time === minDay;
+                        cell.end = maxDate && time === maxDay;
                     }
-                }
+                });
             },
             getCellCls (cell) {
                 return [

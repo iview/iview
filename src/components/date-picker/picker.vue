@@ -194,9 +194,7 @@
                 return PLACEMENT_MAP[this.align];
             },
             selectionMode() {
-                if (this.type === 'week') {
-                    return 'week';
-                } else if (this.type === 'month') {
+                if (this.type === 'month') {
                     return 'month';
                 } else if (this.type === 'year') {
                     return 'year';
@@ -307,7 +305,7 @@
                         this.picker.resetView && this.picker.resetView();
                     });
 
-                    // todo $on('on-range')
+                    // todo $on('on-time-range')
                 }
                 if (this.internalValue instanceof Date) {
                     this.picker.date = new Date(this.internalValue.getTime());
