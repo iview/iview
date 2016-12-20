@@ -13,6 +13,12 @@ export default {
         handleShortcutClick (shortcut) {
             if (shortcut.value) this.$emit('on-pick', shortcut.value());
             if (shortcut.onClick) shortcut.onClick(this);
+        },
+        handlePickClear () {
+            this.$emit('on-pick-clear');
+        },
+        handlePickSuccess () {
+            this.$emit('on-pick-success');
         }
     }
 }

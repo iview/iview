@@ -162,6 +162,10 @@
                 type: Boolean,
                 default: true
             },
+            confirm: {
+                type: Boolean,
+                default: false
+            },
             size: {
                 validator (value) {
                     return oneOf(value, ['small', 'large']);
@@ -315,14 +319,19 @@
             },
             handleIconClick () {
                 if (!this.showClose) return;
+                this.handleClear();
+            },
+            handleClear () {
                 this.visible = false;
                 this.internalValue = '';
                 this.value = '';
+                this.emitChange(this.value);
             },
             showPicker () {
                 if (!this.picker) {
                     this.picker = new Vue(this.panel).$mount(this.$els.picker);
                     this.picker.value = this.internalValue;
+                    this.picker.confirm = this.confirm;
                     this.picker.selectionMode = this.selectionMode;
                     if (this.format) this.picker.format = this.format;
 
@@ -332,11 +341,20 @@
                     }
 
                     this.picker.$on('on-pick', (date, visible = false) => {
+                        if (!this.confirm) this.visible = visible;
+
                         this.emitChange(date);
                         this.value = date;
-                        this.visible = visible;
                         this.picker.value = date;
                         this.picker.resetView && this.picker.resetView();
+                    });
+
+                    this.picker.$on('on-pick-clear', () => {
+                        this.handleClear();
+                    });
+                    this.picker.$on('on-pick-success', () => {
+                        this.emitChange(this.value);
+                        this.visible = false;
                     });
 
                     // todo $on('on-time-range')
@@ -349,7 +367,7 @@
                 this.picker.resetView && this.picker.resetView();
             },
             emitChange (date) {
-                const format = this.format || DEFAULT_FORMATS[type];
+                const format = this.format || DEFAULT_FORMATS[this.type];
                 const formatter = (
                     TYPE_VALUE_RESOLVER_MAP[this.type] ||
                     TYPE_VALUE_RESOLVER_MAP['default']

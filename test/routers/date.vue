@@ -1,17 +1,19 @@
 <template>
     <div style="margin: 50px">
-        <i-button @click="setDate">change date</i-button>
+        <i-button @click="type = 'year'">year</i-button>
+        <i-button @click="type = 'month'">month</i-button>
         <br>
         <row>
             <i-col span="8">
                 <!--<i-button @click="setDate">set date</i-button>-->
                 <date-picker
+                        :type="type"
                         style="width:200px"
                         placeholder="请选择日期"
                         :value.sync="value"
-                        :options="options"
                         @on-change="change"
-                        :format="format"
+                        :confirm="true"
+                        :options="options"
                         @on-open-change="change2"></date-picker>
             </i-col>
             <i-col span="8">
@@ -22,9 +24,8 @@
                         :value.sync="value2"
                         align="right"
                         :editable="true"
-                        :format="format"
                         @on-change="change"
-                        :clearable="false"
+                        :confirm="true"
                         :options="options2"></date-picker>
             </i-col>
         </row>
@@ -35,6 +36,7 @@
         data () {
             return {
 //                value: new Date(),
+                type: 'date',
                 value: '2016-12-25',
                 value2: ['2016-12-17', '2017-01-05'],
                 options2: {
@@ -130,7 +132,7 @@
                         }
                     ]
                 },
-                format: 'yyyy-MM-dd'
+                format: 'yyyy-MM',
             }
         },
         computed: {},

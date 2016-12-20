@@ -107,6 +107,10 @@
                     :disabled-date="disabledDate"
                     @on-pick="handleRightMonthPick"></month-table>
             </div>
+            <Confirm
+                v-if="confirm"
+                @on-pick-clear="handlePickClear"
+                @on-pick-success="handlePickSuccess"></Confirm>
         </div>
     </div>
 </template>
@@ -115,6 +119,7 @@
     import DateTable from '../base/date-table.vue';
     import YearTable from '../base/year-table.vue';
     import MonthTable from '../base/month-table.vue';
+    import Confirm from '../base/confirm.vue';
     import { toDate, prevMonth, nextMonth } from '../util';
 
     import Mixin from './mixin';
@@ -124,7 +129,7 @@
 
     export default {
         mixins: [Mixin],
-        components: { Icon, DateTable, YearTable, MonthTable },
+        components: { Icon, DateTable, YearTable, MonthTable, Confirm },
         data () {
             return {
                 prefixCls: prefixCls,
@@ -134,6 +139,7 @@
                 value: '',
                 minDate: '',
                 maxDate: '',
+                confirm: false,
                 rangeState: {
                     endDate: null,
                     selecting: false
