@@ -269,9 +269,9 @@
                         if (parsedValue[0].getTime() > parsedValue[1].getTime()) {
                             correctValue = oldValue;
                         } else {
-                            // todo 判断disabledDate
                             correctValue = formatter(parsedValue, format);
                         }
+                        // todo 判断disabledDate
                     } else {
                         correctValue = oldValue;
                     }
@@ -345,7 +345,13 @@
                 this.picker.resetView && this.picker.resetView();
             },
             emitChange (date) {
-                this.$emit('on-change', formatDate(date, this.format || DEFAULT_FORMATS[this.type]));
+                const format = this.format || DEFAULT_FORMATS[type];
+                const formatter = (
+                    TYPE_VALUE_RESOLVER_MAP[this.type] ||
+                    TYPE_VALUE_RESOLVER_MAP['default']
+                ).formatter;
+
+                this.$emit('on-change', formatter(date, format));
             }
         },
         watch: {

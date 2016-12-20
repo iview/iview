@@ -135,7 +135,7 @@
         computed: {},
         methods: {
             change (date) {
-//                console.log(date)
+                console.log(date)
             },
             change2 (s) {
 //                console.log(s)
