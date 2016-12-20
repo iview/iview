@@ -23,6 +23,7 @@
                         align="right"
                         :editable="true"
                         :format="format"
+                        @on-change="change"
                         :options="options2"></date-picker>
             </i-col>
         </row>
@@ -134,7 +135,7 @@
         computed: {},
         methods: {
             change (date) {
-                console.log(date)
+//                console.log(date)
             },
             change2 (s) {
 //                console.log(s)

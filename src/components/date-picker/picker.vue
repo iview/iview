@@ -265,14 +265,18 @@
 
                     const parsedValue = parser(value, format);
 
-                    if (parsedValue) {
-                        // todo 判断disabledDate
-                        correctValue = formatter(parsedValue, format);
+                    if (parsedValue[0] instanceof Date && parsedValue[1] instanceof Date) {
+                        if (parsedValue[0].getTime() > parsedValue[1].getTime()) {
+                            correctValue = oldValue;
+                        } else {
+                            // todo 判断disabledDate
+                            correctValue = formatter(parsedValue, format);
+                        }
                     } else {
                         correctValue = oldValue;
                     }
 
-                    correctDate = parsedValue;
+                    correctDate = parser(correctValue, format);
                 } else {
                     const parsedDate = parseDate(value, format);
 
