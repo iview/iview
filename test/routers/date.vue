@@ -24,6 +24,7 @@
                         :editable="true"
                         :format="format"
                         @on-change="change"
+                        :clearable="false"
                         :options="options2"></date-picker>
             </i-col>
         </row>

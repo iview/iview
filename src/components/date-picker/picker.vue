@@ -158,6 +158,10 @@
                 type: Boolean,
                 default: true
             },
+            clearable: {
+                type: Boolean,
+                default: true
+            },
             size: {
                 validator (value) {
                     return oneOf(value, ['small', 'large']);
@@ -302,7 +306,7 @@
             },
             handleInputMouseenter () {
                 if (this.readonly || this.disabled) return;
-                if (this.visualValue) {
+                if (this.visualValue && this.clearable) {
                     this.showClose = true;
                 }
             },
