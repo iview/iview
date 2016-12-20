@@ -2,22 +2,24 @@
     <div
         :class="[prefixCls]"
         v-clickoutside="handleClose">
-        <i-input
-            v-el:reference
-            :class="[prefixCls + '-editor']"
-            :readonly="!editable || readonly"
-            :disabled="disabled"
-            :size="size"
-            :placeholder="placeholder"
-            :value="visualValue"
-            @on-change="handleInputChange"
-            @on-focus="handleFocus"
-            @on-blur="handleBlur"
-            @on-click="handleIconClick"
-            @mouseenter="handleInputMouseenter"
-            @mouseleave="handleInputMouseleave"
-            :icon="iconType"></i-input>
-        <Drop v-show="visible" :placement="placement" transition="slide-up" v-ref:drop>
+        <div v-el:reference>
+            <slot>
+                <i-input
+                    :class="[prefixCls + '-editor']"
+                    :readonly="!editable || readonly"
+                    :disabled="disabled"
+                    :size="size"
+                    :placeholder="placeholder"
+                    :value="visualValue"
+                    @on-change="handleInputChange"
+                    @on-focus="handleFocus"
+                    @on-click="handleIconClick"
+                    @mouseenter="handleInputMouseenter"
+                    @mouseleave="handleInputMouseleave"
+                    :icon="iconType"></i-input>
+            </slot>
+        </div>
+        <Drop v-show="opened" :placement="placement" transition="slide-up" v-ref:drop>
             <div v-el:picker></div>
         </Drop>
     </div>
@@ -166,6 +168,10 @@
                 type: Boolean,
                 default: false
             },
+            open: {
+                type: Boolean,
+                default: null
+            },
             size: {
                 validator (value) {
                     return oneOf(value, ['small', 'large']);
@@ -195,6 +201,9 @@
             }
         },
         computed: {
+            opened () {
+                return this.open === null ? this.visible : this.open;
+            },
             iconType () {
                 return this.showClose ? 'ios-close' : 'ios-calendar-outline';
             },
@@ -247,9 +256,6 @@
             handleFocus () {
                 if (this.readonly) return;
                 this.visible = true;
-            },
-            handleBlur () {
-
             },
             handleInputChange (event) {
                 const oldValue = this.visualValue;
@@ -325,7 +331,6 @@
                 this.visible = false;
                 this.internalValue = '';
                 this.value = '';
-                this.emitChange(this.value);
             },
             showPicker () {
                 if (!this.picker) {
@@ -353,7 +358,7 @@
                         this.handleClear();
                     });
                     this.picker.$on('on-pick-success', () => {
-                        this.emitChange(this.value);
+//                        this.emitChange(this.value);
                         this.visible = false;
                     });
 
@@ -405,6 +410,11 @@
         beforeDestroy () {
             if (this.picker) {
                 this.picker.$destroy();
+            }
+        },
+        ready () {
+            if (this.open !== null) {
+                this.visible = this.open;
             }
         }
     }

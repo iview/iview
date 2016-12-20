@@ -14,7 +14,10 @@
                         @on-change="change"
                         :confirm="true"
                         :options="options"
-                        @on-open-change="change2"></date-picker>
+                        open
+                        @on-open-change="change2">
+                    <p>123</p>
+                </date-picker>
             </i-col>
             <i-col span="8">
                 <date-picker
