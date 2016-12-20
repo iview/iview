@@ -91,6 +91,7 @@
                 } else {
                     this.$refs.drop.destroy();
                 }
+                this.$emit('on-visible-change', val);
             }
         },
         events: {
