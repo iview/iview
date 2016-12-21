@@ -1,42 +1,26 @@
-<style>
-    .ivu-col div.aaaaa{
-        height: 100px;
-        line-height: 100px;
-        text-align: center;
-        color: #fff;
-        background: rgba(0, 153, 229, .9);
-    }
-    .ivu-col:nth-child(odd) div.aaaaa{
-        background: rgba(0, 153, 229, .7);
-    }
-</style>
 <template>
-    <Row>
-        <i-col :xs="2" :sm="4" :md="6" :lg="8"><div class="aaaaa">Col 1</div></i-col>
-        <i-col :xs="20" :sm="16" :md="12" :lg="8"><div class="aaaaa">Col 2</div></i-col>
-        <i-col :xs="2" :sm="4" :md="6" :lg="8"><div class="aaaaa">Col 3</div></i-col>
-    </Row>
-    <br><br>
-    <Row>
-        <i-col :xs="{ span: 5, offset: 1 }" :lg="{ span: 6, offset: 2 }"><div class="aaaaa">Col 1</div></i-col>
-        <i-col :xs="{ span: 11, offset: 1 }" :lg="{ span: 6, offset: 2 }"><div class="aaaaa">Col 2</div></i-col>
-        <i-col :xs="{ span: 5, offset: 1 }" :lg="{ span: 6, offset: 2 }"><div class="aaaaa">Col 3</div></i-col>
-    </Row>
-    <i-button @click="start">Start</i-button>
-    <i-button @click="finish">Finish</i-button>
-    <i-button @click="error">Error</i-button>
+    {{ fruit |json}}
+    <Checkbox-group :model.sync="fruit" @on-change="changed">
+        <Checkbox value="a"></Checkbox>
+        <Checkbox value="b"></Checkbox>
+        <Checkbox value="c"></Checkbox>
+    </Checkbox-group>
+    <i-button @click="change">change</i-button>
 </template>
 <script>
     export default {
+        data () {
+            return {
+                fruit: ['b']
+            }
+        },
         methods: {
-            start () {
-                this.$Loading.start();
+            change () {
+                this.fruit.splice(0, 1);
+//                this.fruit = ['a']
             },
-            finish () {
-                this.$Loading.finish();
-            },
-            error () {
-                this.$Loading.error();
+            changed (s) {
+                console.log(s)
             }
         }
     }

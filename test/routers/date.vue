@@ -7,16 +7,15 @@
             <i-col span="8">
                 <!--<i-button @click="setDate">set date</i-button>-->
                 <date-picker
-                        :type="type"
+                        type="month"
                         style="width:200px"
                         placeholder="请选择日期"
                         :value.sync="value"
                         @on-change="change"
-                        :confirm="true"
+                        :confirm="false"
                         :options="options"
                         open
                         @on-open-change="change2">
-                    <p>123</p>
                 </date-picker>
             </i-col>
             <i-col span="8">

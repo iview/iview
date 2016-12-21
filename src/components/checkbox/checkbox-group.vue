@@ -43,11 +43,12 @@
         },
         watch: {
             model (val, oldVal) {
-                if (val == oldVal) {
-                    this.updateModel();
-                } else {
-                    this.updateModel(true);
-                }
+//                if (val == oldVal) {
+//                    this.updateModel();
+//                } else {
+//                    this.updateModel(true);
+//                }
+                this.updateModel(true);
             }
         }
     }
