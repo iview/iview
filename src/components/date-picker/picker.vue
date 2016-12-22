@@ -19,7 +19,7 @@
                     :icon="iconType"></i-input>
             </slot>
         </div>
-        <Drop v-show="opened" :placement="placement" transition="slide-up" v-ref:drop>
+        <Drop v-show="opened" :placement="placement" :transition="transition" v-ref:drop>
             <div v-el:picker></div>
         </Drop>
     </div>
@@ -135,12 +135,6 @@
         }
     };
 
-    const PLACEMENT_MAP = {
-        left: 'bottom-start',
-        center: 'bottom-center',
-        right: 'bottom-end'
-    };
-
     export default {
         components: { iInput, Drop },
         directives: { clickoutside },
@@ -181,12 +175,6 @@
                 type: String,
                 default: ''
             },
-//            align: {
-//                validator (value) {
-//                    return oneOf(value, ['left', 'center', 'right']);
-//                },
-//                default: 'left'
-//            },
             placement: {
                 validator (value) {
                     return oneOf(value, ['top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left', 'left-start', 'left-end', 'right', 'right-start', 'right-end']);
@@ -214,9 +202,13 @@
             iconType () {
                 return this.showClose ? 'ios-close' : 'ios-calendar-outline';
             },
-//            placement () {
-//                return PLACEMENT_MAP[this.align];
-//            },
+            transition () {
+                if (this.placement === 'bottom-start' || this.placement === 'bottom' || this.placement === 'bottom-end') {
+                    return 'slide-up';
+                } else {
+                    return 'slide-down';
+                }
+            },
             selectionMode() {
                 if (this.type === 'month') {
                     return 'month';
@@ -339,6 +331,7 @@
                 this.visible = false;
                 this.internalValue = '';
                 this.value = '';
+                this.$emit('on-clear');
             },
             showPicker () {
                 if (!this.picker) {
@@ -368,6 +361,7 @@
                     this.picker.$on('on-pick-success', () => {
 //                        this.emitChange(this.value);
                         this.visible = false;
+                        this.$emit('on-ok');
                     });
                     this.picker.$on('on-pick-click', () => this.disableClickOutSide = true);
 
@@ -395,13 +389,11 @@
                 if (val) {
                     this.showPicker();
                     this.$refs.drop.update();
-                    this.$emit('on-open-change', true);
+                    if (this.open === null) this.$emit('on-open-change', true);
                 } else {
-                    if (this.picker) {
-                        this.picker.resetView && this.picker.resetView();
-                    }
+                    if (this.picker) this.picker.resetView && this.picker.resetView();
                     this.$refs.drop.destroy();
-                    this.$emit('on-open-change', false);
+                    if (this.open === null) this.$emit('on-open-change', false);
                 }
             },
             internalValue(val) {
@@ -414,6 +406,14 @@
                 handler (val) {
                     this.internalValue = val;
                 }
+            },
+            open (val) {
+                if (val === true) {
+                    this.visible = val;
+                    this.$emit('on-open-change', true);
+                } else if (val === false) {
+                    this.$emit('on-open-change', false);
+                }
             }
         },
         beforeDestroy () {
@@ -422,9 +422,7 @@
             }
         },
         ready () {
-            if (this.open !== null) {
-                this.visible = this.open;
-            }
+            if (this.open !== null) this.visible = this.open;
         }
     }
 </script>
