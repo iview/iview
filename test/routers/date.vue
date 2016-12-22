@@ -1,36 +1,16 @@
 <template>
-    <div style="margin: 50px">
-        <i-button @click="type = 'year'">year</i-button>
-        <i-button @click="type = 'month'">month</i-button>
-        <br>
-        <row>
-            <i-col span="8">
-                <!--<i-button @click="setDate">set date</i-button>-->
-                <date-picker
-                        type="month"
-                        style="width:200px"
-                        placeholder="请选择日期"
-                        :value.sync="value"
-                        @on-change="change"
-                        :confirm="false"
-                        :options="options"
-                        open
-                        @on-open-change="change2">
-                </date-picker>
-            </i-col>
-            <i-col span="8">
-                <date-picker
-                        type="daterange"
-                        style="width:300px"
-                        placeholder="请选择日期"
-                        :value.sync="value2"
-                        align="right"
-                        :editable="true"
-                        @on-change="change"
-                        :confirm="true"
-                        :options="options2"></date-picker>
-            </i-col>
-        </row>
+    <div style="margin: 50px;position: relative">
+        <Card>
+            <row>
+                <i-col span="12">
+                    <date-picker type="date" placeholder="选择日期" style="width: 200px;"></date-picker>
+                </i-col>
+                <i-col span="12">
+                    <date-picker type="daterange" placeholder="选择日期" style="width: 200px;"></date-picker>
+                </i-col>
+            </row>
+            fdsfs
+        </Card>
     </div>
 </template>
 <script>

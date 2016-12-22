@@ -73,6 +73,7 @@
 
                     this.$emit('on-pick', cell.text);
                 }
+                this.$emit('on-pick-click');
             }
         }
     }

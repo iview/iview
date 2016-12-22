@@ -67,6 +67,7 @@
 
                     this.$emit('on-pick', index);
                 }
+                this.$emit('on-pick-click');
             }
         }
     }

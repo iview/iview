@@ -19,6 +19,9 @@ export default {
         },
         handlePickSuccess () {
             this.$emit('on-pick-success');
+        },
+        handlePickClick () {
+            this.$emit('on-pick-click');
         }
     }
 }

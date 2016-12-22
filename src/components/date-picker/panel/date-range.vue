@@ -39,7 +39,8 @@
                     selection-mode="range"
                     :disabled-date="disabledDate"
                     @on-changerange="handleChangeRange"
-                    @on-pick="handleRangePick"></date-table>
+                    @on-pick="handleRangePick"
+                    @on-pick-click="handlePickClick"></date-table>
                 <year-table
                     v-ref:left-year-table
                     v-show="leftCurrentView === 'year'"
@@ -47,7 +48,8 @@
                     :date="leftTableDate"
                     selection-mode="range"
                     :disabled-date="disabledDate"
-                    @on-pick="handleLeftYearPick"></year-table>
+                    @on-pick="handleLeftYearPick"
+                    @on-pick-click="handlePickClick"></year-table>
                 <month-table
                     v-ref:left-month-table
                     v-show="leftCurrentView === 'month'"
@@ -55,7 +57,8 @@
                     :date="leftTableDate"
                     selection-mode="range"
                     :disabled-date="disabledDate"
-                    @on-pick="handleLeftMonthPick"></month-table>
+                    @on-pick="handleLeftMonthPick"
+                    @on-pick-click="handlePickClick"></month-table>
             </div>
             <div :class="[prefixCls + '-content', prefixCls + '-content-right']">
                 <div :class="[datePrefixCls + '-header']" v-show="rightCurrentView !== 'time'">
@@ -89,7 +92,8 @@
                     selection-mode="range"
                     :disabled-date="disabledDate"
                     @on-changerange="handleChangeRange"
-                    @on-pick="handleRangePick"></date-table>
+                    @on-pick="handleRangePick"
+                    @on-pick-click="handlePickClick"></date-table>
                 <year-table
                     v-ref:right-year-table
                     v-show="rightCurrentView === 'year'"
@@ -97,7 +101,8 @@
                     :date="rightTableDate"
                     selection-mode="range"
                     :disabled-date="disabledDate"
-                    @on-pick="handleRightYearPick"></year-table>
+                    @on-pick="handleRightYearPick"
+                    @on-pick-click="handlePickClick"></year-table>
                 <month-table
                     v-ref:right-month-table
                     v-show="rightCurrentView === 'month'"
@@ -105,7 +110,8 @@
                     :date="rightTableDate"
                     selection-mode="range"
                     :disabled-date="disabledDate"
-                    @on-pick="handleRightMonthPick"></month-table>
+                    @on-pick="handleRightMonthPick"
+                    @on-pick-click="handlePickClick"></month-table>
             </div>
             <Confirm
                 v-if="confirm"

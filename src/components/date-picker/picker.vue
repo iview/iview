@@ -181,11 +181,17 @@
                 type: String,
                 default: ''
             },
-            align: {
+//            align: {
+//                validator (value) {
+//                    return oneOf(value, ['left', 'center', 'right']);
+//                },
+//                default: 'left'
+//            },
+            placement: {
                 validator (value) {
-                    return oneOf(value, ['left', 'center', 'right']);
+                    return oneOf(value, ['top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left', 'left-start', 'left-end', 'right', 'right-start', 'right-end']);
                 },
-                default: 'left'
+                default: 'bottom-start'
             },
             options: {
                 type: Object
@@ -197,7 +203,8 @@
                 showClose: false,
                 visible: false,
                 picker: null,
-                internalValue: ''
+                internalValue: '',
+                disableClickOutSide: false    // fixed when click a date,trigger clickoutside to close picker
             }
         },
         computed: {
@@ -207,9 +214,9 @@
             iconType () {
                 return this.showClose ? 'ios-close' : 'ios-calendar-outline';
             },
-            placement () {
-                return PLACEMENT_MAP[this.align];
-            },
+//            placement () {
+//                return PLACEMENT_MAP[this.align];
+//            },
             selectionMode() {
                 if (this.type === 'month') {
                     return 'month';
@@ -251,7 +258,8 @@
         },
         methods: {
             handleClose () {
-                this.visible = false;
+                if (!this.disableClickOutSide) this.visible = false;
+                this.disableClickOutSide = false;
             },
             handleFocus () {
                 if (this.readonly) return;
@@ -361,6 +369,7 @@
 //                        this.emitChange(this.value);
                         this.visible = false;
                     });
+                    this.picker.$on('on-pick-click', () => this.disableClickOutSide = true);
 
                     // todo $on('on-time-range')
                 }

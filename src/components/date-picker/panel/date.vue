@@ -39,7 +39,8 @@
                     :value="value"
                     :selection-mode="selectionMode"
                     :disabled-date="disabledDate"
-                    @on-pick="handleDatePick"></date-table>
+                    @on-pick="handleDatePick"
+                    @on-pick-click="handlePickClick"></date-table>
                 <year-table
                     v-ref:year-table
                     v-show="currentView === 'year'"
@@ -47,7 +48,8 @@
                     :date="date"
                     :selection-mode="selectionMode"
                     :disabled-date="disabledDate"
-                    @on-pick="handleYearPick"></year-table>
+                    @on-pick="handleYearPick"
+                    @on-pick-click="handlePickClick"></year-table>
                 <month-table
                     v-ref:month-table
                     v-show="currentView === 'month'"
@@ -55,7 +57,8 @@
                     :date="date"
                     :selection-mode="selectionMode"
                     :disabled-date="disabledDate"
-                    @on-pick="handleMonthPick"></month-table>
+                    @on-pick="handleMonthPick"
+                    @on-pick-click="handlePickClick"></month-table>
             </div>
             <Confirm
                 v-if="confirm"

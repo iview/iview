@@ -224,6 +224,7 @@
                         this.$emit('on-pick', newDate);
                     }
                 }
+                this.$emit('on-pick-click');
             },
             handleMouseMove (event) {
                 if (!this.rangeState.selecting) return;
