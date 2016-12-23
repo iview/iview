@@ -74,6 +74,7 @@
             }
         },
         ready () {
+            if (this.$parent && this.$parent.$options.name === 'checkboxGroup') this.group = true;
             if (!this.group) {
                 this.updateModel();
                 if (this.$els.slot && this.$els.slot.innerHTML === '') {
