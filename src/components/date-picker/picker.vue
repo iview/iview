@@ -295,8 +295,8 @@
                     const parsedDate = parseDate(value, format);
 
                     if (parsedDate instanceof Date) {
-                        const options = this.options;
-                        if (options.disabledDate && typeof options.disabledDate === 'function' && options.disabledDate(new Date(parsedDate))) {
+                        const options = this.options || false;
+                        if (options && options.disabledDate && typeof options.disabledDate === 'function' && options.disabledDate(new Date(parsedDate))) {
                             correctValue = oldValue;
                         } else {
                             correctValue = formatDate(parsedDate, format);
