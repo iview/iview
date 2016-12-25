@@ -26,7 +26,7 @@ export default {
                 return {
                     gpuAcceleration: false,
                     boundariesElement: 'body'
-                }
+                };
             }
         },
         visible: {

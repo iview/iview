@@ -21,7 +21,7 @@
                 return [
                     `${prefixCls}`,
                     `${prefixCls}-year`
-                ]
+                ];
             },
             startYear() {
                 return Math.floor(this.year / 10) * 10;
@@ -57,7 +57,7 @@
                         [`${prefixCls}-cell-selected`]: cell.selected,
                         [`${prefixCls}-cell-disabled`]: cell.disabled
                     }
-                ]
+                ];
             },
             nextTenYear() {
                 this.$emit('on-pick', Number(this.year) + 10, false);
@@ -76,5 +76,5 @@
                 this.$emit('on-pick-click');
             }
         }
-    }
+    };
 </script>

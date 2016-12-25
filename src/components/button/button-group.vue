@@ -34,8 +34,8 @@
                         [`${prefixCls}-${this.shape}`]: !!this.shape,
                         [`${prefixCls}-vertical`]: this.vertical
                     }
-                ]
+                ];
             }
         }
-    }
+    };
 </script>

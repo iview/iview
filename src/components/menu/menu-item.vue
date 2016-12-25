@@ -19,7 +19,7 @@
         data () {
             return {
                 active: false
-            }
+            };
         },
         computed: {
             classes () {
@@ -30,7 +30,7 @@
                         [`${prefixCls}-item-selected`]: this.active,
                         [`${prefixCls}-item-disabled`]: this.disabled
                     }
-                ]
+                ];
             }
         },
         methods: {
@@ -39,5 +39,5 @@
                 this.$dispatch('on-menu-item-select', this.key);
             }
         }
-    }
+    };
 </script>

@@ -41,7 +41,7 @@
                         [`${prefixCls}-${this.type}-${this.justify}`]: !!this.justify,
                         [`${this.className}`]: !!this.className
                     }
-                ]
+                ];
             },
             styles () {
                 let style = {};
@@ -49,7 +49,7 @@
                     style = {
                         marginLeft: this.gutter / -2 + 'px',
                         marginRight: this.gutter / -2 + 'px'
-                    }
+                    };
                 }
 
                 return style;
@@ -72,5 +72,5 @@
         ready () {
             this.updateGutter(this.gutter);
         }
-    }
+    };
 </script>

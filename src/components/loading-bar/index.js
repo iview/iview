@@ -31,7 +31,7 @@ function hide() {
             update({
                 percent: 0
             });
-        }, 200)
+        }, 200);
     }, 800);
 }
 
@@ -109,4 +109,4 @@ export default {
         loadingBarInstance = null;
         instance.destroy();
     }
-}
+};

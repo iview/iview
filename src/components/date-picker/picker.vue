@@ -193,7 +193,7 @@
                 picker: null,
                 internalValue: '',
                 disableClickOutSide: false    // fixed when click a date,trigger clickoutside to close picker
-            }
+            };
         },
         computed: {
             opened () {
@@ -424,5 +424,5 @@
         ready () {
             if (this.open !== null) this.visible = this.open;
         }
-    }
+    };
 </script>

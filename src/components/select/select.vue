@@ -96,7 +96,7 @@
                 inputLength: 20,
                 notFound: false,
                 slotChangeDuration: false    // if slot change duration and in multiple, set true and after slot change, set false
-            }
+            };
         },
         computed: {
             classes () {
@@ -110,7 +110,7 @@
                         [`${prefixCls}-show-clear`]: this.showCloseIcon,
                         [`${prefixCls}-${this.size}`]: !!this.size
                     }
-                ]
+                ];
             },
             showPlaceholder () {
                 let status = false;
@@ -174,7 +174,7 @@
                 if (this.optionInstances.length) {
                     this.optionInstances.forEach((child) => {
                         find(child);
-                    })
+                    });
                 } else {
                     this.$children.forEach((child) => {
                         find(child);
@@ -252,7 +252,7 @@
                                 selected.push({
                                     value: option.value,
                                     label: option.label
-                                })
+                                });
                             }
                         }
                     }
@@ -435,7 +435,7 @@
                     const model = this.model;
 
                     if (this.multiple) {
-
+                        //
                     } else {
                         if (model !== '') {
                             this.findChild((child) => {
@@ -561,5 +561,5 @@
                 }
             }
         }
-    }
+    };
 </script>

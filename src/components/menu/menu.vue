@@ -26,7 +26,7 @@
             openKeys: {
                 type: Array,
                 default () {
-                    return []
+                    return [];
                 }
             },
             accordion: {
@@ -49,7 +49,7 @@
                     {
                         [`${prefixCls}-${this.mode}`]: this.mode
                     }
-                ]
+                ];
             },
             styles () {
                 let style = {};
@@ -77,7 +77,7 @@
                                     } else {
                                         groupItem.active = false;
                                     }
-                                })
+                                });
                             } else if (subitem.$options.name === 'MenuItem') {
                                 if (subitem.key === this.activeKey) {
                                     subitem.active = true;
@@ -86,15 +86,15 @@
                                     subitem.active = false;
                                 }
                             }
-                        })
+                        });
                     } else if (item.$options.name === 'MenuGroup') {
                         item.$children.forEach(groupItem => {
                             groupItem.active = groupItem.key === this.activeKey;
-                        })
+                        });
                     } else if (item.$options.name === 'MenuItem') {
                         item.active = item.key === this.activeKey;
                     }
-                })
+                });
             },
             updateOpenKeys (key) {
                 const index = this.openKeys.indexOf(key);
@@ -109,7 +109,7 @@
                     if (item.$options.name === 'Submenu') {
                         if (this.openKeys.indexOf(item.key) > -1) item.opened = true;
                     }
-                })
+                });
             }
         },
         compiled () {
@@ -128,5 +128,5 @@
                 this.$emit('on-open-change', this.openKeys);
             }
         }
-    }
+    };
 </script>

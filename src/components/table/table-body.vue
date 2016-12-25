@@ -52,7 +52,7 @@
                         [`${this.prefixCls}-row-highlight`]: this.objData[_index] && this.objData[_index]._isHighlight,
                         [`${this.prefixCls}-row-hover`]: this.objData[_index] && this.objData[_index]._isHover
                     }
-                ]
+                ];
             },
             rowChecked (_index) {
                 return this.objData[_index] && this.objData[_index]._isChecked;
@@ -70,5 +70,5 @@
                 this.$parent.highlightCurrentRow(_index);
             }
         }
-    }
+    };
 </script>

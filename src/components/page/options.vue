@@ -41,17 +41,17 @@
             optsClasses () {
                 return [
                     `${prefixCls}-options`
-                ]
+                ];
             },
             sizerClasses () {
                 return [
                     `${prefixCls}-options-sizer`
-                ]
+                ];
             },
             ElevatorClasses () {
                 return [
                     `${prefixCls}-options-elevator`
-                ]
+                ];
             }
         },
         methods: {
@@ -83,5 +83,5 @@
                 }
             }
         }
-    }
+    };
 </script>

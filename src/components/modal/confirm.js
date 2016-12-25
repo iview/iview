@@ -55,13 +55,13 @@ Modal.newInstance = properties => {
                 return [
                     `${prefixCls}-body-icon`,
                     `${prefixCls}-body-icon-${this.iconType}`
-                ]
+                ];
             },
             iconNameCls () {
                 return [
                     'ivu-icon',
                     `ivu-icon-${this.iconName}`
-                ]
+                ];
             }
         },
         methods: {
@@ -163,7 +163,7 @@ Modal.newInstance = properties => {
             modal.$parent.remove();
         },
         component: modal
-    }
+    };
 };
 
 export default Modal;

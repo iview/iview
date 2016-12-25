@@ -50,7 +50,7 @@
                 showItems: [],
                 query: '',
                 showFooter: true
-            }
+            };
         },
         computed: {
             classes () {
@@ -59,7 +59,7 @@
                     {
                         [`${this.prefixCls}-with-footer`]: this.showFooter
                     }
-                ]
+                ];
             },
             bodyClasses () {
                 return [
@@ -68,7 +68,7 @@
                         [`${this.prefixCls}-body-with-search`]: this.filterable,
                         [`${this.prefixCls}-body-with-footer`]: this.showFooter
                     }
-                ]
+                ];
             },
             count () {
                 const validKeysCount = this.validKeysCount;
@@ -88,7 +88,7 @@
                     {
                         [`${this.prefixCls}-content-item-disabled`]: item.disabled
                     }
-                ]
+                ];
             },
             showLabel (item) {
                 return this.renderFormat(item);
@@ -125,5 +125,5 @@
                 this.updateFilteredData();
             }
         }
-    }
+    };
 </script>

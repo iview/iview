@@ -4,8 +4,6 @@
     </div>
 </template>
 <script>
-    import { oneOf } from '../../utils/assist';
-
     const prefixCls = 'ivu-col';
 
     export default {
@@ -24,7 +22,7 @@
         data () {
             return {
                 gutter: 0
-            }
+            };
         },
         computed: {
             classes () {
@@ -63,11 +61,11 @@
                     style = {
                         paddingLeft: this.gutter / 2 + 'px',
                         paddingRight: this.gutter / 2 + 'px'
-                    }
+                    };
                 }
 
                 return style;
             }
         }
-    }
+    };
 </script>

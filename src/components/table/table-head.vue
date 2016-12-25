@@ -58,7 +58,6 @@
     import Poptip from '../poptip/poptip.vue';
     import iButton from '../button/button.vue';
     import Mixin from './mixin';
-    import { deepCopy } from '../../utils/assist';
 
     export default {
         mixins: [ Mixin ],
@@ -97,7 +96,7 @@
                     {
                         [`${this.prefixCls}-hidden`]: !this.fixed && column.fixed && (column.fixed === 'left' || column.fixed === 'right')
                     }
-                ]
+                ];
             },
             itemClasses (column, item) {
                 return [
@@ -105,7 +104,7 @@
                     {
                         [`${this.prefixCls}-filter-select-item-selected`]: column._filterChecked[0] === item.value
                     }
-                ]
+                ];
             },
             itemAllClasses (column) {
                 return [
@@ -113,7 +112,7 @@
                     {
                         [`${this.prefixCls}-filter-select-item-selected`]: !column._filterChecked.length
                     }
-                ]
+                ];
             },
             renderHeader (column, $index) {
                 if ('renderHeader' in this.columns[$index]) {
@@ -145,5 +144,5 @@
                 this.$parent.handleFilterHide(index);
             }
         }
-    }
+    };
 </script>

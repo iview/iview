@@ -28,7 +28,7 @@
         data () {
             return {
                 backTop: false
-            }
+            };
         },
         ready () {
             window.addEventListener('scroll', this.handleScroll, false);
@@ -45,13 +45,13 @@
                     {
                         [`${prefixCls}-show`]: this.backTop
                     }
-                ]
+                ];
             },
             styles () {
                 return {
                     bottom: `${this.bottom}px`,
                     right: `${this.right}px`
-                }
+                };
             },
             innerClasses () {
                 return `${prefixCls}-inner`;
@@ -66,5 +66,5 @@
                 this.$emit('on-click');
             }
         }
-    }
+    };
 </script>

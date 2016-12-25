@@ -46,7 +46,7 @@
         data () {
             return {
                 prefixCls: prefixCls
-            }
+            };
         },
         methods: {
             handleShowPopper() {
@@ -61,5 +61,5 @@
                 }
             }
         }
-    }
+    };
 </script>

@@ -36,7 +36,7 @@ LoadingBar.newInstance = properties => {
         destroy () {
             document.body.removeChild(div);
         }
-    }
+    };
 };
 
 export default LoadingBar;

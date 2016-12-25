@@ -1,5 +1,5 @@
 // es6 polyfill
-import 'core-js/fn/array/find-index'
+import 'core-js/fn/array/find-index';
 
 import Affix from './components/affix';
 import Alert from './components/alert';
@@ -97,7 +97,7 @@ const iview = {
 
 const install = function (Vue) {
     Object.keys(iview).forEach((key) => {
-        Vue.component(key, iview[key])
+        Vue.component(key, iview[key]);
     });
 
     Vue.prototype.$Loading = LoadingBar;
@@ -111,4 +111,4 @@ if (typeof window !== 'undefined' && window.Vue) {
     install(window.Vue);
 }
 
-module.exports = Object.assign(iview, {install});
+module.exports = Object.assign(iview, {install});   // eslint-disable-line no-undef

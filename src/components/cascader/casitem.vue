@@ -16,8 +16,8 @@
                         [`${this.prefixCls}-menu-item-active`]: this.tmpItem.value === this.data.value,
                         [`${this.prefixCls}-menu-item-disabled`]: this.data.disabled
                     }
-                ]
+                ];
             }
         }
-    }
+    };
 </script>

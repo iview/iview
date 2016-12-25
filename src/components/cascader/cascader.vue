@@ -39,13 +39,13 @@
             data: {
                 type: Array,
                 default () {
-                    return []
+                    return [];
                 }
             },
             value: {
                 type: Array,
                 default () {
-                    return []
+                    return [];
                 }
             },
             disabled: {
@@ -88,7 +88,7 @@
                 visible: false,
                 selected: [],
                 tmpSelected: []
-            }
+            };
         },
         computed: {
             classes () {
@@ -99,7 +99,7 @@
                         [`${prefixCls}-visible`]: this.visible,
                         [`${prefixCls}-disabled`]: this.disabled
                     }
-                ]
+                ];
             },
             showCloseIcon () {
                 return this.value && this.value.length && this.clearable;
@@ -182,5 +182,5 @@
                 this.updateSelected();
             }
         }
-    }
+    };
 </script>

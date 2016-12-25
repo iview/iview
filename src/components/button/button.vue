@@ -46,7 +46,7 @@
         data () {
             return {
                 showSlot: true
-            }
+            };
         },
         computed: {
             classes () {
@@ -60,11 +60,11 @@
                         [`${prefixCls}-loading`]: this.loading != null && this.loading,
                         [`${prefixCls}-icon-only`]: !this.showSlot && (!!this.icon || this.loading)
                     }
-                ]
+                ];
             }
         },
         compiled () {
             this.showSlot = this.$els.slot.innerHTML.replace(/\n/g, '').replace(/<!--[\w\W\r\n]*?-->/gmi, '') !== '';
         }
-    }
+    };
 </script>

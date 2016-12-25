@@ -29,5 +29,5 @@
                 this.query = '';
             }
         }
-    }
+    };
 </script>

@@ -33,7 +33,7 @@
                         [`${prefixCls}-${this.size}`]: !!this.size,
                         [`${prefixCls}-${this.type}`]: !!this.type
                     }
-                ]
+                ];
             }
         },
         compiled () {
@@ -55,8 +55,8 @@
         },
         watch: {
             model () {
-                this.updateModel()
+                this.updateModel();
             }
         }
-    }
+    };
 </script>

@@ -73,7 +73,6 @@
     import YearTable from '../base/year-table.vue';
     import MonthTable from '../base/month-table.vue';
     import Confirm from '../base/confirm.vue';
-    import { formatDate, parseDate } from '../util';
 
     import Mixin from './mixin';
 
@@ -97,7 +96,7 @@
                 year: null,
                 month: null,
                 confirm: false
-            }
+            };
         },
         computed: {
             classes () {
@@ -106,7 +105,7 @@
                     {
                         [`${prefixCls}-with-sidebar`]: this.shortcuts.length
                     }
-                ]
+                ];
             },
             yearLabel () {
                 const year = this.year;
@@ -238,5 +237,5 @@
                 this.month = this.date.getMonth();
             }
         }
-    }
+    };
 </script>

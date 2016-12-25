@@ -44,7 +44,7 @@
                 selected: false,
                 group: false,
                 showSlot: true
-            }
+            };
         },
         computed: {
             wrapClasses () {
@@ -55,7 +55,7 @@
                         [`${prefixCls}-wrapper-checked`]: this.selected,
                         [`${prefixCls}-wrapper-disabled`]: this.disabled
                     }
-                ]
+                ];
             },
             checkboxClasses () {
                 return [
@@ -64,7 +64,7 @@
                         [`${prefixCls}-checked`]: this.selected,
                         [`${prefixCls}-disabled`]: this.disabled
                     }
-                ]
+                ];
             },
             innerClasses () {
                 return `${prefixCls}-inner`;
@@ -105,5 +105,5 @@
                 this.updateModel();
             }
         }
-    }
+    };
 </script>

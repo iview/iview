@@ -86,7 +86,7 @@
             pageSizeOpts: {
                 type: Array,
                 default () {
-                    return [10, 20, 30, 40]
+                    return [10, 20, 30, 40];
                 }
             },
             size: {
@@ -120,7 +120,7 @@
         data () {
             return {
                 prefixCls: prefixCls
-            }
+            };
         },
         computed: {
             isSmall () {
@@ -137,7 +137,7 @@
                     {
                         [`${this.class}`]: !!this.class
                     }
-                ]
+                ];
             },
             simplePagerClasses () {
                 return `${prefixCls}-simple-pager`;
@@ -149,7 +149,7 @@
                         [`${this.class}`]: !!this.class,
                         'mini': !!this.size
                     }
-                ]
+                ];
             },
             prevClasses () {
                 return [
@@ -157,7 +157,7 @@
                     {
                         [`${prefixCls}-disabled`]: this.current === 1
                     }
-                ]
+                ];
             },
             nextClasses () {
                 return [
@@ -165,7 +165,7 @@
                     {
                         [`${prefixCls}-disabled`]: this.current === this.allPages
                     }
-                ]
+                ];
             },
             firstPageClasses () {
                 return [
@@ -173,7 +173,7 @@
                     {
                         [`${prefixCls}-item-active`]: this.current === 1
                     }
-                ]
+                ];
             },
             lastPageClasses () {
                 return [
@@ -181,7 +181,7 @@
                     {
                         [`${prefixCls}-item-active`]: this.current === this.allPages
                     }
-                ]
+                ];
             }
         },
         methods: {
@@ -242,9 +242,9 @@
                 const val = parseInt(e.target.value);
 
                 if (key === 38) {
-                    this.prev()
+                    this.prev();
                 } else if (key === 40) {
-                    this.next()
+                    this.next();
                 } else if (key == 13) {
                     let page = 1;
 
@@ -261,5 +261,5 @@
                 }
             }
         }
-    }
+    };
 </script>

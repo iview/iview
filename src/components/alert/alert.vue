@@ -42,7 +42,7 @@
             return {
                 closed: false,
                 desc: false
-            }
+            };
         },
         computed: {
             wrapClasses () {
@@ -53,7 +53,7 @@
                         [`${prefixCls}-with-icon`]: this.showIcon,
                         [`${prefixCls}-with-desc`]: this.desc
                     }
-                ]
+                ];
             },
             messageClasses () {
                 return `${prefixCls}-message`;
@@ -97,5 +97,5 @@
         compiled () {
             this.desc = this.$els.desc.innerHTML != '';
         }
-    }
+    };
 </script>

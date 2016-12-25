@@ -131,4 +131,4 @@ function deepCopy(data) {
     return o;
 }
 
-export {deepCopy}
+export {deepCopy};

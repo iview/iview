@@ -87,7 +87,7 @@
             return {
                 prefixCls: prefixCls,
                 showTitle: true
-            }
+            };
         },
         computed: {
             classes () {
@@ -96,12 +96,12 @@
                     {
                         [`${prefixCls}-confirm`]: this.confirm
                     }
-                ]
+                ];
             },
             styles () {
                 let style = {};
 
-                if (!!this.width) {
+                if (this.width) {
                     style.width = `${this.width}px`;
                 }
                 return style;
@@ -166,5 +166,5 @@
                 this.showTitle = this.$els.title.innerHTML != `<div class="${prefixCls}-title-inner"></div>`;
             }
         }
-    }
+    };
 </script>

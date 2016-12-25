@@ -30,7 +30,7 @@
         data () {
             return {
                 closed: false
-            }
+            };
         },
         computed: {
             classes () {
@@ -41,7 +41,7 @@
                         [`${prefixCls}-${this.type}`]: !!this.type,
                         [`${prefixCls}-closable`]: this.closable
                     }
-                ]
+                ];
             },
             textClasses () {
                 return `${prefixCls}-text`;
@@ -59,5 +59,5 @@
                 this.$emit('on-close', e);
             }
         }
-    }
+    };
 </script>

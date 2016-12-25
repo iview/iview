@@ -26,7 +26,7 @@
             return {
                 prefixCls: prefixCls,
                 show: true
-            }
+            };
         },
         computed: {
 
@@ -47,5 +47,5 @@
                 this.updateNav();
             }
         }
-    }
+    };
 </script>

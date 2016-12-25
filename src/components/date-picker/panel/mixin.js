@@ -8,7 +8,7 @@ export default {
                 `${prefixCls}-icon-btn`,
                 `${datePrefixCls}-${direction}-btn`,
                 `${datePrefixCls}-${direction}-btn-arrow${type}`,
-            ]
+            ];
         },
         handleShortcutClick (shortcut) {
             if (shortcut.value) this.$emit('on-pick', shortcut.value());
@@ -24,4 +24,4 @@ export default {
             this.$emit('on-pick-click');
         }
     }
-}
+};
