@@ -18,7 +18,7 @@
         data () {
             return {
                 prefixCls: prefixCls
-            }
+            };
         }
-    }
+    };
 </script>

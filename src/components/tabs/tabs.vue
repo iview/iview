@@ -58,7 +58,7 @@
                 navList: [],
                 barWidth: 0,
                 barOffset: 0
-            }
+            };
         },
         computed: {
             classes () {
@@ -69,7 +69,7 @@
                         [`${prefixCls}-mini`]: this.size === 'small' && this.type === 'line',
                         [`${prefixCls}-no-animation`]: !this.animated
                     }
-                ]
+                ];
             },
             contentClasses () {
                 return [
@@ -77,7 +77,7 @@
                     {
                         [`${prefixCls}-content-animated`]: this.animated
                     }
-                ]
+                ];
             },
             barClasses () {
                 return [
@@ -85,17 +85,17 @@
                     {
                         [`${prefixCls}-ink-bar-animated`]: this.animated
                     }
-                ]
+                ];
             },
             contentStyle () {
-                const x = this.navList.findIndex((nav, index) => nav.key === this.activeKey);
+                const x = this.navList.findIndex((nav) => nav.key === this.activeKey);
                 const p = x === 0 ? '0%' : `-${x}00%`;
 
                 let style = {};
                 if (x > -1) {
                     style = {
                         transform: `translateX(${p}) translateZ(0px)`
-                    }
+                    };
                 }
                 return style;
             },
@@ -137,7 +137,7 @@
             },
             updateBar () {
                 this.$nextTick(() => {
-                    const index = this.navList.findIndex((nav, index) => nav.key === this.activeKey);
+                    const index = this.navList.findIndex((nav) => nav.key === this.activeKey);
                     const prevTabs = this.$els.nav.querySelectorAll(`.${prefixCls}-tab`);
                     const tab = prevTabs[index];
                     this.barWidth = parseFloat(getStyle(tab, 'width'));
@@ -166,7 +166,7 @@
                         [`${prefixCls}-tab-disabled`]: item.disabled,
                         [`${prefixCls}-tab-active`]: item.key === this.activeKey
                     }
-                ]
+                ];
             },
             handleChange (index) {
                 const nav = this.navList[index];
@@ -210,5 +210,5 @@
                 this.updateBar();
             }
         }
-    }
+    };
 </script>

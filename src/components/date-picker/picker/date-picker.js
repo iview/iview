@@ -33,4 +33,4 @@ export default {
 
         this.panel = getPanel(this.type);
     }
-}
+};

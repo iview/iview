@@ -42,7 +42,7 @@
             return {
                 prefixCls: prefixCls,
                 visible: false
-            }
+            };
         },
         methods: {
             handleClick () {
@@ -120,5 +120,5 @@
                 if ($parent) $parent.$emit('on-haschild-click');
             }
         }
-    }
+    };
 </script>

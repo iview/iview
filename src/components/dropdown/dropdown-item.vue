@@ -31,7 +31,7 @@
                         [`${prefixCls}-selected`]: this.selected,
                         [`${prefixCls}-divided`]: this.divided
                     }
-                ]
+                ];
             }
         },
         methods: {
@@ -53,5 +53,5 @@
                 $parent.$emit('on-click', this.key);
             }
         }
-    }
+    };
 </script>

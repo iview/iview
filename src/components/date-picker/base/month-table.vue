@@ -23,7 +23,7 @@
                 return [
                     `${prefixCls}`,
                     `${prefixCls}-month`
-                ]
+                ];
             },
             cells () {
                 let cells = [];
@@ -56,7 +56,7 @@
                         [`${prefixCls}-cell-selected`]: cell.selected,
                         [`${prefixCls}-cell-disabled`]: cell.disabled
                     }
-                ]
+                ];
             },
             handleClick (event) {
                 const target = event.target;
@@ -70,5 +70,5 @@
                 this.$emit('on-pick-click');
             }
         }
-    }
+    };
 </script>

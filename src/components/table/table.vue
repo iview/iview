@@ -83,13 +83,13 @@
             data: {
                 type: Array,
                 default () {
-                    return []
+                    return [];
                 }
             },
             columns: {
                 type: Array,
                 default () {
-                    return []
+                    return [];
                 }
             },
             size: {
@@ -142,7 +142,7 @@
                 showSlotHeader: true,
                 showSlotFooter: true,
                 bodyHeight: 0
-            }
+            };
         },
         computed: {
             wrapClasses () {
@@ -153,7 +153,7 @@
                         [`${prefixCls}-with-header`]: this.showSlotHeader,
                         [`${prefixCls}-with-footer`]: this.showSlotFooter
                     }
-                ]
+                ];
             },
             classes () {
                 return [
@@ -164,12 +164,12 @@
                         [`${prefixCls}-stripe`]: this.stripe,
                         [`${prefixCls}-with-fixed-top`]: !!this.height
                     }
-                ]
+                ];
             },
             styles () {
                 let style = {};
-                if (!!this.height) style.height = `${this.height}px`;
-                if (!!this.width) style.width = `${this.width}px`;
+                if (this.height) style.height = `${this.height}px`;
+                if (this.width) style.width = `${this.width}px`;
                 return style;
             },
             tableStyle () {
@@ -269,7 +269,7 @@
 
                                 columnsWidth[column._index] = {
                                     width: width
-                                }
+                                };
                             }
                             this.columnsWidth = columnsWidth;
                         }
@@ -334,13 +334,13 @@
                 this.$emit('on-selection-change', selection);
             },
             fixedHeader () {
-                if (!!this.height) {
+                if (this.height) {
                     this.$nextTick(() => {
                         const titleHeight = parseInt(getStyle(this.$els.title, 'height')) || 0;
                         const headerHeight = parseInt(getStyle(this.$els.header, 'height')) || 0;
                         const footerHeight = parseInt(getStyle(this.$els.footer, 'height')) || 0;
                         this.bodyHeight = this.height - titleHeight - headerHeight - footerHeight;
-                    })
+                    });
                 } else {
                     this.bodyHeight = 0;
                 }
@@ -584,5 +584,5 @@
                 this.fixedHeader();
             }
         }
-    }
+    };
 </script>

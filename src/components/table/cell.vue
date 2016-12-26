@@ -29,7 +29,7 @@
                 renderType: '',
                 uid: -1,
                 content: this.$parent.$parent.content
-            }
+            };
         },
         computed: {
             classes () {
@@ -38,7 +38,7 @@
                     {
                         [`${this.prefixCls}-hidden`]: !this.fixed && this.column.fixed && (this.column.fixed === 'left' || this.column.fixed === 'right')
                     }
-                ]
+                ];
             }
         },
         methods: {
@@ -94,5 +94,5 @@
                 this.compile();
             }
         }
-    }
+    };
 </script>

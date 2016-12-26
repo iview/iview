@@ -157,7 +157,7 @@
                 selectionMode: 'range',
                 leftTableYear: null,
                 rightTableYear: null
-            }
+            };
         },
         computed: {
             classes () {
@@ -167,7 +167,7 @@
                     {
                         [`${prefixCls}-with-sidebar`]: this.shortcuts.length
                     }
-                ]
+                ];
             },
             leftYear () {
                 return this.date.getFullYear();
@@ -353,5 +353,5 @@
                 this.rangeState = val.rangeState;
             }
         }
-    }
+    };
 </script>

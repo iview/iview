@@ -109,7 +109,7 @@
                 singlePosition: (this.value - this.min) / (this.max - this.min) * 100,
                 firstPosition: (this.value[0] - this.min) / (this.max - this.min) * 100,
                 secondPosition: (this.value[1] - this.min) / (this.max - this.min) * 100
-            }
+            };
         },
         computed: {
             classes () {
@@ -120,7 +120,7 @@
                         [`${prefixCls}-range`]: this.range,
                         [`${prefixCls}-disabled`]: this.disabled
                     }
-                ]
+                ];
             },
             buttonClasses () {
                 return [
@@ -153,11 +153,11 @@
                     style = {
                         width: (this.value[1] - this.value[0]) / (this.max - this.min) * 100 + '%',
                         left: (this.value[0] - this.min) / (this.max - this.min) * 100 + '%'
-                    }
+                    };
                 } else {
                     style = {
                         width: (this.value - this.min) / (this.max - this.min) * 100 + '%'
-                    }
+                    };
                 }
 
                 return style;
@@ -418,5 +418,5 @@
                 this.updateValue(this.value);
             }
         }
-    }
+    };
 </script>

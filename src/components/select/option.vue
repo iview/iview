@@ -26,7 +26,7 @@
                 isFocus: false,
                 hidden: false,    // for search
                 searchLabel: ''    // the value is slot,only for search
-            }
+            };
         },
         computed: {
             classes () {
@@ -37,10 +37,10 @@
                         [`${prefixCls}-selected`]: this.selected,
                         [`${prefixCls}-focus`]: this.isFocus
                     }
-                ]
+                ];
             },
             showLabel () {
-                return (!!this.label) ? this.label : this.value;
+                return (this.label) ? this.label : this.value;
             }
         },
         methods: {
@@ -69,5 +69,5 @@
                 this.queryChange(val);
             }
         }
-    }
+    };
 </script>

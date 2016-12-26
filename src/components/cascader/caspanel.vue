@@ -11,7 +11,6 @@
 </template>
 <script>
     import Casitem from './casitem.vue';
-    import { oneOf } from '../../utils/assist';
 
     export default {
         name: 'Caspanel',
@@ -20,13 +19,13 @@
             data: {
                 type: Array,
                 default () {
-                    return []
+                    return [];
                 }
             },
             sublist: {
                 type: Array,
                 default () {
-                    return []
+                    return [];
                 }
             },
             disabled: Boolean,
@@ -38,7 +37,7 @@
             return {
                 tmpItem: {},
                 result: []
-            }
+            };
         },
         methods: {
             handleClickItem (item) {
@@ -111,5 +110,5 @@
                 this.tmpItem = {};
             }
         }
-    }
+    };
 </script>

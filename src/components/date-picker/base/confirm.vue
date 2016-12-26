@@ -14,7 +14,7 @@
         data () {
             return {
                 prefixCls: prefixCls
-            }
+            };
         },
         methods: {
             handleClear () {
@@ -24,5 +24,5 @@
                 this.$emit('on-pick-success');
             }
         }
-    }
+    };
 </script>

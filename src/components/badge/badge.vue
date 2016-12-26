@@ -38,7 +38,7 @@
                         [`${this.class}`]: !!this.class,
                         [`${prefixCls}-count-alone`]: this.alone
                     }
-                ]
+                ];
             },
             finalCount () {
                 return parseInt(this.count) >= parseInt(this.overflowCount) ? `${this.overflowCount}+` : this.count;
@@ -65,7 +65,7 @@
         data () {
             return {
                 alone: false
-            }
+            };
         },
         compiled () {
             const child_length = this.$els.badge.children.length;
@@ -73,5 +73,5 @@
                 this.alone = true;
             }
         }
-    }
+    };
 </script>

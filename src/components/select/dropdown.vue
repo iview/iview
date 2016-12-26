@@ -14,7 +14,7 @@
         data () {
             return {
                 popper: null
-            }
+            };
         },
         methods: {
             update () {
@@ -62,5 +62,5 @@
                 this.popper.destroy();
             }
         }
-    }
+    };
 </script>

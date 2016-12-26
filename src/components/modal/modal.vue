@@ -79,7 +79,7 @@
                 wrapShow: false,
                 showHead: true,
                 buttonLoading: false
-            }
+            };
         },
         computed: {
             wrapClasses () {
@@ -89,7 +89,7 @@
                         [`${prefixCls}-hidden`]: !this.wrapShow,
                         [`${this.className}`]: !!this.className
                     }
-                ]
+                ];
             },
             maskClasses () {
                 return `${prefixCls}-mask`;
@@ -104,7 +104,7 @@
                     width: `${this.width}px`
                 };
 
-                const customStyle = !!this.style ? this.style : {};
+                const customStyle = this.style ? this.style : {};
 
                 Object.assign(style, styleWidth, customStyle);
 
@@ -135,7 +135,7 @@
             EscClose (e) {
                 if (this.visible && this.closable) {
                     if (e.keyCode === 27) {
-                        this.close()
+                        this.close();
                     }
                 }
             },
@@ -207,5 +207,5 @@
                 }
             }
         }
-    }
+    };
 </script>

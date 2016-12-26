@@ -96,7 +96,7 @@
                 append: true,
                 slotReady: false,
                 textareaStyles: {}
-            }        
+            };
         },
         computed: {
             wrapClasses () {
@@ -108,7 +108,7 @@
                         [`${prefixCls}-group`]: this.prepend || this.append,
                         [`${prefixCls}-group-${this.size}`]: (this.prepend || this.append) && !!this.size
                     }
-                ]
+                ];
             },
             inputClasses () {
                 return [
@@ -117,7 +117,7 @@
                         [`${prefixCls}-${this.size}`]: !!this.size,
                         [`${prefixCls}-disabled`]: this.disabled
                     }
-                ]
+                ];
             },
             textareaClasses () {
                 return [
@@ -125,7 +125,7 @@
                     {
                         [`${prefixCls}-disabled`]: this.disabled
                     }
-                ]
+                ];
             }
         },
         methods: {
@@ -174,5 +174,5 @@
             this.slotReady = true;
             this.resizeTextarea();
         }
-    }
+    };
 </script>

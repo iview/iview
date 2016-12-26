@@ -26,7 +26,7 @@
                 default: function() {
                     return {
                         right: '50%'
-                    }
+                    };
                 }
             },
             closable: {
@@ -50,7 +50,7 @@
         data () {
             return {
                 withDesc: false
-            }
+            };
         },
         computed: {
             baseClass () {
@@ -64,7 +64,7 @@
                         [`${this.baseClass}-closable`]: this.closable,
                         [`${this.baseClass}-with-desc`]: this.withDesc
                     }
-                ]
+                ];
             },
             contentClasses () {
                 return `${this.baseClass}-content`;
@@ -89,7 +89,7 @@
             if (this.duration !== 0) {
                 this.closeTimer = setTimeout(() => {
                     this.close();
-                }, this.duration * 1000)
+                }, this.duration * 1000);
             }
 
             // check if with desc in Notice component
@@ -100,5 +100,5 @@
         beforeDestroy () {
             this.clearCloseTimer();
         }
-    }
+    };
 </script>

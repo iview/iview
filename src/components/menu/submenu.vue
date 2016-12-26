@@ -31,7 +31,7 @@
                 prefixCls: prefixCls,
                 active: false,
                 opened: false
-            }
+            };
         },
         computed: {
             classes () {
@@ -42,7 +42,7 @@
                         [`${prefixCls}-opened`]: this.opened,
                         [`${prefixCls}-submenu-disabled`]: this.disabled
                     }
-                ]
+                ];
             },
             mode () {
                 return this.$parent.mode;
@@ -106,5 +106,5 @@
                 return true;
             }
         }
-    }
+    };
 </script>

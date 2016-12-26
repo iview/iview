@@ -12,7 +12,7 @@
             model: {
                 type: Array,
                 default () {
-                    return []
+                    return [];
                 }
             }
         },
@@ -43,14 +43,9 @@
             }
         },
         watch: {
-            model (val, oldVal) {
-//                if (val == oldVal) {
-//                    this.updateModel();
-//                } else {
-//                    this.updateModel(true);
-//                }
+            model () {
                 this.updateModel(true);
             }
         }
-    }
+    };
 </script>

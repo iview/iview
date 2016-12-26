@@ -114,4 +114,4 @@ export default {
         noticeInstance = null;
         instance.destroy();
     }
-}
+};

@@ -47,7 +47,7 @@
             data: {
                 type: Array,
                 default () {
-                    return []
+                    return [];
                 }
             },
             renderFormat: {
@@ -59,31 +59,31 @@
             targetKeys: {
                 type: Array,
                 default () {
-                    return []
+                    return [];
                 }
             },
             selectedKeys: {
                 type: Array,
                 default () {
-                    return []
+                    return [];
                 }
             },
             listStyle: {
                 type: Object,
                 default () {
-                    return {}
+                    return {};
                 }
             },
             titles: {
                 type: Array,
                 default () {
-                    return ['源列表', '目的列表']
+                    return ['源列表', '目的列表'];
                 }
             },
             operations: {
                 type: Array,
                 default () {
-                    return []
+                    return [];
                 }
             },
             filterable: {
@@ -113,13 +113,13 @@
                 rightData: [],
                 leftCheckedKeys: [],
                 rightCheckedKeys: []
-            }
+            };
         },
         computed: {
             classes () {
                 return [
                     `${prefixCls}`
-                ]
+                ];
             },
             leftValidKeysCount () {
                 return this.getValidKeys('left').length;
@@ -182,5 +182,5 @@
         created () {
             this.splitData(true);
         }
-    }
+    };
 </script>

@@ -105,4 +105,4 @@ export default function calcTextareaHeight(targetNode, minRows = null, maxRows =
         minHeight: `${minHeight}px`,
         maxHeight: `${maxHeight}px`
     };
-};
+}

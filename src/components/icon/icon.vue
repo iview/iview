@@ -12,21 +12,21 @@
         },
         computed: {
             classes () {
-                return `${prefixCls} ${prefixCls}-${this.type}`
+                return `${prefixCls} ${prefixCls}-${this.type}`;
             },
             styles () {
                 let style = {};
 
-                if (!!this.size) {
+                if (this.size) {
                     style['font-size'] = `${this.size}px`;
                 }
 
-                if (!!this.color) {
+                if (this.color) {
                     style.color = this.color;
                 }
 
                 return style;
             }
         }
-    }
+    };
 </script>

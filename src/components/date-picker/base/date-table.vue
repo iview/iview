@@ -10,7 +10,7 @@
     </div>
 </template>
 <script>
-    import { getFirstDayOfMonth, getDayCountOfMonth, getStartDateOfMonth } from '../util';
+    import { getFirstDayOfMonth, getDayCountOfMonth } from '../util';
     import { deepCopy } from '../../../utils/assist';
 
     const prefixCls = 'ivu-date-picker-cells';
@@ -46,7 +46,7 @@
             return {
                 prefixCls: prefixCls,
                 readCells: []
-            }
+            };
         },
         watch: {
             'rangeState.endDate' (newVal) {
@@ -84,7 +84,7 @@
             classes () {
                 return [
                     `${prefixCls}`
-                ]
+                ];
             },
             cells () {
                 const date = new Date(this.year, this.month, 1);
@@ -269,9 +269,9 @@
                         [`${prefixCls}-cell-next-month`]: cell.type === 'next-month',
                         [`${prefixCls}-cell-range`]: cell.range && !cell.start && !cell.end
                     }
-                ]
+                ];
             },
 
         }
-    }
+    };
 </script>

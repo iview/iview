@@ -28,5 +28,5 @@
                 this.$parent.moveTo('right');
             }
         }
-    }
+    };
 </script>

@@ -32,7 +32,7 @@
             return {
                 selected: false,
                 group: false
-            }
+            };
         },
         computed: {
             wrapClasses () {
@@ -43,7 +43,7 @@
                         [`${prefixCls}-wrapper-checked`]: this.selected,
                         [`${prefixCls}-wrapper-disabled`]: this.disabled
                     }
-                ]
+                ];
             },
             radioClasses () {
                 return [
@@ -52,7 +52,7 @@
                         [`${prefixCls}-checked`]: this.selected,
                         [`${prefixCls}-disabled`]: this.disabled
                     }
-                ]
+                ];
             },
             innerClasses () {
                 return `${prefixCls}-inner`;
@@ -91,5 +91,5 @@
                 this.updateModel();
             }
         }
-    }
+    };
 </script>

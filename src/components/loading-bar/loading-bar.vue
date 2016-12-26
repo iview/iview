@@ -49,12 +49,12 @@
                         [`${prefixCls}-inner-color-primary`]: this.color === 'primary' && this.status === 'success',
                         [`${prefixCls}-inner-failed-color-error`]: this.failedColor === 'error' && this.status === 'error'
                     }
-                ]
+                ];
             },
             outerStyles () {
                 return {
                     height: `${this.height}px`
-                }
+                };
             },
             styles () {
                 let style = {
@@ -73,5 +73,5 @@
                 return style;
             }
         }
-    }
+    };
 </script>
