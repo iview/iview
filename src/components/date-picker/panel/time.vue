@@ -37,7 +37,11 @@
                 value: '',
                 hours: 0,
                 minutes: 0,
-                seconds: 0
+                seconds: 0,
+                disabledHours: [],
+                disabledMinutes: [],
+                disabledSeconds: [],
+                hideDisabledOptions: false
             };
         },
         computed: {
@@ -51,11 +55,11 @@
                 newVal = new Date(newVal);
                 if (!isNaN(newVal)) {
                     this.handleChange({
-                        hours: date.getHours(),
-                        minutes: date.getMinutes(),
-                        seconds: date.getSeconds()
+                        hours: newVal.getHours(),
+                        minutes: newVal.getMinutes(),
+                        seconds: newVal.getSeconds()
                     });
-                    this.$nextTick(_ => this.scrollTop());
+                    this.$nextTick(() => this.scrollTop());
                 }
             }
         },

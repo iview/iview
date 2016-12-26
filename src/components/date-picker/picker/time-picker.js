@@ -1,32 +1,11 @@
 import Picker from '../picker.vue';
 import TimePanel from '../panel/time.vue';
+import Options from '../time-mixins';
 
 export default {
-    mixins: [Picker],
+    mixins: [Picker, Options],
     props: {
-        value: {},
-        disabledHours: {
-            type: Array,
-            default () {
-                return [];
-            }
-        },
-        disabledMinutes: {
-            type: Array,
-            default () {
-                return [];
-            }
-        },
-        disabledSeconds: {
-            type: Array,
-            default () {
-                return [];
-            }
-        },
-        hideDisabledOptions: {
-            type: Boolean,
-            default: false
-        }
+        value: {}
     },
     data () {
         return {
