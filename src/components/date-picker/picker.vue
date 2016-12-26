@@ -200,7 +200,10 @@
                 return this.open === null ? this.visible : this.open;
             },
             iconType () {
-                return this.showClose ? 'ios-close' : 'ios-calendar-outline';
+                let icon = 'ios-calendar-outline';
+                if (this.type === 'time') icon = 'ios-clock-outline';
+                if (this.showClose) icon = 'ios-close';
+                return icon;
             },
             transition () {
                 if (this.placement === 'bottom-start' || this.placement === 'bottom' || this.placement === 'bottom-end') {
@@ -340,6 +343,12 @@
                     this.picker.confirm = this.confirm;
                     this.picker.selectionMode = this.selectionMode;
                     if (this.format) this.picker.format = this.format;
+
+                    // TimePicker
+                    if (this.disabledHours) this.picker.disabledHours = this.disabledHours;
+                    if (this.disabledMinutes) this.picker.disabledMinutes = this.disabledMinutes;
+                    if (this.disabledSeconds) this.picker.disabledSeconds = this.disabledSeconds;
+                    if (this.hideDisabledOptions) this.picker.hideDisabledOptions = this.hideDisabledOptions;
 
                     const options = this.options;
                     for (const option in options) {

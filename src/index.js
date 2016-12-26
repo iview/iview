@@ -34,6 +34,7 @@ import Table from './components/table';
 import Tabs from './components/tabs';
 import Tag from './components/tag';
 import Timeline from './components/timeline';
+import TimePicker from './components/time-picker';
 import Tooltip from './components/tooltip';
 import Transfer from './components/transfer';
 import { Row, Col } from './components/layout';
@@ -91,6 +92,7 @@ const iview = {
     Tag,
     Timeline,
     TimelineItem: Timeline.Item,
+    TimePicker,
     Tooltip,
     Transfer
 };

@@ -34,8 +34,8 @@
         computed: {
             classes () {
                 return [
-                    `${prefixCls}`,
                     {
+                        [`${prefixCls}`]: !this.type,
                         [`${prefixCls}-${this.type}`]: !!this.type,
                         [`${prefixCls}-${this.type}-${this.align}`]: !!this.align,
                         [`${prefixCls}-${this.type}-${this.justify}`]: !!this.justify,
