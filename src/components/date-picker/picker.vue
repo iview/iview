@@ -414,7 +414,12 @@
                     TYPE_VALUE_RESOLVER_MAP['default']
                 ).formatter;
 
-                this.$emit('on-change', formatter(date, format));
+                let newDate = formatter(date, format);
+                if (this.type === 'daterange') {
+                    newDate = [newDate.split(RANGE_SEPARATOR)[0], newDate.split(RANGE_SEPARATOR)[1]];
+                }
+
+                this.$emit('on-change', newDate);
             }
         },
         watch: {
