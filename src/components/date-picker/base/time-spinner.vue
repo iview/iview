@@ -1,25 +1,25 @@
 <template>
     <div :class="classes">
-        <div :class="[prefixCls+ '-wrapper']">
-            <ul :class="[prefixCls + '-list']">
-                <li :class="getCellCls(item)" v-for="item in hoursList" v-show="!item.hide">{{ item.text }}</li>
+        <div :class="[prefixCls+ '-list']" v-el:hours>
+            <ul @click="handleClickHours">
+                <li :class="getCellCls(item)" v-for="item in hoursList" v-show="!item.hide" :index="$index">{{ item.text < 10 ? '0' + item.text : item.text }}</li>
             </ul>
         </div>
-        <div :class="[prefixCls+ '-wrapper']">
-            <ul :class="[prefixCls + '-list']">
-                <li :class="getCellCls(item)" v-for="item in minutesList" v-show="!item.hide">{{ item.text }}</li>
+        <div :class="[prefixCls+ '-list']" v-el:minutes>
+            <ul @click="handleClickMinutes">
+                <li :class="getCellCls(item)" v-for="item in minutesList" v-show="!item.hide" :index="$index">{{ item.text < 10 ? '0' + item.text : item.text }}</li>
             </ul>
         </div>
-        <div :class="[prefixCls+ '-wrapper']" v-show="showSeconds">
-            <ul :class="[prefixCls + '-list']">
-                <li :class="getCellCls(item)" v-for="item in secondsList" v-show="!item.hide">{{ item.text }}</li>
+        <div :class="[prefixCls+ '-list']" v-show="showSeconds" v-el:seconds>
+            <ul @click="handleClickSeconds">
+                <li :class="getCellCls(item)" v-for="item in secondsList" v-show="!item.hide" :index="$index">{{ item.text < 10 ? '0' + item.text : item.text }}</li>
             </ul>
         </div>
     </div>
 </template>
 <script>
     import Options from '../time-mixins';
-    import { deepCopy } from '../../../utils/assist';
+    import { deepCopy, scrollTop } from '../../../utils/assist';
 
     const prefixCls = 'ivu-time-picker-cells';
 
@@ -60,7 +60,7 @@
             hoursList () {
                 let hours = [];
                 const hour_tmpl = {
-                    text: '',
+                    text: 0,
                     selected: false,
                     disabled: false,
                     hide: false
@@ -74,6 +74,7 @@
                         hour.disabled = true;
                         if (this.hideDisabledOptions) hour.hide = true;
                     }
+                    if (this.hours === i) hour.selected = true;
                     hours.push(hour);
                 }
 
@@ -82,7 +83,7 @@
             minutesList () {
                 let minutes = [];
                 const minute_tmpl = {
-                    text: '',
+                    text: 0,
                     selected: false,
                     disabled: false,
                     hide: false
@@ -96,6 +97,7 @@
                         minute.disabled = true;
                         if (this.hideDisabledOptions) minute.hide = true;
                     }
+                    if (this.minutes === i) minute.selected = true;
                     minutes.push(minute);
                 }
 
@@ -104,7 +106,7 @@
             secondsList () {
                 let seconds = [];
                 const second_tmpl = {
-                    text: '',
+                    text: 0,
                     selected: false,
                     disabled: false,
                     hide: false
@@ -118,6 +120,7 @@
                         second.disabled = true;
                         if (this.hideDisabledOptions) second.hide = true;
                     }
+                    if (this.seconds === i) second.selected = true;
                     seconds.push(second);
                 }
 
@@ -133,6 +136,29 @@
                         [`${prefixCls}-cell-disabled`]: cell.disabled
                     }
                 ];
+            },
+            handleClickHours (event) {
+                this.handleClick('hours', event);
+            },
+            handleClickMinutes (event) {
+                this.handleClick('minutes', event);
+            },
+            handleClickSeconds (event) {
+                this.handleClick('seconds', event);
+            },
+            handleClick (type, event) {
+                const target = event.target;
+                if (target.tagName === 'LI') {
+                    const cell = this[`${type}List`][parseInt(event.target.getAttribute('index'))];
+                    if (cell.disabled) return;
+                    const data = {};
+                    data[type] = cell.text;
+                    this.$emit('on-change', data);
+
+                    const from = this.$els[type].scrollTop;
+                    const to = 24 * cell.text;
+                    scrollTop(this.$els[type], from, to, 500);
+                }
             }
         }
     };

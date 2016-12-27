@@ -1,0 +1,64 @@
+@time-picker-prefix-cls: ~"@{css-prefix}time-picker";
+.@{time-picker-prefix-cls} {
+    &-cells{
+        min-width: 112px;
+        &-with-seconds{
+            min-width: 168px;
+        }
+
+        &-list{
+            width: 56px;
+            float: left;
+            position: relative;
+            max-height: 144px;
+            overflow-y: auto;
+            border-left: 1px solid @border-color-split;
+            &:first-child{
+                border-left: none;
+                border-radius: @btn-border-radius 0 0 0;
+            }
+            &:last-child{
+                border-radius: 0 @btn-border-radius 0 0;
+            }
+            ul{
+                width: 100%;
+                margin: 0;
+                padding: 0 0 120px 0;
+                list-style: none;
+                li{
+                    width: 100%;
+                    height: 24px;
+                    line-height: 24px;
+                    margin: 0;
+                    padding: 0 0 0 16px;
+                    box-sizing: border-box;
+                    text-align: left;
+                    user-select: none;
+                    cursor: pointer;
+                    list-style: none;
+                    transition: background @transition-time @ease-in-out;
+
+                }
+            }
+        }
+        &-cell{
+            &:hover{
+                background: @background-color-select-hover;
+            }
+            &-disabled {
+                color: @btn-disable-color;
+                cursor: @cursor-disabled;
+
+                &:hover {
+                    color: @btn-disable-color;
+                    background-color: #fff;
+                    cursor: @cursor-disabled;
+                }
+            }
+            &-selected ,&-selected:hover{
+                color: @primary-color;
+                background: @background-color-select-hover;
+            }
+        }
+    }
+}

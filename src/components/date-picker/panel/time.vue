@@ -63,7 +63,7 @@
                         minutes: newVal.getMinutes(),
                         seconds: newVal.getSeconds()
                     });
-                    this.$nextTick(() => this.scrollTop());
+//                    this.$nextTick(() => this.scrollTop());
                 }
             }
         },
@@ -81,9 +81,6 @@
                     this.date.setSeconds(date.seconds);
                     this.seconds = this.date.getSeconds();
                 }
-            },
-            scrollTop () {
-
             }
         }
     };

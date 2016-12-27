@@ -8,6 +8,7 @@
     </div>
 </template>
 <script>
+    import { scrollTop } from '../../utils/assist';
     const prefixCls = 'ivu-back-top';
 
     export default {
@@ -23,6 +24,10 @@
             right: {
                 type: Number,
                 default: 30
+            },
+            duration: {
+                type: Number,
+                default: 1000
             }
         },
         data () {
@@ -62,7 +67,7 @@
                 this.backTop = window.pageYOffset >= this.height;
             },
             back () {
-                window.scrollTo(0, 0);
+                scrollTop(window, document.body.scrollTop, 0, this.duration);
                 this.$emit('on-click');
             }
         }
