@@ -81,6 +81,7 @@ export function getStyle (element, styleName) {
 function firstUpperCase(str) {
     return str.toString()[0].toUpperCase() + str.toString().slice(1);
 }
+export {firstUpperCase};
 
 // Warn
 export function warnProp(component, prop, correctType, wrongType) {

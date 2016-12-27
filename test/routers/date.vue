@@ -16,8 +16,8 @@
                 :value="value"
                 placeholder="选择时间"
                 format="HH:mm:ss"
-                :hide-disabled-options="true"
-                :disabled-hours="[1,2]"
+                :hide-disabled-options="false"
+                :disabled-hours="[1,2,5,10,11]"
                 style="width: 168px"></time-picker>
         </i-col>
     </row>

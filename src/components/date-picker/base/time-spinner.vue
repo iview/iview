@@ -19,7 +19,7 @@
 </template>
 <script>
     import Options from '../time-mixins';
-    import { deepCopy, scrollTop } from '../../../utils/assist';
+    import { deepCopy, scrollTop, firstUpperCase } from '../../../utils/assist';
 
     const prefixCls = 'ivu-time-picker-cells';
 
@@ -70,7 +70,7 @@
                     const hour = deepCopy(hour_tmpl);
                     hour.text = i;
 
-                    if (this.disabledHours && this.disabledHours.indexOf(i) > -1) {
+                    if (this.disabledHours.length && this.disabledHours.indexOf(i) > -1) {
                         hour.disabled = true;
                         if (this.hideDisabledOptions) hour.hide = true;
                     }
@@ -93,7 +93,7 @@
                     const minute = deepCopy(minute_tmpl);
                     minute.text = i;
 
-                    if (this.disabledMinutes && this.disabledMinutes.indexOf(i) > -1) {
+                    if (this.disabledMinutes.length && this.disabledMinutes.indexOf(i) > -1) {
                         minute.disabled = true;
                         if (this.hideDisabledOptions) minute.hide = true;
                     }
@@ -116,7 +116,7 @@
                     const second = deepCopy(second_tmpl);
                     second.text = i;
 
-                    if (this.disabledSeconds && this.disabledSeconds.indexOf(i) > -1) {
+                    if (this.disabledSeconds.length && this.disabledSeconds.indexOf(i) > -1) {
                         second.disabled = true;
                         if (this.hideDisabledOptions) second.hide = true;
                     }
@@ -156,7 +156,17 @@
                     this.$emit('on-change', data);
 
                     const from = this.$els[type].scrollTop;
-                    const to = 24 * cell.text;
+
+                    let index = cell.text;
+                    const Type = firstUpperCase(type);
+                    const disabled = this[`disabled${Type}`];
+                    if (disabled.length && this.hideDisabledOptions) {
+                        let _count = 0;
+                        disabled.forEach(item => item <= index ? _count++ : '');
+                        index -= _count;
+                    }
+
+                    const to = 24 * index;
                     scrollTop(this.$els[type], from, to, 500);
                 }
             }
