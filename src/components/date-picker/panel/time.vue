@@ -26,6 +26,8 @@
 
     import Mixin from './mixin';
 
+    import { initTimeDate } from '../util';
+
     const prefixCls = 'ivu-picker-panel';
     const timePrefixCls = 'ivu-time-picker';
 
@@ -37,11 +39,11 @@
                 prefixCls: prefixCls,
                 timePrefixCls: timePrefixCls,
                 format: 'HH:mm:ss',
-                date: new Date(),
+                date: initTimeDate(),
                 value: '',
-                hours: 0,
-                minutes: 0,
-                seconds: 0,
+                hours: '',
+                minutes: '',
+                seconds: '',
                 disabledHours: [],
                 disabledMinutes: [],
                 disabledSeconds: [],
@@ -68,6 +70,13 @@
             }
         },
         methods: {
+            handleClear() {
+                this.date = initTimeDate();
+                this.hours = '';
+                this.minutes = '';
+                this.seconds = '';
+                this.$emit('on-pick', '');
+            },
             handleChange (date, emit = true) {
                 if (date.hours !== undefined) {
                     this.date.setHours(date.hours);

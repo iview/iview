@@ -30,7 +30,7 @@
     import Drop from '../../components/select/dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
     import { oneOf } from '../../utils/assist';
-    import { formatDate, parseDate } from './util';
+    import { formatDate, parseDate, initTimeDate } from './util';
 
     const prefixCls = 'ivu-date-picker';
 
@@ -413,6 +413,15 @@
             value: {
                 immediate: true,
                 handler (val) {
+                    const type = this.type;
+                    if (type === 'time') {
+                        const parser = (
+                            TYPE_VALUE_RESOLVER_MAP[type] ||
+                            TYPE_VALUE_RESOLVER_MAP['default']
+                        ).parser;
+
+                        val = parser(val, this.format || DEFAULT_FORMATS[type]);
+                    }
                     this.internalValue = val;
                 }
             },

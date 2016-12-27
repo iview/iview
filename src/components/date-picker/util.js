@@ -75,3 +75,11 @@ export const nextMonth = function(src) {
 
     return new Date(src.getTime());
 };
+
+export const initTimeDate = function (time) {
+    const date = new Date();
+    date.setHours(0);
+    date.setMinutes(0);
+    date.setSeconds(0);
+    return date;
+};

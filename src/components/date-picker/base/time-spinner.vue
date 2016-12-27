@@ -27,15 +27,15 @@
         mixins: [Options],
         props: {
             hours: {
-                type: Number,
+                type: [Number, String],
                 default: 0
             },
             minutes: {
-                type: Number,
+                type: [Number, String],
                 default: 0
             },
             seconds: {
-                type: Number,
+                type: [Number, String],
                 default: 0
             },
             showSeconds: {
