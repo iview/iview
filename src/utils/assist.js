@@ -144,7 +144,7 @@ export function scrollTop(el, from = 0, to, duration = 500) {
             function (callback) {
                 return window.setTimeout(callback, 1000/60);
             }
-        )
+        );
     }
     const difference = Math.abs(from - to);
     const step = Math.ceil(difference / duration * 50);

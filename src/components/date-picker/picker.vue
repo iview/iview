@@ -30,7 +30,7 @@
     import Drop from '../../components/select/dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
     import { oneOf } from '../../utils/assist';
-    import { formatDate, parseDate, initTimeDate } from './util';
+    import { formatDate, parseDate } from './util';
 
     const prefixCls = 'ivu-date-picker';
 
@@ -294,6 +294,30 @@
                     }
 
                     correctDate = parser(correctValue, format);
+                } else if (type === 'time') {
+                    const parsedDate = parseDate(value, format);
+
+                    if (parsedDate instanceof Date) {
+                        if (this.disabledHours.length || this.disabledMinutes.length || this.disabledSeconds.length) {
+                            const hours = parsedDate.getHours();
+                            const minutes = parsedDate.getMinutes();
+                            const seconds = parsedDate.getSeconds();
+
+                            if ((this.disabledHours.length && this.disabledHours.indexOf(hours) > -1) ||
+                                (this.disabledMinutes.length && this.disabledMinutes.indexOf(minutes) > -1) ||
+                                (this.disabledSeconds.length && this.disabledSeconds.indexOf(seconds) > -1)) {
+                                correctValue = oldValue;
+                            } else {
+                                correctValue = formatDate(parsedDate, format);
+                            }
+                        } else {
+                            correctValue = formatDate(parsedDate, format);
+                        }
+                    } else {
+                        correctValue = oldValue;
+                    }
+
+                    correctDate = parseDate(correctValue, format);
                 } else {
                     const parsedDate = parseDate(value, format);
 

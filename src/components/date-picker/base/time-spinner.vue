@@ -45,7 +45,8 @@
         },
         data () {
             return {
-                prefixCls: prefixCls
+                prefixCls: prefixCls,
+                compiled: false
             };
         },
         computed: {
@@ -155,10 +156,15 @@
                     data[type] = cell.text;
                     this.$emit('on-change', data);
 
-                    const from = this.$els[type].scrollTop;
-                    const to = 24 * this.getScrollIndex(type, cell.text);
-                    scrollTop(this.$els[type], from, to, 500);
+//                    const from = this.$els[type].scrollTop;
+//                    const to = 24 * this.getScrollIndex(type, cell.text);
+//                    scrollTop(this.$els[type], from, to, 500);
                 }
+            },
+            scroll (type, index) {
+                const from = this.$els[type].scrollTop;
+                const to = 24 * this.getScrollIndex(type, index);
+                scrollTop(this.$els[type], from, to, 500);
             },
             getScrollIndex (type, index) {
                 const Type = firstUpperCase(type);
@@ -181,8 +187,23 @@
                 });
             }
         },
+        watch: {
+            hours (val) {
+                if (!this.compiled) return;
+                this.scroll('hours', val);
+            },
+            minutes (val) {
+                if (!this.compiled) return;
+                this.scroll('minutes', val);
+            },
+            seconds (val) {
+                if (!this.compiled) return;
+                this.scroll('seconds', val);
+            }
+        },
         compiled () {
             this.updateScroll();
+            this.$nextTick(() => this.compiled = true);
         }
     };
 </script>

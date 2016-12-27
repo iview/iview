@@ -6,7 +6,7 @@
 <template>
     <row>
         <i-col span="12">
-            <date-picker type="date" placeholder="选择日期" style="width: 200px"></date-picker>
+            <date-picker type="date" placeholder="选择日期" style="width: 200px" @on-ok="ok" confirm @on-clear="clear"></date-picker>
         </i-col>
         <i-col span="12">
             <date-picker type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></date-picker>
@@ -20,6 +20,8 @@
                 :hide-disabled-options="false"
                 :disabled-hours="[1,2,5,10,11]"
                 @on-change="c"
+                @on-ok="ok"
+                @on-clear="clear"
                 style="width: 168px"></time-picker>
         </i-col>
     </row>
@@ -34,8 +36,14 @@
         },
         methods: {
             c (s) {
-                console.log(s)
+                console.log(1,s);
                 this.value = s;
+            },
+            ok () {
+                console.log('ok');
+            },
+            clear () {
+                console.log('clear');
             }
         }
     }

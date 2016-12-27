@@ -76,7 +76,7 @@ export const nextMonth = function(src) {
     return new Date(src.getTime());
 };
 
-export const initTimeDate = function (time) {
+export const initTimeDate = function () {
     const date = new Date();
     date.setHours(0);
     date.setMinutes(0);
