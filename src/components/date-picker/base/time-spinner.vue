@@ -156,20 +156,33 @@
                     this.$emit('on-change', data);
 
                     const from = this.$els[type].scrollTop;
-
-                    let index = cell.text;
-                    const Type = firstUpperCase(type);
-                    const disabled = this[`disabled${Type}`];
-                    if (disabled.length && this.hideDisabledOptions) {
-                        let _count = 0;
-                        disabled.forEach(item => item <= index ? _count++ : '');
-                        index -= _count;
-                    }
-
-                    const to = 24 * index;
+                    const to = 24 * this.getScrollIndex(type, cell.text);
                     scrollTop(this.$els[type], from, to, 500);
                 }
+            },
+            getScrollIndex (type, index) {
+                const Type = firstUpperCase(type);
+                const disabled = this[`disabled${Type}`];
+                if (disabled.length && this.hideDisabledOptions) {
+                    let _count = 0;
+                    disabled.forEach(item => item <= index ? _count++ : '');
+                    index -= _count;
+                }
+                return index;
+            },
+            updateScroll () {
+                const times = ['hours', 'minutes', 'seconds'];
+                times.forEach(type => this.$els[type].style.overflow = 'hidden');
+                this.$nextTick(() => {
+                    times.forEach(type => {
+                        this.$els[type].scrollTop = 24 * this.getScrollIndex(type, this[type]);
+                    });
+                    this.$nextTick(() => times.forEach(type => this.$els[type].style.overflow = 'auto'));
+                });
             }
+        },
+        compiled () {
+            this.updateScroll();
         }
     };
 </script>
