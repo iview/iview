@@ -1,13 +1,5 @@
 import dateUtil from '../../utils/date';
 
-const newArray = function(start, end) {
-    let result = [];
-    for (let i = start; i <= end; i++) {
-        result.push(i);
-    }
-    return result;
-};
-
 export const toDate = function(date) {
     date = new Date(date);
     if (isNaN(date.getTime())) return null;
@@ -46,32 +38,6 @@ export const getFirstDayOfMonth = function(date) {
     return temp.getDay();
 };
 
-export const DAY_DURATION = 86400000;
-
-export const getStartDateOfMonth = function(year, month) {
-    const result = new Date(year, month, 1);
-    const day = result.getDay();
-
-    if (day === 0) {
-        result.setTime(result.getTime() - DAY_DURATION * 7);
-    } else {
-        result.setTime(result.getTime() - DAY_DURATION * day);
-    }
-
-    return result;
-};
-
-export const getWeekNumber = function(src) {
-    const date = new Date(src.getTime());
-    date.setHours(0, 0, 0, 0);
-    // Thursday in current week decides the year.
-    date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
-    // January 4 is always in week 1.
-    const week1 = new Date(date.getFullYear(), 0, 4);
-    // Adjust to Thursday in week 1 and count number of weeks from date to week 1.
-    return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
-};
-
 export const prevMonth = function(src) {
     const year = src.getFullYear();
     const month = src.getMonth();
@@ -108,52 +74,4 @@ export const nextMonth = function(src) {
     src.setFullYear(newYear);
 
     return new Date(src.getTime());
-};
-
-export const getRangeHours = function(ranges) {
-    const hours = [];
-    let disabledHours = [];
-
-    (ranges || []).forEach(range => {
-        const value = range.map(date => date.getHours());
-
-        disabledHours = disabledHours.concat(newArray(value[0], value[1]));
-    });
-
-    if (disabledHours.length) {
-        for (let i = 0; i < 24; i++) {
-            hours[i] = disabledHours.indexOf(i) === -1;
-        }
-    } else {
-        for (let i = 0; i < 24; i++) {
-            hours[i] = false;
-        }
-    }
-
-    return hours;
-};
-
-export const limitRange = function(date, ranges) {
-    if (!ranges || !ranges.length) return date;
-
-    const len = ranges.length;
-    const format = 'HH:mm:ss';
-
-    date = dateUtil.parse(dateUtil.format(date, format), format);
-    for (let i = 0; i < len; i++) {
-        const range = ranges[i];
-        if (date >= range[0] && date <= range[1]) {
-            return date;
-        }
-    }
-
-    let maxDate = ranges[0][0];
-    let minDate = ranges[0][0];
-
-    ranges.forEach(range => {
-        minDate = new Date(Math.min(range[0], minDate));
-        maxDate = new Date(Math.max(range[1], maxDate));
-    });
-
-    return date < minDate ? minDate : maxDate;
 };

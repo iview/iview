@@ -58,17 +58,17 @@
                 if (!newVal) return;
                 newVal = new Date(newVal);
                 if (!isNaN(newVal)) {
+                    this.date = newVal;
                     this.handleChange({
                         hours: newVal.getHours(),
                         minutes: newVal.getMinutes(),
                         seconds: newVal.getSeconds()
-                    });
-//                    this.$nextTick(() => this.scrollTop());
+                    }, false);
                 }
             }
         },
         methods: {
-            handleChange (date) {
+            handleChange (date, emit = true) {
                 if (date.hours !== undefined) {
                     this.date.setHours(date.hours);
                     this.hours = this.date.getHours();
@@ -81,6 +81,7 @@
                     this.date.setSeconds(date.seconds);
                     this.seconds = this.date.getSeconds();
                 }
+                if (emit) this.$emit('on-pick', this.date, true);
             }
         }
     };
