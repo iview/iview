@@ -201,7 +201,7 @@
             },
             iconType () {
                 let icon = 'ios-calendar-outline';
-                if (this.type === 'time') icon = 'ios-clock-outline';
+                if (this.type === 'time' || this.type === 'timerange') icon = 'ios-clock-outline';
                 if (this.showClose) icon = 'ios-close';
                 return icon;
             },
@@ -408,14 +408,16 @@
                 this.picker.resetView && this.picker.resetView();
             },
             emitChange (date) {
-                const format = this.format || DEFAULT_FORMATS[this.type];
+                const type = this.type;
+                const format = this.format || DEFAULT_FORMATS[type];
                 const formatter = (
-                    TYPE_VALUE_RESOLVER_MAP[this.type] ||
+                    TYPE_VALUE_RESOLVER_MAP[type] ||
                     TYPE_VALUE_RESOLVER_MAP['default']
                 ).formatter;
 
                 let newDate = formatter(date, format);
-                if (this.type === 'daterange') {
+                if (type === 'daterange' || type === 'timerange') {
+                    console.log(newDate);
                     newDate = [newDate.split(RANGE_SEPARATOR)[0], newDate.split(RANGE_SEPARATOR)[1]];
                 }
 
@@ -443,12 +445,12 @@
                 immediate: true,
                 handler (val) {
                     const type = this.type;
-                    if (type === 'time') {
+                    if (type === 'time' || type === 'timerange') {
                         const parser = (
                             TYPE_VALUE_RESOLVER_MAP[type] ||
                             TYPE_VALUE_RESOLVER_MAP['default']
                         ).parser;
-
+                        if (type === 'timerange') val = val.join(RANGE_SEPARATOR);
                         val = parser(val, this.format || DEFAULT_FORMATS[type]);
                     }
                     this.internalValue = val;

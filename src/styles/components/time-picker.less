@@ -1,9 +1,12 @@
 @time-picker-prefix-cls: ~"@{css-prefix}time-picker";
+@time-picker-cells-width: 112px;
+@time-picker-cells-width-with-seconds: @time-picker-cells-width + 56px;
+
 .@{time-picker-prefix-cls} {
     &-cells{
-        min-width: 112px;
+        min-width: @time-picker-cells-width;
         &-with-seconds{
-            min-width: 168px;
+            min-width: @time-picker-cells-width-with-seconds;
         }
 
         &-list{
@@ -58,6 +61,61 @@
             &-selected ,&-selected:hover{
                 color: @primary-color;
                 background: @background-color-select-hover;
+            }
+        }
+    }
+
+    &-header{
+        height: 32px;
+        line-height: 32px;
+        text-align: center;
+        border-bottom: 1px solid @border-color-split;
+    }
+
+    &-with-range{
+        .@{picker-prefix-cls}-panel{
+            &-body{
+                min-width: @time-picker-cells-width * 2 + 4px;
+            }
+            &-content{
+                float: left;
+                position: relative;
+
+                &:after{
+                    content: '';
+                    display: block;
+                    width: 2px;
+                    position: absolute;
+                    top: 31px;
+                    bottom: 0;
+                    right: -2px;
+                    background: @border-color-split
+                }
+
+                &-right{
+                    float: right;
+                    &:after{
+                        right: auto;
+                        left: -2px;
+                    }
+                }
+            }
+        }
+        .@{time-picker-prefix-cls}-cells{
+            &-list{
+                &:first-child{
+                    border-radius: 0;
+                }
+                &:last-child{
+                    border-radius: 0;
+                }
+            }
+        }
+    }
+    &-with-range&-with-seconds{
+        .@{picker-prefix-cls}-panel{
+            &-body{
+                min-width: @time-picker-cells-width-with-seconds * 2 + 4px;
             }
         }
     }
