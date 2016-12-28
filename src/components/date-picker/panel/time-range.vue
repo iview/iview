@@ -85,9 +85,8 @@
         },
         watch: {
             value (newVal) {
-                if (!newVal) {
-                    return;
-                } else if (Array.isArray(newVal)) {
+                if (!newVal) return;
+                if (Array.isArray(newVal)) {
                     const valStart = newVal[0] ? toDate(newVal[0]) : false;
                     const valEnd = newVal[1] ? toDate(newVal[1]) : false;
 

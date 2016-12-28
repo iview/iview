@@ -444,15 +444,18 @@
                 immediate: true,
                 handler (val) {
                     const type = this.type;
-                    if ((type === 'time' || type === 'timerange') && !(val instanceof Date)) {
-                        const parser = (
-                            TYPE_VALUE_RESOLVER_MAP[type] ||
-                            TYPE_VALUE_RESOLVER_MAP['default']
-                        ).parser;
-                        if (type === 'timerange') val = val.join(RANGE_SEPARATOR);
+                    const parser = (
+                        TYPE_VALUE_RESOLVER_MAP[type] ||
+                        TYPE_VALUE_RESOLVER_MAP['default']
+                    ).parser;
 
+                    if (type === 'time' && !(val instanceof Date)) {
+                        val = parser(val, this.format || DEFAULT_FORMATS[type]);
+                    } else if (type === 'timerange' && Array.isArray(val) && val.length === 2 && !(val[0] instanceof Date) && !(val[1] instanceof Date)) {
+                        val = val.join(RANGE_SEPARATOR);
                         val = parser(val, this.format || DEFAULT_FORMATS[type]);
                     }
+
                     this.internalValue = val;
                 }
             },
