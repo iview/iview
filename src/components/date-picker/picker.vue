@@ -417,7 +417,6 @@
 
                 let newDate = formatter(date, format);
                 if (type === 'daterange' || type === 'timerange') {
-                    console.log(newDate);
                     newDate = [newDate.split(RANGE_SEPARATOR)[0], newDate.split(RANGE_SEPARATOR)[1]];
                 }
 
@@ -445,12 +444,13 @@
                 immediate: true,
                 handler (val) {
                     const type = this.type;
-                    if (type === 'time' || type === 'timerange') {
+                    if ((type === 'time' || type === 'timerange') && !(val instanceof Date)) {
                         const parser = (
                             TYPE_VALUE_RESOLVER_MAP[type] ||
                             TYPE_VALUE_RESOLVER_MAP['default']
                         ).parser;
                         if (type === 'timerange') val = val.join(RANGE_SEPARATOR);
+
                         val = parser(val, this.format || DEFAULT_FORMATS[type]);
                     }
                     this.internalValue = val;
