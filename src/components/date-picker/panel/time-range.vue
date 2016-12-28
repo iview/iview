@@ -67,7 +67,7 @@
                 disabledMinutes: [],
                 disabledSeconds: [],
                 hideDisabledOptions: false
-            }
+            };
         },
         computed: {
             classes () {
@@ -103,7 +103,7 @@
                                 seconds: valEnd.getSeconds()
                             },
                             false
-                        )
+                        );
                     }
                 }
             }
