@@ -1,17 +1,17 @@
 <template>
     <div :class="classes">
         <div :class="[prefixCls+ '-list']" v-el:hours>
-            <ul @click="handleClickHours">
+            <ul :class="[prefixCls + '-ul']" @click="handleClickHours">
                 <li :class="getCellCls(item)" v-for="item in hoursList" v-show="!item.hide" :index="$index">{{ formatTime(item.text) }}</li>
             </ul>
         </div>
         <div :class="[prefixCls+ '-list']" v-el:minutes>
-            <ul @click="handleClickMinutes">
+            <ul :class="[prefixCls + '-ul']" @click="handleClickMinutes">
                 <li :class="getCellCls(item)" v-for="item in minutesList" v-show="!item.hide" :index="$index">{{ formatTime(item.text) }}</li>
             </ul>
         </div>
         <div :class="[prefixCls+ '-list']" v-show="showSeconds" v-el:seconds>
-            <ul @click="handleClickSeconds">
+            <ul :class="[prefixCls + '-ul']" @click="handleClickSeconds">
                 <li :class="getCellCls(item)" v-for="item in secondsList" v-show="!item.hide" :index="$index">{{ formatTime(item.text) }}</li>
             </ul>
         </div>
@@ -155,11 +155,8 @@
                     const data = {};
                     data[type] = cell.text;
                     this.$emit('on-change', data);
-
-//                    const from = this.$els[type].scrollTop;
-//                    const to = 24 * this.getScrollIndex(type, cell.text);
-//                    scrollTop(this.$els[type], from, to, 500);
                 }
+                this.$emit('on-pick-click');
             },
             scroll (type, index) {
                 const from = this.$els[type].scrollTop;

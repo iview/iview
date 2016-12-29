@@ -48,13 +48,13 @@
 }
 
 .loop-grid-columns(@index, @class) when (@index = 0) {
-    .@{col-prefix-cls}@{class}-@{index} {
+    .@{col-prefix-cls}-span@{class}-@{index} {
         display: none;
     }
-    .@{col-prefix-cls}-push-@{index} {
+    .@{col-prefix-cls}@{class}-push-@{index} {
         left: auto;
     }
-    .@{col-prefix-cls}-pull-@{index} {
+    .@{col-prefix-cls}@{class}-pull-@{index} {
         right: auto;
     }
 }

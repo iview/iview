@@ -24,16 +24,17 @@
                 <!--style="width: 168px"></time-picker>-->
         <!--</i-col>-->
         <i-col span="12">
-            <time-picker
-                :value="value2"
-                type="timerange"
-                placeholder="选择时间"
-                format="HH:mm:ss"
-                :hide-disabled-options="false"
-                @on-change="c"
-                @on-ok="ok"
-                @on-clear="clear"
-                style="width: 168px"></time-picker>
+            <Time-picker type="time" :value="value" placeholder="选择时间" style="width: 168px"></Time-picker>
+            <!--<time-picker-->
+                <!--:value="value2"-->
+                <!--type="timerange"-->
+                <!--placeholder="选择时间"-->
+                <!--format="HH:mm:ss"-->
+                <!--:hide-disabled-options="false"-->
+                <!--@on-change="c"-->
+                <!--@on-ok="ok"-->
+                <!--@on-clear="clear"-->
+                <!--style="width: 168px"></time-picker>-->
         </i-col>
     </row>
 </template>

@@ -449,9 +449,9 @@
                         TYPE_VALUE_RESOLVER_MAP['default']
                     ).parser;
 
-                    if (type === 'time' && !(val instanceof Date)) {
+                    if (val && type === 'time' && !(val instanceof Date)) {
                         val = parser(val, this.format || DEFAULT_FORMATS[type]);
-                    } else if (type === 'timerange' && Array.isArray(val) && val.length === 2 && !(val[0] instanceof Date) && !(val[1] instanceof Date)) {
+                    } else if (val && type === 'timerange' && Array.isArray(val) && val.length === 2 && !(val[0] instanceof Date) && !(val[1] instanceof Date)) {
                         val = val.join(RANGE_SEPARATOR);
                         val = parser(val, this.format || DEFAULT_FORMATS[type]);
                     }
