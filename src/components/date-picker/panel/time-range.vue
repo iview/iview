@@ -41,7 +41,7 @@
 
     import Mixin from './mixin';
 
-    import { initTimeDate, toDate } from '../util';
+    import { initTimeDate, toDate, formatDate } from '../util';
 
     const prefixCls = 'ivu-picker-panel';
     const timePrefixCls = 'ivu-time-picker';
@@ -120,6 +120,8 @@
                 this.secondsEnd = '';
             },
             handleChange (date, dateEnd, emit = true) {
+                const oldDateEnd = new Date(this.dateEnd);
+
                 if (date.hours !== undefined) {
                     this.date.setHours(date.hours);
                     this.hours = this.date.getHours();
@@ -151,6 +153,11 @@
                         this.hoursEnd = this.dateEnd.getHours();
                         this.minutesEnd = this.dateEnd.getMinutes();
                         this.secondsEnd = this.dateEnd.getSeconds();
+
+                        const format = 'yyyy-MM-dd HH:mm:ss';
+                        if (formatDate(oldDateEnd, format) !== formatDate(this.dateEnd, format)) {
+                            if (emit) this.$emit('on-pick', [this.date, this.dateEnd], true);
+                        }
                     });
                 } else {
                     if (emit) this.$emit('on-pick', [this.date, this.dateEnd], true);
