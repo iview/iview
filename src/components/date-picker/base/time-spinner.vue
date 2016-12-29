@@ -2,17 +2,17 @@
     <div :class="classes">
         <div :class="[prefixCls+ '-list']" v-el:hours>
             <ul @click="handleClickHours">
-                <li :class="getCellCls(item)" v-for="item in hoursList" v-show="!item.hide" :index="$index">{{ item.text < 10 ? '0' + item.text : item.text }}</li>
+                <li :class="getCellCls(item)" v-for="item in hoursList" v-show="!item.hide" :index="$index">{{ formatTime(item.text) }}</li>
             </ul>
         </div>
         <div :class="[prefixCls+ '-list']" v-el:minutes>
             <ul @click="handleClickMinutes">
-                <li :class="getCellCls(item)" v-for="item in minutesList" v-show="!item.hide" :index="$index">{{ item.text < 10 ? '0' + item.text : item.text }}</li>
+                <li :class="getCellCls(item)" v-for="item in minutesList" v-show="!item.hide" :index="$index">{{ formatTime(item.text) }}</li>
             </ul>
         </div>
         <div :class="[prefixCls+ '-list']" v-show="showSeconds" v-el:seconds>
             <ul @click="handleClickSeconds">
-                <li :class="getCellCls(item)" v-for="item in secondsList" v-show="!item.hide" :index="$index">{{ item.text < 10 ? '0' + item.text : item.text }}</li>
+                <li :class="getCellCls(item)" v-for="item in secondsList" v-show="!item.hide" :index="$index">{{ formatTime(item.text) }}</li>
             </ul>
         </div>
     </div>
@@ -185,6 +185,9 @@
                     });
                     this.$nextTick(() => times.forEach(type => this.$els[type].style.overflow = 'auto'));
                 });
+            },
+            formatTime (text) {
+                return text < 10 ? '0' + text : text;
             }
         },
         watch: {
