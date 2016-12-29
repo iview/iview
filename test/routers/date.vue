@@ -51,7 +51,7 @@
         methods: {
 
             c (s) {
-//                console.log(1,s);
+                console.log(s);
 //                this.value2 = s;
             },
             ok () {

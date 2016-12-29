@@ -144,7 +144,17 @@
                     this.dateEnd.setSeconds(dateEnd.seconds);
                     this.secondsEnd = this.dateEnd.getSeconds();
                 }
-                if (emit) this.$emit('on-pick', [this.date, this.dateEnd], true);
+                // judge endTime > startTime?
+                if (this.dateEnd < this.date) {
+                    this.$nextTick(() => {
+                        this.dateEnd = new Date(this.date);
+                        this.hoursEnd = this.dateEnd.getHours();
+                        this.minutesEnd = this.dateEnd.getMinutes();
+                        this.secondsEnd = this.dateEnd.getSeconds();
+                    });
+                } else {
+                    if (emit) this.$emit('on-pick', [this.date, this.dateEnd], true);
+                }
             },
             handleStartChange (date) {
                 this.handleChange(date, {});
