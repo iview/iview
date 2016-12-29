@@ -49,6 +49,7 @@
             }
         },
         methods: {
+
             c (s) {
 //                console.log(1,s);
 //                this.value2 = s;
