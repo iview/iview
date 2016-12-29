@@ -24,7 +24,7 @@
                 <!--style="width: 168px"></time-picker>-->
         <!--</i-col>-->
         <i-col span="12">
-            <Time-picker type="time" :value="value" placeholder="选择时间" style="width: 168px"></Time-picker>
+            <Time-picker type="timerange" confirm placeholder="选择时间" style="width: 168px"></Time-picker>
             <!--<time-picker-->
                 <!--:value="value2"-->
                 <!--type="timerange"-->
@@ -36,6 +36,7 @@
                 <!--@on-clear="clear"-->
                 <!--style="width: 168px"></time-picker>-->
         </i-col>
+        <i-button @click="time">time</i-button>
     </row>
 </template>
 <script>
@@ -43,7 +44,7 @@
         data () {
             return {
 //                value: '2016-12-12 03:03:03',
-                value: '15:12:01',
+                value: '03:12:01',
                 value2: ['08:40:00', '09:40:00'],
 //                value2: [new Date(), new Date()],
                 value3: ['2016-12-01', '2016-12-25']
@@ -60,6 +61,9 @@
             },
             clear () {
                 console.log('clear');
+            },
+            time () {
+                this.value = new Date();
             }
         }
     }

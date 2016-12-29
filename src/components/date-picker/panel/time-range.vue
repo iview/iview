@@ -30,6 +30,7 @@
                     @on-pick-click="handlePickClick"></time-spinner>
             </div>
             <Confirm
+                v-if="confirm"
                 @on-pick-clear="handlePickClear"
                 @on-pick-success="handlePickSuccess"></Confirm>
         </div>
@@ -66,7 +67,8 @@
                 disabledHours: [],
                 disabledMinutes: [],
                 disabledSeconds: [],
-                hideDisabledOptions: false
+                hideDisabledOptions: false,
+                confirm: false
             };
         },
         computed: {
