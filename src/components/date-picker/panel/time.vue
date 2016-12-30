@@ -1,6 +1,7 @@
 <template>
     <div :class="[prefixCls + '-body-wrapper']">
         <div :class="[prefixCls + '-body']">
+            <div :class="[timePrefixCls + '-header']" v-if="showDate">{{ visibleDate }}</div>
             <div :class="[prefixCls + '-content']">
                 <time-spinner
                     v-ref:time-spinner
@@ -44,6 +45,10 @@
             },
             value: {
                 default: ''
+            },
+            showDate: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -64,6 +69,10 @@
         computed: {
             showSeconds () {
                 return (this.format || '').indexOf('ss') !== -1;
+            },
+            visibleDate () {
+                const date = this.date;
+                return `${date.getFullYear()}年 ${date.getMonth() + 1}月`;
             }
         },
         watch: {

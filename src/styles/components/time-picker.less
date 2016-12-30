@@ -135,7 +135,15 @@
                 }
                 &-list {
                     width: @time-picker-cells-width-with-date-base;
+                    max-height: 216px;
+                    &:first-child{
+                        border-radius: 0;
+                    }
+                    &:last-child{
+                        border-radius: 0;
+                    }
                     ul{
+                        padding: 0 0 192px 0;
                         li{
                             padding: 0 0 0 28px;
                         }

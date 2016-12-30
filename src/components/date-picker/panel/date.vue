@@ -64,6 +64,7 @@
                     v-ref:time-picker
                     :date="date"
                     :value="value"
+                    show-date
                     @on-pick="handleTimePick"></time-picker>
             </div>
             <Confirm
