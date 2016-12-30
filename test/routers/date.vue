@@ -6,6 +6,7 @@
 <template>
     <row>
         <i-col span="12">
+            <Date-picker format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择日期时间" style="width: 300px" @on-change="c"></Date-picker>
             <Time-picker :value="value" type="time" placeholder="选择时间" style="width: 168px"></Time-picker>
         </i-col>
         <!--<i-col span="12">-->
@@ -24,7 +25,7 @@
                 <!--style="width: 168px"></time-picker>-->
         <!--</i-col>-->
         <i-col span="12">
-            <Date-picker :value="value1" format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择日期时间" style="width: 200px" @on-change="c"></Date-picker>
+            <Date-picker format="yyyy-MM-dd HH:mm:ss" type="datetimerange" placeholder="选择日期时间" style="width: 300px" @on-change="c"></Date-picker>
             <!--<time-picker-->
                 <!--:value="value2"-->
                 <!--type="timerange"-->
@@ -44,11 +45,12 @@
         data () {
             return {
 //                value: '2016-12-12 03:03:03',
-                value1: '2015-12-12 09:41',
+                value1: '2015-12-12 09:41:00',
                 value: '03:12:01',
                 value2: ['08:40:00', '09:40:00'],
 //                value2: [new Date(), new Date()],
-                value3: ['2016-12-01', '2016-12-25']
+                value3: ['2016-12-01', '2016-12-25'],
+                val4: ['2016-12-01 09:41:12', '2016-12-25 12:23:32']
             }
         },
         methods: {

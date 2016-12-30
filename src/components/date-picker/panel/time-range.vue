@@ -4,6 +4,7 @@
             <div :class="[prefixCls + '-content', prefixCls + '-content-left']">
                 <div :class="[timePrefixCls + '-header']">开始时间</div>
                 <time-spinner
+                    v-ref:time-spinner
                     :show-seconds="showSeconds"
                     :hours="hours"
                     :minutes="minutes"
@@ -18,6 +19,7 @@
             <div :class="[prefixCls + '-content', prefixCls + '-content-right']">
                 <div :class="[timePrefixCls + '-header']">结束时间</div>
                 <time-spinner
+                    v-ref:time-spinner-end
                     :show-seconds="showSeconds"
                     :hours="hoursEnd"
                     :minutes="minutesEnd"
@@ -170,6 +172,10 @@
             },
             handleEndChange (date) {
                 this.handleChange({}, date);
+            },
+            updateScroll () {
+                this.$refs.timeSpinner.updateScroll();
+                this.$refs.timeSpinnerEnd.updateScroll();
             }
         }
     };

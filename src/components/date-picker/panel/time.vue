@@ -37,31 +37,19 @@
     export default {
         mixins: [Mixin],
         components: { TimeSpinner, Confirm },
-//        props: {
-//            date: {
-//                default () {
-//                    return initTimeDate();
-//                }
-//            },
-//            value: {
-//                default: ''
-//            },
-//            showDate: {
-//                type: Boolean,
-//                default: false
-//            },
-//            format: {
-//                type: String,
-//                default: 'HH:mm:ss'
-//            }
-//        },
+        props: {
+            showDate: {
+                type: Boolean,
+                default: false
+            }
+        },
         data () {
             return {
                 prefixCls: prefixCls,
                 timePrefixCls: timePrefixCls,
                 date: initTimeDate(),
                 value: '',
-                showDate: false,
+//                showDate: false,
                 format: 'HH:mm:ss',
                 hours: '',
                 minutes: '',

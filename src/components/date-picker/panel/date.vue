@@ -61,11 +61,8 @@
                     @on-pick-click="handlePickClick"></month-table>
                 <time-picker
                     v-ref:time-picker
-                    v-show="currentView === 'time'"
-                    :date="date"
-                    :value="value"
-                    :format="format"
                     show-date
+                    v-show="currentView === 'time'"
                     @on-pick="handleTimePick"></time-picker>
             </div>
             <Confirm
@@ -276,6 +273,7 @@
                 this.month = this.date.getMonth();
             }
             if (this.showTime) {
+                // todo 这里可能有问题，并不能进入到这里，但不影响正常使用
                 this.$refs.timePicker.date = this.date;
                 this.$refs.timePicker.value = this.value;
                 this.$refs.timePicker.format = this.format;

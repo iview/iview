@@ -7,7 +7,7 @@
                 @click="handleShortcutClick(shortcut)">{{ shortcut.text }}</div>
         </div>
         <div :class="[prefixCls + '-body']">
-            <div :class="[prefixCls + '-content', prefixCls + '-content-left']">
+            <div :class="[prefixCls + '-content', prefixCls + '-content-left']" v-show="!isTime">
                 <div :class="[datePrefixCls + '-header']" v-show="leftCurrentView !== 'time'">
                     <span
                         :class="iconBtnCls('prev', '-double')"
@@ -60,7 +60,7 @@
                     @on-pick="handleLeftMonthPick"
                     @on-pick-click="handlePickClick"></month-table>
             </div>
-            <div :class="[prefixCls + '-content', prefixCls + '-content-right']">
+            <div :class="[prefixCls + '-content', prefixCls + '-content-right']" v-show="!isTime">
                 <div :class="[datePrefixCls + '-header']" v-show="rightCurrentView !== 'time'">
                      <span
                          :class="iconBtnCls('prev', '-double')"
@@ -113,8 +113,18 @@
                     @on-pick="handleRightMonthPick"
                     @on-pick-click="handlePickClick"></month-table>
             </div>
+            <div :class="[prefixCls + '-content']" v-show="isTime">
+                <time-picker
+                    v-ref:time-picker
+                    v-show="isTime"
+                    @on-pick="handleTimePick"></time-picker>
+            </div>
             <Confirm
                 v-if="confirm"
+                :show-time="showTime"
+                :is-time="isTime"
+                :time-disabled="timeDisabled"
+                @on-pick-toggle-time="handleToggleTime"
                 @on-pick-clear="handlePickClear"
                 @on-pick-success="handlePickSuccess"></Confirm>
         </div>
@@ -125,6 +135,7 @@
     import DateTable from '../base/date-table.vue';
     import YearTable from '../base/year-table.vue';
     import MonthTable from '../base/month-table.vue';
+    import TimePicker from './time-range.vue';
     import Confirm from '../base/confirm.vue';
     import { toDate, prevMonth, nextMonth, initTimeDate } from '../util';
 
@@ -135,7 +146,7 @@
 
     export default {
         mixins: [Mixin],
-        components: { Icon, DateTable, YearTable, MonthTable, Confirm },
+        components: { Icon, DateTable, YearTable, MonthTable, TimePicker, Confirm },
         data () {
             return {
                 prefixCls: prefixCls,
@@ -156,7 +167,9 @@
                 rightCurrentView: 'date',
                 selectionMode: 'range',
                 leftTableYear: null,
-                rightTableYear: null
+                rightTableYear: null,
+                isTime: false,
+                format: 'yyyy-MM-dd'
             };
         },
         computed: {
@@ -231,6 +244,9 @@
                     newDate.setMonth(month + 1);
                 }
                 return newDate;
+            },
+            timeDisabled () {
+                return !(this.minDate && this.maxDate);
             }
         },
         watch: {
@@ -243,6 +259,19 @@
                     this.maxDate = newVal[1] ? toDate(newVal[1]) : null;
                     if (this.minDate) this.date = new Date(this.minDate);
                 }
+                if (this.showTime) this.$refs.timePicker.value = newVal;
+            },
+            minDate (val) {
+                if (this.showTime) this.$refs.timePicker.date = val;
+            },
+            maxDate (val) {
+                if (this.showTime) this.$refs.timePicker.dateEnd = val;
+            },
+            format (val) {
+                if (this.showTime) this.$refs.timePicker.format = val;
+            },
+            isTime (val) {
+                if (val) this.$refs.timePicker.updateScroll();
             }
         },
         methods: {
@@ -256,6 +285,7 @@
                 this.maxDate = null;
                 this.date = new Date();
                 this.handleConfirm();
+                if (this.showTime) this.$refs.timePicker.handleClear();
             },
             resetView() {
                 this.leftCurrentView = 'date';
@@ -343,14 +373,32 @@
                 this.maxDate = val.maxDate;
 
                 if (!close) return;
-                if (!this.showTime) {
-                    this.handleConfirm(false);
-                }
+//                if (!this.showTime) {
+//                    this.handleConfirm(false);
+//                }
+                this.handleConfirm(false);
             },
             handleChangeRange (val) {
                 this.minDate = val.minDate;
                 this.maxDate = val.maxDate;
                 this.rangeState = val.rangeState;
+            },
+            handleToggleTime () {
+                this.isTime = !this.isTime;
+            },
+            handleTimePick (date) {
+                this.minDate = date[0];
+                this.maxDate = date[1];
+                this.handleConfirm(false);
+            }
+        },
+        compiled () {
+            if (this.showTime) {
+                this.$refs.timePicker.date = this.minDate;
+                this.$refs.timePicker.dateEnd = this.maxDate;
+                this.$refs.timePicker.value = this.value;
+                this.$refs.timePicker.format = this.format;
+                this.$refs.timePicker.showDate = true;
             }
         }
     };
