@@ -398,13 +398,10 @@
                         this.handleClear();
                     });
                     this.picker.$on('on-pick-success', () => {
-//                        this.emitChange(this.value);
                         this.visible = false;
                         this.$emit('on-ok');
                     });
                     this.picker.$on('on-pick-click', () => this.disableClickOutSide = true);
-
-                    // todo $on('on-time-range')
                 }
                 if (this.internalValue instanceof Date) {
                     this.picker.date = new Date(this.internalValue.getTime());

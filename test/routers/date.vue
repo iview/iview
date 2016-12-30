@@ -5,9 +5,9 @@
 </style>
 <template>
     <row>
-        <!--<i-col span="12">-->
-            <!--<date-picker type="date" placeholder="选择日期" style="width: 200px" @on-ok="ok" confirm @on-clear="clear"></date-picker>-->
-        <!--</i-col>-->
+        <i-col span="12">
+            <Time-picker :value="value" type="time" placeholder="选择时间" style="width: 168px"></Time-picker>
+        </i-col>
         <!--<i-col span="12">-->
             <!--<date-picker :value="value3" type="daterange" placement="bottom-start" placeholder="选择日期" style="width: 200px"></date-picker>-->
         <!--</i-col>-->

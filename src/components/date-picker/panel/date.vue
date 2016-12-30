@@ -60,8 +60,8 @@
                     @on-pick="handleMonthPick"
                     @on-pick-click="handlePickClick"></month-table>
                 <time-picker
-                    v-show="currentView === 'time'"
                     v-ref:time-picker
+                    v-show="currentView === 'time'"
                     :date="date"
                     :value="value"
                     :format="format"
@@ -142,6 +142,13 @@
                     this.year = newVal.getFullYear();
                     this.month = newVal.getMonth();
                 }
+                if (this.showTime) this.$refs.timePicker.value = newVal;
+            },
+            date (val) {
+                if (this.showTime) this.$refs.timePicker.date = val;
+            },
+            format (val) {
+                if (this.showTime) this.$refs.timePicker.format = val;
             },
             currentView (val) {
                 if (val === 'time') this.$refs.timePicker.updateScroll();
@@ -267,6 +274,12 @@
             if (this.date && !this.year) {
                 this.year = this.date.getFullYear();
                 this.month = this.date.getMonth();
+            }
+            if (this.showTime) {
+                this.$refs.timePicker.date = this.date;
+                this.$refs.timePicker.value = this.value;
+                this.$refs.timePicker.format = this.format;
+                this.$refs.timePicker.showDate = true;
             }
         }
     };
