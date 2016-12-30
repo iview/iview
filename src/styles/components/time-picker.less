@@ -129,12 +129,20 @@
     .@{picker-prefix-cls}-panel-content{
         .@{time-picker-prefix-cls}{
             &-cells{
-                min-width: @time-picker-cells-width-with-date;
+                min-width: @time-picker-cells-width-with-date-with-seconds;
                 &-with-seconds{
                     min-width: @time-picker-cells-width-with-date-with-seconds;
+                    .@{time-picker-prefix-cls}-cells-list{
+                        width: @time-picker-cells-width-with-date-with-seconds / 3;
+                        ul{
+                            li{
+                                padding: 0 0 0 28px;
+                            }
+                        }
+                    }
                 }
                 &-list {
-                    width: @time-picker-cells-width-with-date-base;
+                    width: @time-picker-cells-width-with-date-with-seconds / 2;
                     max-height: 216px;
                     &:first-child{
                         border-radius: 0;
@@ -145,7 +153,7 @@
                     ul{
                         padding: 0 0 192px 0;
                         li{
-                            padding: 0 0 0 28px;
+                            padding: 0 0 0 46px;
                         }
                     }
                 }

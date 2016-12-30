@@ -64,6 +64,7 @@
                     v-ref:time-picker
                     :date="date"
                     :value="value"
+                    :format="format"
                     show-date
                     @on-pick="handleTimePick"></time-picker>
             </div>
@@ -109,7 +110,8 @@
                 year: null,
                 month: null,
                 confirm: false,
-                isTime: false
+                isTime: false,
+                format: 'yyyy-MM-dd'
             };
         },
         computed: {

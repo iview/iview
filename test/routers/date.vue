@@ -24,7 +24,7 @@
                 <!--style="width: 168px"></time-picker>-->
         <!--</i-col>-->
         <i-col span="12">
-            <Date-picker type="datetime" placeholder="选择日期时间" style="width: 200px" @on-change="c"></Date-picker>
+            <Date-picker :value="value1" format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择日期时间" style="width: 200px" @on-change="c"></Date-picker>
             <!--<time-picker-->
                 <!--:value="value2"-->
                 <!--type="timerange"-->
@@ -44,6 +44,7 @@
         data () {
             return {
 //                value: '2016-12-12 03:03:03',
+                value1: '2015-12-12 09:41',
                 value: '03:12:01',
                 value2: ['08:40:00', '09:40:00'],
 //                value2: [new Date(), new Date()],

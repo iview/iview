@@ -49,13 +49,17 @@
             showDate: {
                 type: Boolean,
                 default: false
+            },
+            format: {
+                type: String,
+                default: 'HH:mm:ss'
             }
         },
         data () {
             return {
                 prefixCls: prefixCls,
                 timePrefixCls: timePrefixCls,
-                format: 'HH:mm:ss',
+//                format: 'HH:mm:ss',
                 hours: '',
                 minutes: '',
                 seconds: '',
