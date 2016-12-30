@@ -59,9 +59,18 @@
                     :disabled-date="disabledDate"
                     @on-pick="handleMonthPick"
                     @on-pick-click="handlePickClick"></month-table>
+                <time-picker
+                    v-show="currentView === 'time'"
+                    v-ref:time-picker
+                    :date="date"
+                    :value="value"
+                    @on-pick="handleTimePick"></time-picker>
             </div>
             <Confirm
                 v-if="confirm"
+                :show-time="showTime"
+                :is-time="isTime"
+                @on-pick-toggle-time="handleToggleTime"
                 @on-pick-clear="handlePickClear"
                 @on-pick-success="handlePickSuccess"></Confirm>
         </div>
@@ -72,30 +81,34 @@
     import DateTable from '../base/date-table.vue';
     import YearTable from '../base/year-table.vue';
     import MonthTable from '../base/month-table.vue';
+    import TimePicker from './time.vue';
     import Confirm from '../base/confirm.vue';
 
     import Mixin from './mixin';
+
+    import { initTimeDate } from '../util';
 
     const prefixCls = 'ivu-picker-panel';
     const datePrefixCls = 'ivu-date-picker';
 
     export default {
         mixins: [Mixin],
-        components: { Icon, DateTable, YearTable, MonthTable, Confirm },
+        components: { Icon, DateTable, YearTable, MonthTable, TimePicker, Confirm },
         data () {
             return {
                 prefixCls: prefixCls,
                 datePrefixCls: datePrefixCls,
                 shortcuts: [],
                 currentView: 'date',
-                date: new Date(),
+                date: initTimeDate(),
                 value: '',
                 showTime: false,
                 selectionMode: 'day',
                 disabledDate: '',
                 year: null,
                 month: null,
-                confirm: false
+                confirm: false,
+                isTime: false
             };
         },
         computed: {
@@ -126,23 +139,29 @@
                     this.year = newVal.getFullYear();
                     this.month = newVal.getMonth();
                 }
+            },
+            currentView (val) {
+                if (val === 'time') this.$refs.timePicker.updateScroll();
             }
         },
         methods: {
             resetDate () {
                 this.date = new Date(this.date);
             },
-            handleClear() {
+            handleClear () {
                 this.date = new Date();
                 this.$emit('on-pick', '');
+                if (this.showTime) this.$refs.timePicker.handleClear();
             },
-            resetView() {
-                if (this.selectionMode === 'month') {
-                    this.currentView = 'month';
-                } else if (this.selectionMode === 'year') {
-                    this.currentView = 'year';
-                } else {
-                    this.currentView = 'date';
+            resetView (reset = false) {
+                if (this.currentView !== 'time' || reset) {
+                    if (this.selectionMode === 'month') {
+                        this.currentView = 'month';
+                    } else if (this.selectionMode === 'year') {
+                        this.currentView = 'year';
+                    } else {
+                        this.currentView = 'date';
+                    }
                 }
 
                 this.year = this.date.getFullYear();
@@ -186,6 +205,15 @@
             showMonthPicker () {
                 this.currentView = 'month';
             },
+            handleToggleTime () {
+                if (this.currentView === 'date') {
+                    this.currentView = 'time';
+                    this.isTime = true;
+                } else if (this.currentView === 'time') {
+                    this.currentView = 'date';
+                    this.isTime = false;
+                }
+            },
             handleYearPick(year, close = true) {
                 this.year = year;
                 if (!close) return;
@@ -216,15 +244,16 @@
             },
             handleDatePick (value) {
                 if (this.selectionMode === 'day') {
-                    if (!this.showTime) {
-                        this.$emit('on-pick', new Date(value.getTime()));
-                    }
+                    this.$emit('on-pick', new Date(value.getTime()));
                     this.date.setFullYear(value.getFullYear());
                     this.date.setMonth(value.getMonth());
                     this.date.setDate(value.getDate());
                 }
 
                 this.resetDate();
+            },
+            handleTimePick (date) {
+                this.handleDatePick(date);
             }
         },
         compiled () {

@@ -362,7 +362,13 @@
             },
             showPicker () {
                 if (!this.picker) {
+                    const type = this.type;
+
                     this.picker = new Vue(this.panel).$mount(this.$els.picker);
+                    if (type === 'datetime' || type === 'datetimerange') {
+                        this.confirm = true;
+                        this.picker.showTime = true;
+                    }
                     this.picker.value = this.internalValue;
                     this.picker.confirm = this.confirm;
                     this.picker.selectionMode = this.selectionMode;
@@ -430,7 +436,7 @@
                     this.$refs.drop.update();
                     if (this.open === null) this.$emit('on-open-change', true);
                 } else {
-                    if (this.picker) this.picker.resetView && this.picker.resetView();
+                    if (this.picker) this.picker.resetView && this.picker.resetView(true);
                     this.$refs.drop.destroy();
                     if (this.open === null) this.$emit('on-open-change', false);
                 }

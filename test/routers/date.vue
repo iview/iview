@@ -24,7 +24,7 @@
                 <!--style="width: 168px"></time-picker>-->
         <!--</i-col>-->
         <i-col span="12">
-            <Time-picker type="timerange" confirm placeholder="选择时间" style="width: 168px"></Time-picker>
+            <Date-picker type="datetime" placeholder="选择日期时间" style="width: 200px" @on-change="c"></Date-picker>
             <!--<time-picker-->
                 <!--:value="value2"-->
                 <!--type="timerange"-->

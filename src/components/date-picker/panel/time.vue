@@ -3,6 +3,7 @@
         <div :class="[prefixCls + '-body']">
             <div :class="[prefixCls + '-content']">
                 <time-spinner
+                    v-ref:time-spinner
                     :show-seconds="showSeconds"
                     :hours="hours"
                     :minutes="minutes"
@@ -35,13 +36,21 @@
     export default {
         mixins: [Mixin],
         components: { TimeSpinner, Confirm },
+        props: {
+            date: {
+                default () {
+                    return initTimeDate()
+                }
+            },
+            value: {
+                default: ''
+            }
+        },
         data () {
             return {
                 prefixCls: prefixCls,
                 timePrefixCls: timePrefixCls,
                 format: 'HH:mm:ss',
-                date: initTimeDate(),
-                value: '',
                 hours: '',
                 minutes: '',
                 seconds: '',
@@ -92,6 +101,9 @@
                     this.seconds = this.date.getSeconds();
                 }
                 if (emit) this.$emit('on-pick', this.date, true);
+            },
+            updateScroll () {
+                this.$refs.timeSpinner.updateScroll();
             }
         }
     };

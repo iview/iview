@@ -126,7 +126,7 @@
     import YearTable from '../base/year-table.vue';
     import MonthTable from '../base/month-table.vue';
     import Confirm from '../base/confirm.vue';
-    import { toDate, prevMonth, nextMonth } from '../util';
+    import { toDate, prevMonth, nextMonth, initTimeDate } from '../util';
 
     import Mixin from './mixin';
 
@@ -141,7 +141,7 @@
                 prefixCls: prefixCls,
                 datePrefixCls: datePrefixCls,
                 shortcuts: [],
-                date: new Date(),
+                date: initTimeDate(),
                 value: '',
                 minDate: '',
                 maxDate: '',

@@ -168,6 +168,11 @@
                 let month = this.month;
                 let day = cell.text;
 
+                const date = this.date;
+                const hours = date.getHours();
+                const minutes = date.getMinutes();
+                const seconds = date.getSeconds();
+
                 if (cell.type === 'prev-month') {
                     if (month === 0) {
                         month = 11;
@@ -184,7 +189,7 @@
                     }
                 }
 
-                return new Date(year, month, day);
+                return new Date(year, month, day, hours, minutes, seconds);
             },
             handleClick (event) {
                 const target = event.target;
