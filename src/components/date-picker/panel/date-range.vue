@@ -117,7 +117,8 @@
                 <time-picker
                     v-ref:time-picker
                     v-show="isTime"
-                    @on-pick="handleTimePick"></time-picker>
+                    @on-pick="handleTimePick"
+                    @on-pick-click="handlePickClick"></time-picker>
             </div>
             <Confirm
                 v-if="confirm"
@@ -145,6 +146,7 @@
     const datePrefixCls = 'ivu-date-picker';
 
     export default {
+        name: 'DatePicker',
         mixins: [Mixin],
         components: { Icon, DateTable, YearTable, MonthTable, TimePicker, Confirm },
         data () {
@@ -287,12 +289,14 @@
                 this.handleConfirm();
                 if (this.showTime) this.$refs.timePicker.handleClear();
             },
-            resetView() {
+            resetView(reset = false) {
                 this.leftCurrentView = 'date';
                 this.rightCurrentView = 'date';
 
                 this.leftTableYear = this.leftYear;
                 this.rightTableYear = this.rightYear;
+
+                if (reset) this.isTime = false;
             },
             prevYear (direction) {
                 if (this[`${direction}CurrentView`] === 'year') {
@@ -394,6 +398,7 @@
         },
         compiled () {
             if (this.showTime) {
+                // todo 这里也到不了
                 this.$refs.timePicker.date = this.minDate;
                 this.$refs.timePicker.dateEnd = this.maxDate;
                 this.$refs.timePicker.value = this.value;

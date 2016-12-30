@@ -63,7 +63,8 @@
                     v-ref:time-picker
                     show-date
                     v-show="currentView === 'time'"
-                    @on-pick="handleTimePick"></time-picker>
+                    @on-pick="handleTimePick"
+                    @on-pick-click="handlePickClick"></time-picker>
             </div>
             <Confirm
                 v-if="confirm"
@@ -91,6 +92,7 @@
     const datePrefixCls = 'ivu-date-picker';
 
     export default {
+        name: 'DatePicker',
         mixins: [Mixin],
         components: { Icon, DateTable, YearTable, MonthTable, TimePicker, Confirm },
         data () {

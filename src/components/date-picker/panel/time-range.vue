@@ -2,7 +2,10 @@
     <div :class="classes">
         <div :class="[prefixCls + '-body']">
             <div :class="[prefixCls + '-content', prefixCls + '-content-left']">
-                <div :class="[timePrefixCls + '-header']">开始时间</div>
+                <div :class="[timePrefixCls + '-header']">
+                    <template v-if="showDate">{{ visibleDate }}</template>
+                    <template v-else>开始时间</template>
+                </div>
                 <time-spinner
                     v-ref:time-spinner
                     :show-seconds="showSeconds"
@@ -17,7 +20,10 @@
                     @on-pick-click="handlePickClick"></time-spinner>
             </div>
             <div :class="[prefixCls + '-content', prefixCls + '-content-right']">
-                <div :class="[timePrefixCls + '-header']">结束时间</div>
+                <div :class="[timePrefixCls + '-header']">
+                    <template v-if="showDate">{{ visibleDateEnd }}</template>
+                    <template v-else>结束时间</template>
+                </div>
                 <time-spinner
                     v-ref:time-spinner-end
                     :show-seconds="showSeconds"
@@ -57,6 +63,7 @@
                 prefixCls: prefixCls,
                 timePrefixCls: timePrefixCls,
                 format: 'HH:mm:ss',
+                showDate: false,
                 date: initTimeDate(),
                 dateEnd: initTimeDate(),
                 value: '',
@@ -85,6 +92,14 @@
             },
             showSeconds () {
                 return (this.format || '').indexOf('ss') !== -1;
+            },
+            visibleDate () {
+                const date = this.date || initTimeDate();
+                return `${date.getFullYear()}年 ${date.getMonth() + 1}月`;
+            },
+            visibleDateEnd () {
+                const date = this.dateEnd || initTimeDate();
+                return `${date.getFullYear()}年 ${date.getMonth() + 1}月`;
             }
         },
         watch: {
@@ -177,6 +192,9 @@
                 this.$refs.timeSpinner.updateScroll();
                 this.$refs.timeSpinnerEnd.updateScroll();
             }
+        },
+        compiled () {
+            if (this.$parent && this.$parent.$options.name === 'DatePicker') this.showDate = true;
         }
     };
 </script>

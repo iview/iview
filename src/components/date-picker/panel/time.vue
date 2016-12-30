@@ -37,19 +37,13 @@
     export default {
         mixins: [Mixin],
         components: { TimeSpinner, Confirm },
-        props: {
-            showDate: {
-                type: Boolean,
-                default: false
-            }
-        },
         data () {
             return {
                 prefixCls: prefixCls,
                 timePrefixCls: timePrefixCls,
                 date: initTimeDate(),
                 value: '',
-//                showDate: false,
+                showDate: false,
                 format: 'HH:mm:ss',
                 hours: '',
                 minutes: '',
@@ -109,6 +103,9 @@
             updateScroll () {
                 this.$refs.timeSpinner.updateScroll();
             }
+        },
+        compiled () {
+            if (this.$parent && this.$parent.$options.name === 'DatePicker') this.showDate = true;
         }
     };
 </script>
