@@ -1,72 +1,83 @@
-<style>
-    body{
-        height: auto !important;
-    }
-</style>
 <template>
     <row>
         <i-col span="12">
-            <Date-picker format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择日期时间" style="width: 300px" @on-change="c"></Date-picker>
-            <Time-picker :value="value" type="time" placeholder="选择时间" style="width: 168px"></Time-picker>
+            <Date-picker type="datetime" :options="options1" placeholder="选择日期" style="width: 200px"></Date-picker>
         </i-col>
-        <!--<i-col span="12">-->
-            <!--<date-picker :value="value3" type="daterange" placement="bottom-start" placeholder="选择日期" style="width: 200px"></date-picker>-->
-        <!--</i-col>-->
-        <!--<i-col span="12">-->
-            <!--<time-picker-->
-                <!--:value="value"-->
-                <!--placeholder="选择时间"-->
-                <!--format="HH:mm:ss"-->
-                <!--:hide-disabled-options="false"-->
-                <!--:disabled-hours="[1,2,10,11]"-->
-                <!--@on-change="c"-->
-                <!--@on-ok="ok"-->
-                <!--@on-clear="clear"-->
-                <!--style="width: 168px"></time-picker>-->
-        <!--</i-col>-->
         <i-col span="12">
-            <Date-picker format="yyyy-MM-dd HH:mm:ss" type="datetimerange" placeholder="选择日期时间" style="width: 300px" @on-change="c"></Date-picker>
-            <!--<time-picker-->
-                <!--:value="value2"-->
-                <!--type="timerange"-->
-                <!--placeholder="选择时间"-->
-                <!--format="HH:mm:ss"-->
-                <!--:hide-disabled-options="false"-->
-                <!--@on-change="c"-->
-                <!--@on-ok="ok"-->
-                <!--@on-clear="clear"-->
-                <!--style="width: 168px"></time-picker>-->
+            <Date-picker type="datetimerange" :options="options2" placement="bottom-end" placeholder="选择日期" style="width: 200px"></Date-picker>
         </i-col>
-        <i-button @click="time">time</i-button>
     </row>
 </template>
 <script>
     export default {
         data () {
             return {
-//                value: '2016-12-12 03:03:03',
-                value1: '2015-12-12 09:41:00',
-                value: '03:12:01',
-                value2: ['08:40:00', '09:40:00'],
-//                value2: [new Date(), new Date()],
-                value3: ['2016-12-01', '2016-12-25'],
-                val4: ['2016-12-01 09:41:12', '2016-12-25 12:23:32']
-            }
-        },
-        methods: {
-
-            c (s) {
-                console.log(s);
-//                this.value2 = s;
-            },
-            ok () {
-                console.log('ok');
-            },
-            clear () {
-                console.log('clear');
-            },
-            time () {
-                this.value = new Date();
+                options1: {
+                    shortcuts: [
+                        {
+                            text: '今天',
+                            value () {
+                                return new Date();
+                            },
+                            onClick: (picker) => {
+                                this.$Message.info('点击了今天');
+                            }
+                        },
+                        {
+                            text: '昨天',
+                            value () {
+                                const date = new Date();
+                                date.setTime(date.getTime() - 3600 * 1000 * 24);
+                                return date;
+                            },
+                            onClick: (picker) => {
+                                this.$Message.info('点击了昨天');
+                            }
+                        },
+                        {
+                            text: '一周前',
+                            value () {
+                                const date = new Date();
+                                date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                                return date;
+                            },
+                            onClick: (picker) => {
+                                this.$Message.info('点击了一周前');
+                            }
+                        }
+                    ]
+                },
+                options2: {
+                    shortcuts: [
+                        {
+                            text: '最近一周',
+                            value () {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                                return [start, end];
+                            }
+                        },
+                        {
+                            text: '最近一个月',
+                            value () {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                                return [start, end];
+                            }
+                        },
+                        {
+                            text: '最近三个月',
+                            value () {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                                return [start, end];
+                            }
+                        }
+                    ]
+                }
             }
         }
     }
