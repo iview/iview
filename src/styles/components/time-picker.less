@@ -1,6 +1,10 @@
 @time-picker-prefix-cls: ~"@{css-prefix}time-picker";
-@time-picker-cells-width: 112px;
-@time-picker-cells-width-with-seconds: @time-picker-cells-width + 56px;
+@time-picker-cells-width-base: 56px;
+@time-picker-cells-width-with-date-base: 72px;
+@time-picker-cells-width: @time-picker-cells-width-base * 2;
+@time-picker-cells-width-with-seconds: @time-picker-cells-width-base *3;
+@time-picker-cells-width-with-date: @time-picker-cells-width-with-date-base * 2;
+@time-picker-cells-width-with-date-with-seconds: @time-picker-cells-width-with-date-base * 3;
 
 .@{time-picker-prefix-cls} {
     &-cells{
@@ -10,7 +14,7 @@
         }
 
         &-list{
-            width: 56px;
+            width: @time-picker-cells-width-base;
             float: left;
             position: relative;
             max-height: 144px;
@@ -116,6 +120,27 @@
         .@{picker-prefix-cls}-panel{
             &-body{
                 min-width: @time-picker-cells-width-with-seconds * 2 + 4px;
+            }
+        }
+    }
+}
+
+.@{picker-prefix-cls}-panel-content{
+    .@{picker-prefix-cls}-panel-content{
+        .@{time-picker-prefix-cls}{
+            &-cells{
+                min-width: @time-picker-cells-width-with-date;
+                &-with-seconds{
+                    min-width: @time-picker-cells-width-with-date-with-seconds;
+                }
+                &-list {
+                    width: @time-picker-cells-width-with-date-base;
+                    ul{
+                        li{
+                            padding: 0 0 0 28px;
+                        }
+                    }
+                }
             }
         }
     }

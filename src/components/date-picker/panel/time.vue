@@ -39,7 +39,7 @@
         props: {
             date: {
                 default () {
-                    return initTimeDate()
+                    return initTimeDate();
                 }
             },
             value: {
