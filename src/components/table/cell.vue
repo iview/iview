@@ -36,7 +36,8 @@
                 return [
                     `${this.prefixCls}-cell`,
                     {
-                        [`${this.prefixCls}-hidden`]: !this.fixed && this.column.fixed && (this.column.fixed === 'left' || this.column.fixed === 'right')
+                        [`${this.prefixCls}-hidden`]: !this.fixed && this.column.fixed && (this.column.fixed === 'left' || this.column.fixed === 'right'),
+                        [`${this.prefixCls}-cell-ellipsis`]: this.column.ellipsis || false
                     }
                 ]
             }

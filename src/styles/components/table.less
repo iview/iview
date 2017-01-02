@@ -138,6 +138,13 @@
         white-space: normal;
         word-break: break-all;
         box-sizing: border-box;
+
+        &-ellipsis {
+          word-break: keep-all;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
     }
     &-hidden{
         visibility: hidden;

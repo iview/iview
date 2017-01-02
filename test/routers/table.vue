@@ -12,7 +12,9 @@
         <checkbox value="day">日活跃</checkbox>
         <checkbox value="week">周活跃</checkbox>
         <checkbox value="month">月活跃</checkbox>
+        <checkbox value="longText">长文本</checkbox>
     </checkbox-group>
+    <Switch size="small" @on-change="switchCellEllipsis"></Switch> Ellipsis
     <i-table :content="self" :data="tableData2" :columns="tableColumns2" border v-ref:table></i-table>
 </template>
 <script>
@@ -22,7 +24,7 @@
                 self: this,
                 tableData2: this.mockTableData2(),
                 tableColumns2: [],
-                tableColumnsChecked: ['show', 'weak', 'signin', 'click', 'active', 'day7', 'day30', 'tomorrow', 'day', 'week', 'month']
+                tableColumnsChecked: ['show', 'weak', 'signin', 'click', 'active', 'day7', 'day30', 'tomorrow', 'day', 'week', 'month', 'longText']
             }
         },
         methods: {
@@ -45,7 +47,8 @@
                         tomorrow: getNum(),
                         day: getNum(),
                         week: getNum(),
-                        month: getNum()
+                        month: getNum(),
+                        longText: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
                     })
                 }
                 return data;
@@ -128,6 +131,12 @@
                         key: 'month',
                         width: 150,
                         sortable: true
+                    },
+                    longText: {
+                        title: '长文本',
+                        key: 'longText',
+                        width: 150,
+                        ellipsis: arguments[0] || false
                     }
                 };
 
@@ -139,6 +148,9 @@
             },
             changeTableColumns () {
                 this.tableColumns2 = this.getTable2Columns();
+            },
+            switchCellEllipsis (status) {
+                this.tableColumns2 = this.getTable2Columns(status);
             },
             toggleFav (index) {
                 this.tableData2[index].fav = this.tableData2[index].fav === 0 ? 1 : 0;
