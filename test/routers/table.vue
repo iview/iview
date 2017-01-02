@@ -1,5 +1,6 @@
 <template>
     <i-button @click="changeFilter">改变filter</i-button>
+    <Switch size="small" @on-change="switchCellEllipsis"></Switch> Ellipsis
     <i-table border :columns="columns6" :data="data5"></i-table>
 </template>
 <script>
@@ -62,33 +63,42 @@
                         filterMethod (value, row) {
                             return row.address.indexOf(value) > -1;
                         }
+                    },
+                    {
+                      title: '长文本',
+                      key: 'longText',
+                      ellipsis: false
                     }
                 ],
                 data5: [
-//                    {
-//                        name: '王小明',
-//                        age: 18,
-//                        address: '北京市朝阳区芍药居',
-//                        date: '2016-10-03'
-//                    },
-//                    {
-//                        name: '张小刚',
-//                        age: 25,
-//                        address: '北京市海淀区西二旗',
-//                        date: '2016-10-01'
-//                    },
-//                    {
-//                        name: '李小红',
-//                        age: 30,
-//                        address: '上海市浦东新区世纪大道',
-//                        date: '2016-10-02'
-//                    },
-//                    {
-//                        name: '周小伟',
-//                        age: 26,
-//                        address: '深圳市南山区深南大道',
-//                        date: '2016-10-04'
-//                    }
+                   {
+                       name: '王小明',
+                       age: 18,
+                       address: '北京市朝阳区芍药居',
+                       date: '2016-10-03',
+                       longText: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+                   },
+                   {
+                       name: '张小刚',
+                       age: 25,
+                       address: '北京市海淀区西二旗',
+                       date: '2016-10-01',
+                       longText: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+                   },
+                   {
+                       name: '李小红',
+                       age: 30,
+                       address: '上海市浦东新区世纪大道',
+                       date: '2016-10-02',
+                       longText: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+                   },
+                   {
+                       name: '周小伟',
+                       age: 26,
+                       address: '深圳市南山区深南大道',
+                       date: '2016-10-04',
+                       longText: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+                   }
                 ]
             }
         },
@@ -100,6 +110,9 @@
                         value: 2
                     }
                 ]
+            },
+            switchCellEllipsis (status) {
+                this.columns6[5].ellipsis = status
             }
         }
     }
