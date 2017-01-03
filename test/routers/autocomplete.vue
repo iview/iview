@@ -62,31 +62,31 @@
             return {
                 cityList: [
                     {
-                        value: 'beijing',
+                        value: 'Beijing',
                         label: 'Beijing'
                     },
                     {
-                        value: 'shanghai',
+                        value: 'Shanghai',
                         label: 'Shanghai'
                     },
                     {
-                        value: 'shenzhen',
+                        value: 'Shenzhen',
                         label: 'Shenzhen'
                     },
                     {
-                        value: 'hangzhou',
+                        value: 'Hangzhou',
                         label: 'Hangzhou'
                     },
                     {
-                        value: 'nanjing',
+                        value: 'Nanjing',
                         label: 'Nanjing'
                     },
                     {
-                        value: 'nanning',
+                        value: 'Nanning',
                         label: 'Nanning'
                     }
                 ],
-                model1: 'beijing',
+                model1: 'Beijing',
                 model2: ''
             }
         },

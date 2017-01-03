@@ -40,10 +40,6 @@
                 type: Boolean,
                 default: false
             },
-            clearable: {
-                type: Boolean,
-                default: false
-            },
             placeholder: {
                 type: String,
                 default: ''
@@ -195,16 +191,6 @@
                 }
 
                 this.toggleSingleSelected(this.model, init);
-            },
-            clearSingleSelect () {
-                if (this.showCloseIcon) {
-                    this.findChild((child) => {
-                        child.selected = false;
-                    });
-                    this.model = '';
-
-                    this.query = '';
-                }
             },
             // to select option for single
             toggleSingleSelected (value, init = false) {
@@ -374,7 +360,7 @@
         },
         watch: {
             model () {
-                // this.updateSingleSelected();
+                this.updateSingleSelected();
             },
             visible (val) {
                 if (val) {
