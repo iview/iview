@@ -19,6 +19,7 @@
                     :columns="cloneColumns"
                     :data="rebuildData"
                     :columns-width="columnsWidth"
+                    :empty-text="emptyText"
                     :obj-data="objData"></table-body>
             </div>
             <div :class="[prefixCls + '-fixed']" :style="fixedTableStyle" v-if="isLeftFixed">
@@ -40,6 +41,7 @@
                         :columns="leftFixedColumns"
                         :data="rebuildData"
                         :columns-width="columnsWidth"
+                        :empty-text="emptyText"
                         :obj-data="objData"></table-body>
                 </div>
             </div>
@@ -62,6 +64,7 @@
                         :columns="rightFixedColumns"
                         :data="rebuildData"
                         :columns-width="columnsWidth"
+                        :empty-text="emptyText"
                         :obj-data="objData"></table-body>
                 </div>
             </div>
@@ -127,6 +130,10 @@
             },
             content: {
                 type: Object
+            },
+            emptyText: {
+                type: String,
+                default: '无数据'
             }
         },
         data () {

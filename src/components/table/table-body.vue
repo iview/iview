@@ -22,6 +22,11 @@
                         :checked="rowChecked(row._index)"></Cell>
                 </td>
             </tr>
+            <tr v-show="!!emptyText && (!data || data.length === 0)">
+              <td :colspan="(columns && columns.length) || 0" :class="[prefixCls + '-empty']">
+                {{{emptyText}}}
+              </td>
+            </tr>
         </tbody>
     </table>
 </template>
@@ -42,7 +47,8 @@
             fixed: {
                 type: [Boolean, String],
                 default: false
-            }
+            },
+            emptyText: String
         },
         methods: {
             rowClasses (_index) {
