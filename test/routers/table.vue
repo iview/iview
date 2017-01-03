@@ -1,7 +1,15 @@
 <template>
     <i-button @click="changeFilter">改变filter</i-button>
+    <span v-if="currentRow !== null">Current Row: {{currentRow.name}}</span>
     <Switch size="small" @on-change="switchCellEllipsis"></Switch> Ellipsis
-    <i-table border :columns="columns6" :data="data5"></i-table>
+    <i-table
+      border
+      :columns="columns6"
+      :data="data5"
+      :highlight-row="true"
+      @on-current-change="onCurrentChange"
+      @on-dblclick="onDblclick">
+    </i-table>
 </template>
 <script>
     export default {
@@ -99,7 +107,8 @@
                        date: '2016-10-04',
                        longText: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
                    }
-                ]
+                ],
+                currentRow: null
             }
         },
         methods: {
@@ -113,6 +122,15 @@
             },
             switchCellEllipsis (status) {
                 this.columns6[5].ellipsis = status
+            },
+            onClick (data) {
+                window.alert('Click ' + data.name)
+            },
+            onCurrentChange (data) {
+                this.currentRow = data
+            },
+            onDblclick (data) {
+                window.alert('Double Click ' + data.name)
             }
         }
     }

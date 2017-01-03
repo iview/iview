@@ -9,7 +9,8 @@
                 :class="rowClasses(row._index)"
                 @mouseenter.stop="handleMouseIn(row._index)"
                 @mouseleave.stop="handleMouseOut(row._index)"
-                @click.stop="highlightCurrentRow(row._index)">
+                @click.stop="clickCurrentRow(row._index)"
+                @dblclick.stop="dblclickCurrentRow(row._index)">
                 <td v-for="column in columns" :class="alignCls(column)">
                     <Cell
                         :fixed="fixed"
@@ -66,8 +67,11 @@
             handleMouseOut (_index) {
                 this.$parent.handleMouseOut(_index);
             },
-            highlightCurrentRow (_index) {
-                this.$parent.highlightCurrentRow(_index);
+            clickCurrentRow (_index) {
+                this.$parent.clickCurrentRow(_index);
+            },
+            dblclickCurrentRow (_index) {
+                this.$parent.dblclickCurrentRow(_index);
             }
         }
     };

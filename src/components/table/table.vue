@@ -297,6 +297,14 @@
                 const oldData = oldIndex < 0 ? null : JSON.parse(JSON.stringify(this.data[oldIndex]));
                 this.$emit('on-current-change', JSON.parse(JSON.stringify(this.data[_index])), oldData);
             },
+            clickCurrentRow (_index) {
+                this.highlightCurrentRow (_index);
+                this.$emit('on-click', JSON.parse(JSON.stringify(this.data[_index])));
+            },
+            dblclickCurrentRow (_index) {
+                this.highlightCurrentRow (_index);
+                this.$emit('on-dblclick', JSON.parse(JSON.stringify(this.data[_index])));
+            },
             getSelection () {
                 let selectionIndexes = [];
                 for (let i in this.objData) {
