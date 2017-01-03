@@ -1,7 +1,7 @@
 <template>
     <div :class="classes">
         <label :class="[prefixCls + '-label']" :style="labelStyles" v-if="label">{{ label }}</label>
-        <div :style="contentStyles">
+        <div :class="[prefixCls + '-content']" :style="contentStyles">
             <slot></slot>
             <div transition="fade" :class="[prefixCls + '-error']" v-if="validateState === 'error'">{{ validateMessage }}</div>
         </div>

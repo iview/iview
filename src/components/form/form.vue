@@ -3,6 +3,7 @@
 </template>
 <script>
     // https://github.com/ElemeFE/element/blob/dev/packages/form/src/form.vue
+    import { oneOf } from '../../utils/assist';
 
     const prefixCls = 'ivu-form';
 
@@ -18,6 +19,12 @@
             labelWidth: {
                 type: Number
             },
+            labelPosition: {
+                validator (value) {
+                    return oneOf(value, ['left', 'right', 'top']);
+                },
+                default: 'right'
+            },
             inline: {
                 type: Boolean,
                 default: false
@@ -32,6 +39,7 @@
             classes () {
                 return [
                     `${prefixCls}`,
+                    `${prefixCls}-label-${this.labelPosition}`,
                     {
                         [`${prefixCls}-inline`]: this.inline
                     }
