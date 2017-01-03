@@ -111,10 +111,10 @@
                     return false;
                 }
 
-                this.visible = this.query !== ''
+                this.visible = this.query !== '';
 
                 this.$nextTick(() => {
-                    this.$els.input.focus()
+                    this.$els.input.focus();
                 });
 
                 return true;
@@ -170,11 +170,11 @@
                     this.updateSingleSelected(true, slot);
                 }
             },
-            updateSingleSelected (init = false, slot = false) {
+            updateSingleSelected (init = false, slot = false) { // eslint-disable-line no-unused-vars
                 const type = typeof this.model;
 
                 if (type === 'string' || type === 'number') {
-                    let findModel = false;
+                    let findModel = false;                      // eslint-disable-line no-unused-vars
 
                     for (let i = 0; i < this.options.length; i++) {
                         if (this.model === this.options[i].value) {
@@ -211,24 +211,24 @@
                     }
                     this.hideMenu();
                 } else {
-                  this.$nextTick(() => {
-                      let is_hidden = true;
-                      this.findChild((child) => {
-                          if (!child.hidden) {
-                              is_hidden = false;
-                          }
-                      });
-                      this.notFound = is_hidden;
+                    this.$nextTick(() => {
+                        let is_hidden = true;
+                        this.findChild((child) => {
+                            if (!child.hidden) {
+                                is_hidden = false;
+                            }
+                        });
+                        this.notFound = is_hidden;
 
-                      if (this.query !== this.lastQuery) {
-                          this.visible = true;
-                          this.$els.input.focus()
-                      } else {
-                          this.visible = false;
-                      }
+                        if (this.query !== this.lastQuery) {
+                            this.visible = true;
+                            this.$els.input.focus();
+                        } else {
+                            this.visible = false;
+                        }
 
-                      if (this.query !== this.lastQuery) this.lastQuery = ''
-                  });
+                        if (this.query !== this.lastQuery) this.lastQuery = '';
+                    });
                 }
             },
             handleClose () {
@@ -316,10 +316,10 @@
                 }
             },
             handleBlur () {
-                this.focus = true
+                this.focus = true;
             },
             handleFocus () {
-                this.focus = false
+                this.focus = false;
             },
             resetInputState () {
                 this.inputLength = this.$els.input.value.length * 12 + 20;
@@ -365,7 +365,7 @@
                 });
             }
 
-            this.lastQuery = this.query
+            this.lastQuery = this.query;
         },
         beforeDestroy () {
             document.removeEventListener('keydown', this.handleKeydown);
@@ -400,12 +400,12 @@
 
                     if (this.query !== this.lastQuery) {
                         this.visible = true;
-                        this.$els.input.focus()
+                        this.$els.input.focus();
                     } else {
                         this.visible = false;
                     }
 
-                    if (this.query !== this.lastQuery) this.lastQuery = ''
+                    if (this.query !== this.lastQuery) this.lastQuery = '';
                 });
             }
         },
