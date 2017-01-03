@@ -15,6 +15,7 @@ import Circle from './components/circle';
 import Collapse from './components/collapse';
 import DatePicker from './components/date-picker';
 import Dropdown from './components/dropdown';
+import Form from './components/form';
 import Icon from './components/icon';
 import Input from './components/input';
 import InputNumber from './components/input-number';
@@ -60,6 +61,8 @@ const iview = {
     Dropdown,
     DropdownItem: Dropdown.Item,
     DropdownMenu: Dropdown.Menu,
+    iForm: Form,
+    FormItem: Form.Item,
     iCol: Col,
     Collapse,
     Icon,

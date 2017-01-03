@@ -47,6 +47,7 @@ li + li {
                 <li><a v-link="'/menu'">Menu</a></li>
                 <li><a v-link="'/date'">Date</a></li>
                 <li><a v-link="'/autocomplete'">AutoComplete</a></li>
+                <li><a v-link="'/form'">Form</a></li>
             </ul>
         </nav>
         <router-view></router-view>
