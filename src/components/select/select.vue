@@ -466,6 +466,20 @@
             }
         },
         ready () {
+            if (!this.multiple && this.filterable && this.model) {
+                this.findChild((child) => {
+                    if (this.model === child.value) {
+                        if (child.label) {
+                            this.query = child.label;
+                        } else if (child.searchLabel) {
+                            this.query = child.searchLabel;
+                        } else {
+                            this.query = child.value;
+                        }
+                    }
+                });
+            }
+
             this.updateOptions(true);
             document.addEventListener('keydown', this.handleKeydown);
 

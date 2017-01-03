@@ -1,8 +1,7 @@
 <template>
-    <i-button @click="clear">clear</i-button>
     <Row>
         <i-col span="12" style="padding-right:10px">
-            <i-select :model.sync="model11" filterable v-ref:select clearable>
+            <i-select :model.sync="model11" filterable>
                 <i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>
             </i-select>
         </i-col>
@@ -43,14 +42,8 @@
                         label: '重庆市'
                     }
                 ],
-                model11: '',
-                model12: []
-            }
-        },
-        methods: {
-            clear () {
-//                this.$refs.select.setQuery('');
-                this.$refs.select.clearSingleSelect();
+                model11: 'beijing',
+                model12: ['beijing', 'shanghai']
             }
         }
     }
