@@ -132,12 +132,12 @@ router.map({
         component: function (resolve) {
             require(['./routers/autocomplete.vue'], resolve);
         }
-    }
+    },
     '/form': {
         component: function (resolve) {
             require(['./routers/form.vue'], resolve);
         }
-    },
+    }
 });
 
 router.beforeEach(function () {
