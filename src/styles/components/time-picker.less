@@ -15,11 +15,15 @@
 
         &-list{
             width: @time-picker-cells-width-base;
-            float: left;
-            position: relative;
             max-height: 144px;
-            overflow-y: auto;
+            float: left;
+            overflow: hidden;
             border-left: 1px solid @border-color-split;
+            position: relative;
+            &:hover{
+                overflow-y: auto;
+            }
+
             &:first-child{
                 border-left: none;
                 border-radius: @btn-border-radius 0 0 @btn-border-radius;
@@ -38,7 +42,7 @@
                     line-height: 24px;
                     margin: 0;
                     padding: 0 0 0 16px;
-                    box-sizing: border-box;
+                    box-sizing: content-box;
                     text-align: left;
                     user-select: none;
                     cursor: pointer;

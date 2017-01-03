@@ -175,12 +175,10 @@
             },
             updateScroll () {
                 const times = ['hours', 'minutes', 'seconds'];
-                times.forEach(type => this.$els[type].style.overflow = 'hidden');
                 this.$nextTick(() => {
                     times.forEach(type => {
                         this.$els[type].scrollTop = 24 * this.getScrollIndex(type, this[type]);
                     });
-                    this.$nextTick(() => times.forEach(type => this.$els[type].style.overflow = 'auto'));
                 });
             },
             formatTime (text) {
