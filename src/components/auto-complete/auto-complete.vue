@@ -11,6 +11,8 @@
                 :placeholder="showPlaceholder ? placeholder : ''"
                 :style="inputStyle"
                 :disabled="disabled"
+                @blur="this.focus = false"
+                @focus="this.focus = true"
                 v-el:input>
         </div>
         <Dropdown v-show="visible" transition="slide-up" v-ref:dropdown>
@@ -27,7 +29,7 @@
     const prefixCls = 'ivu-select';
 
     export default {
-        components: { Icon, Dropdown },
+        components: { Dropdown },
         directives: { clickoutside },
         props: {
             model: {
@@ -44,7 +46,7 @@
             },
             placeholder: {
                 type: String,
-                default: 'test'
+                default: ''
             },
             size: {
                 validator (value) {
@@ -72,14 +74,16 @@
                 lastQuery: '',
                 inputLength: 20,
                 notFound: false,
-                slotChangeDuration: false
+                slotChangeDuration: false,
+                focus: false
             };
         },
         computed: {
             classes () {
                 return [
-                    `${prefixCls}`, `${prefixCls}-single`,
+                    `${prefixCls}`, `${prefixCls}-single`, `${prefixCls}-auto-complete`,
                     {
+                        [`${prefixCls}-active`]: this.focus,
                         [`${prefixCls}-visible`]: this.visible,
                         [`${prefixCls}-disabled`]: this.disabled,
                         [`${prefixCls}-show-clear`]: this.showCloseIcon,
@@ -313,10 +317,10 @@
                 }
             },
             handleBlur () {
-
+                this.focus = true
             },
             handleFocus () {
-
+                this.focus = false
             },
             resetInputState () {
                 this.inputLength = this.$els.input.value.length * 12 + 20;

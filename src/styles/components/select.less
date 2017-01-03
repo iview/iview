@@ -44,6 +44,12 @@
         .inner-arrow();
     }
 
+    &-active {
+        .@{select-prefix-cls}-selection{
+            .active();
+        }
+    }
+
     &-visible{
         .@{select-prefix-cls}-selection{
             .active();
@@ -150,6 +156,10 @@
 
     &-single &-input{
         width: 100%;
+    }
+
+    &-auto-complete &-input{
+        cursor: text;
     }
 
     &-large &-input{
