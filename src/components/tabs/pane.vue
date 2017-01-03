@@ -28,9 +28,6 @@
                 show: true
             };
         },
-        computed: {
-
-        },
         methods: {
             updateNav () {
                 this.$parent.updateNav();
@@ -46,6 +43,9 @@
             disabled () {
                 this.updateNav();
             }
+        },
+        ready () {
+            this.updateNav();
         }
     };
 </script>

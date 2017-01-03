@@ -202,9 +202,6 @@
                 this.updateNav();
             }
         },
-        compiled () {
-            this.updateNav();
-        },
         watch: {
             activeKey () {
                 this.updateBar();
