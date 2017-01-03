@@ -299,11 +299,11 @@
             },
             clickCurrentRow (_index) {
                 this.highlightCurrentRow (_index);
-                this.$emit('on-click', JSON.parse(JSON.stringify(this.data[_index])));
+                this.$emit('on-row-click', JSON.parse(JSON.stringify(this.data[_index])));
             },
             dblclickCurrentRow (_index) {
                 this.highlightCurrentRow (_index);
-                this.$emit('on-dblclick', JSON.parse(JSON.stringify(this.data[_index])));
+                this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.data[_index])));
             },
             getSelection () {
                 let selectionIndexes = [];
