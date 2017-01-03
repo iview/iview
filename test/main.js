@@ -127,6 +127,11 @@ router.map({
         component: function (resolve) {
             require(['./routers/date.vue'], resolve);
         }
+    },
+    '/autocomplete': {
+        component: function (resolve) {
+            require(['./routers/autocomplete.vue'], resolve);
+        }
     }
 });
 

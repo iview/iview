@@ -3,6 +3,7 @@ import 'core-js/fn/array/find-index';
 
 import Affix from './components/affix';
 import Alert from './components/alert';
+import AutoComplete from './components/auto-complete';
 import BackTop from './components/back-top';
 import Badge from './components/badge';
 import Breadcrumb from './components/breadcrumb';
@@ -43,6 +44,7 @@ import { Select, Option, OptionGroup } from './components/select';
 const iview = {
     Affix,
     Alert,
+    AutoComplete,
     BackTop,
     Badge,
     Breadcrumb,
