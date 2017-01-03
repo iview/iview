@@ -1,4 +1,3 @@
-<script src="index.js"></script>
 <template>
 
 </template>
@@ -6,7 +5,7 @@
     export default {
         props: {},
         data () {
-            return {}
+            return {};
         },
         computed: {},
         methods: {}

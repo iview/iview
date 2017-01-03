@@ -5,7 +5,7 @@
     export default {
         props: {},
         data () {
-            return {}
+            return {};
         },
         computed: {},
         methods: {}
