@@ -15,9 +15,9 @@
                 @focus="this.focus = true"
                 v-el:input>
         </div>
-        <Dropdown v-show="visible" transition="slide-up" v-ref:dropdown>
+        <Dropdown v-show="visible && !(notFound && !!!notFoundText)" transition="slide-up" v-ref:dropdown>
             <ul v-show="notFound" :class="[prefixCls + '-not-found']"><li>{{ notFoundText }}</li></ul>
-            <ul v-else :class="[prefixCls + '-dropdown-list']" v-el:options><slot></slot></ul>
+            <ul v-show="!notFound" :class="[prefixCls + '-dropdown-list']" v-el:options><slot></slot></ul>
         </Dropdown>
     </div>
 </template>
@@ -183,11 +183,6 @@
                             break;
                         }
                     }
-
-                    if (slot && !findModel) {
-                        this.model = '';
-                        this.query = '';
-                    }
                 }
 
                 this.toggleSingleSelected(this.model, init);
@@ -205,8 +200,6 @@
                     }
                 });
 
-                this.hideMenu();
-
                 if (!init) {
                     if (this.labelInValue) {
                         this.$emit('on-change', {
@@ -216,6 +209,26 @@
                     } else {
                         this.$emit('on-change', value);
                     }
+                    this.hideMenu();
+                } else {
+                  this.$nextTick(() => {
+                      let is_hidden = true;
+                      this.findChild((child) => {
+                          if (!child.hidden) {
+                              is_hidden = false;
+                          }
+                      });
+                      this.notFound = is_hidden;
+
+                      if (this.query !== this.lastQuery) {
+                          this.visible = true;
+                          this.$els.input.focus()
+                      } else {
+                          this.visible = false;
+                      }
+
+                      if (this.query !== this.lastQuery) this.lastQuery = ''
+                  });
                 }
             },
             handleClose () {
@@ -340,6 +353,8 @@
                 this.observer = new MutationObserver(() => {
                     this.slotChange();
                     this.updateOptions(true, true);
+
+                    this.$broadcast('on-query-change', this.query);
                 });
 
                 this.observer.observe(this.$els.options, {

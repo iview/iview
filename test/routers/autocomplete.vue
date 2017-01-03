@@ -55,6 +55,15 @@
             </auto-complete>
         </i-col>
     </Row>
+    <br/>
+    <Row>
+        <i-col span="8">
+            <span>Dynamic</span>
+            <auto-complete :model.sync="username" @on-change="onChange" not-found-text="">
+                <i-option v-for="item in emailList" :value="item">{{ item }}</i-option>
+            </auto-complete>
+        </i-col>
+    </Row>
 </template>
 <script>
     export default {
@@ -87,12 +96,22 @@
                     }
                 ],
                 model1: 'Beijing',
-                model2: ''
+                model2: '',
+                username: '',
+                emailList: []
             }
         },
 
         methods: {
-            onChange () {}
+            onChange (value) {
+                let list
+                if (!value || value.indexOf('@') >= 0) {
+                    list = [];
+                } else {
+                    list = ['gmail.com', '163.com', 'qq.com'].map(domain => `${value}@${domain}`);
+                }
+                this.emailList = list;
+            }
         }
     }
 </script>
