@@ -39,6 +39,15 @@
         font-size: @font-size-small;
     }
 
+    &-error-tip{
+        position: absolute;
+        top: 100%;
+        left: 0;
+        line-height: 1;
+        padding-top: 6px;
+        color: @error-color;
+    }
+
     &-required {
         .@{form-item-prefix-cls}-label:before {
             content: '*';

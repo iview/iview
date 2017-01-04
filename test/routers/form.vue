@@ -7,9 +7,20 @@
                 </i-input>
             </form-item>
             <form-item label="密码" prop="passwd">
-                <i-input type="password" :value.sync="form.passwd" placeholder="请输入密码">
-                    <Icon type="ios-locked-outline" slot="prepend"></Icon>
+                <i-input :value.sync="form.passwd">
+                    <i-select slot="prepend" style="width: 80px">
+                        <i-option value="http">http://</i-option>
+                        <i-option value="https">https://</i-option>
+                    </i-select>
+                    <i-select slot="append" style="width: 70px">
+                        <i-option value="com">.com</i-option>
+                        <i-option value="org">.org</i-option>
+                        <i-option value="io">.io</i-option>
+                    </i-select>
                 </i-input>
+            </form-item>
+            <form-item label="textarea" prop="textarea">
+                <i-input :value.sync="form.textarea" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."></i-input>
             </form-item>
             <form-item label="radio" prop="single">
                 <radio :checked.sync="form.single">Single</radio>
@@ -266,7 +277,8 @@
                     cascader: [],
                     transfer: this.getMockData(),
                     targetKeys1: this.getTargetKeys(),
-                    input: 1
+                    input: 1,
+                    textarea: ''
                 },
                 rules: {
                     mail: [
@@ -350,6 +362,14 @@
                     input: [
                         {
                             type: 'number', min: 1, max: 4
+                        }
+                    ],
+                    textarea: [
+                        {
+                            required: true, trigger: 'blur'
+                        },
+                        {
+                            type: 'string', min: 10
                         }
                     ]
                 }

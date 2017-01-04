@@ -217,3 +217,17 @@
         line-height: 30px;
     }
 }
+
+.@{form-item-prefix-cls}-error{
+    .@{select-prefix-cls}{
+        &-selection{
+            border: 1px solid @error-color;
+        }
+        &-arrow{
+            color: @error-color;
+        }
+        &-visible .@{select-prefix-cls}-selection{
+            .active-error;
+        }
+    }
+}

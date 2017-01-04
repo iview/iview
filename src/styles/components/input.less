@@ -43,3 +43,15 @@
 .@{input-prefix-cls}-group{
     .input-group(~"@{input-prefix-cls}");
 }
+
+.@{form-item-prefix-cls}-error{
+    .@{input-prefix-cls}{
+        .input-error;
+        &-icon{
+            color: @error-color;
+        }
+    }
+    .@{input-prefix-cls}-group{
+        .input-group-error;
+    }
+}
