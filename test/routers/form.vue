@@ -181,6 +181,7 @@
             </form-item>
             <form-item>
                 <i-button type="primary" @click="onSubmit('form')">提交</i-button>
+                <i-button type="ghost" @click="resetForm('form')">重置</i-button>
             </form-item>
         </i-form>
     </div>
@@ -386,6 +387,9 @@
                         return false;
                     }
                 });
+            },
+            resetForm (formName) {
+                this.$refs[formName].resetFields();
             },
             c (s) {
                 console.log(this.form.date)
