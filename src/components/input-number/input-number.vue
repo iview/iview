@@ -177,9 +177,9 @@
             setValue (val) {
                 this.$nextTick(() => {
                     this.value = val;
+                    this.$emit('on-change', val);
+                    this.$dispatch('on-form-change', val);
                 });
-
-                this.$emit('on-change', val);
             },
             focus () {
                 this.focused = true;

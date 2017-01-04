@@ -165,6 +165,9 @@
                     :render-format="render1"
                     @on-change="handleChange1"></Transfer>
             </form-item>
+            <form-item label="数字输入框" prop="input">
+                <Input-number :max="10" :min="1" :value.sync="form.input"></Input-number>
+            </form-item>
             <form-item>
                 <i-button type="primary" @click="onSubmit('form')">提交</i-button>
             </form-item>
@@ -262,7 +265,8 @@
                     date2: '',
                     cascader: [],
                     transfer: this.getMockData(),
-                    targetKeys1: this.getTargetKeys()
+                    targetKeys1: this.getTargetKeys(),
+                    input: 1
                 },
                 rules: {
                     mail: [
@@ -341,6 +345,11 @@
                     targetKeys1: [
                         {
                             type: 'array', min: 8, max: 10
+                        }
+                    ],
+                    input: [
+                        {
+                            type: 'number', min: 1, max: 4
                         }
                     ]
                 }
