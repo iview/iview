@@ -127,6 +127,11 @@ router.map({
         component: function (resolve) {
             require(['./routers/date.vue'], resolve);
         }
+    },
+    '/tree': {
+        component: function (resolve) {
+            require(['./routers/tree.vue'], resolve);
+        }
     }
 });
 

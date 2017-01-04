@@ -39,6 +39,7 @@ import Tooltip from './components/tooltip';
 import Transfer from './components/transfer';
 import { Row, Col } from './components/layout';
 import { Select, Option, OptionGroup } from './components/select';
+import Tree from './components/Tree';
 
 const iview = {
     Affix,
@@ -94,7 +95,8 @@ const iview = {
     TimelineItem: Timeline.Item,
     TimePicker,
     Tooltip,
-    Transfer
+    Transfer,
+    Tree
 };
 
 const install = function (Vue) {
