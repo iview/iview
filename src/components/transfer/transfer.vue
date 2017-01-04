@@ -172,6 +172,7 @@
 
                 this.$refs[opposite].toggleSelectAll(false);
                 this.$emit('on-change', newTargetKeys, direction, moveKeys);
+                this.$dispatch('on-form-change', newTargetKeys, direction, moveKeys);
             }
         },
         watch: {

@@ -1,5 +1,5 @@
 <template>
-    <div style="width: 400px">
+    <div style="width: 600px">
         <i-form v-ref:form :model="form" :rules="rules" :label-width="100" label-position="right">
             <form-item label="邮箱" prop="mail">
                 <i-input :value.sync="form.mail" placeholder="请输入邮箱">
@@ -158,6 +158,13 @@
             <form-item label="级联" prop="cascader">
                 <Cascader :data="data" :value.sync="form.cascader"></Cascader>
             </form-item>
+            <form-item label="穿梭框" prop="targetKeys1">
+                <Transfer
+                    :data="form.transfer"
+                    :target-keys="form.targetKeys1"
+                    :render-format="render1"
+                    @on-change="handleChange1"></Transfer>
+            </form-item>
             <form-item>
                 <i-button type="primary" @click="onSubmit('form')">提交</i-button>
             </form-item>
@@ -253,7 +260,9 @@
                     slider: [40, 50],
                     date: '',
                     date2: '',
-                    cascader: []
+                    cascader: [],
+                    transfer: this.getMockData(),
+                    targetKeys1: this.getTargetKeys()
                 },
                 rules: {
                     mail: [
@@ -328,6 +337,11 @@
                         {
                             type: 'array', required: true
                         }
+                    ],
+                    targetKeys1: [
+                        {
+                            type: 'array', min: 8, max: 10
+                        }
                     ]
                 }
             }
@@ -346,6 +360,32 @@
             },
             c (s) {
                 console.log(this.form.date)
+            },
+            getMockData () {
+                let mockData = [];
+                for (let i = 1; i <= 20; i++) {
+                    mockData.push({
+                        key: i.toString(),
+                        label: '内容' + i,
+                        description: '内容' + i + '的描述信息',
+                        disabled: Math.random() * 3 < 1
+                    });
+                }
+                return mockData;
+            },
+            getTargetKeys () {
+                return this.getMockData()
+                    .filter(() => Math.random() * 2 > 1)
+                    .map(item => item.key);
+            },
+            render1 (item) {
+                return item.label;
+            },
+            handleChange1 (newTargetKeys, direction, moveKeys) {
+                console.log(newTargetKeys);
+                console.log(direction);
+                console.log(moveKeys);
+                this.form.targetKeys1 = newTargetKeys;
             }
         }
     };

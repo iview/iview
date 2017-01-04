@@ -28,6 +28,14 @@
                 if (this.query === '') return;
                 this.query = '';
             }
+        },
+        events: {
+            'on-form-blur' () {
+                return false;
+            },
+            'on-form-change' () {
+                return false;
+            }
         }
     };
 </script>
