@@ -10,6 +10,7 @@
     color: @text-color;
     font-size: @font-size-base;
     position: relative;
+    line-height: normal;
 
     &-selection {
         display: block;
@@ -123,10 +124,11 @@
             height: @input-height-base - 2px;
             line-height: @input-height-base - 2px;
             color: @input-placeholder-color;
+            font-size: @font-size-small;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            padding-left: 8px;
+            padding-left: 4px;
             padding-right: 22px;
         }
     }
@@ -164,7 +166,7 @@
     &-multiple &-input{
         height: @input-height-base - 3px;
         line-height: @input-height-base;
-        padding: 0 0 0 6px;
+        padding: 0 0 0 4px;
     }
 
     &-not-found{

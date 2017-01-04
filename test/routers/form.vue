@@ -48,10 +48,96 @@
                         <Icon type="social-snapchat"></Icon>
                         <span>Snapchat</span>
                     </Checkbox>
+                    <Checkbox value="twitter">
+                        <Icon type="social-twitter"></Icon>
+                        <span>Twitter</span>
+                    </Checkbox>
+                    <Checkbox value="facebook">
+                        <Icon type="social-facebook"></Icon>
+                        <span>Facebook</span>
+                    </Checkbox>
+                    <Checkbox value="github">
+                        <Icon type="social-github"></Icon>
+                        <span>Github</span>
+                    </Checkbox>
+                    <Checkbox value="snapchat">
+                        <Icon type="social-snapchat"></Icon>
+                        <span>Snapchat</span>
+                    </Checkbox>
+                    <Checkbox value="twitter">
+                        <Icon type="social-twitter"></Icon>
+                        <span>Twitter</span>
+                    </Checkbox>
+                    <Checkbox value="facebook">
+                        <Icon type="social-facebook"></Icon>
+                        <span>Facebook</span>
+                    </Checkbox>
+                    <Checkbox value="github">
+                        <Icon type="social-github"></Icon>
+                        <span>Github</span>
+                    </Checkbox>
+                    <Checkbox value="snapchat">
+                        <Icon type="social-snapchat"></Icon>
+                        <span>Snapchat</span>
+                    </Checkbox>
+                    <Checkbox value="twitter">
+                        <Icon type="social-twitter"></Icon>
+                        <span>Twitter</span>
+                    </Checkbox>
+                    <Checkbox value="facebook">
+                        <Icon type="social-facebook"></Icon>
+                        <span>Facebook</span>
+                    </Checkbox>
+                    <Checkbox value="github">
+                        <Icon type="social-github"></Icon>
+                        <span>Github</span>
+                    </Checkbox>
+                    <Checkbox value="snapchat">
+                        <Icon type="social-snapchat"></Icon>
+                        <span>Snapchat</span>
+                    </Checkbox>
+                    <Checkbox value="twitter">
+                        <Icon type="social-twitter"></Icon>
+                        <span>Twitter</span>
+                    </Checkbox>
+                    <Checkbox value="facebook">
+                        <Icon type="social-facebook"></Icon>
+                        <span>Facebook</span>
+                    </Checkbox>
+                    <Checkbox value="github">
+                        <Icon type="social-github"></Icon>
+                        <span>Github</span>
+                    </Checkbox>
+                    <Checkbox value="snapchat">
+                        <Icon type="social-snapchat"></Icon>
+                        <span>Snapchat</span>
+                    </Checkbox>
+                    <Checkbox value="twitter">
+                        <Icon type="social-twitter"></Icon>
+                        <span>Twitter</span>
+                    </Checkbox>
+                    <Checkbox value="facebook">
+                        <Icon type="social-facebook"></Icon>
+                        <span>Facebook</span>
+                    </Checkbox>
+                    <Checkbox value="github">
+                        <Icon type="social-github"></Icon>
+                        <span>Github</span>
+                    </Checkbox>
+                    <Checkbox value="snapchat">
+                        <Icon type="social-snapchat"></Icon>
+                        <span>Snapchat</span>
+                    </Checkbox>
                 </Checkbox-group>
             </form-item>
             <form-item label="select" prop="select">
                 <i-select :model.sync="form.select" style="width:200px" clearable>
+                    <i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>
+                </i-select>
+                <i-select :model.sync="model11" filterable>
+                    <i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>
+                </i-select>
+                <i-select :model.sync="model12" filterable multiple>
                     <i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>
                 </i-select>
             </form-item>
@@ -64,12 +150,10 @@
                 <Slider :value.sync="form.slider" range></Slider>
             </form-item>
             <form-item label="日期" prop="date">
-                {{ form.date }}
                 <Time-picker :value.sync="form.date" type="time" placeholder="选择时间" style="width: 168px"></Time-picker>
             </form-item>
             <form-item label="两个日期" prop="date2">
-                {{ form.date2 | json}}
-                <Date-picker :value.sync="form.date2" type="daterange" placement="bottom-end" placeholder="选择日期" @on-change="c"></Date-picker>
+                <Date-picker :value.sync="form.date2" type="daterange" placement="bottom-start" placeholder="选择日期" @on-change="c"></Date-picker>
             </form-item>
             <form-item>
                 <i-button type="primary" @click="onSubmit('form')">提交</i-button>
