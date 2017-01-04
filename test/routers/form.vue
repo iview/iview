@@ -60,6 +60,9 @@
                     <i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>
                 </i-select>
             </form-item>
+            <form-item label="多选滑块" prop="slider">
+                <Slider :value.sync="form.slider" range></Slider>
+            </form-item>
             <form-item>
                 <i-button type="primary" @click="onSubmit('form')">提交</i-button>
             </form-item>
@@ -104,7 +107,8 @@
                     group: '',
                     checkboxgroup: [],
                     select: '',
-                    selectm: []
+                    selectm: [],
+                    slider: [40, 50]
                 },
                 rules: {
                     mail: [
@@ -141,12 +145,17 @@
                             required: true
                         }
                     ],
-                    selectm: [
+                    slider: [
                         {
-                            required: true, type: 'array'
-                        },
-                        {
-                            min: 2, type: 'array'
+                            type: 'array', len: 2,
+                            fields: {
+                                0: {
+                                    type: 'number', min: 30, 'message': '不能小于30'
+                                },
+                                1: {
+                                    type: 'number', max: 90, 'message': '不能大于90'
+                                }
+                            }
                         }
                     ]
                 }
