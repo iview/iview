@@ -310,8 +310,13 @@
                                 value: value,
                                 label: label
                             });
+                            this.$dispatch('on-form-change', {
+                                value: value,
+                                label: label
+                            });
                         } else {
                             this.$emit('on-change', value);
+                            this.$dispatch('on-form-change', value);
                         }
                     }
                 }
@@ -340,8 +345,10 @@
                     if (!init) {
                         if (this.labelInValue) {
                             this.$emit('on-change', hybridValue);
+                            this.$dispatch('on-form-change', hybridValue);
                         } else {
                             this.$emit('on-change', value);
+                            this.$dispatch('on-form-change', value);
                         }
                     }
                 }

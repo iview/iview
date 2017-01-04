@@ -50,6 +50,16 @@
                     </Checkbox>
                 </Checkbox-group>
             </form-item>
+            <form-item label="select" prop="select">
+                <i-select :model.sync="form.select" style="width:200px" clearable>
+                    <i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>
+                </i-select>
+            </form-item>
+            <form-item label="select多选" prop="selectm">
+                <i-select :model.sync="form.selectm" multiple style="width:260px">
+                    <i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>
+                </i-select>
+            </form-item>
             <form-item>
                 <i-button type="primary" @click="onSubmit('form')">提交</i-button>
             </form-item>
@@ -61,12 +71,40 @@
         props: {},
         data () {
             return {
+                cityList: [
+                    {
+                        value: 'beijing',
+                        label: '北京市'
+                    },
+                    {
+                        value: 'shanghai',
+                        label: '上海市'
+                    },
+                    {
+                        value: 'shenzhen',
+                        label: '深圳市'
+                    },
+                    {
+                        value: 'hangzhou',
+                        label: '杭州市'
+                    },
+                    {
+                        value: 'nanjing',
+                        label: '南京市'
+                    },
+                    {
+                        value: 'chongqing',
+                        label: '重庆市'
+                    }
+                ],
                 form: {
                     mail: '',
                     passwd: '',
                     single: false,
                     group: '',
-                    checkboxgroup: []
+                    checkboxgroup: [],
+                    select: '',
+                    selectm: []
                 },
                 rules: {
                     mail: [
@@ -96,6 +134,19 @@
                         },
                         {
                             required: true, message: '至多选择3个', max: 3, type: 'array'
+                        }
+                    ],
+                    select: [
+                        {
+                            required: true
+                        }
+                    ],
+                    selectm: [
+                        {
+                            required: true, type: 'array'
+                        },
+                        {
+                            min: 2, type: 'array'
                         }
                     ]
                 }
