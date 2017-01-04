@@ -94,6 +94,7 @@
                     this.$parent.change(this.model);
                 } else {
                     this.$emit('on-change', this.checked);
+                    this.$dispatch('on-form-change', this.checked);
                 }
             },
             updateModel () {

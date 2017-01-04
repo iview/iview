@@ -30,6 +30,26 @@
                     </Radio>
                 </Radio-group>
             </form-item>
+            <form-item label="checkbox-g" prop="checkboxgroup">
+                <Checkbox-group :model.sync="form.checkboxgroup">
+                    <Checkbox value="twitter">
+                        <Icon type="social-twitter"></Icon>
+                        <span>Twitter</span>
+                    </Checkbox>
+                    <Checkbox value="facebook">
+                        <Icon type="social-facebook"></Icon>
+                        <span>Facebook</span>
+                    </Checkbox>
+                    <Checkbox value="github">
+                        <Icon type="social-github"></Icon>
+                        <span>Github</span>
+                    </Checkbox>
+                    <Checkbox value="snapchat">
+                        <Icon type="social-snapchat"></Icon>
+                        <span>Snapchat</span>
+                    </Checkbox>
+                </Checkbox-group>
+            </form-item>
             <form-item>
                 <i-button type="primary" @click="onSubmit('form')">提交</i-button>
             </form-item>
@@ -45,7 +65,8 @@
                     mail: '',
                     passwd: '',
                     single: false,
-                    group: ''
+                    group: '',
+                    checkboxgroup: []
                 },
                 rules: {
                     mail: [
@@ -67,6 +88,14 @@
                     group: [
                         {
                             required: true, message: '请单选组'
+                        }
+                    ],
+                    checkboxgroup: [
+                        {
+                            required: true, message: '至少选择2个', min: 2, type: 'array',
+                        },
+                        {
+                            required: true, message: '至多选择3个', max: 3, type: 'array'
                         }
                     ]
                 }
