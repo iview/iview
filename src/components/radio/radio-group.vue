@@ -9,6 +9,7 @@
     const prefixCls = 'ivu-radio-group';
 
     export default {
+        name: 'radioGroup',
         props: {
             model: {
                 type: [String, Number],
@@ -51,6 +52,7 @@
                 this.model = data.value;
                 this.updateModel();
                 this.$emit('on-change', data.value);
+                this.$dispatch('on-form-change', data.value);
             }
         },
         watch: {

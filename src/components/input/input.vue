@@ -140,9 +140,11 @@
             },
             handleBlur () {
                 this.$emit('on-blur');
+                this.$dispatch('on-form-blur', this.value);
             },
             handleChange (event) {
                 this.$emit('on-change', event);
+                this.$dispatch('on-form-change', this.value);
             },
             resizeTextarea () {
                 const autosize = this.autosize;

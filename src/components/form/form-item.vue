@@ -219,9 +219,8 @@
                             return false;
                         }
                     });
-                    // todo
-//                    this.$on('el.form.blur', this.onFieldBlur);
-//                    this.$on('el.form.change', this.onFieldChange);
+                    this.$on('on-form-blur', this.onFieldBlur);
+                    this.$on('on-form-change', this.onFieldChange);
                 }
             }
         },
