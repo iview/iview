@@ -184,6 +184,7 @@
                     }
                 });
                 this.updateValue(val);
+                this.$emit('on-input', this.value);
             }
         },
         methods: {
