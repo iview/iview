@@ -63,6 +63,14 @@
             <form-item label="多选滑块" prop="slider">
                 <Slider :value.sync="form.slider" range></Slider>
             </form-item>
+            <form-item label="日期" prop="date">
+                {{ form.date }}
+                <Time-picker :value.sync="form.date" type="time" placeholder="选择时间" style="width: 168px"></Time-picker>
+            </form-item>
+            <form-item label="两个日期" prop="date2">
+                {{ form.date2 | json}}
+                <Date-picker :value.sync="form.date2" type="daterange" placement="bottom-end" placeholder="选择日期" @on-change="c"></Date-picker>
+            </form-item>
             <form-item>
                 <i-button type="primary" @click="onSubmit('form')">提交</i-button>
             </form-item>
@@ -108,7 +116,9 @@
                     checkboxgroup: [],
                     select: '',
                     selectm: [],
-                    slider: [40, 50]
+                    slider: [40, 50],
+                    date: '',
+                    date2: ''
                 },
                 rules: {
                     mail: [
@@ -157,6 +167,27 @@
                                 }
                             }
                         }
+                    ],
+                    date: [
+                        {
+                            required: true
+                        },
+                        {
+                            type: 'date'
+                        }
+                    ],
+                    date2: [
+                        {
+                            type: 'array', len: 2,
+                            fields: {
+                                0: {
+                                    type: 'date', required: true
+                                },
+                                1: {
+                                    type: 'date', required: true
+                                }
+                            }
+                        }
                     ]
                 }
             }
@@ -172,6 +203,9 @@
                         return false;
                     }
                 });
+            },
+            c (s) {
+                console.log(this.form.date)
             }
         }
     };

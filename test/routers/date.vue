@@ -1,10 +1,11 @@
 <template>
+    {{value1}} -- {{ value2 }}
     <row>
         <i-col span="12">
-            <Time-picker :value="val" type="time" placeholder="选择时间" style="width: 168px"></Time-picker>
+            <Date-picker :value.sync="value1" format="yyyy年MM月dd日" type="date" placeholder="选择日期" style="width: 200px"></Date-picker>
         </i-col>
         <i-col span="12">
-            <Time-picker type="timerange" placement="bottom-end" placeholder="选择时间" style="width: 168px"></Time-picker>
+            <Date-picker :value.sync="value2" format="yyyy/MM/dd" type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></Date-picker>
         </i-col>
     </row>
 </template>
@@ -12,7 +13,8 @@
     export default {
         data () {
             return {
-                val: new Date
+                value1: '2016-01-01',
+                value2: ['2016-01-01', '2016-02-15']
             }
         }
     }
