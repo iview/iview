@@ -10,6 +10,30 @@
       @on-current-change="onCurrentChange"
       @on-dblclick="onDblclick">
     </i-table>
+    <br/>
+    <i-table
+      :columns="columns6"
+      :data="[]">
+    </i-table>
+    <br/>
+    <i-table
+      :columns="columns6"
+      size="small"
+      :data="[]">
+    </i-table>
+    <br/>
+    <i-table
+      :columns="columns6"
+      size="large"
+      :data="data6">
+    </i-table>
+    <br/>
+    No Prompt
+    <i-table
+      :columns="columns6"
+      empty-text=""
+      :data="[]">
+    </i-table>
 </template>
 <script>
     export default {
@@ -108,6 +132,7 @@
                        longText: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
                    }
                 ],
+                data6: [],
                 currentRow: null
             }
         },
@@ -132,6 +157,11 @@
             onDblclick (data) {
                 window.alert('Double Click ' + data.name)
             }
+        },
+        ready () {
+            setTimeout(() => {
+                this.data6 = this.data5
+            }, 1000)
         }
     }
 </script>
