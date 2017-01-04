@@ -141,6 +141,7 @@
             emitValue (val, oldVal) {
                 if (JSON.stringify(val) !== oldVal) {
                     this.$emit('on-change', this.value, JSON.parse(JSON.stringify(this.selected)));
+                    this.$dispatch('on-form-change', this.value, JSON.parse(JSON.stringify(this.selected)));
                 }
             }
         },
@@ -168,6 +169,12 @@
                 if (lastValue && !fromInit) {
                     this.handleClose();
                 }
+            },
+            'on-form-blur' () {
+                return false;
+            },
+            'on-form-change' () {
+                return false;
             }
         },
         watch: {
