@@ -50,6 +50,7 @@
 
                 this.checked = !this.checked;
                 this.$emit('on-change', this.checked);
+                this.$dispatch('on-form-change', this.checked);
             }
         }
     };
