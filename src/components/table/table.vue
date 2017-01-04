@@ -65,6 +65,19 @@
                         :obj-data="objData"></table-body>
                 </div>
             </div>
+            <div
+                :class="[prefixCls + '-tip']"
+                v-show="(!!noDataText && (!data || data.length === 0)) || (!!noFilteredDataText && (!rebuildData || rebuildData.length === 0))">
+                <table cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td>
+                              {{{!data || data.length === 0 ? noDataText : noFilteredDataText}}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" v-el:footer><slot name="footer"></slot></div>
         </div>
     </div>
@@ -127,6 +140,14 @@
             },
             content: {
                 type: Object
+            },
+            noDataText: {
+                type: String,
+                default: '无数据'
+            },
+            noFilteredDataText: {
+                type: String,
+                default: '无筛选结果'
             }
         },
         data () {

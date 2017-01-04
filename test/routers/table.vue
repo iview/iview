@@ -5,6 +5,66 @@
     <i-table
       border
       :columns="columns6"
+      width="500"
+      :data="[]"
+      :highlight-row="true"
+      @on-current-change="onCurrentChange"
+      @on-dblclick="onDblclick">
+    </i-table>
+
+    <br/>
+
+    <i-table
+      border
+      :columns="columns7"
+      :data="[]"
+      no-data-text="No Data"
+      :highlight-row="true"
+      @on-current-change="onCurrentChange"
+      @on-dblclick="onDblclick">
+    </i-table>
+
+    <br/>
+
+    <i-table
+      border
+      :columns="columns7"
+      :data="[]"
+      size="small"
+      :highlight-row="true"
+      @on-current-change="onCurrentChange"
+      @on-dblclick="onDblclick">
+    </i-table>
+
+    <br/>
+
+    <i-table
+      border
+      :columns="columns7"
+      :data="[]"
+      size="large"
+      :highlight-row="true"
+      @on-current-change="onCurrentChange"
+      @on-dblclick="onDblclick">
+    </i-table>
+
+    <br/>
+
+    <i-table
+      border
+      :columns="columns7"
+      :data="data5"
+      :highlight-row="true"
+      @on-current-change="onCurrentChange"
+      @on-dblclick="onDblclick">
+    </i-table>
+
+    <br/>
+
+    <i-table
+      border
+      :columns="columns6"
+      width="500"
       :data="data5"
       :highlight-row="true"
       @on-current-change="onCurrentChange"
@@ -19,19 +79,24 @@
                     {
                         type: 'selection',
                         width: 60,
-                        align: 'center'
+                        align: 'center',
+                        width: 100
                     },
                     {
                         title: '日期',
-                        key: 'date'
+                        key: 'date',
+                        fixed: 'left',
+                        width: 100
                     },
                     {
                         title: '姓名',
-                        key: 'name'
+                        key: 'name',
+                        width: 100
                     },
                     {
                         title: '年龄',
                         key: 'age',
+                        width: 100,
                         filters: [
                             {
                                 label: '大于25岁',
@@ -50,6 +115,49 @@
                                 return row.age < 25;
                             }
                         }
+                    },
+                    {
+                        title: '地址',
+                        key: 'address',
+                        width: 100,
+                        filters: [
+                            {
+                                label: '北京',
+                                value: '北京'
+                            },
+                            {
+                                label: '上海',
+                                value: '上海'
+                            },
+                            {
+                                label: '深圳',
+                                value: '深圳'
+                            }
+                        ],
+                        filterMethod (value, row) {
+                            return row.address.indexOf(value) > -1;
+                        }
+                    },
+                    {
+                      title: '长文本',
+                      key: 'longText',
+                      width: 100,
+                      ellipsis: false
+                    }
+                ],
+                columns7: [
+                    {
+                        type: 'selection',
+                        width: 60,
+                        align: 'center'
+                    },
+                    {
+                        title: '日期',
+                        key: 'date'
+                    },
+                    {
+                        title: '姓名',
+                        key: 'name'
                     },
                     {
                         title: '地址',
@@ -98,13 +206,6 @@
                        age: 30,
                        address: '上海市浦东新区世纪大道',
                        date: '2016-10-02',
-                       longText: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-                   },
-                   {
-                       name: '周小伟',
-                       age: 26,
-                       address: '深圳市南山区深南大道',
-                       date: '2016-10-04',
                        longText: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
                    }
                 ],
