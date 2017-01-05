@@ -4,7 +4,9 @@
     }
 </style>
 <template>
-    <i-table width="550" height="200" border :columns="columns2" :data="data4"></i-table>
+    <i-table border :columns="columns1" :data="data1"></i-table>
+    <i-table border height="200" :columns="columns1" :data="data2"></i-table>
+    <!--<i-table width="550" height="200" border :columns="columns2" :data="data4"></i-table>-->
     <!--<i-button @click="changeFilter">改变filter</i-button>-->
     <!--<span v-if="currentRow !== null">Current Row: {{currentRow.name}}</span>-->
     <!--<Switch size="small" @on-change="switchCellEllipsis"></Switch> Ellipsis-->

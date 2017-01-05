@@ -1,5 +1,5 @@
 <template>
-    <table cellspacing="0" cellpadding="0" border="0" :style="style">
+    <table cellspacing="0" cellpadding="0" border="0" :style="styles">
         <colgroup>
             <col v-for="column in columns" :width="setCellWidth(column, $index, true)">
         </colgroup>
@@ -75,6 +75,12 @@
             }
         },
         computed: {
+            styles () {
+                const style = Object.assign({}, this.style);
+                const width = this.$parent.bodyHeight === 0 ? parseInt(this.style.width) : parseInt(this.style.width) + this.$parent.scrollBarWidth;
+                style.width = `${width}px`;
+                return style;
+            },
             isSelectAll () {
                 let isSelectAll = true;
                 if (!this.data.length) isSelectAll = false;
