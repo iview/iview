@@ -85,7 +85,7 @@
 <script>
     import tableHead from './table-head.vue';
     import tableBody from './table-body.vue';
-    import { oneOf, getStyle, deepCopy } from '../../utils/assist';
+    import { oneOf, getStyle, deepCopy, getScrollBarSize } from '../../utils/assist';
     import Csv from '../../utils/csv';
     import ExportCsv from './export-csv';
     const prefixCls = 'ivu-table';
@@ -143,11 +143,11 @@
             },
             noDataText: {
                 type: String,
-                default: '无数据'
+                default: '暂无数据'
             },
             noFilteredDataText: {
                 type: String,
-                default: '无筛选结果'
+                default: '暂无筛选结果'
             }
         },
         data () {
@@ -162,7 +162,8 @@
                 cloneColumns: this.makeColumns(),
                 showSlotHeader: true,
                 showSlotFooter: true,
-                bodyHeight: 0
+                bodyHeight: 0,
+                scrollBarWidth: getScrollBarSize()
             };
         },
         computed: {
@@ -189,13 +190,19 @@
             },
             styles () {
                 let style = {};
-                if (this.height) style.height = `${this.height}px`;
+                if (this.height) {
+                    const height = (this.isLeftFixed || this.isRightFixed) ? parseInt(this.height) + this.scrollBarWidth : parseInt(this.height);
+                    style.height = `${height}px`;
+                }
                 if (this.width) style.width = `${this.width}px`;
                 return style;
             },
             tableStyle () {
                 let style = {};
-                if (this.tableWidth !== 0) style.width = `${this.tableWidth}px`;
+                if (this.tableWidth !== 0) {
+                    const width = this.bodyHeight === 0 ? this.tableWidth : this.tableWidth - this.scrollBarWidth;
+                    style.width = `${width}px`;
+                }
                 return style;
             },
             fixedTableStyle () {
@@ -213,17 +220,24 @@
                 this.rightFixedColumns.forEach((col) => {
                     if (col.fixed && col.fixed === 'right') width += col._width;
                 });
+                width += this.scrollBarWidth;
                 style.width = `${width}px`;
                 return style;
             },
             bodyStyle () {
                 let style = {};
-                if (this.bodyHeight !== 0) style.height = `${this.bodyHeight}px`;
+                if (this.bodyHeight !== 0) {
+                    // add a height to resolve scroll bug when browser has a scrollBar in fixed type and height prop
+                    const height = (this.isLeftFixed || this.isRightFixed) ? this.bodyHeight + this.scrollBarWidth : this.bodyHeight;
+                    style.height = `${height}px`;
+                }
                 return style;
             },
             fixedBodyStyle () {
                 let style = {};
-                if (this.bodyHeight !== 0) style.height = `${this.bodyHeight - 1}px`;
+                if (this.bodyHeight !== 0) {
+                    style.height = this.scrollBarWidth > 0 ? `${this.bodyHeight}px` : `${this.bodyHeight - 1}px`;
+                }
                 return style;
             },
             leftFixedColumns () {
