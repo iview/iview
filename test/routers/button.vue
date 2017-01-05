@@ -1,6 +1,19 @@
 <template>
     <h4>基本</h4>
     <br><br>
+    <div style="background: #f60">
+        <input-number></input-number>
+        <Date-picker type="date" placeholder="选择日期" style="width: 100px;display: inline-block"></Date-picker>
+        <i-input style="width: 100px"></i-input>
+        <i-input type="text" placeholder="Username" style="width: 100px">
+            <Icon type="ios-person-outline" slot="prepend"></Icon>
+        </i-input>
+        <i-button type="primary">按钮</i-button>
+        <i-select :model.sync="model1" style="width:200px">
+            <i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>
+        </i-select>
+    </div>
+    <br><br>
     <i-button type="success">按钮</i-button>
     <i-button type="warning">按钮</i-button>
     <i-button type="error">按钮</i-button>
@@ -244,27 +257,7 @@
     </Button-group>
 </template>
 <script>
-    import { iButton, Icon, Input, Switch, Radio, Checkbox, InputNumber, Row, Col, Page } from 'iview';
-    const ButtonGroup = iButton.Group;
-    const RadioGroup = Radio.Group;
-    const CheckboxGroup = Checkbox.Group;
-
     export default {
-        components: {
-            iButton,
-            ButtonGroup,
-            Icon,
-            iInput: Input,
-            Switch,
-            Radio,
-            RadioGroup,
-            Checkbox,
-            CheckboxGroup,
-            InputNumber,
-            Row,
-            iCol: Col,
-            Page
-        },
         props: {
 
         },
@@ -272,7 +265,34 @@
             return {
                 loading: false,
                 loading2: false,
-                model6: ''
+                model6: '',
+                cityList: [
+                    {
+                        value: 'beijing',
+                        label: '北京市'
+                    },
+                    {
+                        value: 'shanghai',
+                        label: '上海市'
+                    },
+                    {
+                        value: 'shenzhen',
+                        label: '深圳市'
+                    },
+                    {
+                        value: 'hangzhou',
+                        label: '杭州市'
+                    },
+                    {
+                        value: 'nanjing',
+                        label: '南京市'
+                    },
+                    {
+                        value: 'chongqing',
+                        label: '重庆市'
+                    }
+                ],
+                model1: ''
             }
         },
         methods: {

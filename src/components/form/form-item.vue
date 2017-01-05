@@ -57,7 +57,7 @@
                 type: [Object, Array]
             },
             error: {
-                type: Boolean
+                type: String
             },
             validateStatus: {
                 type: Boolean
