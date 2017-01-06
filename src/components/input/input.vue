@@ -12,6 +12,7 @@
                 :readonly="readonly"
                 :name="name"
                 v-model="value"
+                :number="number"
                 @keyup.enter="handleEnter"
                 @focus="handleFocus"
                 @blur="handleBlur"
@@ -87,6 +88,10 @@
             },
             name: {
                 type: String
+            },
+            number: {
+                type: Boolean,
+                default: false
             }
         },
         data () {

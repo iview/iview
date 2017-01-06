@@ -1,5 +1,23 @@
 <template>
     <div style="width: 600px">
+        <i-form v-ref:form-custom :model="formCustom" :rules="ruleCustom" :label-width="80">
+            <Form-item label="密码" prop="passwd">
+                <i-input type="password" :value.sync="formCustom.passwd"></i-input>
+            </Form-item>
+            <Form-item label="确认密码" prop="passwdCheck">
+                <i-input type="password" :value.sync="formCustom.passwdCheck"></i-input>
+            </Form-item>
+            <Form-item label="年龄" prop="age">
+                <i-input type="text" :value.sync="formCustom.age"></i-input>
+            </Form-item>
+            <Form-item>
+                <i-button type="primary" @click="handleSubmit('formCustom')">提交</i-button>
+                <i-button type="ghost" @click="handleReset('formCustom')" style="margin-left: 8px">重置</i-button>
+            </Form-item>
+        </i-form>
+
+
+
         <i-form v-ref:form :model="form" :rules="rules" :label-width="100" label-position="right">
             <form-item label="邮箱" prop="mail">
                 <i-input :value.sync="form.mail" placeholder="请输入邮箱">
@@ -190,6 +208,42 @@
     export default {
         props: {},
         data () {
+            const validatePass = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入密码'));
+                } else {
+                    if (this.formCustom.passwdCheck !== '') {
+                        this.$refs.formCustom.validateField('passwdCheck');
+                    }
+                    callback();
+                }
+            };
+            const validatePassCheck = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请再次输入密码'));
+                } else if (value !== this.formCustom.passwd) {
+                    callback(new Error('两次输入密码不一致!'));
+                } else {
+                    callback();
+                }
+            };
+            const validateAge = (rule, value, callback) => {
+                if (!value) {
+                    return callback(new Error('年龄不能为空'));
+                }
+                setTimeout(() => {
+                    if (!Number.isInteger(value)) {
+                        callback(new Error('请输入数字值'));
+                    } else {
+                        if (value < 18) {
+                            callback(new Error('必须年满18岁'));
+                        } else {
+                            callback();
+                        }
+                    }
+                }, 1000);
+            };
+
             return {
                 data: [{
                     value: 'beijing',
@@ -373,6 +427,22 @@
                             type: 'string', min: 10
                         }
                     ]
+                },
+                formCustom: {
+                    passwd: '',
+                    passwdCheck: '',
+                    age: ''
+                },
+                ruleCustom: {
+                    passwd: [
+                        { validator: validatePass, trigger: 'blur' }
+                    ],
+                    passwdCheck: [
+                        { validator: validatePassCheck, trigger: 'blur' }
+                    ],
+                    age: [
+                        { validator: validateAge, trigger: 'blur' }
+                    ]
                 }
             }
         },
@@ -419,6 +489,18 @@
                 console.log(direction);
                 console.log(moveKeys);
                 this.form.targetKeys1 = newTargetKeys;
+            },
+            handleSubmit (name) {
+                this.$refs[name].validate((valid) => {
+                    if (valid) {
+                        this.$Message.success('提交成功!');
+                    } else {
+                        this.$Message.error('表单验证失败!');
+                    }
+                })
+            },
+            handleReset (name) {
+                this.$refs[name].resetFields();
             }
         }
     };
