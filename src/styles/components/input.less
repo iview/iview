@@ -19,6 +19,9 @@
         right: 0;
         z-index: 1;
     }
+    &-icon-validate{
+        display: none;
+    }
 
     &-icon + &{
         padding-right: 32px;
@@ -54,5 +57,12 @@
     }
     .@{input-prefix-cls}-group{
         .input-group-error;
+    }
+}
+.@{form-item-prefix-cls}-validating{
+    .@{input-prefix-cls}{
+        &-icon-validate{
+            display: inline-block;
+        }
     }
 }

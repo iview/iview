@@ -8,7 +8,7 @@
                 <i-input type="password" :value.sync="formCustom.passwdCheck"></i-input>
             </Form-item>
             <Form-item label="年龄" prop="age">
-                <i-input type="text" :value.sync="formCustom.age"></i-input>
+                <i-input type="text" :value.sync="formCustom.age" number></i-input>
             </Form-item>
             <Form-item>
                 <i-button type="primary" @click="handleSubmit('formCustom')">提交</i-button>
