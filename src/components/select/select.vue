@@ -447,7 +447,7 @@
                         if (model !== '') {
                             this.findChild((child) => {
                                 if (child.value === model) {
-                                    this.query = child.searchLabel;
+                                    this.query = child.label === undefined ? child.searchLabel : child.label;
                                 }
                             });
                         }
@@ -574,7 +574,7 @@
                         if (this.filterable) {
                             this.findChild((child) => {
                                 if (child.value === value) {
-                                    this.query = child.searchLabel;
+                                    this.query = child.label === undefined ? child.searchLabel : child.label;
                                 }
                             });
                         }
