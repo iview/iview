@@ -1,12 +1,12 @@
 <template>
-  <li class="">
-    <Icon :class="[prefixCls + '-switcher',{invisible:!(item.children&&item.children.length)}]" @click="toggleOpen"
+  <li class="" @drop="dropHandle" @dragover="dragoverHandle">
+    <Icon :class="switcherClasses" @click="toggleOpen"
           type="arrow-right-b" size="12"></Icon>
-    <span :class="[prefixCls + '-checkbox',prefixCls + '-checkbox-checked']">
-      <span :class="[prefixCls + '-checkbox-inner']"></span>
+    <span :class="checkboxClasses">
+      <span :class="checkboxInnerClasses" @click="toggleChecked"></span>
     </span>
-    <a title="leaf" :class="[prefixCls + '-node-content-wrapper',prefixCls + '-node-content-wrapper-normal']">
-      <span class="[prefixCls-'title']">{{item.title}}</span>
+    <a title="leaf" draggable="true" :class="nodeContentClass">
+      <span :class="titleClassed">{{item.title}}</span>
     </a>
     <template v-if="item.children&&item.children.length">
       <ul v-show="open">
@@ -23,15 +23,72 @@
   export default{
     name: 'node'
     , props: ['item']
+    , computed: {
+      switcherClasses () {
+        return [
+          `${prefixCls}-switcher`,
+          {
+            [`invisible`]: !(this.item.children && this.item.children.length)
+          }
+        ];
+      },
+      checkboxClasses () {
+        return [
+          `${prefixCls}-checkbox`,
+          {
+            [`${prefixCls}-checkbox-checked`]: this.checked
+          }
+        ];
+      },
+      checkboxInnerClasses () {
+        return `${prefixCls}-checkbox-inner`;
+      },
+      nodeContentClass () {
+        return [
+          `${prefixCls}-node-content-wrapper`,
+          `${prefixCls}-node-content-wrapper-normal`
+        ];
+      },
+      titleClassed () {
+        return `${prefixCls}-title`;
+      }
+    }
     , data(){
       return {
         prefixCls: prefixCls,
-        open: (()=> {
-          return false;
-        })(),
-        toggleOpen: ()=> {
-          this.open = !this.open;
+        open: false,
+        checked: false
+      }
+    },
+    methods: {
+      toggleOpen () {
+        this.open = !this.open;
+      },
+      toggleChecked(){
+        var children;
+        this.checked = !this.checked;
+        children = this.item.children;
+        if (children && children.length) {
+          this.$broadcast('toggleTo', this.checked);
         }
+      },
+      checkChildren(){
+        var children = this.children;
+        children.forEach(function (item, index) {
+          item.checked = true;
+        });
+      },
+      dropHandle(){
+        console.log(arguments);
+      },
+      dragoverHandle(e){
+        e.preventDefault();
+        console.log(e);
+      }
+    },
+    events: {
+      toggleTo: function (checked) {
+        this.checked = checked;
       }
     }
   }
