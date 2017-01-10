@@ -1,10 +1,19 @@
 <template>
-    <Cascader :data="data" change-on-select></Cascader>
+    <div v-for="item in list">
+        <Cascader :data="data" change-on-select :render-format="format"></Cascader>
+    </div>
+    <i-button @click="add">add</i-button>
+    <i-button @click="remove">remove</i-button>
 </template>
 <script>
     export default {
         data () {
             return {
+                list: [
+                    {
+                        a: 1
+                    }
+                ],
                 data: [{
                     value: 'beijing',
                     label: '北京',
@@ -32,7 +41,7 @@
                             children: [
                                 {
                                     value: 'fuzimiao',
-                                    label: '夫子庙',
+                                    label: '夫子庙'
                                 }
                             ]
                         },
@@ -42,16 +51,29 @@
                             children: [
                                 {
                                     value: 'zhuozhengyuan',
-                                    label: '拙政园',
+                                    label: '拙政园'
                                 },
                                 {
                                     value: 'shizilin',
-                                    label: '狮子林',
+                                    label: '狮子林'
                                 }
                             ]
                         }
-                    ],
+                    ]
                 }]
+            }
+        },
+        methods: {
+            add () {
+                this.list.push({
+                    a: 2
+                })
+            },
+            remove () {
+                this.list.splice(0, 1);
+            },
+            format (labels) {
+                return labels.join(' - ');
             }
         }
     }
