@@ -87,7 +87,8 @@
                 prefixCls: prefixCls,
                 visible: false,
                 selected: [],
-                tmpSelected: []
+                tmpSelected: [],
+                updatingValue: false    // to fix set value in changeOnSelect type
             };
         },
         computed: {
@@ -162,6 +163,7 @@
                     });
 
                     if (!fromInit) {
+                        this.updatingValue = true;
                         this.value = newVal;
                         this.emitValue(this.value, oldVal);
                     }
@@ -186,7 +188,11 @@
                 }
             },
             value () {
-                this.updateSelected();
+                if (this.updatingValue) {
+                    this.updatingValue = false;
+                    return;
+                }
+                this.updateSelected(true);
             }
         }
     };
