@@ -16,6 +16,18 @@
     .ivu-table .table-address-col{
         background: #187;
     }
+    .ivu-table .class-cell-age{
+        background: #187;
+        color: #fff;
+    }
+    .ivu-table .class-cell-address{
+        background: #f60;
+        color: #fff;
+    }
+    .ivu-table .class-cell-name{
+        background: #2db7f5;
+        color: #fff;
+    }
 </style>
 <template>
     <i-table :row-class-name="rowClassName" :columns="columns1" :data="data1"></i-table>
@@ -26,28 +38,37 @@
             return {
                 columns1: [
                     {
+                        type: 'selection',
+                        width: 60,
+                        align: 'center'
+                    },
+                    {
                         title: '姓名',
                         key: 'name',
-                        fixed: 'right',
-                        className: 'table-name-col'
+//                        fixed: 'right',
+//                        className: 'table-name-col'
                     },
                     {
                         title: '年龄',
                         key: 'age',
-                        fixed: 'right',
-                        className: 'table-age-col'
+//                        fixed: 'right',
+//                        className: 'table-age-col'
                     },
                     {
                         title: '地址',
                         key: 'address',
-                        className: 'table-address-col'
+//                        className: 'table-address-col'
                     }
                 ],
                 data1: [
                     {
                         name: '王小明',
                         age: 18,
-                        address: '北京市朝阳区芍药居'
+                        address: '北京市朝阳区芍药居',
+                        cellClassName: {
+                            age: 'class-cell-age',
+                            address: 'class-cell-address'
+                        }
                     },
                     {
                         name: '张小刚',
@@ -57,7 +78,10 @@
                     {
                         name: '李小红',
                         age: 30,
-                        address: '上海市浦东新区世纪大道'
+                        address: '上海市浦东新区世纪大道',
+                        cellClassName: {
+                            name: 'class-cell-name'
+                        }
                     },
                     {
                         name: '周小伟',
