@@ -35,6 +35,7 @@
     import Dropdown from './dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
     import { oneOf, MutationObserver } from '../../utils/assist';
+    import { t } from '../../locale';
 
     const prefixCls = 'ivu-select';
 
@@ -60,7 +61,9 @@
             },
             placeholder: {
                 type: String,
-                default: '请选择'
+                default () {
+                    return t('i.select.placeholder');
+                }
             },
             filterable: {
                 type: Boolean,
@@ -80,7 +83,9 @@
             },
             notFoundText: {
                 type: String,
-                default: '无匹配数据'
+                default () {
+                    return t('i.select.noMatch');
+                }
             }
         },
         data () {
