@@ -21,7 +21,7 @@
                 <span
                     :class="[datePrefixCls + '-header-label']"
                     @click="showMonthPicker"
-                    v-show="currentView === 'date'">{{ month + 1 + '月' }}</span>
+                    v-show="currentView === 'date'">{{ monthLabel }}</span>
                 <span
                     :class="iconBtnCls('next', '-double')"
                     @click="nextYear"><Icon type="ios-arrow-right"></Icon></span>
@@ -85,6 +85,7 @@
     import Confirm from '../base/confirm.vue';
 
     import Mixin from './mixin';
+    import Locale from '../../../mixins/locale';
 
     import { initTimeDate } from '../util';
 
@@ -93,7 +94,7 @@
 
     export default {
         name: 'DatePicker',
-        mixins: [Mixin],
+        mixins: [ Mixin, Locale ],
         components: { Icon, DateTable, YearTable, MonthTable, TimePicker, Confirm },
         data () {
             return {
@@ -123,13 +124,18 @@
                 ];
             },
             yearLabel () {
+                const tYear = this.t('i.datepicker.year');
                 const year = this.year;
                 if (!year) return '';
                 if (this.currentView === 'year') {
                     const startYear = Math.floor(year / 10) * 10;
-                    return `${startYear}年 - ${startYear + 9}年`;
+                    return `${startYear}${tYear} - ${startYear + 9}${tYear}`;
                 }
-                return `${year}年`;
+                return `${year}${tYear}`;
+            },
+            monthLabel () {
+                const month = this.month + 1;
+                return this.t(`i.datepicker.month${month}`);
             }
         },
         watch: {

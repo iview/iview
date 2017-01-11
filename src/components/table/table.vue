@@ -86,6 +86,7 @@
     import tableHead from './table-head.vue';
     import tableBody from './table-body.vue';
     import { oneOf, getStyle, deepCopy, getScrollBarSize } from '../../utils/assist';
+    import { t } from '../../locale';
     import Csv from '../../utils/csv';
     import ExportCsv from './export-csv';
     const prefixCls = 'ivu-table';
@@ -143,11 +144,15 @@
             },
             noDataText: {
                 type: String,
-                default: '暂无数据'
+                default () {
+                    return t('i.table.noDataText');
+                }
             },
             noFilteredDataText: {
                 type: String,
-                default: '暂无筛选结果'
+                default () {
+                    return t('i.table.noFilteredDataText');
+                }
             }
         },
         data () {

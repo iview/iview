@@ -22,7 +22,7 @@
                     <span
                         :class="[datePrefixCls + '-header-label']"
                         @click="showMonthPicker('left')"
-                        v-show="leftCurrentView === 'date'">{{ leftMonth + 1 }} 月</span>
+                        v-show="leftCurrentView === 'date'">{{ leftMonthLabel }}</span>
                     <span
                         :class="iconBtnCls('next', '-double')"
                         @click="nextYear('left')"
@@ -72,7 +72,7 @@
                     <span
                         :class="[datePrefixCls + '-header-label']"
                         @click="showMonthPicker('right')"
-                        v-show="rightCurrentView === 'date'">{{ rightMonth + 1 }} 月</span>
+                        v-show="rightCurrentView === 'date'">{{ rightMonthLabel }}</span>
                     <span
                         :class="iconBtnCls('next', '-double')"
                         @click="nextYear('right')"><Icon type="ios-arrow-right"></Icon></span>
@@ -141,13 +141,14 @@
     import { toDate, prevMonth, nextMonth, initTimeDate } from '../util';
 
     import Mixin from './mixin';
+    import Locale from '../../../mixins/locale';
 
     const prefixCls = 'ivu-picker-panel';
     const datePrefixCls = 'ivu-date-picker';
 
     export default {
         name: 'DatePicker',
-        mixins: [Mixin],
+        mixins: [ Mixin, Locale ],
         components: { Icon, DateTable, YearTable, MonthTable, TimePicker, Confirm },
         data () {
             return {
@@ -195,19 +196,24 @@
                 }
             },
             leftYearLabel () {
+                const tYear = this.t('i.datepicker.year');
                 if (this.leftCurrentView === 'year') {
                     const year = this.leftTableYear;
                     if (!year) return '';
                     const startYear = Math.floor(year / 10) * 10;
-                    return `${startYear}年 - ${startYear + 9}年`;
+                    return `${startYear}${tYear} - ${startYear + 9}${tYear}`;
                 } else {
                     const year = this.leftCurrentView === 'month' ? this.leftTableYear : this.leftYear;
                     if (!year) return '';
-                    return `${year}年`;
+                    return `${year}${tYear}`;
                 }
             },
             leftMonth () {
                 return this.date.getMonth();
+            },
+            leftMonthLabel () {
+                const month = this.leftMonth + 1;
+                return this.t(`i.datepicker.month${month}`);
             },
             rightYear () {
                 return this.rightDate.getFullYear();
@@ -220,19 +226,24 @@
                 }
             },
             rightYearLabel () {
+                const tYear = this.t('i.datepicker.year');
                 if (this.rightCurrentView === 'year') {
                     const year = this.rightTableYear;
                     if (!year) return '';
                     const startYear = Math.floor(year / 10) * 10;
-                    return `${startYear}年 - ${startYear + 9}年`;
+                    return `${startYear}${tYear} - ${startYear + 9}${tYear}`;
                 } else {
                     const year = this.rightCurrentView === 'month' ? this.rightTableYear : this.rightYear;
                     if (!year) return '';
-                    return `${year}年`;
+                    return `${year}${tYear}`;
                 }
             },
             rightMonth () {
                 return this.rightDate.getMonth();
+            },
+            rightMonthLabel () {
+                const month = this.rightMonth + 1;
+                return this.t(`i.datepicker.month${month}`);
             },
             rightDate () {
                 const newDate = new Date(this.date);

@@ -4,7 +4,7 @@
             <div :class="[prefixCls + '-content', prefixCls + '-content-left']">
                 <div :class="[timePrefixCls + '-header']">
                     <template v-if="showDate">{{ visibleDate }}</template>
-                    <template v-else>开始时间</template>
+                    <template v-else>{{ t('i.datepicker.startTime') }}</template>
                 </div>
                 <time-spinner
                     v-ref:time-spinner
@@ -22,7 +22,7 @@
             <div :class="[prefixCls + '-content', prefixCls + '-content-right']">
                 <div :class="[timePrefixCls + '-header']">
                     <template v-if="showDate">{{ visibleDateEnd }}</template>
-                    <template v-else>结束时间</template>
+                    <template v-else>{{ t('i.datepicker.endTime') }}</template>
                 </div>
                 <time-spinner
                     v-ref:time-spinner-end
@@ -49,6 +49,7 @@
     import Confirm from '../base/confirm.vue';
 
     import Mixin from './mixin';
+    import Locale from '../../../mixins/locale';
 
     import { initTimeDate, toDate, formatDate } from '../util';
 
@@ -56,7 +57,7 @@
     const timePrefixCls = 'ivu-time-picker';
 
     export default {
-        mixins: [Mixin],
+        mixins: [ Mixin, Locale ],
         components: { TimeSpinner, Confirm },
         data () {
             return {
@@ -95,11 +96,17 @@
             },
             visibleDate () {
                 const date = this.date || initTimeDate();
-                return `${date.getFullYear()}年 ${date.getMonth() + 1}月`;
+                const tYear = this.t('i.datepicker.year');
+                const month = date.getMonth() + 1;
+                const tMonth = this.t(`i.datepicker.month${month}`);
+                return `${date.getFullYear()}${tYear} ${tMonth}`;
             },
             visibleDateEnd () {
                 const date = this.dateEnd || initTimeDate();
-                return `${date.getFullYear()}年 ${date.getMonth() + 1}月`;
+                const tYear = this.t('i.datepicker.year');
+                const month = date.getMonth() + 1;
+                const tMonth = this.t(`i.datepicker.month${month}`);
+                return `${date.getFullYear()}${tYear} ${tMonth}`;
             }
         },
         watch: {

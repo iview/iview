@@ -1,19 +1,21 @@
 <template>
     <div :class="[prefixCls + '-confirm']">
         <span :class="timeClasses" v-if="showTime" @click="handleToggleTime">
-            <template v-if="isTime">选择日期</template>
-            <template v-else>选择时间</template>
+            <template v-if="isTime">{{ t('i.datepicker.selectDate') }}</template>
+            <template v-else>{{ t('i.datepicker.selectTime') }}</template>
         </span>
-        <i-button size="small" type="text" @click="handleClear">清空</i-button>
-        <i-button size="small" type="primary" @click="handleSuccess">确定</i-button>
+        <i-button size="small" type="text" @click="handleClear">{{ t('i.datepicker.clear') }}</i-button>
+        <i-button size="small" type="primary" @click="handleSuccess">{{ t('i.datepicker.ok') }}</i-button>
     </div>
 </template>
 <script>
     import iButton from '../../button/button.vue';
+    import Locale from '../../../mixins/locale';
 
     const prefixCls = 'ivu-picker';
 
     export default {
+        mixins: [ Locale ],
         components: { iButton },
         props: {
             showTime: false,

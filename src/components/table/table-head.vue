@@ -29,15 +29,15 @@
                                         </checkbox-group>
                                     </div>
                                     <div :class="[prefixCls + '-filter-footer']">
-                                        <i-button type="text" size="small" :disabled="!column._filterChecked.length" @click="handleFilter($index)">筛选</i-button>
-                                        <i-button type="text" size="small" @click="handleReset($index)">重置</i-button>
+                                        <i-button type="text" size="small" :disabled="!column._filterChecked.length" @click="handleFilter($index)">{{ t('i.table.confirmFilter') }}</i-button>
+                                        <i-button type="text" size="small" @click="handleReset($index)">{{ t('i.table.resetFilter') }}</i-button>
                                     </div>
                                 </div>
                                 <div slot="content" :class="[prefixCls + '-filter-list']" v-else>
                                     <ul :class="[prefixCls + '-filter-list-single']">
                                         <li
                                             :class="itemAllClasses(column)"
-                                            @click="handleReset($index)">全部</li>
+                                            @click="handleReset($index)">{{ t('i.table.clearFilter') }}</li>
                                         <li
                                             :class="itemClasses(column, item)"
                                             v-for="item in column.filters"
@@ -58,9 +58,10 @@
     import Poptip from '../poptip/poptip.vue';
     import iButton from '../button/button.vue';
     import Mixin from './mixin';
+    import Locale from '../../mixins/locale';
 
     export default {
-        mixins: [ Mixin ],
+        mixins: [ Mixin, Locale ],
         components: { CheckboxGroup, Checkbox, Poptip, iButton },
         props: {
             prefixCls: String,
