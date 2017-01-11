@@ -172,7 +172,6 @@
                 const nav = this.navList[index];
                 if (nav.disabled) return;
                 this.activeKey = nav.key;
-                this.updateStatus();
                 this.$emit('on-click', nav.key);
             },
             handleRemove (index) {
@@ -205,6 +204,7 @@
         watch: {
             activeKey () {
                 this.updateBar();
+                this.updateStatus();
             }
         }
     };
