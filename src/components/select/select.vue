@@ -442,7 +442,7 @@
                     const model = this.model;
 
                     if (this.multiple) {
-                        //
+                        this.query = '';
                     } else {
                         if (model !== '') {
                             this.findChild((child) => {
@@ -450,6 +450,8 @@
                                     this.query = child.label === undefined ? child.searchLabel : child.label;
                                 }
                             });
+                        } else {
+                            this.query = '';
                         }
                     }
                 }, 300);
