@@ -82,7 +82,7 @@ Normal browsers and Internet Explorer 9+.
 iView is an MIT licensed open source project and completely free to use, but if it is helpful to you, you can buy me a coffee :)
 
 <p align="center">
-    <img width="200" src="https://raw.githubusercontent.com/iview/iview/master/assets/pay.png">
+    <img src="https://raw.githubusercontent.com/iview/iview/master/assets/pay.png">
 </p>
 
 # We have been in developing, please pay attention to the iView.
