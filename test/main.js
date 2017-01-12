@@ -5,10 +5,10 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import App from './app.vue';
 import iView from '../src/index';
-import locale from '../src/locale/lang/en-US';
+// import locale from '../src/locale/lang/en-US';
 
 Vue.use(VueRouter);
-Vue.use(iView, { locale });
+Vue.use(iView);
 
 // 开启debug模式
 Vue.config.debug = true;

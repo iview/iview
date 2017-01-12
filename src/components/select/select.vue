@@ -479,7 +479,7 @@
                 this.query = query;
             }
         },
-        ready () {
+        compiled () {
             if (!this.multiple && this.filterable && this.model) {
                 this.findChild((child) => {
                     if (this.model === child.value) {
