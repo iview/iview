@@ -3,6 +3,7 @@ import Modal from './modal.vue';
 import Icon from '../icon/icon.vue';
 import iButton from '../button/button.vue';
 import { camelcaseToHyphen } from '../../utils/assist';
+import { t } from '../../locale';
 
 const prefixCls = 'ivu-modal-confirm';
 
@@ -44,8 +45,8 @@ Modal.newInstance = properties => {
             body: '',
             iconType: '',
             iconName: '',
-            okText: '确定',
-            cancelText: '取消',
+            okText: t('i.modal.okText'),
+            cancelText: t('i.modal.cancelText'),
             showCancel: false,
             loading: false,
             buttonLoading: false

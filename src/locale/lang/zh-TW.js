@@ -55,6 +55,34 @@ export default {
                 m11: '11月',
                 m12: '12月'
             }
+        },
+        transfer: {
+            titles: {
+                source: '源列表',
+                target: '目的列表'
+            },
+            filterPlaceholder: '請輸入搜索內容',
+            notFoundText: '列表爲空'
+        },
+        modal: {
+            okText: '確定',
+            cancelText: '取消'
+        },
+        poptip: {
+            okText: '確定',
+            cancelText: '取消'
+        },
+        page: {
+            prev: '上壹頁',
+            next: '下壹頁',
+            total: '共',
+            item: '條',
+            items: '條',
+            prev5: '向前 5 頁',
+            next5: '向後 5 頁',
+            page: '條/頁',
+            goto: '跳至',
+            p: '頁'
         }
     }
 };

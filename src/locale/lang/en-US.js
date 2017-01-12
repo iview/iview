@@ -17,7 +17,7 @@ export default {
             startTime: 'Start Time',
             endTime: 'End Time',
             clear: 'Clear',
-            ok: 'Ok',
+            ok: 'OK',
             month: '',
             month1: 'January',
             month2: 'February',
@@ -55,6 +55,34 @@ export default {
                 m11: 'Nov',
                 m12: 'Dec'
             }
+        },
+        transfer: {
+            titles: {
+                source: 'Source',
+                target: 'Target'
+            },
+            filterPlaceholder: 'Search here',
+            notFoundText: 'Not Found'
+        },
+        modal: {
+            okText: 'OK',
+            cancelText: 'Cancel'
+        },
+        poptip: {
+            okText: 'OK',
+            cancelText: 'Cancel'
+        },
+        page: {
+            prev: 'Previous Page',
+            next: 'Next Page',
+            total: 'Total',
+            item: 'item',
+            items: 'items',
+            prev5: 'Previous 5 Pages',
+            next5: 'Next 5 Pages',
+            page: '/page',
+            goto: 'Goto',
+            p: ''
         }
     }
 };

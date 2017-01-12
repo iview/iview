@@ -40,6 +40,7 @@
     import iButton from '../button/button.vue';
     import clickoutside from '../../directives/clickoutside';
     import { oneOf } from '../../utils/assist';
+    import { t } from '../../locale';
 
     const prefixCls = 'ivu-poptip';
 
@@ -76,11 +77,15 @@
             },
             okText: {
                 type: String,
-                default: '确定'
+                default () {
+                    return t('i.poptip.okText');
+                }
             },
             cancelText: {
                 type: String,
-                default: '取消'
+                default () {
+                    return t('i.poptip.cancelText');
+                }
             }
         },
         data () {
