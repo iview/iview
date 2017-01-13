@@ -11,7 +11,8 @@
                     :columns-width="columnsWidth"
                     :data="rebuildData"></table-head>
             </div>
-            <div :class="[prefixCls + '-body']" :style="bodyStyle" v-el:body @scroll="handleBodyScroll">
+            <div :class="[prefixCls + '-body']" :style="bodyStyle" v-el:body @scroll="handleBodyScroll"
+                v-show="!((!!noDataText && (!data || data.length === 0)) || (!!noFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
                 <table-body
                     v-ref:tbody
                     :prefix-cls="prefixCls"
@@ -20,6 +21,19 @@
                     :data="rebuildData"
                     :columns-width="columnsWidth"
                     :obj-data="objData"></table-body>
+            </div>
+            <div
+                :class="[prefixCls + '-tip']"
+                v-else>
+                <table cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td :style="{ 'height': bodyStyle.height }">
+                              {{{!data || data.length === 0 ? noDataText : noFilteredDataText}}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div :class="[prefixCls + '-fixed']" :style="fixedTableStyle" v-if="isLeftFixed">
                 <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
@@ -64,19 +78,6 @@
                         :columns-width="columnsWidth"
                         :obj-data="objData"></table-body>
                 </div>
-            </div>
-            <div
-                :class="[prefixCls + '-tip']"
-                v-show="(!!noDataText && (!data || data.length === 0)) || (!!noFilteredDataText && (!rebuildData || rebuildData.length === 0))">
-                <table cellspacing="0" cellpadding="0" border="0">
-                    <tbody>
-                        <tr>
-                            <td>
-                              {{{!data || data.length === 0 ? noDataText : noFilteredDataText}}}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
             <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" v-el:footer><slot name="footer"></slot></div>
         </div>
