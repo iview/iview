@@ -4,16 +4,32 @@
     }
 </style>
 <template>
-    <Tabs active-key="key1">
-        <Tab-pane label="标签一" key="key1">
-            <Date-picker type="date" placeholder="选择日期" style="width: 200px"></Date-picker>
-        </Tab-pane>
-        <Tab-pane label="标签二" key="key2">标签二的内容</Tab-pane>
-        <Tab-pane label="标签三" key="key3">标签三的内容</Tab-pane>
-    </Tabs>
+    <i-button type="primary" @click="modal1 = true">显示对话框</i-button>
+    <Modal
+            :visible.sync="modal1"
+            title="普通的Modal对话框标题"
+            @on-ok="ok"
+            @on-cancel="cancel">
+        <p>对话框内容</p>
+        <p>对话框内容</p>
+        <p>对话框内容</p>
+    </Modal>
 </template>
 <script>
     export default {
-
+        data () {
+            return {
+                modal1: false
+            }
+        },
+        methods: {
+            ok () {
+                this.$nextTick(() => this.modal1 = true);
+                this.$Message.info('点击了确定');
+            },
+            cancel () {
+                this.$Message.info('点击了取消');
+            }
+        }
     }
 </script>

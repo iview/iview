@@ -197,11 +197,12 @@
             visible (val) {
                 if (val === false) {
                     this.buttonLoading = false;
-                    setTimeout(() => {
+                    this.timer = setTimeout(() => {
                         this.wrapShow = false;
                         this.removeScrollEffect();
                     }, 300);
                 } else {
+                    if (this.timer) clearTimeout(this.timer);
                     this.wrapShow = true;
                     this.addScrollEffect();
                 }
