@@ -181,6 +181,7 @@
 
                 this.year = this.date.getFullYear();
                 this.month = this.date.getMonth();
+                if (reset) this.isTime = false;
             },
             prevYear () {
                 if (this.currentView === 'year') {
