@@ -1,5 +1,5 @@
 <template>
-    <Row>
+    <Row style="width: 400px">
         <i-col span="12" style="padding-right:10px">
             <i-select :model.sync="model11" filterable>
                 <i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>

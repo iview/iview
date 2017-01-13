@@ -555,6 +555,7 @@
                     });
                     this.notFound = is_hidden;
                 });
+                this.$broadcast('on-update-popper');
             }
         },
         events: {
