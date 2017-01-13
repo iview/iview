@@ -150,7 +150,6 @@
             },
             handleChange (event) {
                 this.$emit('on-change', event);
-                this.$dispatch('on-form-change', this.value);
             },
             resizeTextarea () {
                 const autosize = this.autosize;
@@ -169,6 +168,7 @@
                 this.$nextTick(() => {
                     this.resizeTextarea();
                 });
+                this.$dispatch('on-form-change', this.value);
             }
         },
         ready () {
