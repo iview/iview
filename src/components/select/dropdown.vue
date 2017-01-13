@@ -1,7 +1,8 @@
 <template>
-    <div class="ivu-select-dropdown"><slot></slot></div>
+    <div class="ivu-select-dropdown" :style="styles"><slot></slot></div>
 </template>
 <script>
+    import { getStyle } from '../../utils/assist';
     import Popper from 'popper.js';
 
     export default {
@@ -13,8 +14,16 @@
         },
         data () {
             return {
-                popper: null
+                popper: null,
+                width: '',
             };
+        },
+        computed: {
+            styles () {
+                let style = {};
+                if (this.width) style.width = `${this.width}px`;
+                return style;
+            }
         },
         methods: {
             update () {
@@ -35,6 +44,10 @@
                             this.resetTransformOrigin(popper);
                         });
                     });
+                }
+                // set a height for parent is Modal and Select's width is 100%
+                if (this.$parent.$options.name === 'iSelect') {
+                    this.width = parseInt(getStyle(this.$parent.$el, 'width'));
                 }
             },
             destroy () {

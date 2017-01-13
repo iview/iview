@@ -40,6 +40,7 @@
     const prefixCls = 'ivu-select';
 
     export default {
+        name: 'iSelect',
         components: { Icon, Dropdown },
         directives: { clickoutside },
         props: {
