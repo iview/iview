@@ -169,6 +169,7 @@
                 showSlotHeader: true,
                 showSlotFooter: true,
                 bodyHeight: 0,
+                bodyRealHeight: 0,
                 scrollBarWidth: getScrollBarSize()
             };
         },
@@ -206,7 +207,17 @@
             tableStyle () {
                 let style = {};
                 if (this.tableWidth !== 0) {
-                    const width = this.bodyHeight === 0 ? this.tableWidth : this.tableWidth - this.scrollBarWidth;
+                    let width = '';
+                    if (this.bodyHeight === 0) {
+                        width = this.tableWidth;
+                    } else {
+                        if (this.bodyHeight > this.bodyRealHeight) {
+                            width = this.tableWidth;
+                        } else {
+                            width = this.tableWidth - this.scrollBarWidth;
+                        }
+                    }
+//                    const width = this.bodyHeight === 0 ? this.tableWidth : this.tableWidth - this.scrollBarWidth;
                     style.width = `${width}px`;
                 }
                 return style;
@@ -242,7 +253,13 @@
             fixedBodyStyle () {
                 let style = {};
                 if (this.bodyHeight !== 0) {
-                    style.height = this.scrollBarWidth > 0 ? `${this.bodyHeight}px` : `${this.bodyHeight - 1}px`;
+                    let height = this.bodyHeight + this.scrollBarWidth - 1;
+
+                    if (this.width && this.width < this.tableWidth){
+                        height = this.bodyHeight;
+                    }
+//                    style.height = this.scrollBarWidth > 0 ? `${this.bodyHeight}px` : `${this.bodyHeight - 1}px`;
+                    style.height = this.scrollBarWidth > 0 ? `${height}px` : `${height - 1}px`;
                 }
                 return style;
             },
@@ -315,6 +332,8 @@
                             this.columnsWidth = columnsWidth;
                         }
                     });
+                    // get table real height,for fixed when set height prop,but height < table's height,show scrollBarWidth
+                    this.bodyRealHeight = parseInt(getStyle(this.$refs.tbody.$el, 'height'));
                 });
             },
             handleMouseIn (_index) {
