@@ -1,16 +1,9 @@
 <template>
-    <Row style="width: 400px">
-        <i-col span="12" style="padding-right:10px">
-            <i-select :model.sync="model11" filterable>
-                <i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>
-            </i-select>
-        </i-col>
-        <i-col span="12">
-            <i-select :model.sync="model12" filterable multiple>
-                <i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>
-            </i-select>
-        </i-col>
-    </Row>
+    <i-select :model.sync="model7" style="width:200px"
+              filterable>
+        <i-option v-for="item in cityList | limitBy 3" :value="item.value">{{ item.label }}</i-option>
+        <i-option v-for="item in cityList | limitBy 3 3" :value="item.value">{{ item.label }}</i-option>
+    </i-select>
 </template>
 <script>
     export default {
@@ -42,8 +35,7 @@
                         label: '重庆市'
                     }
                 ],
-                model11: '',
-                model12: []
+                model7: ''
             }
         }
     }
