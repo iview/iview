@@ -2,7 +2,15 @@
     <!--<i-select :model.sync="model1" style="width:200px">-->
         <!--<i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>-->
     <!--</i-select>-->
-    <i-table border :content="self" :columns="columns7" :data="data6"></i-table>
+    <i-button @click="data7 = data6">Dispatch</i-button>
+    <br/>
+    <i-table border :content="self" :columns="columns7" :data="data7"></i-table>
+    <br/>
+    <i-table border :content="self" :columns="columns7" :data="data7" size="small"></i-table>
+    <br/>
+    <i-table border :content="self" :columns="columns7" :data="data7" size="large"></i-table>
+    <br/>
+    <i-table border :content="self" :columns="columns7" :data="data7" height="600"></i-table>
 </template>
 <script>
     export default {
@@ -86,7 +94,8 @@
                         age: 26,
                         address: '深圳市南山区深南大道'
                     }
-                ]
+                ],
+                data7: []
             }
         },
         methods: {
