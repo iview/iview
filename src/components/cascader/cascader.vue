@@ -1,14 +1,17 @@
 <template>
     <div :class="classes" v-clickoutside="handleClose">
-        <i-input
-            readonly
-            :disabled="disabled"
-            :value.sync="displayRender"
-            :size="size"
-            :placeholder="placeholder"
-            @on-focus="onFocus"></i-input>
-        <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.stop="clearSelect"></Icon>
-        <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']"></Icon>
+        <div :class="[prefixCls + '-rel']" @click="toggleOpen">
+            <slot>
+                <i-input
+                    readonly
+                    :disabled="disabled"
+                    :value.sync="displayRender"
+                    :size="size"
+                    :placeholder="placeholder"></i-input>
+                <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.stop="clearSelect"></Icon>
+                <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']"></Icon>
+            </slot>
+        </div>
         <Dropdown v-show="visible" transition="slide-up">
             <div>
                 <Caspanel
@@ -124,6 +127,13 @@
             },
             handleClose () {
                 this.visible = false;
+            },
+            toggleOpen () {
+                if (this.visible) {
+                    this.handleClose();
+                } else {
+                    this.onFocus();
+                }
             },
             onFocus () {
                 this.visible = true;
