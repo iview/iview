@@ -134,6 +134,11 @@ router.map({
             require(['./routers/form.vue'], resolve);
         }
     },
+    '/carousel': {
+        component: function (resolve) {
+            require(['./routers/carousel.vue'], resolve);
+        }
+    },
 });
 
 router.beforeEach(function () {
