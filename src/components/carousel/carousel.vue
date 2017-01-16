@@ -1,11 +1,55 @@
 <template>
-    <div :class="prefixCls">
+    <div :class="classes">
+        <slot></slot>
     </div>
 </template>
 <script>
-    const prefixCls = 'ivu-cascader';
+    import Icon from '../icon/icon.vue';
+
+    const prefixCls = 'ivu-carousel';
 
     export default {
-        name: 'Carousel'
+        name: 'Carousel',
+        props: {
+            arrows: {
+                type: Boolean,
+                default: false
+            },
+            autoplay: {
+                type: Boolean,
+                default: true
+            },
+            autoplaySpeed: {
+                type: Number,
+                default: 2000
+            },
+            easing: {
+                type: String,
+                default: 'ease'
+            },
+            dots: {
+                type: Boolean,
+                default: true
+            },
+            fade: {
+                type: Boolean,
+                default: false
+            },
+            vertical: {
+                type: Boolean,
+                default: false
+            }
+        },
+        // events: before-change(from, to), after-change(current, from)
+        computed: {
+            classes () {
+                return [
+                    `${prefixCls}`,
+                    {
+                        [`${prefixCls}-vertical`]: this.vertical
+                    }
+                ];
+            }
+        }
     };
 </script>
