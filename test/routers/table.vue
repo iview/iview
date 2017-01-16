@@ -16,7 +16,15 @@
                     },
                     {
                         title: '年龄',
-                        key: 'age'
+                        key: 'age',
+                        sortable: true,
+                        sortMethod: function (a, b, type) {
+                            if (type === 'asc') {
+                                return a < b ? 1 : -1;
+                            } else if (type === 'desc') {
+                                return a > b ? 1 : -1;
+                            }
+                        }
                     },
                     {
                         title: '地址',
