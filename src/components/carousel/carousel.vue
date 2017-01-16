@@ -147,7 +147,8 @@
             add (offset) {
                 let index = this.currentIndex;
                 index += offset;
-                if (index === this.slides.length) index = 0;
+                while (index < 0) index += this.slides.length;
+                index = index % this.slides.length;
                 this.currentIndex = index;
             },
             slide () {

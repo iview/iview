@@ -19,6 +19,9 @@
                 <i-button @click="currentIndex = 2">2</i-button>
             </Button-group>
         </i-col>
+        <i-col span="4">
+            <i-button @click="push">Push</i-button>
+        </i-col>
     </Row>
     <Carousel style="width: 50%; border: solid 1px #000"
         :current-index.sync="currentIndex"
@@ -37,6 +40,9 @@
             <Icon type="checkmark" style="font-size: 5em"></Icon>
         </Carousel-item>
         <Carousel-item>test3</Carousel-item>
+        <Carousel-item v-for="item in pushItem" track-by="$index">
+            <Icon type="checkmark" style="font-size: 5em"></Icon>{{item}}
+        </Carousel-item>
     </Carousel>
 </template>
 <script>
@@ -45,7 +51,13 @@
             return {
                 currentIndex: 0,
                 autoplay: true,
-                autoplaySpeed: 2000
+                autoplaySpeed: 2000,
+                pushItem: []
+            }
+        },
+        methods: {
+            push () {
+                this.pushItem.push('test');
             }
         }
     }
