@@ -46,6 +46,10 @@
             vertical: {
                 type: Boolean,
                 default: false
+            },
+            currentIndex: {
+                type: Number,
+                default: 0
             }
         },
         data () {
@@ -53,8 +57,10 @@
                 prefixCls: prefixCls,
                 listWidth: 0,
                 trackWidth: 0,
+                trackLeft: 0,
                 slides: [],
-                slideInstances: []
+                slideInstances: [],
+                timer: null
             }
         },
         // events: before-change(from, to), after-change(current, from)
@@ -69,7 +75,9 @@
             },
             trackStyles () {
                 return {
-                    width: `${this.trackWidth}px`
+                    width: `${this.trackWidth}px`,
+                    transform: `translate3d(-${this.trackLeft}px, 0px, 0px)`,
+                    transition: `transform 500ms ${this.easing}`
                 };
             }
         },
@@ -134,6 +142,17 @@
                     this.listWidth = parseInt(getStyle(this.$el, 'width'));
                     this.updatePos();
                 });
+            },
+            setAutoplay () {
+                if (this.autoplay) {
+                    this.timer = window.setInterval(() => {
+                        this.currentIndex ++;
+                        if (this.currentIndex === this.slides.length) this.currentIndex = 0;
+                        this.trackLeft = this.currentIndex * this.listWidth;
+                    }, this.autoplaySpeed);
+                } else {
+                    window.clearInterval(this.timer);
+                }
             }
         },
         compiled () {
@@ -151,6 +170,14 @@
                     characterData: true,
                     subtree: true
                 });
+            }
+        },
+        watch: {
+            autoplay () {
+                this.setAutoplay();
+            },
+            current () {
+                this.switch(this.current);
             }
         },
         ready () {
