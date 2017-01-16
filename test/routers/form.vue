@@ -5,7 +5,7 @@
                 <Icon type="ios-person-outline" slot="prepend"></Icon>
             </i-input>
         </Form-item>
-        <Form-item prop="password">
+        <Form-item prop="password" :show-message="false">
             <i-input type="password" :value.sync="formInline.password" placeholder="Password">
                 <Icon type="ios-locked-outline" slot="prepend"></Icon>
             </i-input>
