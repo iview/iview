@@ -1,13 +1,20 @@
 <template>
     <div :class="classes">
-        <!-- button -->
+        <div :class="[prefixCls + '-arrow', 'left']">
+            <div class='placeholder'></div>
+            <Icon type="arrow-left-b"></Icon>
+        </div>
         <div :class="[prefixCls + '-list']">
             <div :class="[prefixCls + '-track']" :style="trackStyles" v-el:slides>
                 <!-- opacity: 1; width: 4480px; transform: translate3d(-1120px, 0px, 0px); -->
                 <slot></slot>
             </div>
         </div>
-        <!-- button -->
+        <div :class="[prefixCls + '-arrow', 'right']">
+            <div class='placeholder'></div>
+            <Icon type="arrow-right-b"></Icon>
+        </div>
+        <!-- dots -->
     </div>
 </template>
 <script>
@@ -38,10 +45,6 @@
             dots: {
                 type: Boolean,
                 default: true
-            },
-            fade: {
-                type: Boolean,
-                default: false
             },
             vertical: {
                 type: Boolean,
@@ -122,8 +125,6 @@
                 });
 
                 this.slides = slides;
-
-                // this.updateSlideWidth();
             },
             updatePos () {
                 this.findChild((child) => {

@@ -29,6 +29,8 @@
         display: block;
 
         overflow: hidden;
+
+        z-index: 1;
     }
 
     &-item {
@@ -36,5 +38,43 @@
         height: 100%;
         min-height: 1px;
         display: block;
+    }
+
+    &-arrow {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        height: 100%;
+
+        text-align: center;
+
+        & > * {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .placeholder{
+            overflow: hidden;
+            width: 0;
+            min-height: inherit;
+            height: inherit;
+        }
+
+        z-index: 3;
+
+        &.left {
+            left: 0;
+        }
+        &.right {
+            right: 0;
+        }
+
+        width: 10%;
+
+        cursor: pointer;
+
+        &:hover {
+            background: fade(#000, 30%);
+        }
     }
 }
