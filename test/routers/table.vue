@@ -1,20 +1,100 @@
 <template>
     <div style="width: 800px">
-        <i-table width="550" height="200" border :columns="columns5" :data="data4"></i-table>
-        <br>
-        <i-table border height="300" :columns="columns1" :data="data1"></i-table>
-        <br>
-        <i-table border height="300" :columns="columns1" :data="data2"></i-table>
-        <br>
-        <i-table border height="300" :columns="columns2" :data="data1"></i-table>
-        <br>
-        <i-table border height="300" :columns="columns3" :data="data1"></i-table>
+        <i-table border :content="self" :columns="columns7" :data="data6"></i-table>
+        <!--<i-table width="550" height="200" border :columns="columns5" :data="data4"></i-table>-->
+        <!--<br>-->
+        <!--<i-table border height="300" :columns="columns1" :data="data1"></i-table>-->
+        <!--<br>-->
+        <!--<i-table border height="300" :columns="columns1" :data="data2"></i-table>-->
+        <!--<br>-->
+        <!--<i-table border height="300" :columns="columns2" :data="data1"></i-table>-->
+        <!--<br>-->
+        <!--<i-table border height="300" :columns="columns3" :data="data1"></i-table>-->
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
+                self: this,
+                cityList: [
+                    {
+                        value: 'beijing',
+                        label: '北京市'
+                    },
+                    {
+                        value: 'shanghai',
+                        label: '上海市'
+                    },
+                    {
+                        value: 'shenzhen',
+                        label: '深圳市'
+                    },
+                    {
+                        value: 'hangzhou',
+                        label: '杭州市'
+                    },
+                    {
+                        value: 'nanjing',
+                        label: '南京市'
+                    },
+                    {
+                        value: 'chongqing',
+                        label: '重庆市'
+                    }
+                ],
+                model1: '',
+                columns7: [
+                    {
+                        title: '姓名',
+                        key: 'name',
+                        render (row, column, index) {
+                            return `<Icon type="person"></Icon> <strong>${row.name}</strong>`;
+                        }
+                    },
+                    {
+                        title: '年龄',
+                        key: 'age'
+                    },
+                    {
+                        title: '地址',
+                        key: 'address'
+                    },
+                    {
+                        title: '操作',
+                        key: 'action',
+                        width: 400,
+                        align: 'center',
+                        render (row, column, index) {
+                            return `
+<Date-picker type="daterange" placement="bottom-end" placeholder="选择日期"></Date-picker>
+<br><br><br><br><br><br>
+`;
+                        }
+                    }
+                ],
+                data6: [
+                    {
+                        name: '王小明',
+                        age: 18,
+                        address: '北京市朝阳区芍药居'
+                    },
+                    {
+                        name: '张小刚',
+                        age: 25,
+                        address: '北京市海淀区西二旗'
+                    },
+                    {
+                        name: '李小红',
+                        age: 30,
+                        address: '上海市浦东新区世纪大道'
+                    },
+                    {
+                        name: '周小伟',
+                        age: 26,
+                        address: '深圳市南山区深南大道'
+                    }
+                ],
                 columns1: [
                     {
                         title: '姓名',

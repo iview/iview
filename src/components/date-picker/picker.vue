@@ -2,7 +2,7 @@
     <div
         :class="[prefixCls]"
         v-clickoutside="handleClose">
-        <div v-el:reference>
+        <div v-el:reference :class="[prefixCls + '-rel']">
             <slot>
                 <i-input
                     :class="[prefixCls + '-editor']"

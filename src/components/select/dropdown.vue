@@ -66,7 +66,7 @@
                 popper._popper.style.transformOrigin = `center ${ origin }`;
             }
         },
-        ready () {
+        compiled () {
             this.$on('on-update-popper', this.update);
             this.$on('on-destroy-popper', this.destroy);
         },

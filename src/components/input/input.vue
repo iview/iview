@@ -161,6 +161,17 @@
                 const maxRows = autosize.maxRows;
 
                 this.textareaStyles = calcTextareaHeight(this.$els.textarea, minRows, maxRows);
+            },
+            init () {
+                if (this.type !== 'textarea') {
+                    this.prepend = this.$els.prepend.innerHTML !== '';
+                    this.append = this.$els.append.innerHTML !== '';
+                } else {
+                    this.prepend = false;
+                    this.append = false;
+                }
+                this.slotReady = true;
+                this.resizeTextarea();
             }
         },
         watch: {
@@ -171,16 +182,8 @@
                 this.$dispatch('on-form-change', this.value);
             }
         },
-        ready () {
-            if (this.type !== 'textarea') {
-                this.prepend = this.$els.prepend.innerHTML !== '';
-                this.append = this.$els.append.innerHTML !== '';
-            } else {
-                this.prepend = false;
-                this.append = false;
-            }
-            this.slotReady = true;
-            this.resizeTextarea();
+        compiled () {
+            this.$nextTick(() => this.init());
         }
     };
 </script>
