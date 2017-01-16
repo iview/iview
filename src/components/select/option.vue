@@ -58,7 +58,7 @@
                 this.hidden = !new RegExp(val, 'i').test(this.searchLabel);
             }
         },
-        ready () {
+        compiled () {
             this.searchLabel = this.$el.innerHTML;
         },
         events: {
