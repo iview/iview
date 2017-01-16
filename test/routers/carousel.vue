@@ -1,5 +1,5 @@
 <template>
-    <Carousel>
+    <Carousel style="width: 400px">
         <Carousel-item>test1</Carousel-item>
         <Carousel-item>test2</Carousel-item>
         <Carousel-item>test3</Carousel-item>

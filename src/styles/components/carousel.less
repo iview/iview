@@ -8,4 +8,30 @@
     user-select: none;
     touch-action: pan-y;
     -webkit-tap-highlight-color: transparent;
+
+    &-track, &-list {
+        transform: translate3d(0, 0, 0);
+    }
+
+    &-list {
+        position: relative;
+        display: block;
+        overflow: hidden;
+
+        margin: 0;
+        padding: 0;
+    }
+
+    &-track {
+        position: relative;
+        top: 0;
+        left: 0;
+        display: block;
+    }
+
+    &-item {
+        float: left;
+        height: 100%;
+        min-height: 1px;
+    }
 }

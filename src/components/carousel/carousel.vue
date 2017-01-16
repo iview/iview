@@ -1,10 +1,18 @@
 <template>
     <div :class="classes">
-        <slot></slot>
+        <!-- button -->
+        <div :class="[prefixCls + '-list']">
+            <div :class="[prefixCls + '-track']" :style="trackStyles" v-el:slides>
+                <!-- opacity: 1; width: 4480px; transform: translate3d(-1120px, 0px, 0px); -->
+                <slot></slot>
+            </div>
+        </div>
+        <!-- button -->
     </div>
 </template>
 <script>
     import Icon from '../icon/icon.vue';
+    import { oneOf, getStyle, deepCopy, getScrollBarSize } from '../../utils/assist';
 
     const prefixCls = 'ivu-carousel';
 
@@ -40,6 +48,15 @@
                 default: false
             }
         },
+        data () {
+            return {
+                prefixCls: prefixCls,
+                listWidth: 0,
+                trackWidth: 0,
+                slides: [],
+                slideInstances: []
+            }
+        },
         // events: before-change(from, to), after-change(current, from)
         computed: {
             classes () {
@@ -49,7 +66,99 @@
                         [`${prefixCls}-vertical`]: this.vertical
                     }
                 ];
+            },
+            trackStyles () {
+                return {
+                    width: `${this.trackWidth}px`
+                };
             }
+        },
+        methods: {
+            // find option component
+            findChild (cb) {
+                const find = function (child) {
+                    const name = child.$options.componentName;
+
+                    if (name) {
+                        cb(child);
+                    } else if (child.$children.length) {
+                        child.$children.forEach((innerChild) => {
+                            find(innerChild, cb);
+                        });
+                    }
+                };
+
+                if (this.slideInstances.length) {
+                    this.slideInstances.forEach((child) => {
+                        find(child);
+                    });
+                } else {
+                    this.$children.forEach((child) => {
+                        find(child);
+                    });
+                }
+            },
+            updateSlides (init, slot = false) {
+                let slides = [];
+                let index = 1;
+
+                this.findChild((child) => {
+                    slides.push({
+                        $el: child.$el
+                    });
+                    child.index = index++;
+
+                    if (init) {
+                        this.slideInstances.push(child);
+                    }
+                });
+
+                this.slides = slides;
+
+                // this.updateSlideWidth();
+            },
+            updatePos () {
+                this.findChild((child) => {
+                    child.width = this.listWidth;
+                });
+
+                this.trackWidth = (this.slides.length || 0) * this.listWidth;
+            },
+            // use when slot changed
+            slotChange () {
+                this.slides = [];
+                this.slideInstances = [];
+            },
+            handleResize () {
+                this.$nextTick(() => {
+                    this.listWidth = parseInt(getStyle(this.$el, 'width'));
+                    this.updatePos();
+                });
+            }
+        },
+        compiled () {
+            this.updateSlides(true);
+
+            // watch slot changed
+            if (MutationObserver) {
+                this.observer = new MutationObserver(() => {
+                    this.slotChange();
+                    this.updateSlides(true, true);
+                });
+
+                this.observer.observe(this.$els.slides, {
+                    childList: true,
+                    characterData: true,
+                    subtree: true
+                });
+            }
+        },
+        ready () {
+            this.handleResize();
+            window.addEventListener('resize', this.handleResize, false);
+        },
+        beforeDestroy () {
+            window.removeEventListener('resize', this.handleResize, false);
         }
     };
 </script>

@@ -1,10 +1,26 @@
 <template>
-    <div :class="prefixCls"><slot></slot></div>
+    <div :class="prefixCls" v-bind:style="styles">{{width}}<slot></slot></div>
 </template>
 <script>
     const prefixCls = 'ivu-carousel-item';
 
     export default {
-        name: 'CarouselItem'
+        componentName: 'carousel-item',
+
+        data () {
+            return {
+                prefixCls: prefixCls,
+                width: 0,
+                left: 0
+            };
+        },
+        computed: {
+            styles () {
+                return {
+                    width: `${this.width}px`,
+                    left: `${this.left}px`
+                }
+            }
+        },
     };
 </script>
