@@ -1,6 +1,6 @@
 <template>
     <div :class="classes">
-        <div :class="[prefixCls + '-arrow', 'left']">
+        <div :class="[prefixCls + '-arrow', 'left']" @click="add(-1)">
             <div class='placeholder'></div>
             <Icon type="arrow-left-b"></Icon>
         </div>
@@ -10,7 +10,7 @@
                 <slot></slot>
             </div>
         </div>
-        <div :class="[prefixCls + '-arrow', 'right']">
+        <div :class="[prefixCls + '-arrow', 'right']" @click="add(1)">
             <div class='placeholder'></div>
             <Icon type="arrow-right-b"></Icon>
         </div>
@@ -144,6 +144,12 @@
                     this.updatePos();
                 });
             },
+            add (offset) {
+                let index = this.currentIndex;
+                index += offset;
+                if (index === this.slides.length) index = 0;
+                this.currentIndex = index;
+            },
             slide () {
                 this.trackLeft = this.currentIndex * this.listWidth;
             },
@@ -151,10 +157,7 @@
                 window.clearInterval(this.timer);
                 if (this.autoplay) {
                     this.timer = window.setInterval(() => {
-                        let index = this.currentIndex;
-                        index ++;
-                        if (index === this.slides.length) index = 0;
-                        this.currentIndex = index;
+                        this.add(1);
                     }, this.autoplaySpeed);
                 }
             }

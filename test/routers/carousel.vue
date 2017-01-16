@@ -11,6 +11,14 @@
         <i-col span="4">
             Speed <Slider :value.sync="autoplaySpeed" :min="300" :max="5000"></Slider>
         </i-col>
+        <i-col span="4">
+            Switch To
+            <Button-group>
+                <i-button @click="currentIndex = 0">0</i-button>
+                <i-button @click="currentIndex = 1">1</i-button>
+                <i-button @click="currentIndex = 2">2</i-button>
+            </Button-group>
+        </i-col>
     </Row>
     <Carousel style="width: 50%; border: solid 1px #000"
         :current-index.sync="currentIndex"
