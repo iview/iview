@@ -1,5 +1,5 @@
 <template>
-    <div :class="prefixCls" v-bind:style="styles">{{width}}<slot></slot></div>
+    <div :class="prefixCls" v-bind:style="styles"><slot></slot></div>
 </template>
 <script>
     const prefixCls = 'ivu-carousel-item';

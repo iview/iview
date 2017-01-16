@@ -143,15 +143,18 @@
                     this.updatePos();
                 });
             },
+            slide () {
+                this.trackLeft = this.currentIndex * this.listWidth;
+            },
             setAutoplay () {
+                window.clearInterval(this.timer);
                 if (this.autoplay) {
                     this.timer = window.setInterval(() => {
-                        this.currentIndex ++;
-                        if (this.currentIndex === this.slides.length) this.currentIndex = 0;
-                        this.trackLeft = this.currentIndex * this.listWidth;
+                        let index = this.currentIndex;
+                        index ++;
+                        if (index === this.slides.length) index = 0;
+                        this.currentIndex = index;
                     }, this.autoplaySpeed);
-                } else {
-                    window.clearInterval(this.timer);
                 }
             }
         },
@@ -176,12 +179,18 @@
             autoplay () {
                 this.setAutoplay();
             },
-            current () {
-                this.switch(this.current);
+            autoplaySpeed () {
+                this.setAutoplay();
+            },
+            currentIndex () {
+                this.$nextTick(() => {
+                    this.slide();
+                });
             }
         },
         ready () {
             this.handleResize();
+            this.setAutoplay();
             window.addEventListener('resize', this.handleResize, false);
         },
         beforeDestroy () {
