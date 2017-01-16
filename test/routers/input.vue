@@ -1,4 +1,6 @@
 <template>
+    <Input-number :max="10" :min="1" :value="1"></Input-number>
+    <br><br>
     <i-input type="textarea" :autosize="true" placeholder="请输入..."></i-input>
     <i-input type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."></i-input>
     <i-input name="a" icon="ios-clock-outline" @on-focus="focus" @on-blur="blur" readonly style="width:200px;" :value.sync="v" @on-enter="enter" @on-click="iconclick" size="large" placeholder="请输入"></i-input>
