@@ -28,6 +28,7 @@ import Page from './components/page';
 import Poptip from './components/poptip';
 import Progress from './components/progress';
 import Radio from './components/radio';
+import Rate from './components/rate';
 import Slider from './components/slider';
 import Spin from './components/spin';
 import Steps from './components/steps';
@@ -86,6 +87,7 @@ const iview = {
     Progress,
     Radio,
     RadioGroup: Radio.Group,
+    Rate,
     Row,
     iSelect: Select,
     Slider,

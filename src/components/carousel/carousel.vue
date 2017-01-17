@@ -24,12 +24,13 @@
 </template>
 <script>
     import Icon from '../icon/icon.vue';
-    import { oneOf, getStyle, deepCopy, getScrollBarSize } from '../../utils/assist';
+    import { getStyle } from '../../utils/assist';
 
     const prefixCls = 'ivu-carousel';
 
     export default {
         name: 'Carousel',
+        components: { Icon },
         props: {
             arrow: {
                 type: String,
@@ -74,7 +75,7 @@
                 slideInstances: [],
                 timer: null,
                 ready: false
-            }
+            };
         },
         computed: {
             classes () {
@@ -93,13 +94,13 @@
                 return [
                     `${prefixCls}-arrow`,
                     `${prefixCls}-arrow-${this.arrow}`
-                ]
+                ];
             },
             dotsClasses () {
                 return [
                     `${prefixCls}-dots`,
                     `${prefixCls}-dots-${this.dots}`
-                ]
+                ];
             }
         },
         methods: {
@@ -127,7 +128,7 @@
                     });
                 }
             },
-            updateSlides (init, slot = false) {
+            updateSlides (init ) {
                 let slides = [];
                 let index = 1;
 
@@ -173,12 +174,10 @@
                 index += offset;
                 while (index < 0) index += this.slides.length;
                 index = index % this.slides.length;
-                this.$emit('on-change', this.currentIndex, index);
                 this.currentIndex = index;
             },
             dotsEvent (event, n) {
                 if (event === this.trigger && this.currentIndex !== n) {
-                    this.$emit('on-change', this.currentIndex, n);
                     this.currentIndex = n;
                 }
             },
@@ -208,6 +207,7 @@
                 this.setAutoplay();
             },
             currentIndex (val, oldVal) {
+                this.$emit('on-change', oldVal, val);
                 this.updateOffset();
             },
             height () {

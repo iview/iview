@@ -48,6 +48,7 @@ li + li {
                 <li><a v-link="'/date'">Date</a></li>
                 <li><a v-link="'/form'">Form</a></li>
                 <li><a v-link="'/carousel'">Carousel</a></li>
+                <li><a v-link="'/rate'">Rate</a></li>
             </ul>
         </nav>
         <router-view></router-view>

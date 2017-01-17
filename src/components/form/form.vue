@@ -28,6 +28,10 @@
             inline: {
                 type: Boolean,
                 default: false
+            },
+            showMessage: {
+                type: Boolean,
+                default: true
             }
         },
         data () {

@@ -144,32 +144,52 @@
             preventDefault (e) {
                 e.preventDefault();
             },
-            up () {
-                if (this.upDisabled) {
+            up (e) {
+                const targetVal = Number(e.target.value);
+                if (this.upDisabled && isNaN(targetVal)) {
                     return false;
                 }
-                this.changeStep('up');
+                this.changeStep('up', e);
             },
-            down () {
-                if (this.downDisabled) {
+            down (e) {
+                const targetVal = Number(e.target.value);
+                if (this.downDisabled && isNaN(targetVal)) {
                     return false;
                 }
-                this.changeStep('down');
+                this.changeStep('down', e);
             },
-            changeStep (type) {
+            changeStep (type, e) {
                 if (this.disabled) {
                     return false;
                 }
 
+                const targetVal = Number(e.target.value);
                 let val = Number(this.value);
                 const step = Number(this.step);
                 if (isNaN(val)) {
                     return false;
                 }
 
-                if (type == 'up') {
+                // input a number, and key up or down
+                if (!isNaN(targetVal)) {
+                    if (type === 'up') {
+                        if (addNum(targetVal, step) <= this.max) {
+                            val = targetVal;
+                        } else {
+                            return false;
+                        }
+                    } else if (type === 'down') {
+                        if (addNum(targetVal, -step) >= this.min) {
+                            val = targetVal;
+                        } else {
+                            return false;
+                        }
+                    }
+                }
+
+                if (type === 'up') {
                     val = addNum(val, step);
-                } else if (type == 'down') {
+                } else if (type === 'down') {
                     val = addNum(val, -step);
                 }
                 this.setValue(val);
@@ -190,10 +210,10 @@
             keyDown (e) {
                 if (e.keyCode === 38) {
                     e.preventDefault();
-                    this.up();
+                    this.up(e);
                 } else if (e.keyCode === 40) {
                     e.preventDefault();
-                    this.down();
+                    this.down(e);
                 }
             },
             change (event) {
@@ -230,7 +250,7 @@
                 }
             }
         },
-        ready () {
+        compiled () {
             this.changeVal(this.value);
         },
         watch: {

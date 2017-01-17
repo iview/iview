@@ -83,6 +83,10 @@ export default {
             page: '条/页',
             goto: '跳至',
             p: '页'
+        },
+        rate: {
+            star: '星',
+            stars: '星'
         }
     }
 };

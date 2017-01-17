@@ -6,9 +6,10 @@ import VueRouter from 'vue-router';
 import App from './app.vue';
 import iView from '../src/index';
 // import locale from '../src/locale/lang/en-US';
+import locale from '../src/locale/lang/zh-CN';
 
 Vue.use(VueRouter);
-Vue.use(iView);
+Vue.use(iView, { locale });
 
 // 开启debug模式
 Vue.config.debug = true;
@@ -137,6 +138,11 @@ router.map({
     '/carousel': {
         component: function (resolve) {
             require(['./routers/carousel.vue'], resolve);
+        }
+    },
+    '/rate': {
+        component: function (resolve) {
+            require(['./routers/rate.vue'], resolve);
         }
     },
 });

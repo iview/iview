@@ -83,6 +83,10 @@ export default {
             page: '/page',
             goto: 'Goto',
             p: ''
+        },
+        rate: {
+            star: 'Star',
+            stars: 'Stars'
         }
     }
 };
