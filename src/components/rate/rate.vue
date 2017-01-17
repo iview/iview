@@ -7,12 +7,18 @@
             @click="handleClick(item)">
             <span :class="[prefixCls + '-star-content']" type="half"></span>
         </div>
+        <div :class="[prefixCls + '-text']" v-if="showText">
+            <slot>{{ value }} <template v-if="value <= 1">{{ t('i.rate.star') }}</template><template v-else>{{ t('i.rate.stars') }}</template></slot>
+        </div>
     </div>
 </template>
 <script>
+    import Locale from '../../mixins/locale';
+
     const prefixCls = 'ivu-rate';
 
     export default {
+        mixins: [ Locale ],
         props: {
             count: {
                 type: Number,
@@ -27,6 +33,10 @@
                 default: false
             },
             disabled: {
+                type: Boolean,
+                default: false
+            },
+            showText: {
                 type: Boolean,
                 default: false
             }

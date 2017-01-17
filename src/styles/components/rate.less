@@ -8,7 +8,6 @@
     vertical-align: middle;
     font-weight: normal;
     font-style: normal;
-    font-family: 'Ionicons';
 
     &-disabled &-star {
         &:before,
@@ -26,6 +25,7 @@
         padding: 0;
         margin-right: 8px;
         position: relative;
+        font-family: 'Ionicons';
         transition: all 0.3s ease;
 
         &:hover {
@@ -62,5 +62,11 @@
         &-full:hover:before {
             color: tint(@rate-star-color, 20%);
         }
+    }
+    &-text {
+        margin-left: 8px;
+        vertical-align: middle;
+        display: inline-block;
+        font-size: @font-size-small;
     }
 }
