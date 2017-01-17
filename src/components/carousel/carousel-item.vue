@@ -23,9 +23,10 @@
             }
         },
         compiled () {
-            // this.$parent.slotChange();
-            // this.$parent.updateSlides(true, true);
-            // this.$parent.updatePos();
+            this.$parent.slotChange();
+        },
+        beforeDestroy () {
+            this.$parent.slotChange();
         }
     };
 </script>

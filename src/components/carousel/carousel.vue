@@ -137,8 +137,13 @@
             },
             // use when slot changed
             slotChange () {
-                this.slides = [];
-                this.slideInstances = [];
+                this.$nextTick(() => {
+                    this.slides = [];
+                    this.slideInstances = [];
+
+                    this.updateSlides(true, true);
+                    this.updatePos();
+                });
             },
             handleResize () {
                 this.$nextTick(() => {
@@ -167,20 +172,6 @@
         },
         compiled () {
             this.updateSlides(true);
-
-            // watch slot changed
-            if (MutationObserver) {
-                this.observer = new MutationObserver(() => {
-                    this.slotChange();
-                    this.updateSlides(true, true);
-                });
-
-                this.observer.observe(this.$els.slides, {
-                    childList: true,
-                    characterData: true,
-                    subtree: true
-                });
-            }
         },
         watch: {
             autoplay () {
