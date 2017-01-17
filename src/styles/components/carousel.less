@@ -105,11 +105,22 @@
     &-dots {
         @padding: 7px;
 
-        position: absolute;
-        bottom: 10px - @padding;
+        position: relative;
+        &-inside {
+            position: absolute;
+            bottom: 10px - @padding;
+        }
+
+        &-outside {
+            margin-top: 10px - @padding;
+        }
+
+        display: block;
+        &-none {
+            display: none;
+        }
 
         list-style: none;
-        display: block;
 
         text-align: center;
 

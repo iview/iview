@@ -101,7 +101,7 @@
             dotsClasses () {
                 return [
                     `${prefixCls}-dots`,
-                    `${prefixCls}-arrow-${this.dots}`
+                    `${prefixCls}-dots-${this.dots}`
                 ]
             },
             activeDot (n) {
