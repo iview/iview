@@ -134,6 +134,11 @@ router.map({
             require(['./routers/form.vue'], resolve);
         }
     },
+    '/rate': {
+        component: function (resolve) {
+            require(['./routers/rate.vue'], resolve);
+        }
+    },
 });
 
 router.beforeEach(function () {
