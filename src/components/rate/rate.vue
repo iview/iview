@@ -1,10 +1,11 @@
 <template>
     <div :class="classes" @mouseleave="handleMouseleave">
-        <div v-for="item in count" :class="starCls(item)">
-            <span
-                :class="[prefixCls + '-star-content']"
-                @mousemove="handleMousemove(item, $event)"
-                @click="handleClick(item)"></span>
+        <div
+            v-for="item in count"
+            :class="starCls(item)"
+            @mousemove="handleMousemove(item, $event)"
+            @click="handleClick(item)">
+            <span :class="[prefixCls + '-star-content']" type="half"></span>
         </div>
     </div>
 </template>
@@ -33,7 +34,9 @@
         data () {
             return {
                 prefixCls: prefixCls,
-                hoverIndex: -1
+                hoverIndex: -1,
+                isHover: false,
+                isHalf: false
             };
         },
         computed: {
@@ -46,53 +49,68 @@
                 ];
             }
         },
+        watch: {
+            value: {
+                immediate: true,
+                handler (val) {
+                    this.setHalf(val);
+                }
+            }
+        },
         methods: {
             starCls (value) {
                 const hoverIndex = this.hoverIndex;
-                let full = false;
+                const currentIndex = this.isHover ? hoverIndex : this.value;
 
-                if (hoverIndex >= value) {
-                    full = true;
+                let full = false;
+                let isLast = false;
+
+                if (currentIndex > value) full = true;
+
+                if (this.isHover) {
+                    isLast = currentIndex === value + 1;
+                } else {
+                    isLast = Math.ceil(this.value) === value + 1;
                 }
 
                 return [
                     `${prefixCls}-star`,
                     {
-                        [`${prefixCls}-star-full`]: full,
+                        [`${prefixCls}-star-full`]: (!isLast && full) || (isLast && !this.isHalf),
+                        [`${prefixCls}-star-half`]: isLast && this.isHalf,
                         [`${prefixCls}-star-zero`]: !full
                     }
                 ];
             },
-            handleMousemove(value) {
+            handleMousemove(value, event) {
                 if (this.disabled) return;
 
+                this.isHover = true;
                 if (this.allowHalf) {
-//                    let target = event.target;
-//                    if (hasClass(target, 'el-rate__item')) {
-//                        target = target.querySelector('.el-rate__icon');
-//                    }
-//                    if (hasClass(target, 'el-rate__decimal')) {
-//                        target = target.parentNode;
-//                    }
-//                    this.pointerAtLeftHalf = event.offsetX * 2 <= target.clientWidth;
-//                    this.currentValue = this.pointerAtLeftHalf ? value - 0.5 : value;
+                    const type = event.target.getAttribute('type') || false;
+                    this.isHalf = type === 'half';
                 } else {
-                    this.currentValue = value;
+                    this.isHalf = false;
                 }
-                this.hoverIndex = value;
+                this.hoverIndex = value + 1;
             },
             handleMouseleave () {
-                if (this.disabled) {
-                    return;
-                }
-                if (this.allowHalf) {
-//                    this.pointerAtLeftHalf = this.value !== Math.floor(this.value);
-                }
-//                this.currentValue = this.value;
+                if (this.disabled) return;
+
+                this.isHover = false;
+                this.setHalf(this.value);
                 this.hoverIndex = -1;
             },
-            handleClick () {
-
+            setHalf (val) {
+                this.isHalf = val.toString().indexOf('.') >= 0;
+            },
+            handleClick (value) {
+                if (this.disabled) return;
+                value++;
+                if (this.isHalf) value -= 0.5;
+                this.value = value;
+                this.$emit('on-change', value);
+                this.$dispatch('on-form-change', value);
             }
         }
     };
