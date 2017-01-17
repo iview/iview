@@ -43,7 +43,7 @@
                     {
                         [`${prefixCls}-disabled`]: this.disabled
                     }
-                ]
+                ];
             }
         },
         methods: {
@@ -61,9 +61,9 @@
                         [`${prefixCls}-star-full`]: full,
                         [`${prefixCls}-star-zero`]: !full
                     }
-                ]
+                ];
             },
-            handleMousemove(value, event) {
+            handleMousemove(value) {
                 if (this.disabled) return;
 
                 if (this.allowHalf) {
@@ -91,7 +91,7 @@
 //                this.currentValue = this.value;
                 this.hoverIndex = -1;
             },
-            handleClick (value) {
+            handleClick () {
 
             }
         }
