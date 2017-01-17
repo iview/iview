@@ -21,13 +21,39 @@
         </i-col>
         <i-col span="4">
             <i-button @click="push">Push</i-button>
-            <i-button @click="remove = true">Remove</i-button>
+            <i-button @click="remove = true">Remove Front</i-button>
+        </i-col>
+        <i-col span="4">
+            <p>Dots</p>
+            <Button-group>
+                <i-button @click="dots = 'inside'">Inside</i-button>
+                <i-button @click="dots = 'outside'">Outside</i-button>
+                <i-button @click="dots = 'none'">None</i-button>
+            </Button-group>
+        </i-col>
+        <i-col span="4">
+            <p>Trigger</p>
+            <Button-group>
+                <i-button @click="trigger = 'click'">Click</i-button>
+                <i-button @click="trigger = 'hover'">Hover</i-button>
+            </Button-group>
+        </i-col>
+        <i-col span="4">
+            Arrow
+            <Button-group>
+                <i-button @click="arrow = 'hover'">Hover</i-button>
+                <i-button @click="arrow = 'always'">Always</i-button>
+                <i-button @click="arrow = 'never'">Never</i-button>
+            </Button-group>
         </i-col>
     </Row>
     <Carousel style="width: 50%; border: solid 1px #000"
         :current-index.sync="currentIndex"
         :autoplay="autoplay"
         :autoplay-speed="autoplaySpeed"
+        :dots="dots"
+        :trigger="trigger"
+        :arrow="arrow"
         easing="linear">
         <Carousel-item v-if="!remove">
             <Alert type="warning" show-icon>
@@ -54,7 +80,10 @@
                 autoplay: true,
                 autoplaySpeed: 2000,
                 remove: false,
-                pushItem: []
+                pushItem: [],
+                arrow: 'hover',
+                trigger: 'click',
+                dots: 'inside'
             }
         },
         methods: {

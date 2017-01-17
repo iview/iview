@@ -1,20 +1,26 @@
 <template>
     <div :class="classes">
-        <div :class="[prefixCls + '-arrow', 'left']" @click="add(-1)">
-            <div class='placeholder'></div>
-            <Icon type="arrow-left-b"></Icon>
-        </div>
+        <button :class="arrowClasses" class="left" @click="add(-1)">
+            <Icon type="chevron-left"></Icon>
+        </button>
         <div :class="[prefixCls + '-list']">
             <div :class="[prefixCls + '-track']" :style="trackStyles" v-el:slides>
                 <!-- opacity: 1; width: 4480px; transform: translate3d(-1120px, 0px, 0px); -->
                 <slot></slot>
             </div>
         </div>
-        <div :class="[prefixCls + '-arrow', 'right']" @click="add(1)">
-            <div class='placeholder'></div>
-            <Icon type="arrow-right-b"></Icon>
-        </div>
-        <!-- dots -->
+        <button :class="arrowClasses" class="right" @click="add(1)">
+            <Icon type="chevron-right"></Icon>
+        </button>
+        <ul :class="dotsClasses">
+            <template v-for="n in slides.length">
+                <li :class="{ [`${prefixCls}-active`]: n === currentIndex }"
+                    @click="dotsEvent('click', n)"
+                    @mouseover="dotsEvent('hover', n)">
+                    <button></button>
+                </li>
+            </template>
+        </ul>
     </div>
 </template>
 <script>
@@ -26,9 +32,9 @@
     export default {
         name: 'Carousel',
         props: {
-            arrows: {
-                type: Boolean,
-                default: false
+            arrow: {
+                type: String,
+                default: 'hover'
             },
             autoplay: {
                 type: Boolean,
@@ -43,8 +49,12 @@
                 default: 'ease'
             },
             dots: {
-                type: Boolean,
-                default: true
+                type: String,
+                default: 'inside'
+            },
+            trigger: {
+                type: String,
+                default: 'click'
             },
             vertical: {
                 type: Boolean,
@@ -66,7 +76,6 @@
                 timer: null
             }
         },
-        // events: before-change(from, to), after-change(current, from)
         computed: {
             classes () {
                 return [
@@ -82,6 +91,23 @@
                     transform: `translate3d(-${this.trackLeft}px, 0px, 0px)`,
                     transition: `transform 500ms ${this.easing}`
                 };
+            },
+            arrowClasses () {
+                return [
+                    `${prefixCls}-arrow`,
+                    `${prefixCls}-arrow-${this.arrow}`
+                ]
+            },
+            dotsClasses () {
+                return [
+                    `${prefixCls}-dots`,
+                    `${prefixCls}-arrow-${this.dots}`
+                ]
+            },
+            activeDot (n) {
+                return {
+                    [`${prefixCls}-vertical`]: this.currentIndex === n
+                }
             }
         },
         methods: {
@@ -156,10 +182,14 @@
                 index += offset;
                 while (index < 0) index += this.slides.length;
                 index = index % this.slides.length;
+                this.$emit('on-change', this.currentIndex, index);
                 this.currentIndex = index;
             },
-            slide () {
-                this.trackLeft = this.currentIndex * this.listWidth;
+            dotsEvent (event, n) {
+                if (event === this.trigger) {
+                    this.$emit('on-change', this.currentIndex, n);
+                    this.currentIndex = n;
+                }
             },
             setAutoplay () {
                 window.clearInterval(this.timer);
@@ -182,7 +212,7 @@
             },
             currentIndex () {
                 this.$nextTick(() => {
-                    this.slide();
+                    this.trackLeft = this.currentIndex * this.listWidth;
                 });
             }
         },
