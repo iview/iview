@@ -5,7 +5,6 @@
         </button>
         <div :class="[prefixCls + '-list']">
             <div :class="[prefixCls + '-track']" :style="trackStyles" v-el:slides>
-                <!-- opacity: 1; width: 4480px; transform: translate3d(-1120px, 0px, 0px); -->
                 <slot></slot>
             </div>
         </div>
@@ -56,13 +55,13 @@
                 type: String,
                 default: 'click'
             },
-            vertical: {
-                type: Boolean,
-                default: false
-            },
             currentIndex: {
                 type: Number,
                 default: 0
+            },
+            height: {
+                type: [String, Number],
+                default: 'auto'
             }
         },
         data () {
@@ -70,25 +69,23 @@
                 prefixCls: prefixCls,
                 listWidth: 0,
                 trackWidth: 0,
-                trackLeft: 0,
+                trackOffset: 0,
                 slides: [],
                 slideInstances: [],
-                timer: null
+                timer: null,
+                ready: false
             }
         },
         computed: {
             classes () {
                 return [
-                    `${prefixCls}`,
-                    {
-                        [`${prefixCls}-vertical`]: this.vertical
-                    }
+                    `${prefixCls}`
                 ];
             },
             trackStyles () {
                 return {
                     width: `${this.trackWidth}px`,
-                    transform: `translate3d(-${this.trackLeft}px, 0px, 0px)`,
+                    transform: `translate3d(-${this.trackOffset}px, 0px, 0px)`,
                     transition: `transform 500ms ${this.easing}`
                 };
             },
@@ -103,11 +100,6 @@
                     `${prefixCls}-dots`,
                     `${prefixCls}-dots-${this.dots}`
                 ]
-            },
-            activeDot (n) {
-                return {
-                    [`${prefixCls}-vertical`]: this.currentIndex === n
-                }
             }
         },
         methods: {
@@ -125,7 +117,7 @@
                     }
                 };
 
-                if (this.slideInstances.length) {
+                if (this.slideInstances.length || !this.$children) {
                     this.slideInstances.forEach((child) => {
                         find(child);
                     });
@@ -157,6 +149,7 @@
             updatePos () {
                 this.findChild((child) => {
                     child.width = this.listWidth;
+                    child.height = typeof this.height === 'number' ? `${this.height}px` : this.height;
                 });
 
                 this.trackWidth = (this.slides.length || 0) * this.listWidth;
@@ -172,10 +165,8 @@
                 });
             },
             handleResize () {
-                this.$nextTick(() => {
-                    this.listWidth = parseInt(getStyle(this.$el, 'width'));
-                    this.updatePos();
-                });
+                this.listWidth = parseInt(getStyle(this.$el, 'width'));
+                this.updatePos();
             },
             add (offset) {
                 let index = this.currentIndex;
@@ -198,6 +189,12 @@
                         this.add(1);
                     }, this.autoplaySpeed);
                 }
+            },
+            updateOffset () {
+                this.$nextTick(() => {
+                    this.handleResize();
+                    this.trackOffset = this.currentIndex * this.listWidth;
+                });
             }
         },
         compiled () {
@@ -211,10 +208,10 @@
                 this.setAutoplay();
             },
             currentIndex (val, oldVal) {
-                this.$emit('on-change', oldVal, val);
-                this.$nextTick(() => {
-                    this.trackLeft = this.currentIndex * this.listWidth;
-                });
+                this.updateOffset();
+            },
+            height () {
+                this.updatePos();
             }
         },
         ready () {

@@ -23,6 +23,8 @@
             <i-button @click="push">Push</i-button>
             <i-button @click="remove = true">Remove Front</i-button>
         </i-col>
+    </Row>
+    <Row>
         <i-col span="4">
             <p>Dots</p>
             <Button-group>
@@ -46,14 +48,21 @@
                 <i-button @click="arrow = 'never'">Never</i-button>
             </Button-group>
         </i-col>
+        <i-col span="4">
+            Height
+            <i-button @click="height = 'auto'">Auto</i-button>
+            <i-button @click="height = 80">Manual</i-button>
+            <Slider v-if="height !== 'auto'" :value.sync="height" :min="50" :max="200"></Slider>
+        </i-col>
     </Row>
-    <Carousel style="width: 50%; border: solid 1px #000"
+    <Carousel style="width: 50%; border: solid 1px #000; margin-top: 20px;"
         :current-index.sync="currentIndex"
         :autoplay="autoplay"
         :autoplay-speed="autoplaySpeed"
         :dots="dots"
         :trigger="trigger"
         :arrow="arrow"
+        :height="height"
         @on-change="slideChange"
         easing="linear">
         <Carousel-item v-if="!remove">
@@ -64,6 +73,11 @@
                 </template>
             </Alert>
         </Carousel-item>
+        <Carousel-item>
+            <div style="height: 100%; min-height: 20px; background: #f50; position: relative;">
+                <p style="position: absolute; width: 100%; color: #fff; top: 50%; height: 20px; line-height: 20px; margin-top: -10px; text-align: center">test font 定高测试</p>
+            </div>
+        </Carousel-item>
         <Carousel-item style="text-align: center">
             <Icon type="checkmark" style="font-size: 5em"></Icon>
         </Carousel-item>
@@ -73,7 +87,7 @@
         </Carousel-item>
     </Carousel>
     <div>
-        <p v-for="item in log">{{item}}</p>
+        <p v-for="item in log" track-by="$index">{{item}}</p>
     </div>
 </template>
 <script>
@@ -88,6 +102,7 @@
                 arrow: 'hover',
                 trigger: 'click',
                 dots: 'inside',
+                height: 'auto',
                 log: []
             }
         },

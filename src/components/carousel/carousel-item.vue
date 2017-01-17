@@ -11,6 +11,7 @@
             return {
                 prefixCls: prefixCls,
                 width: 0,
+                height: 'auto',
                 left: 0
             };
         },
@@ -18,6 +19,7 @@
             styles () {
                 return {
                     width: `${this.width}px`,
+                    height: `${this.height}`,
                     left: `${this.left}px`
                 }
             }

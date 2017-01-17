@@ -103,21 +103,22 @@
     }
 
     &-dots {
+        z-index: 10;
+
         @padding: 7px;
+
+        display: none;
 
         position: relative;
         &-inside {
+            display: block;
             position: absolute;
             bottom: 10px - @padding;
         }
 
         &-outside {
+            display: block;
             margin-top: 10px - @padding;
-        }
-
-        display: block;
-        &-none {
-            display: none;
         }
 
         list-style: none;
