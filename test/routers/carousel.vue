@@ -54,6 +54,7 @@
         :dots="dots"
         :trigger="trigger"
         :arrow="arrow"
+        @on-change="slideChange"
         easing="linear">
         <Carousel-item v-if="!remove">
             <Alert type="warning" show-icon>
@@ -71,6 +72,9 @@
             <Icon type="checkmark" style="font-size: 5em"></Icon>{{item}}
         </Carousel-item>
     </Carousel>
+    <div>
+        <p v-for="item in log">{{item}}</p>
+    </div>
 </template>
 <script>
     export default {
@@ -83,12 +87,16 @@
                 pushItem: [],
                 arrow: 'hover',
                 trigger: 'click',
-                dots: 'inside'
+                dots: 'inside',
+                log: []
             }
         },
         methods: {
             push () {
                 this.pushItem.push('test');
+            },
+            slideChange (from, to) {
+                this.log.push(`From ${from} To ${to}`);
             }
         }
     }

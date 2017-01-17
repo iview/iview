@@ -186,7 +186,7 @@
                 this.currentIndex = index;
             },
             dotsEvent (event, n) {
-                if (event === this.trigger) {
+                if (event === this.trigger && this.currentIndex !== n) {
                     this.$emit('on-change', this.currentIndex, n);
                     this.currentIndex = n;
                 }
@@ -210,7 +210,8 @@
             autoplaySpeed () {
                 this.setAutoplay();
             },
-            currentIndex () {
+            currentIndex (val, oldVal) {
+                this.$emit('on-change', oldVal, val);
                 this.$nextTick(() => {
                     this.trackLeft = this.currentIndex * this.listWidth;
                 });
