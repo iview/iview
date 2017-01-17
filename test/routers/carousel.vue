@@ -21,6 +21,7 @@
         </i-col>
         <i-col span="4">
             <i-button @click="push">Push</i-button>
+            <i-button @click="remove = true">Remove</i-button>
         </i-col>
     </Row>
     <Carousel style="width: 50%; border: solid 1px #000"
@@ -28,7 +29,7 @@
         :autoplay="autoplay"
         :autoplay-speed="autoplaySpeed"
         easing="linear">
-        <Carousel-item>
+        <Carousel-item v-if="!remove">
             <Alert type="warning" show-icon>
                 警告提示文案
                 <template slot="desc">
@@ -52,6 +53,7 @@
                 currentIndex: 0,
                 autoplay: true,
                 autoplaySpeed: 2000,
+                remove: false,
                 pushItem: []
             }
         },

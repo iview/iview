@@ -125,6 +125,8 @@
                 });
 
                 this.slides = slides;
+
+                this.updatePos();
             },
             updatePos () {
                 this.findChild((child) => {

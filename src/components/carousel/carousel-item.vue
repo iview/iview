@@ -22,5 +22,10 @@
                 }
             }
         },
+        compiled () {
+            // this.$parent.slotChange();
+            // this.$parent.updateSlides(true, true);
+            // this.$parent.updatePos();
+        }
     };
 </script>
