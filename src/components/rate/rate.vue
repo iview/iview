@@ -7,7 +7,7 @@
             @click="handleClick(item)">
             <span :class="[prefixCls + '-star-content']" type="half"></span>
         </div>
-        <div :class="[prefixCls + '-text']" v-if="showText">
+        <div :class="[prefixCls + '-text']" v-if="showText" v-show="value > 0">
             <slot>{{ value }} <template v-if="value <= 1">{{ t('i.rate.star') }}</template><template v-else>{{ t('i.rate.stars') }}</template></slot>
         </div>
     </div>

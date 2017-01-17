@@ -1,19 +1,22 @@
 <template>
-    <div style="margin: 100px">
-        {{value}}
-        <br><br><br>
-        <Rate :value.sync="value" :count="5" allow-half show-text></Rate>
-        <br><br><br>
-        <i-button @click="value++">add</i-button>
-        <i-button @click="value--">remove</i-button>
-    </div>
+    <Row>
+        <i-col span="12">
+            <Rate show-text :value.sync="valueText"></Rate>
+        </i-col>
+        <i-col span="12">
+            <Rate show-text :value.sync="valueCustomText">
+                <span style="color: #f5a623">{{ valueCustomText }}</span>
+            </Rate>
+        </i-col>
+    </Row>
 </template>
 <script>
     export default {
         props: {},
         data () {
             return {
-                value: 3.8
+                valueText: 3,
+                valueCustomText: 3.8
             };
         },
         computed: {},
