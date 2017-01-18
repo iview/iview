@@ -135,6 +135,11 @@ router.map({
             require(['./routers/form.vue'], resolve);
         }
     },
+    '/carousel': {
+        component: function (resolve) {
+            require(['./routers/carousel.vue'], resolve);
+        }
+    },
     '/rate': {
         component: function (resolve) {
             require(['./routers/rate.vue'], resolve);
