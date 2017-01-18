@@ -24,7 +24,7 @@
 </template>
 <script>
     import Icon from '../icon/icon.vue';
-    import { getStyle } from '../../utils/assist';
+    import { getStyle, oneOf } from '../../utils/assist';
 
     const prefixCls = 'ivu-carousel';
 
@@ -34,7 +34,10 @@
         props: {
             arrow: {
                 type: String,
-                default: 'hover'
+                default: 'hover',
+                validator (value) {
+                    return oneOf(value, ['hover', 'always', 'never']);
+                }
             },
             autoplay: {
                 type: Boolean,
@@ -50,11 +53,17 @@
             },
             dots: {
                 type: String,
-                default: 'inside'
+                default: 'inside',
+                validator (value) {
+                    return oneOf(value, ['inside', 'outside', 'none']);
+                }
             },
             trigger: {
                 type: String,
-                default: 'click'
+                default: 'click',
+                validator (value) {
+                    return oneOf(value, ['click', 'hover']);
+                }
             },
             currentIndex: {
                 type: Number,
@@ -62,7 +71,10 @@
             },
             height: {
                 type: [String, Number],
-                default: 'auto'
+                default: 'auto',
+                validator (value) {
+                    return value === 'auto' || toString.call(value) === '[object Number]';
+                }
             }
         },
         data () {
