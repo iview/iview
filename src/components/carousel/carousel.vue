@@ -41,7 +41,7 @@
             },
             autoplay: {
                 type: Boolean,
-                default: true
+                default: false
             },
             autoplaySpeed: {
                 type: Number,
