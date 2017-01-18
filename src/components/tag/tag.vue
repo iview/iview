@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!closed" :class="classes" transition="fade">
+    <div :class="classes" transition="fade">
         <span :class="dotClasses" v-if="showDot"></span><span :class="textClasses"><slot></slot></span><Icon v-if="closable" type="ios-close-empty" @click="close"></Icon>
     </div>
 </template>
@@ -27,11 +27,6 @@
                 }
             }
         },
-        data () {
-            return {
-                closed: false
-            };
-        },
         computed: {
             classes () {
                 return [
@@ -55,7 +50,6 @@
         },
         methods: {
             close (e) {
-                this.closed = true;
                 this.$emit('on-close', e);
             }
         }
