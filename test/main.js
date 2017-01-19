@@ -145,6 +145,11 @@ router.map({
             require(['./routers/rate.vue'], resolve);
         }
     },
+    '/upload': {
+        component: function (resolve) {
+            require(['./routers/upload.vue'], resolve);
+        }
+    },
 });
 
 router.beforeEach(function () {
