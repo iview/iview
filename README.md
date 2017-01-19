@@ -8,6 +8,8 @@
 
 ### A high quality  UI Components Library with Vue.js
 
+> iView works only with Vue 1.0 currently. We have been in developing. Please pay attention to the iView.
+
 ## Docs
 
 ### [中文文档](https://www.iviewui.com)
@@ -84,5 +86,3 @@ iView is an MIT licensed open source project and completely free to use, but if 
 <p align="center">
     <img src="https://raw.githubusercontent.com/iview/iview/master/assets/pay.png">
 </p>
-
-# We have been in developing, please pay attention to the iView.
