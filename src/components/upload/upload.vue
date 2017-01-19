@@ -30,7 +30,7 @@
             headers: {
                 type: Object,
                 default () {
-                    return {}
+                    return {};
                 }
             },
             multiple: {
