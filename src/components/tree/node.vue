@@ -1,17 +1,20 @@
 <template>
-  <li class="" @drop="dropHandle" @dragover="dragoverHandle">
-    <Icon :class="switcherClasses" @click="toggleOpen"
-          type="arrow-right-b" size="12"></Icon>
-    <span :class="checkboxClasses">
-      <span :class="checkboxInnerClasses" @click="toggleChecked"></span>
-    </span>
-    <a title="leaf" draggable="true" :class="nodeContentClass">
-      <span :class="titleClassed">{{item.title}}</span>
-    </a>
-    <template v-if="item.children&&item.children.length">
-      <ul v-show="open">
+  <li :class="nodeClasses" @drop="dropHandle" @dragover="dragoverHandle">
+    <div :class="nodeContainerClasses">
+      <Icon :class="switcherClasses" @click="toggleOpen"
+            type="arrow-right-b" size="12"></Icon>
+      <span :class="checkboxClasses">
+        <span :class="checkboxInnerClasses" @click="toggleChecked"></span>
+      </span>
+      <a title="leaf" draggable="true" :class="nodeContentClass" @dragstart="dragstartHandle">
+        <span :class="titleClassed">{{item.title}}index{{item.__index}}parent{{item.__parentIndex}}</span>
+      </a>
+    </div>
+    <template v-if="hasChildren">
+      <ul v-if="item.__append">
         <span></span>
-        <Node :item="item" v-for="item in item.children"></Node>
+        <Node :item="cItem" v-for="cItem in item.children"
+        ></Node>
       </ul>
     </template>
   </li>
@@ -22,13 +25,28 @@
   const prefixCls = 'ivu-tree';
   export default{
     name: 'node'
-    , props: ['item']
+    , props: [
+      'item'
+    ]
     , computed: {
+      hasChildren(){
+        return !!(this.item.children && this.item.children.length);
+      },
+      nodeClasses(){
+        return [`${prefixCls}-node`,
+          {
+            [`${prefixCls}-node_open`]: this.item.__open
+          }]
+      },
+      nodeContainerClasses(){
+        return [`${prefixCls}-node-container`]
+      },
       switcherClasses () {
         return [
           `${prefixCls}-switcher`,
           {
-            [`invisible`]: !(this.item.children && this.item.children.length)
+            [`invisible`]: !(this.item.children && this.item.children.length),
+            [`${prefixCls}-noline_close`]: this.item.__open
           }
         ];
       },
@@ -36,7 +54,7 @@
         return [
           `${prefixCls}-checkbox`,
           {
-            [`${prefixCls}-checkbox-checked`]: this.checked
+            [`${prefixCls}-checkbox-checked`]: this.item.__checked
           }
         ];
       },
@@ -55,42 +73,27 @@
     }
     , data(){
       return {
-        prefixCls: prefixCls,
-        open: false,
-        checked: false
+        prefixCls: prefixCls
       }
     },
     methods: {
       toggleOpen () {
-        this.open = !this.open;
+        this.$dispatch('child-toggleOpen', this);
       },
       toggleChecked(){
-        var children;
-        this.checked = !this.checked;
-        children = this.item.children;
-        if (children && children.length) {
-          this.$broadcast('toggleTo', this.checked);
-        }
-      },
-      checkChildren(){
-        var children = this.children;
-        children.forEach(function (item, index) {
-          item.checked = true;
-        });
+        this.$dispatch('child-toggleChecked', this);
       },
       dropHandle(){
-        console.log(arguments);
+        this.$dispatch('child-drop', this);
       },
       dragoverHandle(e){
         e.preventDefault();
-        console.log(e);
+      },
+      dragstartHandle(){
+        this.$dispatch('child-dragstart', this);
       }
     },
-    events: {
-      toggleTo: function (checked) {
-        this.checked = checked;
-      }
-    }
+    events: {}
   }
 </script>
 

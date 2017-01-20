@@ -11,7 +11,7 @@
   padding: 5px;
   font-size: @font-size-base;
   li {
-    padding: 3.5px 0;
+    padding: 0;
     margin: 0;
     list-style: none;
     white-space: nowrap;
@@ -22,6 +22,18 @@
       /* Required to make elements draggable in old WebKit */
       -khtml-user-drag: element;
       -webkit-user-drag: element;
+    }
+
+    & > .@{tree-prefix-cls}-node-container {
+      max-height: 0;
+      transition: all 0.2s ease;
+      overflow: hidden;
+    }
+    &.@{tree-prefix-cls}-node_open > ul > li {
+      padding: 3.5px 0;
+      & > .@{tree-prefix-cls}-node-container {
+        max-height: 40px;
+      }
     }
     &.drag-over {
       > a[draggable] {
@@ -96,6 +108,10 @@
       }
 
       &.@{tree-prefix-cls}-switcher {
+        &:before {
+          display: inline-block;
+          transition: 0.2s all ease;
+        }
         &.@{tree-prefix-cls}-switcher-noop {
           cursor: auto;
         }
@@ -109,19 +125,23 @@
         &.@{tree-prefix-cls}-center_close,
         &.@{tree-prefix-cls}-bottom_close,
         &.@{tree-prefix-cls}-noline_close {
-          &:after {
-            transform: rotate(270deg) scale(0.6);
+          &:before {
+            transform: rotate(90deg);
           }
         }
       }
     }
   }
   > li {
+    padding: 3.5px 0;
     &:first-child {
       padding-top: 7px;
     }
     &:last-child {
       padding-bottom: 7px;
+    }
+    > .@{tree-prefix-cls}-node-container {
+      max-height: 40px;
     }
   }
   &-child-tree {
