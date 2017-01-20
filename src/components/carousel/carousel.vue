@@ -47,6 +47,13 @@
                 type: Number,
                 default: 2000
             },
+            autoplayDirection: {
+                type: String,
+                default: 'left',
+                validator (value) {
+                    return oneOf(value, ['left', 'right']);
+                }
+            },
             easing: {
                 type: String,
                 default: 'ease'
@@ -175,11 +182,13 @@
 
                     this.updateSlides(true, true);
                     this.updatePos();
+                    this.updateOffset();
                 });
             },
             handleResize () {
                 this.listWidth = parseInt(getStyle(this.$el, 'width'));
                 this.updatePos();
+                this.updateOffset();
             },
             add (offset) {
                 let index = this.currentIndex;
@@ -191,19 +200,20 @@
             dotsEvent (event, n) {
                 if (event === this.trigger && this.currentIndex !== n) {
                     this.currentIndex = n;
+                    // Reset autoplay timer when trigger be activated
+                    this.setAutoplay();
                 }
             },
             setAutoplay () {
                 window.clearInterval(this.timer);
                 if (this.autoplay) {
                     this.timer = window.setInterval(() => {
-                        this.add(1);
+                        this.add(this.autoplayDirection === 'left' ? 1 : -1);
                     }, this.autoplaySpeed);
                 }
             },
             updateOffset () {
                 this.$nextTick(() => {
-                    this.handleResize();
                     this.trackOffset = this.currentIndex * this.listWidth;
                 });
             }

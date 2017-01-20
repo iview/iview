@@ -12,6 +12,13 @@
             Speed <Slider :value.sync="autoplaySpeed" :min="300" :max="5000"></Slider>
         </i-col>
         <i-col span="4">
+            <p>Direction</p>
+            <Button-group>
+                <i-button @click="autoplayDirection = 'left'">Left</i-button>
+                <i-button @click="autoplayDirection = 'right'">Right</i-button>
+            </Button-group>
+        </i-col>
+        <i-col span="4">
             Switch To
             <Button-group>
                 <i-button @click="currentIndex = 0">0</i-button>
@@ -59,6 +66,7 @@
         :current-index.sync="currentIndex"
         :autoplay="autoplay"
         :autoplay-speed="autoplaySpeed"
+        :autoplay-direction="autoplayDirection"
         :dots="dots"
         :trigger="trigger"
         :arrow="arrow"
@@ -185,6 +193,7 @@
                 currentIndex: 0,
                 autoplay: true,
                 autoplaySpeed: 2000,
+                autoplayDirection: 'left',
                 remove: false,
                 pushItem: [],
                 arrow: 'hover',
