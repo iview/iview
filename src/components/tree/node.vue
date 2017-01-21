@@ -7,7 +7,7 @@
         <span :class="checkboxInnerClasses" @click="toggleChecked"></span>
       </span>
       <a title="leaf" draggable="true" :class="nodeContentClass" @dragstart="dragstartHandle">
-        <span :class="titleClassed">{{item.title}}index{{item.__index}}parent{{item.__parentIndex}}</span>
+        <span :class="titleClassed">{{item.title}}</span>
       </a>
     </div>
     <template v-if="hasChildren">
@@ -77,6 +77,19 @@
       }
     },
     methods: {
+      /**
+       * todo 强制触发item的更新
+       * @param key
+       * @param fuc
+       */
+      refresh(key, fuc){
+        var temp = this[key];
+        this[key] = {};
+        this.$nextTick(function () {
+          this[key] = temp;
+          fuc && fuc();
+        });
+      },
       toggleOpen () {
         this.$dispatch('child-toggleOpen', this);
       },
