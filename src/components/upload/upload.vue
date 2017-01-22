@@ -146,7 +146,7 @@
                     {
                         [`${prefixCls}-select`]: this.type === 'select',
                         [`${prefixCls}-drag`]: this.type === 'drag',
-                        [`${prefixCls}-dragOver`]: this.dragOver
+                        [`${prefixCls}-dragOver`]: this.type === 'drag' && this.dragOver
                     }
                 ];
             },
