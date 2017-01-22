@@ -1,6 +1,6 @@
 <template>
     <div :class="classes">
-        <button :class="arrowClasses" class="left" @click="add(-1)">
+        <button :class="arrowClasses" class="left" @click="arrowEvent(-1)">
             <Icon type="chevron-left"></Icon>
         </button>
         <div :class="[prefixCls + '-list']">
@@ -8,7 +8,7 @@
                 <slot></slot>
             </div>
         </div>
-        <button :class="arrowClasses" class="right" @click="add(1)">
+        <button :class="arrowClasses" class="right" @click="arrowEvent(1)">
             <Icon type="chevron-right"></Icon>
         </button>
         <ul :class="dotsClasses">
@@ -46,13 +46,6 @@
             autoplaySpeed: {
                 type: Number,
                 default: 2000
-            },
-            autoplayDirection: {
-                type: String,
-                default: 'left',
-                validator (value) {
-                    return oneOf(value, ['left', 'right']);
-                }
             },
             easing: {
                 type: String,
@@ -197,6 +190,10 @@
                 index = index % this.slides.length;
                 this.currentIndex = index;
             },
+            arrowEvent (offset) {
+                this.setAutoplay();
+                this.add(offset);
+            },
             dotsEvent (event, n) {
                 if (event === this.trigger && this.currentIndex !== n) {
                     this.currentIndex = n;
@@ -208,7 +205,7 @@
                 window.clearInterval(this.timer);
                 if (this.autoplay) {
                     this.timer = window.setInterval(() => {
-                        this.add(this.autoplayDirection === 'left' ? 1 : -1);
+                        this.add(1);
                     }, this.autoplaySpeed);
                 }
             },
