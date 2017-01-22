@@ -1,6 +1,6 @@
 <template>
     <div :class="classes">
-        <button :class="arrowClasses" class="left" @click="add(-1)">
+        <button :class="arrowClasses" class="left" @click="arrowEvent(-1)">
             <Icon type="chevron-left"></Icon>
         </button>
         <div :class="[prefixCls + '-list']">
@@ -8,7 +8,7 @@
                 <slot></slot>
             </div>
         </div>
-        <button :class="arrowClasses" class="right" @click="add(1)">
+        <button :class="arrowClasses" class="right" @click="arrowEvent(1)">
             <Icon type="chevron-right"></Icon>
         </button>
         <ul :class="dotsClasses">
@@ -175,11 +175,13 @@
 
                     this.updateSlides(true, true);
                     this.updatePos();
+                    this.updateOffset();
                 });
             },
             handleResize () {
                 this.listWidth = parseInt(getStyle(this.$el, 'width'));
                 this.updatePos();
+                this.updateOffset();
             },
             add (offset) {
                 let index = this.currentIndex;
@@ -188,9 +190,15 @@
                 index = index % this.slides.length;
                 this.currentIndex = index;
             },
+            arrowEvent (offset) {
+                this.setAutoplay();
+                this.add(offset);
+            },
             dotsEvent (event, n) {
                 if (event === this.trigger && this.currentIndex !== n) {
                     this.currentIndex = n;
+                    // Reset autoplay timer when trigger be activated
+                    this.setAutoplay();
                 }
             },
             setAutoplay () {
@@ -203,7 +211,6 @@
             },
             updateOffset () {
                 this.$nextTick(() => {
-                    this.handleResize();
                     this.trackOffset = this.currentIndex * this.listWidth;
                 });
             }
