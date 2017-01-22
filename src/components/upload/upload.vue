@@ -207,7 +207,7 @@
                     const _file_format = file.name.split('.').pop().toLocaleLowerCase();
                     const checked = this.format.some(item => item.toLocaleLowerCase() === _file_format);
                     if (!checked) {
-                        this.onFormatError(file);
+                        this.onFormatError(file, this.fileList);
                         return false;
                     }
                 }
@@ -215,7 +215,7 @@
                 // check maxSize
                 if (this.maxSize) {
                     if (file.size > this.maxSize * 1024) {
-                        this.onExceededSize(file);
+                        this.onExceededSize(file, this.fileList);
                         return false;
                     }
                 }

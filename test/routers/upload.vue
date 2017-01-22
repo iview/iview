@@ -20,6 +20,7 @@
             :max-size="2048"
             :on-format-error="handleFormatError"
             :on-exceeded-size="handleMaxSize"
+            :before-upload="handleBeforeUpload"
             multiple
             type="drag"
             action="//jsonplaceholder.typicode.com/posts/"
@@ -81,6 +82,15 @@
                     title: '超出文件大小限制',
                     desc: '文件 ' + file.name + ' 太大，不能超过 2M。'
                 });
+            },
+            handleBeforeUpload () {
+                const check = this.uploadList.length < 5;
+                if (!check) {
+                    this.$Notice.warning({
+                        title: '最多只能上传 5 张图片。'
+                    });
+                }
+                return check;
             }
         }
     }
