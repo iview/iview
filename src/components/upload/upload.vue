@@ -1,27 +1,37 @@
 <template>
-    <div
-        :class="classes"
-        @click="handleClick"
-        @drop.prevent="onDrop"
-        @dragover.prevent="dragOver = true"
-        @dragleave.prevent="dragOver = false">
-        <input
-            v-el:input
-            :class="[prefixCls + '-input']"
-            type="file"
-            @change="handleChange"
-            :multiple="multiple"
-            :accept="accept">
-        <slot></slot>
+    <div :class="[prefixCls]">
+        <div
+            :class="classes"
+            @click="handleClick"
+            @drop.prevent="onDrop"
+            @dragover.prevent="dragOver = true"
+            @dragleave.prevent="dragOver = false">
+            <input
+                v-el:input
+                :class="[prefixCls + '-input']"
+                type="file"
+                @change="handleChange"
+                :multiple="multiple"
+                :accept="accept">
+            <slot></slot>
+        </div>
+        <slot name="tip"></slot>
+        <upload-list
+            v-if="showUploadList"
+            :files="fileList"
+            @on-file-remove="handleRemove"
+            @on-file-preview="handlePreview"></upload-list>
     </div>
 </template>
 <script>
+    import UploadList from './upload-list.vue';
     import ajax from './ajax';
     import { oneOf } from '../../utils/assist';
 
     const prefixCls = 'ivu-upload';
 
     export default {
+        components: { UploadList },
         props: {
             action: {
                 type: String,
@@ -56,7 +66,8 @@
                 type: String,
                 validator (value) {
                     return oneOf(value, ['select', 'drag']);
-                }
+                },
+                default: 'select'
             },
             format: {
                 type: Array,
@@ -133,6 +144,7 @@
                 return [
                     `${prefixCls}`,
                     {
+                        [`${prefixCls}-select`]: this.type === 'select',
                         [`${prefixCls}-drag`]: this.type === 'drag',
                         [`${prefixCls}-dragOver`]: this.dragOver
                     }
