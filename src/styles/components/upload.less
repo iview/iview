@@ -16,7 +16,7 @@
             overflow: hidden;
             position: relative;
 
-            & + span{
+            & > span{
                 cursor: pointer;
                 transition: color @transition-time @ease-in-out;
                 i{
@@ -30,7 +30,7 @@
 
             &:hover{
                 background: @input-disabled-bg;
-                & + span{
+                & > span{
                     color: @primary-color;
                     i{
                         color: @text-color;

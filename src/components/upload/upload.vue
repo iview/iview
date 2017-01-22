@@ -202,6 +202,24 @@
                 }
             },
             post (file) {
+                // check format
+                if (this.format.length) {
+                    const _file_format = file.name.split('.').pop().toLocaleLowerCase();
+                    const checked = this.format.some(item => item.toLocaleLowerCase() === _file_format);
+                    if (!checked) {
+                        this.onFormatError(file);
+                        return false;
+                    }
+                }
+
+                // check maxSize
+                if (this.maxSize) {
+                    if (file.size > this.maxSize * 1024) {
+                        this.onExceededSize(file);
+                        return false;
+                    }
+                }
+
                 this.handleStart(file);
                 let formData = new FormData();
                 formData.append(this.name, file);
@@ -234,24 +252,6 @@
                     uid: file.uid,
                     showProgress: true
                 };
-
-                // check format
-                if (this.format.length) {
-                    const _file_format = _file.name.split('.').pop().toLocaleLowerCase();
-                    const checked = this.format.some(item => item.toLocaleLowerCase() === _file_format);
-                    if (checked) {
-                        this.onFormatError(file);
-                        return;
-                    }
-                }
-
-                // check maxSize
-                if (this.maxSize) {
-                    if (_file.size > this.maxSize * 1024) {
-                        this.onExceededSize(file);
-                        return;
-                    }
-                }
 
                 this.fileList.push(_file);
             },
