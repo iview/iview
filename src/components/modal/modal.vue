@@ -219,7 +219,7 @@
                 }
             },
             scrolling (val) {
-                if (!this.scrolling) {
+                if (!val) {
                     this.addScrollEffect();
                 } else {
                     this.removeScrollEffect();
