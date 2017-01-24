@@ -76,6 +76,10 @@
             footerHide: {
                 type: Boolean,
                 default: false
+            },
+            scrolling: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -204,12 +208,21 @@
                 } else {
                     if (this.timer) clearTimeout(this.timer);
                     this.wrapShow = true;
-                    this.addScrollEffect();
+                    if (!this.scrolling) {
+                        this.addScrollEffect();
+                    }
                 }
             },
             loading (val) {
                 if (!val) {
                     this.buttonLoading = false;
+                }
+            },
+            scrolling (val) {
+                if (!this.scrolling) {
+                    this.addScrollEffect();
+                } else {
+                    this.removeScrollEffect();
                 }
             }
         }
