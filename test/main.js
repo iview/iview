@@ -150,6 +150,11 @@ router.map({
             require(['./routers/upload.vue'], resolve);
         }
     },
+    '/tree': {
+        component: function (resolve) {
+            require(['./routers/tree.vue'], resolve);
+        }
+    },
 });
 
 router.beforeEach(function () {
