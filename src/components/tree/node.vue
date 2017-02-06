@@ -103,7 +103,7 @@
                 this.item.__append = true;//todo 应该用__append控制渲染,__open控制开闭,以避免不必要的渲染,但是目前使用node.$parent完成父子组件通信,暂时必须全部渲染
                 if (targetState) {
                     this.item.__display = targetState;
-                    this.$nextTick(function () {
+                    window.requestAnimationFrame(function () {
                         this.item.__open = targetState;
                     }.bind(this));
                 } else {
