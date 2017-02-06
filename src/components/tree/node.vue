@@ -161,7 +161,7 @@
                 this.$parent.$emit('child-toggle-checked', targetState);
             }
         }
-    }
+    };
 </script>
 
 <style lang="less">
