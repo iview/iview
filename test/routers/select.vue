@@ -42,8 +42,8 @@
                         label: '重庆市'
                     }
                 ],
-                model11: 'beijing',
-                model12: ['beijing', 'shanghai']
+                model11: '',
+                model12: []
             }
         }
     }

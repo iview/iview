@@ -9,7 +9,8 @@
     vertical-align: middle;
     color: @text-color;
     font-size: @font-size-base;
-    position: relative;
+    //position: relative;
+    line-height: normal;
 
     &-selection {
         display: block;
@@ -17,6 +18,7 @@
         outline: none;
         user-select: none;
         cursor: pointer;
+        position: relative;
 
         background-color: #fff;
         border-radius: @btn-border-radius;
@@ -123,10 +125,11 @@
             height: @input-height-base - 2px;
             line-height: @input-height-base - 2px;
             color: @input-placeholder-color;
+            font-size: @font-size-small;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            padding-left: 8px;
+            padding-left: 4px;
             padding-right: 22px;
         }
     }
@@ -164,7 +167,7 @@
     &-multiple &-input{
         height: @input-height-base - 3px;
         line-height: @input-height-base;
-        padding: 0 0 0 6px;
+        padding: 0 0 0 4px;
     }
 
     &-not-found{
@@ -213,5 +216,19 @@
         color: @legend-color;
         height: 30px;
         line-height: 30px;
+    }
+}
+
+.@{form-item-prefix-cls}-error{
+    .@{select-prefix-cls}{
+        &-selection{
+            border: 1px solid @error-color;
+        }
+        &-arrow{
+            color: @error-color;
+        }
+        &-visible .@{select-prefix-cls}-selection{
+            .active-error;
+        }
     }
 }

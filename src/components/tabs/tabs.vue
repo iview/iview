@@ -9,7 +9,7 @@
                             <div :class="tabCls(item)" v-for="item in navList" @click="handleChange($index)">
                                 <Icon v-if="item.icon !== ''" :type="item.icon"></Icon>
                                 {{ item.label }}
-                                <Icon v-if="closable && type === 'card'" type="ios-close-empty" @click.stop="handleRemove($index)"></Icon>
+                                <Icon v-if="showClose(item)" type="ios-close-empty" @click.stop="handleRemove($index)"></Icon>
                             </div>
                         </div>
                     </div>
@@ -125,7 +125,8 @@
                         label: pane.label,
                         icon: pane.icon || '',
                         key: pane.key || index,
-                        disabled: pane.disabled
+                        disabled: pane.disabled,
+                        closable: pane.closable
                     });
                     if (!pane.key) pane.key = index;
                     if (index === 0) {
@@ -172,7 +173,6 @@
                 const nav = this.navList[index];
                 if (nav.disabled) return;
                 this.activeKey = nav.key;
-                this.updateStatus();
                 this.$emit('on-click', nav.key);
             },
             handleRemove (index) {
@@ -200,11 +200,23 @@
                 }
                 this.$emit('on-tab-remove', tab.key);
                 this.updateNav();
+            },
+            showClose (item) {
+                if (this.type === 'card') {
+                    if (item.closable !== null) {
+                        return item.closable;
+                    } else {
+                        return this.closable;
+                    }
+                } else {
+                    return false;
+                }
             }
         },
         watch: {
             activeKey () {
                 this.updateBar();
+                this.updateStatus();
             }
         }
     };

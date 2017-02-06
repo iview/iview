@@ -6,6 +6,7 @@
         display: inline-block;
         width: 100%;
         position: relative;
+        vertical-align: middle;
     }
     &-icon {
         width: 32px;
@@ -17,6 +18,9 @@
         position: absolute;
         right: 0;
         z-index: 1;
+    }
+    &-icon-validate{
+        display: none;
     }
 
     &-icon + &{
@@ -42,4 +46,23 @@
 
 .@{input-prefix-cls}-group{
     .input-group(~"@{input-prefix-cls}");
+}
+
+.@{form-item-prefix-cls}-error{
+    .@{input-prefix-cls}{
+        .input-error;
+        &-icon{
+            color: @error-color;
+        }
+    }
+    .@{input-prefix-cls}-group{
+        .input-group-error;
+    }
+}
+.@{form-item-prefix-cls}-validating{
+    .@{input-prefix-cls}{
+        &-icon-validate{
+            display: inline-block;
+        }
+    }
 }

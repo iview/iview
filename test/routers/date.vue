@@ -1,19 +1,14 @@
 <template>
-    <row>
-        <i-col span="12">
-            <Time-picker :value="val" type="time" placeholder="选择时间" style="width: 168px"></Time-picker>
-        </i-col>
-        <i-col span="12">
-            <Time-picker type="timerange" placement="bottom-end" placeholder="选择时间" style="width: 168px"></Time-picker>
-        </i-col>
-    </row>
+    <Date-picker type="datetime" placeholder="选择日期和时间" style="width: 200px"></Date-picker>
+    <br>
+    <Date-picker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 200px"></Date-picker>
+    <br>
+    <Date-picker type="datetimerange" placeholder="选择日期和时间" style="width: 300px"></Date-picker>
+    <br>
+    <Date-picker type="datetimerange" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 300px"></Date-picker>
 </template>
 <script>
     export default {
-        data () {
-            return {
-                val: new Date
-            }
-        }
+
     }
 </script>

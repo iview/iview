@@ -1,13 +1,15 @@
 <template>
     <div :class="classes" @click="handleClick">
-        <span :class="getCellCls(cell)" v-for="cell in cells"><em :index="$index">{{ cell.text }}月</em></span>
+        <span :class="getCellCls(cell)" v-for="cell in cells"><em :index="$index">{{ tCell(cell.text) }}</em></span>
     </div>
 </template>
 <script>
     import { deepCopy } from '../../../utils/assist';
+    import Locale from '../../../mixins/locale';
     const prefixCls = 'ivu-date-picker-cells';
 
     export default {
+        mixins: [ Locale ],
         props: {
             date: {},
             month: {
@@ -68,6 +70,9 @@
                     this.$emit('on-pick', index);
                 }
                 this.$emit('on-pick-click');
+            },
+            tCell (cell) {
+                return this.t(`i.datepicker.months.m${cell}`);
             }
         }
     };

@@ -28,6 +28,7 @@
     import Confirm from '../base/confirm.vue';
 
     import Mixin from './mixin';
+    import Locale from '../../../mixins/locale';
 
     import { initTimeDate } from '../util';
 
@@ -35,7 +36,7 @@
     const timePrefixCls = 'ivu-time-picker';
 
     export default {
-        mixins: [Mixin],
+        mixins: [ Mixin, Locale ],
         components: { TimeSpinner, Confirm },
         data () {
             return {
@@ -61,7 +62,10 @@
             },
             visibleDate () {
                 const date = this.date;
-                return `${date.getFullYear()}年 ${date.getMonth() + 1}月`;
+                const month = date.getMonth() + 1;
+                const tYear = this.t('i.datepicker.year');
+                const tMonth = this.t(`i.datepicker.month${month}`);
+                return `${date.getFullYear()}${tYear} ${tMonth}`;
             }
         },
         watch: {

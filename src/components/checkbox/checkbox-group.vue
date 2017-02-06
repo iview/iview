@@ -40,6 +40,7 @@
             change (data) {
                 this.model = data;
                 this.$emit('on-change', data);
+                this.$dispatch('on-form-change', data);
             }
         },
         watch: {

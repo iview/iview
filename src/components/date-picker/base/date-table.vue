@@ -4,7 +4,7 @@
         @click="handleClick"
         @mousemove="handleMouseMove">
         <div :class="[prefixCls + '-header']">
-            <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+            <span>{{ t('i.datepicker.weeks.sun') }}</span><span>{{ t('i.datepicker.weeks.mon') }}</span><span>{{ t('i.datepicker.weeks.tue') }}</span><span>{{ t('i.datepicker.weeks.wed') }}</span><span>{{ t('i.datepicker.weeks.thu') }}</span><span>{{ t('i.datepicker.weeks.fri') }}</span><span>{{ t('i.datepicker.weeks.sat') }}</span>
         </div>
         <span :class="getCellCls(cell)" v-for="cell in readCells"><em :index="$index">{{ cell.text }}</em></span>
     </div>
@@ -12,6 +12,7 @@
 <script>
     import { getFirstDayOfMonth, getDayCountOfMonth } from '../util';
     import { deepCopy } from '../../../utils/assist';
+    import Locale from '../../../mixins/locale';
 
     const prefixCls = 'ivu-date-picker-cells';
 
@@ -22,6 +23,7 @@
     };
 
     export default {
+        mixins: [ Locale ],
         props: {
             date: {},
             year: {},

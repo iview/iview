@@ -62,6 +62,7 @@
             }
         },
         ready () {
+            if (this.$parent && this.$parent.$options.name === 'radioGroup') this.group = true;
             if (!this.group) {
                 this.updateModel();
             }
@@ -81,6 +82,8 @@
                         checked: this.checked
                     });
                 }
+
+                if (!this.group) this.$dispatch('on-form-change', this.selected);
             },
             updateModel () {
                 this.selected = this.checked;

@@ -20,6 +20,10 @@
             disabled: {
                 type: Boolean,
                 default: false
+            },
+            closable: {
+                type: Boolean,
+                default: null
             }
         },
         data () {

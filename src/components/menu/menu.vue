@@ -119,13 +119,15 @@
         events: {
             'on-menu-item-select' (key) {
                 this.activeKey = key;
-                this.updateActiveKey();
                 this.$emit('on-select', key);
             }
         },
         watch: {
             openKeys () {
                 this.$emit('on-open-change', this.openKeys);
+            },
+            activeKey () {
+                this.updateActiveKey();
             }
         }
     };

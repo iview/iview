@@ -50,7 +50,7 @@
                     const cell = document.createElement('div');
                     cell.innerHTML = template;
                     const _oldParentChildLen = $parent.$children.length;
-                    $parent.$compile(cell);
+                    $parent.$compile(cell);    // todo 这里无法触发 ready 钩子
                     const _newParentChildLen = $parent.$children.length;
 
                     if (_oldParentChildLen !== _newParentChildLen) {    // if render normal html node, do not tag

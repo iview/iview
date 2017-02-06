@@ -2,7 +2,7 @@
     <div
         :class="[prefixCls]"
         v-clickoutside="handleClose">
-        <div v-el:reference>
+        <div v-el:reference :class="[prefixCls + '-rel']">
             <slot>
                 <i-input
                     :class="[prefixCls + '-editor']"
@@ -253,6 +253,7 @@
         },
         methods: {
             handleClose () {
+                if (this.open !== null) return;
                 if (!this.disableClickOutSide) this.visible = false;
                 this.disableClickOutSide = false;
             },
@@ -359,6 +360,7 @@
                 this.internalValue = '';
                 this.value = '';
                 this.$emit('on-clear');
+                this.$dispatch('on-form-change', '');
             },
             showPicker () {
                 if (!this.picker) {
@@ -387,11 +389,10 @@
 
                     this.picker.$on('on-pick', (date, visible = false) => {
                         if (!this.confirm) this.visible = visible;
-
-                        this.emitChange(date);
                         this.value = date;
                         this.picker.value = date;
                         this.picker.resetView && this.picker.resetView();
+                        this.emitChange(date);
                     });
 
                     this.picker.$on('on-pick-clear', () => {
@@ -424,6 +425,7 @@
                 }
 
                 this.$emit('on-change', newDate);
+                this.$dispatch('on-form-change', newDate);
             }
         },
         watch: {
@@ -478,6 +480,14 @@
         },
         ready () {
             if (this.open !== null) this.visible = this.open;
+        },
+        events: {
+            'on-form-blur' () {
+                return false;
+            },
+            'on-form-change' () {
+                return false;
+            }
         }
     };
 </script>

@@ -55,10 +55,11 @@
                 this.isFocus = false;
             },
             queryChange (val) {
-                this.hidden = !new RegExp(val, 'i').test(this.searchLabel);
+                const parsedQuery = val.replace(/(\^|\(|\)|\[|\]|\$|\*|\+|\.|\?|\\|\{|\}|\|)/g, '\\$1');
+                this.hidden = !new RegExp(parsedQuery, 'i').test(this.searchLabel);
             }
         },
-        ready () {
+        compiled () {
             this.searchLabel = this.$el.innerHTML;
         },
         events: {

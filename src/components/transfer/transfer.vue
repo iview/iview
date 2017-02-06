@@ -38,6 +38,7 @@
 <script>
     import List from './list.vue';
     import Operation from './operation.vue';
+    import { t } from '../../locale';
 
     const prefixCls = 'ivu-transfer';
 
@@ -77,7 +78,7 @@
             titles: {
                 type: Array,
                 default () {
-                    return ['源列表', '目的列表'];
+                    return [t('i.transfer.titles.source'), t('i.transfer.titles.target')];
                 }
             },
             operations: {
@@ -92,7 +93,9 @@
             },
             filterPlaceholder: {
                 type: String,
-                default: '请输入搜索内容'
+                default () {
+                    return t('i.transfer.filterPlaceholder');
+                }
             },
             filterMethod: {
                 type: Function,
@@ -103,7 +106,9 @@
             },
             notFoundText: {
                 type: String,
-                default: '列表为空'
+                default () {
+                    return t('i.transfer.notFoundText');
+                }
             }
         },
         data () {
@@ -172,6 +177,7 @@
 
                 this.$refs[opposite].toggleSelectAll(false);
                 this.$emit('on-change', newTargetKeys, direction, moveKeys);
+                this.$dispatch('on-form-change', newTargetKeys, direction, moveKeys);
             }
         },
         watch: {

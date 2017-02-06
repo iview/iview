@@ -9,6 +9,7 @@
     const prefixCls = 'ivu-radio-group';
 
     export default {
+        name: 'radioGroup',
         props: {
             model: {
                 type: [String, Number],
@@ -23,6 +24,10 @@
                 validator (value) {
                     return oneOf(value, ['button']);
                 }
+            },
+            vertical: {
+                type: Boolean,
+                default: false
             }
         },
         computed: {
@@ -31,7 +36,8 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-${this.size}`]: !!this.size,
-                        [`${prefixCls}-${this.type}`]: !!this.type
+                        [`${prefixCls}-${this.type}`]: !!this.type,
+                        [`${prefixCls}-vertical`]: this.vertical
                     }
                 ];
             }
@@ -51,6 +57,7 @@
                 this.model = data.value;
                 this.updateModel();
                 this.$emit('on-change', data.value);
+                this.$dispatch('on-form-change', data.value);
             }
         },
         watch: {

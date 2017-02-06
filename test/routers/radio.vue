@@ -1,7 +1,6 @@
 <template>
     <div>
-        <Checkbox>hello</Checkbox>
-        <Radio-group :model.sync="phone">
+        <Radio-group :model.sync="phone" vertical>
             <Radio value="apple">
                 <Icon type="social-apple"></Icon>
                 <span>Apple</span>
@@ -27,7 +26,7 @@
     <i-button @click="radio = !radio">change radio</i-button>
     <br>
     <br>
-    <Radio-group :model.sync="phone" type="button">
+    <Radio-group :model.sync="phone" type="button" vertical>
         <Radio value="apple">
             <Icon type="social-apple"></Icon>
             <span>Apple</span>

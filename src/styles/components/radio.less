@@ -6,6 +6,13 @@
 .@{radio-group-prefix-cls} {
     display: inline-block;
     font-size: @font-size-small;
+    &-vertical{
+        .@{radio-prefix-cls}-wrapper {
+            display: block;
+            height: 30px;
+            line-height: 30px;
+        }
+    }
 }
 
 // 普通状态
@@ -16,6 +23,10 @@
     position: relative;
     white-space: nowrap;
     margin-right: 8px;
+    cursor: pointer;
+    &-disabled{
+        cursor: @cursor-disabled;
+    }
 }
 
 .@{radio-prefix-cls} {

@@ -24,6 +24,7 @@
     import Icon from '../icon';
     import iButton from '../button/button.vue';
     import { getScrollBarSize } from '../../utils/assist';
+    import { t } from '../../locale';
 
     const prefixCls = 'ivu-modal';
 
@@ -51,11 +52,15 @@
             },
             okText: {
                 type: String,
-                default: '确定'
+                default () {
+                    return t('i.modal.okText');
+                }
             },
             cancelText: {
                 type: String,
-                default: '取消'
+                default () {
+                    return t('i.modal.cancelText');
+                }
             },
             loading: {
                 type: Boolean,
@@ -192,11 +197,12 @@
             visible (val) {
                 if (val === false) {
                     this.buttonLoading = false;
-                    setTimeout(() => {
+                    this.timer = setTimeout(() => {
                         this.wrapShow = false;
                         this.removeScrollEffect();
                     }, 300);
                 } else {
+                    if (this.timer) clearTimeout(this.timer);
                     this.wrapShow = true;
                     this.addScrollEffect();
                 }
