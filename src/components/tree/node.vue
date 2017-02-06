@@ -3,16 +3,22 @@
     <div :class="nodeContainerClasses">
       <Icon :class="switcherClasses" @click="toggleOpen"
             type="arrow-right-b" size="12"></Icon>
-      <span :class="checkboxClasses">
+      <span v-if="checkbox" :class="checkboxClasses">
         <span :class="checkboxInnerClasses" @click="toggleChecked"></span>
       </span>
-      <a title="leaf" draggable="true" :class="nodeContentClass" @dragstart="dragstartHandle">
+      <a v-if="draggable" draggable title="leaf" :class="nodeContentClass" @dragstart="dragstartHandle">
+        <span :class="titleClasses">{{item.title}}</span>
+      </a>
+      <a v-else title="leaf" :class="nodeContentClass">
         <span :class="titleClasses">{{item.title}}</span>
       </a>
     </div>
     <template v-if="hasChildren">
       <ul v-if="item.__append" :class="childrenClasses">
-        <Node :item="cItem" v-for="cItem in item.children"
+        <Node v-for="cItem in item.children"
+              :item="cItem"
+              :checkbox="checkbox"
+              :draggable="draggable"
         ></Node>
       </ul>
     </template>
@@ -26,6 +32,8 @@
     name: 'node'
     , props: [
       'item'
+      , 'draggable'
+      , 'checkbox'
     ]
     , computed: {
       hasChildren(){

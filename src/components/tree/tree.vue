@@ -2,6 +2,8 @@
   <ul :class="[prefixCls]">
     <Node v-for="item in items"
           :item="item"
+          :draggable="draggable"
+          :checkbox="checkbox"
     >
 
     </Node>
@@ -13,7 +15,7 @@
   import Node from './node.vue';
   const prefixCls = 'ivu-tree';
   export default{
-    props: ['items'],
+    props: ['items', 'draggable', 'checkbox'],
     data(){
       return {
         prefixCls: prefixCls

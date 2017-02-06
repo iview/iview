@@ -1,5 +1,8 @@
 <template>
-  <Tree :items="items"></Tree>
+  <Tree :items="items"
+        :checkbox="true"
+        :draggable="true"
+  ></Tree>
 </template>
 
 <script>
@@ -10,7 +13,6 @@
         items: [
           {
             title: '管理控制台'
-            , children: []
           }
           , {
             title: '公众号管理'
