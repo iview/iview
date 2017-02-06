@@ -1,5 +1,179 @@
+@import "../mixins/checkbox";
+
 @tree-prefix-cls: ~"@{css-prefix}tree";
+@highlight-color: #f50;
+@primary-1: #ecf6fd;
+@primary-2: #d2eafb;
 
+.checkboxFn(@checkbox-prefix-cls: ~"@{css-prefix}tree-checkbox");
 .@{tree-prefix-cls} {
+  margin: 0;
+  padding: 5px;
+  font-size: @font-size-base;
+  li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    white-space: nowrap;
+    outline: 0;
+    a[draggable],
+    a[draggable="true"] {
+      user-select: none;
+      /* Required to make elements draggable in old WebKit */
+      -khtml-user-drag: element;
+      -webkit-user-drag: element;
+    }
 
+    & > .@{tree-prefix-cls}-node-container {
+      max-height: 0;
+      transition: all 0.2s ease;
+      overflow: hidden;
+    }
+    &.@{tree-prefix-cls}-node_open > ul > li {
+      padding: 3.5px 0;
+      & > .@{tree-prefix-cls}-node-container {
+        max-height: 40px;
+      }
+    }
+    &.drag-over {
+      > a[draggable] {
+        background-color: @primary-color;
+        color: white;
+        opacity: 0.8;
+      }
+    }
+    &.drag-over-gap-top {
+      > a[draggable] {
+        border-top: 2px @primary-color solid;
+      }
+    }
+    &.drag-over-gap-bottom {
+      > a[draggable] {
+        border-bottom: 2px @primary-color solid;
+      }
+    }
+    &.filter-node {
+      > a {
+        color: @highlight-color !important;
+        font-weight: bold !important;
+      }
+    }
+    ul {
+      margin: 0;
+      padding: 0 0 0 18px;
+    }
+    .@{tree-prefix-cls}-children {
+      display: none;
+      &.@{tree-prefix-cls}-children_display {
+        display: block;
+      }
+    }
+
+    a {
+      display: inline-block;
+      padding: 1px 5px;
+      border-radius: 2px;
+      margin: 0;
+      cursor: pointer;
+      text-decoration: none;
+      vertical-align: top;
+      color: @text-color;
+      transition: all 0.3s ease;
+      &:hover {
+        background-color: @primary-1;
+      }
+      &.@{tree-prefix-cls}-node-selected {
+        background-color: @primary-2;
+      }
+    }
+    span {
+      &.@{tree-prefix-cls}-checkbox {
+        margin: 2px 4px 0 0;
+      }
+
+      &.@{tree-prefix-cls}-icon_loading {
+        &:after {
+          display: inline-block;
+          animation: loadingCircle 1s infinite linear;
+          color: @primary-color;
+        }
+      }
+
+    }
+    i {
+      &.@{tree-prefix-cls}-switcher,
+      &.@{tree-prefix-cls}-iconEle {
+        margin: 0 0 0 6px;
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        display: inline-block;
+        vertical-align: middle;
+        border: 0 none;
+        cursor: pointer;
+        outline: none;
+      }
+
+      &.@{tree-prefix-cls}-switcher {
+        &:before {
+          display: inline-block;
+          transition: 0.2s all ease;
+        }
+        &.@{tree-prefix-cls}-switcher-noop {
+          cursor: auto;
+        }
+        &.@{tree-prefix-cls}-roots_open,
+        &.@{tree-prefix-cls}-center_open,
+        &.@{tree-prefix-cls}-bottom_open,
+        &.@{tree-prefix-cls}-noline_open {
+
+        }
+        &.@{tree-prefix-cls}-roots_close,
+        &.@{tree-prefix-cls}-center_close,
+        &.@{tree-prefix-cls}-bottom_close,
+        &.@{tree-prefix-cls}-noline_close {
+          &:before {
+            transform: rotate(-90deg);
+          }
+        }
+      }
+    }
+  }
+  > li {
+    padding: 3.5px 0;
+    &:first-child {
+      padding-top: 7px;
+    }
+    &:last-child {
+      padding-bottom: 7px;
+    }
+    > .@{tree-prefix-cls}-node-container {
+      max-height: 40px;
+    }
+  }
+  &-child-tree {
+    display: none;
+    &-open {
+      display: block;
+    }
+  }
+  &-treenode-disabled {
+    > span,
+    > a,
+    > a span {
+      cursor: not-allowed;
+    }
+  }
+  &-icon__open {
+    margin-right: 2px;
+    vertical-align: top;
+  }
+  &-icon__close {
+    margin-right: 2px;
+    vertical-align: top;
+  }
+}
+
+@keyframes loadingCircle {
+  
 }

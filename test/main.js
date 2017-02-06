@@ -154,7 +154,7 @@ router.map({
         component: function (resolve) {
             require(['./routers/tree.vue'], resolve);
         }
-    },
+    }
 });
 
 router.beforeEach(function () {

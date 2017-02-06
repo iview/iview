@@ -44,6 +44,9 @@ import Tree from './components/tree';
 import Upload from './components/upload';
 import { Row, Col } from './components/layout';
 import { Select, Option, OptionGroup } from './components/select';
+
+
+
 import locale from './locale';
 
 const iview = {
