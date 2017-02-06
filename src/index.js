@@ -45,7 +45,7 @@ import Upload from './components/upload';
 import { Row, Col } from './components/layout';
 import { Select, Option, OptionGroup } from './components/select';
 
-import Tree from './components/Tree';
+
 
 import locale from './locale';
 
