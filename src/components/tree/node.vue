@@ -44,15 +44,15 @@
         return [
           `${prefixCls}-switcher`,
           {
-            [`invisible`]: !(this.item.children && this.item.children.length),
-            [`${prefixCls}-noline_close`]: this.item.__open
+            [`invisible`]: !(this.item.children && this.item.children.length)
+            , [`${prefixCls}-noline_close`]: this.item.__open
           }
         ];
       }
       , checkboxClasses () {
         return [
-          `${prefixCls}-checkbox`,
-          {
+          `${prefixCls}-checkbox`
+          , {
             [`${prefixCls}-checkbox-checked`]: this.item.__checked
           }
         ];
@@ -62,8 +62,8 @@
       }
       , nodeContentClass () {
         return [
-          `${prefixCls}-node-content-wrapper`,
-          `${prefixCls}-node-content-wrapper-normal`
+          `${prefixCls}-node-content-wrapper`
+          , `${prefixCls}-node-content-wrapper-normal`
         ];
       }
       , titleClasses () {
@@ -81,21 +81,9 @@
       return {
         prefixCls: prefixCls
       }
-    },
-    methods: {
-      /**
-       * todo 强制触发item的更新
-       * @param key
-       * @param fuc
-       */
-      refresh(key, fuc){
-        let temp = this[key];
-        this[key] = {};
-        this.$nextTick(function () {
-          this[key] = temp;
-          fuc && fuc();
-        });
-      },
+    }
+    , methods: {
+
       toggleOpen () {
         let targetState;
         targetState = !this.item.__open;
@@ -109,43 +97,61 @@
           this.item.__open = targetState;
           this.item.__display = targetState;
         }
-      },
+      }
       /**
        * todo 点击时参数为$event,处理事件时参数为state,应该分开处理
-       * @param parentTargetState
+       * @param parentCheckedState
        */
-      toggleChecked(parentTargetState){
+      , toggleChecked(parentCheckedState){
         let targetState;
-        if (typeof parentTargetState === 'boolean') {
-          targetState = parentTargetState;
+        if (typeof parentCheckedState === 'boolean') {
+          targetState = parentCheckedState;
         } else {
           targetState = !this.item.__checked;
         }
         this.item.__checked = targetState;
         this.$broadcast('parent-toggle-checked', targetState);
-      },
-      dropHandle(){
+        if (this.item.children.length === 0) {
+          this.$parent.$emit('child-toggle-checked', targetState);
+        }
+      }
+      , dropHandle(){
         this.$dispatch('child-drop', this);
-      },
-      dragoverHandle(e){
+      }
+      , dragoverHandle(e){
         e.preventDefault();
-      },
-      dragstartHandle(){
+      }
+      , dragstartHandle(){
         this.$dispatch('child-dragstart', this);
       }
-    },
-    events: {
-      'parent-toggle-checked'(parentTargetState){
-        this.toggleChecked(parentTargetState);
+    }
+    , events: {
+      'parent-toggle-checked'(parentCheckedState){
+        this.toggleChecked(parentCheckedState);
       }
-      , 'child-toggle-open'(parentTargetState){
-        this.toggleOpen(parentTargetState);
+      , 'child-toggle-checked'(childCheckedState){
+        let targetState;
+        if (childCheckedState) {
+          let isAllChecked = true;
+          this.item.children.forEach(function (cItem) {
+            if (!cItem.__checked) {
+              isAllChecked = false;
+            }
+            return false;
+          });
+          targetState = isAllChecked;
+
+        } else {
+          targetState = false;
+        }
+        this.item.__checked = targetState;
+        this.$parent.$emit('child-toggle-checked', targetState);
       }
     }
   }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
   .invisible {
     visibility: hidden;
   }
