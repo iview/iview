@@ -77,7 +77,7 @@
                 type: Boolean,
                 default: false
             },
-            scrolling: {
+            scrollable: {
                 type: Boolean,
                 default: false
             }
@@ -208,7 +208,7 @@
                 } else {
                     if (this.timer) clearTimeout(this.timer);
                     this.wrapShow = true;
-                    if (!this.scrolling) {
+                    if (!this.scrollable) {
                         this.addScrollEffect();
                     }
                 }
@@ -218,7 +218,7 @@
                     this.buttonLoading = false;
                 }
             },
-            scrolling (val) {
+            scrollable (val) {
                 if (!val) {
                     this.addScrollEffect();
                 } else {
