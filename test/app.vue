@@ -46,6 +46,7 @@ li + li {
                 <li><a v-link="'/tabs'">Tabs</a></li>
                 <li><a v-link="'/menu'">Menu</a></li>
                 <li><a v-link="'/date'">Date</a></li>
+                <li><a v-link="'/tree'">Tree</a></li>
             </ul>
         </nav>
         <router-view></router-view>

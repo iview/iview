@@ -17,6 +17,11 @@
             , children: [
               {
                 title: '公众号设置'
+                , children: [
+                {
+                  title: '哇哦'
+                }
+              ]
               }
               , {
                 title: '菜单管理'

@@ -7,12 +7,11 @@
         <span :class="checkboxInnerClasses" @click="toggleChecked"></span>
       </span>
       <a title="leaf" draggable="true" :class="nodeContentClass" @dragstart="dragstartHandle">
-        <span :class="titleClassed">{{item.title}}</span>
+        <span :class="titleClasses">{{item.title}}</span>
       </a>
     </div>
     <template v-if="hasChildren">
-      <ul v-if="item.__append">
-        <span></span>
+      <ul v-if="item.__append" :class="childrenClasses">
         <Node :item="cItem" v-for="cItem in item.children"
         ></Node>
       </ul>
@@ -31,17 +30,17 @@
     , computed: {
       hasChildren(){
         return !!(this.item.children && this.item.children.length);
-      },
-      nodeClasses(){
+      }
+      , nodeClasses(){
         return [`${prefixCls}-node`,
           {
             [`${prefixCls}-node_open`]: this.item.__open
           }]
-      },
-      nodeContainerClasses(){
+      }
+      , nodeContainerClasses(){
         return [`${prefixCls}-node-container`]
-      },
-      switcherClasses () {
+      }
+      , switcherClasses () {
         return [
           `${prefixCls}-switcher`,
           {
@@ -49,26 +48,33 @@
             [`${prefixCls}-noline_close`]: this.item.__open
           }
         ];
-      },
-      checkboxClasses () {
+      }
+      , checkboxClasses () {
         return [
           `${prefixCls}-checkbox`,
           {
             [`${prefixCls}-checkbox-checked`]: this.item.__checked
           }
         ];
-      },
-      checkboxInnerClasses () {
+      }
+      , checkboxInnerClasses () {
         return `${prefixCls}-checkbox-inner`;
-      },
-      nodeContentClass () {
+      }
+      , nodeContentClass () {
         return [
           `${prefixCls}-node-content-wrapper`,
           `${prefixCls}-node-content-wrapper-normal`
         ];
-      },
-      titleClassed () {
+      }
+      , titleClasses () {
         return `${prefixCls}-title`;
+      }
+      , childrenClasses(){
+        return [`${prefixCls}-children`
+          , {
+            [`${prefixCls}-children_display`]: this.item.__display
+          }
+        ];
       }
     }
     , data(){
@@ -83,7 +89,7 @@
        * @param fuc
        */
       refresh(key, fuc){
-        var temp = this[key];
+        let temp = this[key];
         this[key] = {};
         this.$nextTick(function () {
           this[key] = temp;
@@ -91,10 +97,32 @@
         });
       },
       toggleOpen () {
-        this.$dispatch('child-toggleOpen', this);
+        let targetState;
+        targetState = !this.item.__open;
+        this.item.__append = true;//todo 应该用__append控制渲染,__open控制开闭,以避免不必要的渲染,但是目前使用node.$parent完成父子组件通信,暂时必须全部渲染
+        if (targetState) {
+          this.item.__display = targetState;
+          this.$nextTick(function () {
+            this.item.__open = targetState;
+          }.bind(this));
+        } else {
+          this.item.__open = targetState;
+          this.item.__display = targetState;
+        }
       },
-      toggleChecked(){
-        this.$dispatch('child-toggleChecked', this);
+      /**
+       * todo 点击时参数为$event,处理事件时参数为state,应该分开处理
+       * @param parentTargetState
+       */
+      toggleChecked(parentTargetState){
+        let targetState;
+        if (typeof parentTargetState === 'boolean') {
+          targetState = parentTargetState;
+        } else {
+          targetState = !this.item.__checked;
+        }
+        this.item.__checked = targetState;
+        this.$broadcast('parent-toggle-checked', targetState);
       },
       dropHandle(){
         this.$dispatch('child-drop', this);
@@ -106,11 +134,18 @@
         this.$dispatch('child-dragstart', this);
       }
     },
-    events: {}
+    events: {
+      'parent-toggle-checked'(parentTargetState){
+        this.toggleChecked(parentTargetState);
+      }
+      , 'child-toggle-open'(parentTargetState){
+        this.toggleOpen(parentTargetState);
+      }
+    }
   }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
   .invisible {
     visibility: hidden;
   }
