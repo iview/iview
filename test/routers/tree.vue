@@ -1,13 +1,45 @@
 <template>
-
+    <Tree
+        :data.sync="treeData"
+        :checkable="true"
+        :multiple="true"
+        :on-select="selectFn"
+        :on-check="checkFn"></Tree>
 </template>
 <script>
     export default {
-        props: {},
-        data () {
-            return {};
+        data: function() {
+            return {
+                treeData: [{
+                    title: 'parent 1',
+                    selected: false,
+                    node: [{
+                        title: 'parent 1-0',
+                        expand: true,
+                        disabled: true,
+                        node: [{
+                            title: 'leaf',
+                            disableCheckbox: true
+                        }, {
+                            title: 'leaf',
+                        }]
+                    }, {
+                        title: 'parent 1-1',
+                        checked: true,
+                        node: [{
+                            title: '<span style="color: red">sss</span>',
+                        }]
+                    }]
+                }]
+            }
         },
-        computed: {},
-        methods: {}
-    };
+        methods: {
+            selectFn(data){
+                console.log(data);
+            },
+            checkFn(data){
+                console.log(data);
+            }
+        }
+    }
 </script>

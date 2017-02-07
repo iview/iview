@@ -87,6 +87,9 @@ export default {
         rate: {
             star: 'Star',
             stars: 'Stars'
+        },
+        tree: {
+            emptyText: 'No Data'
         }
     }
 };
