@@ -1,7 +1,7 @@
 <template>
     <Tree
         :data.sync="treeData"
-        :checkable="true"
+        :show-checkbox="true"
         :multiple="true"
         :on-select="selectFn"
         :on-check="checkFn"></Tree>
@@ -35,10 +35,10 @@
         },
         methods: {
             selectFn(data){
-                console.log(data);
+//                console.log(data);
             },
             checkFn(data){
-                console.log(data);
+//                console.log(data);
             }
         }
     }

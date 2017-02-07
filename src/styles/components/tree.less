@@ -3,7 +3,7 @@
 .@{tree-prefix-cls} {
     margin: 0;
     padding: 5px;
-    font-size: 12px;
+    font-size: @font-size-small;
     li {
         padding: 0;
         margin: 7px 0;
@@ -46,14 +46,14 @@
         }
         a {
             display: inline-block;
-            padding: 1px 5px;
-            border-radius: 2px;
             margin: 0;
+            padding: 1px 5px;
+            border-radius: @btn-border-radius-small;
             cursor: pointer;
             text-decoration: none;
             vertical-align: top;
-            color: #666;
-            transition: all 0.3s ease;
+            color: @text-color;
+            transition: all @transition-time @ease-in-out;
             &:hover {
                 background-color: tint(@primary-color, 90%);
             }
@@ -67,43 +67,47 @@
             }
             &.@{tree-prefix-cls}-switcher,
             &.@{tree-prefix-cls}-iconEle {
-                margin: 0;
+                display: inline-block;
                 width: 16px;
                 height: 16px;
                 line-height: 16px;
-                display: inline-block;
+                margin: 0;
                 vertical-align: middle;
                 border: 0 none;
                 cursor: pointer;
                 outline: none;
             }
-            &.@{tree-prefix-cls}-icon_loading {
-                &:after {
-                    display: inline-block;
-                    //.iconfont-font("\e6a1");
-                    animation: loadingCircle 1s infinite linear;
-                    color: @primary-color;
-                }
-            }
+            //&.@{tree-prefix-cls}-icon_loading {
+            //    &:after {
+            //        display: inline-block;
+            //        //.iconfont-font("\e6a1");
+            //        animation: loadingCircle 1s infinite linear;
+            //        color: @primary-color;
+            //    }
+            //}
             &.@{tree-prefix-cls}-switcher {
+                i{
+                    transition: all @transition-time @ease-in-out;
+                }
                 &.@{tree-prefix-cls}-switcher-noop {
                     cursor: auto;
+                    i{
+                        display: none;
+                    }
                 }
                 &.@{tree-prefix-cls}-roots_open,
                 &.@{tree-prefix-cls}-center_open,
                 &.@{tree-prefix-cls}-bottom_open,
                 &.@{tree-prefix-cls}-noline_open {
-                    //.antTreeSwitcherIcon();
+                    i {
+                        transform: rotate(90deg);
+                    }
                 }
                 &.@{tree-prefix-cls}-roots_close,
                 &.@{tree-prefix-cls}-center_close,
                 &.@{tree-prefix-cls}-bottom_close,
                 &.@{tree-prefix-cls}-noline_close {
-                    //.antTreeSwitcherIcon();
-                    //.ie-rotate(3);
-                    &:after {
-                        transform: rotate(270deg) scale(0.5);
-                    }
+
                 }
             }
         }
@@ -118,7 +122,7 @@
         >span,
         >a,
         >a span {
-            color: #ccc;
+            color: @input-disabled-bg;
             cursor: not-allowed;
         }
     }

@@ -10,7 +10,7 @@
     </div>
 </template>
 <script>
-    import Icon from '../icon';
+    import Icon from '../icon/icon.vue';
     const prefixCls = 'ivu-collapse';
 
     export default {

@@ -1,10 +1,16 @@
 <template>
     <ul :class="classes">
         <li v-for="item in data" :class="itemCls(item)">
-            <span :class="arrowCls(item)" @click="setExpand(item.disabled, $index)"></span>
-            <span v-if="showCheckbox" :class="checkboxCls(item)" @click="setCheck(item.disabled||item.disableCheckbox,$index)">
-                <span :class="[prefixCls + '-checkbox-inner']"></span>
+            <span :class="arrowCls(item)" @click="setExpand(item.disabled, $index)">
+                <Icon type="arrow-right-b"></Icon>
             </span>
+            <!--<span v-if="showCheckbox" :class="checkboxCls(item)" @click="setCheck(item.disabled||item.disableCheckbox,$index)">-->
+                <!--<span :class="[prefixCls + '-checkbox-inner']"></span>-->
+            <!--</span>-->
+            <Checkbox
+                :checked="item.checked && item.childrenCheckedStatus == 2"
+                :disabled="item.disabled || item.disableCheckbox"
+                @click.prevent="setCheck(item.disabled||item.disableCheckbox,$index)"></Checkbox>
             <a :class="titleCls(item)" @click="setSelect(item.disabled, $index)">
                 <span :class="[prefixCls + '-title']" v-html="item.title"></span>
             </a>
@@ -21,12 +27,15 @@
     </ul>
 </template>
 <script>
+    import Icon from '../icon/icon.vue';
+    import Checkbox from '../checkbox/checkbox.vue';
     import { t } from '../../locale';
 
     const prefixCls = 'ivu-tree';
 
     export default {
         name: 'tree',
+        components: { Icon, Checkbox },
         props: {
             data: {
                 type: Array,
@@ -135,7 +144,7 @@
                     this.data[i].key = `${this.key}.${i}`;
                 }
             },
-            preHandle(){
+            preHandle () {
                 for (let [i,item] of this.data.entries()) {
                     if (!item.node || !item.node.length) {
                         this.$set(`data[${i}].isLeaf`, true);
@@ -152,12 +161,12 @@
                     }
                 }
             },
-            setExpand(disabled, index){
+            setExpand (disabled, index) {
                 if (!disabled) {
                     this.$set(`data[${index}].expand`, !this.data[index].expand);
                 }
             },
-            setSelect(disabled, index){
+            setSelect (disabled, index) {
                 if (!disabled) {
                     const selected = !this.data[index].selected;
                     if (this.multiple || !selected) {
@@ -174,7 +183,7 @@
                     this.$dispatch('nodeSelected', this, selected);
                 }
             },
-            setCheck(disabled, index){
+            setCheck (disabled, index) {
                 if (disabled) return;
                 const checked = !this.data[index].checked;
                 this.$set(`data[${index}].checked`, checked);
@@ -182,7 +191,7 @@
                 this.$dispatch('childChecked', this, this.key);
                 this.$broadcast('parentChecked', checked, `${this.key}.${index}`);
             },
-            getNodes(data, opt){
+            getNodes (data, opt) {
                 data = data || this.data;
                 let res = [];
                 for (let node of data) {
@@ -202,13 +211,13 @@
                 }
                 return res;
             },
-            getSelectedNodes(){
+            getSelectedNodes () {
                 return this.getNodes(this.data, {selected: true});
             },
-            getCheckedNodes(){
+            getCheckedNodes () {
                 return this.getNodes(this.data, {checked: true, childrenCheckedStatus: 2});
             },
-            getChildrenCheckedStatus(children){
+            getChildrenCheckedStatus (children) {
                 let checkNum = 0, child_childrenAllChecked = true;
                 for (let child of children) {
                     if (child.checked) {
