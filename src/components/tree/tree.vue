@@ -17,7 +17,7 @@
                 v-if="!item.isLeaf"
                 v-show="item.expand"
                 :class="expandCls(item)"
-                :data.sync="item.node"
+                :data.sync="item.children"
                 :key="this.key+'.'+$index"
                 :multiple="multiple"
                 :show-checkbox="showCheckbox"
@@ -53,18 +53,6 @@
             showCheckbox: {
                 type: Boolean,
                 default: false
-            },
-            onSelect: {
-                type: Function,
-                default () {
-                    return {};
-                }
-            },
-            onCheck: {
-                type: Function,
-                default () {
-                    return {};
-                }
             },
             emptyText: {
                 type: String,
@@ -135,7 +123,7 @@
             },
             preHandle () {
                 for (let [i,item] of this.data.entries()) {
-                    if (!item.node || !item.node.length) {
+                    if (!item.children || !item.children.length) {
                         this.$set(`data[${i}].isLeaf`, true);
                         this.$set(`data[${i}].childrenCheckedStatus`, 2);
                         continue;
@@ -144,7 +132,7 @@
                         this.$set(`data[${i}].childrenCheckedStatus`, 2);
                         this.$broadcast('parentChecked', true, `${this.key}.${i}`);
                     } else {
-                        let status = this.getChildrenCheckedStatus(item.node);
+                        let status = this.getChildrenCheckedStatus(item.children);
                         this.$set(`data[${i}].childrenCheckedStatus`, status);
                         if (status !== 0) this.$set(`data[${i}].checked`, true);
                     }
@@ -194,8 +182,8 @@
                     if (tmp) {
                         res.push(node);
                     }
-                    if (node.node && node.node.length) {
-                        res = res.concat(this.getNodes(node.node, opt));
+                    if (node.children && node.children.length) {
+                        res = res.concat(this.getNodes(node.children, opt));
                     }
                 }
                 return res;
@@ -241,11 +229,9 @@
                     }
                     this.$broadcast('cancelSelected', ori);
                 }
-                if (this.onSelect) {
-                    this.$nextTick(() => {
-                        this.onSelect(this.getSelectedNodes());
-                    });
-                }
+                this.$nextTick(() => {
+                    this.$emit('on-select-change', this.getSelectedNodes());
+                });
             });
             this.$on('cancelSelected', ori => {
                 this.$broadcast('cancelSelected', ori);
@@ -265,15 +251,15 @@
                 }
             });
             this.$on('childChecked', (ori, key) => {
-                if (this.key === '0' && this.onCheck) {
+                if (this.key === '0') {
                     this.$nextTick(() => {
-                        this.onCheck(this.getCheckedNodes());
+                        this.$emit('on-check-change', this.getCheckedNodes());
                     });
                 }
                 if (this === ori) return;
                 for (let [i,item] of this.data.entries()) {
                     if (this.key + '.' + i == key) {
-                        let temp = this.getChildrenCheckedStatus(item.node);
+                        let temp = this.getChildrenCheckedStatus(item.children);
                         if (temp != item.childrenCheckedStatus) {
                             this.$set(`data[${i}].checked`, !!temp);
                             this.$set(`data[${i}].childrenCheckedStatus`, temp);
