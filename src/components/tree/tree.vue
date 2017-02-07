@@ -4,10 +4,8 @@
             <span :class="arrowCls(item)" @click="setExpand(item.disabled, $index)">
                 <Icon type="arrow-right-b"></Icon>
             </span>
-            <!--<span v-if="showCheckbox" :class="checkboxCls(item)" @click="setCheck(item.disabled||item.disableCheckbox,$index)">-->
-                <!--<span :class="[prefixCls + '-checkbox-inner']"></span>-->
-            <!--</span>-->
             <Checkbox
+                v-if="showCheckbox"
                 :checked="item.checked && item.childrenCheckedStatus == 2"
                 :disabled="item.disabled || item.disableCheckbox"
                 :indeterminate="item.checked && item.childrenCheckedStatus == 1"
@@ -113,16 +111,6 @@
                         [`${this.prefixCls}-noline_close`]: !item.expand && !item.isLeaf,
                         [`${this.prefixCls}-noline_open`]: item.expand && !item.isLeaf,
                         [`${this.prefixCls}-switcher-noop`]: item.isLeaf
-                    }
-                ];
-            },
-            checkboxCls (item) {
-                return [
-                    `${this.prefixCls}-checkbox`,
-                    {
-                        [`${this.prefixCls}-checkbox-disabled`]: item.disabled || item.disableCheckbox,
-                        [`${this.prefixCls}-checkbox-checked`]: item.checked && item.childrenCheckedStatus == 2,
-                        [`${this.prefixCls}-checkbox-indeterminate`]: item.checked && item.childrenCheckedStatus == 1
                     }
                 ];
             },
