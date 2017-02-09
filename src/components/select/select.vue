@@ -504,6 +504,7 @@
             // watch slot changed
             if (MutationObserver) {
                 this.observer = new MutationObserver(() => {
+                    this.modelToQuery();
                     this.slotChange();
                     this.updateOptions(true, true);
                 });
