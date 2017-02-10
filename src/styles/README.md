@@ -9,5 +9,3 @@
 |-- components  (组件样式)
 
 |-- mixins  (混入)
-
-|-- themes  (主题)
