@@ -1,5 +1,5 @@
 <template>
-    <i :class="classes" :style="styles"></i>
+    <i :class="classes" :style="styles" :title="title"></i>
 </template>
 <script>
     const prefixCls = 'ivu-icon';
@@ -8,7 +8,8 @@
         props: {
             type: String,
             size: [Number, String],
-            color: String
+            color: String,
+            title: String
         },
         computed: {
             classes () {

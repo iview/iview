@@ -71,6 +71,7 @@ const iview = {
     iCol: Col,
     Collapse,
     Icon,
+    Input,
     iInput: Input,
     InputNumber,
     LoadingBar,

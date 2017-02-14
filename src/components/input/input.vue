@@ -17,7 +17,8 @@
                 @keyup.enter="handleEnter"
                 @focus="handleFocus"
                 @blur="handleBlur"
-                @change="handleChange">
+                @change="handleChange"
+                @input="handleInput">
             <div :class="[prefixCls + '-group-append']" v-if="append" v-show="slotReady" v-el:append><slot name="append"></slot></div>
         </template>
         <textarea
@@ -35,7 +36,8 @@
             @keyup.enter="handleEnter"
             @focus="handleFocus"
             @blur="handleBlur"
-            @change="handleChange">
+            @change="handleChange"
+            @input="handleInput">
         </textarea>
     </div>
 </template>
@@ -150,6 +152,9 @@
             },
             handleChange (event) {
                 this.$emit('on-change', event);
+            },
+            handleInput (event){
+                this.$emit('on-input', event);
             },
             resizeTextarea () {
                 const autosize = this.autosize;

@@ -1,7 +1,7 @@
 <template>
     <div :class="wrapClasses">
         <div :class="maskClasses" v-show="visible" @click="mask" transition="fade"></div>
-        <div :class="classes" :style="styles" v-show="visible" transition="ease">
+        <div v-el:modal :class="classes" :style="[styles, modalStyle]" v-show="visible" transition="ease">
             <div :class="[prefixCls + '-content']">
                 <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
                     <slot name="close">
@@ -87,7 +87,8 @@
                 prefixCls: prefixCls,
                 wrapShow: false,
                 showHead: true,
-                buttonLoading: false
+                buttonLoading: false,
+                modalStyle: { top: '0px' }
             };
         },
         computed: {
@@ -109,7 +110,7 @@
             styles () {
                 let style = {};
 
-                const styleWidth = {
+                var styleWidth = { 
                     width: `${this.width}px`
                 };
 
@@ -175,6 +176,9 @@
             removeScrollEffect() {
                 document.body.style.overflow = '';
                 this.resetScrollBar();
+            },
+            recalcTop(){
+              this.$nextTick(() => { this.modalStyle.top = `${ (document.body.clientHeight - this.$els.modal.clientHeight) / 2 }px`; }); 
             }
         },
         ready () {
@@ -197,6 +201,11 @@
             document.removeEventListener('keydown', this.EscClose);
             this.removeScrollEffect();
         },
+        events: {
+          'modal-height-changed': function(){
+            this.recalcTop();
+          }
+        },
         watch: {
             visible (val) {
                 if (val === false) {
@@ -211,6 +220,7 @@
                     if (!this.scrollable) {
                         this.addScrollEffect();
                     }
+                    this.recalcTop();
                 }
             },
             loading (val) {

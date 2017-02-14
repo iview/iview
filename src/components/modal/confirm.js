@@ -27,8 +27,10 @@ Modal.newInstance = properties => {
                     {{{ body }}}
                 </div>
                 <div class="${prefixCls}-footer">
+                  <div class="${prefixCls}-footer-button-group">
                     <i-button type="text" size="large" v-if="showCancel" @click="cancel">{{ cancelText }}</i-button>
                     <i-button type="primary" size="large" :loading="buttonLoading" @click="ok">{{ okText }}</i-button>
+                  </div>
                 </div>
             </div>
         </Modal>
@@ -101,6 +103,12 @@ Modal.newInstance = properties => {
         show (props) {
             modal.$parent.showCancel = props.showCancel;
             modal.$parent.iconType = props.icon;
+            if (typeof props.closable != 'undefined')
+              modal.$parent.closable = props.closable;
+            if (typeof props.maskClosable != 'undefined')
+              modal.$parent.maskClosable = props.maskClosable;
+            if (typeof props.footerHide != 'undefined')
+              modal.$parent.footerHide = props.footerHide;
 
             switch (props.icon) {
                 case 'info':
