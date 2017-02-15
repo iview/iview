@@ -548,7 +548,11 @@
                 this.data.forEach((row, index) => {
                     const newRow = deepCopy(row);// todo 直接替换
                     newRow._isHover = false;
-                    newRow._isChecked = false;
+                    if(newRow.checked){// 传checked:true 可以设置该行为默认选中状态
+                        newRow._isChecked = newRow.checked;
+                    }else{
+                        newRow._isChecked = false;
+                    }
                     newRow._isHighlight = false;
                     data[index] = newRow;
                 });
