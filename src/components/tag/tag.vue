@@ -1,6 +1,6 @@
 <template>
     <div :class="classes" transition="fade">
-        <span :class="dotClasses" v-if="showDot"></span><span :class="textClasses"><slot></slot></span><Icon v-if="closable" type="ios-close-empty" @click="close"></Icon>
+        <span :class="dotClasses" v-if="showDot"></span><span :class="textClasses"><slot></slot></span><Icon v-if="closable" type="ios-close-empty" @click.stop="close"></Icon>
     </div>
 </template>
 <script>

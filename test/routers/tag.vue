@@ -40,6 +40,8 @@
         <i-button @click="loading = true">true</i-button>
         <i-button @click="loading = false">false</i-button>
     </Modal>
+    <br><br>
+    <Tag type="border" color="yellow" closable @click="clickTag" @on-close="clickTagClose">标签一</Tag>
 </template>
 <script>
     import { Tag, Modal, iButton } from 'iview';
@@ -56,6 +58,12 @@
                 setTimeout(() => {
                     this.modal1 = false;
                 }, 2000);
+            },
+            clickTag() {
+                console.log('click tag');
+            },
+            clickTagClose() {
+                console.log('click tag close-icon');
             }
         }
     }
