@@ -155,6 +155,11 @@ router.map({
             require(['./routers/tree.vue'], resolve);
         }
     },
+    '/notice': {
+        component: function (resolve) {
+            require(['./routers/notice.vue'], resolve);
+        }
+    },
 });
 
 router.beforeEach(function () {

@@ -73,7 +73,7 @@
                 type: [String, Number],
                 default: 'auto',
                 validator (value) {
-                    return value === 'auto' || toString.call(value) === '[object Number]';
+                    return value === 'auto' || Object.prototype.toString.call(value) === '[object Number]';
                 }
             }
         },
