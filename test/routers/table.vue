@@ -1,5 +1,5 @@
 <template>
-    <i-table border :content="self" :columns="columns7" :data="data6"></i-table>
+    <i-table highlight-row border :content="self" :columns="columns7" :data="data6"></i-table>
 </template>
 <script>
     export default {
@@ -7,6 +7,11 @@
             return {
                 self: this,
                 columns7: [
+                    {
+                        type: 'selection',
+                        width: 60,
+                        align: 'center'
+                    },
                     {
                         title: '姓名',
                         key: 'name',
@@ -47,22 +52,27 @@
                     {
                         name: '王小明',
                         age: 18,
-                        address: '北京市朝阳区芍药居'
+                        address: '北京市朝阳区芍药居',
+                        _highlight: true,
+                        _checked: true
                     },
                     {
                         name: '张小刚',
                         age: 25,
-                        address: '北京市海淀区西二旗'
+                        address: '北京市海淀区西二旗',
+                        _checked: true
                     },
                     {
                         name: '李小红',
                         age: 30,
-                        address: '上海市浦东新区世纪大道'
+                        address: '上海市浦东新区世纪大道',
+                        _checked: true
                     },
                     {
                         name: '周小伟',
                         age: 26,
-                        address: '深圳市南山区深南大道'
+                        address: '深圳市南山区深南大道',
+                        _checked: true
                     }
                 ]
             }
