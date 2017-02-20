@@ -66,7 +66,8 @@
                         name: '李小红',
                         age: 30,
                         address: '上海市浦东新区世纪大道',
-                        _checked: true
+                        _checked: false,
+                        _disabled: true
                     },
                     {
                         name: '周小伟',

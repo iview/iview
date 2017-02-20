@@ -2,7 +2,7 @@
     <div :class="classes">
         <template v-if="renderType === 'index'">{{naturalIndex + 1}}</template>
         <template v-if="renderType === 'selection'">
-            <Checkbox :checked="checked" @on-change="toggleSelect"></Checkbox>
+            <Checkbox :checked="checked" @on-change="toggleSelect" :disabled="disabled"></Checkbox>
         </template>
         <template v-if="renderType === 'normal'">{{{ row[column.key] }}}</template>
     </div>
@@ -19,6 +19,7 @@
             naturalIndex: Number,    // index of rebuildData
             index: Number,           // _index of data
             checked: Boolean,
+            disabled:Boolean,
             fixed: {
                 type: [Boolean, String],
                 default: false

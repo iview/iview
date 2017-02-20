@@ -392,7 +392,12 @@
             },
             selectAll (status) {
                 this.rebuildData.forEach((data) => {
-                    this.objData[data._index]._isChecked = status;
+                    if(this.objData[data._index]._isDisabled){
+                        this.objData[data._index]._isChecked = false
+                    }else{
+                        this.objData[data._index]._isChecked = status;
+                    }
+                    
                 });
 
                 const selection = this.getSelection();
@@ -557,6 +562,12 @@
                         newRow._isHighlight = newRow._highlight;
                     } else {
                         newRow._isHighlight = false;
+                    }
+
+                    if(newRow._disabled){
+                        newRow._isDisabled = newRow._disabled;
+                    }else{
+                        newRow._isDisabled = false;
                     }
                     data[index] = newRow;
                 });
