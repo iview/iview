@@ -393,7 +393,7 @@
             selectAll (status) {
                 this.rebuildData.forEach((data) => {
                     if(this.objData[data._index]._isDisabled){
-                        this.objData[data._index]._isChecked = false
+                        this.objData[data._index]._isChecked = false;
                     }else{
                         this.objData[data._index]._isChecked = status;
                     }
