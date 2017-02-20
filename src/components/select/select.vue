@@ -9,7 +9,7 @@
                 <Icon type="ios-close-empty" @click.stop="removeTag($index)"></Icon>
             </div>
             <span :class="[prefixCls + '-placeholder']" v-show="showPlaceholder && !filterable">{{ placeholder }}</span>
-            <span :class="[prefixCls + '-selected-value']" v-show="!showPlaceholder && !multiple && !filterable">{{ selectedSingle }}</span>
+            <span :class="[prefixCls + '-selected-value']" v-show="!showPlaceholder && !multiple && !filterable" :title="selectedSingle">{{ selectedSingle }}</span>
             <input
                 type="text"
                 v-if="filterable"
@@ -24,9 +24,11 @@
             <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.stop="clearSingleSelect"></Icon>
             <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']"></Icon>
         </div>
-        <Dropdown v-show="visible" transition="slide-up" v-ref:dropdown>
+        <Dropdown v-show="visible" :placement="placement" transition="slide-up" v-ref:dropdown>
+            <slot name="header"></slot>
             <ul v-show="notFound" :class="[prefixCls + '-not-found']"><li>{{ notFoundText }}</li></ul>
             <ul v-else :class="[prefixCls + '-dropdown-list']" v-el:options><slot></slot></ul>
+            <slot name="footer"></slot>
         </Dropdown>
     </div>
 </template>
@@ -87,6 +89,10 @@
                 default () {
                     return t('i.select.noMatch');
                 }
+            },
+            placement: {
+                type: String,
+                default: 'bottom-start'
             }
         },
         data () {

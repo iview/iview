@@ -1,6 +1,6 @@
 <template>
     <div :class="classes">
-        <button :class="arrowClasses" class="left" @click="arrowEvent(-1)">
+        <button v-show="loop || currentIndex > 0" :class="arrowClasses" class="left" @click="arrowEvent(-1)">
             <Icon type="chevron-left"></Icon>
         </button>
         <div :class="[prefixCls + '-list']">
@@ -8,12 +8,12 @@
                 <slot></slot>
             </div>
         </div>
-        <button :class="arrowClasses" class="right" @click="arrowEvent(1)">
+        <button v-show="loop || currentIndex < slides.length-1" :class="arrowClasses" class="right" @click="arrowEvent(1)">
             <Icon type="chevron-right"></Icon>
         </button>
         <ul :class="dotsClasses">
             <template v-for="n in slides.length">
-                <li :class="{ [`${prefixCls}-active`]: n === currentIndex }"
+                <li :class="[n === currentIndex ? prefixCls+'-active' : '']"
                     @click="dotsEvent('click', n)"
                     @mouseover="dotsEvent('hover', n)">
                     <button></button>
@@ -57,6 +57,10 @@
                 validator (value) {
                     return oneOf(value, ['inside', 'outside', 'none']);
                 }
+            },
+            loop: {
+                type: Boolean,
+                default: true
             },
             trigger: {
                 type: String,

@@ -18,10 +18,11 @@ const iconTypes = {
 };
 
 function getMessageInstance () {
+    //var thisTop = top > 0 ? top : document.body.clientHeight - this.$els.modal.clientHeight) / 2;
     messageInstance = messageInstance || Notification.newInstance({
         prefixCls: prefixCls,
         style: {
-            top: `${top}px`
+            top: top > 0 ? `${ top }px` : '40%'
         }
     });
 
