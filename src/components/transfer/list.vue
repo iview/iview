@@ -18,7 +18,7 @@
                     :class="itemClasses(item)"
                     @click.prevent="select(item)">
                     <Checkbox :checked="isCheck(item)" :disabled="item.disabled"></Checkbox>
-                    <span>{{ showLabel(item) }}</span>
+                    <span>{{{ showLabel(item) }}}</span>
                 </li>
                 <li :class="prefixCls + '-content-not-found'">{{ notFoundText }}</li>
             </ul>

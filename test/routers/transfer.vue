@@ -3,6 +3,7 @@
             :data="data2"
             :target-keys="targetKeys2"
             filterable
+            :render-format="rf"
             :filter-method="filterMethod"
             @on-change="handleChange2"></Transfer>
 </template>
@@ -37,6 +38,9 @@
             },
             filterMethod (data, query) {
                 return data.label.indexOf(query) > -1;
+            },
+            rf (data) {
+                return '<i class="ivu-icon ivu-icon-alert"></i>' + data.label;
             }
         }
     }
