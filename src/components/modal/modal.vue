@@ -1,6 +1,6 @@
 <template>
-    <div :class="wrapClasses">
-        <div :class="maskClasses" v-show="visible" @click="mask" transition="fade"></div>
+    <div :class="maskClasses" v-show="visible" @click="mask" transition="fade"></div>
+    <div :class="wrapClasses" @click="handleWrapClick">
         <div :class="classes" :style="styles" v-show="visible" transition="ease">
             <div :class="[prefixCls + '-content']">
                 <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
@@ -129,6 +129,10 @@
                 if (this.maskClosable) {
                     this.close();
                 }
+            },
+            handleWrapClick (event) {
+                // use indexOf,do not use === ,because ivu-modal-wrap can have other custom className
+                if (event.target.getAttribute('class').indexOf(`${prefixCls}-wrap`) > -1) this.mask();
             },
             cancel () {
                 this.close();
