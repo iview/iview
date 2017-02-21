@@ -34,7 +34,7 @@
     const iconPrefixCls = 'ivu-icon';
 
     function isValueNumber (value) {
-        return (/(^-?[0-9]+\.{1}\d+$)|(^-?[1-9][0-9]*$)/).test(value + '');
+        return (/(^-?[0-9]+\.{1}\d+$)|(^-?[1-9][0-9]*$)|(^-?0{1}$)/).test(value + '');
     }
     function addNum (num1, num2) {
         let sq1, sq2, m;
