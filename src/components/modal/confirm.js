@@ -17,7 +17,7 @@ Modal.newInstance = properties => {
 
     const div = document.createElement('div');
     div.innerHTML = `
-        <Modal${props} :visible.sync="visible" :width="width">
+        <Modal${props} :visible.sync="visible" :width="width" :scrollable.sync="scrollable">
             <div class="${prefixCls}">
                 <div class="${prefixCls}-head">
                     <div class="${prefixCls}-head-title">{{{ title }}}</div>
@@ -49,7 +49,8 @@ Modal.newInstance = properties => {
             cancelText: t('i.modal.cancelText'),
             showCancel: false,
             loading: false,
-            buttonLoading: false
+            buttonLoading: false,
+            scrollable: false
         }),
         computed: {
             iconTypeCls () {
@@ -151,6 +152,10 @@ Modal.newInstance = properties => {
             // async for ok
             if ('loading' in props) {
                 modal.$parent.loading = props.loading;
+            }
+
+            if ('scrollable' in props) {
+                modal.$parent.scrollable = props.scrollable;
             }
 
             // notice when component destroy

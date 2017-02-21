@@ -18,6 +18,8 @@
         <p>对话框内容</p>
         <i-button @click="scrollable = !scrollable">Toggle scrollable</i-button>
     </Modal>
+    <i-button @click="instance(true)">Create Instance Scrollable</i-button>
+    <i-button @click="instance(false)">Create Instance Non-scrollable</i-button>
 </template>
 <script>
     export default {
@@ -34,6 +36,13 @@
             },
             cancel () {
                 this.$Message.info('点击了取消');
+            },
+            instance (scrollable) {
+                this.$Modal.info({
+                    title: 'test',
+                    content: 'test',
+                    scrollable: scrollable
+                });
             }
         }
     }
