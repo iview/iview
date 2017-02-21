@@ -18,7 +18,7 @@
                     :class="[prefixCls + '-button-wrap']"
                     :style="{left: firstPosition + '%'}"
                     @mousedown="onFirstButtonDown">
-                    <Tooltip :controlled="firstDragging" placement="top" :content="tipFormat(value[0])" :disabled="tipFormat(value[0]) === null" v-ref:tooltip>
+                    <Tooltip :controlled="firstDragging" placement="top" :content="tipFormat(value[0])" :disabled="tipDisabled" :always="showTip === 'always'" v-ref:tooltip>
                         <div :class="button1Classes"></div>
                     </Tooltip>
                 </div>
@@ -26,7 +26,7 @@
                     :class="[prefixCls + '-button-wrap']"
                     :style="{left: secondPosition + '%'}"
                     @mousedown="onSecondButtonDown">
-                    <Tooltip :controlled="secondDragging" placement="top" :content="tipFormat(value[1])" :disabled="tipFormat(value[1]) === null" v-ref:tooltip2>
+                    <Tooltip :controlled="secondDragging" placement="top" :content="tipFormat(value[1])" :disabled="tipDisabled" :always="showTip === 'always'" v-ref:tooltip2>
                         <div :class="button2Classes"></div>
                     </Tooltip>
                 </div>
@@ -36,7 +36,7 @@
                     :class="[prefixCls + '-button-wrap']"
                     :style="{left: singlePosition + '%'}"
                     @mousedown="onSingleButtonDown">
-                    <Tooltip :controlled="dragging" placement="top" :content="tipFormat(value)" :disabled="tipFormat(value) === null" v-ref:tooltip>
+                    <Tooltip :controlled="dragging" placement="top" :content="tipFormat(value)" :disabled="tipDisabled" :always="showTip === 'always'" v-ref:tooltip>
                         <div :class="buttonClasses"></div>
                     </Tooltip>
                 </div>
@@ -47,7 +47,7 @@
 <script>
     import InputNumber from '../../components/input-number/input-number.vue';
     import Tooltip from '../../components/tooltip/tooltip.vue';
-    import { getStyle } from '../../utils/assist';
+    import { getStyle, oneOf } from '../../utils/assist';
 
     const prefixCls = 'ivu-slider';
 
@@ -90,6 +90,13 @@
                 type: Function,
                 default (val) {
                     return val;
+                }
+            },
+            showTip: {
+                type: String,
+                default: 'hover',
+                validator (value) {
+                    return oneOf(value, ['hover', 'always', 'never']);
                 }
             }
         },
@@ -173,6 +180,9 @@
             },
             sliderWidth () {
                 return parseInt(getStyle(this.$els.slider, 'width'), 10);
+            },
+            tipDisabled () {
+                return this.tipFormat(this.value[0]) === null || this.showTip === 'never'
             }
         },
         watch: {

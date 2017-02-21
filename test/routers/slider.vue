@@ -14,6 +14,9 @@
         </div>
         <Slider :value="75"></Slider>
         <Slider :value="[20, 50]" range></Slider>
+        <Slider :value="[20, 50]" show-tip="always"></Slider>
+        <Slider :value="[20, 50]" show-tip="hover"></Slider>
+        <Slider :value="[20, 50]" show-tip="never"></Slider>
     </div>
 </template>
 <script>
