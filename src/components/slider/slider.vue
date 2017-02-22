@@ -182,7 +182,7 @@
                 return parseInt(getStyle(this.$els.slider, 'width'), 10);
             },
             tipDisabled () {
-                return this.tipFormat(this.value[0]) === null || this.showTip === 'never'
+                return this.tipFormat(this.value[0]) === null || this.showTip === 'never';
             }
         },
         watch: {
