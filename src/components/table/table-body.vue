@@ -53,8 +53,7 @@
                     this.rowClsName(_index),
                     {
                         [`${this.prefixCls}-row-highlight`]: this.objData[_index] && this.objData[_index]._isHighlight,
-                        [`${this.prefixCls}-row-hover`]: this.objData[_index] && this.objData[_index]._isHover,
-                        [`${this.prefixCls}-row-disabled`]: this.objData[_index] && this.objData[_index]._isDisabled
+                        [`${this.prefixCls}-row-hover`]: this.objData[_index] && this.objData[_index]._isHover
                     }
                 ];
             },

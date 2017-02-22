@@ -19,7 +19,7 @@
             naturalIndex: Number,    // index of rebuildData
             index: Number,           // _index of data
             checked: Boolean,
-            disabled:Boolean,
+            disabled: Boolean,
             fixed: {
                 type: [Boolean, String],
                 default: false
