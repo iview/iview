@@ -76,14 +76,8 @@ Normal browsers and Internet Explorer 9+.
 
 ## Links
 
+- [TalkingData](https://github.com/TalkingData)
 - [Vue](https://github.com/vuejs/vue)
 - [Webpack](https://github.com/webpack/webpack)
 - [ionicons](https://github.com/driftyco/ionicons)
 - [Ant Design](https://github.com/ant-design/ant-design)
-
-## Donation
-iView is an MIT licensed open source project and completely free to use, but if it is helpful to you, you can buy me a coffee :)
-
-<p align="center">
-    <img src="https://raw.githubusercontent.com/iview/iview/master/assets/pay.png">
-</p>
