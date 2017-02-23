@@ -84,16 +84,23 @@
             },
             isSelectAll () {
                 let isSelectAll = true;
+                let isAllDisabled = true;
                 if (!this.data.length) isSelectAll = false;
 
                 for (let i = 0; i < this.data.length; i++) {
-                    if (!this.objData[this.data[i]._index]._isChecked) {
+                    if(this.objData[this.data[i]._index]._isDisabled){
+                        isAllDisabled = isAllDisabled && true;
+                        continue;
+                    }else{
+                        isAllDisabled = isAllDisabled && false;
+                    } 
+                    if (!this.objData[this.data[i]._index]._isChecked ) {
                         isSelectAll = false;
                         break;
                     }
                 }
 
-                return isSelectAll;
+                return isAllDisabled ? false : isSelectAll;
             }
         },
         methods: {

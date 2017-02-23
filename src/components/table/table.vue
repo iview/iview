@@ -553,8 +553,17 @@
                 this.data.forEach((row, index) => {
                     const newRow = deepCopy(row);// todo 直接替换
                     newRow._isHover = false;
+                    if(newRow._disabled){
+                        newRow._isDisabled = newRow._disabled;
+                    }else{
+                        newRow._isDisabled = false;
+                    }
                     if (newRow._checked) {
-                        newRow._isChecked = newRow._checked;
+                        if(newRow._isDisabled){
+                            newRow._isChecked = false;
+                        }else{
+                            newRow._isChecked =  newRow._checked;
+                        }
                     } else {
                         newRow._isChecked = false;
                     }
@@ -562,12 +571,6 @@
                         newRow._isHighlight = newRow._highlight;
                     } else {
                         newRow._isHighlight = false;
-                    }
-
-                    if(newRow._disabled){
-                        newRow._isDisabled = newRow._disabled;
-                    }else{
-                        newRow._isDisabled = false;
                     }
                     data[index] = newRow;
                 });
