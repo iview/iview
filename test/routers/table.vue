@@ -75,7 +75,7 @@
                         name: '周小伟',
                         age: 26,
                         address: '深圳市南山区深南大道',
-                        _checked: true,
+                        _checked: false,
                         _disabled: false
                     }
                 ]
