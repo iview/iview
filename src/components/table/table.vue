@@ -391,15 +391,21 @@
                 this.$emit('on-selection-change', selection);
             },
             selectAll (status) {
-                this.rebuildData.forEach((data) => {
+                // this.rebuildData.forEach((data) => {
+                //     if(this.objData[data._index]._isDisabled){
+                //         this.objData[data._index]._isChecked = false;
+                //     }else{
+                //         this.objData[data._index]._isChecked = status;
+                //     }
+                    
+                // });
+                for(const data of this.rebuildData){
                     if(this.objData[data._index]._isDisabled){
-                        this.objData[data._index]._isChecked = false;
+                        continue;
                     }else{
                         this.objData[data._index]._isChecked = status;
                     }
-                    
-                });
-
+                }
                 const selection = this.getSelection();
                 if (status) {
                     this.$emit('on-select-all', selection);
@@ -559,11 +565,7 @@
                         newRow._isDisabled = false;
                     }
                     if (newRow._checked) {
-                        if(newRow._isDisabled){
-                            newRow._isChecked = false;
-                        }else{
-                            newRow._isChecked =  newRow._checked;
-                        }
+                        newRow._isChecked =  newRow._checked;
                     } else {
                         newRow._isChecked = false;
                     }
