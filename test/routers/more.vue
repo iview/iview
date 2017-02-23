@@ -8,6 +8,11 @@
         top: 0;
     }
     }
+
+    .placeholder {
+        min-height: 2000px;
+        width: 1px;
+    }
 </style>
 <template>
     <i-button @click="modal9 = true">距离顶部 20px</i-button>
@@ -30,6 +35,7 @@
     </Modal>
     <i-button @click="instance(true)">Create Instance Scrollable</i-button>
     <i-button @click="instance(false)">Create Instance Non-scrollable</i-button>
+    <div class="placeholder"></div>
 </template>
 <script>
     export default {
