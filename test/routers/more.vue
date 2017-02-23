@@ -8,6 +8,11 @@
         top: 0;
     }
     }
+
+    .placeholder {
+        min-height: 2000px;
+        width: 1px;
+    }
 </style>
 <template>
     <i-button @click="modal9 = true">距离顶部 20px</i-button>
@@ -28,6 +33,9 @@
         <p>对话框内容</p>
         <p>对话框内容</p>
     </Modal>
+    <i-button @click="instance(true)">Create Instance Scrollable</i-button>
+    <i-button @click="instance(false)">Create Instance Non-scrollable</i-button>
+    <div class="placeholder"></div>
 </template>
 <script>
     export default {
@@ -35,6 +43,24 @@
             return {
                 modal9: false,
                 modal10: false,
+                modal1: false,
+                scrollable: false
+            }
+        },
+        methods: {
+            ok () {
+                this.$nextTick(() => this.modal1 = true);
+                this.$Message.info('点击了确定');
+            },
+            cancel () {
+                this.$Message.info('点击了取消');
+            },
+            instance (scrollable) {
+                this.$Modal.info({
+                    title: 'test',
+                    content: 'test',
+                    scrollable: scrollable
+                });
             }
         }
     }
