@@ -129,6 +129,7 @@
                 this.visible = false;
             },
             toggleOpen () {
+                if (this.disabled) return false;
                 if (this.visible) {
                     this.handleClose();
                 } else {
