@@ -391,10 +391,21 @@
                 this.$emit('on-selection-change', selection);
             },
             selectAll (status) {
-                this.rebuildData.forEach((data) => {
-                    this.objData[data._index]._isChecked = status;
-                });
-
+                // this.rebuildData.forEach((data) => {
+                //     if(this.objData[data._index]._isDisabled){
+                //         this.objData[data._index]._isChecked = false;
+                //     }else{
+                //         this.objData[data._index]._isChecked = status;
+                //     }
+                    
+                // });
+                for(const data of this.rebuildData){
+                    if(this.objData[data._index]._isDisabled){
+                        continue;
+                    }else{
+                        this.objData[data._index]._isChecked = status;
+                    }
+                }
                 const selection = this.getSelection();
                 if (status) {
                     this.$emit('on-select-all', selection);
@@ -548,8 +559,13 @@
                 this.data.forEach((row, index) => {
                     const newRow = deepCopy(row);// todo 直接替换
                     newRow._isHover = false;
+                    if(newRow._disabled){
+                        newRow._isDisabled = newRow._disabled;
+                    }else{
+                        newRow._isDisabled = false;
+                    }
                     if (newRow._checked) {
-                        newRow._isChecked = newRow._checked;
+                        newRow._isChecked =  newRow._checked;
                     } else {
                         newRow._isChecked = false;
                     }

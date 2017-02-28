@@ -19,7 +19,9 @@
                         :column="column"
                         :natural-index="index"
                         :index="row._index"
-                        :checked="rowChecked(row._index)"></Cell>
+                        :checked="rowChecked(row._index)"
+                        :disabled="rowDisabled(row._index)"
+                        ></Cell>
                 </td>
             </tr>
         </tbody>
@@ -57,6 +59,9 @@
             },
             rowChecked (_index) {
                 return this.objData[_index] && this.objData[_index]._isChecked;
+            },
+            rowDisabled(_index){
+                return this.objData[_index] && this.objData[_index]._isDisabled;
             },
             rowClsName (_index) {
                 return this.$parent.rowClassName(this.objData[_index], _index);

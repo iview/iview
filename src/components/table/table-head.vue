@@ -85,9 +85,8 @@
             isSelectAll () {
                 let isSelectAll = true;
                 if (!this.data.length) isSelectAll = false;
-
                 for (let i = 0; i < this.data.length; i++) {
-                    if (!this.objData[this.data[i]._index]._isChecked) {
+                    if (!this.objData[this.data[i]._index]._isChecked && !this.objData[this.data[i]._index]._isDisabled) {
                         isSelectAll = false;
                         break;
                     }
