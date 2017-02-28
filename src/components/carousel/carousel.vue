@@ -13,7 +13,7 @@
         </button>
         <ul :class="dotsClasses">
             <template v-for="n in slides.length">
-                <li :class="[n === currentIndex ? prefixCls+'-active':'' ]"
+                <li :class="[n === currentIndex ? prefixCls + '-active' : '']"
                     @click="dotsEvent('click', n)"
                     @mouseover="dotsEvent('hover', n)">
                     <button></button>

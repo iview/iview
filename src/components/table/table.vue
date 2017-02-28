@@ -565,7 +565,7 @@
                         newRow._isDisabled = false;
                     }
                     if (newRow._checked) {
-                        newRow._isChecked =  newRow._checked;
+                        newRow._isChecked = newRow._checked;
                     } else {
                         newRow._isChecked = false;
                     }
