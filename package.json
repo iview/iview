@@ -65,6 +65,7 @@
     "gulp-less": "^3.1.0",
     "gulp-rename": "^1.2.2",
     "html-loader": "^0.3.0",
+    "html-webpack-plugin": "^2.28.0",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "style-loader": "^0.13.1",
