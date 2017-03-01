@@ -4,6 +4,7 @@
 
 var path = require('path');
 var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     // 入口
@@ -98,10 +99,8 @@ module.exports = {
         }
     },
     plugins: [
-        // new ExtractTextPlugin({ filename: '[name].css', disable: false, allChunks: true }),
-        // new ExtractTextPlugin("[name].css",{ allChunks : true,resolve : ['modules'] }),             // 提取CSS
+        new ExtractTextPlugin({ filename: '[name].css', disable: false, allChunks: true }),            // 提取CSS
         // https://doc.webpack-china.org/plugins/commons-chunk-plugin/
         new webpack.optimize.CommonsChunkPlugin({ name: 'vendors', filename: 'vendor.js' })
-        // new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js'),                           // 提取第三方库
     ]
 };
