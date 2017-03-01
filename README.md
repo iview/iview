@@ -20,7 +20,7 @@
 - [ ] Layout
 - [x] Button
 - [x] Icon
-- [ ] Input
+- [x] Input
 - [ ] Radio
 - [ ] Checkbox
 - [ ] Switch

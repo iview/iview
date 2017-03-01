@@ -17,7 +17,7 @@ import Button from './components/button';
 // import Dropdown from './components/dropdown';
 // import Form from './components/form';
 import Icon from './components/icon';
-// import Input from './components/input';
+import Input from './components/input';
 // import InputNumber from './components/input-number';
 // import LoadingBar from './components/loading-bar';
 // import Menu from './components/menu';
@@ -73,6 +73,7 @@ const iview = {
     // Collapse,
     Icon,
     // iInput: Input,
+    Input,
     // InputNumber,
     // LoadingBar,
     // Menu,

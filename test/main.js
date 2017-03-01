@@ -28,6 +28,10 @@ const router = new VueRouter({
         {
             path: '/button',
             component: require('./routers/button.vue')
+        },
+        {
+            path: '/input',
+            component: require('./routers/input.vue')
         }
     ]
 });
