@@ -31,6 +31,11 @@
         <Step title="上传头像" icon="camera" content="这里是该步骤的描述信息这里是该步骤的描述信息这里是该步骤的描述信息"></Step>
         <Step title="验证邮箱" icon="email"></Step>
     </Steps>
+    <Steps :current="-1" direction="vertical">
+        <Step title="注册" icon="person-add"></Step>
+        <Step title="上传头像" icon="camera" content="这里是该步骤的描述信息这里是该步骤的描述信息这里是该步骤的描述信息"></Step>
+        <Step title="验证邮箱" status="finish" icon="email"></Step>
+    </Steps>
     <br>
     <p>当前正在进行第 {{ current + 1 }} 步</p>
     <Steps :current="current">
