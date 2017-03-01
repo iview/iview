@@ -10,7 +10,7 @@ import Button from './components/button';
 // import Card from './components/card';
 // import Carousel from './components/carousel';
 // import Cascader from './components/cascader';
-// import Checkbox from './components/checkbox';
+import Checkbox from './components/checkbox';
 // import Circle from './components/circle';
 // import Collapse from './components/collapse';
 // import DatePicker from './components/date-picker';
@@ -60,8 +60,8 @@ const iview = {
     // Carousel,
     // CarouselItem: Carousel.Item,
     // Cascader,
-    // Checkbox,
-    // CheckboxGroup: Checkbox.Group,
+    Checkbox,
+    CheckboxGroup: Checkbox.Group,
     // Circle,
     // DatePicker,
     // Dropdown,

@@ -22,7 +22,7 @@
 - [x] Icon
 - [x] Input
 - [x] Radio
-- [ ] Checkbox
+- [x] Checkbox
 - [ ] Switch
 - [ ] Table
 - [ ] Select

@@ -29,6 +29,7 @@ li + li {
                 <li><router-link to="/button">Button</router-link></li>
                 <li><router-link to="/input">Input</router-link></li>
                 <li><router-link to="/radio">Radio</router-link></li>
+                <li><router-link to="/checkbox">Checkbox</router-link></li>
             </ul>
         </nav>
         <router-view></router-view>

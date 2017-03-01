@@ -33,7 +33,7 @@
         data () {
             return {
                 currentValue: this.value
-            }
+            };
         },
         computed: {
             classes () {
