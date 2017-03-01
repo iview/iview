@@ -24,6 +24,10 @@ const router = new VueRouter({
         {
             path: '/grid',
             component: require('./routers/grid.vue')
+        },
+        {
+            path: '/button',
+            component: require('./routers/button.vue')
         }
     ]
 });

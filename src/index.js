@@ -6,7 +6,7 @@ import Affix from './components/affix';
 // import BackTop from './components/back-top';
 // import Badge from './components/badge';
 // import Breadcrumb from './components/breadcrumb';
-// import Button from './components/button';
+import Button from './components/button';
 // import Card from './components/card';
 // import Carousel from './components/carousel';
 // import Cascader from './components/cascader';
@@ -16,7 +16,7 @@ import Affix from './components/affix';
 // import DatePicker from './components/date-picker';
 // import Dropdown from './components/dropdown';
 // import Form from './components/form';
-// import Icon from './components/icon';
+import Icon from './components/icon';
 // import Input from './components/input';
 // import InputNumber from './components/input-number';
 // import LoadingBar from './components/loading-bar';
@@ -54,7 +54,8 @@ const iview = {
     // Breadcrumb,
     // BreadcrumbItem: Breadcrumb.Item,
     // iButton: Button,
-    // ButtonGroup: Button.Group,
+    Button,
+    ButtonGroup: Button.Group,
     // Card,
     // Carousel,
     // CarouselItem: Carousel.Item,
@@ -70,7 +71,7 @@ const iview = {
     // FormItem: Form.Item,
     iCol: Col,
     // Collapse,
-    // Icon,
+    Icon,
     // iInput: Input,
     // InputNumber,
     // LoadingBar,

@@ -2,7 +2,7 @@
     <button :type="htmlType" :class="classes" :disabled="disabled">
         <Icon class="ivu-load-loop" type="load-c" v-if="loading"></Icon>
         <Icon :type="icon" v-if="icon && !loading"></Icon>
-        <span v-if="showSlot" v-el:slot><slot></slot></span>
+        <span v-if="showSlot" ref="slot"><slot></slot></span>
     </button>
 </template>
 <script>
@@ -63,8 +63,8 @@
                 ];
             }
         },
-        compiled () {
-            this.showSlot = this.$els.slot.innerHTML.replace(/\n/g, '').replace(/<!--[\w\W\r\n]*?-->/gmi, '') !== '';
+        mounted () {
+            this.showSlot = this.$refs.slot.innerHTML.replace(/\n/g, '').replace(/<!--[\w\W\r\n]*?-->/gmi, '') !== '';
         }
     };
 </script>

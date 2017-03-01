@@ -18,8 +18,8 @@
 ## Programming
 - [x] Grid
 - [ ] Layout
-- [ ] Button
-- [ ] Icon
+- [x] Button
+- [x] Icon
 - [ ] Input
 - [ ] Radio
 - [ ] Checkbox
