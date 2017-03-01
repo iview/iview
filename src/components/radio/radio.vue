@@ -78,7 +78,6 @@
                 const checked = event.target.checked;
                 this.currentValue = checked;
                 this.$emit('input', checked);
-                this.$emit('on-change', checked);
 
                 if (this.group && this.label) {
                     this.$parent.change({
@@ -86,8 +85,11 @@
                         checked: this.value
                     });
                 }
-                // todo 事件
-//                if (!this.group) this.$dispatch('on-form-change', checked);
+                if (!this.group) {
+                    this.$emit('on-change', checked);
+                    // todo 事件
+//                    this.$dispatch('on-form-change', checked);
+                }
             },
             updateValue () {
                 this.currentValue = this.value;
