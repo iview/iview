@@ -42,7 +42,7 @@ import Affix from './components/affix';
 // import Transfer from './components/transfer';
 // import Tree from './components/tree';
 // import Upload from './components/upload';
-// import { Row, Col } from './components/layout';
+import { Row, Col } from './components/grid';
 // import { Select, Option, OptionGroup } from './components/select';
 import locale from './locale';
 
@@ -68,7 +68,7 @@ const iview = {
     // DropdownMenu: Dropdown.Menu,
     // iForm: Form,
     // FormItem: Form.Item,
-    // iCol: Col,
+    iCol: Col,
     // Collapse,
     // Icon,
     // iInput: Input,
@@ -90,7 +90,7 @@ const iview = {
     // Radio,
     // RadioGroup: Radio.Group,
     // Rate,
-    // Row,
+    Row,
     // iSelect: Select,
     // Slider,
     // Spin,

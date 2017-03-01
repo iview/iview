@@ -20,6 +20,10 @@ const router = new VueRouter({
         {
             path: '/affix',
             component: require('./routers/affix.vue')
+        },
+        {
+            path: '/grid',
+            component: require('./routers/grid.vue')
         }
     ]
 });

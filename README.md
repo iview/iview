@@ -16,7 +16,7 @@
 ### English (Coming soon)
 
 ## Programming
-- [ ] Grid
+- [x] Grid
 - [ ] Layout
 - [ ] Button
 - [ ] Icon
