@@ -22,29 +22,24 @@ module.exports = {
         }
     },
     resolve: {
-        extensions: ['', '.js', '.vue']
+        extensions: ['.js', '.vue']
     },
     module: {
-        loaders: [{
-            test: /\.vue$/,
-            loader: 'vue'
-        }, {
-            test: /\.js$/,
-            loader: 'babel',
-            exclude: /node_modules/
-        }, {
-            test: /\.css$/,
-            loader: 'style!css!autoprefixer'
-        }, {
-            test: /\.less$/,
-            loader: 'style!css!less'
-        }, {
-            test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
-            loader: 'url?limit=8192'
-        }, {
-            test: /\.(html|tpl)$/,
-            loader: 'vue-html'
-        }]
+        rules: [
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader',
+                options: {
+                    postLoaders: {
+                        html: 'babel-loader'
+                    }
+                }
+            },
+            {
+                test: /\.js$/,
+                loader: 'babel-loader', exclude: /node_modules/
+            }
+        ]
     },
     plugins: [
         new webpack.DefinePlugin({

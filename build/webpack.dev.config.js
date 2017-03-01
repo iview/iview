@@ -4,7 +4,6 @@
 
 var path = require('path');
 var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     // 入口
@@ -29,10 +28,8 @@ module.exports = {
                 loader: 'vue-loader',
                 options: {
                     loaders: {
-                        css: ExtractTextPlugin.extract({
-                            use: 'css-loader',
-                            fallback: 'vue-style-loader' // <- this is a dep of vue-loader, so no need to explicitly install if using npm3
-                        })
+                        css: 'vue-style-loader!css-loader',
+                        less: 'vue-style-loader!css-loader!less-loader'
                     },
                     postLoaders: {
                         html: 'babel-loader'
