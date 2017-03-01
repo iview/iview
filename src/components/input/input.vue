@@ -48,6 +48,7 @@
     const prefixCls = 'ivu-input';
 
     export default {
+        name: 'Input',
         props: {
             type: {
                 validator (value) {

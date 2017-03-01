@@ -21,7 +21,7 @@
 - [x] Button
 - [x] Icon
 - [x] Input
-- [ ] Radio
+- [x] Radio
 - [ ] Checkbox
 - [ ] Switch
 - [ ] Table

@@ -32,6 +32,10 @@ const router = new VueRouter({
         {
             path: '/input',
             component: require('./routers/input.vue')
+        },
+        {
+            path: '/radio',
+            component: require('./routers/radio.vue')
         }
     ]
 });

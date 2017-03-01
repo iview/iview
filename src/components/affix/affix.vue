@@ -39,6 +39,7 @@
     }
 
     export default {
+        name: 'Affix',
         props: {
             offsetTop: {
                 type: Number,
