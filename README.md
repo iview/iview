@@ -57,7 +57,7 @@
 - [ ] Steps
 - [ ] LoadingBar
 - [ ] Circle
-- [ ] Affix
+- [x] Affix
 - [ ] BackTop
 - [ ] Spin
 

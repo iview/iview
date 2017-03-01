@@ -71,7 +71,7 @@
                 ];
             }
         },
-        ready () {
+        mounted () {
             window.addEventListener('scroll', this.handleScroll, false);
             window.addEventListener('resize', this.handleScroll, false);
         },
