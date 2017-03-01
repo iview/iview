@@ -40,6 +40,10 @@ const router = new VueRouter({
         {
             path: '/checkbox',
             component: require('./routers/checkbox.vue')
+        },
+        {
+          path: '/steps',
+          component: require('./routers/steps.vue')
         }
     ]
 });

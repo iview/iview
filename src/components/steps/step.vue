@@ -21,11 +21,11 @@
 
     export default {
         props: {
-            status: {
-                validator (value) {
-                    return oneOf(value, ['wait', 'process', 'finish', 'error']);
-                }
-            },
+            // status: {
+            //     validator (value) {
+            //         return oneOf(value, ['wait', 'process', 'finish', 'error']);
+            //     }
+            // },
             title: {
                 type: String,
                 default: ''
@@ -42,7 +42,8 @@
                 prefixCls: prefixCls,
                 stepNumber: '',
                 nextError: false,
-                total: 1
+                total: 1,
+                status: ''
             };
         },
         computed: {

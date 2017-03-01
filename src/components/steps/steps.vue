@@ -43,7 +43,7 @@
                 ];
             }
         },
-        ready () {
+        mounted () {
             this.updateChildProps(true);
             this.setNextError();
             this.updateCurrent(true);
