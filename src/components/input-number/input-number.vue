@@ -61,6 +61,7 @@
     }
 
     export default {
+        name: 'InputNumber',
         props: {
             max: {
                 type: Number,

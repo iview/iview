@@ -7,7 +7,7 @@
     const prefixCls = 'ivu-checkbox-group';
 
     export default {
-        name: 'checkboxGroup',
+        name: 'CheckboxGroup',
         props: {
             value: {
                 type: Array,

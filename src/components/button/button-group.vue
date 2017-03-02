@@ -9,7 +9,7 @@
     const prefixCls = 'ivu-btn-group';
 
     export default {
-        name: 'buttonGroup',
+        name: 'ButtonGroup',
         props: {
             size: {
                 validator (value) {

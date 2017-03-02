@@ -28,6 +28,7 @@
     const prefixCls = 'ivu-upload';
 
     export default {
+        name: 'UploadList',
         components: { Icon, Progress },
         props: {
             files: {

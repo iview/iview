@@ -7,6 +7,7 @@
     const prefixCls = 'ivu-col';
 
     export default {
+        name: 'iCol',
         props: {
             span: [Number, String],
             order: [Number, String],

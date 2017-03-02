@@ -9,6 +9,7 @@
     const prefixCls = 'ivu-row';
 
     export default {
+        name: 'Row',
         props: {
             type: {
                 validator (value) {

@@ -84,6 +84,10 @@ const router = new VueRouter({
         {
             path: '/carousel',
             component: require('./routers/carousel.vue')
+        },
+        {
+            path: '/tree',
+            component: require('./routers/tree.vue')
         }
     ]
 });

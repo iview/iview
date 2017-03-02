@@ -12,6 +12,7 @@
     const prefixCls = 'ivu-tag';
 
     export default {
+        name: 'Tag',
         components: { Icon },
         props: {
             closable: {

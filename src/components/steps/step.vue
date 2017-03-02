@@ -20,6 +20,7 @@
     const iconPrefixCls = 'ivu-icon';
 
     export default {
+        name: 'Step',
         props: {
             status: {
                 validator (value) {

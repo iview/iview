@@ -11,6 +11,7 @@
     const prefixCls = 'ivu-timeline';
 
     export default {
+        name: 'TimelineItem',
         props: {
             color: {
                 type: String,

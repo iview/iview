@@ -22,3 +22,5 @@ class 改为了 className
 废弃 activeKey，使用 v-model，key 是保留的，更名为 name
 ### Carousel
 废弃 activeIndex，使用 v-model，v-for="n in slides.length",Vue2的数字循环，是从1开始的
+### Tree
+废弃 data，改为 value，使用 v-model，key 更名为 name

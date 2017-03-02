@@ -9,6 +9,7 @@
     const prefixCls = 'ivu-steps';
 
     export default {
+        name: 'Steps',
         props: {
             current: {
                 type: Number,

@@ -12,6 +12,7 @@
     const prefixCls = 'ivu-badge';
 
     export default {
+        name: 'Badge',
         props: {
             count: [Number, String],
             dot: {
