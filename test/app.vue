@@ -30,6 +30,7 @@ li + li {
                 <li><router-link to="/input">Input</router-link></li>
                 <li><router-link to="/radio">Radio</router-link></li>
                 <li><router-link to="/checkbox">Checkbox</router-link></li>
+                <li><router-link to="/backtop">Backtop</router-link></li>
             </ul>
         </nav>
         <router-view></router-view>

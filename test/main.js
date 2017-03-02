@@ -40,6 +40,10 @@ const router = new VueRouter({
         {
             path: '/checkbox',
             component: require('./routers/checkbox.vue')
+        },
+        {
+            path: '/backtop',
+            component: require('./routers/back-top.vue')
         }
     ]
 });
