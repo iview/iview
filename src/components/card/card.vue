@@ -1,7 +1,7 @@
 <template>
     <div :class="classes">
-        <div :class="headClasses" v-if="showHead" v-el:head><slot name="title"></slot></div>
-        <div :class="extraClasses" v-if="showExtra" v-el:extra><slot name="extra"></slot></div>
+        <div :class="headClasses" v-if="showHead" ref="head"><slot name="title"></slot></div>
+        <div :class="extraClasses" v-if="showExtra" ref="extra"><slot name="extra"></slot></div>
         <div :class="bodyClasses"><slot></slot></div>
     </div>
 </template>
@@ -50,9 +50,13 @@
                 return `${prefixCls}-body`;
             }
         },
-        compiled () {
-            this.showHead = this.$els.head.innerHTML != '';
-            this.showExtra = this.$els.extra.innerHTML != '';
+        mounted () {
+            if (this.$refs.head) {
+                this.showHead = this.$refs.head.innerHTML != '';
+            }
+            if (this.$refs.extra) {
+                this.showExtra = this.$refs.extra.innerHTML != '';
+            }
         }
     };
 </script>

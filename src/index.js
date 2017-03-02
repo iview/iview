@@ -7,7 +7,7 @@ import Alert from './components/alert';
 import Badge from './components/badge';
 // import Breadcrumb from './components/breadcrumb';
 import Button from './components/button';
-// import Card from './components/card';
+import Card from './components/card';
 import Carousel from './components/carousel';
 // import Cascader from './components/cascader';
 import Checkbox from './components/checkbox';
@@ -56,7 +56,7 @@ const iview = {
     // iButton: Button,
     Button,
     ButtonGroup: Button.Group,
-    // Card,
+    Card,
     Carousel,
     CarouselItem: Carousel.Item,
     // Cascader,
