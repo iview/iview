@@ -92,6 +92,10 @@ const router = new VueRouter({
         {
             path: '/tree',
             component: require('./routers/tree.vue')
+        },
+        {
+            path: '/rate',
+            component: require('./routers/rate.vue')
         }
     ]
 });

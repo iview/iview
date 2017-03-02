@@ -28,7 +28,7 @@ import InputNumber from './components/input-number';
 // import Poptip from './components/poptip';
 import Progress from './components/progress';
 import Radio from './components/radio';
-// import Rate from './components/rate';
+import Rate from './components/rate';
 // import Slider from './components/slider';
 // import Spin from './components/spin';
 import Steps from './components/steps';
@@ -91,7 +91,7 @@ const iview = {
     Progress,
     Radio,
     RadioGroup: Radio.Group,
-    // Rate,
+    Rate,
     Row,
     // iSelect: Select,
     // Slider,
