@@ -2,56 +2,30 @@
     @import "../src/styles/index.less";
 </style>
 <style scoped>
-nav {
-    margin-bottom: 40px;
-}
-
-li {
-    display: inline-block;
-}
-
-li + li {
-    border-left: solid 1px #bbb;
-    padding-left: 5px;
-    margin-left: 5px;
-}
-
-.v-link-active {
-    color: #bbb;
-}
+nav { margin-bottom: 40px; }
+ul { display: flex; flex-wrap: wrap; }
+li { display: inline-block; }
+li + li { border-left: solid 1px #bbb; padding-left: 10px; margin-left: 10px; }
+.container{ padding: 10px 40px; }
+.v-link-active { color: #bbb; }
 </style>
 <template>
-    <div>
+    <div class="container">
         <nav>
             <ul>
-                <li><a v-link="'/button'">Button</a></li>
-                <li><a v-link="'/card'">Card</a></li>
-                <li><a v-link="'/message'">Message</a></li>
-                <li><a v-link="'/more'">More</a></li>
-                <li><a v-link="'/page'">Page</a></li>
-                <li><a v-link="'/poptip'">Poptip</a></li>
-                <li><a v-link="'/tooltip'">Tooltip</a></li>
-                <li><a v-link="'/radio'">Radio</a></li>
-                <li><a v-link="'/select'">Select</a></li>
-                <li><a v-link="'/slider'">Slider</a></li>
-                <li><a v-link="'/step'">Step</a></li>
-                <li><a v-link="'/switch'">Switch</a></li>
-                <li><a v-link="'/alert'">Alert</a></li>
-                <li><a v-link="'/tag'">Tag</a></li>
-                <li><a v-link="'/input'">Input</a></li>
-                <li><a v-link="'/cascader'">Cascader</a></li>
-                <li><a v-link="'/transfer'">Transfer</a></li>
-                <li><a v-link="'/table'">Table</a></li>
-                <li><a v-link="'/dropdown'">Dropdown</a></li>
-                <li><a v-link="'/tabs'">Tabs</a></li>
-                <li><a v-link="'/menu'">Menu</a></li>
-                <li><a v-link="'/date'">Date</a></li>
-                <li><a v-link="'/form'">Form</a></li>
-                <li><a v-link="'/carousel'">Carousel</a></li>
-                <li><a v-link="'/rate'">Rate</a></li>
-                <li><a v-link="'/upload'">Upload</a></li>
-                <li><a v-link="'/tree'">Tree</a></li>
-                <li><a v-link="'/notice'">Notice</a></li>
+                <li><router-link to="/affix">Affix</router-link></li>
+                <li><router-link to="/grid">Grid</router-link></li>
+                <li><router-link to="/button">Button</router-link></li>
+                <li><router-link to="/input">Input</router-link></li>
+                <li><router-link to="/radio">Radio</router-link></li>
+                <li><router-link to="/checkbox">Checkbox</router-link></li>
+                <li><router-link to="/steps">Steps</router-link></li>
+                <li><router-link to="/timeline">Timeline</router-link></li>
+                <li><router-link to="/switch">Switch</router-link></li>
+                <li><router-link to="/alert">Alert</router-link></li>
+                <li><router-link to="/badge">Badge</router-link></li>
+                <li><router-link to="/tag">Tag</router-link></li>
+                <li><router-link to="/backtop">BackTop</router-link></li>
             </ul>
         </nav>
         <router-view></router-view>
@@ -64,7 +38,7 @@ li + li {
 
             }
         },
-        ready: function() {
+        mounted: function() {
 
         },
         beforeDestroy: function() {

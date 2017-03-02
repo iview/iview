@@ -5,6 +5,7 @@
     const prefixCls = 'ivu-icon';
 
     export default {
+        name: 'Icon',
         props: {
             type: String,
             size: [Number, String],

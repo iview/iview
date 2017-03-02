@@ -1,33 +1,23 @@
 <template>
-    <Switch @on-change="change"></Switch>
-    <Switch>
-        <span slot="open">开</span>
-        <span slot="close">关</span>
-    </Switch>
-    <Switch size="large">
-        <span slot="open">ON</span>
-        <span slot="close">OFF</span>
-    </Switch>
-    <Switch>
-        <Icon type="android-done" slot="open"></Icon>
-        <Icon type="android-close" slot="close"></Icon>
-    </Switch>
-    <Switch :disabled="disabled"></Switch>
-    <i-button type="primary" @click="disabled = !disabled">Toggle Disabled</i-button>
-    <Switch size="small"></Switch>
+    <div>
+        <i-switch v-model="m1">
+            <span slot="open">开</span>
+            <span slot="close">关</span>
+        </i-switch>
+        {{ m1 }}
+        <div @click="m1 = !m1">toggle</div>
+    </div>
 </template>
 <script>
-    import { Switch, Message, iButton, Icon } from 'iview';
     export default {
-        components: { Switch, Message, iButton, Icon },
         data () {
             return {
-                disabled: true
+                m1: false
             }
         },
         methods: {
             change (status) {
-                Message.info('开关状态：' + status);
+                console.log(status)
             }
         }
     }
