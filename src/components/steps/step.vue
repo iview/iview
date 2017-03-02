@@ -3,7 +3,7 @@
         <div :class="[prefixCls + '-tail']"><i></i></div>
         <div :class="[prefixCls + '-head']">
             <div :class="[prefixCls + '-head-inner']">
-                <span v-if="!icon && status != 'finish' && status != 'error'">{{ stepNumber }}</span>
+                <span v-if="!icon && currentStatus != 'finish' && currentStatus != 'error'">{{ stepNumber }}</span>
                 <span v-else :class="iconClasses"></span>
             </div>
         </div>
@@ -21,11 +21,11 @@
 
     export default {
         props: {
-            // status: {
-            //     validator (value) {
-            //         return oneOf(value, ['wait', 'process', 'finish', 'error']);
-            //     }
-            // },
+            status: {
+                validator (value) {
+                    return oneOf(value, ['wait', 'process', 'finish', 'error']);
+                }
+            },
             title: {
                 type: String,
                 default: ''
@@ -43,14 +43,17 @@
                 stepNumber: '',
                 nextError: false,
                 total: 1,
-                status: ''
+                currentStatus: ''
             };
+        },
+        created () {
+            this.currentStatus = this.status;
         },
         computed: {
             wrapClasses () {
                 return [
                     `${prefixCls}-item`,
-                    `${prefixCls}-status-${this.status}`,
+                    `${prefixCls}-status-${this.currentStatus}`,
                     {
                         [`${prefixCls}-custom`]: !!this.icon,
                         [`${prefixCls}-next-error`]: this.nextError
@@ -63,9 +66,9 @@
                 if (this.icon) {
                     icon = this.icon;
                 } else {
-                    if (this.status == 'finish') {
+                    if (this.currentStatus == 'finish') {
                         icon = 'ios-checkmark-empty';
-                    } else if (this.status == 'error') {
+                    } else if (this.currentStatus == 'error') {
                         icon = 'ios-close-empty';
                     }
                 }
@@ -85,8 +88,9 @@
             }
         },
         watch: {
-            status () {
-                if (this.status == 'error') {
+            status (val) {
+                this.currentStatus = val;
+                if (this.currentStatus == 'error') {
                     this.$parent.setNextError();
                 }
             }
