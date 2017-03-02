@@ -41,7 +41,7 @@
 - [ ] Notice
 - [ ] Modal
 - [ ] Progress
-- [ ] Badge
+- [x] Badge
 - [ ] Collapse
 - [x] Timeline
 - [ ] Tag

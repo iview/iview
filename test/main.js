@@ -56,6 +56,10 @@ const router = new VueRouter({
         {
             path: '/alert',
             component: require('./routers/alert.vue')
+        },
+        {
+            path: '/badge',
+            component: require('./routers/badge.vue')
         }
     ]
 });
