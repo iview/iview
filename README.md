@@ -33,14 +33,14 @@
 - [ ] Transfer
 - [x] InputNumber
 - [ ] Rate
-- [ ] Upload
+- [x] Upload
 - [ ] Form
 - [x] Alert
 - [ ] Card
 - [ ] Message
 - [ ] Notice
 - [ ] Modal
-- [ ] Progress
+- [x] Progress
 - [x] Badge
 - [ ] Collapse
 - [x] Timeline

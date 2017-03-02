@@ -1,37 +1,38 @@
 <template>
-    <div class="demo-upload-list" v-for="item in uploadList">
-        <template v-if="item.status === 'finished'">
-            <img :src="item.url">
-            <div class="demo-upload-list-cover">
-                <Icon type="ios-eye-outline" @click="handleView(item.name)"></Icon>
-                <Icon type="ios-trash-outline" @click="handleRemove(item)"></Icon>
-            </div>
-        </template>
-        <template v-else>
-            <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
-        </template>
-    </div>
-    <Upload
-            v-ref:upload
-            :show-upload-list="false"
-            :default-file-list="defaultList"
-            :on-success="handleSuccess"
-            :format="['jpg','jpeg','png']"
-            :max-size="2048"
-            :on-format-error="handleFormatError"
-            :on-exceeded-size="handleMaxSize"
-            :before-upload="handleBeforeUpload"
-            multiple
-            type="drag"
-            action="//jsonplaceholder.typicode.com/posts/"
-            style="display: inline-block;width:58px;">
-        <div style="width: 58px;height:58px;line-height: 58px;">
-            <Icon type="camera" size="20"></Icon>
+    <div>
+        <div class="demo-upload-list" v-for="item in uploadList">
+            <template v-if="item.status === 'finished'">
+                <img :src="item.url">
+                <div class="demo-upload-list-cover">
+                    <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
+                    <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+                </div>
+            </template>
+            <template v-else>
+                <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
+            </template>
         </div>
-    </Upload>
-    <Modal title="查看图片" :visible.sync="visible">
-        <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
-    </Modal>
+        <Upload
+                ref="upload"
+                :show-upload-list="false"
+                :default-file-list="defaultList"
+                :on-success="handleSuccess"
+                :format="['jpg','jpeg','png']"
+                :max-size="2048"
+                :on-format-error="handleFormatError"
+                :on-exceeded-size="handleMaxSize"
+                @on-progress="handleProgress"
+                :before-upload="handleBeforeUpload"
+                multiple
+                type="drag"
+                action="//jsonplaceholder.typicode.com/posts/"
+                style="display: inline-block;width:58px;">
+            <div style="width: 58px;height:58px;line-height: 58px;">
+                <Icon type="camera" size="20"></Icon>
+            </div>
+        </Upload>
+        {{ visible }}
+    </div>
 </template>
 <script>
     export default {
@@ -48,13 +49,21 @@
                     }
                 ],
                 imgName: '',
-                visible: false
+                visible: false,
+                uploadList: []
             }
         },
         computed: {
-            uploadList () {
-                return this.$refs.upload ? this.$refs.upload.fileList : [];
-            }
+//            uploadList () {
+//                return this.$refs.upload ? this.$refs.upload.fileList : [];
+//            }
+        },
+        watch: {
+
+        },
+        mounted () {
+            this.uploadList = this.$refs.upload.fileList;
+//            console.log(this.$refs.upload.fileList)
         },
         methods: {
             handleView (name) {
@@ -91,6 +100,9 @@
                     });
                 }
                 return check;
+            },
+            handleProgress (s) {
+                console.log(s)
             }
         }
     }

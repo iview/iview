@@ -68,6 +68,14 @@ const router = new VueRouter({
         {
             path: '/input-number',
             component: require('./routers/input-number.vue')
+        },
+        {
+            path: '/upload',
+            component: require('./routers/upload.vue')
+        },
+        {
+            path: '/progress',
+            component: require('./routers/progress.vue')
         }
     ]
 });

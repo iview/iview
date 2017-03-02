@@ -26,6 +26,8 @@ li + li { border-left: solid 1px #bbb; padding-left: 10px; margin-left: 10px; }
                 <li><router-link to="/badge">Badge</router-link></li>
                 <li><router-link to="/tag">Tag</router-link></li>
                 <li><router-link to="/input-number">InputNumber</router-link></li>
+                <li><router-link to="/progress">Progress</router-link></li>
+                <li><router-link to="/upload">Upload</router-link></li>
             </ul>
         </nav>
         <router-view></router-view>

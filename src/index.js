@@ -26,7 +26,7 @@ import InputNumber from './components/input-number';
 // import Notice from './components/notice';
 // import Page from './components/page';
 // import Poptip from './components/poptip';
-// import Progress from './components/progress';
+import Progress from './components/progress';
 import Radio from './components/radio';
 // import Rate from './components/rate';
 // import Slider from './components/slider';
@@ -41,7 +41,7 @@ import Timeline from './components/timeline';
 // import Tooltip from './components/tooltip';
 // import Transfer from './components/transfer';
 // import Tree from './components/tree';
-// import Upload from './components/upload';
+import Upload from './components/upload';
 import { Row, Col } from './components/grid';
 // import { Select, Option, OptionGroup } from './components/select';
 import locale from './locale';
@@ -88,7 +88,7 @@ const iview = {
     // Page,
     // Panel: Collapse.Panel,
     // Poptip,
-    // Progress,
+    Progress,
     Radio,
     RadioGroup: Radio.Group,
     // Rate,
@@ -109,7 +109,7 @@ const iview = {
     // Tooltip,
     // Transfer,
     // Tree,
-    // Upload
+    Upload
 };
 
 const install = function (Vue, opts = {}) {
