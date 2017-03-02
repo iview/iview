@@ -69,7 +69,7 @@
                 this.updateGutter(val);
             }
         },
-        ready () {
+        mounted () {
             this.updateGutter(this.gutter);
         }
     };
