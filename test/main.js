@@ -80,6 +80,10 @@ const router = new VueRouter({
         {
             path: '/collapse',
             component: require('./routers/collapse.vue')
+        },
+        {
+            path: '/carousel',
+            component: require('./routers/carousel.vue')
         }
     ]
 });

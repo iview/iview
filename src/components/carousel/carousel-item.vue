@@ -1,12 +1,12 @@
 <template>
-    <div :class="prefixCls" v-bind:style="styles"><slot></slot></div>
+    <div :class="prefixCls" :style="styles"><slot></slot></div>
 </template>
 <script>
     const prefixCls = 'ivu-carousel-item';
 
     export default {
         componentName: 'carousel-item',
-
+        name: 'CarouselItem',
         data () {
             return {
                 prefixCls: prefixCls,
@@ -24,10 +24,12 @@
                 };
             }
         },
-        compiled () {
+        mounted () {
+            // todo while
             this.$parent.slotChange();
         },
         beforeDestroy () {
+            // todo while
             this.$parent.slotChange();
         }
     };

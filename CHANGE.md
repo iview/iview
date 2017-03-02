@@ -20,3 +20,5 @@ class 改为了 className
 父级不能 computed Upload 的 fileList 了
 ### Collapse
 废弃 activeKey，使用 v-model，key 是保留的，更名为 name
+### Carousel
+废弃 activeIndex，使用 v-model，v-for="n in slides.length",Vue2的数字循环，是从1开始的

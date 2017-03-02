@@ -4,7 +4,7 @@
             <Icon type="chevron-left"></Icon>
         </button>
         <div :class="[prefixCls + '-list']">
-            <div :class="[prefixCls + '-track']" :style="trackStyles" v-el:slides>
+            <div :class="[prefixCls + '-track']" :style="trackStyles">
                 <slot></slot>
             </div>
         </div>
@@ -13,9 +13,9 @@
         </button>
         <ul :class="dotsClasses">
             <template v-for="n in slides.length">
-                <li :class="[n === currentIndex ? prefixCls + '-active' : '']"
-                    @click="dotsEvent('click', n)"
-                    @mouseover="dotsEvent('hover', n)">
+                <li :class="[n - 1 === currentIndex ? prefixCls + '-active' : '']"
+                    @click="dotsEvent('click', n - 1)"
+                    @mouseover="dotsEvent('hover', n - 1)">
                     <button></button>
                 </li>
             </template>
@@ -65,7 +65,7 @@
                     return oneOf(value, ['click', 'hover']);
                 }
             },
-            currentIndex: {
+            value: {
                 type: Number,
                 default: 0
             },
@@ -86,7 +86,8 @@
                 slides: [],
                 slideInstances: [],
                 timer: null,
-                ready: false
+                ready: false,
+                currentIndex: this.value
             };
         },
         computed: {
@@ -140,7 +141,7 @@
                     });
                 }
             },
-            updateSlides (init ) {
+            updateSlides (init) {
                 let slides = [];
                 let index = 1;
 
@@ -189,6 +190,7 @@
                 while (index < 0) index += this.slides.length;
                 index = index % this.slides.length;
                 this.currentIndex = index;
+                this.$emit('input', index);
             },
             arrowEvent (offset) {
                 this.setAutoplay();
@@ -197,6 +199,7 @@
             dotsEvent (event, n) {
                 if (event === this.trigger && this.currentIndex !== n) {
                     this.currentIndex = n;
+                    this.$emit('input', n);
                     // Reset autoplay timer when trigger be activated
                     this.setAutoplay();
                 }
@@ -215,9 +218,6 @@
                 });
             }
         },
-        compiled () {
-            this.updateSlides(true);
-        },
         watch: {
             autoplay () {
                 this.setAutoplay();
@@ -231,9 +231,13 @@
             },
             height () {
                 this.updatePos();
+            },
+            value (val) {
+                this.currentIndex = val;
             }
         },
-        ready () {
+        mounted () {
+            this.updateSlides(true);
             this.handleResize();
             this.setAutoplay();
             window.addEventListener('resize', this.handleResize, false);

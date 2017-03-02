@@ -42,12 +42,12 @@
 - [ ] Modal
 - [x] Progress
 - [x] Badge
-- [ ] Collapse
+- [x] Collapse
 - [x] Timeline
 - [x] Tag
 - [ ] Tooltip
 - [ ] Poptip
-- [ ] Carousel
+- [x] Carousel
 - [ ] Tree
 - [ ] Menu
 - [ ] Tabs
