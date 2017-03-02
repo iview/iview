@@ -60,6 +60,10 @@ const router = new VueRouter({
         {
             path: '/badge',
             component: require('./routers/badge.vue')
+        },
+        {
+            path: '/tag',
+            component: require('./routers/tag.vue')
         }
     ]
 });

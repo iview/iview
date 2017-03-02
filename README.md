@@ -44,7 +44,7 @@
 - [x] Badge
 - [ ] Collapse
 - [x] Timeline
-- [ ] Tag
+- [x] Tag
 - [ ] Tooltip
 - [ ] Poptip
 - [ ] Carousel
