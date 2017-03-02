@@ -9,7 +9,7 @@
     const prefixCls = 'ivu-radio-group';
 
     export default {
-        name: 'radioGroup',
+        name: 'RadioGroup',
         props: {
             value: {
                 type: [String, Number],

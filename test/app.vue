@@ -31,6 +31,7 @@ li + li { border-left: solid 1px #bbb; padding-left: 10px; margin-left: 10px; }
                 <li><router-link to="/collapse">Collapse</router-link></li>
                 <li><router-link to="/carousel">Carousel</router-link></li>
                 <li><router-link to="/card">Card</router-link></li>
+                <li><router-link to="/tree">Tree</router-link></li>
             </ul>
         </nav>
         <router-view></router-view>

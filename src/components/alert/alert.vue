@@ -23,6 +23,7 @@
     const prefixCls = 'ivu-alert';
 
     export default {
+        name: 'Alert',
         components: { Icon },
         props: {
             type: {

@@ -14,6 +14,7 @@
     const prefixCls = 'ivu-collapse';
 
     export default {
+        name: 'Panel',
         components: { Icon },
         props: {
             name: {

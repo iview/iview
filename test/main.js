@@ -88,6 +88,10 @@ const router = new VueRouter({
         {
             path: '/card',
             component: require('./routers/card.vue')
+        },
+        {
+            path: '/tree',
+            component: require('./routers/tree.vue')
         }
     ]
 });

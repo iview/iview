@@ -7,6 +7,7 @@
     const prefixCls = 'ivu-collapse';
 
     export default {
+        name: 'Collapse',
         props: {
             accordion: {
                 type: Boolean,

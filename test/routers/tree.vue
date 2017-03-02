@@ -1,10 +1,12 @@
 <template>
-    <Tree
-        :data.sync="treeData"
-        :show-checkbox="true"
-        :multiple="true"
-        @on-select-change="selectFn"
-        @on-check-change="checkFn"></Tree>
+    <div>
+        <Tree
+            v-model="treeData"
+            :show-checkbox="true"
+            :multiple="true"
+            @on-select-change="selectFn"
+            @on-check-change="checkFn"></Tree>
+    </div>
 </template>
 <script>
     export default {

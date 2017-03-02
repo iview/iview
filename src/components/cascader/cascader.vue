@@ -36,6 +36,7 @@
     const prefixCls = 'ivu-cascader';
 
     export default {
+        name: 'Cascader',
         components: { iInput, Dropdown, Icon, Caspanel },
         directives: { clickoutside },
         props: {

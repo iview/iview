@@ -48,7 +48,7 @@
 - [ ] Tooltip
 - [ ] Poptip
 - [x] Carousel
-- [ ] Tree
+- [x] Tree
 - [ ] Menu
 - [ ] Tabs
 - [ ] Dropdown
