@@ -35,7 +35,7 @@ import Steps from './components/steps';
 import Switch from './components/switch';
 // import Table from './components/table';
 // import Tabs from './components/tabs';
-// import Tag from './components/tag';
+import Tag from './components/tag';
 import Timeline from './components/timeline';
 // import TimePicker from './components/time-picker';
 // import Tooltip from './components/tooltip';
@@ -102,7 +102,7 @@ const iview = {
     // iTable: Table,
     // Tabs: Tabs,
     // TabPane: Tabs.Pane,
-    // Tag,
+    Tag,
     Timeline,
     TimelineItem: Timeline.Item,
     // TimePicker,
