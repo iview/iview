@@ -35,9 +35,7 @@
     </div>
 </template>
 <script>
-    import { Tag, Modal, iButton } from 'iview';
     export default {
-        components: { Tag, Modal, iButton },
         data () {
             return {
                 modal1: false,

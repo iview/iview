@@ -31,7 +31,7 @@
 - [ ] TimePicker
 - [ ] Cascader
 - [ ] Transfer
-- [ ] InputNumber
+- [x] InputNumber
 - [ ] Rate
 - [ ] Upload
 - [ ] Form

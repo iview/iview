@@ -64,6 +64,10 @@ const router = new VueRouter({
         {
             path: '/tag',
             component: require('./routers/tag.vue')
+        },
+        {
+            path: '/input-number',
+            component: require('./routers/input-number.vue')
         }
     ]
 });

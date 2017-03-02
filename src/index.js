@@ -18,7 +18,7 @@ import Checkbox from './components/checkbox';
 // import Form from './components/form';
 import Icon from './components/icon';
 import Input from './components/input';
-// import InputNumber from './components/input-number';
+import InputNumber from './components/input-number';
 // import LoadingBar from './components/loading-bar';
 // import Menu from './components/menu';
 // import Message from './components/message';
@@ -74,7 +74,7 @@ const iview = {
     Icon,
     // iInput: Input,
     Input,
-    // InputNumber,
+    InputNumber,
     // LoadingBar,
     // Menu,
     // MenuGroup: Menu.Group,
