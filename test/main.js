@@ -64,6 +64,10 @@ const router = new VueRouter({
         {
             path: '/tag',
             component: require('./routers/tag.vue')
+        },
+        {
+            path: '/backtop',
+            component: require('./routers/back-top.vue')
         }
     ]
 });
