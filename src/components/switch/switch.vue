@@ -30,7 +30,7 @@
         data () {
             return {
                 currentValue: this.value
-            }
+            };
         },
         computed: {
             wrapClasses () {

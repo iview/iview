@@ -52,6 +52,10 @@ const router = new VueRouter({
         {
             path: '/switch',
             component: require('./routers/switch.vue')
+        },
+        {
+            path: '/alert',
+            component: require('./routers/alert.vue')
         }
     ]
 });

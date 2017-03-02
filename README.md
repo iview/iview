@@ -35,7 +35,7 @@
 - [ ] Rate
 - [ ] Upload
 - [ ] Form
-- [ ] Alert
+- [x] Alert
 - [ ] Card
 - [ ] Message
 - [ ] Notice
