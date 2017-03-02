@@ -1,8 +1,8 @@
 <template>
     <span :class="wrapClasses" @click="toggle">
         <span :class="innerClasses">
-            <slot name="open" v-if="checked"></slot>
-            <slot name="close" v-if="!checked"></slot>
+            <slot name="open" v-if="currentValue"></slot>
+            <slot name="close" v-if="!currentValue"></slot>
         </span>
     </span>
 </template>
@@ -13,7 +13,7 @@
 
     export default {
         props: {
-            checked: {
+            value: {
                 type: Boolean,
                 default: false
             },
@@ -27,12 +27,17 @@
                 }
             }
         },
+        data () {
+            return {
+                currentValue: this.value
+            }
+        },
         computed: {
             wrapClasses () {
                 return [
                     `${prefixCls}`,
                     {
-                        [`${prefixCls}-checked`]: this.checked,
+                        [`${prefixCls}-checked`]: this.currentValue,
                         [`${prefixCls}-disabled`]: this.disabled,
                         [`${prefixCls}-${this.size}`]: !!this.size
                     }
@@ -48,9 +53,17 @@
                     return false;
                 }
 
-                this.checked = !this.checked;
-                this.$emit('on-change', this.checked);
-                this.$dispatch('on-form-change', this.checked);
+                const checked = !this.currentValue;
+                this.currentValue = checked;
+                this.$emit('input', checked);
+                this.$emit('on-change', checked);
+                // todo 事件
+//                this.$dispatch('on-form-change', this.checked);
+            }
+        },
+        watch: {
+            value (val) {
+                this.currentValue = val;
             }
         }
     };

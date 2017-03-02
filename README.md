@@ -23,7 +23,7 @@
 - [x] Input
 - [x] Radio
 - [x] Checkbox
-- [ ] Switch
+- [x] Switch
 - [ ] Table
 - [ ] Select
 - [ ] Slider

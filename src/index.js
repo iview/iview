@@ -32,7 +32,7 @@ import Radio from './components/radio';
 // import Slider from './components/slider';
 // import Spin from './components/spin';
 import Steps from './components/steps';
-// import Switch from './components/switch';
+import Switch from './components/switch';
 // import Table from './components/table';
 // import Tabs from './components/tabs';
 // import Tag from './components/tag';
@@ -98,7 +98,7 @@ const iview = {
     // Spin,
     Step: Steps.Step,
     Steps,
-    // Switch,
+    iSwitch: Switch,
     // iTable: Table,
     // Tabs: Tabs,
     // TabPane: Tabs.Pane,

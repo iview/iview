@@ -48,6 +48,10 @@ const router = new VueRouter({
         {
           path: '/timeline',
           component: require('./routers/timeline.vue')
+        },
+        {
+            path: '/switch',
+            component: require('./routers/switch.vue')
         }
     ]
 });

@@ -21,6 +21,7 @@ li + li { border-left: solid 1px #bbb; padding-left: 10px; margin-left: 10px; }
                 <li><router-link to="/checkbox">Checkbox</router-link></li>
                 <li><router-link to="/steps">Steps</router-link></li>
                 <li><router-link to="/timeline">Timeline</router-link></li>
+                <li><router-link to="/switch">Switch</router-link></li>
             </ul>
         </nav>
         <router-view></router-view>
