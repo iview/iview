@@ -31,7 +31,7 @@ import Radio from './components/radio';
 // import Rate from './components/rate';
 // import Slider from './components/slider';
 // import Spin from './components/spin';
-// import Steps from './components/steps';
+import Steps from './components/steps';
 // import Switch from './components/switch';
 // import Table from './components/table';
 // import Tabs from './components/tabs';
@@ -96,8 +96,8 @@ const iview = {
     // iSelect: Select,
     // Slider,
     // Spin,
-    // Step: Steps.Step,
-    // Steps,
+    Step: Steps.Step,
+    Steps,
     // Switch,
     // iTable: Table,
     // Tabs: Tabs,
