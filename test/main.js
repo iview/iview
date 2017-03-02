@@ -44,6 +44,10 @@ const router = new VueRouter({
         {
           path: '/steps',
           component: require('./routers/steps.vue')
+        },
+        {
+          path: '/timeline',
+          component: require('./routers/timeline.vue')
         }
     ]
 });
