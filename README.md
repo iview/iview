@@ -8,12 +8,58 @@
 
 ### A high quality  UI Components Library with Vue.js
 
-> iView works only with Vue 1.0 currently. We have been in developing. English document is coming soon. Please pay attention to the iView.
+> This branch is for Vue 2.x
 
 ## Docs
 
 ### [中文文档](https://www.iviewui.com)
 ### English (Coming soon)
+
+## Programming
+- [x] Grid
+- [ ] Layout
+- [x] Button
+- [x] Icon
+- [x] Input
+- [x] Radio
+- [x] Checkbox
+- [x] Switch
+- [ ] Table
+- [ ] Select
+- [ ] Slider
+- [ ] DatePicker
+- [ ] TimePicker
+- [ ] Cascader
+- [ ] Transfer
+- [ ] InputNumber
+- [ ] Rate
+- [ ] Upload
+- [ ] Form
+- [x] Alert
+- [ ] Card
+- [ ] Message
+- [ ] Notice
+- [ ] Modal
+- [ ] Progress
+- [x] Badge
+- [ ] Collapse
+- [x] Timeline
+- [x] Tag
+- [ ] Tooltip
+- [ ] Poptip
+- [ ] Carousel
+- [ ] Tree
+- [ ] Menu
+- [ ] Tabs
+- [ ] Dropdown
+- [ ] Page
+- [ ] Breadcrumb
+- [x] Steps
+- [ ] LoadingBar
+- [ ] Circle
+- [x] Affix
+- [ ] BackTop
+- [ ] Spin
 
 ## Overview
 
@@ -27,10 +73,6 @@
 - It is quite beautiful
 - Using .vue file development mode
 - Based on npm + webpack + babel, using ES2015
-
-## Programming 
-
-![iView](https://raw.githubusercontent.com/iview/iview/master/assets/iview.png)
 
 ## Install
 
