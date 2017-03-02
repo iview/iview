@@ -43,7 +43,7 @@
 - [ ] Progress
 - [ ] Badge
 - [ ] Collapse
-- [ ] Timeline
+- [x] Timeline
 - [ ] Tag
 - [ ] Tooltip
 - [ ] Poptip
@@ -54,7 +54,7 @@
 - [ ] Dropdown
 - [ ] Page
 - [ ] Breadcrumb
-- [ ] Steps
+- [x] Steps
 - [ ] LoadingBar
 - [ ] Circle
 - [x] Affix
