@@ -76,6 +76,10 @@ const router = new VueRouter({
         {
             path: '/progress',
             component: require('./routers/progress.vue')
+        },
+        {
+            path: '/collapse',
+            component: require('./routers/collapse.vue')
         }
     ]
 });

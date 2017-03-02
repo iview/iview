@@ -12,7 +12,7 @@ import Button from './components/button';
 // import Cascader from './components/cascader';
 import Checkbox from './components/checkbox';
 // import Circle from './components/circle';
-// import Collapse from './components/collapse';
+import Collapse from './components/collapse';
 // import DatePicker from './components/date-picker';
 // import Dropdown from './components/dropdown';
 // import Form from './components/form';
@@ -70,7 +70,7 @@ const iview = {
     // iForm: Form,
     // FormItem: Form.Item,
     iCol: Col,
-    // Collapse,
+    Collapse,
     Icon,
     // iInput: Input,
     Input,
@@ -86,7 +86,7 @@ const iview = {
     // iOption: Option,
     // OptionGroup,
     // Page,
-    // Panel: Collapse.Panel,
+    Panel: Collapse.Panel,
     // Poptip,
     Progress,
     Radio,

@@ -48,7 +48,7 @@
         data () {
             return {
                 currentStatus: this.status
-            }
+            };
         },
         computed: {
             isStatus () {

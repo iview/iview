@@ -18,3 +18,5 @@ class 改为了 className
 新增 on-status-change 事件
 ### Upload 
 父级不能 computed Upload 的 fileList 了
+### Collapse
+废弃 activeKey，使用 v-model，key 是保留的，更名为 name
