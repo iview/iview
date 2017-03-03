@@ -52,6 +52,7 @@
     const prefixCls = 'ivu-slider';
 
     export default {
+        name: 'Slider',
         components: { InputNumber, Tooltip },
         props: {
             min: {

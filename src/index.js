@@ -14,7 +14,7 @@ import Checkbox from './components/checkbox';
 import Circle from './components/circle';
 import Collapse from './components/collapse';
 // import DatePicker from './components/date-picker';
-// import Dropdown from './components/dropdown';
+import Dropdown from './components/dropdown';
 // import Form from './components/form';
 import Icon from './components/icon';
 import Input from './components/input';
@@ -64,9 +64,9 @@ const iview = {
     CheckboxGroup: Checkbox.Group,
     iCircle: Circle,
     // DatePicker,
-    // Dropdown,
-    // DropdownItem: Dropdown.Item,
-    // DropdownMenu: Dropdown.Menu,
+    Dropdown,
+    DropdownItem: Dropdown.Item,
+    DropdownMenu: Dropdown.Menu,
     // iForm: Form,
     // FormItem: Form.Item,
     iCol: Col,

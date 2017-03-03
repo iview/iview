@@ -15,7 +15,7 @@
         data () {
             return {
                 popper: null,
-                width: '',
+                width: ''
             };
         },
         computed: {
@@ -33,7 +33,7 @@
                     });
                 } else {
                     this.$nextTick(() => {
-                        this.popper = new Popper(this.$parent.$els.reference, this.$el, {
+                        this.popper = new Popper(this.$parent.$refs.reference, this.$el, {
                             gpuAcceleration: false,
                             placement: this.placement,
                             boundariesPadding: 0,
@@ -66,7 +66,7 @@
                 popper._popper.style.transformOrigin = `center ${ origin }`;
             }
         },
-        compiled () {
+        created () {
             this.$on('on-update-popper', this.update);
             this.$on('on-destroy-popper', this.destroy);
         },

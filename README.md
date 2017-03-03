@@ -26,7 +26,7 @@
 - [x] Switch
 - [ ] Table
 - [ ] Select
-- [ ] Slider
+- [x] Slider
 - [ ] DatePicker
 - [ ] TimePicker
 - [ ] Cascader
@@ -51,7 +51,7 @@
 - [x] Tree
 - [ ] Menu
 - [x] Tabs
-- [ ] Dropdown
+- [x] Dropdown
 - [ ] Page
 - [ ] Breadcrumb
 - [x] Steps

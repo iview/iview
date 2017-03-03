@@ -1,5 +1,5 @@
 <template>
-    <Dropdown trigger="click">
+    <Dropdown>
         <a href="javascript:void(0)">
             北京小吃
             <Icon type="arrow-down-b"></Icon>
@@ -24,10 +24,6 @@
 </template>
 <script>
     export default {
-        methods: {
-            v (data) {
-                console.log(data)
-            }
-        }
+
     }
 </script>

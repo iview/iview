@@ -116,6 +116,10 @@ const router = new VueRouter({
         {
             path: '/slider',
             component: require('./routers/slider.vue')
+        },
+        {
+            path: '/dropdown',
+            component: require('./routers/dropdown.vue')
         }
     ]
 });

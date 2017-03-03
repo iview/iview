@@ -29,3 +29,8 @@ class 改为了 className
 ### Tabs
 废弃 activeKey，改用 value，使用 v-model，key 更名为 name
 ### popper.js 将 prop: visible 移至 data 里
+### Slider
+支持 v-model
+### Dropdown
+DropdownItem key 改为 name, Dropdown 的 visible 要使用 @on-visible-change 捕获，不再 sync
+DropdownItem 里，this.$parent.$parent 与1.0 有区别
