@@ -104,6 +104,14 @@ const router = new VueRouter({
         {
             path: '/tabs',
             component: require('./routers/tabs.vue')
+        },
+        {
+            path: '/tooltip',
+            component: require('./routers/tooltip.vue')
+        },
+        {
+            path: '/slider',
+            component: require('./routers/slider.vue')
         }
     ]
 });

@@ -1,14 +1,16 @@
 <template>
     <div :class="[prefixCls]" @mouseenter="handleShowPopper" @mouseleave="handleClosePopper">
-        <div :class="[prefixCls + '-rel']" v-el:reference>
+        <div :class="[prefixCls + '-rel']" ref="reference">
             <slot></slot>
         </div>
-        <div :class="[prefixCls + '-popper']" transition="fade" v-el:popper v-show="!disabled && (visible || always)">
-            <div :class="[prefixCls + '-content']">
-                <div :class="[prefixCls + '-arrow']"></div>
-                <div :class="[prefixCls + '-inner']"><slot name="content">{{ content }}</slot></div>
+        <transition name="fade">
+            <div :class="[prefixCls + '-popper']" ref="popper" v-show="!disabled && (visible || always)">
+                <div :class="[prefixCls + '-content']">
+                    <div :class="[prefixCls + '-arrow']"></div>
+                    <div :class="[prefixCls + '-inner']"><slot name="content">{{ content }}</slot></div>
+                </div>
             </div>
-        </div>
+        </transition>
     </div>
 </template>
 <script>

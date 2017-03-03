@@ -35,6 +35,8 @@ li + li { border-left: solid 1px #bbb; padding-left: 10px; margin-left: 10px; }
                 <li><router-link to="/rate">Rate</router-link></li>
                 <li><router-link to="/circle">Circle</router-link></li>
                 <li><router-link to="/tabs">Tabs</router-link></li>
+                <li><router-link to="/tooltip">Tooltip</router-link></li>
+                <li><router-link to="/slider">Slider</router-link></li>
             </ul>
         </nav>
         <router-view></router-view>

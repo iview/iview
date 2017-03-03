@@ -45,7 +45,7 @@
 - [x] Collapse
 - [x] Timeline
 - [x] Tag
-- [ ] Tooltip
+- [x] Tooltip
 - [ ] Poptip
 - [x] Carousel
 - [x] Tree

@@ -28,3 +28,4 @@ class 改为了 className
 改名为 iCircle
 ### Tabs
 废弃 activeKey，改用 value，使用 v-model，key 更名为 name
+### popper.js 将 prop: visible 移至 data 里

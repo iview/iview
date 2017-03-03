@@ -29,7 +29,7 @@ import InputNumber from './components/input-number';
 import Progress from './components/progress';
 import Radio from './components/radio';
 import Rate from './components/rate';
-// import Slider from './components/slider';
+import Slider from './components/slider';
 // import Spin from './components/spin';
 import Steps from './components/steps';
 import Switch from './components/switch';
@@ -38,7 +38,7 @@ import Tabs from './components/tabs';
 import Tag from './components/tag';
 import Timeline from './components/timeline';
 // import TimePicker from './components/time-picker';
-// import Tooltip from './components/tooltip';
+import Tooltip from './components/tooltip';
 // import Transfer from './components/transfer';
 import Tree from './components/tree';
 import Upload from './components/upload';
@@ -94,7 +94,7 @@ const iview = {
     Rate,
     Row,
     // iSelect: Select,
-    // Slider,
+    Slider,
     // Spin,
     Step: Steps.Step,
     Steps,
@@ -106,7 +106,7 @@ const iview = {
     Timeline,
     TimelineItem: Timeline.Item,
     // TimePicker,
-    // Tooltip,
+    Tooltip,
     // Transfer,
     Tree,
     Upload
