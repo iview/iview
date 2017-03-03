@@ -18,7 +18,7 @@
                 return `${prefixCls}`;
             }
         },
-        compiled () {
+        mounted () {
             this.updateChildren();
         },
         methods: {
