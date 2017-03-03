@@ -64,7 +64,7 @@
         },
         mounted () {
             // todo 使用 while向上查找
-            if (this.$parent && this.$parent.$options.name === 'radioGroup') this.group = true;
+            if (this.$parent && this.$parent.$options.name === 'RadioGroup') this.group = true;
             if (!this.group) {
                 this.updateValue();
             }

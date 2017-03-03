@@ -1,21 +1,13 @@
 <template>
-    <div>
-        <Tree
-            v-model="treeData"
-            :show-checkbox="true"
-            :multiple="true"
-            @on-select-change="selectFn"
-            @on-check-change="checkFn"></Tree>
-    </div>
+    <Tree v-model="baseData" show-checkbox></Tree>
 </template>
 <script>
     export default {
-        data: function() {
+        data () {
             return {
-                treeData: [{
+                baseData: [{
                     expand: true,
                     title: 'parent 1',
-                    selected: false,
                     children: [{
                         title: 'parent 1-0',
                         expand: true,
@@ -28,20 +20,13 @@
                         }]
                     }, {
                         title: 'parent 1-1',
+                        expand: true,
                         checked: true,
                         children: [{
-                            title: '<span style="color: red">sss</span>',
+                            title: '<span style="color: red">leaf</span>'
                         }]
                     }]
                 }]
-            }
-        },
-        methods: {
-            selectFn(data){
-                console.log(data);
-            },
-            checkFn(data){
-                console.log(data);
             }
         }
     }

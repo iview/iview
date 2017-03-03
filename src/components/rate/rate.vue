@@ -81,7 +81,7 @@
             // },
             currentValue: {
                 immediate: true,
-                handler (val) {
+                handler () {
                     this.setHalf(this.currentValue);
                 }
             }

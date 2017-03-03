@@ -9,7 +9,7 @@
                 :value="item.checked && item.childrenCheckedStatus == 2"
                 :disabled="item.disabled || item.disableCheckbox"
                 :indeterminate="item.checked && item.childrenCheckedStatus == 1"
-                @click.prevent="setCheck(item.disabled||item.disableCheckbox, index)"></Checkbox>
+                @click.native.prevent="setCheck(item.disabled||item.disableCheckbox, index)"></Checkbox>
             <a :class="titleCls(item)" @click="setSelect(item.disabled, index)">
                 <span :class="[prefixCls + '-title']" v-html="item.title"></span>
             </a>
@@ -181,7 +181,7 @@
                     this.dispatch('Tree', 'nodeSelected', {
                         ori: this,
                         selected: selected
-                    })
+                    });
                 }
             },
             setCheck (disabled, index) {

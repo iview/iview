@@ -81,10 +81,13 @@
         },
         mounted () {
             // todo 使用 while向上查找
-            if (this.$parent && this.$parent.$options.name === 'checkboxGroup') this.group = true;
+            if (this.$parent && this.$parent.$options.name === 'CheckboxGroup') this.group = true;
             if (!this.group) {
                 this.updateModel();
-                if (this.$refs.slot && this.$refs.slot.innerHTML === '') {
+//                if (this.$refs.slot && this.$refs.slot.innerHTML === '') {
+//                    this.showSlot = false;
+//                }
+                if (this.$slots.default === undefined) {
                     this.showSlot = false;
                 }
             }
