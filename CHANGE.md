@@ -23,4 +23,6 @@ class 改为了 className
 ### Carousel
 废弃 activeIndex，使用 v-model，v-for="n in slides.length",Vue2的数字循环，是从1开始的
 ### Tree
-废弃 data，改为 value，使用 v-model，key 更名为 name
+废弃 data，改为 value，使用 v-model，key 更名为 name，不能再 template 的prop 上使用 this
+### Circle
+改名为 iCircle

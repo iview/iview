@@ -96,6 +96,10 @@ const router = new VueRouter({
         {
             path: '/rate',
             component: require('./routers/rate.vue')
+        },
+        {
+            path: '/circle',
+            component: require('./routers/circle.vue')
         }
     ]
 });
