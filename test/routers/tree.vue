@@ -1,5 +1,8 @@
 <template>
-    <Tree v-model="baseData" show-checkbox></Tree>
+    <div>
+        <Tree :data="baseData" show-checkbox></Tree>
+        <div @click="c">change</div>
+    </div>
 </template>
 <script>
     export default {
@@ -27,6 +30,11 @@
                         }]
                     }]
                 }]
+            }
+        },
+        methods: {
+            c () {
+                this.baseData[0].expand = false;
             }
         }
     }

@@ -18,8 +18,8 @@
                     v-if="!item.isLeaf"
                     v-show="item.expand"
                     :class="expandCls(item)"
-                    :value="item.children"
-                    :name="item.name+'.'+index"
+                    :data="item.children"
+                    :name="name+'.'+index"
                     :multiple="multiple"
                     :show-checkbox="showCheckbox"></Tree>
             </transition>
@@ -39,7 +39,7 @@
         components: { Icon, Checkbox },
         mixins: [ Emitter ],
         props: {
-            value: {
+            data: {
                 type: Array,
                 default () {
                     return [];
@@ -66,8 +66,7 @@
         },
         data () {
             return {
-                prefixCls: prefixCls,
-                data: this.value
+                prefixCls: prefixCls
             };
         },
         computed: {
@@ -80,9 +79,6 @@
             }
         },
         watch: {
-            value (val) {
-                this.data = val;
-            },
             data () {
                 if (this.name === '0') {
                     this.setKey();
