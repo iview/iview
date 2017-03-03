@@ -40,7 +40,7 @@ export default {
     data () {
         return {
             visible: this.value
-        }
+        };
     },
     watch: {
         value: {

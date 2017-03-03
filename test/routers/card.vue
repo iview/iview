@@ -12,7 +12,7 @@
             <li v-for="item in movieList">
                 <a :href="item.url" target="_blank">{{ item.name }}</a>
                 <span>
-                    <Icon type="ios-star" v-for="n in 4"></Icon><Icon type="ios-star" v-if="item.rate >= 9.5"></Icon><Icon type="ios-star-half" v-else></Icon>
+                    <!--<Icon type="ios-star" v-for="n in 4"></Icon><Icon type="ios-star" v-if="item.rate >= 9.5"></Icon><Icon type="ios-star-half" v-else></Icon>-->
                     {{ item.rate }}
                 </span>
             </li>

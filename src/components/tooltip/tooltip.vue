@@ -20,6 +20,7 @@
     const prefixCls = 'ivu-tooltip';
 
     export default {
+        name: 'Tooltip',
         mixins: [Popper],
         props: {
             placement: {

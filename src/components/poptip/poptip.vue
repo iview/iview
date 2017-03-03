@@ -6,33 +6,35 @@
         v-clickoutside="handleClose">
         <div
             :class="[prefixCls + '-rel']"
-            v-el:reference
+            ref="reference"
             @click="handleClick"
             @mousedown="handleFocus(false)"
             @mouseup="handleBlur(false)">
             <slot></slot>
         </div>
-        <div :class="[prefixCls + '-popper']" :style="styles" transition="fade" v-el:popper v-show="visible">
-            <div :class="[prefixCls + '-content']">
-                <div :class="[prefixCls + '-arrow']"></div>
-                <div :class="[prefixCls + '-inner']" v-if="confirm">
-                    <div :class="[prefixCls + '-body']">
-                        <i class="ivu-icon ivu-icon-help-circled"></i>
-                        <div :class="[prefixCls + '-body-message']"><slot name="title">{{ title }}</slot></div>
+        <transition name="fade">
+            <div :class="[prefixCls + '-popper']" :style="styles" ref="popper" v-show="visible">
+                <div :class="[prefixCls + '-content']">
+                    <div :class="[prefixCls + '-arrow']"></div>
+                    <div :class="[prefixCls + '-inner']" v-if="confirm">
+                        <div :class="[prefixCls + '-body']">
+                            <i class="ivu-icon ivu-icon-help-circled"></i>
+                            <div :class="[prefixCls + '-body-message']"><slot name="title">{{ title }}</slot></div>
+                        </div>
+                        <div :class="[prefixCls + '-footer']">
+                            <i-button type="text" size="small" @click.native="cancel">{{ cancelText }}</i-button>
+                            <i-button type="primary" size="small" @click.native="ok">{{ okText }}</i-button>
+                        </div>
                     </div>
-                    <div :class="[prefixCls + '-footer']">
-                        <i-button type="text" size="small" @click="cancel">{{ cancelText }}</i-button>
-                        <i-button type="primary" size="small" @click="ok">{{ okText }}</i-button>
-                    </div>
-                </div>
-                <div :class="[prefixCls + '-inner']" v-if="!confirm">
-                    <div :class="[prefixCls + '-title']" v-if="showTitle" v-el:title><slot name="title"><div :class="[prefixCls + '-title-inner']">{{ title }}</div></slot></div>
-                    <div :class="[prefixCls + '-body']">
-                        <div :class="[prefixCls + '-body-content']"><slot name="content"><div :class="[prefixCls + '-body-content-inner']">{{ content }}</div></slot></div>
+                    <div :class="[prefixCls + '-inner']" v-if="!confirm">
+                        <div :class="[prefixCls + '-title']" v-if="showTitle" ref="title"><slot name="title"><div :class="[prefixCls + '-title-inner']">{{ title }}</div></slot></div>
+                        <div :class="[prefixCls + '-body']">
+                            <div :class="[prefixCls + '-body-content']"><slot name="content"><div :class="[prefixCls + '-body-content-inner']">{{ content }}</div></slot></div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </transition>
     </div>
 </template>
 <script>
@@ -45,6 +47,7 @@
     const prefixCls = 'ivu-poptip';
 
     export default {
+        name: 'Poptip',
         mixins: [Popper],
         directives: { clickoutside },
         components: { iButton },
@@ -167,8 +170,8 @@
                 this.$emit('on-ok');
             },
             getInputChildren () {
-                const $input = this.$els.reference.querySelectorAll('input');
-                const $textarea = this.$els.reference.querySelectorAll('textarea');
+                const $input = this.$refs.reference.querySelectorAll('input');
+                const $textarea = this.$refs.reference.querySelectorAll('textarea');
                 let $children = null;
 
                 if ($input.length) {
@@ -180,9 +183,10 @@
                 return $children;
             }
         },
-        compiled () {
+        mounted () {
             if (!this.confirm) {
-                this.showTitle = this.$els.title.innerHTML != `<div class="${prefixCls}-title-inner"></div>`;
+//                this.showTitle = this.$refs.title.innerHTML != `<div class="${prefixCls}-title-inner"></div>`;
+                this.showTitle = this.$slots.title !== undefined;
             }
             // if trigger and children is input or textarea,listen focus & blur event
             if (this.trigger === 'focus') {

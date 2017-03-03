@@ -110,6 +110,10 @@ const router = new VueRouter({
             component: require('./routers/tooltip.vue')
         },
         {
+            path: '/poptip',
+            component: require('./routers/poptip.vue')
+        },
+        {
             path: '/slider',
             component: require('./routers/slider.vue')
         }

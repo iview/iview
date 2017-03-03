@@ -25,7 +25,7 @@ import InputNumber from './components/input-number';
 // import Modal from './components/modal';
 // import Notice from './components/notice';
 // import Page from './components/page';
-// import Poptip from './components/poptip';
+import Poptip from './components/poptip';
 import Progress from './components/progress';
 import Radio from './components/radio';
 import Rate from './components/rate';
@@ -87,7 +87,7 @@ const iview = {
     // OptionGroup,
     // Page,
     Panel: Collapse.Panel,
-    // Poptip,
+    Poptip,
     Progress,
     Radio,
     RadioGroup: Radio.Group,
