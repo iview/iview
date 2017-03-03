@@ -1,12 +1,18 @@
 <template>
     <Row>
         <i-col span="12">
-            <Rate show-text :value.sync="valueText"></Rate>
+            <Rate show-text :value="valueText"></Rate>
         </i-col>
         <i-col span="12">
-            <Rate show-text :value.sync="valueCustomText">
+            <Rate show-text v-model="valueCustomText" >
                 <span style="color: #f5a623">{{ valueCustomText }}</span>
             </Rate>
+        </i-col>
+        <i-col span="12">
+            <Rate disabled :value="valueDisabled"></Rate>
+        </i-col>
+        <i-col span="12">
+            <Rate allow-half :value="valueHalf" v-on:on-change="changeValue"></Rate>
         </i-col>
     </Row>
 </template>
@@ -16,10 +22,16 @@
         data () {
             return {
                 valueText: 3,
-                valueCustomText: 3.8
+                valueCustomText: 3.8,
+                valueDisabled: 2,
+                valueHalf: 2.5
             };
         },
         computed: {},
-        methods: {}
+        methods: {
+            changeValue (val) {
+                console.log(val);
+            }
+        }
     };
 </script>
