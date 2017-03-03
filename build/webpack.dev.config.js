@@ -8,6 +8,7 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var merge = require('webpack-merge')
 var webpackBaseConfig = require('./webpack.base.config.js');
+var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
 
 module.exports = merge(webpackBaseConfig, {
@@ -35,6 +36,7 @@ module.exports = merge(webpackBaseConfig, {
             inject: true,
             filename: path.join(__dirname, '../examples/dist/index.html'),
             template: path.join(__dirname, '../examples/index.html')
-        })
+        }),
+        new FriendlyErrorsPlugin()
     ]
 });

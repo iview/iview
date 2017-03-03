@@ -2,6 +2,10 @@
  * 公共配置
  */
 var webpack = require('webpack');
+var path = require('path');
+function resolve (dir) {
+  return path.join(__dirname, '..', dir)
+}
 
 module.exports = {
     // 加载器
@@ -55,6 +59,10 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ['.js', '.vue']
+        extensions: ['.js', '.vue'],
+        alias: {
+          'vue': 'vue/dist/vue.esm.js',
+          '@': resolve('src'),
+        }
     }
 };
