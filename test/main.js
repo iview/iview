@@ -100,6 +100,10 @@ const router = new VueRouter({
         {
             path: '/circle',
             component: require('./routers/circle.vue')
+        },
+        {
+            path: '/tabs',
+            component: require('./routers/tabs.vue')
         }
     ]
 });

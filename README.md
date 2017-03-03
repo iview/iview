@@ -50,7 +50,7 @@
 - [x] Carousel
 - [x] Tree
 - [ ] Menu
-- [ ] Tabs
+- [x] Tabs
 - [ ] Dropdown
 - [ ] Page
 - [ ] Breadcrumb

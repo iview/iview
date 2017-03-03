@@ -26,3 +26,5 @@ class 改为了 className
 废弃 data，改为 value，使用 v-model，key 更名为 name，不能再 template 的prop 上使用 this
 ### Circle
 改名为 iCircle
+### Tabs
+废弃 activeKey，改用 value，使用 v-model，key 更名为 name
