@@ -42,7 +42,7 @@
 
                 if (this.disabled) {
                     this.$nextTick(() => {
-                        $parent.visible = true;
+                        $parent.currentVisible = true;
                     });
                 } else if (hasChildren) {
                     this.$parent.$emit('on-haschild-click');

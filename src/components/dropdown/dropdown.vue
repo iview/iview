@@ -99,7 +99,7 @@
                 this.currentVisible = false;
             },
             hasParent () {
-                const $parent = this.$parent.$parent;
+                const $parent = this.$parent.$parent.$parent;
                 if ($parent && $parent.$options.name === 'Dropdown') {
                     return $parent;
                 } else {
@@ -135,35 +135,6 @@
                 const $parent = this.hasParent();
                 if ($parent) $parent.$emit('on-haschild-click');
             });
-        },
-//        events: {
-//            'on-click' (key) {
-//                const $parent = this.hasParent();
-//                if ($parent ) $parent.$emit('on-click', key);
-//            },
-//            'on-hover-click' () {
-//                const $parent = this.hasParent();
-//                if ($parent) {
-//                    this.$nextTick(() => {
-//                        if (this.trigger === 'custom') return false;
-//                        this.currentVisible = false;
-//                    });
-//                    $parent.$emit('on-hover-click');
-//                } else {
-//                    this.$nextTick(() => {
-//                        if (this.trigger === 'custom') return false;
-//                        this.currentVisible = false;
-//                    });
-//                }
-//            },
-//            'on-haschild-click' () {
-//                this.$nextTick(() => {
-//                    if (this.trigger === 'custom') return false;
-//                    this.currentVisible = true;
-//                });
-//                const $parent = this.hasParent();
-//                if ($parent) $parent.$emit('on-haschild-click');
-//            }
-//        }
+        }
     };
 </script>

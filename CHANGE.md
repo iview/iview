@@ -1,3 +1,5 @@
+### Button
+可以考虑是否支持 @click，而不用 @click.native
 ### Input
 使用 v-model
 ### RadioGroup

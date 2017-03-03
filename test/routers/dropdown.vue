@@ -1,26 +1,32 @@
 <template>
-    <Dropdown>
-        <a href="javascript:void(0)">
-            北京小吃
-            <Icon type="arrow-down-b"></Icon>
-        </a>
-        <Dropdown-menu slot="list">
-            <Dropdown-item>驴打滚</Dropdown-item>
-            <Dropdown-item>炸酱面</Dropdown-item>
-            <Dropdown-item>豆汁儿</Dropdown-item>
-            <Dropdown placement="right-start">
-                <Dropdown-item>
-                    北京烤鸭
-                    <Icon type="ios-arrow-right"></Icon>
-                </Dropdown-item>
-                <Dropdown-menu slot="list">
-                    <Dropdown-item>挂炉烤鸭</Dropdown-item>
-                    <Dropdown-item>焖炉烤鸭</Dropdown-item>
-                </Dropdown-menu>
-            </Dropdown>
-            <Dropdown-item>冰糖葫芦</Dropdown-item>
-        </Dropdown-menu>
-    </Dropdown>
+    <div>
+        <Dropdown>
+            <a href="javascript:void(0)">
+                下拉菜单
+                <Icon type="arrow-down-b"></Icon>
+            </a>
+            <Dropdown-menu slot="list">
+                <Dropdown-item>驴打滚</Dropdown-item>
+                <Dropdown-item>炸酱面</Dropdown-item>
+                <Dropdown-item disabled>豆汁儿</Dropdown-item>
+                <Dropdown-item>冰糖葫芦</Dropdown-item>
+                <Dropdown-item divided>北京烤鸭</Dropdown-item>
+            </Dropdown-menu>
+        </Dropdown>
+        <Dropdown style="margin-left: 20px">
+            <Button type="primary">
+                下拉菜单
+                <Icon type="arrow-down-b"></Icon>
+            </Button>
+            <Dropdown-menu slot="list">
+                <Dropdown-item>驴打滚</Dropdown-item>
+                <Dropdown-item>炸酱面</Dropdown-item>
+                <Dropdown-item disabled>豆汁儿</Dropdown-item>
+                <Dropdown-item>冰糖葫芦</Dropdown-item>
+                <Dropdown-item divided>北京烤鸭</Dropdown-item>
+            </Dropdown-menu>
+        </Dropdown>
+    </div>
 </template>
 <script>
     export default {
