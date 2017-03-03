@@ -32,11 +32,11 @@
 - [ ] Cascader
 - [ ] Transfer
 - [x] InputNumber
-- [ ] Rate
+- [x] Rate
 - [x] Upload
 - [ ] Form
 - [x] Alert
-- [ ] Card
+- [x] Card
 - [ ] Message
 - [ ] Notice
 - [ ] Modal
