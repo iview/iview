@@ -1,30 +1,18 @@
 <template>
-    <Row>
-        <i-col span="12">
-            <Rate show-text :value="valueText"></Rate>
-        </i-col>
-        <i-col span="12">
-            <Rate show-text v-model="valueCustomText" >
-                <span style="color: #f5a623">{{ valueCustomText }}</span>
-            </Rate>
-        </i-col>
-        <i-col span="12">
-            <Rate disabled :value="valueDisabled"></Rate>
-        </i-col>
-        <i-col span="12">
-            <Rate allow-half :value="valueHalf" v-on:on-change="changeValue"></Rate>
-        </i-col>
-    </Row>
+    <div>
+        <Rate v-model="v1" allow-half show-text disabled>
+            <span style="color: #f5a623">{{ v1 }}</span>
+        </Rate>
+        {{ v1 }}
+        <div @click="v1 = 3">change v1</div>
+    </div>
 </template>
 <script>
     export default {
         props: {},
         data () {
             return {
-                valueText: 3,
-                valueCustomText: 3.8,
-                valueDisabled: 2,
-                valueHalf: 2.5
+                v1: 2
             };
         },
         computed: {},

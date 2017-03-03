@@ -30,14 +30,14 @@
     import Icon from '../icon/icon.vue';
     import Checkbox from '../checkbox/checkbox.vue';
     import { t } from '../../locale';
-    import emitter from '../../mixins/emitter';
+    import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-tree';
 
     export default {
         name: 'Tree',
         components: { Icon, Checkbox },
-        mixins: [ emitter ],
+        mixins: [ Emitter ],
         props: {
             value: {
                 type: Array,

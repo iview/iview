@@ -48,14 +48,8 @@
                 hoverIndex: -1,
                 isHover: false,
                 isHalf: false,
-                currentValue: 0
+                currentValue: this.value
             };
-        },
-        // created () {
-        //     this.currentValue = this.value;
-        //     this.setHalf(this.currentValue);
-        // },
-        mounted () {
         },
         computed: {
             classes () {
@@ -68,26 +62,12 @@
             }
         },
         watch: {
-            value: {
-                immediate: true,
-                handler (val) {
-                    this.currentValue = val;
-                }
+            value (val) {
+                this.currentValue = val;
             },
-            // valur (val) {
-            //     console.log(val);
-            //     this.currentValue = val;
-            //     console.log(this.currentValue);
-            // },
-            currentValue: {
-                immediate: true,
-                handler () {
-                    this.setHalf(this.currentValue);
-                }
+            currentValue (val) {
+                this.setHalf(val);
             }
-            // currentValue () {
-            //     this.setHalf(this.currentValue);
-            // }
         },
         methods: {
             starCls (value) {
@@ -138,13 +118,13 @@
             },
             handleClick (value) {
                 if (this.disabled) return;
-                // value++;
+//                 value++;
                 if (this.isHalf) value -= 0.5;
                 this.currentValue = value;
-                this.$emit('on-change', this.currentValue);
-                this.$emit('input', this.currentValue);
+                this.$emit('input', value);
+                this.$emit('on-change', value);
                 // @todo
-                // this.$dispatch('on-form-change', value);
+//                 this.$dispatch('on-form-change', value);
             }
         }
     };
