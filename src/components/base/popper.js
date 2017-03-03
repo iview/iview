@@ -28,7 +28,7 @@ export default {
             default () {
                 return {
                     gpuAcceleration: false,
-                    // boundariesElement: 'body'    // todo 暂时注释，发现在 vue 2 里方向暂时可以自动识别了，待验证
+                    boundariesElement: 'body'    // todo 暂时注释，发现在 vue 2 里方向暂时可以自动识别了，待验证(还是有问题的)
                 };
             }
         },

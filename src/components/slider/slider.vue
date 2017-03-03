@@ -5,10 +5,10 @@
             :min="min"
             :max="max"
             :step="step"
-            :value="value"
+            :value="currentValue"
             :disabled="disabled"
             @on-change="handleInputChange"></Input-number>
-        <div :class="[prefixCls + '-wrap']" v-el:slider @click.self="sliderClick">
+        <div :class="[prefixCls + '-wrap']" ref="slider" @click.self="sliderClick">
             <template v-if="showStops">
                 <div :class="[prefixCls + '-stop']" v-for="item in stops" :style="{ 'left': item + '%' }" @click.self="sliderClick"></div>
             </template>
@@ -18,7 +18,7 @@
                     :class="[prefixCls + '-button-wrap']"
                     :style="{left: firstPosition + '%'}"
                     @mousedown="onFirstButtonDown">
-                    <Tooltip :controlled="firstDragging" placement="top" :content="tipFormat(value[0])" :disabled="tipDisabled" :always="showTip === 'always'" v-ref:tooltip>
+                    <Tooltip :controlled="firstDragging" placement="top" :content="tipFormat(currentValue[0])" :disabled="tipDisabled" :always="showTip === 'always'" ref="tooltip">
                         <div :class="button1Classes"></div>
                     </Tooltip>
                 </div>
@@ -26,7 +26,7 @@
                     :class="[prefixCls + '-button-wrap']"
                     :style="{left: secondPosition + '%'}"
                     @mousedown="onSecondButtonDown">
-                    <Tooltip :controlled="secondDragging" placement="top" :content="tipFormat(value[1])" :disabled="tipDisabled" :always="showTip === 'always'" v-ref:tooltip2>
+                    <Tooltip :controlled="secondDragging" placement="top" :content="tipFormat(currentValue[1])" :disabled="tipDisabled" :always="showTip === 'always'" ref="tooltip2">
                         <div :class="button2Classes"></div>
                     </Tooltip>
                 </div>
@@ -36,7 +36,7 @@
                     :class="[prefixCls + '-button-wrap']"
                     :style="{left: singlePosition + '%'}"
                     @mousedown="onSingleButtonDown">
-                    <Tooltip :controlled="dragging" placement="top" :content="tipFormat(value)" :disabled="tipDisabled" :always="showTip === 'always'" v-ref:tooltip>
+                    <Tooltip :controlled="dragging" placement="top" :content="tipFormat(currentValue)" :disabled="tipDisabled" :always="showTip === 'always'" ref="tooltip">
                         <div :class="buttonClasses"></div>
                     </Tooltip>
                 </div>
@@ -103,6 +103,7 @@
         data () {
             return {
                 prefixCls: prefixCls,
+                currentValue: this.value,
                 dragging: false,
                 firstDragging: false,
                 secondDragging: false,
@@ -117,6 +118,22 @@
                 firstPosition: (this.value[0] - this.min) / (this.max - this.min) * 100,
                 secondPosition: (this.value[1] - this.min) / (this.max - this.min) * 100
             };
+        },
+        watch: {
+            value (val) {
+                this.currentValue = val;
+            },
+            currentValue (val) {
+                this.$nextTick(() => {
+                    this.$refs.tooltip.updatePopper();
+                    if (this.range) {
+                        this.$refs.tooltip2.updatePopper();
+                    }
+                });
+                this.updateValue(val);
+                this.$emit('input', val);
+                this.$emit('on-input', val);
+            }
         },
         computed: {
             classes () {
@@ -158,12 +175,12 @@
 
                 if (this.range) {
                     style = {
-                        width: (this.value[1] - this.value[0]) / (this.max - this.min) * 100 + '%',
-                        left: (this.value[0] - this.min) / (this.max - this.min) * 100 + '%'
+                        width: (this.currentValue[1] - this.currentValue[0]) / (this.max - this.min) * 100 + '%',
+                        left: (this.currentValue[0] - this.min) / (this.max - this.min) * 100 + '%'
                     };
                 } else {
                     style = {
-                        width: (this.value - this.min) / (this.max - this.min) * 100 + '%'
+                        width: (this.currentValue - this.min) / (this.max - this.min) * 100 + '%'
                     };
                 }
 
@@ -179,22 +196,10 @@
                 return result;
             },
             sliderWidth () {
-                return parseInt(getStyle(this.$els.slider, 'width'), 10);
+                return parseInt(getStyle(this.$refs.slider, 'width'), 10);
             },
             tipDisabled () {
-                return this.tipFormat(this.value[0]) === null || this.showTip === 'never';
-            }
-        },
-        watch: {
-            value (val) {
-                this.$nextTick(() => {
-                    this.$refs.tooltip.updatePopper();
-                    if (this.range) {
-                        this.$refs.tooltip2.updatePopper();
-                    }
-                });
-                this.updateValue(val);
-                this.$emit('on-input', this.value);
+                return this.tipFormat(this.currentValue[0]) === null || this.showTip === 'never';
             }
         },
         methods: {
@@ -224,23 +229,23 @@
                     }
                     if (this.value[0] === value[0] && this.value[1] === value[1]) return;
 
-                    this.value = value;
-                    this.setFirstPosition(this.value[0]);
-                    this.setSecondPosition(this.value[1]);
+                    this.currentValue = value;
+                    this.setFirstPosition(this.currentValue[0]);
+                    this.setSecondPosition(this.currentValue[1]);
                 } else {
                     if (val < this.min) {
-                        this.value = this.min;
+                        this.currentValue = this.min;
                     }
                     if (val > this.max) {
-                        this.value = this.max;
+                        this.currentValue = this.max;
                     }
-                    this.setSinglePosition(this.value);
+                    this.setSinglePosition(this.currentValue);
                 }
             },
             sliderClick (event) {
                 if (this.disabled) return;
                 const currentX = event.clientX;
-                const sliderOffsetLeft = this.$els.slider.getBoundingClientRect().left;
+                const sliderOffsetLeft = this.$refs.slider.getBoundingClientRect().left;
                 const newPos = (currentX - sliderOffsetLeft) / this.sliderWidth * 100;
 
                 if (this.range) {
@@ -297,13 +302,14 @@
                     const lengthPerStep = 100 / ((this.max - this.min) / this.step);
                     const steps = Math.round(newPos / lengthPerStep);
 
-                    this.value = Math.round(steps * lengthPerStep * (this.max - this.min) * 0.01 + this.min);
-                    this.setSinglePosition(this.value);
+                    this.currentValue = Math.round(steps * lengthPerStep * (this.max - this.min) * 0.01 + this.min);
+                    this.setSinglePosition(this.currentValue);
                     if (!this.dragging) {
-                        if (this.value !== this.oldSingleValue) {
-                            this.$emit('on-change', this.value);
-                            this.$dispatch('on-form-change', this.value);
-                            this.oldSingleValue = this.value;
+                        if (this.currentValue !== this.oldSingleValue) {
+                            this.$emit('on-change', this.currentValue);
+                            // todo 事件
+//                            this.$dispatch('on-form-change', this.currentValue);
+                            this.oldSingleValue = this.currentValue;
                         }
                     }
                 }
@@ -312,10 +318,11 @@
                 this.singlePosition = (val - this.min) / (this.max - this.min) * 100;
             },
             handleInputChange (val) {
-                this.value = val;
+                this.currentValue = val;
                 this.setSinglePosition(val);
-                this.$emit('on-change', this.value);
-                this.$dispatch('on-form-change', this.value);
+                this.$emit('on-change', this.currentValue);
+                // todo 事件
+//                this.$dispatch('on-form-change', this.currentValue);
             },
             // for range use first
             onFirstButtonDown (event) {
@@ -353,13 +360,14 @@
                     const lengthPerStep = 100 / ((this.max - this.min) / this.step);
                     const steps = Math.round(newPos / lengthPerStep);
 
-                    this.value = [Math.round(steps * lengthPerStep * (this.max - this.min) * 0.01 + this.min), this.value[1]];
-                    this.setFirstPosition(this.value[0]);
+                    this.currentValue = [Math.round(steps * lengthPerStep * (this.max - this.min) * 0.01 + this.min), this.currentValue[1]];
+                    this.setFirstPosition(this.currentValue[0]);
                     if (!this.firstDragging) {
-                        if (this.value[0] !== this.oldFirstValue) {
-                            this.$emit('on-change', this.value);
-                            this.$dispatch('on-form-change', this.value);
-                            this.oldFirstValue = this.value[0];
+                        if (this.currentValue[0] !== this.oldFirstValue) {
+                            this.$emit('on-change', this.currentValue);
+                            // todo 事件
+//                            this.$dispatch('on-form-change', this.currentValue);
+                            this.oldFirstValue = this.currentValue[0];
                         }
                     }
                 }
@@ -403,13 +411,14 @@
                     const lengthPerStep = 100 / ((this.max - this.min) / this.step);
                     const steps = Math.round(newPos / lengthPerStep);
 
-                    this.value = [this.value[0], Math.round(steps * lengthPerStep * (this.max - this.min) * 0.01 + this.min)];
-                    this.setSecondPosition(this.value[1]);
+                    this.currentValue = [this.currentValue[0], Math.round(steps * lengthPerStep * (this.max - this.min) * 0.01 + this.min)];
+                    this.setSecondPosition(this.currentValue[1]);
                     if (!this.secondDragging) {
-                        if (this.value[1] !== this.oldSecondValue) {
-                            this.$emit('on-change', this.value);
-                            this.$dispatch('on-form-change', this.value);
-                            this.oldSecondValue = this.value[1];
+                        if (this.currentValue[1] !== this.oldSecondValue) {
+                            this.$emit('on-change', this.currentValue);
+                            // todo 事件
+//                            this.$dispatch('on-form-change', this.currentValue);
+                            this.oldSecondValue = this.currentValue[1];
                         }
                     }
                 }
@@ -418,19 +427,19 @@
                 this.secondPosition = (val - this.min) / (this.max - this.min) * 100;
             }
         },
-        ready () {
+        mounted () {
             if (this.range) {
-                const isArray = Array.isArray(this.value);
-                if (!isArray || (isArray && this.value.length != 2) || (isArray && (isNaN(this.value[0]) || isNaN(this.value[1])))) {
-                    this.value = [this.min, this.max];
+                const isArray = Array.isArray(this.currentValue);
+                if (!isArray || (isArray && this.currentValue.length != 2) || (isArray && (isNaN(this.currentValue[0]) || isNaN(this.currentValue[1])))) {
+                    this.currentValue = [this.min, this.max];
                 } else {
-                    this.updateValue(this.value, true);
+                    this.updateValue(this.currentValue, true);
                 }
             } else {
-                if (typeof this.value !== 'number') {
-                    this.value = this.min;
+                if (typeof this.currentValue !== 'number') {
+                    this.currentValue = this.min;
                 }
-                this.updateValue(this.value);
+                this.updateValue(this.currentValue);
             }
         }
     };
