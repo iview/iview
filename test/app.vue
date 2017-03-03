@@ -39,6 +39,7 @@ li + li { border-left: solid 1px #bbb; padding-left: 10px; margin-left: 10px; }
                 <li><router-link to="/poptip">Poptip</router-link></li>
                 <li><router-link to="/slider">Slider</router-link></li>
                 <li><router-link to="/dropdown">Dropdown</router-link></li>
+                <li><router-link to="/breadcrumb">Breadcrumb</router-link></li>
             </ul>
         </nav>
         <router-view></router-view>
