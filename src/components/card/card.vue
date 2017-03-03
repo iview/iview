@@ -1,7 +1,7 @@
 <template>
     <div :class="classes">
-        <div :class="headClasses" v-if="showHead" ref="head"><slot name="title"></slot></div>
-        <div :class="extraClasses" v-if="showExtra" ref="extra"><slot name="extra"></slot></div>
+        <div :class="headClasses" v-if="showHead"><slot name="title"></slot></div>
+        <div :class="extraClasses" v-if="showExtra"><slot name="extra"></slot></div>
         <div :class="bodyClasses"><slot></slot></div>
     </div>
 </template>
@@ -51,12 +51,8 @@
             }
         },
         mounted () {
-            if (this.$refs.head) {
-                this.showHead = this.$refs.head.innerHTML != '';
-            }
-            if (this.$refs.extra) {
-                this.showExtra = this.$refs.extra.innerHTML != '';
-            }
+            this.showHead = this.$slots.title !== undefined;
+            this.showExtra = this.$slots.extra !== undefined;
         }
     };
 </script>
