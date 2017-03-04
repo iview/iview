@@ -26,7 +26,7 @@
             return {
                 separator: '',
                 showSeparator: false
-            }
+            };
         },
         mounted () {
             this.showSeparator = this.$slots.separator !== undefined;
