@@ -53,7 +53,7 @@
 - [x] Tabs
 - [x] Dropdown
 - [ ] Page
-- [ ] Breadcrumb
+- [x] Breadcrumb
 - [x] Steps
 - [ ] LoadingBar
 - [x] Circle
@@ -76,7 +76,7 @@
 
 ## Install
 
-### Install vue-webpack project in the first place 
+### Install vue-webpack project in the first place
 
 Use [iview-project](https://github.com/iview/iview-project)(Recommended) Or [vue-cli](https://github.com/vuejs/vue-cli)
 

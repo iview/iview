@@ -1,7 +1,9 @@
 var path = require('path');
 var webpack = require('webpack');
+var merge = require('webpack-merge')
+var webpackBaseConfig = require('./webpack.base.config.js');
 
-module.exports = {
+module.exports = merge(webpackBaseConfig, {
     entry: {
         main: './src/index.js'
     },
@@ -21,26 +23,6 @@ module.exports = {
             amd: 'vue'
         }
     },
-    resolve: {
-        extensions: ['.js', '.vue']
-    },
-    module: {
-        rules: [
-            {
-                test: /\.vue$/,
-                loader: 'vue-loader',
-                options: {
-                    postLoaders: {
-                        html: 'babel-loader'
-                    }
-                }
-            },
-            {
-                test: /\.js$/,
-                loader: 'babel-loader', exclude: /node_modules/
-            }
-        ]
-    },
     plugins: [
         new webpack.DefinePlugin({
             'process.env': {
@@ -48,4 +30,4 @@ module.exports = {
             }
         })
     ]
-}
+});

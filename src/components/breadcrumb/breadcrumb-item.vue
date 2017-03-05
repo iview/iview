@@ -6,8 +6,10 @@
         <span v-else :class="linkClasses">
             <slot></slot>
         </span>
-        <span :class="separatorClasses">
-            <slot name="separator">{{{ separator }}}</slot>
+        <span :class="separatorClasses" v-html="separator" v-if="!showSeparator">
+        </span>
+        <span :class="separatorClasses" v-else>
+            <slot name="separator"></slot>
         </span>
     </span>
 </template>
@@ -18,11 +20,16 @@
         props: {
             href: {
                 type: String
-            },
-            separator: {
-                type: String,
-                default: '/'
             }
+        },
+        data () {
+            return {
+                separator: '',
+                showSeparator: false
+            };
+        },
+        mounted () {
+            this.showSeparator = this.$slots.separator !== undefined;
         },
         computed: {
             linkClasses () {

@@ -5,7 +5,7 @@ import Affix from './components/affix';
 import Alert from './components/alert';
 // import BackTop from './components/back-top';
 import Badge from './components/badge';
-// import Breadcrumb from './components/breadcrumb';
+import Breadcrumb from './components/breadcrumb';
 import Button from './components/button';
 import Card from './components/card';
 import Carousel from './components/carousel';
@@ -51,8 +51,8 @@ const iview = {
     Alert,
     // BackTop,
     Badge,
-    // Breadcrumb,
-    // BreadcrumbItem: Breadcrumb.Item,
+    Breadcrumb,
+    BreadcrumbItem: Breadcrumb.Item,
     // iButton: Button,
     Button,
     ButtonGroup: Button.Group,
