@@ -7,6 +7,7 @@
     const prefixCls = 'ivu-breadcrumb';
 
     export default {
+        name: 'Breadcrumb',
         props: {
             separator: {
                 type: String,

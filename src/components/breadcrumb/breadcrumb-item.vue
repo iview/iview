@@ -6,8 +6,7 @@
         <span v-else :class="linkClasses">
             <slot></slot>
         </span>
-        <span :class="separatorClasses" v-html="separator" v-if="!showSeparator">
-        </span>
+        <span :class="separatorClasses" v-html="separator" v-if="!showSeparator"></span>
         <span :class="separatorClasses" v-else>
             <slot name="separator"></slot>
         </span>
@@ -17,6 +16,7 @@
     const prefixCls = 'ivu-breadcrumb-item';
 
     export default {
+        name: 'BreadcrumbItem',
         props: {
             href: {
                 type: String
