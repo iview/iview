@@ -14,6 +14,7 @@
     const prefixCls = 'ivu-spin';
 
     export default {
+        name: 'Spin',
         props: {
             size: {
                 validator (value) {

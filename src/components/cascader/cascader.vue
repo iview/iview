@@ -5,39 +5,43 @@
                 <i-input
                     readonly
                     :disabled="disabled"
-                    :value.sync="displayRender"
+                    v-model="displayRender"
                     :size="size"
                     :placeholder="placeholder"></i-input>
-                <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.stop="clearSelect"></Icon>
+                <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSelect"></Icon>
                 <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']"></Icon>
             </slot>
         </div>
-        <Dropdown v-show="visible" transition="slide-up">
-            <div>
-                <Caspanel
-                    v-ref:caspanel
-                    :prefix-cls="prefixCls"
-                    :data.sync="data"
-                    :disabled="disabled"
-                    :change-on-select="changeOnSelect"
-                    :trigger="trigger"></Caspanel>
-            </div>
-        </Dropdown>
+        <transition name="slide-up">
+            <Drop v-show="visible">
+                <div>
+                    <Caspanel
+                        ref="caspanel"
+                        :prefix-cls="prefixCls"
+                        :data="data"
+                        :disabled="disabled"
+                        :change-on-select="changeOnSelect"
+                        :trigger="trigger"></Caspanel>
+                </div>
+            </Drop>
+        </transition>
     </div>
 </template>
 <script>
     import iInput from '../input/input.vue';
-    import Dropdown from '../select/dropdown.vue';
+    import Drop from '../select/dropdown.vue';
     import Icon from '../icon/icon.vue';
     import Caspanel from './caspanel.vue';
     import clickoutside from '../../directives/clickoutside';
     import { oneOf } from '../../utils/assist';
+    import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-cascader';
 
     export default {
         name: 'Cascader',
-        components: { iInput, Dropdown, Icon, Caspanel },
+        mixins: [ Emitter ],
+        components: { iInput, Drop, Icon, Caspanel },
         directives: { clickoutside },
         props: {
             data: {
@@ -92,7 +96,8 @@
                 visible: false,
                 selected: [],
                 tmpSelected: [],
-                updatingValue: false    // to fix set value in changeOnSelect type
+                updatingValue: false,    // to fix set value in changeOnSelect type
+                currentValue: this.value
             };
         },
         computed: {
@@ -107,7 +112,7 @@
                 ];
             },
             showCloseIcon () {
-                return this.value && this.value.length && this.clearable;
+                return this.currentValue && this.currentValue.length && this.clearable;
             },
             displayRender () {
                 let label = [];
@@ -120,11 +125,12 @@
         },
         methods: {
             clearSelect () {
-                const oldVal = JSON.stringify(this.value);
-                this.value = this.selected = this.tmpSelected = [];
+                const oldVal = JSON.stringify(this.currentValue);
+                this.currentValue = this.selected = this.tmpSelected = [];
                 this.handleClose();
-                this.emitValue(this.value, oldVal);
-                this.$broadcast('on-clear');
+                this.emitValue(this.currentValue, oldVal);
+//                this.$broadcast('on-clear');
+                this.broadcast('Caspanel', 'on-clear');
             },
             handleClose () {
                 this.visible = false;
@@ -139,8 +145,8 @@
             },
             onFocus () {
                 this.visible = true;
-                if (!this.value.length) {
-                    this.$broadcast('on-clear');
+                if (!this.currentValue.length) {
+                    this.broadcast('Caspanel', 'on-clear');
                 }
             },
             updateResult (result) {
@@ -148,25 +154,30 @@
             },
             updateSelected (init = false) {
                 if (!this.changeOnSelect || init) {
-                    this.$broadcast('on-find-selected', this.value);
+                    this.broadcast('Caspanel', 'on-find-selected', {
+                        value: this.currentValue
+                    });
                 }
             },
             emitValue (val, oldVal) {
                 if (JSON.stringify(val) !== oldVal) {
-                    this.$emit('on-change', this.value, JSON.parse(JSON.stringify(this.selected)));
-                    this.$dispatch('on-form-change', this.value, JSON.parse(JSON.stringify(this.selected)));
+                    this.$emit('on-change', this.currentValue, JSON.parse(JSON.stringify(this.selected)));
+                    // todo 事件
+//                    this.$dispatch('on-form-change', this.currentValue, JSON.parse(JSON.stringify(this.selected)));
                 }
             }
         },
-        ready () {
+        mounted () {
             this.updateSelected(true);
-        },
-        events: {
-            // lastValue: is click the final val
-            // fromInit: is this emit from update value
-            'on-result-change' (lastValue, changeOnSelect, fromInit) {
+            this.$on('on-result-change', (params) => {
+                // lastValue: is click the final val
+                // fromInit: is this emit from update value
+                const lastValue = params.lastValue;
+                const changeOnSelect = params.changeOnSelect;
+                const fromInit = params.fromInit;
+
                 if (lastValue || changeOnSelect) {
-                    const oldVal = JSON.stringify(this.value);
+                    const oldVal = JSON.stringify(this.currentValue);
                     this.selected = this.tmpSelected;
 
                     let newVal = [];
@@ -176,30 +187,37 @@
 
                     if (!fromInit) {
                         this.updatingValue = true;
-                        this.value = newVal;
-                        this.emitValue(this.value, oldVal);
+                        this.currentValue = newVal;
+                        this.emitValue(this.currentValue, oldVal);
                     }
                 }
                 if (lastValue && !fromInit) {
                     this.handleClose();
                 }
-            },
-            'on-form-blur' () {
-                return false;
-            },
-            'on-form-change' () {
-                return false;
-            }
+            });
         },
+        // todo 事件 这是因为内部的input会触发，应该组织
+//        events: {
+//            'on-form-blur' () {
+//                return false;
+//            },
+//            'on-form-change' () {
+//                return false;
+//            }
+//        },
         watch: {
             visible (val) {
                 if (val) {
-                    if (this.value.length) {
+                    if (this.currentValue.length) {
                         this.updateSelected();
                     }
                 }
             },
-            value () {
+            value (val) {
+                this.currentValue = val;
+            },
+            currentValue () {
+                this.$emit('input', this.currentValue);
                 if (this.updatingValue) {
                     this.updatingValue = false;
                     return;

@@ -132,6 +132,10 @@ const router = new VueRouter({
         {
             path: '/spin',
             component: require('./routers/spin.vue')
+        },
+        {
+            path: '/cascader',
+            component: require('./routers/cascader.vue')
         }
     ]
 });

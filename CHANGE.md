@@ -39,3 +39,5 @@ DropdownItem 里，this.$parent.$parent 与1.0 有区别
 ### Menu
 MenuItem 和 Submenu 的 key 改为了 name
 Menu 的 activeKey 改为 activeName,openKeys 改为 openNames
+### Cascader
+Caspanel 的 sublist 从 prop -> data

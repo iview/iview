@@ -9,7 +9,7 @@ import Breadcrumb from './components/breadcrumb';
 import Button from './components/button';
 import Card from './components/card';
 import Carousel from './components/carousel';
-// import Cascader from './components/cascader';
+import Cascader from './components/cascader';
 import Checkbox from './components/checkbox';
 import Circle from './components/circle';
 import Collapse from './components/collapse';
@@ -59,7 +59,7 @@ const iview = {
     Card,
     Carousel,
     CarouselItem: Carousel.Item,
-    // Cascader,
+    Cascader,
     Checkbox,
     CheckboxGroup: Checkbox.Group,
     iCircle: Circle,

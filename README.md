@@ -29,7 +29,7 @@
 - [x] Slider
 - [ ] DatePicker
 - [ ] TimePicker
-- [ ] Cascader
+- [x] Cascader
 - [ ] Transfer
 - [x] InputNumber
 - [x] Rate
