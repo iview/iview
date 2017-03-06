@@ -41,3 +41,5 @@ MenuItem 和 Submenu 的 key 改为了 name
 Menu 的 activeKey 改为 activeName,openKeys 改为 openNames
 ### Cascader
 Caspanel 的 sublist 从 prop -> data
+### Select
+model 改为 value，支持 v-model

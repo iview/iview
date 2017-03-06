@@ -136,6 +136,10 @@ const router = new VueRouter({
         {
             path: '/cascader',
             component: require('./routers/cascader.vue')
+        },
+        {
+            path: '/select',
+            component: require('./routers/select.vue')
         }
     ]
 });

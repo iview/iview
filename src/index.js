@@ -43,7 +43,7 @@ import Tooltip from './components/tooltip';
 import Tree from './components/tree';
 import Upload from './components/upload';
 import { Row, Col } from './components/grid';
-// import { Select, Option, OptionGroup } from './components/select';
+import { Select, Option, OptionGroup } from './components/select';
 import locale from './locale';
 
 const iview = {
@@ -83,8 +83,8 @@ const iview = {
     // Message,
     // Modal,
     // Notice,
-    // iOption: Option,
-    // OptionGroup,
+    iOption: Option,
+    OptionGroup,
     // Page,
     Panel: Collapse.Panel,
     Poptip,
@@ -93,7 +93,7 @@ const iview = {
     RadioGroup: Radio.Group,
     Rate,
     Row,
-    // iSelect: Select,
+    iSelect: Select,
     Slider,
     Spin,
     Step: Steps.Step,

@@ -25,7 +25,7 @@
 - [x] Checkbox
 - [x] Switch
 - [ ] Table
-- [ ] Select
+- [x] Select
 - [x] Slider
 - [ ] DatePicker
 - [ ] TimePicker
