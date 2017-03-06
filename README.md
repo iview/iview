@@ -59,7 +59,7 @@
 - [x] Circle
 - [x] Affix
 - [ ] BackTop
-- [ ] Spin
+- [x] Spin
 
 ## Overview
 

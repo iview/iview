@@ -128,6 +128,10 @@ const router = new VueRouter({
         {
             path: '/menu',
             component: require('./routers/menu.vue')
+        },
+        {
+            path: '/spin',
+            component: require('./routers/spin.vue')
         }
     ]
 });

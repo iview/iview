@@ -30,7 +30,7 @@ import Progress from './components/progress';
 import Radio from './components/radio';
 import Rate from './components/rate';
 import Slider from './components/slider';
-// import Spin from './components/spin';
+import Spin from './components/spin';
 import Steps from './components/steps';
 import Switch from './components/switch';
 // import Table from './components/table';
@@ -95,7 +95,7 @@ const iview = {
     Row,
     // iSelect: Select,
     Slider,
-    // Spin,
+    Spin,
     Step: Steps.Step,
     Steps,
     iSwitch: Switch,
