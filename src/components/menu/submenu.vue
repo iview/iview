@@ -1,31 +1,33 @@
 <template>
     <li :class="classes" @mouseenter="handleMouseenter" @mouseleave="handleMouseleave">
-        <div :class="[prefixCls + '-submenu-title']" v-el:reference @click="handleClick">
+        <div :class="[prefixCls + '-submenu-title']" ref="reference" @click="handleClick">
             <slot name="title"></slot>
             <Icon type="ios-arrow-down" :class="[prefixCls + '-submenu-title-icon']"></Icon>
         </div>
         <ul :class="[prefixCls]" v-if="mode === 'vertical'" v-show="opened"><slot></slot></ul>
-        <Drop
-            v-else
-            v-show="opened"
-            placement="bottom"
-            transition="slide-up"
-            v-ref:drop
-            :style="dropStyle"><slot></slot></Drop>
+        <transition name="slide-up" v-else>
+            <Drop
+                v-show="opened"
+                placement="bottom"
+                ref="drop"
+                :style="dropStyle"><slot></slot></Drop>
+        </transition>
     </li>
 </template>
 <script>
     import Drop from '../select/dropdown.vue';
     import Icon from '../icon/icon.vue';
     import { getStyle } from '../../utils/assist';
+    import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-menu';
 
     export default {
         name: 'Submenu',
+        mixins: [ Emitter ],
         components: { Icon, Drop },
         props: {
-            key: {
+            name: {
                 type: [String, Number],
                 required: true
             },
@@ -54,9 +56,11 @@
                 ];
             },
             mode () {
+                // todo while
                 return this.$parent.mode;
             },
             accordion () {
+                // todo while
                 return this.$parent.accordion;
             },
             dropStyle () {
@@ -73,7 +77,8 @@
 
                 clearTimeout(this.timeout);
                 this.timeout = setTimeout(() => {
-                    this.$parent.updateOpenKeys(this.key);
+                    // todo while
+                    this.$parent.updateOpenKeys(this.name);
                     this.opened = true;
                 }, 250);
             },
@@ -83,7 +88,8 @@
 
                 clearTimeout(this.timeout);
                 this.timeout = setTimeout(() => {
-                    this.$parent.updateOpenKeys(this.key);
+                    // todo while
+                    this.$parent.updateOpenKeys(this.name);
                     this.opened = false;
                 }, 150);
             },
@@ -92,12 +98,14 @@
                 if (this.mode === 'horizontal') return;
                 const opened = this.opened;
                 if (this.accordion) {
+                    // todo while
                     this.$parent.$children.forEach(item => {
                         if (item.$options.name === 'Submenu') item.opened = false;
                     });
                 }
                 this.opened = !opened;
-                this.$parent.updateOpenKeys(this.key);
+                // todo while
+                this.$parent.updateOpenKeys(this.name);
             }
         },
         watch: {
@@ -117,11 +125,15 @@
                 }
             }
         },
-        events: {
-            'on-menu-item-select' () {
+        mounted () {
+            this.$on('on-menu-item-select', (name) => {
                 if (this.mode === 'horizontal') this.opened = false;
+                this.dispatch('Menu', 'on-menu-item-select', name);
                 return true;
-            }
+            });
+            this.$on('on-update-active-name', (status) => {
+                this.active = status;
+            });
         }
     };
 </script>

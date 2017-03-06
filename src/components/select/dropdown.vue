@@ -6,6 +6,7 @@
     import Popper from 'popper.js';
 
     export default {
+        name: 'Drop',
         props: {
             placement: {
                 type: String,

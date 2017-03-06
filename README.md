@@ -17,7 +17,7 @@
 
 ## Programming
 - [x] Grid
-- [ ] Layout
+- [x] Layout
 - [x] Button
 - [x] Icon
 - [x] Input
@@ -49,7 +49,7 @@
 - [x] Poptip
 - [x] Carousel
 - [x] Tree
-- [ ] Menu
+- [x] Menu
 - [x] Tabs
 - [x] Dropdown
 - [ ] Page

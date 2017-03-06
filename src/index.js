@@ -20,7 +20,7 @@ import Icon from './components/icon';
 import Input from './components/input';
 import InputNumber from './components/input-number';
 // import LoadingBar from './components/loading-bar';
-// import Menu from './components/menu';
+import Menu from './components/menu';
 // import Message from './components/message';
 // import Modal from './components/modal';
 // import Notice from './components/notice';
@@ -76,10 +76,10 @@ const iview = {
     Input,
     InputNumber,
     // LoadingBar,
-    // Menu,
-    // MenuGroup: Menu.Group,
-    // MenuItem: Menu.Item,
-    // Submenu: Menu.Sub,
+    Menu,
+    MenuGroup: Menu.Group,
+    MenuItem: Menu.Item,
+    Submenu: Menu.Sub,
     // Message,
     // Modal,
     // Notice,

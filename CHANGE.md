@@ -36,3 +36,6 @@ class 改为了 className
 ### Dropdown
 DropdownItem key 改为 name, Dropdown 的 visible 要使用 @on-visible-change 捕获，不再 sync
 DropdownItem 里，this.$parent.$parent 与1.0 有区别
+### Menu
+MenuItem 和 Submenu 的 key 改为了 name
+Menu 的 activeKey 改为 activeName,openKeys 改为 openNames
