@@ -1,7 +1,11 @@
 var path = require('path');
 var webpack = require('webpack');
+var merge = require('webpack-merge')
+var webpackBaseConfig = require('./webpack.base.config.js');
 
-module.exports = {
+
+
+module.exports = merge(webpackBaseConfig, {
     entry: {
         main: './src/index.js'
     },
@@ -21,31 +25,6 @@ module.exports = {
             amd: 'vue'
         }
     },
-    resolve: {
-        extensions: ['', '.js', '.vue']
-    },
-    module: {
-        loaders: [{
-            test: /\.vue$/,
-            loader: 'vue'
-        }, {
-            test: /\.js$/,
-            loader: 'babel',
-            exclude: /node_modules/
-        }, {
-            test: /\.css$/,
-            loader: 'style!css!autoprefixer'
-        }, {
-            test: /\.less$/,
-            loader: 'style!css!less'
-        }, {
-            test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
-            loader: 'url?limit=8192'
-        }, {
-            test: /\.(html|tpl)$/,
-            loader: 'vue-html'
-        }]
-    },
     plugins: [
         new webpack.DefinePlugin({
             'process.env': {
@@ -56,7 +35,6 @@ module.exports = {
             compress: {
                 warnings: false
             }
-        }),
-        new webpack.optimize.OccurenceOrderPlugin()
+        })
     ]
-}
+});

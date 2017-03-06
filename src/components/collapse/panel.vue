@@ -4,7 +4,7 @@
             <Icon type="arrow-right-b"></Icon>
             <slot></slot>
         </div>
-        <div :class="concentClasses" v-show="isActive">
+        <div :class="contentClasses" v-show="isActive">
             <div :class="boxClasses"><slot name="content"></slot></div>
         </div>
     </div>
@@ -14,15 +14,16 @@
     const prefixCls = 'ivu-collapse';
 
     export default {
+        name: 'Panel',
         components: { Icon },
         props: {
-            key: {
+            name: {
                 type: String
             }
         },
         data () {
             return {
-                index: 0, // use index for default when key is null
+                index: 0, // use index for default when name is null
                 isActive: false
             };
         },
@@ -38,7 +39,7 @@
             headerClasses () {
                 return `${prefixCls}-header`;
             },
-            concentClasses () {
+            contentClasses () {
                 return `${prefixCls}-content`;
             },
             boxClasses () {
@@ -47,8 +48,9 @@
         },
         methods: {
             toggle () {
+                // todo while向上查找
                 this.$parent.toggle({
-                    key: this.key || this.index,
+                    name: this.name || this.index,
                     isActive: this.isActive
                 });
             }

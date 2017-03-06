@@ -11,13 +11,14 @@
                 type="ios-close-empty"
                 :class="[prefixCls + '-list-remove']"
                 v-show="file.status === 'finished'"
-                @click="handleRemove(file)"></Icon>
-            <Progress
-                v-if="file.showProgress"
-                :stroke-width="2"
-                :percent="parsePercentage(file.percentage)"
-                :status="file.status === 'finished' && file.showProgress ? 'success' : 'normal'"
-                transition="fade"></Progress>
+                @click.native="handleRemove(file)"></Icon>
+            <transition name="fade">
+                <Progress
+                    v-if="file.showProgress"
+                    :stroke-width="2"
+                    :percent="parsePercentage(file.percentage)"
+                    :status="file.status === 'finished' && file.showProgress ? 'success' : 'normal'"></Progress>
+            </transition>
         </li>
     </ul>
 </template>
@@ -27,6 +28,7 @@
     const prefixCls = 'ivu-upload';
 
     export default {
+        name: 'UploadList',
         components: { Icon, Progress },
         props: {
             files: {
@@ -41,7 +43,6 @@
                 prefixCls: prefixCls
             };
         },
-        computed: {},
         methods: {
             fileCls (file) {
                 return [

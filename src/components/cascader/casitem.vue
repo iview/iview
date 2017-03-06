@@ -3,6 +3,7 @@
 </template>
 <script>
     export default {
+        name: 'Casitem',
         props: {
             data: Object,
             prefixCls: String,

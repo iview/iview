@@ -1,7 +1,9 @@
 <template>
-    <div :class="classes" transition="fade">
-        <span :class="dotClasses" v-if="showDot"></span><span :class="textClasses"><slot></slot></span><Icon v-if="closable" type="ios-close-empty" @click.stop="close"></Icon>
-    </div>
+    <transition name="fade">
+        <div :class="classes">
+            <span :class="dotClasses" v-if="showDot"></span><span :class="textClasses"><slot></slot></span><Icon v-if="closable" type="ios-close-empty" @click.native.stop="close"></Icon>
+        </div>
+    </transition>
 </template>
 <script>
     import Icon from '../icon';
@@ -10,6 +12,7 @@
     const prefixCls = 'ivu-tag';
 
     export default {
+        name: 'Tag',
         components: { Icon },
         props: {
             closable: {

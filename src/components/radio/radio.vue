@@ -6,31 +6,32 @@
                 type="radio"
                 :class="inputClasses"
                 :disabled="disabled"
-                :checked="selected"
+                :checked="currentValue"
                 @change="change">
-        </span><slot>{{ value }}</slot>
+        </span><slot>{{ label }}</slot>
     </label>
 </template>
 <script>
     const prefixCls = 'ivu-radio';
 
     export default {
+        name: 'Radio',
         props: {
-            checked: {
+            value: {
                 type: Boolean,
                 default: false
+            },
+            label: {
+                type: [String, Number]
             },
             disabled: {
                 type: Boolean,
                 default: false
-            },
-            value: {
-                type: [String, Number]
             }
         },
         data () {
             return {
-                selected: false,
+                currentValue: this.value,
                 group: false
             };
         },
@@ -40,7 +41,7 @@
                     `${prefixCls}-wrapper`,
                     {
                         [`${prefixCls}-group-item`]: this.group,
-                        [`${prefixCls}-wrapper-checked`]: this.selected,
+                        [`${prefixCls}-wrapper-checked`]: this.currentValue,
                         [`${prefixCls}-wrapper-disabled`]: this.disabled
                     }
                 ];
@@ -49,7 +50,7 @@
                 return [
                     `${prefixCls}`,
                     {
-                        [`${prefixCls}-checked`]: this.selected,
+                        [`${prefixCls}-checked`]: this.currentValue,
                         [`${prefixCls}-disabled`]: this.disabled
                     }
                 ];
@@ -61,10 +62,11 @@
                 return `${prefixCls}-input`;
             }
         },
-        ready () {
-            if (this.$parent && this.$parent.$options.name === 'radioGroup') this.group = true;
+        mounted () {
+            // todo 使用 while向上查找
+            if (this.$parent && this.$parent.$options.name === 'RadioGroup') this.group = true;
             if (!this.group) {
-                this.updateModel();
+                this.updateValue();
             }
         },
         methods: {
@@ -73,25 +75,29 @@
                     return false;
                 }
 
-                this.selected = event.target.checked;
-                this.checked = this.selected;
+                const checked = event.target.checked;
+                this.currentValue = checked;
+                this.$emit('input', checked);
 
-                if (this.group && this.checked) {
+                if (this.group && this.label) {
                     this.$parent.change({
-                        value: this.value,
-                        checked: this.checked
+                        value: this.label,
+                        checked: this.value
                     });
                 }
-
-                if (!this.group) this.$dispatch('on-form-change', this.selected);
+                if (!this.group) {
+                    this.$emit('on-change', checked);
+                    // todo 事件
+//                    this.$dispatch('on-form-change', checked);
+                }
             },
-            updateModel () {
-                this.selected = this.checked;
+            updateValue () {
+                this.currentValue = this.value;
             }
         },
         watch: {
-            checked () {
-                this.updateModel();
+            value () {
+                this.updateValue();
             }
         }
     };

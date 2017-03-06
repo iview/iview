@@ -8,12 +8,58 @@
 
 ### A high quality  UI Components Library with Vue.js
 
-> iView works only with Vue 1.0 currently. We have been in developing. English document is coming soon. Please pay attention to the iView.
+> This branch is for Vue 2.x
 
 ## Docs
 
 ### [中文文档](https://www.iviewui.com)
 ### English (Coming soon)
+
+## Programming
+- [x] Grid
+- [x] Layout
+- [x] Button
+- [x] Icon
+- [x] Input
+- [x] Radio
+- [x] Checkbox
+- [x] Switch
+- [ ] Table
+- [x] Select
+- [x] Slider
+- [ ] DatePicker
+- [ ] TimePicker
+- [x] Cascader
+- [ ] Transfer
+- [x] InputNumber
+- [x] Rate
+- [x] Upload
+- [ ] Form
+- [x] Alert
+- [x] Card
+- [ ] Message
+- [ ] Notice
+- [ ] Modal
+- [x] Progress
+- [x] Badge
+- [x] Collapse
+- [x] Timeline
+- [x] Tag
+- [x] Tooltip
+- [x] Poptip
+- [x] Carousel
+- [x] Tree
+- [x] Menu
+- [x] Tabs
+- [x] Dropdown
+- [ ] Page
+- [x] Breadcrumb
+- [x] Steps
+- [ ] LoadingBar
+- [x] Circle
+- [x] Affix
+- [ ] BackTop
+- [x] Spin
 
 ## Overview
 
@@ -28,13 +74,9 @@
 - Using .vue file development mode
 - Based on npm + webpack + babel, using ES2015
 
-## Programming 
-
-![iView](https://raw.githubusercontent.com/iview/iview/master/assets/iview.png)
-
 ## Install
 
-### Install vue-webpack project in the first place 
+### Install vue-webpack project in the first place
 
 Use [iview-project](https://github.com/iview/iview-project)(Recommended) Or [vue-cli](https://github.com/vuejs/vue-cli)
 

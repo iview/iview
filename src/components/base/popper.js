@@ -18,21 +18,29 @@ export default {
         offset: {
             default: 0
         },
-        value: Boolean,
+        value: {
+            type: Boolean,
+            default: false
+        },
         transition: String,
         options: {
             type: Object,
             default () {
                 return {
                     gpuAcceleration: false,
-                    boundariesElement: 'body'
+                    boundariesElement: 'body'    // todo 暂时注释，发现在 vue 2 里方向暂时可以自动识别了，待验证(还是有问题的)
                 };
             }
         },
-        visible: {
-            type: Boolean,
-            default: false
-        }
+        // visible: {
+        //     type: Boolean,
+        //     default: false
+        // }
+    },
+    data () {
+        return {
+            visible: this.value
+        };
     },
     watch: {
         value: {
@@ -59,8 +67,8 @@ export default {
             }
 
             const options = this.options;
-            const popper = this.popper || this.$els.popper;
-            const reference = this.reference || this.$els.reference;
+            const popper = this.popper || this.$refs.popper;
+            const reference = this.reference || this.$refs.reference;
 
             if (!popper || !reference) return;
 
