@@ -142,6 +142,10 @@ const router = new VueRouter({
             component: require('./routers/select.vue')
         },
         {
+            path: '/backtop',
+            component: require('./routers/back-top.vue')
+        },
+        {
             path: '/page',
             component: require('./routers/page.vue')
         }
