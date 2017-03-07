@@ -58,7 +58,7 @@
 - [ ] LoadingBar
 - [x] Circle
 - [x] Affix
-- [ ] BackTop
+- [x] BackTop
 - [x] Spin
 
 ## Overview
