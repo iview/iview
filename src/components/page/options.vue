@@ -40,7 +40,7 @@
         data () {
             return {
                 currentPageSize: this.pageSize
-            }
+            };
         },
         watch: {
             pageSize (val) {
