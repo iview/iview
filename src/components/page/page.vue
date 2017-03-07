@@ -6,10 +6,10 @@
             @click="prev">
             <a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a>
         </li>
-        <div :class="simplePagerClasses" :title="current + '/' + allPages">
+        <div :class="simplePagerClasses" :title="currentPage + '/' + allPages">
             <input
                 type="text"
-                :value="current"
+                :value="currentPage"
                 @keydown="keyDown"
                 @keyup="keyUp"
                 @change="keyUp">
@@ -34,13 +34,13 @@
             <a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a>
         </li>
         <li title="1" :class="firstPageClasses" @click="changePage(1)"><a>1</a></li>
-        <li :title="t('i.page.prev5')" v-if="current - 3 > 1" :class="[prefixCls + '-item-jump-prev']" @click="fastPrev"><a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a></li>
-        <li :title="current - 2" v-if="current - 2 > 1" :class="[prefixCls + '-item']" @click="changePage(current - 2)"><a>{{ current - 2 }}</a></li>
-        <li :title="current - 1" v-if="current - 1 > 1" :class="[prefixCls + '-item']" @click="changePage(current - 1)"><a>{{ current - 1 }}</a></li>
-        <li :title="current" v-if="current != 1 && current != allPages" :class="[prefixCls + '-item',prefixCls + '-item-active']"><a>{{ current }}</a></li>
-        <li :title="current + 1" v-if="current + 1 < allPages" :class="[prefixCls + '-item']" @click="changePage(current + 1)"><a>{{ current + 1 }}</a></li>
-        <li :title="current + 2" v-if="current + 2 < allPages" :class="[prefixCls + '-item']" @click="changePage(current + 2)"><a>{{ current + 2 }}</a></li>
-        <li :title="t('i.page.next5')" v-if="current + 3 < allPages" :class="[prefixCls + '-item-jump-next']" @click="fastNext"><a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a></li>
+        <li :title="t('i.page.prev5')" v-if="currentPage - 3 > 1" :class="[prefixCls + '-item-jump-prev']" @click="fastPrev"><a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a></li>
+        <li :title="currentPage - 2" v-if="currentPage - 2 > 1" :class="[prefixCls + '-item']" @click="changePage(currentPage - 2)"><a>{{ currentPage - 2 }}</a></li>
+        <li :title="currentPage - 1" v-if="currentPage - 1 > 1" :class="[prefixCls + '-item']" @click="changePage(currentPage - 1)"><a>{{ currentPage - 1 }}</a></li>
+        <li :title="currentPage" v-if="currentPage != 1 && currentPage != allPages" :class="[prefixCls + '-item',prefixCls + '-item-active']"><a>{{ currentPage }}</a></li>
+        <li :title="currentPage + 1" v-if="currentPage + 1 < allPages" :class="[prefixCls + '-item']" @click="changePage(currentPage + 1)"><a>{{ currentPage + 1 }}</a></li>
+        <li :title="currentPage + 2" v-if="currentPage + 2 < allPages" :class="[prefixCls + '-item']" @click="changePage(currentPage + 2)"><a>{{ currentPage + 2 }}</a></li>
+        <li :title="t('i.page.next5')" v-if="currentPage + 3 < allPages" :class="[prefixCls + '-item-jump-next']" @click="fastNext"><a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a></li>
         <li :title="allPages" v-if="allPages > 1" :class="lastPageClasses" @click="changePage(allPages)"><a>{{ allPages }}</a></li>
         <li
             :title="t('i.page.next')"
@@ -50,11 +50,11 @@
         </li>
         <Options
             :show-sizer="showSizer"
-            :page-size="pageSize"
+            :page-size="currentPageSize"
             :page-size-opts="pageSizeOpts"
             :show-elevator="showElevator"
-            :_current.once="current"
-            :current.sync="current"
+            :_current.once="currentPage"
+            :current="currentPage"
             :all-pages="allPages"
             :is-small="isSmall"
             @on-size="onSize"
@@ -70,6 +70,7 @@
     const prefixCls = 'ivu-page';
 
     export default {
+        name: 'Page',
         mixins: [ Locale ],
         components: { Options },
         props: {
@@ -112,7 +113,7 @@
                 type: Boolean,
                 default: false
             },
-            class: {
+            className: {
                 type: String
             },
             style: {
@@ -121,15 +122,25 @@
         },
         data () {
             return {
-                prefixCls: prefixCls
+                prefixCls: prefixCls,
+                currentPage: this.current,
+                currentPageSize: this.pageSize
             };
+        },
+        watch: {
+            current (val) {
+                this.currentPage = val;
+            },
+            pageSize (val) {
+                this.currentPageSize = val;
+            }
         },
         computed: {
             isSmall () {
                 return !!this.size;
             },
             allPages () {
-                const allPage = Math.ceil(this.total / this.pageSize);
+                const allPage = Math.ceil(this.total / this.currentPageSize);
                 return (allPage === 0) ? 1 : allPage;
             },
             simpleWrapClasses () {
@@ -137,7 +148,7 @@
                     `${prefixCls}`,
                     `${prefixCls}-simple`,
                     {
-                        [`${this.class}`]: !!this.class
+                        [`${this.className}`]: !!this.className
                     }
                 ];
             },
@@ -148,7 +159,7 @@
                 return [
                     `${prefixCls}`,
                     {
-                        [`${this.class}`]: !!this.class,
+                        [`${this.className}`]: !!this.className,
                         'mini': !!this.size
                     }
                 ];
@@ -157,7 +168,7 @@
                 return [
                     `${prefixCls}-prev`,
                     {
-                        [`${prefixCls}-disabled`]: this.current === 1
+                        [`${prefixCls}-disabled`]: this.currentPage === 1
                     }
                 ];
             },
@@ -165,7 +176,7 @@
                 return [
                     `${prefixCls}-next`,
                     {
-                        [`${prefixCls}-disabled`]: this.current === this.allPages
+                        [`${prefixCls}-disabled`]: this.currentPage === this.allPages
                     }
                 ];
             },
@@ -173,7 +184,7 @@
                 return [
                     `${prefixCls}-item`,
                     {
-                        [`${prefixCls}-item-active`]: this.current === 1
+                        [`${prefixCls}-item-active`]: this.currentPage === 1
                     }
                 ];
             },
@@ -181,34 +192,34 @@
                 return [
                     `${prefixCls}-item`,
                     {
-                        [`${prefixCls}-item-active`]: this.current === this.allPages
+                        [`${prefixCls}-item-active`]: this.currentPage === this.allPages
                     }
                 ];
             }
         },
         methods: {
             changePage (page) {
-                if (this.current != page) {
-                    this.current = page;
+                if (this.currentPage != page) {
+                    this.currentPage = page;
                     this.$emit('on-change', page);
                 }
             },
             prev () {
-                const current = this.current;
+                const current = this.currentPage;
                 if (current <= 1) {
                     return false;
                 }
                 this.changePage(current - 1);
             },
             next () {
-                const current = this.current;
+                const current = this.currentPage;
                 if (current >= this.allPages) {
                     return false;
                 }
                 this.changePage(current + 1);
             },
             fastPrev () {
-                const page = this.current - 5;
+                const page = this.currentPage - 5;
                 if (page > 0) {
                     this.changePage(page);
                 } else {
@@ -216,7 +227,7 @@
                 }
             },
             fastNext () {
-                const page = this.current + 5;
+                const page = this.currentPage + 5;
                 if (page > this.allPages) {
                     this.changePage(this.allPages);
                 } else {
@@ -224,7 +235,7 @@
                 }
             },
             onSize (pageSize) {
-                this.pageSize = pageSize;
+                this.currentPageSize = pageSize;
                 this.changePage(1);
                 this.$emit('on-page-size-change', pageSize);
             },

@@ -140,6 +140,10 @@ const router = new VueRouter({
         {
             path: '/select',
             component: require('./routers/select.vue')
+        },
+        {
+            path: '/page',
+            component: require('./routers/page.vue')
         }
     ]
 });

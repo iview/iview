@@ -52,7 +52,7 @@
 - [x] Menu
 - [x] Tabs
 - [x] Dropdown
-- [ ] Page
+- [x] Page
 - [x] Breadcrumb
 - [x] Steps
 - [ ] LoadingBar

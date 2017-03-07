@@ -24,7 +24,7 @@ import Menu from './components/menu';
 // import Message from './components/message';
 // import Modal from './components/modal';
 // import Notice from './components/notice';
-// import Page from './components/page';
+import Page from './components/page';
 import Poptip from './components/poptip';
 import Progress from './components/progress';
 import Radio from './components/radio';
@@ -85,7 +85,7 @@ const iview = {
     // Notice,
     iOption: Option,
     OptionGroup,
-    // Page,
+    Page,
     Panel: Collapse.Panel,
     Poptip,
     Progress,
