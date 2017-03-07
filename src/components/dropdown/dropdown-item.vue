@@ -5,8 +5,9 @@
     const prefixCls = 'ivu-dropdown-item';
 
     export default {
+        name: 'DropdownItem',
         props: {
-            key: {
+            name: {
                 type: [String, Number]
             },
             disabled: {
@@ -36,12 +37,12 @@
         },
         methods: {
             handleClick () {
-                const $parent = this.$parent.$parent;
+                const $parent = this.$parent.$parent.$parent;
                 const hasChildren = this.$parent && this.$parent.$options.name === 'Dropdown';
 
                 if (this.disabled) {
                     this.$nextTick(() => {
-                        $parent.visible = true;
+                        $parent.currentVisible = true;
                     });
                 } else if (hasChildren) {
                     this.$parent.$emit('on-haschild-click');
@@ -50,7 +51,7 @@
                         $parent.$emit('on-hover-click');
                     }
                 }
-                $parent.$emit('on-click', this.key);
+                $parent.$emit('on-click', this.name);
             }
         }
     };

@@ -7,7 +7,7 @@
     export default {
         name: 'TabPane',
         props: {
-            key: {
+            name: {
                 type: String
             },
             label: {
@@ -29,7 +29,8 @@
         data () {
             return {
                 prefixCls: prefixCls,
-                show: true
+                show: true,
+                currentName: this.name
             };
         },
         methods: {
@@ -38,6 +39,10 @@
             }
         },
         watch: {
+            name (val) {
+                this.currentName = val;
+                this.updateNav();
+            },
             label () {
                 this.updateNav();
             },
@@ -48,7 +53,7 @@
                 this.updateNav();
             }
         },
-        ready () {
+        mounted () {
             this.updateNav();
         }
     };
