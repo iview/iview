@@ -230,7 +230,9 @@
                     }
                 }
 
-                this.toggleSingleSelected(this.model, init);
+                if(this.model){
+                    this.toggleSingleSelected(this.model, init);
+                }
             },
             clearSingleSelect () {
                 if (this.showCloseIcon) {
