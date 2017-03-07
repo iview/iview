@@ -1,9 +1,9 @@
 <template>
     <div :class="classes" v-clickoutside="handleClose">
         <div
-            :class="[prefixCls + '-selection']"
-            v-el:reference
-            @click="toggleMenu">
+                :class="[prefixCls + '-selection']"
+                v-el:reference
+                @click="toggleMenu">
             <div class="ivu-tag" v-for="item in selectedMultiple">
                 <span class="ivu-tag-text">{{ item.label }}</span>
                 <Icon type="ios-close-empty" @click.stop="removeTag($index)"></Icon>
@@ -11,23 +11,30 @@
             <span :class="[prefixCls + '-placeholder']" v-show="showPlaceholder && !filterable">{{ placeholder }}</span>
             <span :class="[prefixCls + '-selected-value']" v-show="!showPlaceholder && !multiple && !filterable">{{ selectedSingle }}</span>
             <input
-                type="text"
-                v-if="filterable"
-                v-model="query"
-                :class="[prefixCls + '-input']"
-                :placeholder="showPlaceholder ? placeholder : ''"
-                :style="inputStyle"
-                @blur="handleBlur"
-                @keydown="resetInputState"
-                @keydown.delete="handleInputDelete"
-                v-el:input>
-            <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.stop="clearSingleSelect"></Icon>
+                    type="text"
+                    v-if="filterable"
+                    v-model="query"
+                    :class="[prefixCls + '-input']"
+                    :placeholder="showPlaceholder ? placeholder : ''"
+                    :style="inputStyle"
+                    @blur="handleBlur"
+                    @keydown="resetInputState"
+                    @keydown.delete="handleInputDelete"
+                    v-el:input>
+            <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon"
+                  @click.stop="clearSingleSelect"></Icon>
             <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']"></Icon>
         </div>
         <Dropdown v-show="visible" transition="slide-up" v-ref:dropdown>
-            <ul v-show="notFound" :class="[prefixCls + '-not-found']"><li>{{ notFoundText }}</li></ul>
-            <ul v-show="!notFound" :class="[prefixCls + '-dropdown-list']" v-el:options><slot></slot></ul>
-            <slot v-show="!notFound" name="page"></slot>
+            <ul v-show="notFound" :class="[prefixCls + '-not-found']">
+                <li>{{ notFoundText }}</li>
+            </ul>
+            <ul v-show="!notFound" :class="[prefixCls + '-dropdown-list']" v-el:options>
+                <slot></slot>
+            </ul>
+            <div v-show="!notFound">
+                <slot name="page"></slot>
+            </div>
         </Dropdown>
     </div>
 </template>
@@ -35,15 +42,15 @@
     import Icon from '../icon';
     import Dropdown from './dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
-    import { oneOf, MutationObserver } from '../../utils/assist';
-    import { t } from '../../locale';
+    import {oneOf, MutationObserver} from '../../utils/assist';
+    import {t} from '../../locale';
 
     const prefixCls = 'ivu-select';
 
     export default {
         name: 'iSelect',
-        components: { Icon, Dropdown },
-        directives: { clickoutside },
+        components: {Icon, Dropdown},
+        directives: {clickoutside},
         props: {
             model: {
                 type: [String, Number, Array],
@@ -56,6 +63,10 @@
             disabled: {
                 type: Boolean,
                 default: false
+            },
+            queryMode: {
+                type: String,
+                default: 'local'
             },
             clearable: {
                 type: Boolean,
@@ -226,12 +237,12 @@
                     }
 
                     /*if (slot && !findModel) {
-                        this.model = '';
-                        this.query = '';
-                    }*/
+                     this.model = '';
+                     this.query = '';
+                     }*/
                 }
 
-                if(this.model){
+                if (this.model) {
                     this.toggleSingleSelected(this.model, init, slot);
                 }
             },
@@ -311,7 +322,7 @@
                         }
                     });
 
-                    if(!slot){
+                    if (!slot) {
                         this.hideMenu();
                     }
 
@@ -555,18 +566,22 @@
                 }
             },
             query (val) {
-                this.$broadcast('on-query-change', val);
-                let is_hidden = true;
+                if(this.queryMode == 'local'){
+                    this.$broadcast('on-query-change', val);
+                    let is_hidden = true;
 
-                this.$nextTick(() => {
-                    this.findChild((child) => {
-                        if (!child.hidden) {
-                            is_hidden = false;
-                        }
+                    this.$nextTick(() => {
+                        this.findChild((child) => {
+                            if (!child.hidden) {
+                                is_hidden = false;
+                            }
+                        });
+                        this.notFound = is_hidden;
                     });
-                    this.notFound = is_hidden;
-                });
-                this.$broadcast('on-update-popper');
+                    this.$broadcast('on-update-popper');
+                }else{
+                    this.$emit('on-query', val)
+                }
             }
         },
         events: {
