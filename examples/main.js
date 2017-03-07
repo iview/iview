@@ -42,21 +42,25 @@ const router = new VueRouter({
             component: require('./routers/checkbox.vue')
         },
         {
-          path: '/steps',
-          component: require('./routers/steps.vue')
+            path: '/steps',
+            component: require('./routers/steps.vue')
         },
         {
-          path: '/timeline',
-          component: require('./routers/timeline.vue')
+            path: '/timeline',
+            component: require('./routers/timeline.vue')
         },
         {
             path: '/switch',
             component: require('./routers/switch.vue')
         },
         {
+            path: '/table',
+            component: require('./routers/table.vue')
+        },
+        {
             path: '/alert',
             component: require('./routers/alert.vue')
-        },
+        },        
         {
             path: '/badge',
             component: require('./routers/badge.vue')

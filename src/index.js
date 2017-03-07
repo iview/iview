@@ -33,7 +33,7 @@ import Slider from './components/slider';
 import Spin from './components/spin';
 import Steps from './components/steps';
 import Switch from './components/switch';
-// import Table from './components/table';
+import Table from './components/table';
 import Tabs from './components/tabs';
 import Tag from './components/tag';
 import Timeline from './components/timeline';
@@ -53,7 +53,7 @@ const iview = {
     Badge,
     Breadcrumb,
     BreadcrumbItem: Breadcrumb.Item,
-    // iButton: Button,
+    iButton: Button,
     Button,
     ButtonGroup: Button.Group,
     Card,
@@ -99,7 +99,7 @@ const iview = {
     Step: Steps.Step,
     Steps,
     iSwitch: Switch,
-    // iTable: Table,
+    iTable: Table,
     Tabs: Tabs,
     TabPane: Tabs.Pane,
     Tag,
