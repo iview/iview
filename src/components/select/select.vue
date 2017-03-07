@@ -26,7 +26,8 @@
         </div>
         <Dropdown v-show="visible" transition="slide-up" v-ref:dropdown>
             <ul v-show="notFound" :class="[prefixCls + '-not-found']"><li>{{ notFoundText }}</li></ul>
-            <ul v-else :class="[prefixCls + '-dropdown-list']" v-el:options><slot></slot></ul>
+            <ul v-show="!notFound" :class="[prefixCls + '-dropdown-list']" v-el:options><slot></slot></ul>
+            <slot v-show="!notFound" name="page"></slot>
         </Dropdown>
     </div>
 </template>
@@ -224,14 +225,14 @@
                         }
                     }
 
-                    if (slot && !findModel) {
+                    /*if (slot && !findModel) {
                         this.model = '';
                         this.query = '';
-                    }
+                    }*/
                 }
 
                 if(this.model){
-                    this.toggleSingleSelected(this.model, init);
+                    this.toggleSingleSelected(this.model, init, slot);
                 }
             },
             clearSingleSelect () {
@@ -297,7 +298,7 @@
                 this.$broadcast('on-update-popper');
             },
             // to select option for single
-            toggleSingleSelected (value, init = false) {
+            toggleSingleSelected (value, init = false, slot = false) {
                 if (!this.multiple) {
                     let label = '';
 
@@ -310,7 +311,9 @@
                         }
                     });
 
-                    this.hideMenu();
+                    if(!slot){
+                        this.hideMenu();
+                    }
 
                     if (!init) {
                         if (this.labelInValue) {
