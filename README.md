@@ -27,10 +27,10 @@
 - [ ] Table
 - [x] Select
 - [x] Slider
-- [ ] DatePicker
-- [ ] TimePicker
+- [x] DatePicker
+- [x] TimePicker
 - [x] Cascader
-- [ ] Transfer
+- [x] Transfer
 - [x] InputNumber
 - [x] Rate
 - [x] Upload

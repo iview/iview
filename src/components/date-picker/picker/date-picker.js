@@ -23,11 +23,11 @@ export default {
         value: {}
     },
     created () {
-        if (!this.value) {
+        if (!this.currentValue) {
             if (this.type === 'daterange' || this.type === 'datetimerange') {
-                this.value = ['',''];
+                this.currentValue = ['',''];
             } else {
-                this.value = '';
+                this.currentValue = '';
             }
         }
 

@@ -24,11 +24,11 @@ export default {
         value: {}
     },
     created () {
-        if (!this.value) {
+        if (!this.currentValue) {
             if (this.type === 'timerange') {
-                this.value = ['',''];
+                this.currentValue = ['',''];
             } else {
-                this.value = '';
+                this.currentValue = '';
             }
         }
         this.panel = getPanel(this.type);

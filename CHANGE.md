@@ -1,7 +1,7 @@
 ### Button
 可以考虑是否支持 @click，而不用 @click.native
 ### Input
-使用 v-model
+使用 v-model，增加 on-input-change // todo 考虑更名
 ### RadioGroup
 使用 v-model
 ### Radio
@@ -45,3 +45,4 @@ Caspanel 的 sublist 从 prop -> data
 model 改为 value，支持 v-model
 ### Page
 class 改为 className
+### DatePicker
