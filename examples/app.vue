@@ -46,6 +46,7 @@ li + li { border-left: solid 1px #bbb; padding-left: 10px; margin-left: 10px; }
                 <li><router-link to="/select">Select</router-link></li>
                 <li><router-link to="/backtop">Backtop</router-link></li>
                 <li><router-link to="/page">Page</router-link></li>
+                <li><router-link to="/transfer">Transfer</router-link></li>
             </ul>
         </nav>
         <router-view></router-view>

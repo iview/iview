@@ -39,7 +39,7 @@ import Tag from './components/tag';
 import Timeline from './components/timeline';
 // import TimePicker from './components/time-picker';
 import Tooltip from './components/tooltip';
-// import Transfer from './components/transfer';
+import Transfer from './components/transfer';
 import Tree from './components/tree';
 import Upload from './components/upload';
 import { Row, Col } from './components/grid';
@@ -107,7 +107,7 @@ const iview = {
     TimelineItem: Timeline.Item,
     // TimePicker,
     Tooltip,
-    // Transfer,
+    Transfer,
     Tree,
     Upload
 };

@@ -148,6 +148,10 @@ const router = new VueRouter({
         {
             path: '/page',
             component: require('./routers/page.vue')
+        },
+        {
+            path: '/transfer',
+            component: require('./routers/transfer.vue')
         }
     ]
 });

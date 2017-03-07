@@ -1,12 +1,13 @@
 <template>
     <div :class="classes">
         <List
-            v-ref:left
+            ref="left"
             :prefix-cls="prefixCls + '-list'"
             :data="leftData"
             :render-format="renderFormat"
-            :checked-keys.sync="leftCheckedKeys"
-            :valid-keys-count.sync="leftValidKeysCount"
+            :checked-keys="leftCheckedKeys"
+            @on-checked-keys-change="handleLeftCheckedKeysChange"
+            :valid-keys-count="leftValidKeysCount"
             :style="listStyle"
             :title="titles[0]"
             :filterable="filterable"
@@ -19,19 +20,20 @@
             :operations="operations"
             :left-active="leftValidKeysCount > 0"
             :right-active="rightValidKeysCount > 0"></Operation><List
-            v-ref:right
+            ref="right"
             :prefix-cls="prefixCls + '-list'"
             :data="rightData"
             :render-format="renderFormat"
-            :checked-keys.sync="rightCheckedKeys"
-            :valid-keys-count.sync="rightValidKeysCount"
+            :checked-keys="rightCheckedKeys"
+            @on-checked-keys-change="handleRightCheckedKeysChange"
+            :valid-keys-count="rightValidKeysCount"
             :style="listStyle"
             :title="titles[1]"
             :filterable="filterable"
             :filter-placeholder="filterPlaceholder"
             :filter-method="filterMethod"
             :not-found-text="notFoundText">
-            <slot></slot>
+            <slot name="right"></slot>
         </List>
     </div>
 </template>
@@ -177,7 +179,14 @@
 
                 this.$refs[opposite].toggleSelectAll(false);
                 this.$emit('on-change', newTargetKeys, direction, moveKeys);
-                this.$dispatch('on-form-change', newTargetKeys, direction, moveKeys);
+                // todo 事件
+//                this.$dispatch('on-form-change', newTargetKeys, direction, moveKeys);
+            },
+            handleLeftCheckedKeysChange (keys) {
+                this.leftCheckedKeys = keys;
+            },
+            handleRightCheckedKeysChange (keys) {
+                this.rightCheckedKeys = keys;
             }
         },
         watch: {
