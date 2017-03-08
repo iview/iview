@@ -34,7 +34,7 @@
 - [x] InputNumber
 - [x] Rate
 - [x] Upload
-- [ ] Form
+- [x] Form
 - [x] Alert
 - [x] Card
 - [ ] Message
