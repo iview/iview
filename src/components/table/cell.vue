@@ -9,7 +9,7 @@
 </template>
 <script>
     import Checkbox from '../checkbox/checkbox.vue';
-    import vue from 'vue';
+    import Vue from 'vue';
 
     export default {
         components: { Checkbox },
@@ -60,10 +60,24 @@
                     // this.$el.innerHTML = '';
                     // this.$el.appendChild(cell);     
                     this.$el.innerHTML = '';
-                    const res = vue.compile(cell.outerHTML);
-                    const compt = new vue({                    
+                    let methods = {};
+                    let $_parent = this.$parent;
+                    while($_parent != null && $_parent._name!='<Table>'){
+                        $_parent = $_parent.$parent;
+                    }
+                    if ($_parent) {
+                        Object.keys($_parent).forEach(key => {
+                            const func = this.$parent.$parent.$parent[`${key}`];
+                            if(typeof(func) === 'function' &&func.name  === 'boundFn'){
+                                methods[`${key}`] = func;
+                            }   
+                        });
+                    }
+                    const res = Vue.compile(cell.outerHTML);
+                    const compt = new Vue({                    
                         render: res.render,
-                        staticRenderFns: res.staticRenderFns
+                        staticRenderFns: res.staticRenderFns,
+                        methods: methods
                     });
                     compt.$mount(this.$el);
                 }

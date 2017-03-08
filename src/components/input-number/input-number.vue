@@ -29,6 +29,7 @@
 </template>
 <script>
     import { oneOf } from '../../utils/assist';
+    import emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-input-number';
     const iconPrefixCls = 'ivu-icon';
@@ -62,6 +63,7 @@
 
     export default {
         name: 'InputNumber',
+        mixins: [emitter],
         props: {
             max: {
                 type: Number,
@@ -201,8 +203,7 @@
                     this.currentValue = val;
                     this.$emit('input', val);
                     this.$emit('on-change', val);
-                    // todo 事件
-//                    this.$dispatch('on-form-change', val);
+                    this.dispatch('iFormItem', 'on-form-change', [val]);
                 });
             },
             focus () {

@@ -11,6 +11,7 @@
     // https://github.com/ElemeFE/element/blob/dev/packages/form/src/form-item.vue
 
     import AsyncValidator from 'async-validator';
+    import emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-form-item';
 
@@ -38,6 +39,8 @@
     }
 
     export default {
+        name: 'iFormItem',
+        mixins: [emitter],
         props: {
             label: {
                 type: String,
@@ -114,7 +117,6 @@
                     if (path.indexOf(':') !== -1) {
                         path = path.replace(/:/, '.');
                     }
-
                     return getPropByPath(model, path).v;
                 }
             },
@@ -159,8 +161,7 @@
                 this.validateState = 'validating';
 
                 let descriptor = {};
-                descriptor[this.prop] = rules;
-
+                descriptor[this.prop] = rules;                
                 const validator = new AsyncValidator(descriptor);
                 let model = {};
 
@@ -194,7 +195,7 @@
                     prop.o[prop.k] = this.initialValue;
                 }
             },
-            onFieldBlur() {
+            onFieldBlur() {                
                 this.validate('blur');
             },
             onFieldChange() {
@@ -206,30 +207,31 @@
                 this.validate('change');
             }
         },
-        ready () {
-            if (this.prop) {
-                this.$dispatch('on-form-item-add', this);
-
-                Object.defineProperty(this, 'initialValue', {
-                    value: this.fieldValue
-                });
-
-                let rules = this.getRules();
-
-                if (rules.length) {
-                    rules.every(rule => {
-                        if (rule.required) {
-                            this.isRequired = true;
-                            return false;
-                        }
+        mounted () {
+            this.$nextTick(() => {
+                if (this.prop) {
+                    this.dispatch('iForm', 'on-form-item-add', [this]);
+                    Object.defineProperty(this, 'initialValue', {
+                        value: this.fieldValue
                     });
-                    this.$on('on-form-blur', this.onFieldBlur);
-                    this.$on('on-form-change', this.onFieldChange);
+
+                    let rules = this.getRules();
+
+                    if (rules.length) {
+                        rules.every(rule => {
+                            if (rule.required) {
+                                this.isRequired = true;
+                                return false;
+                            }
+                        });
+                        this.$on('on-form-blur', this.onFieldBlur);
+                        this.$on('on-form-change', this.onFieldChange);
+                    }
                 }
-            }
+            });
         },
         beforeDestroy () {
-            this.$dispatch('on-form-item-remove', this);
+            this.dispatch('iForm', 'on-form-item-remove', [this]);
         }
     };
 </script>

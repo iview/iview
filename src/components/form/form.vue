@@ -82,15 +82,18 @@
                 this.validate();
             }
         },
-        events: {
-            'on-form-item-add' (field) {
-                if (field) this.fields.push(field);
-                return false;
-            },
-            'on-form-item-remove' (field) {
-                if (field.prop) this.fields.splice(this.fields.indexOf(field), 1);
-                return false;
-            }
+        created () {
+            this.$on('on-form-item-add', (field) => {
+                if (field) {
+                    this.fields.push(field);
+                }
+            });
+            /* istanbul ignore next */
+            this.$on('on-form-item-remove', (field) => {
+                if (field.prop) {
+                    this.fields.splice(this.fields.indexOf(field), 1);
+                }
+            });
         }
     };
 </script>

@@ -321,15 +321,13 @@
                                 value: value,
                                 label: label
                             });
-                            // todo 事件
-//                            this.$dispatch('on-form-change', {
-//                                value: value,
-//                                label: label
-//                            });
+                            this.dispatch('iFormItem', 'on-form-change', [{
+                                value: value,
+                                label: label
+                            }]);
                         } else {
                             this.$emit('on-change', value);
-                            // todo 事件
-//                            this.$dispatch('on-form-change', value);
+                            this.dispatch('iFormItem', 'on-form-change', [value]);
                         }
                     }
                 }

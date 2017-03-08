@@ -5,11 +5,13 @@
 </template>
 <script>
     import { oneOf } from '../../utils/assist';
+    import emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-radio-group';
 
     export default {
         name: 'RadioGroup',
+        mixins: [emitter],
         props: {
             value: {
                 type: [String, Number],
@@ -63,8 +65,7 @@
                 this.updateValue();
                 this.$emit('input', data.value);
                 this.$emit('on-change', data.value);
-                // todo 事件
-//                this.$dispatch('on-form-change', data.value);
+                this.dispatch('iFormItem', 'on-form-change', [data.value]);
             }
         },
         watch: {

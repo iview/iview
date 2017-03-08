@@ -78,6 +78,10 @@ const router = new VueRouter({
             component: require('./routers/upload.vue')
         },
         {
+            path: '/modal',
+            component: require('./routers/message.vue')
+        },
+        {
             path: '/progress',
             component: require('./routers/progress.vue')
         },
@@ -160,6 +164,22 @@ const router = new VueRouter({
         {
             path: '/date',
             component: require('./routers/date.vue')
+        },
+        {
+            path: '/loading-bar',
+            component: require('./routers/loadingBar.vue')
+        },
+        {
+            path: '/notice',
+            component: require('./routers/notice.vue')
+        },
+        {
+            path: '/input',
+            component: require('./routers/input.vue')
+        },
+        {
+            path: '/form',
+            component: require('./routers/form.vue')
         }
     ]
 });

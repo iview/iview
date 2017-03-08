@@ -1,20 +1,22 @@
 <template>
-    <div :class="maskClasses" v-show="visible" @click="mask" transition="fade"></div>
-    <div :class="wrapClasses" @click="handleWrapClick">
-        <div :class="classes" :style="styles" v-show="visible" transition="ease">
-            <div :class="[prefixCls + '-content']">
-                <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
-                    <slot name="close">
-                        <Icon type="ios-close-empty"></Icon>
-                    </slot>
-                </a>
-                <div :class="[prefixCls + '-header']" v-if="showHead" v-el:head><slot name="header"><div :class="[prefixCls + '-header-inner']">{{ title }}</div></slot></div>
-                <div :class="[prefixCls + '-body']"><slot></slot></div>
-                <div :class="[prefixCls + '-footer']" v-if="!footerHide">
-                    <slot name="footer">
-                        <i-button type="text" size="large" @click="cancel">{{ cancelText }}</i-button>
-                        <i-button type="primary" size="large" :loading="buttonLoading" @click="ok">{{ okText }}</i-button>
-                    </slot>
+    <div>
+        <div :class="maskClasses" v-show="visible" @click="mask" transition="fade"></div>
+        <div :class="wrapClasses" @click="handleWrapClick">
+            <div :class="classes" :style="styles" v-show="visible" transition="ease">
+                <div :class="[prefixCls + '-content']">
+                    <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
+                        <slot name="close">
+                            <Icon type="ios-close-empty"></Icon>
+                        </slot>
+                    </a>
+                    <div :class="[prefixCls + '-header']" v-if="showHead" ref="head"><slot name="header"><div :class="[prefixCls + '-header-inner']">{{ title }}</div></slot></div>
+                    <div :class="[prefixCls + '-body']"><slot></slot></div>
+                    <div :class="[prefixCls + '-footer']" v-if="!footerHide">
+                        <slot name="footer">
+                            <i-button type="text" size="large" @click.native="cancel">{{ cancelText }}</i-button>
+                            <i-button type="primary" size="large" :loading="buttonLoading" @click.native="ok">{{ okText }}</i-button>
+                        </slot>
+                    </div>
                 </div>
             </div>
         </div>
@@ -182,21 +184,23 @@
                 this.resetScrollBar();
             }
         },
-        ready () {
-            if (this.visible) {
-                this.wrapShow = true;
-            }
+        mounted () {
+            this.$nextTick(() =>{ 
+                if (this.visible) {
+                    this.wrapShow = true;
+                }
 
-            let showHead = true;
+                let showHead = true;
 
-            if (this.$els.head.innerHTML == `<div class="${prefixCls}-header-inner"></div>` && !this.title) {
-                showHead = false;
-            }
+                if (this.$refs.head.innerHTML == `<div class="${prefixCls}-header-inner"></div>` && !this.title) {
+                    showHead = false;
+                }
 
-            this.showHead = showHead;
+                this.showHead = showHead;
 
-            // ESC close
-            document.addEventListener('keydown', this.EscClose);
+                // ESC close
+                document.addEventListener('keydown', this.EscClose);
+            });
         },
         beforeDestroy () {
             document.removeEventListener('keydown', this.EscClose);

@@ -29,7 +29,7 @@ Notification.newInstance = properties => {
         },
         component: notification,
         destroy () {
-            document.body.removeChild(div);
+            document.body.removeChild(notification.$parent.$el);
         }
     };
 };

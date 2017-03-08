@@ -17,24 +17,23 @@ Modal.newInstance = properties => {
 
     const div = document.createElement('div');
     div.innerHTML = `
-        <Modal${props} :visible.sync="visible" :width="width" :scrollable.sync="scrollable">
+        <Modal${props} :visible="visible" :width="width" :scrollable="scrollable">
             <div class="${prefixCls}">
                 <div class="${prefixCls}-head">
-                    <div class="${prefixCls}-head-title">{{{ title }}}</div>
+                    <div class="${prefixCls}-head-title" v-html="title"></div>
                 </div>
                 <div class="${prefixCls}-body">
                     <div :class="iconTypeCls"><i :class="iconNameCls"></i></div>
-                    {{{ body }}}
+                    <div v-html="body"></div>
                 </div>
                 <div class="${prefixCls}-footer">
-                    <i-button type="text" size="large" v-if="showCancel" @click="cancel">{{ cancelText }}</i-button>
-                    <i-button type="primary" size="large" :loading="buttonLoading" @click="ok">{{ okText }}</i-button>
+                    <i-button type="text" size="large" v-if="showCancel" @click.native="cancel">{{ cancelText }}</i-button>
+                    <i-button type="primary" size="large" :loading="buttonLoading" @click.native="ok">{{ okText }}</i-button>
                 </div>
             </div>
         </Modal>
     `;
     document.body.appendChild(div);
-
     const modal = new Vue({
         el: div,
         components: { Modal, iButton, Icon },
@@ -87,9 +86,9 @@ Modal.newInstance = properties => {
                     this.destroy();
                 }, 300);
             },
-            destroy () {
-                this.$destroy();
-                document.body.removeChild(div);
+            destroy () { 
+                this.$destroy();                
+                document.body.removeChild(this.$el);
                 this.onRemove();
             },
             onOk () {},
@@ -97,7 +96,7 @@ Modal.newInstance = properties => {
             onRemove () {}
         }
     }).$children[0];
-
+    
     return {
         show (props) {
             modal.$parent.showCancel = props.showCancel;
@@ -161,10 +160,10 @@ Modal.newInstance = properties => {
             // notice when component destroy
             modal.$parent.onRemove = props.onRemove;
 
-            modal.visible = true;
+            modal.$parent.visible = true;
         },
         remove () {
-            modal.visible = false;
+            modal.$parent.visible = false;
             modal.$parent.buttonLoading = false;
             modal.$parent.remove();
         },
