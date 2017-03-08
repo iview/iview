@@ -4,7 +4,7 @@
             <div :class="[timePrefixCls + '-header']" v-if="showDate">{{ visibleDate }}</div>
             <div :class="[prefixCls + '-content']">
                 <time-spinner
-                    v-ref:time-spinner
+                    ref="timeSpinner"
                     :show-seconds="showSeconds"
                     :hours="hours"
                     :minutes="minutes"
@@ -108,7 +108,7 @@
                 this.$refs.timeSpinner.updateScroll();
             }
         },
-        compiled () {
+        mounted () {
             if (this.$parent && this.$parent.$options.name === 'DatePicker') this.showDate = true;
         }
     };

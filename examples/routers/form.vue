@@ -1,21 +1,17 @@
 <template>
-    <i-form v-ref:form-validate :model="formValidate" :rules="ruleValidate" :label-width="100">
-        <Form-item label="输入框" prop="input">
-            <i-input :value.sync="formValidate.input" placeholder="请输入"></i-input>
+    <i-form ref="formInline" :model="formInline" :rules="ruleInline" inline>
+        <Form-item prop="user">
+            <Input type="text" v-model="formInline.user" placeholder="Username">
+                <Icon type="ios-person-outline" slot="prepend"></Icon>
+            </Input>
         </Form-item>
-        <Form-item label="Ajax：" prop="ajax">
-            <div slot="label">
-                <span>Ajax</span>
-                <Tooltip content="基于 axios">
-                    <Icon type="ios-help" size="14" color="#3399ff"></Icon>
-                </Tooltip>
-                <span>：</span>
-            </div>
-            <Switch :checked.sync="formValidate.ajax"></Switch>
+        <Form-item prop="password">
+            <Input type="password" v-model="formInline.password" placeholder="Password">
+                <Icon type="ios-locked-outline" slot="prepend"></Icon>
+            </Input>
         </Form-item>
         <Form-item>
-            <i-button type="primary" @click="handleSubmit('formValidate')">提交</i-button>
-            <i-button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">重置</i-button>
+            <Button type="primary" @click.native="handleSubmit('formInline')">登录</Button>
         </Form-item>
     </i-form>
 </template>
@@ -23,27 +19,30 @@
     export default {
         data () {
             return {
-                formValidate: {
-                    input: '123',
-                    ajax: true
+                formInline: {
+                    user: '',
+                    password: ''
                 },
-                ruleValidate: {
-
+                ruleInline: {
+                    user: [
+                        { required: true, message: '请填写用户名', trigger: 'blur' }
+                    ],
+                    password: [
+                        { required: true, message: '请填写密码', trigger: 'blur' },
+                        { type: 'string', min: 6, message: '密码长度不能小于6位', trigger: 'blur' }
+                    ]
                 }
             }
         },
         methods: {
-            handleSubmit (name) {
+            handleSubmit(name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
-                        this.$Message.success('提交成功!');
+                        console.log('success');
                     } else {
-                        this.$Message.error('表单验证失败!');
+                        console.log('fail')
                     }
                 })
-            },
-            handleReset (name) {
-                this.$refs[name].resetFields();
             }
         }
     }

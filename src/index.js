@@ -13,9 +13,9 @@ import Cascader from './components/cascader';
 import Checkbox from './components/checkbox';
 import Circle from './components/circle';
 import Collapse from './components/collapse';
-// import DatePicker from './components/date-picker';
+import DatePicker from './components/date-picker';
 import Dropdown from './components/dropdown';
-// import Form from './components/form';
+import Form from './components/form';
 import Icon from './components/icon';
 import Input from './components/input';
 import InputNumber from './components/input-number';
@@ -37,7 +37,7 @@ import Switch from './components/switch';
 import Tabs from './components/tabs';
 import Tag from './components/tag';
 import Timeline from './components/timeline';
-// import TimePicker from './components/time-picker';
+import TimePicker from './components/time-picker';
 import Tooltip from './components/tooltip';
 import Transfer from './components/transfer';
 import Tree from './components/tree';
@@ -63,12 +63,12 @@ const iview = {
     Checkbox,
     CheckboxGroup: Checkbox.Group,
     iCircle: Circle,
-    // DatePicker,
+    DatePicker,
     Dropdown,
     DropdownItem: Dropdown.Item,
     DropdownMenu: Dropdown.Menu,
-    // iForm: Form,
-    // FormItem: Form.Item,
+    iForm: Form,
+    FormItem: Form.Item,
     iCol: Col,
     Collapse,
     Icon,
@@ -105,7 +105,7 @@ const iview = {
     Tag,
     Timeline,
     TimelineItem: Timeline.Item,
-    // TimePicker,
+    TimePicker,
     Tooltip,
     Transfer,
     Tree,
