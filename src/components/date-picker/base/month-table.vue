@@ -1,6 +1,6 @@
 <template>
     <div :class="classes" @click="handleClick">
-        <span :class="getCellCls(cell)" v-for="cell in cells"><em :index="$index">{{ tCell(cell.text) }}</em></span>
+        <span :class="getCellCls(cell)" v-for="(cell, index) in cells"><em :index="index">{{ tCell(cell.text) }}</em></span>
     </div>
 </template>
 <script>

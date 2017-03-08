@@ -42,7 +42,7 @@
                     @on-pick="handleDatePick"
                     @on-pick-click="handlePickClick"></date-table>
                 <year-table
-                    v-ref:year-table
+                    ref="yearTable"
                     v-show="currentView === 'year'"
                     :year="year"
                     :date="date"
@@ -51,7 +51,7 @@
                     @on-pick="handleYearPick"
                     @on-pick-click="handlePickClick"></year-table>
                 <month-table
-                    v-ref:month-table
+                    ref="monthTable"
                     v-show="currentView === 'month'"
                     :month="month"
                     :date="date"
@@ -60,7 +60,7 @@
                     @on-pick="handleMonthPick"
                     @on-pick-click="handlePickClick"></month-table>
                 <time-picker
-                    v-ref:time-picker
+                    ref="timePicker"
                     show-date
                     v-show="currentView === 'time'"
                     @on-pick="handleTimePick"
@@ -272,7 +272,7 @@
                 this.handleDatePick(date);
             }
         },
-        compiled () {
+        mounted () {
             if (this.selectionMode === 'month') {
                 this.currentView = 'month';
             }

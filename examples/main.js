@@ -156,6 +156,10 @@ const router = new VueRouter({
         {
             path: '/transfer',
             component: require('./routers/transfer.vue')
+        },
+        {
+            path: '/date',
+            component: require('./routers/date.vue')
         }
     ]
 });

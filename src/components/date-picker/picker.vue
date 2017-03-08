@@ -2,7 +2,7 @@
     <div
         :class="[prefixCls]"
         v-clickoutside="handleClose">
-        <div v-el:reference :class="[prefixCls + '-rel']">
+        <div ref="reference" :class="[prefixCls + '-rel']">
             <slot>
                 <i-input
                     :class="[prefixCls + '-editor']"
@@ -11,17 +11,19 @@
                     :size="size"
                     :placeholder="placeholder"
                     :value="visualValue"
-                    @on-change="handleInputChange"
+                    @on-input-change="handleInputChange"
                     @on-focus="handleFocus"
                     @on-click="handleIconClick"
-                    @mouseenter="handleInputMouseenter"
-                    @mouseleave="handleInputMouseleave"
+                    @mouseenter.native="handleInputMouseenter"
+                    @mouseleave.native="handleInputMouseleave"
                     :icon="iconType"></i-input>
             </slot>
         </div>
-        <Drop v-show="opened" :placement="placement" :transition="transition" v-ref:drop>
-            <div v-el:picker></div>
-        </Drop>
+        <transition :name="transition">
+            <Drop v-show="opened" :placement="placement" ref="drop">
+                <div ref="picker"></div>
+            </Drop>
+        </transition>
     </div>
 </template>
 <script>
@@ -192,7 +194,8 @@
                 visible: false,
                 picker: null,
                 internalValue: '',
-                disableClickOutSide: false    // fixed when click a date,trigger clickoutside to close picker
+                disableClickOutSide: false,    // fixed when click a date,trigger clickoutside to close picker
+                currentValue: this.value
             };
         },
         computed: {
@@ -358,21 +361,23 @@
             handleClear () {
                 this.visible = false;
                 this.internalValue = '';
-                this.value = '';
+                this.currentValue = '';
                 this.$emit('on-clear');
-                this.$dispatch('on-form-change', '');
+                // todo 事件
+//                this.$dispatch('on-form-change', '');
             },
             showPicker () {
                 if (!this.picker) {
+                    let isConfirm = this.confirm;
                     const type = this.type;
 
-                    this.picker = new Vue(this.panel).$mount(this.$els.picker);
+                    this.picker = new Vue(this.panel).$mount(this.$refs.picker);
                     if (type === 'datetime' || type === 'datetimerange') {
-                        this.confirm = true;
+                        isConfirm = true;
                         this.picker.showTime = true;
                     }
                     this.picker.value = this.internalValue;
-                    this.picker.confirm = this.confirm;
+                    this.picker.confirm = isConfirm;
                     this.picker.selectionMode = this.selectionMode;
                     if (this.format) this.picker.format = this.format;
 
@@ -388,8 +393,8 @@
                     }
 
                     this.picker.$on('on-pick', (date, visible = false) => {
-                        if (!this.confirm) this.visible = visible;
-                        this.value = date;
+                        if (!isConfirm) this.visible = visible;
+                        this.currentValue = date;
                         this.picker.value = date;
                         this.picker.resetView && this.picker.resetView();
                         this.emitChange(date);
@@ -425,7 +430,8 @@
                 }
 
                 this.$emit('on-change', newDate);
-                this.$dispatch('on-form-change', newDate);
+                // todo 事件
+//                this.$dispatch('on-form-change', newDate);
             }
         },
         watch: {
@@ -444,8 +450,12 @@
                 if (!val && this.picker && typeof this.picker.handleClear === 'function') {
                     this.picker.handleClear();
                 }
+                this.$emit('input', val);
             },
-            value: {
+            value (val) {
+                this.currentValue = val;
+            },
+            currentValue: {
                 immediate: true,
                 handler (val) {
                     const type = this.type;
@@ -462,6 +472,7 @@
                     }
 
                     this.internalValue = val;
+                    this.$emit('input', val);
                 }
             },
             open (val) {
@@ -478,16 +489,17 @@
                 this.picker.$destroy();
             }
         },
-        ready () {
+        mounted () {
             if (this.open !== null) this.visible = this.open;
-        },
-        events: {
-            'on-form-blur' () {
-                return false;
-            },
-            'on-form-change' () {
-                return false;
-            }
         }
+        // todo 事件
+//        events: {
+//            'on-form-blur' () {
+//                return false;
+//            },
+//            'on-form-change' () {
+//                return false;
+//            }
+//        }
     };
 </script>

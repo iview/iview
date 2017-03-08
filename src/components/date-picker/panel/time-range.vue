@@ -7,7 +7,7 @@
                     <template v-else>{{ t('i.datepicker.startTime') }}</template>
                 </div>
                 <time-spinner
-                    v-ref:time-spinner
+                    ref="timeSpinner"
                     :show-seconds="showSeconds"
                     :hours="hours"
                     :minutes="minutes"
@@ -25,7 +25,7 @@
                     <template v-else>{{ t('i.datepicker.endTime') }}</template>
                 </div>
                 <time-spinner
-                    v-ref:time-spinner-end
+                    ref="timeSpinnerEnd"
                     :show-seconds="showSeconds"
                     :hours="hoursEnd"
                     :minutes="minutesEnd"
@@ -200,7 +200,7 @@
                 this.$refs.timeSpinnerEnd.updateScroll();
             }
         },
-        compiled () {
+        mounted () {
             if (this.$parent && this.$parent.$options.name === 'DatePicker') this.showDate = true;
         }
     };

@@ -1,18 +1,18 @@
 <template>
     <div :class="classes">
-        <div :class="[prefixCls+ '-list']" v-el:hours>
+        <div :class="[prefixCls+ '-list']" ref="hours">
             <ul :class="[prefixCls + '-ul']" @click="handleClickHours">
-                <li :class="getCellCls(item)" v-for="item in hoursList" v-show="!item.hide" :index="$index">{{ formatTime(item.text) }}</li>
+                <li :class="getCellCls(item)" v-for="(item, index) in hoursList" v-show="!item.hide" :index="index">{{ formatTime(item.text) }}</li>
             </ul>
         </div>
-        <div :class="[prefixCls+ '-list']" v-el:minutes>
+        <div :class="[prefixCls+ '-list']" ref="minutes">
             <ul :class="[prefixCls + '-ul']" @click="handleClickMinutes">
-                <li :class="getCellCls(item)" v-for="item in minutesList" v-show="!item.hide" :index="$index">{{ formatTime(item.text) }}</li>
+                <li :class="getCellCls(item)" v-for="(item, index) in minutesList" v-show="!item.hide" :index="index">{{ formatTime(item.text) }}</li>
             </ul>
         </div>
-        <div :class="[prefixCls+ '-list']" v-show="showSeconds" v-el:seconds>
+        <div :class="[prefixCls+ '-list']" v-show="showSeconds" ref="seconds">
             <ul :class="[prefixCls + '-ul']" @click="handleClickSeconds">
-                <li :class="getCellCls(item)" v-for="item in secondsList" v-show="!item.hide" :index="$index">{{ formatTime(item.text) }}</li>
+                <li :class="getCellCls(item)" v-for="(item, index) in secondsList" v-show="!item.hide" :index="index">{{ formatTime(item.text) }}</li>
             </ul>
         </div>
     </div>
@@ -159,9 +159,9 @@
                 this.$emit('on-pick-click');
             },
             scroll (type, index) {
-                const from = this.$els[type].scrollTop;
+                const from = this.$refs[type].scrollTop;
                 const to = 24 * this.getScrollIndex(type, index);
-                scrollTop(this.$els[type], from, to, 500);
+                scrollTop(this.$refs[type], from, to, 500);
             },
             getScrollIndex (type, index) {
                 const Type = firstUpperCase(type);
@@ -177,7 +177,7 @@
                 const times = ['hours', 'minutes', 'seconds'];
                 this.$nextTick(() => {
                     times.forEach(type => {
-                        this.$els[type].scrollTop = 24 * this.getScrollIndex(type, this[type]);
+                        this.$refs[type].scrollTop = 24 * this.getScrollIndex(type, this[type]);
                     });
                 });
             },
@@ -199,7 +199,7 @@
                 this.scroll('seconds', val);
             }
         },
-        compiled () {
+        mounted () {
             this.updateScroll();
             this.$nextTick(() => this.compiled = true);
         }
