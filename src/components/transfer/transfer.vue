@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <div :class="classes">
         <List
             ref="left"
@@ -15,11 +15,14 @@
             :filter-method="filterMethod"
             :not-found-text="notFoundText">
             <slot></slot>
-        </List><Operation
+        </List>
+        <Operation
             :prefix-cls="prefixCls"
             :operations="operations"
             :left-active="leftValidKeysCount > 0"
-            :right-active="rightValidKeysCount > 0"></Operation><List
+            :right-active="rightValidKeysCount > 0">
+        </Operation>
+        <List
             ref="right"
             :prefix-cls="prefixCls + '-list'"
             :data="rightData"
@@ -33,10 +36,10 @@
             :filter-placeholder="filterPlaceholder"
             :filter-method="filterMethod"
             :not-found-text="notFoundText">
-            <slot name="right"></slot>
+            <slot></slot>
         </List>
     </div>
-</template>
+</template> -->
 <script>
     import List from './list.vue';
     import Operation from './operation.vue';
@@ -45,6 +48,80 @@
     const prefixCls = 'ivu-transfer';
 
     export default {
+        render (createElement) {
+
+            function cloneVNode (vnode) {
+                const clonedChildren = vnode.children && vnode.children.map(vnode => cloneVNode(vnode)) || vnode.text;
+                const cloned = createElement(vnode.tag, vnode.data, clonedChildren);
+                cloned.text = vnode.text;
+                cloned.isComment = vnode.isComment;
+                cloned.componentOptions = vnode.componentOptions;
+                cloned.elm = vnode.elm;
+                cloned.context = vnode.context;
+                cloned.ns = vnode.ns;
+                cloned.isStatic = vnode.isStatic;
+                cloned.key = vnode.key;
+
+                return cloned;
+            }
+
+            const vNodes = this.$slots.default;
+            const clonedVNodes = vNodes.map(vnode => cloneVNode(vnode));
+
+            return createElement('div', {
+                'class': this.classes
+            }, [
+                createElement('List', {
+                    ref: 'left',
+                    props: {
+                        prefixCls: this.prefixCls + '-list',
+                        data: this.leftData,
+                        renderFormat: this.renderFormat,
+                        checkedKeys: this.leftCheckedKeys,
+                        validKeysCount: this.leftValidKeysCount,
+                        style: this.listStyle,
+                        title: this.titles[0],
+                        filterable: this.filterable,
+                        filterPlaceholder: this.filterPlaceholder,
+                        filterMethod: this.filterMethod,
+                        notFoundText: this.notFoundText
+                    },
+                    on: {
+                        'on-checked-keys-change': this.handleLeftCheckedKeysChange
+                    }
+                }, vNodes),
+
+                createElement('Operation', {
+                    props: {
+                        prefixCls: this.prefixCls,
+                        operations: this.operations,
+                        leftActive: this.leftValidKeysCount > 0,
+                        rightActive: this.rightValidKeysCount > 0
+                    }
+                }),
+
+                createElement('List', {
+                    ref: 'right',
+                    props: {
+                        prefixCls: this.prefixCls + '-list',
+                        data: this.rightData,
+                        renderFormat: this.renderFormat,
+                        checkedKeys: this.rightCheckedKeys,
+                        validKeysCount: this.rightValidKeysCount,
+                        style: this.listStyle,
+                        title: this.titles[1],
+                        filterable: this.filterable,
+                        filterPlaceholder: this.filterPlaceholder,
+                        filterMethod: this.filterMethod,
+                        notFoundText: this.notFoundText
+                    },
+                    on: {
+                        'on-checked-keys-change': this.handleRightCheckedKeysChange
+                    }
+                }, clonedVNodes),
+            ]);
+        },
+
         components: { List, Operation },
         props: {
             data: {
