@@ -24,8 +24,8 @@ Notification.newInstance = properties => {
         notice (noticeProps) {
             notification.add(noticeProps);
         },
-        remove (key) {
-            notification.close(key);
+        remove (name) {
+            notification.close(name);
         },
         component: notification,
         destroy () {

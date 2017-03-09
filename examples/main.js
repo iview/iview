@@ -172,6 +172,10 @@ const router = new VueRouter({
         {
             path: '/modal',
             component: require('./routers/modal.vue')
+        },
+        {
+            path: '/message',
+            component: require('./routers/message.vue')
         }
     ]
 });

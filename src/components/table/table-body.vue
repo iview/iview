@@ -29,6 +29,7 @@
     </table>
 </template>
 <script>
+    // todo :key="row"
     import Cell from './cell.vue';
     import Mixin from './mixin';
 

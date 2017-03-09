@@ -37,7 +37,7 @@
 - [x] Form
 - [x] Alert
 - [x] Card
-- [ ] Message
+- [x] Message
 - [ ] Notice
 - [x] Modal
 - [x] Progress
