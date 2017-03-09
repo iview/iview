@@ -214,7 +214,6 @@
         watch: {
             value (val) {
                 this.visible = val;
-                console.log(this.visible)
             },
             visible (val) {
                 if (val === false) {
