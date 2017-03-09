@@ -33,6 +33,7 @@
     import clickoutside from '../../directives/clickoutside';
     import { oneOf } from '../../utils/assist';
     import { formatDate, parseDate } from './util';
+    import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-date-picker';
 
@@ -138,6 +139,7 @@
     };
 
     export default {
+        mixins: [ Emitter ],
         components: { iInput, Drop },
         directives: { clickoutside },
         props: {
@@ -363,8 +365,7 @@
                 this.internalValue = '';
                 this.currentValue = '';
                 this.$emit('on-clear');
-                // todo 事件
-//                this.$dispatch('on-form-change', '');
+                this.dispatch('FormItem', 'on-form-change', '');
             },
             showPicker () {
                 if (!this.picker) {
@@ -430,8 +431,7 @@
                 }
 
                 this.$emit('on-change', newDate);
-                // todo 事件
-//                this.$dispatch('on-form-change', newDate);
+                this.dispatch('FormItem', 'on-form-change', newDate);
             }
         },
         watch: {

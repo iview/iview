@@ -123,8 +123,7 @@
                 this.currentValue = value;
                 this.$emit('input', value);
                 this.$emit('on-change', value);
-                // @todo
-//                 this.$dispatch('on-form-change', value);
+                this.dispatch('FormItem', 'on-form-change', value);
             }
         }
     };

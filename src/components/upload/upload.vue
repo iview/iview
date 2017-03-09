@@ -27,11 +27,13 @@
     import UploadList from './upload-list.vue';
     import ajax from './ajax';
     import { oneOf } from '../../utils/assist';
+    import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-upload';
 
     export default {
         name: 'Upload',
+        mixins: [ Emitter ],
         components: { UploadList },
         props: {
             action: {
@@ -277,8 +279,7 @@
                     _file.status = 'finished';
                     _file.response = res;
 
-                    // todo 事件
-//                    this.$dispatch('on-form-change', _file);
+                    this.dispatch('FormItem', 'on-form-change', _file);
                     this.onSuccess(res, _file, this.fileList);
 
                     setTimeout(() => {

@@ -22,10 +22,13 @@
     </label>
 </template>
 <script>
+    import Emitter from '../../mixins/emitter';
+
     const prefixCls = 'ivu-checkbox';
 
     export default {
         name: 'Checkbox',
+        mixins: [ Emitter ],
         props: {
             disabled: {
                 type: Boolean,
@@ -106,8 +109,7 @@
                     this.$parent.change(this.model);
                 } else {
                     this.$emit('on-change', checked);
-                    // todo 事件
-//                    this.$dispatch('on-form-change', checked);
+                    this.dispatch('FormItem', 'on-form-change', checked);
                 }
             },
             updateModel () {

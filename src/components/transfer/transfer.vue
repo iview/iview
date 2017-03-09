@@ -44,10 +44,12 @@
     import List from './list.vue';
     import Operation from './operation.vue';
     import { t } from '../../locale';
+    import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-transfer';
 
     export default {
+        mixins: [ Emitter ],
         render (createElement) {
 
             function cloneVNode (vnode) {
@@ -256,8 +258,11 @@
 
                 this.$refs[opposite].toggleSelectAll(false);
                 this.$emit('on-change', newTargetKeys, direction, moveKeys);
-                // todo 事件
-//                this.$dispatch('on-form-change', newTargetKeys, direction, moveKeys);
+                this.dispatch('FormItem', 'on-form-change', {
+                    tarketKeys: newTargetKeys,
+                    direction: direction,
+                    moveKeys: moveKeys
+                });
             },
             handleLeftCheckedKeysChange (keys) {
                 this.leftCheckedKeys = keys;
