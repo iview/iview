@@ -166,6 +166,7 @@ const router = new VueRouter({
             component: require('./routers/date.vue')
         },
         {
+<<<<<<< HEAD
             path: '/loading-bar',
             component: require('./routers/loadingBar.vue')
         },
@@ -181,6 +182,11 @@ const router = new VueRouter({
             path: '/form',
             component: require('./routers/form.vue')
         }
+=======
+            path: '/form',
+            component: require('./routers/form.vue')
+        },
+>>>>>>> 7778edfa025af8cf717a2633807b46e1b7401861
     ]
 });
 

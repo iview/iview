@@ -1,11 +1,10 @@
 <template>
-    <i-table highlight-row border :content="self" :columns="columns7" :data="data6"></i-table>
+    <i-table highlight-row border :columns="columns7" :data="data6"></i-table>
 </template>
 <script>
     export default {
         data () {
             return {
-                self: this,
                 columns7: [
                     {
                         type: 'selection',

@@ -50,13 +50,13 @@
 
 <template>
     <Transfer
-            :data="data3"
-            :target-keys="targetKeys3"
-            :list-style="listStyle"
-            :render-format="render3"
-            :operations="['向左移动','向右移动']"
-            filterable
-            @on-change="handleChange3">
+        :data="data3"
+        :target-keys="targetKeys3"
+        :list-style="listStyle"
+        :render-format="render3"
+        :operations="['向左移动','向右移动']"
+        filterable
+        @on-change="handleChange3">
         <div :style="{float: 'right', margin: '5px'}">
             <Button type="ghost" size="small" @click.native="reloadMockData">刷新</Button>
         </div>
