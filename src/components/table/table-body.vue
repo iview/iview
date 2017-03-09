@@ -6,6 +6,7 @@
         <tbody :class="[prefixCls + '-tbody']">
             <tr
                 v-for="(row, index) in data"
+                :key="row"
                 :class="rowClasses(row._index)"
                 @mouseenter.stop="handleMouseIn(row._index)"
                 @mouseleave.stop="handleMouseOut(row._index)"
