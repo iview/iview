@@ -4,9 +4,7 @@
 <script>
     // https://github.com/ElemeFE/element/blob/dev/packages/form/src/form.vue
     import { oneOf } from '../../utils/assist';
-
     const prefixCls = 'ivu-form';
-
     export default {
         name: 'iForm',
         props: {
@@ -73,7 +71,6 @@
             validateField(prop, cb) {
                 const field = this.fields.filter(field => field.prop === prop)[0];
                 if (!field) { throw new Error('[iView warn]: must call validateField with valid prop string!'); }
-
                 field.validate('', cb);
             }
         },
@@ -84,15 +81,12 @@
         },
         created () {
             this.$on('on-form-item-add', (field) => {
-                if (field) {
-                    this.fields.push(field);
-                }
+                if (field) this.fields.push(field);
+                return false;
             });
-            /* istanbul ignore next */
             this.$on('on-form-item-remove', (field) => {
-                if (field.prop) {
-                    this.fields.splice(this.fields.indexOf(field), 1);
-                }
+                if (field.prop) this.fields.splice(this.fields.indexOf(field), 1);
+                return false;
             });
         }
     };
