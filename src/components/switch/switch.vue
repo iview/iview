@@ -60,7 +60,7 @@
                 this.currentValue = checked;
                 this.$emit('input', checked);
                 this.$emit('on-change', checked);
-                this.dispatch('FormItem', 'on-form-change', data.checked);
+                this.dispatch('FormItem', 'on-form-change', checked);
             }
         },
         watch: {
