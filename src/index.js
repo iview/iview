@@ -19,7 +19,7 @@ import Form from './components/form';
 import Icon from './components/icon';
 import Input from './components/input';
 import InputNumber from './components/input-number';
-// import LoadingBar from './components/loading-bar';
+import LoadingBar from './components/loading-bar';
 import Menu from './components/menu';
 // import Message from './components/message';
 // import Modal from './components/modal';
@@ -75,7 +75,7 @@ const iview = {
     // iInput: Input,
     Input,
     InputNumber,
-    // LoadingBar,
+    LoadingBar,
     Menu,
     MenuGroup: Menu.Group,
     MenuItem: Menu.Item,
@@ -121,7 +121,7 @@ const install = function (Vue, opts = {}) {
         Vue.component(key, iview[key]);
     });
 
-    // Vue.prototype.$Loading = LoadingBar;
+    Vue.prototype.$Loading = LoadingBar;
     // Vue.prototype.$Message = Message;
     // Vue.prototype.$Modal = Modal;
     // Vue.prototype.$Notice = Notice;

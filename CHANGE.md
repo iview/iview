@@ -46,3 +46,6 @@ model 改为 value，支持 v-model
 ### Page
 class 改为 className
 ### DatePicker
+使用 v-model
+### LoadingBar
+部分 prop 移至 data

@@ -55,7 +55,7 @@
 - [x] Page
 - [x] Breadcrumb
 - [x] Steps
-- [ ] LoadingBar
+- [x] LoadingBar
 - [x] Circle
 - [x] Affix
 - [x] BackTop
