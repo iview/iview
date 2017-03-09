@@ -1,10 +1,12 @@
 <template>
-    <Table width="550" border :columns="columns2" :data="data3"></Table>
+    <Table width="550" :content="self" border :columns="columns2" :data="data3"></Table>
 </template>
 <script>
     export default {
+        name: 'vvv',
         data () {
             return {
+                self: this,
                 columns2: [
                     {
                         title: '姓名',
@@ -43,7 +45,7 @@
                         fixed: 'right',
                         width: 120,
                         render () {
-                            return `<Button type="text" size="small">查看</Button><Button type="text" size="small">编辑</Button>`;
+                            return `<i-button type="text" size="small" @click.native="handleClick">查看</i-button><i-button type="text" size="small">编辑</i-button>`;
                         }
                     }
                 ],
@@ -56,31 +58,36 @@
                         city: '朝阳区',
                         zip: 100000
                     },
-                    {
-                        name: '张小刚',
-                        age: 25,
-                        address: '北京市海淀区西二旗',
-                        province: '北京市',
-                        city: '海淀区',
-                        zip: 100000
-                    },
-                    {
-                        name: '李小红',
-                        age: 30,
-                        address: '上海市浦东新区世纪大道',
-                        province: '上海市',
-                        city: '浦东新区',
-                        zip: 100000
-                    },
-                    {
-                        name: '周小伟',
-                        age: 26,
-                        address: '深圳市南山区深南大道',
-                        province: '广东',
-                        city: '南山区',
-                        zip: 100000
-                    }
+//                    {
+//                        name: '张小刚',
+//                        age: 25,
+//                        address: '北京市海淀区西二旗',
+//                        province: '北京市',
+//                        city: '海淀区',
+//                        zip: 100000
+//                    },
+//                    {
+//                        name: '李小红',
+//                        age: 30,
+//                        address: '上海市浦东新区世纪大道',
+//                        province: '上海市',
+//                        city: '浦东新区',
+//                        zip: 100000
+//                    },
+//                    {
+//                        name: '周小伟',
+//                        age: 26,
+//                        address: '深圳市南山区深南大道',
+//                        province: '广东',
+//                        city: '南山区',
+//                        zip: 100000
+//                    }
                 ]
+            }
+        },
+        methods: {
+            handleClick () {
+                console.log(123)
             }
         }
     }

@@ -53,7 +53,7 @@ const iview = {
     Badge,
     Breadcrumb,
     BreadcrumbItem: Breadcrumb.Item,
-    // iButton: Button,
+    iButton: Button,
     Button,
     ButtonGroup: Button.Group,
     Card,
