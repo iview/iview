@@ -9,12 +9,13 @@
 <script>
     import emitter from '../../mixins/emitter';
     import { oneOf } from '../../utils/assist';
+    import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-switch';
 
     export default {
         name: 'Switch',
-        mixins: [emitter],
+        mixins: [ Emitter ],
         props: {
             value: {
                 type: Boolean,
@@ -60,7 +61,7 @@
                 this.currentValue = checked;
                 this.$emit('input', checked);
                 this.$emit('on-change', checked);
-                this.dispatch('iFormItem', 'on-form-change', [ this.checked]);
+                this.dispatch('FormItem', 'on-form-change', checked);
             }
         },
         watch: {

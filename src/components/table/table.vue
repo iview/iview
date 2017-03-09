@@ -29,7 +29,7 @@
                     <tbody>
                         <tr>
                             <td :style="{ 'height': bodyStyle.height }">
-                                <template v-html="!data || data.length === 0 ? noDataText : noFilteredDataText"></template>
+                                <div v-html="!data || data.length === 0 ? noDataText : noFilteredDataText"></div>
                             </td>
                         </tr>
                     </tbody>
@@ -46,7 +46,7 @@
                         :columns-width="columnsWidth"
                         :data="rebuildData"></table-head>
                 </div>
-                <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixed-body">
+                <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedBody">
                     <table-body
                         fixed="left"
                         :prefix-cls="prefixCls"
@@ -68,7 +68,7 @@
                         :columns-width="columnsWidth"
                         :data="rebuildData"></table-head>
                 </div>
-                <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixed-right-body">
+                <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedRightBody">
                     <table-body
                         fixed="right"
                         :prefix-cls="prefixCls"

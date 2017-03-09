@@ -174,10 +174,6 @@ const router = new VueRouter({
             component: require('./routers/notice.vue')
         },
         {
-            path: '/input',
-            component: require('./routers/input.vue')
-        },
-        {
             path: '/form',
             component: require('./routers/form.vue')
         }

@@ -321,13 +321,13 @@
                                 value: value,
                                 label: label
                             });
-                            this.dispatch('iFormItem', 'on-form-change', [{
+                            this.dispatch('FormItem', 'on-form-change', {
                                 value: value,
                                 label: label
-                            }]);
+                            });
                         } else {
                             this.$emit('on-change', value);
-                            this.dispatch('iFormItem', 'on-form-change', [value]);
+                            this.dispatch('FormItem', 'on-form-change', value);
                         }
                     }
                 }
@@ -356,12 +356,10 @@
                     if (!init) {
                         if (this.labelInValue) {
                             this.$emit('on-change', hybridValue);
-                            // todo 事件
-//                            this.$dispatch('on-form-change', hybridValue);
-//                        } else {
+                            this.dispatch('FormItem', 'on-form-change', hybridValue);
+                        } else {
                             this.$emit('on-change', value);
-                            // todo 事件
-//                            this.$dispatch('on-form-change', value);
+                            this.dispatch('FormItem', 'on-form-change', value);
                         }
                     }
                 }

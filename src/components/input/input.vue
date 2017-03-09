@@ -45,13 +45,13 @@
 <script>
     import { oneOf } from '../../utils/assist';
     import calcTextareaHeight from '../../utils/calcTextareaHeight';
-    import emitter from '../../mixins/emitter';
+    import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-input';
 
     export default {
         name: 'Input',
-        mixins: [emitter],
+        mixins: [ Emitter ],
         props: {
             type: {
                 validator (value) {
@@ -152,7 +152,7 @@
             },
             handleBlur () {
                 this.$emit('on-blur');
-                this.dispatch('iFormItem', 'on-form-blur', [this.currentValue]);
+                this.dispatch('FormItem', 'on-form-blur', this.currentValue);
             },
             handleInput (event) {
                 const value = event.target.value;                
@@ -170,7 +170,7 @@
                     this.resizeTextarea();
                 });
                 this.currentValue = value;
-                this.dispatch('iFormItem', 'on-form-change', [value]);
+                this.dispatch('FormItem', 'on-form-change', value);
             },
             resizeTextarea () {
                 const autosize = this.autosize;

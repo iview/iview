@@ -48,11 +48,13 @@
     import InputNumber from '../../components/input-number/input-number.vue';
     import Tooltip from '../../components/tooltip/tooltip.vue';
     import { getStyle, oneOf } from '../../utils/assist';
+    import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-slider';
 
     export default {
         name: 'Slider',
+        mixins: [ Emitter ],
         components: { InputNumber, Tooltip },
         props: {
             min: {
@@ -308,8 +310,7 @@
                     if (!this.dragging) {
                         if (this.currentValue !== this.oldSingleValue) {
                             this.$emit('on-change', this.currentValue);
-                            // todo 事件
-//                            this.$dispatch('on-form-change', this.currentValue);
+                            this.dispatch('FormItem', 'on-form-change', this.currentValue);
                             this.oldSingleValue = this.currentValue;
                         }
                     }
@@ -322,8 +323,7 @@
                 this.currentValue = val;
                 this.setSinglePosition(val);
                 this.$emit('on-change', this.currentValue);
-                // todo 事件
-//                this.$dispatch('on-form-change', this.currentValue);
+                this.dispatch('FormItem', 'on-form-change', this.currentValue);
             },
             // for range use first
             onFirstButtonDown (event) {
@@ -366,8 +366,7 @@
                     if (!this.firstDragging) {
                         if (this.currentValue[0] !== this.oldFirstValue) {
                             this.$emit('on-change', this.currentValue);
-                            // todo 事件
-//                            this.$dispatch('on-form-change', this.currentValue);
+                            this.dispatch('FormItem', 'on-form-change', this.currentValue);
                             this.oldFirstValue = this.currentValue[0];
                         }
                     }
@@ -417,8 +416,7 @@
                     if (!this.secondDragging) {
                         if (this.currentValue[1] !== this.oldSecondValue) {
                             this.$emit('on-change', this.currentValue);
-                            // todo 事件
-//                            this.$dispatch('on-form-change', this.currentValue);
+                            this.dispatch('FormItem', 'on-form-change', this.currentValue);
                             this.oldSecondValue = this.currentValue[1];
                         }
                     }

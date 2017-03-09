@@ -29,8 +29,8 @@
                                         </checkbox-group>
                                     </div>
                                     <div :class="[prefixCls + '-filter-footer']">
-                                        <i-button type="text" size="small" :disabled="!column._filterChecked.length" @click="handleFilter(index)">{{ t('i.table.confirmFilter') }}</i-button>
-                                        <i-button type="text" size="small" @click="handleReset(index)">{{ t('i.table.resetFilter') }}</i-button>
+                                        <i-button type="text" size="small" :disabled="!column._filterChecked.length" @click.native="handleFilter(index)">{{ t('i.table.confirmFilter') }}</i-button>
+                                        <i-button type="text" size="small" @click.native="handleReset(index)">{{ t('i.table.resetFilter') }}</i-button>
                                     </div>
                                 </div>
                                 <div slot="content" :class="[prefixCls + '-filter-list']" v-else>
