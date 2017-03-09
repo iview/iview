@@ -1,22 +1,22 @@
 <template>
     <div :class="wrapClasses" :style="styles">
         <div :class="classes">
-            <div :class="[prefixCls + '-title']" v-if="showSlotHeader" v-el:title><slot name="header"></slot></div>
-            <div :class="[prefixCls + '-header']" v-if="showHeader" v-el:header @mousewheel="handleMouseWheel">
+            <div :class="[prefixCls + '-title']" v-if="showSlotHeader" ref="title"><slot name="header"></slot></div>
+            <div :class="[prefixCls + '-header']" v-if="showHeader" ref="header" @mousewheel="handleMouseWheel">
                 <table-head
                     :prefix-cls="prefixCls"
-                    :style="tableStyle"
+                    :styleObject="tableStyle"
                     :columns="cloneColumns"
                     :obj-data="objData"
                     :columns-width="columnsWidth"
                     :data="rebuildData"></table-head>
             </div>
-            <div :class="[prefixCls + '-body']" :style="bodyStyle" v-el:body @scroll="handleBodyScroll"
+            <div :class="[prefixCls + '-body']" :style="bodyStyle" ref="body" @scroll="handleBodyScroll"
                 v-show="!((!!noDataText && (!data || data.length === 0)) || (!!noFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
                 <table-body
-                    v-ref:tbody
+                    ref="tbody"
                     :prefix-cls="prefixCls"
-                    :style="tableStyle"
+                    :styleObject="tableStyle"
                     :columns="cloneColumns"
                     :data="rebuildData"
                     :columns-width="columnsWidth"
@@ -24,12 +24,12 @@
             </div>
             <div
                 :class="[prefixCls + '-tip']"
-                v-else>
+                v-show="((!!noDataText && (!data || data.length === 0)) || (!!noFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
                 <table cellspacing="0" cellpadding="0" border="0">
                     <tbody>
                         <tr>
                             <td :style="{ 'height': bodyStyle.height }">
-                              {{{!data || data.length === 0 ? noDataText : noFilteredDataText}}}
+                                <div v-html="!data || data.length === 0 ? noDataText : noFilteredDataText"></div>
                             </td>
                         </tr>
                     </tbody>
@@ -40,17 +40,17 @@
                     <table-head
                         fixed="left"
                         :prefix-cls="prefixCls"
-                        :style="fixedTableStyle"
+                        :styleObject="fixedTableStyle"
                         :columns="leftFixedColumns"
                         :obj-data="objData"
-                        :columns-width.sync="columnsWidth"
+                        :columns-width="columnsWidth"
                         :data="rebuildData"></table-head>
                 </div>
-                <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" v-el:fixed-body>
+                <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedBody">
                     <table-body
                         fixed="left"
                         :prefix-cls="prefixCls"
-                        :style="fixedTableStyle"
+                        :styleObject="fixedTableStyle"
                         :columns="leftFixedColumns"
                         :data="rebuildData"
                         :columns-width="columnsWidth"
@@ -62,24 +62,24 @@
                     <table-head
                         fixed="right"
                         :prefix-cls="prefixCls"
-                        :style="fixedRightTableStyle"
+                        :styleObject="fixedRightTableStyle"
                         :columns="rightFixedColumns"
                         :obj-data="objData"
-                        :columns-width.sync="columnsWidth"
+                        :columns-width="columnsWidth"
                         :data="rebuildData"></table-head>
                 </div>
-                <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" v-el:fixed-right-body>
+                <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedRightBody">
                     <table-body
                         fixed="right"
                         :prefix-cls="prefixCls"
-                        :style="fixedRightTableStyle"
+                        :styleObject="fixedRightTableStyle"
                         :columns="rightFixedColumns"
                         :data="rebuildData"
                         :columns-width="columnsWidth"
                         :obj-data="objData"></table-body>
                 </div>
             </div>
-            <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" v-el:footer><slot name="footer"></slot></div>
+            <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" ref="footer"><slot name="footer"></slot></div>
         </div>
     </div>
 </template>
@@ -222,7 +222,7 @@
                 }
                 return style;
             },
-            fixedTableStyle () {
+            fixedTableStyle () {      
                 let style = {};
                 let width = 0;
                 this.leftFixedColumns.forEach((col) => {
@@ -415,9 +415,9 @@
             fixedHeader () {
                 if (this.height) {
                     this.$nextTick(() => {
-                        const titleHeight = parseInt(getStyle(this.$els.title, 'height')) || 0;
-                        const headerHeight = parseInt(getStyle(this.$els.header, 'height')) || 0;
-                        const footerHeight = parseInt(getStyle(this.$els.footer, 'height')) || 0;
+                        const titleHeight = parseInt(getStyle(this.$refs.title, 'height')) || 0;
+                        const headerHeight = parseInt(getStyle(this.$refs.header, 'height')) || 0;
+                        const footerHeight = parseInt(getStyle(this.$refs.footer, 'height')) || 0;
                         this.bodyHeight = this.height - titleHeight - headerHeight - footerHeight;
                     });
                 } else {
@@ -428,14 +428,14 @@
                 this.cloneColumns.forEach((col) => col._filterVisible = false);
             },
             handleBodyScroll (event) {
-                if (this.showHeader) this.$els.header.scrollLeft = event.target.scrollLeft;
-                if (this.isLeftFixed) this.$els.fixedBody.scrollTop = event.target.scrollTop;
-                if (this.isRightFixed) this.$els.fixedRightBody.scrollTop = event.target.scrollTop;
+                if (this.showHeader) this.$refs.header.scrollLeft = event.target.scrollLeft;
+                if (this.isLeftFixed) this.$refs.fixedBody.scrollTop = event.target.scrollTop;
+                if (this.isRightFixed) this.$refs.fixedRightBody.scrollTop = event.target.scrollTop;
                 this.hideColumnFilter();
             },
             handleMouseWheel (event) {
                 const deltaX = event.deltaX;
-                const $body = this.$els.body;
+                const $body = this.$refs.body;
 
                 if (deltaX > 0) {
                     $body.scrollLeft = $body.scrollLeft + 10;
@@ -639,17 +639,17 @@
                 ExportCsv.download(params.filename, data);
             }
         },
-        compiled () {
+        mounted () {
+            this.$nextTick(() => {
+                this.handleResize();
+                this.fixedHeader();
+                this.$nextTick(() => this.ready = true);
+                window.addEventListener('resize', this.handleResize, false);
+            });            
             if (!this.content) this.content = this.$parent;
-            this.showSlotHeader = this.$els.title.innerHTML.replace(/\n/g, '').replace(/<!--[\w\W\r\n]*?-->/gmi, '') !== '';
-            this.showSlotFooter = this.$els.footer.innerHTML.replace(/\n/g, '').replace(/<!--[\w\W\r\n]*?-->/gmi, '') !== '';
+            this.showSlotHeader = this.$refs.title.innerHTML.replace(/\n/g, '').replace(/<!--[\w\W\r\n]*?-->/gmi, '') !== '';
+            this.showSlotFooter = this.$refs.footer.innerHTML.replace(/\n/g, '').replace(/<!--[\w\W\r\n]*?-->/gmi, '') !== '';
             this.rebuildData = this.makeDataWithSortAndFilter();
-        },
-        ready () {
-            this.handleResize();
-            this.fixedHeader();
-            this.$nextTick(() => this.ready = true);
-            window.addEventListener('resize', this.handleResize, false);
         },
         beforeDestroy () {
             window.removeEventListener('resize', this.handleResize, false);
@@ -660,7 +660,7 @@
                     this.objData = this.makeObjData();
                     this.rebuildData = this.makeDataWithSortAndFilter();
                     this.handleResize();
-                },
+                }, 
                 deep: true
             },
             columns: {

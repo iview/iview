@@ -15,8 +15,7 @@
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-radio';
-
-    export default {
+    export default {      
         name: 'Radio',
         mixins: [ Emitter ],
         props: {

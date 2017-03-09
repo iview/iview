@@ -155,10 +155,11 @@
                 this.dispatch('FormItem', 'on-form-blur', this.currentValue);
             },
             handleInput (event) {
-                const value = event.target.value;
+                const value = event.target.value;                
                 this.$emit('input', value);
                 this.setCurrentValue(value);
                 this.$emit('on-change', event);
+                
             },
             handleChange (event) {
                 this.$emit('on-input-change', event);
