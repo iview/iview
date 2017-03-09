@@ -13,11 +13,7 @@
     // https://github.com/ElemeFE/element/blob/dev/packages/form/src/form-item.vue
 
     import AsyncValidator from 'async-validator';
-<<<<<<< HEAD
-    import emitter from '../../mixins/emitter';
-=======
     import Emitter from '../../mixins/emitter';
->>>>>>> 7778edfa025af8cf717a2633807b46e1b7401861
 
     const prefixCls = 'ivu-form-item';
 
@@ -45,13 +41,8 @@
     }
 
     export default {
-<<<<<<< HEAD
-        name: 'iFormItem',
-        mixins: [emitter],
-=======
         name: 'FormItem',
         mixins: [ Emitter ],
->>>>>>> 7778edfa025af8cf717a2633807b46e1b7401861
         props: {
             label: {
                 type: String,
@@ -219,18 +210,11 @@
             }
         },
         mounted () {
-<<<<<<< HEAD
             this.$nextTick(() => {
                 if (this.prop) {
                     this.dispatch('iForm', 'on-form-item-add', [this]);
                     Object.defineProperty(this, 'initialValue', {
                         value: this.fieldValue
-=======
-            if (this.prop) {
-                this.dispatch('iForm', 'on-form-item-add', this);
-
-                Object.defineProperty(this, 'initialValue', {
-                    value: this.fieldValue
                 });
 
                 let rules = this.getRules();
@@ -241,7 +225,6 @@
                             this.isRequired = true;
                             return false;
                         }
->>>>>>> 7778edfa025af8cf717a2633807b46e1b7401861
                     });
 
                     let rules = this.getRules();
@@ -260,11 +243,7 @@
             });
         },
         beforeDestroy () {
-<<<<<<< HEAD
-            this.dispatch('iForm', 'on-form-item-remove', [this]);
-=======
             this.dispatch('iForm', 'on-form-item-remove', this);
->>>>>>> 7778edfa025af8cf717a2633807b46e1b7401861
         }
     };
 </script>

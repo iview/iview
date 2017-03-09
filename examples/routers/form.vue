@@ -49,21 +49,6 @@
         <Form-item>
             <i-button type="primary" @click.native="handleSubmit('formValidate')">提交</i-button>
             <i-button type="ghost" @click.native="handleReset('formValidate')" style="margin-left: 8px">重置</i-button>
-=======
-    <i-form ref="formInline" :model="formInline" :rules="ruleInline" inline>
-        <Form-item prop="user">
-            <Input type="text" v-model="formInline.user" placeholder="Username">
-                <Icon type="ios-person-outline" slot="prepend"></Icon>
-            </Input>
-        </Form-item>
-        <Form-item prop="password">
-            <Input type="password" v-model="formInline.password" placeholder="Password">
-                <Icon type="ios-locked-outline" slot="prepend"></Icon>
-            </Input>
-        </Form-item>
-        <Form-item>
-            <Button type="primary" @click.native="handleSubmit('formInline')">登录</Button>
->>>>>>> 7778edfa025af8cf717a2633807b46e1b7401861
         </Form-item>
     </i-form>
 </template>
@@ -71,7 +56,6 @@
     export default {
         data () {
             return {
-<<<<<<< HEAD
                 formValidate: {
                     name: '',
                     mail: '',
@@ -109,19 +93,6 @@
                     desc: [
                         { required: true, message: '请输入个人介绍', trigger: 'blur' },
                         { type: 'string', min: 20, message: '介绍不能少于20字', trigger: 'blur' }
-=======
-                formInline: {
-                    user: '',
-                    password: ''
-                },
-                ruleInline: {
-                    user: [
-                        { required: true, message: '请填写用户名', trigger: 'blur' }
-                    ],
-                    password: [
-                        { required: true, message: '请填写密码', trigger: 'blur' },
-                        { type: 'string', min: 6, message: '密码长度不能小于6位', trigger: 'blur' }
->>>>>>> 7778edfa025af8cf717a2633807b46e1b7401861
                     ]
                 }
             }
@@ -129,13 +100,8 @@
         methods: {
             handleSubmit(name) {
                 this.$refs[name].validate((valid) => {
-<<<<<<< HEAD
                     if (valid) {                      
                         this.$Message.success('提交成功!');
-=======
-                    if (valid) {
-                        console.log('success');
->>>>>>> 7778edfa025af8cf717a2633807b46e1b7401861
                     } else {
                         console.log('fail')
                     }

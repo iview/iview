@@ -50,14 +50,10 @@ li + li { border-left: solid 1px #bbb; padding-left: 10px; margin-left: 10px; }
                 <li><router-link to="/page">Page</router-link></li>
                 <li><router-link to="/transfer">Transfer</router-link></li>
                 <li><router-link to="/date">Date</router-link></li>
-<<<<<<< HEAD
                 <li><router-link to="/loading-bar">LoadIngBar</router-link></li>
                 <li><router-link to="/notice">notice</router-link></li>
                 <li><router-link to="/form">form</router-link></li>
                 <li><router-link to="/input">input</router-link></li>
-=======
-                <li><router-link to="/form">Form</router-link></li>
->>>>>>> 7778edfa025af8cf717a2633807b46e1b7401861
             </ul>
         </nav>
         <router-view></router-view>

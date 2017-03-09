@@ -84,7 +84,6 @@
         },
         created () {
             this.$on('on-form-item-add', (field) => {
-<<<<<<< HEAD
                 if (field) {
                     this.fields.push(field);
                 }
@@ -94,14 +93,6 @@
                 if (field.prop) {
                     this.fields.splice(this.fields.indexOf(field), 1);
                 }
-=======
-                if (field) this.fields.push(field);
-                return false;
-            });
-            this.$on('on-form-item-remove', (field) => {
-                if (field.prop) this.fields.splice(this.fields.indexOf(field), 1);
-                return false;
->>>>>>> 7778edfa025af8cf717a2633807b46e1b7401861
             });
         }
     };
