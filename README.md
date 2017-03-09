@@ -31,7 +31,7 @@
 - Based on npm + webpack + babel, using ES2015
 
 ## Programming
-![iView](https://raw.githubusercontent.com/iview/iview/master/assets/iview2.png)
+![iView](https://raw.githubusercontent.com/iview/iview/2.0/assets/iview2.png)
 
 ## Install
 
