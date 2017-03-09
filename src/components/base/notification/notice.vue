@@ -85,7 +85,7 @@
                 this.$parent.close(this.name);
             }
         },
-        created () {
+        mounted () {
             this.clearCloseTimer();
 
             if (this.duration !== 0) {

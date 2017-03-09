@@ -23,7 +23,7 @@ import LoadingBar from './components/loading-bar';
 import Menu from './components/menu';
 import Message from './components/message';
 import Modal from './components/modal';
-// import Notice from './components/notice';
+import Notice from './components/notice';
 import Page from './components/page';
 import Poptip from './components/poptip';
 import Progress from './components/progress';
@@ -82,7 +82,7 @@ const iview = {
     Submenu: Menu.Sub,
     Message,
     Modal,
-    // Notice,
+    Notice,
     iOption: Option,
     OptionGroup,
     Page,
@@ -124,7 +124,7 @@ const install = function (Vue, opts = {}) {
     Vue.prototype.$Loading = LoadingBar;
     Vue.prototype.$Message = Message;
     Vue.prototype.$Modal = Modal;
-    // Vue.prototype.$Notice = Notice;
+    Vue.prototype.$Notice = Notice;
 };
 
 // auto install

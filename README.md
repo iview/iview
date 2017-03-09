@@ -38,7 +38,7 @@
 - [x] Alert
 - [x] Card
 - [x] Message
-- [ ] Notice
+- [x] Notice
 - [x] Modal
 - [x] Progress
 - [x] Badge
