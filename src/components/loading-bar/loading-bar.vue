@@ -6,7 +6,7 @@
     </transition>
 </template>
 <script>
-    import { oneOf } from '../../utils/assist';
+//    import { oneOf } from '../../utils/assist';
 
     const prefixCls = 'ivu-loading-bar';
 

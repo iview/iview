@@ -49,3 +49,5 @@ class 改为 className
 使用 v-model
 ### LoadingBar
 部分 prop 移至 data
+### Modal
+visible 改为 value，使用 v-model，style 改为 styles，$Modal 的关闭有改动，建议后面在纯 html 模式下测试

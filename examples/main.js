@@ -168,6 +168,10 @@ const router = new VueRouter({
         {
             path: '/loading-bar',
             component: require('./routers/loading-bar.vue')
+        },
+        {
+            path: '/modal',
+            component: require('./routers/modal.vue')
         }
     ]
 });

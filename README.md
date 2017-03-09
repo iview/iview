@@ -39,7 +39,7 @@
 - [x] Card
 - [ ] Message
 - [ ] Notice
-- [ ] Modal
+- [x] Modal
 - [x] Progress
 - [x] Badge
 - [x] Collapse
