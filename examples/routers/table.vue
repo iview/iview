@@ -1,94 +1,75 @@
 <template>
-    <Table width="550" :content="self" border :columns="columns2" :data="data3"></Table>
+    <Card>
+        <Table border :content="self" :columns="columns7" :data="data6"></Table>
+    </Card>
 </template>
 <script>
     export default {
-        name: 'vvv',
         data () {
             return {
                 self: this,
-                columns2: [
+                columns7: [
                     {
                         title: '姓名',
                         key: 'name',
-                        width: 100,
-                        fixed: 'left'
+                        render (row, column, index) {
+                            return `<Icon type="person"></Icon> <strong>${row.name}</strong>`;
+                        }
                     },
                     {
                         title: '年龄',
-                        key: 'age',
-                        width: 100
-                    },
-                    {
-                        title: '省份',
-                        key: 'province',
-                        width: 100
-                    },
-                    {
-                        title: '市区',
-                        key: 'city',
-                        width: 100
+                        key: 'age'
                     },
                     {
                         title: '地址',
-                        key: 'address',
-                        width: 200
-                    },
-                    {
-                        title: '邮编',
-                        key: 'zip',
-                        width: 100
+                        key: 'address'
                     },
                     {
                         title: '操作',
                         key: 'action',
-                        fixed: 'right',
-                        width: 120,
-                        render () {
-                            return `<i-button type="text" size="small" @click.native="handleClick">查看</i-button><i-button type="text" size="small">编辑</i-button>`;
+                        width: 150,
+                        align: 'center',
+                        render (row, column, index) {
+                            return `<i-button type="primary" size="small" @click.native="show(${index})">查看</i-button> <i-button type="error" size="small" @click.native="remove(${index})">删除</i-button>`;
                         }
                     }
                 ],
-                data3: [
+                data6: [
                     {
                         name: '王小明',
                         age: 18,
-                        address: '北京市朝阳区芍药居',
-                        province: '北京市',
-                        city: '朝阳区',
-                        zip: 100000
+                        address: '北京市朝阳区芍药居'
                     },
-//                    {
-//                        name: '张小刚',
-//                        age: 25,
-//                        address: '北京市海淀区西二旗',
-//                        province: '北京市',
-//                        city: '海淀区',
-//                        zip: 100000
-//                    },
-//                    {
-//                        name: '李小红',
-//                        age: 30,
-//                        address: '上海市浦东新区世纪大道',
-//                        province: '上海市',
-//                        city: '浦东新区',
-//                        zip: 100000
-//                    },
-//                    {
-//                        name: '周小伟',
-//                        age: 26,
-//                        address: '深圳市南山区深南大道',
-//                        province: '广东',
-//                        city: '南山区',
-//                        zip: 100000
-//                    }
+                    {
+                        name: '张小刚',
+                        age: 25,
+                        address: '北京市海淀区西二旗'
+                    },
+                    {
+                        name: '李小红',
+                        age: 30,
+                        address: '上海市浦东新区世纪大道'
+                    },
+                    {
+                        name: '周小伟',
+                        age: 26,
+                        address: '深圳市南山区深南大道'
+                    }
                 ]
             }
         },
         methods: {
-            handleClick () {
-                console.log(123)
+            show (index) {
+                console.log(`姓名：${this.data6[index].name}<br>年龄：${this.data6[index].age}<br>地址：${this.data6[index].address}`)
+            },
+            remove (index) {
+                this.data6.splice(index, 1);
             }
+        },
+        mounted () {
+            setTimeout(() => {
+//                this.data6.splice(2, 1);
+            }, 3000)
         }
     }
 </script>

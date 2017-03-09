@@ -60,7 +60,7 @@
                     this.$el.innerHTML = '';
                     let methods = {};
                     Object.keys($parent).forEach(key => {
-                        const func = this.$parent.$parent.$parent[`${key}`];
+                        const func = $parent[`${key}`];
                         if (typeof(func) === 'function' && func.name  === 'boundFn') {
                             methods[`${key}`] = func;
                         }
