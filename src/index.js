@@ -33,7 +33,7 @@ import Slider from './components/slider';
 import Spin from './components/spin';
 import Steps from './components/steps';
 import Switch from './components/switch';
-// import Table from './components/table';
+import Table from './components/table';
 import Tabs from './components/tabs';
 import Tag from './components/tag';
 import Timeline from './components/timeline';
@@ -100,6 +100,7 @@ const iview = {
     Steps,
     iSwitch: Switch,
     // iTable: Table,
+    Table,
     Tabs: Tabs,
     TabPane: Tabs.Pane,
     Tag,

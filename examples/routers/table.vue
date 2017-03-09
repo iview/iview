@@ -1,95 +1,86 @@
 <template>
-    <i-table highlight-row border :content="self" :columns="columns7" :data="data6"></i-table>
+    <Table width="550" border :columns="columns2" :data="data3"></Table>
 </template>
 <script>
     export default {
         data () {
             return {
-                self: this,
-                columns7: [
-                    {
-                        type: 'selection',
-                        width: 60,
-                        align: 'center'
-                    },
+                columns2: [
                     {
                         title: '姓名',
                         key: 'name',
-                        render (row, column, index) {
-                            return `<Icon type="person"></Icon> <strong>${row.name}</strong>`;
-                        }
+                        width: 100,
+                        fixed: 'left'
                     },
                     {
                         title: '年龄',
                         key: 'age',
-                        sortable: true,
-                        sortMethod: function (a, b, type) {
-                            if (type === 'asc') {
-                                return a < b ? 1 : -1;
-                            } else if (type === 'desc') {
-                                return a > b ? 1 : -1;
-                            }
-                        }
+                        width: 100
+                    },
+                    {
+                        title: '省份',
+                        key: 'province',
+                        width: 100
+                    },
+                    {
+                        title: '市区',
+                        key: 'city',
+                        width: 100
                     },
                     {
                         title: '地址',
-                        key: 'address'
+                        key: 'address',
+                        width: 200
+                    },
+                    {
+                        title: '邮编',
+                        key: 'zip',
+                        width: 100
                     },
                     {
                         title: '操作',
                         key: 'action',
-                        width: 150,
-                        align: 'center',
-                        render (row, column, index) {
-//                            return `<i-button type="primary" size="small" @click="show(${index})">查看</i-button> <i-button type="error" size="small" @click="remove(${index})">删除</i-button>`;
-                            return `<Poptip width="250" confirm placement="left" title="您确认删除吗？" @on-ok="deleteProject(${index})">
-                <i-button size="small" type="error">删除</i-button>
-              </Poptip>`
+                        fixed: 'right',
+                        width: 120,
+                        render () {
+                            return `<Button type="text" size="small">查看</Button><Button type="text" size="small">编辑</Button>`;
                         }
                     }
                 ],
-                data6: [
+                data3: [
                     {
                         name: '王小明',
                         age: 18,
                         address: '北京市朝阳区芍药居',
-                        _highlight: true,
-                        _checked: true,
-                        _disabled: false
+                        province: '北京市',
+                        city: '朝阳区',
+                        zip: 100000
                     },
                     {
                         name: '张小刚',
                         age: 25,
                         address: '北京市海淀区西二旗',
-                        _checked: false,
-                        _disabled: true
+                        province: '北京市',
+                        city: '海淀区',
+                        zip: 100000
                     },
                     {
                         name: '李小红',
                         age: 30,
                         address: '上海市浦东新区世纪大道',
-                        _checked: true,
-                        _disabled: true
+                        province: '上海市',
+                        city: '浦东新区',
+                        zip: 100000
                     },
                     {
                         name: '周小伟',
                         age: 26,
                         address: '深圳市南山区深南大道',
-                        _checked: false,
-                        _disabled: false
+                        province: '广东',
+                        city: '南山区',
+                        zip: 100000
                     }
                 ]
-            }
-        },
-        methods: {
-            show (index) {
-                this.$Modal.info({
-                    title: '用户信息',
-                    content: `姓名：${this.data6[index].name}<br>年龄：${this.data6[index].age}<br>地址：${this.data6[index].address}`
-                })
-            },
-            remove (index) {
-                this.data6.splice(index, 1);
             }
         }
     }

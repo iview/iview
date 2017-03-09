@@ -161,6 +161,10 @@ const router = new VueRouter({
             path: '/form',
             component: require('./routers/form.vue')
         },
+        {
+            path: '/table',
+            component: require('./routers/table.vue')
+        },
     ]
 });
 

@@ -24,7 +24,7 @@
 - [x] Radio
 - [x] Checkbox
 - [x] Switch
-- [ ] Table
+- [x] Table
 - [x] Select
 - [x] Slider
 - [x] DatePicker
