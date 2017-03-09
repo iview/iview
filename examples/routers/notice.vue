@@ -1,5 +1,5 @@
 <template>
-    <i-button @click="pop">Pop</i-button>
+    <i-button @click.native="pop">Pop</i-button>
 </template>
 <script>
     export default {

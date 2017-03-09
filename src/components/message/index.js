@@ -6,6 +6,7 @@ const prefixKey = 'ivu_message_key_';
 
 let defaultDuration = 1.5;
 let top;
+let left;
 let messageInstance;
 let key = 1;
 
@@ -21,7 +22,8 @@ function getMessageInstance () {
     messageInstance = messageInstance || Notification.newInstance({
         prefixCls: prefixCls,
         style: {
-            top: `${top}px`
+            top: `${top}px`,
+            left: `${left}px`
         }
     });
 
@@ -84,6 +86,9 @@ export default {
     config (options) {
         if (options.top) {
             top = options.top;
+        }
+        if (options.left) {
+            left = options.left;
         }
         if (options.duration) {
             defaultDuration = options.duration;

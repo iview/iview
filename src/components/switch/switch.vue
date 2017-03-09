@@ -7,12 +7,14 @@
     </span>
 </template>
 <script>
+    import emitter from '../../mixins/emitter';
     import { oneOf } from '../../utils/assist';
 
     const prefixCls = 'ivu-switch';
 
     export default {
         name: 'Switch',
+        mixins: [emitter],
         props: {
             value: {
                 type: Boolean,
@@ -58,8 +60,7 @@
                 this.currentValue = checked;
                 this.$emit('input', checked);
                 this.$emit('on-change', checked);
-                // todo 事件
-//                this.$dispatch('on-form-change', this.checked);
+                this.dispatch('iFormItem', 'on-form-change', [ this.checked]);
             }
         },
         watch: {

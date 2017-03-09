@@ -24,7 +24,7 @@
 - [x] Radio
 - [x] Checkbox
 - [x] Switch
-- [ ] Table
+- [x] Table
 - [x] Select
 - [x] Slider
 - [x] DatePicker
@@ -37,9 +37,9 @@
 - [x] Form
 - [x] Alert
 - [x] Card
-- [ ] Message
-- [ ] Notice
-- [ ] Modal
+- [x] Message
+- [x] Notice
+- [x] Modal
 - [x] Progress
 - [x] Badge
 - [x] Collapse
@@ -55,7 +55,7 @@
 - [x] Page
 - [x] Breadcrumb
 - [x] Steps
-- [ ] LoadingBar
+- [X] LoadingBar
 - [x] Circle
 - [x] Affix
 - [x] BackTop

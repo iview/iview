@@ -4,10 +4,12 @@
     </div>
 </template>
 <script>
+    import emitter from '../../mixins/emitter';
     const prefixCls = 'ivu-checkbox-group';
 
     export default {
         name: 'CheckboxGroup',
+        mixins: [emitter],
         props: {
             value: {
                 type: Array,
@@ -46,8 +48,7 @@
                 this.currentValue = data;
                 this.$emit('input', data);
                 this.$emit('on-change', data);
-                // todo 事件
-//                this.$dispatch('on-form-change', data);
+                this.dispatch('iFormItem', 'on-form-change', [data]);
             }
         },
         watch: {

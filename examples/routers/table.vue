@@ -1,11 +1,10 @@
 <template>
-    <i-table highlight-row border :content="self" :columns="columns7" :data="data6"></i-table>
+    <i-table highlight-row border :columns="columns7" :data="data6"></i-table>
 </template>
 <script>
     export default {
         data () {
             return {
-                self: this,
                 columns7: [
                     {
                         type: 'selection',
@@ -41,10 +40,10 @@
                         width: 150,
                         align: 'center',
                         render (row, column, index) {
-//                            return `<i-button type="primary" size="small" @click="show(${index})">查看</i-button> <i-button type="error" size="small" @click="remove(${index})">删除</i-button>`;
-                            return `<Poptip width="250" confirm placement="left" title="您确认删除吗？" @on-ok="deleteProject(${index})">
-                <i-button size="small" type="error">删除</i-button>
-              </Poptip>`
+                           return `<i-button type="primary" size="small" @click.native="show(${index})">查看</i-button> <i-button type="error" size="small" @click.native="remove(${index})">删除</i-button>`;
+            //                 return `<Poptip width="250" confirm placement="left" title="您确认删除吗？" @on-ok="deleteProject(${index})">
+            //     <i-button size="small" type="error">删除</i-button>
+            //   </Poptip>`
                         }
                     }
                 ],

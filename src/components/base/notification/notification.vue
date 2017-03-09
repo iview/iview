@@ -2,11 +2,11 @@
     <div :class="classes" :style="style">
         <Notice v-for="notice in notices"
             :prefix-cls="prefixCls"
-            :style="notice.style"
+            :styleObject="notice.style"
             :content="notice.content"
             :duration="notice.duration"
             :closable="notice.closable"
-            :key="notice.key"
+            :keyIndex="notice.key"
             :transition-name="notice.transitionName"
             :on-close="notice.onClose">
         </Notice>

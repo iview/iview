@@ -13,9 +13,10 @@
 </template>
 <script>
     const prefixCls = 'ivu-radio';
-
-    export default {
+    import emitter from '../../mixins/emitter';
+    export default {      
         name: 'Radio',
+        mixins: [emitter],
         props: {
             value: {
                 type: Boolean,
@@ -87,8 +88,7 @@
                 }
                 if (!this.group) {
                     this.$emit('on-change', checked);
-                    // todo 事件
-//                    this.$dispatch('on-form-change', checked);
+                    this.dispatch('iFormItem', 'on-form-change', [checked]);
                 }
             },
             updateValue () {

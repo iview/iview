@@ -1,6 +1,6 @@
 <template>
-    <div :class="classes" :style="style" :transition="transitionName">
-        <div :class="[baseClass + '-content']" v-el:content>{{{ content }}}</div>
+    <div :class="classes" :style="styleObject" :transition="transitionName">
+        <div :class="[baseClass + '-content']" ref="content" v-html="content"></div>
         <a :class="[baseClass + '-close']" @click="close" v-if="closable">
             <i class="ivu-icon ivu-icon-ios-close-empty"></i>
         </a>
@@ -21,7 +21,7 @@
                 type: String,
                 default: ''
             },
-            style: {
+            styleObject: {
                 type: Object,
                 default: function() {
                     return {
@@ -36,7 +36,7 @@
             className: {
                 type: String
             },
-            key: {
+            keyIndex: {
                 type: String,
                 required: true
             },
@@ -80,10 +80,10 @@
             close () {
                 this.clearCloseTimer();
                 this.onClose();
-                this.$parent.close(this.key);
+                this.$parent.close(this.keyIndex);
             }
         },
-        compiled () {
+        mounted () {
             this.clearCloseTimer();
 
             if (this.duration !== 0) {
@@ -94,7 +94,7 @@
 
             // check if with desc in Notice component
             if (this.prefixCls === 'ivu-notice') {
-                this.withDesc = this.$els.content.querySelectorAll(`.${this.prefixCls}-desc`)[0].innerHTML !== '';
+                this.withDesc = this.$refs.content.querySelectorAll(`.${this.prefixCls}-desc`)[0].innerHTML !== '';
             }
         },
         beforeDestroy () {
