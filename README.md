@@ -27,7 +27,7 @@
 - Friendly APIs,free and flexible
 - Great Documentation
 - It is quite beautiful
-- Using .vue file development mode
+- Support Vue.js 2 and Vue.js 1
 - Based on npm + webpack + babel, using ES2015
 
 ## Programming
