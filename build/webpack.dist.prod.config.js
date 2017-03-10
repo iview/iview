@@ -3,7 +3,7 @@ var webpack = require('webpack');
 var merge = require('webpack-merge')
 var webpackBaseConfig = require('./webpack.base.config.js');
 
-
+process.env.NODE_ENV = 'production';
 
 module.exports = merge(webpackBaseConfig, {
     entry: {
@@ -26,10 +26,9 @@ module.exports = merge(webpackBaseConfig, {
         }
     },
     plugins: [
+        // @todo
         new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: '"production"'
-            }
+          'process.env.NODE_ENV': '"production"'
         }),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
