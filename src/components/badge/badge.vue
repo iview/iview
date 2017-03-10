@@ -68,7 +68,7 @@
                 alone: false
             };
         },
-        compiled () {
+        mounted () {
             const child_length = this.$refs.badge.children.length;
             if (child_length === 1) {
                 this.alone = true;
