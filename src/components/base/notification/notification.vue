@@ -2,7 +2,7 @@
     <div :class="classes" :style="styles">
         <Notice
             v-for="notice in notices"
-            :key="notice"
+            :key="notice.name"
             :prefix-cls="prefixCls"
             :styles="notice.styles"
             :content="notice.content"
@@ -15,7 +15,6 @@
     </div>
 </template>
 <script>
-    // todo :key="notice"
     import Notice from './notice.vue';
 
     const prefixCls = 'ivu-notification';

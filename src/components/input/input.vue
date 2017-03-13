@@ -43,7 +43,7 @@
     </div>
 </template>
 <script>
-    import { oneOf } from '../../utils/assist';
+    import { oneOf, findComponentUpward } from '../../utils/assist';
     import calcTextareaHeight from '../../utils/calcTextareaHeight';
     import Emitter from '../../mixins/emitter';
 
@@ -152,7 +152,9 @@
             },
             handleBlur () {
                 this.$emit('on-blur');
-                this.dispatch('FormItem', 'on-form-blur', this.currentValue);
+                if (!findComponentUpward(this, ['DatePicker', 'TimePicker'])) {
+                    this.dispatch('FormItem', 'on-form-blur', this.currentValue);
+                }
             },
             handleInput (event) {
                 const value = event.target.value;
@@ -169,7 +171,9 @@
                     this.resizeTextarea();
                 });
                 this.currentValue = value;
-                this.dispatch('FormItem', 'on-form-change', value);
+                if (!findComponentUpward(this, ['DatePicker', 'TimePicker'])) {
+                    this.dispatch('FormItem', 'on-form-change', value);
+                }
             },
             resizeTextarea () {
                 const autosize = this.autosize;

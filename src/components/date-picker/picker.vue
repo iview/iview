@@ -139,6 +139,7 @@
     };
 
     export default {
+        name: 'CalendarPicker',
         mixins: [ Emitter ],
         components: { iInput, Drop },
         directives: { clickoutside },
@@ -344,6 +345,7 @@
                 this.visualValue = correctValue;
                 event.target.value = correctValue;
                 this.internalValue = correctDate;
+                this.currentValue = correctDate;
 
                 if (correctValue !== oldValue) this.emitChange(correctDate);
             },
@@ -418,6 +420,12 @@
                 this.picker.resetView && this.picker.resetView();
             },
             emitChange (date) {
+                const newDate = this.formattingDate(date);
+
+                this.$emit('on-change', newDate);
+                this.dispatch('FormItem', 'on-form-change', newDate);
+            },
+            formattingDate (date) {
                 const type = this.type;
                 const format = this.format || DEFAULT_FORMATS[type];
                 const formatter = (
@@ -429,9 +437,7 @@
                 if (type === 'daterange' || type === 'timerange') {
                     newDate = [newDate.split(RANGE_SEPARATOR)[0], newDate.split(RANGE_SEPARATOR)[1]];
                 }
-
-                this.$emit('on-change', newDate);
-                this.dispatch('FormItem', 'on-form-change', newDate);
+                return newDate;
             }
         },
         watch: {
@@ -450,7 +456,7 @@
                 if (!val && this.picker && typeof this.picker.handleClear === 'function') {
                     this.picker.handleClear();
                 }
-                this.$emit('input', val);
+//                this.$emit('input', val);
             },
             value (val) {
                 this.currentValue = val;
@@ -492,14 +498,5 @@
         mounted () {
             if (this.open !== null) this.visible = this.open;
         }
-        // todo 事件
-//        events: {
-//            'on-form-blur' () {
-//                return false;
-//            },
-//            'on-form-change' () {
-//                return false;
-//            }
-//        }
     };
 </script>

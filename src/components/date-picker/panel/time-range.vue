@@ -57,6 +57,7 @@
     const timePrefixCls = 'ivu-time-picker';
 
     export default {
+        name: 'TimePicker',
         mixins: [ Mixin, Locale ],
         components: { TimeSpinner, Confirm },
         data () {
