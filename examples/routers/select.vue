@@ -195,14 +195,14 @@
     <div>
         <Row>
             <i-col span="12" style="padding-right:10px">
-                <i-select v-model="model11" filterable>
+                <Select v-model="model11" filterable>
                     <i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>
-                </i-select>
+                </Select>
             </i-col>
             <i-col span="12">
-                <i-select v-model="model12" filterable multiple>
+                <Select v-model="model12" filterable multiple>
                     <i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>
-                </i-select>
+                </Select>
             </i-col>
         </Row>
         <div @click="model11 = 'shanghai'">change</div>
