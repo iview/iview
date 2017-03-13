@@ -89,6 +89,7 @@ const iview = {
     Panel: Collapse.Panel,
     Poptip,
     Progress,
+    iProgress: Progress,
     Radio,
     RadioGroup: Radio.Group,
     Rate,
