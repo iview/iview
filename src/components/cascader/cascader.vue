@@ -198,15 +198,6 @@
                 }
             });
         },
-        // todo 事件 这是因为内部的input会触发，应该组织
-//        events: {
-//            'on-form-blur' () {
-//                return false;
-//            },
-//            'on-form-change' () {
-//                return false;
-//            }
-//        },
         watch: {
             visible (val) {
                 if (val) {

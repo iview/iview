@@ -5,6 +5,9 @@
             <Form-item prop="date">
                 <Date-picker type="date" placeholder="选择日期" v-model="formInline.date"></Date-picker>
             </Form-item>
+            <Form-item prop="value2">
+                <Cascader :data="formInline.data" v-model="formInline.value2" change-on-select></Cascader>
+            </Form-item>
             <Form-item prop="user">
                 <Input v-model="formInline.user">
             </Form-item>
@@ -20,7 +23,55 @@
             return {
                 formInline: {
                     date: new Date(),
-                    user: ''
+                    user: '',
+                    value2: [],
+                    data: [{
+                        value: 'beijing',
+                        label: '北京',
+                        children: [
+                            {
+                                value: 'gugong',
+                                label: '故宫'
+                            },
+                            {
+                                value: 'tiantan',
+                                label: '天坛'
+                            },
+                            {
+                                value: 'wangfujing',
+                                label: '王府井'
+                            }
+                        ]
+                    }, {
+                        value: 'jiangsu',
+                        label: '江苏',
+                        children: [
+                            {
+                                value: 'nanjing',
+                                label: '南京',
+                                children: [
+                                    {
+                                        value: 'fuzimiao',
+                                        label: '夫子庙',
+                                    }
+                                ]
+                            },
+                            {
+                                value: 'suzhou',
+                                label: '苏州',
+                                children: [
+                                    {
+                                        value: 'zhuozhengyuan',
+                                        label: '拙政园',
+                                    },
+                                    {
+                                        value: 'shizilin',
+                                        label: '狮子林',
+                                    }
+                                ]
+                            }
+                        ],
+                    }]
                 },
                 ruleInline: {
                     date: [
@@ -42,6 +93,14 @@
                             required: true,
                             message: '请输入2',
                             trigger: 'blur'
+                        }
+                    ],
+                    value2: [
+                        {
+                            required: true,
+                            type: 'array',
+                            message: '请输入',
+                            trigger: 'change'
                         }
                     ]
                 }
