@@ -53,7 +53,6 @@ const iview = {
     Badge,
     Breadcrumb,
     BreadcrumbItem: Breadcrumb.Item,
-    iButton: Button,
     Button,
     ButtonGroup: Button.Group,
     Card,
@@ -62,49 +61,44 @@ const iview = {
     Cascader,
     Checkbox,
     CheckboxGroup: Checkbox.Group,
-    iCircle: Circle,
+    Circle,
     DatePicker,
     Dropdown,
     DropdownItem: Dropdown.Item,
     DropdownMenu: Dropdown.Menu,
-    iForm: Form,
+    Form,
     FormItem: Form.Item,
-    iCol: Col,
+    Col,
     Collapse,
     Icon,
     Input,
-    iInput: Input,
     InputNumber,
     LoadingBar,
     Menu,
-    iMenu: Menu,
     MenuGroup: Menu.Group,
     MenuItem: Menu.Item,
     Submenu: Menu.Sub,
     Message,
     Modal,
     Notice,
-    iOption: Option,
+    Option,
     OptionGroup,
     Page,
     Panel: Collapse.Panel,
     Poptip,
     Progress,
-    iProgress: Progress,
     Radio,
     RadioGroup: Radio.Group,
     Rate,
     Row,
     Select,
-    iSelect: Select,
     Slider,
     Spin,
     Step: Steps.Step,
     Steps,
-    iSwitch: Switch,
-    iTable: Table,
+    Switch,
     Table,
-    Tabs: Tabs,
+    Tabs,
     TabPane: Tabs.Pane,
     Tag,
     Timeline,
@@ -116,18 +110,23 @@ const iview = {
     Upload
 };
 
+iview.version = IVIEW_VERSION;
+
 const install = function (Vue, opts = {}) {
     locale.use(opts.locale);
     locale.i18n(opts.i18n);
 
     Object.keys(iview).forEach((key) => {
         Vue.component(key, iview[key]);
+        Vue.component('iv' + key, iview[key]);
     });
 
     Vue.prototype.$Loading = LoadingBar;
     Vue.prototype.$Message = Message;
     Vue.prototype.$Modal = Modal;
     Vue.prototype.$Notice = Notice;
+
+    Vue.iView = iview;
 };
 
 // auto install
