@@ -110,7 +110,7 @@ const iview = {
     Upload
 };
 
-iview.version = IVIEW_VERSION;
+iview.version = IVIEW_VERSION?IVIEW_VERSION:'';
 
 const install = function (Vue, opts = {}) {
     locale.use(opts.locale);
