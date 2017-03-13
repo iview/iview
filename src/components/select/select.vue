@@ -36,7 +36,7 @@
     import Icon from '../icon';
     import Drop from './dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
-    import { oneOf, MutationObserver } from '../../utils/assist';
+    import { oneOf, MutationObserver, findComponentDownward } from '../../utils/assist';
     import { t } from '../../locale';
     import Emitter from '../../mixins/emitter';
 
@@ -507,6 +507,7 @@
             document.addEventListener('keydown', this.handleKeydown);
 
             // watch slot changed
+            // todo 在 child 的 mounted 和 beforeDestroy 里处理
             if (MutationObserver) {
                 this.observer = new MutationObserver(() => {
                     this.modelToQuery();
@@ -590,9 +591,12 @@
                 }
             },
             query (val) {
-                // todo 这里会重复
-                this.broadcast('OptionGroup', 'on-query-change', val);
-                this.broadcast('iOption', 'on-query-change', val);
+                if (findComponentDownward(this, 'OptionGroup')) {
+                    this.broadcast('OptionGroup', 'on-query-change', val);
+                    this.broadcast('iOption', 'on-query-change', val);
+                } else {
+                    this.broadcast('iOption', 'on-query-change', val);
+                }
                 let is_hidden = true;
 
                 this.$nextTick(() => {

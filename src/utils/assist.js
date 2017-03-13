@@ -184,3 +184,32 @@ function findComponentUpward (content, componentName, componentNames) {
     return parent;
 }
 export {findComponentUpward};
+
+// Find components downward
+function findComponentDownward (content, componentName) {
+    let childrens = content.$children;
+    let children = null;
+
+    if (childrens.length) {
+        childrens.forEach(child => {
+            const name = child.$options.name;
+            if (name === componentName) {
+                children = child;
+            }
+        });
+
+        for (let i = 0; i < childrens.length; i++) {
+            const child = childrens[i];
+            const name = child.$options.name;
+            if (name === componentName) {
+                children = child;
+                break;
+            } else {
+                children = findComponentDownward(child, componentName);
+                if (children) break;
+            }
+        }
+    }
+    return children;
+}
+export {findComponentDownward};

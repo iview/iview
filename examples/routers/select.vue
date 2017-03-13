@@ -196,7 +196,16 @@
         <Row>
             <i-col span="12" style="padding-right:10px">
                 <Select v-model="model11" filterable>
-                    <i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>
+                    <Option-group label="123">
+                        <i-option value="beijing">北京市</i-option>
+                        <i-option value="shanghai">上海市</i-option>
+                    </Option-group>
+                    <Option-group label="456">
+                        <i-option value="shenzhen">深圳市</i-option>
+                        <i-option value="hangzhou">杭州市</i-option>
+                    </Option-group>
+                    <i-option value="nanjing">南京市</i-option>
+                    <i-option value="chongqing">重庆市</i-option>
                 </Select>
             </i-col>
             <i-col span="12">
