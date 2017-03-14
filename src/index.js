@@ -116,13 +116,16 @@ const iview = {
     Tree,
     Upload
 };
-
+const defaultOptions = {
+  componentPrefix: 'i'
+}
 const install = function (Vue, opts = {}) {
+    opts = Object.assign(defaultOptions, (opts || {}))
     locale.use(opts.locale);
     locale.i18n(opts.i18n);
 
     Object.keys(iview).forEach((key) => {
-        Vue.component(key, iview[key]);
+        Vue.component(`${opts.componentPrefix.toUpperCase()}${key}`, iview[key]);
     });
 
     Vue.prototype.$Loading = LoadingBar;
