@@ -9,7 +9,7 @@
                 <Cascader :data="formInline.data" v-model="formInline.value2" change-on-select></Cascader>
             </Form-item>
             <Form-item prop="user">
-                <Input v-model="formInline.user">
+                <Input v-model="formInline.user"></Input>
             </Form-item>
             <Form-item>
                 <i-button type="primary" @click.native="handleSubmit('formInline')">登录</i-button>
