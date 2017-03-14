@@ -116,7 +116,7 @@ const iview = {
     Tree,
     Upload
 };
-const defaultOptions = {
+let defaultOptions = {
   componentPrefix: 'i'
 }
 const install = function (Vue, opts = {}) {
