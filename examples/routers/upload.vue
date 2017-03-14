@@ -9,7 +9,7 @@
                 </div>
             </template>
             <template v-else>
-                <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
+                <i-progress v-if="item.showProgress" :percent="item.percentage" hide-info></i-progress>
             </template>
         </div>
         <Upload
