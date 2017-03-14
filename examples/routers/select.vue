@@ -210,7 +210,7 @@
             </i-col>
             <i-col span="12">
                 <Select v-model="model12" filterable multiple>
-                    <i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>
+                    <i-option v-for="item in cityList" :key="item" :value="item.value">{{ item.label }}</i-option>
                 </Select>
             </i-col>
         </Row>

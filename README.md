@@ -82,3 +82,11 @@ Normal browsers and Internet Explorer 9+.
 - [Webpack](https://github.com/webpack/webpack)
 - [ionicons](https://github.com/driftyco/ionicons)
 - [Ant Design](https://github.com/ant-design/ant-design)
+
+## Related open source projects
+In iView, Some of the components and style codes refer to the following projects:
+- [AntDesign](https://github.com/ant-design/ant-design)
+- [Element](https://github.com/ElemeFE/element)
+- [vue-antd](https://github.com/okoala/vue-antd)
+- [vue-beauty](https://github.com/FE-Driver/vue-beauty)
+- [Vux](https://github.com/airyland/vux)

@@ -56,3 +56,5 @@ i-table 改为 Table
 ### Message
 notice.vue 的 key 改为了 name，style 改为 styles
 notification.vue 的 key 改为了 name，style 改为 styles
+## Popper 
+移除了 visible，使用 value 受控，可能涉及到的组件：Poptip、Tooltip

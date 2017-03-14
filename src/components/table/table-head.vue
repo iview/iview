@@ -16,7 +16,7 @@
                             </span>
                             <Poptip
                                 v-if="isPopperShow(column)"
-                                :visible="column._filterVisible"
+                                v-model="column._filterVisible"
                                 placement="bottom"
                                 @on-popper-hide="handleFilterHide(index)">
                                 <span :class="[prefixCls + '-filter']">
@@ -25,7 +25,7 @@
                                 <div slot="content" :class="[prefixCls + '-filter-list']" v-if="column._filterMultiple">
                                     <div :class="[prefixCls + '-filter-list-item']">
                                         <checkbox-group v-model="column._filterChecked">
-                                            <checkbox v-for="item in column.filters" :value="item.value">{{ item.label }}</checkbox>
+                                            <checkbox v-for="item in column.filters" :key="item" :label="item.value">{{ item.label }}</checkbox>
                                         </checkbox-group>
                                     </div>
                                     <div :class="[prefixCls + '-filter-footer']">
