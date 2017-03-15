@@ -12,6 +12,13 @@
                 <Input v-model="formInline.user"></Input>
             </Form-item>
             <Form-item>
+                <Transfer
+                    :data="formInline.data1"
+                    :target-keys="formInline.targetKeys1"
+                    :render-format="render1"
+                    @on-change="handleChange1"></Transfer>
+            </Form-item>
+            <Form-item>
                 <i-button type="primary" @click.native="handleSubmit('formInline')">登录</i-button>
             </Form-item>
         </i-form>
@@ -22,6 +29,8 @@
         data () {
             return {
                 formInline: {
+                    data1: this.getMockData(),
+                    targetKeys1: this.getTargetKeys(),
                     date: new Date(),
                     user: '',
                     value2: [],
@@ -118,6 +127,32 @@
             },
             handleInput (val) {
                 console.log(val)
+            },
+            getMockData () {
+                let mockData = [];
+                for (let i = 1; i <= 20; i++) {
+                    mockData.push({
+                        key: i.toString(),
+                        label: '内容' + i,
+                        description: '内容' + i + '的描述信息',
+                        disabled: Math.random() * 3 < 1
+                    });
+                }
+                return mockData;
+            },
+            getTargetKeys () {
+                return this.getMockData()
+                    .filter(() => Math.random() * 2 > 1)
+                    .map(item => item.key);
+            },
+            render1 (item) {
+                return item.label;
+            },
+            handleChange1 (newTargetKeys, direction, moveKeys) {
+                console.log(newTargetKeys);
+                console.log(direction);
+                console.log(moveKeys);
+                this.formInline.targetKeys1 = newTargetKeys;
             }
         }
     }

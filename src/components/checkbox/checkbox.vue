@@ -18,7 +18,7 @@
                 :checked="currentValue"
                 @change="change">
         </span>
-        <slot v-if="showSlot"><span ref="slot">{{ label }}</span></slot>
+        <slot><span v-if="showSlot">{{ label }}</span></slot>
     </label>
 </template>
 <script>
@@ -89,7 +89,7 @@
             if (this.parent) this.group = true;
             if (!this.group) {
                 this.updateModel();
-                this.showSlot = this.$slots.default === undefined;
+                this.showSlot = this.$slots.default !== undefined;
             }
         },
         methods: {
@@ -103,7 +103,7 @@
                 this.$emit('input', checked);
 
                 if (this.group) {
-                    this.parent.change(this.model);
+                    this.$parent.change(this.model);
                 } else {
                     this.$emit('on-change', checked);
                     this.dispatch('FormItem', 'on-form-change', checked);
