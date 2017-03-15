@@ -4,6 +4,7 @@
     </div>
 </template>
 <script>
+    import { findComponentsDownward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     const prefixCls = 'ivu-checkbox-group';
 
@@ -20,7 +21,8 @@
         },
         data () {
             return {
-                currentValue: this.value
+                currentValue: this.value,
+                childrens: []
             };
         },
         computed: {
@@ -34,15 +36,18 @@
         methods: {
             updateModel (update) {
                 const value = this.value;
+                this.childrens = findComponentsDownward(this, 'Checkbox');
 
-                this.$children.forEach((child) => {
-                    child.model = value;
+                if (this.childrens) {
+                    this.childrens.forEach(child => {
+                        child.model = value;
 
-                    if (update) {
-                        child.currentValue = value.indexOf(child.label) >= 0;
-                        child.group = true;
-                    }
-                });
+                        if (update) {
+                            child.currentValue = value.indexOf(child.label) >= 0;
+                            child.group = true;
+                        }
+                    });
+                }
             },
             change (data) {
                 this.currentValue = data;

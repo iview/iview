@@ -27,9 +27,17 @@
         <div @click="c">修改1</div>
         {{ fruit }}
         <Checkbox-group v-model="fruit">
-            <Checkbox label="香蕉"></Checkbox>
-            <Checkbox label="苹果"></Checkbox>
-            <Checkbox label="西瓜"></Checkbox>
+            <Row>
+                <i-col span="8">
+                    <Checkbox label="香蕉"></Checkbox>
+                </i-col>
+                <i-col span="8">
+                    <Checkbox label="苹果"></Checkbox>
+                </i-col>
+                <i-col span="8">
+                    <Checkbox label="西瓜"></Checkbox>
+                </i-col>
+            </Row>
         </Checkbox-group>
         <br><br>
         <div style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;margin-bottom:6px;">
