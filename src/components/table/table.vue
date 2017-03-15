@@ -173,7 +173,8 @@
                 bodyHeight: 0,
                 bodyRealHeight: 0,
                 scrollBarWidth: getScrollBarSize(),
-                currentContent: this.content
+                currentContent: this.content,
+                cloneData: deepCopy(this.data)    // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
             };
         },
         computed: {
@@ -357,16 +358,16 @@
                     }
                 }
                 this.objData[_index]._isHighlight = true;
-                const oldData = oldIndex < 0 ? null : JSON.parse(JSON.stringify(this.data[oldIndex]));
-                this.$emit('on-current-change', JSON.parse(JSON.stringify(this.data[_index])), oldData);
+                const oldData = oldIndex < 0 ? null : JSON.parse(JSON.stringify(this.cloneData[oldIndex]));
+                this.$emit('on-current-change', JSON.parse(JSON.stringify(this.cloneData[_index])), oldData);
             },
             clickCurrentRow (_index) {
                 this.highlightCurrentRow (_index);
-                this.$emit('on-row-click', JSON.parse(JSON.stringify(this.data[_index])));
+                this.$emit('on-row-click', JSON.parse(JSON.stringify(this.cloneData[_index])));
             },
             dblclickCurrentRow (_index) {
                 this.highlightCurrentRow (_index);
-                this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.data[_index])));
+                this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.cloneData[_index])));
             },
             getSelection () {
                 let selectionIndexes = [];
@@ -663,6 +664,10 @@
                     this.objData = this.makeObjData();
                     this.rebuildData = this.makeDataWithSortAndFilter();
                     this.handleResize();
+                    // here will trigger before clickCurrentRow, so use async
+                    setTimeout(() => {
+                        this.cloneData = deepCopy(this.data);
+                    }, 0);
                 },
                 deep: true
             },
