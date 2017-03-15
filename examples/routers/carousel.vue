@@ -2,7 +2,9 @@
     <div>
         <Carousel v-model="v1" dots="inside" trigger="hover">
             <Carousel-item>
-                <div class="demo-carousel">1</div>
+                <Card>
+                    <div class="demo-carousel">1</div>
+                </Card>
             </Carousel-item>
             <Carousel-item>
                 <div class="demo-carousel">2</div>
