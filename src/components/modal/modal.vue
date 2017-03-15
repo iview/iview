@@ -198,7 +198,7 @@
 
             let showHead = true;
 
-            if (this.$slots.head === undefined && !this.title) {
+            if (this.$slots.header === undefined && !this.title) {
                 showHead = false;
             }
 

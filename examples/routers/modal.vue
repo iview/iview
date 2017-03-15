@@ -1,94 +1,41 @@
 <template>
     <div>
-        <i-button @click.native="instance('info')">消息</i-button>
-        <i-button @click.native="instance('success')">成功</i-button>
-        <i-button @click.native="instance('warning')">警告</i-button>
-        <i-button @click.native="instance('error')">错误</i-button>
+        <i-button @click.native="modal2 = true">自定义页头和页脚</i-button>
+        <Modal v-model="modal2" width="360">
+            <p slot="header" style="color:#f60;text-align:center">
+                <Icon type="information-circled"></Icon>
+                <span>删除确认</span>
+            </p>
+            <div style="text-align:center">
+                <p>此任务删除后，下游 10 个任务将无法执行。</p>
+                <p>是否继续删除？</p>
+            </div>
+            <div slot="footer">
+                <i-button type="error" size="large" long :loading="modal_loading" @click.native="del">删除</i-button>
+            </div>
+        </Modal>
     </div>
 </template>
 <script>
     export default {
+        data () {
+            return {
+                modal2: false,
+                modal_loading: false,
+                modal3: false,
+                modal4: false,
+                modal5: false
+            }
+        },
         methods: {
-            instance (type) {
-                const title = '对话框的标题';
-                const content = '<p>一些对话框内容</p><p>一些对话框内容</p>';
-                switch (type) {
-                    case 'info':
-                        this.$Modal.info({
-                            title: title,
-                            content: content
-                        });
-                        break;
-                    case 'success':
-                        this.$Modal.success({
-                            title: title,
-                            content: content
-                        });
-                        break;
-                    case 'warning':
-                        this.$Modal.warning({
-                            title: title,
-                            content: content
-                        });
-                        break;
-                    case 'error':
-                        this.$Modal.error({
-                            title: title,
-                            content: content
-                        });
-                        break;
-                }
+            del () {
+                this.modal_loading = true;
+                setTimeout(() => {
+                    this.modal_loading = false;
+                    this.modal2 = false;
+                    this.$Message.success('删除成功');
+                }, 2000);
             }
         }
     }
 </script>
-
-
-<!--<template>-->
-    <!--<div>-->
-        <!--<i-button @click.native="confirm">标准</i-button>-->
-        <!--<i-button @click.native="custom">自定义按钮文字</i-button>-->
-        <!--<i-button @click.native="async">异步关闭</i-button>-->
-    <!--</div>-->
-<!--</template>-->
-<!--<script>-->
-    <!--export default {-->
-        <!--methods: {-->
-            <!--confirm () {-->
-                <!--this.$Modal.confirm({-->
-                    <!--title: '确认对话框标题',-->
-                    <!--content: '<p>一些对话框内容</p><p>一些对话框内容</p>',-->
-                    <!--onOk: () => {-->
-                        <!--console.log('确定');-->
-<!--//                        this.$Message.info('点击了确定');-->
-                    <!--},-->
-                    <!--onCancel: () => {-->
-                        <!--console.log('取消');-->
-<!--//                        this.$Message.info('点击了取消');-->
-                    <!--}-->
-                <!--});-->
-            <!--},-->
-            <!--custom () {-->
-                <!--this.$Modal.confirm({-->
-                    <!--title: '确认对话框标题',-->
-                    <!--content: '<p>一些对话框内容</p><p>一些对话框内容</p>',-->
-                    <!--okText: 'OK',-->
-                    <!--cancelText: 'Cancel'-->
-                <!--});-->
-            <!--},-->
-            <!--async () {-->
-                <!--this.$Modal.confirm({-->
-                    <!--title: '确认对话框标题',-->
-                    <!--content: '<p>对话框将在 2秒 后关闭</p>',-->
-                    <!--loading: true,-->
-                    <!--onOk: () => {-->
-                        <!--setTimeout(() => {-->
-                            <!--this.$Modal.remove();-->
-<!--//                            this.$Message.info('异步关闭了对话框');-->
-                        <!--}, 2000);-->
-                    <!--}-->
-                <!--});-->
-            <!--}-->
-        <!--}-->
-    <!--}-->
-<!--</script>-->
