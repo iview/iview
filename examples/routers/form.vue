@@ -13,6 +13,7 @@
             </Form-item>
             <Form-item prop="targetKeys1">
                 <Transfer
+                    filterable
                     :data="formInline.data1"
                     :target-keys="formInline.targetKeys1"
                     :render-format="render1"
@@ -109,6 +110,15 @@
                             required: true,
                             type: 'array',
                             message: '请输入',
+                            trigger: 'change'
+                        }
+                    ],
+                    targetKeys1: [
+                        {
+                            required: true,
+                            type: 'array',
+                            max: 2,
+                            message: '太多了',
                             trigger: 'change'
                         }
                     ]

@@ -120,7 +120,7 @@
                     on: {
                         'on-checked-keys-change': this.handleRightCheckedKeysChange
                     }
-                }, clonedVNodes),
+                }, clonedVNodes)
             ]);
         },
 

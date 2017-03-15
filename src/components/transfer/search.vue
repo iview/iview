@@ -44,14 +44,5 @@
                 this.$emit('on-query-clear');
             }
         }
-        // todo 事件
-//        events: {
-//            'on-form-blur' () {
-//                return false;
-//            },
-//            'on-form-change' () {
-//                return false;
-//            }
-//        }
     };
 </script>
