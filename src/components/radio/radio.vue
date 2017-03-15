@@ -68,7 +68,6 @@
             }
         },
         mounted () {
-            this.parent = findComponentUpward(this, 'RadioGroup');
             if (this.parent) this.group = true;
             if (!this.group) {
                 this.updateValue();
