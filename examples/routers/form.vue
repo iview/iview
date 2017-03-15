@@ -11,7 +11,7 @@
             <Form-item prop="user">
                 <Input v-model="formInline.user"></Input>
             </Form-item>
-            <Form-item>
+            <Form-item prop="targetKeys1">
                 <Transfer
                     :data="formInline.data1"
                     :target-keys="formInline.targetKeys1"
