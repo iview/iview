@@ -4,7 +4,7 @@
     </div>
 </template>
 <script>
-    import { oneOf } from '../../utils/assist';
+    import { oneOf, findComponentsDownward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-radio-group';
@@ -34,7 +34,8 @@
         },
         data () {
             return {
-                currentValue: this.value
+                currentValue: this.value,
+                childrens: []
             };
         },
         computed: {
@@ -55,10 +56,14 @@
         methods: {
             updateValue () {
                 const value = this.value;
-                this.$children.forEach((child) => {
-                    child.currentValue = value == child.label;
-                    child.group = true;
-                });
+                this.childrens = findComponentsDownward(this, 'Radio');
+
+                if (this.childrens) {
+                    this.childrens.forEach(child => {
+                        child.currentValue = value == child.label;
+                        child.group = true;
+                    });
+                }
             },
             change (data) {
                 this.currentValue = data.value;
