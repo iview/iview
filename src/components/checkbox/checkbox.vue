@@ -18,10 +18,11 @@
                 :checked="currentValue"
                 @change="change">
         </span>
-        <slot v-if="showSlot"><span ref="slot">{{ label }}</span></slot>
+        <slot><span v-if="showSlot">{{ label }}</span></slot>
     </label>
 </template>
 <script>
+    import { findComponentUpward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-checkbox';
@@ -51,7 +52,8 @@
                 model: [],
                 currentValue: this.value,
                 group: false,
-                showSlot: true
+                showSlot: true,
+                parent: findComponentUpward(this, 'CheckboxGroup')
             };
         },
         computed: {
@@ -83,16 +85,11 @@
             }
         },
         mounted () {
-            // todo 使用 while向上查找
-            if (this.$parent && this.$parent.$options.name === 'CheckboxGroup') this.group = true;
+            this.parent = findComponentUpward(this, 'CheckboxGroup');
+            if (this.parent) this.group = true;
             if (!this.group) {
                 this.updateModel();
-//                if (this.$refs.slot && this.$refs.slot.innerHTML === '') {
-//                    this.showSlot = false;
-//                }
-                if (this.$slots.default === undefined) {
-                    this.showSlot = false;
-                }
+                this.showSlot = this.$slots.default !== undefined;
             }
         },
         methods: {

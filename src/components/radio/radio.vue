@@ -12,6 +12,7 @@
     </label>
 </template>
 <script>
+    import { findComponentUpward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-radio';
@@ -35,7 +36,8 @@
         data () {
             return {
                 currentValue: this.value,
-                group: false
+                group: false,
+                parent: findComponentUpward(this, 'RadioGroup')
             };
         },
         computed: {
@@ -66,8 +68,7 @@
             }
         },
         mounted () {
-            // todo 使用 while向上查找
-            if (this.$parent && this.$parent.$options.name === 'RadioGroup') this.group = true;
+            if (this.parent) this.group = true;
             if (!this.group) {
                 this.updateValue();
             }
@@ -83,7 +84,7 @@
                 this.$emit('input', checked);
 
                 if (this.group && this.label) {
-                    this.$parent.change({
+                    this.parent.change({
                         value: this.label,
                         checked: this.value
                     });

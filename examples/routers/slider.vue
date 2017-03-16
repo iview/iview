@@ -6,8 +6,8 @@
         {{ value1 }}{{value2}}
         <div @click="value1 = 13">change value1</div>
         <br>
-        <Slider :value="value9" :tip-format="format"></Slider>
-        <Slider :value="value10" :tip-format="hideFormat"></Slider>
+        <Slider v-model="value9" :tip-format="format"></Slider>
+        <Slider v-model="value10" :tip-format="hideFormat"></Slider>
     </div>
 </template>
 <script>

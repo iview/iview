@@ -17,7 +17,7 @@
 <script>
     import Drop from '../select/dropdown.vue';
     import Icon from '../icon/icon.vue';
-    import { getStyle } from '../../utils/assist';
+    import { getStyle, findComponentUpward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-menu';
@@ -41,7 +41,8 @@
                 prefixCls: prefixCls,
                 active: false,
                 opened: false,
-                dropWidth: parseFloat(getStyle(this.$el, 'width'))
+                dropWidth: parseFloat(getStyle(this.$el, 'width')),
+                parent: findComponentUpward(this, 'Menu')
             };
         },
         computed: {
@@ -56,12 +57,10 @@
                 ];
             },
             mode () {
-                // todo while
-                return this.$parent.mode;
+                return this.parent.mode;
             },
             accordion () {
-                // todo while
-                return this.$parent.accordion;
+                return this.parent.accordion;
             },
             dropStyle () {
                 let style = {};
@@ -77,8 +76,7 @@
 
                 clearTimeout(this.timeout);
                 this.timeout = setTimeout(() => {
-                    // todo while
-                    this.$parent.updateOpenKeys(this.name);
+                    this.parent.updateOpenKeys(this.name);
                     this.opened = true;
                 }, 250);
             },
@@ -88,8 +86,7 @@
 
                 clearTimeout(this.timeout);
                 this.timeout = setTimeout(() => {
-                    // todo while
-                    this.$parent.updateOpenKeys(this.name);
+                    this.parent.updateOpenKeys(this.name);
                     this.opened = false;
                 }, 150);
             },
@@ -98,14 +95,12 @@
                 if (this.mode === 'horizontal') return;
                 const opened = this.opened;
                 if (this.accordion) {
-                    // todo while
-                    this.$parent.$children.forEach(item => {
+                    this.parent.$children.forEach(item => {
                         if (item.$options.name === 'Submenu') item.opened = false;
                     });
                 }
                 this.opened = !opened;
-                // todo while
-                this.$parent.updateOpenKeys(this.name);
+                this.parent.updateOpenKeys(this.name);
             }
         },
         watch: {

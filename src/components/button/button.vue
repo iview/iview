@@ -1,5 +1,5 @@
 <template>
-    <button :type="htmlType" :class="classes" :disabled="disabled">
+    <button :type="htmlType" :class="classes" :disabled="disabled" @click="handleClick">
         <Icon class="ivu-load-loop" type="load-c" v-if="loading"></Icon>
         <Icon :type="icon" v-if="icon && !loading"></Icon>
         <span v-if="showSlot" ref="slot"><slot></slot></span>
@@ -64,8 +64,13 @@
                 ];
             }
         },
+        methods: {
+            handleClick (event) {
+                this.$emit('click', event);
+            }
+        },
         mounted () {
-            this.showSlot = this.$refs.slot.innerHTML.replace(/\n/g, '').replace(/<!--[\w\W\r\n]*?-->/gmi, '') !== '';
+            this.showSlot = this.$slots.default !== undefined;
         }
     };
 </script>

@@ -48,7 +48,6 @@
         },
         methods: {
             toggle () {
-                // todo while向上查找
                 this.$parent.toggle({
                     name: this.name || this.index,
                     isActive: this.isActive

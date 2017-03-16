@@ -67,8 +67,8 @@
                 return cloned;
             }
 
-            const vNodes = this.$slots.default;
-            const clonedVNodes = vNodes.map(vnode => cloneVNode(vnode));
+            const vNodes = this.$slots.default === undefined ? [] : this.$slots.default;
+            const clonedVNodes = this.$slots.default === undefined ? [] : vNodes.map(vnode => cloneVNode(vnode));
 
             return createElement('div', {
                 'class': this.classes
@@ -120,7 +120,7 @@
                     on: {
                         'on-checked-keys-change': this.handleRightCheckedKeysChange
                     }
-                }, clonedVNodes),
+                }, clonedVNodes)
             ]);
         },
 

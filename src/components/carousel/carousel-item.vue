@@ -25,11 +25,9 @@
             }
         },
         mounted () {
-            // todo while
             this.$parent.slotChange();
         },
         beforeDestroy () {
-            // todo while
             this.$parent.slotChange();
         }
     };

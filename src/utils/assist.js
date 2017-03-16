@@ -185,9 +185,9 @@ function findComponentUpward (content, componentName, componentNames) {
 }
 export {findComponentUpward};
 
-// Find components downward
+// Find component downward
 function findComponentDownward (content, componentName) {
-    let childrens = content.$children;
+    const childrens = content.$children;
     let children = null;
 
     if (childrens.length) {
@@ -213,3 +213,23 @@ function findComponentDownward (content, componentName) {
     return children;
 }
 export {findComponentDownward};
+
+// Find components downward
+function findComponentsDownward (content, componentName, components = []) {
+    const childrens = content.$children;
+
+    if (childrens.length) {
+        childrens.forEach(child => {
+            const name = child.$options.name;
+            const childs = child.$children;
+
+            if (name === componentName) components.push(child);
+            if (childs.length) {
+                const findChilds = findComponentsDownward(child, componentName, components);
+                if (findChilds) components.concat(findChilds);
+            }
+        });
+    }
+    return components;
+}
+export {findComponentsDownward};
