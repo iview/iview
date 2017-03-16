@@ -1,6 +1,7 @@
 /**
  * 公共配置
  */
+var version = require('../package.json').version;
 var webpack = require('webpack');
 var path = require('path');
 function resolve (dir) {
@@ -64,5 +65,10 @@ module.exports = {
           'vue': 'vue/dist/vue.esm.js',
           '@': resolve('src')
         }
-    }
+    },
+    plugins: [
+        new webpack.DefinePlugin({
+            'IVIEW_VERSION': JSON.stringify(version)
+        })
+    ]
 };
