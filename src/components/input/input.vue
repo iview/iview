@@ -141,17 +141,17 @@
             }
         },
         methods: {
-            handleEnter () {
-                this.$emit('on-enter');
+            handleEnter (event) {
+                this.$emit('on-enter', event);
             },
-            handleIconClick () {
-                this.$emit('on-click');
+            handleIconClick (event) {
+                this.$emit('on-click', event);
             },
-            handleFocus () {
-                this.$emit('on-focus');
+            handleFocus (event) {
+                this.$emit('on-focus', event);
             },
-            handleBlur () {
-                this.$emit('on-blur');
+            handleBlur (event) {
+                this.$emit('on-blur', event);
                 if (!findComponentUpward(this, ['DatePicker', 'TimePicker', 'Cascader', 'Search'])) {
                     this.dispatch('FormItem', 'on-form-blur', this.currentValue);
                 }

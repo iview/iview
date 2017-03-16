@@ -84,6 +84,7 @@ const iview = {
     Message,
     Modal,
     Notice,
+    Option: Option,
     iOption: Option,
     OptionGroup,
     Page,
