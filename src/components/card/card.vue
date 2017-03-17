@@ -22,10 +22,7 @@
                 type: Boolean,
                 default: false
             },
-            padding: {
-                type: Boolean,
-                default: true
-            }
+            padding: Number
         },
         data () {
             return {
@@ -54,9 +51,11 @@
                 return `${prefixCls}-body`;
             },
             bodyStyles () {
-                if (!this.padding) {
+                let padding = this.padding
+                if (this.padding !== undefined) {
+                    padding += 'px'
                     return {
-                        padding: 0
+                        padding
                     };
                 }
                 return '';
