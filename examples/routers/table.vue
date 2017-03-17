@@ -1,5 +1,11 @@
 <template>
-    <i-table border :content="self" :columns="columns7" :data="data6"></i-table>
+    <div>
+        <Row>
+            <i-col span="12">
+                <i-table border :content="self" :columns="columns7" :data="data6" :context="self"></i-table>
+            </i-col>
+        </Row>
+    </div>
 </template>
 <script>
     export default {

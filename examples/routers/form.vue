@@ -2,16 +2,16 @@
     <div>
         date: {{ formInline.date }}
         <i-form ref="formInline" :model="formInline" :rules="ruleInline">
-            <Form-item prop="date">
+            <Form-item prop="date" label="日期">
                 <Date-picker type="date" placeholder="选择日期" v-model="formInline.date"></Date-picker>
             </Form-item>
-            <Form-item prop="value2">
+            <Form-item prop="value2" label="级联选择">
                 <Cascader :data="formInline.data" v-model="formInline.value2" change-on-select></Cascader>
             </Form-item>
-            <Form-item prop="user">
+            <Form-item prop="user" label="输入框">
                 <Input v-model="formInline.user"></Input>
             </Form-item>
-            <Form-item prop="targetKeys1">
+            <Form-item prop="targetKeys1" label="穿梭框">
                 <Transfer
                     filterable
                     :data="formInline.data1"
