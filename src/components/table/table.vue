@@ -142,7 +142,7 @@
                     return '';
                 }
             },
-            content: {
+            context: {
                 type: Object
             },
             noDataText: {
@@ -173,7 +173,7 @@
                 bodyHeight: 0,
                 bodyRealHeight: 0,
                 scrollBarWidth: getScrollBarSize(),
-                currentContent: this.content,
+                currentContext: this.context,
                 cloneData: deepCopy(this.data)    // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
             };
         },
@@ -644,7 +644,7 @@
             }
         },
         created () {
-            if (!this.content) this.currentContent = this.$parent;
+            if (!this.context) this.currentContext = this.$parent;
             this.showSlotHeader = this.$refs.title !== undefined;
             this.showSlotFooter = this.$refs.footer !== undefined;
             this.rebuildData = this.makeDataWithSortAndFilter();

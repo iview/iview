@@ -31,7 +31,7 @@
             return {
                 renderType: '',
                 uid: -1,
-                content: this.$parent.$parent.currentContent
+                context: this.$parent.$parent.currentContext
             };
         },
         computed: {
@@ -48,7 +48,7 @@
         methods: {
             compile () {
                 if (this.column.render) {
-                    const $parent = this.content;
+                    const $parent = this.context;
                     const template = this.column.render(this.row, this.column, this.index);
                     const cell = document.createElement('div');
                     cell.innerHTML = template;
