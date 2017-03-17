@@ -51,11 +51,11 @@
                 return `${prefixCls}-body`;
             },
             bodyStyles () {
-                let padding = this.padding
+                let padding = this.padding;
                 if (this.padding !== undefined) {
-                    padding += 'px'
+                    padding += 'px';
                     return {
-                        padding
+                        padding,
                     };
                 }
                 return '';
