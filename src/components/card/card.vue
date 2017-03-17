@@ -2,7 +2,7 @@
     <div :class="classes">
         <div :class="headClasses" v-if="showHead"><slot name="title"></slot></div>
         <div :class="extraClasses" v-if="showExtra"><slot name="extra"></slot></div>
-        <div :class="bodyClasses"><slot></slot></div>
+        <div :class="bodyClasses" :style="bodyStyles"><slot></slot></div>
     </div>
 </template>
 <script>
@@ -21,6 +21,10 @@
             shadow: {
                 type: Boolean,
                 default: false
+            },
+            padding: {
+                type: Boolean,
+                default: true
             }
         },
         data () {
@@ -48,6 +52,14 @@
             },
             bodyClasses () {
                 return `${prefixCls}-body`;
+            },
+            bodyStyles () {
+                if (!this.padding) {
+                    return {
+                        padding: 0
+                    };
+                }
+                return '';
             }
         },
         mounted () {
