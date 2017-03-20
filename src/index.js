@@ -69,6 +69,7 @@ const iview = {
     DropdownMenu: Dropdown.Menu,
     iForm: Form,
     FormItem: Form.Item,
+    Col,
     iCol: Col,
     Collapse,
     Icon,
