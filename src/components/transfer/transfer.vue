@@ -1,12 +1,13 @@
-<template>
+<!-- <template>
     <div :class="classes">
         <List
-            v-ref:left
+            ref="left"
             :prefix-cls="prefixCls + '-list'"
             :data="leftData"
             :render-format="renderFormat"
-            :checked-keys.sync="leftCheckedKeys"
-            :valid-keys-count.sync="leftValidKeysCount"
+            :checked-keys="leftCheckedKeys"
+            @on-checked-keys-change="handleLeftCheckedKeysChange"
+            :valid-keys-count="leftValidKeysCount"
             :style="listStyle"
             :title="titles[0]"
             :filterable="filterable"
@@ -14,17 +15,21 @@
             :filter-method="filterMethod"
             :not-found-text="notFoundText">
             <slot></slot>
-        </List><Operation
+        </List>
+        <Operation
             :prefix-cls="prefixCls"
             :operations="operations"
             :left-active="leftValidKeysCount > 0"
-            :right-active="rightValidKeysCount > 0"></Operation><List
-            v-ref:right
+            :right-active="rightValidKeysCount > 0">
+        </Operation>
+        <List
+            ref="right"
             :prefix-cls="prefixCls + '-list'"
             :data="rightData"
             :render-format="renderFormat"
-            :checked-keys.sync="rightCheckedKeys"
-            :valid-keys-count.sync="rightValidKeysCount"
+            :checked-keys="rightCheckedKeys"
+            @on-checked-keys-change="handleRightCheckedKeysChange"
+            :valid-keys-count="rightValidKeysCount"
             :style="listStyle"
             :title="titles[1]"
             :filterable="filterable"
@@ -34,15 +39,91 @@
             <slot></slot>
         </List>
     </div>
-</template>
+</template> -->
 <script>
     import List from './list.vue';
     import Operation from './operation.vue';
     import { t } from '../../locale';
+    import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-transfer';
 
     export default {
+        mixins: [ Emitter ],
+        render (createElement) {
+
+            function cloneVNode (vnode) {
+                const clonedChildren = vnode.children && vnode.children.map(vnode => cloneVNode(vnode));
+                const cloned = createElement(vnode.tag, vnode.data, clonedChildren);
+                cloned.text = vnode.text;
+                cloned.isComment = vnode.isComment;
+                cloned.componentOptions = vnode.componentOptions;
+                cloned.elm = vnode.elm;
+                cloned.context = vnode.context;
+                cloned.ns = vnode.ns;
+                cloned.isStatic = vnode.isStatic;
+                cloned.key = vnode.key;
+
+                return cloned;
+            }
+
+            const vNodes = this.$slots.default === undefined ? [] : this.$slots.default;
+            const clonedVNodes = this.$slots.default === undefined ? [] : vNodes.map(vnode => cloneVNode(vnode));
+
+            return createElement('div', {
+                'class': this.classes
+            }, [
+                createElement('List', {
+                    ref: 'left',
+                    props: {
+                        prefixCls: this.prefixCls + '-list',
+                        data: this.leftData,
+                        renderFormat: this.renderFormat,
+                        checkedKeys: this.leftCheckedKeys,
+                        validKeysCount: this.leftValidKeysCount,
+                        style: this.listStyle,
+                        title: this.titles[0],
+                        filterable: this.filterable,
+                        filterPlaceholder: this.filterPlaceholder,
+                        filterMethod: this.filterMethod,
+                        notFoundText: this.notFoundText
+                    },
+                    on: {
+                        'on-checked-keys-change': this.handleLeftCheckedKeysChange
+                    }
+                }, vNodes),
+
+                createElement('Operation', {
+                    props: {
+                        prefixCls: this.prefixCls,
+                        operations: this.operations,
+                        leftActive: this.leftValidKeysCount > 0,
+                        rightActive: this.rightValidKeysCount > 0
+                    }
+                }),
+
+                createElement('List', {
+                    ref: 'right',
+                    props: {
+                        prefixCls: this.prefixCls + '-list',
+                        data: this.rightData,
+                        renderFormat: this.renderFormat,
+                        checkedKeys: this.rightCheckedKeys,
+                        validKeysCount: this.rightValidKeysCount,
+                        style: this.listStyle,
+                        title: this.titles[1],
+                        filterable: this.filterable,
+                        filterPlaceholder: this.filterPlaceholder,
+                        filterMethod: this.filterMethod,
+                        notFoundText: this.notFoundText
+                    },
+                    on: {
+                        'on-checked-keys-change': this.handleRightCheckedKeysChange
+                    }
+                }, clonedVNodes)
+            ]);
+        },
+
         components: { List, Operation },
         props: {
             data: {
@@ -177,7 +258,17 @@
 
                 this.$refs[opposite].toggleSelectAll(false);
                 this.$emit('on-change', newTargetKeys, direction, moveKeys);
-                this.$dispatch('on-form-change', newTargetKeys, direction, moveKeys);
+                this.dispatch('FormItem', 'on-form-change', {
+                    tarketKeys: newTargetKeys,
+                    direction: direction,
+                    moveKeys: moveKeys
+                });
+            },
+            handleLeftCheckedKeysChange (keys) {
+                this.leftCheckedKeys = keys;
+            },
+            handleRightCheckedKeysChange (keys) {
+                this.rightCheckedKeys = keys;
             }
         },
         watch: {

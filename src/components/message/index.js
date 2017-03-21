@@ -7,7 +7,7 @@ const prefixKey = 'ivu_message_key_';
 let defaultDuration = 1.5;
 let top;
 let messageInstance;
-let key = 1;
+let name = 1;
 
 const iconTypes = {
     'info': 'information-circled',
@@ -20,7 +20,7 @@ const iconTypes = {
 function getMessageInstance () {
     messageInstance = messageInstance || Notification.newInstance({
         prefixCls: prefixCls,
-        style: {
+        styles: {
             top: `${top}px`
         }
     });
@@ -42,9 +42,9 @@ function notice (content, duration = defaultDuration, type, onClose) {
     let instance = getMessageInstance();
 
     instance.notice({
-        key: `${prefixKey}${key}`,
+        name: `${prefixKey}${name}`,
         duration: duration,
-        style: {},
+        styles: {},
         transitionName: 'move-up',
         content: `
             <div class="${prefixCls}-custom-content ${prefixCls}-${type}">
@@ -57,7 +57,7 @@ function notice (content, duration = defaultDuration, type, onClose) {
 
     // 用于手动消除
     return (function () {
-        let target = key++;
+        let target = name++;
 
         return function () {
             instance.remove(`${prefixKey}${target}`);

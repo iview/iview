@@ -7,6 +7,7 @@
     const prefixCls = 'ivu-timeline';
 
     export default {
+        name: 'Timeline',
         props: {
             pending: {
                 type: Boolean,

@@ -29,6 +29,7 @@
 </template>
 <script>
     import { oneOf } from '../../utils/assist';
+    import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-input-number';
     const iconPrefixCls = 'ivu-icon';
@@ -61,6 +62,8 @@
     }
 
     export default {
+        name: 'InputNumber',
+        mixins: [ Emitter ],
         props: {
             max: {
                 type: Number,
@@ -92,7 +95,8 @@
             return {
                 focused: false,
                 upDisabled: false,
-                downDisabled: false
+                downDisabled: false,
+                currentValue: this.value
             };
         },
         computed: {
@@ -164,7 +168,7 @@
                 }
 
                 const targetVal = Number(e.target.value);
-                let val = Number(this.value);
+                let val = Number(this.currentValue);
                 const step = Number(this.step);
                 if (isNaN(val)) {
                     return false;
@@ -196,9 +200,10 @@
             },
             setValue (val) {
                 this.$nextTick(() => {
-                    this.value = val;
+                    this.currentValue = val;
+                    this.$emit('input', val);
                     this.$emit('on-change', val);
-                    this.$dispatch('on-form-change', val);
+                    this.dispatch('FormItem', 'on-form-change', val);
                 });
             },
             focus () {
@@ -224,7 +229,7 @@
 
                 if (isValueNumber(val)) {
                     val = Number(val);
-                    this.value = val;
+                    this.currentValue = val;
 
                     if (val > max) {
                         this.setValue(max);
@@ -234,7 +239,7 @@
                         this.setValue(val);
                     }
                 } else {
-                    event.target.value = this.value;
+                    event.target.value = this.currentValue;
                 }
             },
             changeVal (val) {
@@ -250,11 +255,14 @@
                 }
             }
         },
-        compiled () {
-            this.changeVal(this.value);
+        mounted () {
+            this.changeVal(this.currentValue);
         },
         watch: {
             value (val) {
+                this.currentValue = val;
+            },
+            currentValue (val) {
                 this.changeVal(val);
             }
         }

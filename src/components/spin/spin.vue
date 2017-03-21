@@ -1,10 +1,12 @@
 <template>
-    <div :class="classes" transition="fade">
-        <div :class="mainClasses">
-            <span :class="dotClasses"></span>
-            <div :class="textClasses" v-el:text><slot></slot></div>
+    <transition name="fade">
+        <div :class="classes">
+            <div :class="mainClasses">
+                <span :class="dotClasses"></span>
+                <div :class="textClasses"><slot></slot></div>
+            </div>
         </div>
-    </div>
+    </transition>
 </template>
 <script>
     import { oneOf } from '../../utils/assist';
@@ -12,6 +14,7 @@
     const prefixCls = 'ivu-spin';
 
     export default {
+        name: 'Spin',
         props: {
             size: {
                 validator (value) {
@@ -49,12 +52,8 @@
                 return `${prefixCls}-text`;
             }
         },
-        compiled () {
-            const text = this.$els.text.innerHTML;
-
-            if (text != '') {
-                this.showText = true;
-            }
+        mounted () {
+            this.showText = this.$slots.default !== undefined;
         }
     };
 </script>

@@ -1,10 +1,12 @@
 <template>
-    <div :class="classes" :style="style" :transition="transitionName">
-        <div :class="[baseClass + '-content']" v-el:content>{{{ content }}}</div>
-        <a :class="[baseClass + '-close']" @click="close" v-if="closable">
-            <i class="ivu-icon ivu-icon-ios-close-empty"></i>
-        </a>
-    </div>
+    <transition :name="transitionName">
+        <div :class="classes" :style="styles">
+            <div :class="[baseClass + '-content']" ref="content" v-html="content"></div>
+            <a :class="[baseClass + '-close']" @click="close" v-if="closable">
+                <i class="ivu-icon ivu-icon-ios-close-empty"></i>
+            </a>
+        </div>
+    </transition>
 </template>
 <script>
     export default {
@@ -21,7 +23,7 @@
                 type: String,
                 default: ''
             },
-            style: {
+            styles: {
                 type: Object,
                 default: function() {
                     return {
@@ -36,7 +38,7 @@
             className: {
                 type: String
             },
-            key: {
+            name: {
                 type: String,
                 required: true
             },
@@ -80,10 +82,10 @@
             close () {
                 this.clearCloseTimer();
                 this.onClose();
-                this.$parent.close(this.key);
+                this.$parent.close(this.name);
             }
         },
-        compiled () {
+        mounted () {
             this.clearCloseTimer();
 
             if (this.duration !== 0) {
@@ -94,7 +96,7 @@
 
             // check if with desc in Notice component
             if (this.prefixCls === 'ivu-notice') {
-                this.withDesc = this.$els.content.querySelectorAll(`.${this.prefixCls}-desc`)[0].innerHTML !== '';
+                this.withDesc = this.$refs.content.querySelectorAll(`.${this.prefixCls}-desc`)[0].innerHTML !== '';
             }
         },
         beforeDestroy () {

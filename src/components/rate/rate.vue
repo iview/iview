@@ -7,18 +7,19 @@
             @click="handleClick(item)">
             <span :class="[prefixCls + '-star-content']" type="half"></span>
         </div>
-        <div :class="[prefixCls + '-text']" v-if="showText" v-show="value > 0">
-            <slot>{{ value }} <template v-if="value <= 1">{{ t('i.rate.star') }}</template><template v-else>{{ t('i.rate.stars') }}</template></slot>
+        <div :class="[prefixCls + '-text']" v-if="showText" v-show="currentValue > 0">
+            <slot>{{ currentValue }} <template v-if="currentValue <= 1">{{ t('i.rate.star') }}</template><template v-else>{{ t('i.rate.stars') }}</template></slot>
         </div>
     </div>
 </template>
 <script>
     import Locale from '../../mixins/locale';
+    import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-rate';
 
     export default {
-        mixins: [ Locale ],
+        mixins: [ Locale, Emitter ],
         props: {
             count: {
                 type: Number,
@@ -46,7 +47,8 @@
                 prefixCls: prefixCls,
                 hoverIndex: -1,
                 isHover: false,
-                isHalf: false
+                isHalf: false,
+                currentValue: this.value
             };
         },
         computed: {
@@ -60,27 +62,27 @@
             }
         },
         watch: {
-            value: {
-                immediate: true,
-                handler (val) {
-                    this.setHalf(val);
-                }
+            value (val) {
+                this.currentValue = val;
+            },
+            currentValue (val) {
+                this.setHalf(val);
             }
         },
         methods: {
             starCls (value) {
                 const hoverIndex = this.hoverIndex;
-                const currentIndex = this.isHover ? hoverIndex : this.value;
+                const currentIndex = this.isHover ? hoverIndex : this.currentValue;
 
                 let full = false;
                 let isLast = false;
 
-                if (currentIndex > value) full = true;
+                if (currentIndex >= value) full = true;
 
                 if (this.isHover) {
-                    isLast = currentIndex === value + 1;
+                    isLast = currentIndex === value;
                 } else {
-                    isLast = Math.ceil(this.value) === value + 1;
+                    isLast = Math.ceil(this.currentValue) === value;
                 }
 
                 return [
@@ -102,13 +104,13 @@
                 } else {
                     this.isHalf = false;
                 }
-                this.hoverIndex = value + 1;
+                this.hoverIndex = value;
             },
             handleMouseleave () {
                 if (this.disabled) return;
 
                 this.isHover = false;
-                this.setHalf(this.value);
+                this.setHalf(this.currentValue);
                 this.hoverIndex = -1;
             },
             setHalf (val) {
@@ -116,11 +118,12 @@
             },
             handleClick (value) {
                 if (this.disabled) return;
-                value++;
+//                 value++;
                 if (this.isHalf) value -= 0.5;
-                this.value = value;
+                this.currentValue = value;
+                this.$emit('input', value);
                 this.$emit('on-change', value);
-                this.$dispatch('on-form-change', value);
+                this.dispatch('FormItem', 'on-form-change', value);
             }
         }
     };

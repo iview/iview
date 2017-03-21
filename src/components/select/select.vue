@@ -2,11 +2,11 @@
     <div :class="classes" v-clickoutside="handleClose">
         <div
             :class="[prefixCls + '-selection']"
-            v-el:reference
+            ref="reference"
             @click="toggleMenu">
-            <div class="ivu-tag" v-for="item in selectedMultiple">
+            <div class="ivu-tag" v-for="(item, index) in selectedMultiple">
                 <span class="ivu-tag-text">{{ item.label }}</span>
-                <Icon type="ios-close-empty" @click.stop="removeTag($index)"></Icon>
+                <Icon type="ios-close-empty" @click.native.stop="removeTag(index)"></Icon>
             </div>
             <span :class="[prefixCls + '-placeholder']" v-show="showPlaceholder && !filterable">{{ placeholder }}</span>
             <span :class="[prefixCls + '-selected-value']" v-show="!showPlaceholder && !multiple && !filterable">{{ selectedSingle }}</span>
@@ -20,31 +20,35 @@
                 @blur="handleBlur"
                 @keydown="resetInputState"
                 @keydown.delete="handleInputDelete"
-                v-el:input>
-            <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.stop="clearSingleSelect"></Icon>
+                ref="input">
+            <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSingleSelect"></Icon>
             <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']"></Icon>
         </div>
-        <Dropdown v-show="visible" transition="slide-up" v-ref:dropdown>
-            <ul v-show="notFound" :class="[prefixCls + '-not-found']"><li>{{ notFoundText }}</li></ul>
-            <ul v-else :class="[prefixCls + '-dropdown-list']" v-el:options><slot></slot></ul>
-        </Dropdown>
+        <transition name="slide-up">
+            <Drop v-show="visible" ref="dropdown">
+                <ul v-show="notFound" :class="[prefixCls + '-not-found']"><li>{{ notFoundText }}</li></ul>
+                <ul v-show="!notFound" :class="[prefixCls + '-dropdown-list']" ref="options"><slot></slot></ul>
+            </Drop>
+        </transition>
     </div>
 </template>
 <script>
     import Icon from '../icon';
-    import Dropdown from './dropdown.vue';
+    import Drop from './dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
-    import { oneOf, MutationObserver } from '../../utils/assist';
+    import { oneOf, MutationObserver, findComponentDownward } from '../../utils/assist';
     import { t } from '../../locale';
+    import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-select';
 
     export default {
         name: 'iSelect',
-        components: { Icon, Dropdown },
+        mixins: [ Emitter ],
+        components: { Icon, Drop },
         directives: { clickoutside },
         props: {
-            model: {
+            value: {
                 type: [String, Number, Array],
                 default: ''
             },
@@ -101,7 +105,8 @@
                 query: '',
                 inputLength: 20,
                 notFound: false,
-                slotChangeDuration: false    // if slot change duration and in multiple, set true and after slot change, set false
+                slotChangeDuration: false,    // if slot change duration and in multiple, set true and after slot change, set false
+                model: this.value
             };
         },
         computed: {
@@ -161,7 +166,7 @@
             hideMenu () {
                 this.visible = false;
                 this.focusIndex = 0;
-                this.$broadcast('on-select-close');
+                this.broadcast('iOption', 'on-select-close');
             },
             // find option component
             findChild (cb) {
@@ -289,10 +294,10 @@
                 this.model.splice(index, 1);
 
                 if (this.filterable && this.visible) {
-                    this.$els.input.focus();
+                    this.$refs.input.focus();
                 }
 
-                this.$broadcast('on-update-popper');
+                this.broadcast('Drop', 'on-update-popper');
             },
             // to select option for single
             toggleSingleSelected (value, init = false) {
@@ -316,13 +321,13 @@
                                 value: value,
                                 label: label
                             });
-                            this.$dispatch('on-form-change', {
+                            this.dispatch('FormItem', 'on-form-change', {
                                 value: value,
                                 label: label
                             });
                         } else {
                             this.$emit('on-change', value);
-                            this.$dispatch('on-form-change', value);
+                            this.dispatch('FormItem', 'on-form-change', value);
                         }
                     }
                 }
@@ -351,10 +356,10 @@
                     if (!init) {
                         if (this.labelInValue) {
                             this.$emit('on-change', hybridValue);
-                            this.$dispatch('on-form-change', hybridValue);
+                            this.dispatch('FormItem', 'on-form-change', hybridValue);
                         } else {
                             this.$emit('on-change', value);
-                            this.$dispatch('on-form-change', value);
+                            this.dispatch('FormItem', 'on-form-change', value);
                         }
                     }
                 }
@@ -463,7 +468,7 @@
                 }, 300);
             },
             resetInputState () {
-                this.inputLength = this.$els.input.value.length * 12 + 20;
+                this.inputLength = this.$refs.input.value.length * 12 + 20;
             },
             handleInputDelete () {
                 if (this.multiple && this.model.length && this.query === '') {
@@ -495,13 +500,14 @@
                 }
             }
         },
-        compiled () {
+        mounted () {
             this.modelToQuery();
 
             this.updateOptions(true);
             document.addEventListener('keydown', this.handleKeydown);
 
             // watch slot changed
+            // todo 在 child 的 mounted 和 beforeDestroy 里处理
             if (MutationObserver) {
                 this.observer = new MutationObserver(() => {
                     this.modelToQuery();
@@ -509,13 +515,44 @@
                     this.updateOptions(true, true);
                 });
 
-                this.observer.observe(this.$els.options, {
+                this.observer.observe(this.$refs.options, {
 //                attributes: true,
                     childList: true,
                     characterData: true,
                     subtree: true
                 });
             }
+
+            this.$on('on-select-selected', (value) => {
+                if (this.model === value) {
+                    this.hideMenu();
+                } else {
+                    if (this.multiple) {
+                        const index = this.model.indexOf(value);
+                        if (index >= 0) {
+                            this.removeTag(index);
+                        } else {
+                            this.model.push(value);
+                            this.broadcast('Drop', 'on-update-popper');
+                        }
+
+                        if (this.filterable) {
+                            this.query = '';
+                            this.$refs.input.focus();
+                        }
+                    } else {
+                        this.model = value;
+
+                        if (this.filterable) {
+                            this.findChild((child) => {
+                                if (child.value === value) {
+                                    this.query = child.label === undefined ? child.searchLabel : child.label;
+                                }
+                            });
+                        }
+                    }
+                }
+            });
         },
         beforeDestroy () {
             document.removeEventListener('keydown', this.handleKeydown);
@@ -524,7 +561,11 @@
             }
         },
         watch: {
+            value (val) {
+                this.model = val;
+            },
             model () {
+                this.$emit('input', this.model);
                 this.modelToQuery();
                 if (this.multiple) {
                     if (this.slotChangeDuration) {
@@ -539,18 +580,23 @@
             visible (val) {
                 if (val) {
                     if (this.multiple && this.filterable) {
-                        this.$els.input.focus();
+                        this.$refs.input.focus();
                     }
-                    this.$broadcast('on-update-popper');
+                    this.broadcast('Drop', 'on-update-popper');
                 } else {
                     if (this.filterable) {
-                        this.$els.input.blur();
+                        this.$refs.input.blur();
                     }
-                    this.$broadcast('on-destroy-popper');
+                    this.broadcast('Drop', 'on-destroy-popper');
                 }
             },
             query (val) {
-                this.$broadcast('on-query-change', val);
+                if (findComponentDownward(this, 'OptionGroup')) {
+                    this.broadcast('OptionGroup', 'on-query-change', val);
+                    this.broadcast('iOption', 'on-query-change', val);
+                } else {
+                    this.broadcast('iOption', 'on-query-change', val);
+                }
                 let is_hidden = true;
 
                 this.$nextTick(() => {
@@ -561,39 +607,7 @@
                     });
                     this.notFound = is_hidden;
                 });
-                this.$broadcast('on-update-popper');
-            }
-        },
-        events: {
-            'on-select-selected' (value) {
-                if (this.model === value) {
-                    this.hideMenu();
-                } else {
-                    if (this.multiple) {
-                        const index = this.model.indexOf(value);
-                        if (index >= 0) {
-                            this.removeTag(index);
-                        } else {
-                            this.model.push(value);
-                            this.$broadcast('on-update-popper');
-                        }
-
-                        if (this.filterable) {
-                            this.query = '';
-                            this.$els.input.focus();
-                        }
-                    } else {
-                        this.model = value;
-
-                        if (this.filterable) {
-                            this.findChild((child) => {
-                                if (child.value === value) {
-                                    this.query = child.label === undefined ? child.searchLabel : child.label;
-                                }
-                            });
-                        }
-                    }
-                }
+                this.broadcast('Drop', 'on-update-popper');
             }
         }
     };

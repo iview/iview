@@ -1,7 +1,7 @@
 <template>
     <div :class="prefixCls">
         <i-input
-            :value.sync="query"
+            v-model="currentQuery"
             size="small"
             :icon="icon"
             :placeholder="placeholder"
@@ -12,11 +12,25 @@
     import iInput from '../input/input.vue';
 
     export default {
+        name: 'Search',
         components: { iInput },
         props: {
             prefixCls: String,
             placeholder: String,
             query: String
+        },
+        data () {
+            return {
+                currentQuery: this.query
+            };
+        },
+        watch: {
+            query (val) {
+                this.currentQuery = val;
+            },
+            currentQuery (val) {
+                this.$emit('on-query-change', val);
+            }
         },
         computed: {
             icon () {
@@ -25,16 +39,9 @@
         },
         methods: {
             handleClick () {
-                if (this.query === '') return;
-                this.query = '';
-            }
-        },
-        events: {
-            'on-form-blur' () {
-                return false;
-            },
-            'on-form-change' () {
-                return false;
+                if (this.currentQuery === '') return;
+                this.currentQuery = '';
+                this.$emit('on-query-clear');
             }
         }
     };

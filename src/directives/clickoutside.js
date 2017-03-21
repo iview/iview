@@ -1,19 +1,21 @@
 export default {
-    bind () {
-        this.documentHandler = (e) => {
-            if (this.el.contains(e.target)) {
+    bind (el, binding, vnode) {
+        function documentHandler (e) {
+            if (el.contains(e.target)) {
                 return false;
             }
-            if (this.expression) {
-                this.vm[this.expression]();
+            if (binding.expression) {
+                binding.value(e);
             }
-        };
-        document.addEventListener('click', this.documentHandler);
+        }
+        el.__vueClickOutside__ = documentHandler;
+        document.addEventListener('click', documentHandler);
     },
     update () {
 
     },
-    unbind () {
-        document.removeEventListener('click', this.documentHandler);
+    unbind (el, binding) {
+        document.removeEventListener('click', el.__vueClickOutside__);
+        delete el.__vueClickOutside__;
     }
 };

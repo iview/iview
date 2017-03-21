@@ -17,18 +17,18 @@ Modal.newInstance = properties => {
 
     const div = document.createElement('div');
     div.innerHTML = `
-        <Modal${props} :visible.sync="visible" :width="width" :scrollable.sync="scrollable">
+        <Modal${props} v-model="visible" :width="width" :scrollable="scrollable">
             <div class="${prefixCls}">
                 <div class="${prefixCls}-head">
-                    <div class="${prefixCls}-head-title">{{{ title }}}</div>
+                    <div class="${prefixCls}-head-title" v-html="title"></div>
                 </div>
                 <div class="${prefixCls}-body">
                     <div :class="iconTypeCls"><i :class="iconNameCls"></i></div>
-                    {{{ body }}}
+                    <div v-html="body"></div>
                 </div>
                 <div class="${prefixCls}-footer">
-                    <i-button type="text" size="large" v-if="showCancel" @click="cancel">{{ cancelText }}</i-button>
-                    <i-button type="primary" size="large" :loading="buttonLoading" @click="ok">{{ okText }}</i-button>
+                    <i-button type="text" size="large" v-if="showCancel" @click.native="cancel">{{ cancelText }}</i-button>
+                    <i-button type="primary" size="large" :loading="buttonLoading" @click.native="ok">{{ okText }}</i-button>
                 </div>
             </div>
         </Modal>
@@ -68,7 +68,7 @@ Modal.newInstance = properties => {
         },
         methods: {
             cancel () {
-                this.visible = false;
+                this.$children[0].visible = false;
                 this.buttonLoading = false;
                 this.onCancel();
                 this.remove();
@@ -77,7 +77,7 @@ Modal.newInstance = properties => {
                 if (this.loading) {
                     this.buttonLoading = true;
                 } else {
-                    this.visible = false;
+                    this.$children[0].visible = false;
                     this.remove();
                 }
                 this.onOk();
@@ -89,7 +89,7 @@ Modal.newInstance = properties => {
             },
             destroy () {
                 this.$destroy();
-                document.body.removeChild(div);
+                document.body.removeChild(this.$el);
                 this.onRemove();
             },
             onOk () {},

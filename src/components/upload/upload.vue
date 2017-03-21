@@ -7,9 +7,9 @@
             @dragover.prevent="dragOver = true"
             @dragleave.prevent="dragOver = false">
             <input
-                v-el:input
-                :class="[prefixCls + '-input']"
+                ref="input"
                 type="file"
+                :class="[prefixCls + '-input']"
                 @change="handleChange"
                 :multiple="multiple"
                 :accept="accept">
@@ -27,10 +27,13 @@
     import UploadList from './upload-list.vue';
     import ajax from './ajax';
     import { oneOf } from '../../utils/assist';
+    import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-upload';
 
     export default {
+        name: 'Upload',
+        mixins: [ Emitter ],
         components: { UploadList },
         props: {
             action: {
@@ -154,7 +157,7 @@
         },
         methods: {
             handleClick () {
-                this.$els.input.click();
+                this.$refs.input.click();
             },
             handleChange (e) {
                 const files = e.target.files;
@@ -163,7 +166,7 @@
                     return;
                 }
                 this.uploadFiles(files);
-                this.$els.input.value = null;
+                this.$refs.input.value = null;
             },
             onDrop (e) {
                 this.dragOver = false;
@@ -276,7 +279,7 @@
                     _file.status = 'finished';
                     _file.response = res;
 
-                    this.$dispatch('on-form-change', _file);
+                    this.dispatch('FormItem', 'on-form-change', _file);
                     this.onSuccess(res, _file, this.fileList);
 
                     setTimeout(() => {

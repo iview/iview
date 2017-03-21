@@ -6,7 +6,7 @@
         <div :class="[prefixCls + '-header']">
             <span>{{ t('i.datepicker.weeks.sun') }}</span><span>{{ t('i.datepicker.weeks.mon') }}</span><span>{{ t('i.datepicker.weeks.tue') }}</span><span>{{ t('i.datepicker.weeks.wed') }}</span><span>{{ t('i.datepicker.weeks.thu') }}</span><span>{{ t('i.datepicker.weeks.fri') }}</span><span>{{ t('i.datepicker.weeks.sat') }}</span>
         </div>
-        <span :class="getCellCls(cell)" v-for="cell in readCells"><em :index="$index">{{ cell.text }}</em></span>
+        <span :class="getCellCls(cell)" v-for="(cell, index) in readCells"><em :index="index">{{ cell.text }}</em></span>
     </div>
 </template>
 <script>
