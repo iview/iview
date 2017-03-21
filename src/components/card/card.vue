@@ -7,6 +7,7 @@
 </template>
 <script>
     const prefixCls = 'ivu-card';
+    const defaultPadding = 16;
 
     export default {
         props: {
@@ -22,7 +23,10 @@
                 type: Boolean,
                 default: false
             },
-            padding: Number
+            padding: {
+                type: Number,
+                default: defaultPadding
+            }
         },
         data () {
             return {
@@ -51,14 +55,13 @@
                 return `${prefixCls}-body`;
             },
             bodyStyles () {
-                let padding = this.padding;
-                if (this.padding !== undefined) {
-                    padding += 'px';
+                if (this.padding !== defaultPadding) {
                     return {
-                        padding,
-                    };
+                        padding: `${this.padding}px`
+                    }
+                } else {
+                    return '';
                 }
-                return '';
             }
         },
         mounted () {
