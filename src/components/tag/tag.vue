@@ -28,6 +28,9 @@
                 validator (value) {
                     return oneOf(value, ['border', 'dot']);
                 }
+            },
+            name: {
+                type: [String, Number]
             }
         },
         computed: {
@@ -52,8 +55,12 @@
             }
         },
         methods: {
-            close (e) {
-                this.$emit('on-close', e);
+            close (event) {
+                if (this.name === undefined) {
+                    this.$emit('on-close', event);
+                } else {
+                    this.$emit('on-close', event, this.name);
+                }
             }
         }
     };

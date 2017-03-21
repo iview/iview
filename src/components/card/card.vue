@@ -58,7 +58,7 @@
                 if (this.padding !== defaultPadding) {
                     return {
                         padding: `${this.padding}px`
-                    }
+                    };
                 } else {
                     return '';
                 }
