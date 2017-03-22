@@ -129,10 +129,10 @@ const install = function (Vue, opts = {}) {
         Vue.component(key, iview[key]);
     });
 
-	Vue.$Message = Vue.prototype.$Loading = LoadingBar;
+	Vue.$Loading = Vue.prototype.$Loading = LoadingBar;
 	Vue.$Message = Vue.prototype.$Message = Message;
-	Vue.$Message = Vue.prototype.$Modal = Modal;
-	Vue.$Message = Vue.prototype.$Notice = Notice;
+	Vue.$Modal = Vue.prototype.$Modal = Modal;
+	Vue.$Notice = Vue.prototype.$Notice = Notice;
 };
 
 // auto install
