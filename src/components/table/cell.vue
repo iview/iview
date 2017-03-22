@@ -57,7 +57,7 @@
                     let methods = {};
                     Object.keys($parent).forEach(key => {
                         const func = $parent[key];
-                        if (typeof(func) === 'function' && func.name  === 'boundFn') {
+                        if (typeof(func) === 'function' && (func.name  === 'boundFn' || func.name === 'n')) {
                             methods[key] = func;
                         }
                     });
