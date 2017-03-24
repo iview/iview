@@ -1,7 +1,7 @@
 <template>
     <div :class="prefixCls">
         <Tree-node
-            v-for="item in currentData"
+            v-for="item in data"
             :key="item"
             :data="item"
             visible
@@ -46,21 +46,15 @@
         },
         data () {
             return {
-                prefixCls: prefixCls,
-                currentData: this.data
+                prefixCls: prefixCls
             };
-        },
-        watch: {
-            data (val) {
-                
-            }
         },
         methods: {
             getSelectedNodes () {
                 const nodes = findComponentsDownward(this, 'TreeNode');
                 return nodes.filter(node => node.data.selected).map(node => node.data);
             },
-            updateData () {
+            updateData (isInit = true) {
                 // init checked status
                 function reverseChecked(data) {
                     if (data.children) {
@@ -69,8 +63,11 @@
                             if (node.children) node = reverseChecked(node);
                             if (node.checked) checkedLength++;
                         });
-//                        data.checked = checkedLength >= data.children.length;
-                        if (checkedLength >= data.children.length) data.checked = true;
+                        if (isInit) {
+                            if (checkedLength >= data.children.length) data.checked = true;
+                        } else {
+                            data.checked = checkedLength >= data.children.length;
+                        }
                         return data;
                     } else {
                         return data;
@@ -88,7 +85,7 @@
                         return data;
                     }
                 }
-                this.currentData = this.data.map(node => reverseChecked(node)).map(node => forwardChecked(node));
+                this.data.map(node => reverseChecked(node)).map(node => forwardChecked(node));
                 this.broadcast('TreeNode', 'indeterminate');
             }
         },
@@ -106,7 +103,7 @@
                 this.$emit('on-select-change', this.getSelectedNodes());
             });
             this.$on('checked', () => {
-                this.updateData();
+                this.updateData(false);
             });
         }
     };

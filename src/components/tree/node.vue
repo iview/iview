@@ -66,7 +66,7 @@
             classes () {
                 return [
                     `${prefixCls}-children`
-                ]
+                ];
             },
             selectedCls () {
                 return [
@@ -112,7 +112,13 @@
             },
             handleCheck () {
                 if (this.disabled) return;
-                this.data.checked = !this.data.checked;
+                const checked = !this.data.checked;
+                if (!checked || this.indeterminate) {
+                    findComponentsDownward(this, 'TreeNode').forEach(node => node.data.checked = false);
+                } else {
+                    findComponentsDownward(this, 'TreeNode').forEach(node => node.data.checked = true);
+                }
+                this.data.checked = checked;
                 this.dispatch('Tree', 'checked');
             },
             setIndeterminate () {
@@ -126,7 +132,7 @@
         mounted () {
             this.$on('indeterminate', () => {
                 this.setIndeterminate();
-            })
+            });
         }
     };
 </script>
