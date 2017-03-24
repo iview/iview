@@ -1,0 +1,113 @@
+<template>
+    <div :class="prefixCls">
+        <Tree-node
+            v-for="item in currentData"
+            :key="item"
+            :data="item"
+            visible
+            :multiple="multiple"
+            :show-checkbox="showCheckbox">
+        </Tree-node>
+    </div>
+</template>
+<script>
+    import TreeNode from './node.vue';
+    import { findComponentsDownward } from '../../utils/assist';
+    import Emitter from '../../mixins/emitter';
+    import { t } from '../../locale';
+
+    const prefixCls = 'ivu-tree';
+
+    export default {
+        name: 'Tree',
+        mixins: [ Emitter ],
+        components: { TreeNode },
+        props: {
+            data: {
+                type: Array,
+                default () {
+                    return [];
+                }
+            },
+            multiple: {
+                type: Boolean,
+                default: false
+            },
+            showCheckbox: {
+                type: Boolean,
+                default: false
+            },
+            emptyText: {
+                type: String,
+                default () {
+                    return t('i.tree.emptyText');
+                }
+            }
+        },
+        data () {
+            return {
+                prefixCls: prefixCls,
+                currentData: this.data
+            };
+        },
+        watch: {
+            data (val) {
+                
+            }
+        },
+        methods: {
+            getSelectedNodes () {
+                const nodes = findComponentsDownward(this, 'TreeNode');
+                return nodes.filter(node => node.data.selected).map(node => node.data);
+            },
+            updateData () {
+                // init checked status
+                function reverseChecked(data) {
+                    if (data.children) {
+                        let checkedLength = 0;
+                        data.children.forEach(node => {
+                            if (node.children) node = reverseChecked(node);
+                            if (node.checked) checkedLength++;
+                        });
+//                        data.checked = checkedLength >= data.children.length;
+                        if (checkedLength >= data.children.length) data.checked = true;
+                        return data;
+                    } else {
+                        return data;
+                    }
+                }
+                
+                function forwardChecked(data) {
+                    if (data.children) {
+                        data.children.forEach(node => {
+                            if (data.checked) node.checked = true;
+                            if (node.children) node = forwardChecked(node);
+                        });
+                        return data;
+                    } else {
+                        return data;
+                    }
+                }
+                this.currentData = this.data.map(node => reverseChecked(node)).map(node => forwardChecked(node));
+                this.broadcast('TreeNode', 'indeterminate');
+            }
+        },
+        mounted () {
+            this.updateData();
+
+            this.$on('selected', ori => {
+                const nodes = findComponentsDownward(this, 'TreeNode');
+                nodes.forEach(node => {
+                    this.$set(node.data, 'selected', false);
+                });
+                this.$set(ori, 'selected', true);
+            });
+            this.$on('on-selected', () => {
+                this.$emit('on-select-change', this.getSelectedNodes());
+            });
+            this.$on('checked', () => {
+                this.updateData();
+            });
+        }
+    };
+</script>

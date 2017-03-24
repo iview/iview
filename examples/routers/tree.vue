@@ -1,40 +1,68 @@
 <template>
-    <div>
-        <Tree :data="baseData" show-checkbox></Tree>
-        <div @click="c">change</div>
-    </div>
+    <Tree :data="baseData" @on-select-change="handleSelectChange" show-checkbox></Tree>
 </template>
 <script>
     export default {
         data () {
             return {
-                baseData: [{
-                    expand: true,
-                    title: 'parent 1',
-                    children: [{
-                        title: 'parent 1-0',
+                baseData: [
+                    {
                         expand: true,
-                        disabled: true,
+                        title: 'parent 1',
                         children: [{
-                            title: 'leaf',
-                            disableCheckbox: true
+                            title: 'parent 1-0',
+                            expand: true,
+//                            disabled: true,
+//                            checked: true,
+                            children: [
+                                {
+                                    title: 'leaf',
+                                    checked: true,
+                                    selected: true
+                                },
+                                {
+                                    title: 'leaf',
+                                    checked: false
+                                }
+                            ]
                         }, {
-                            title: 'leaf',
+                            title: 'parent 1-1',
+                            expand: true,
+                            checked: true,
+                            children: [
+                                {
+                                    title: '<span style="color: red">leaf</span>',
+                                    checked: false
+                                }
+                            ]
                         }]
-                    }, {
-                        title: 'parent 1-1',
-                        expand: true,
-                        checked: true,
-                        children: [{
-                            title: '<span style="color: red">leaf</span>'
-                        }]
-                    }]
-                }]
+                    },
+//                    {
+//                        expand: true,
+//                        title: 'parent 1',
+//                        children: [{
+//                            title: 'parent 1-0',
+//                            expand: true,
+//                            children: [{
+//                                title: 'leaf'
+//                            }, {
+//                                title: 'leaf',
+//                            }]
+//                        }, {
+//                            title: 'parent 1-1',
+//                            expand: true,
+//                            checked: true,
+//                            children: [{
+//                                title: '<span style="color: red">leaf</span>',
+//                            }]
+//                        }]
+//                    }
+                ]
             }
         },
         methods: {
-            c () {
-                this.baseData[0].expand = false;
+            handleSelectChange (data) {
+                console.log(data);
             }
         }
     }

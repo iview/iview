@@ -31,6 +31,7 @@
     import Checkbox from '../checkbox/checkbox.vue';
     import { t } from '../../locale';
     import Emitter from '../../mixins/emitter';
+    import { findComponentUpward, findComponentDownward } from '../../utils/assist';
 
     const prefixCls = 'ivu-tree';
 
@@ -174,10 +175,18 @@
                         }
                     }
 //                    this.$dispatch('nodeSelected', this, selected);
-                    this.dispatch('Tree', 'nodeSelected', {
-                        ori: this,
-                        selected: selected
-                    });
+                    const parentTree = findComponentUpward(this, 'Tree');
+                    if (parentTree) {
+                        this.dispatch('Tree', 'nodeSelected', {
+                            ori: this,
+                            selected: selected
+                        });
+                    } else {
+                        this.$emit('nodeSelected', {
+                            ori: this,
+                            selected: selected
+                        });
+                    }
                 }
             },
             setCheck (disabled, index) {
@@ -270,6 +279,7 @@
                 });
             });
             this.$on('cancelSelected', ori => {
+                console.log(191)
 //                this.$broadcast('cancelSelected', ori);
                 this.broadcast('Tree', 'cancelSelected', ori);
                 if (this !== ori) {
