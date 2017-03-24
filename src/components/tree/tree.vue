@@ -54,6 +54,10 @@
                 const nodes = findComponentsDownward(this, 'TreeNode');
                 return nodes.filter(node => node.data.selected).map(node => node.data);
             },
+            getCheckedNodes () {
+                const nodes = findComponentsDownward(this, 'TreeNode');
+                return nodes.filter(node => node.data.checked).map(node => node.data);
+            },
             updateData (isInit = true) {
                 // init checked status
                 function reverseChecked(data) {
@@ -104,6 +108,9 @@
             });
             this.$on('checked', () => {
                 this.updateData(false);
+            });
+            this.$on('on-checked', () => {
+                this.$emit('on-check-change', this.getCheckedNodes());
             });
         }
     };

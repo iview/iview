@@ -58,8 +58,7 @@
         data () {
             return {
                 prefixCls: prefixCls,
-                indeterminate: false,
-                checked: false
+                indeterminate: false
             };
         },
         computed: {
@@ -120,6 +119,7 @@
                 }
                 this.data.checked = checked;
                 this.dispatch('Tree', 'checked');
+                this.dispatch('Tree', 'on-checked');
             },
             setIndeterminate () {
                 this.indeterminate = this.data.checked ? false : findComponentsDownward(this, 'TreeNode').some(node => node.data.checked);
@@ -131,6 +131,7 @@
         },
         mounted () {
             this.$on('indeterminate', () => {
+                this.broadcast('TreeNode', 'indeterminate');
                 this.setIndeterminate();
             });
         }
