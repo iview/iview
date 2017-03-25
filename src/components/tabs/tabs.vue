@@ -181,7 +181,7 @@
             handleRemove (index) {
                 const tabs = this.getTabs();
                 const tab = tabs[index];
-                tab.$destroy(true);
+                tab.$destroy();
 
                 if (tab.currentName === this.activeKey) {
                     const newTabs = this.getTabs();
@@ -200,6 +200,7 @@
                         }
                     }
                     this.activeKey = activeKey;
+                    this.$emit('input', activeKey);
                 }
                 this.$emit('on-tab-remove', tab.currentName);
                 this.updateNav();
