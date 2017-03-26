@@ -5,6 +5,7 @@
             <div :class="[prefixCls + '-header']" v-if="showHeader" ref="header" @mousewheel="handleMouseWheel">
                 <table-head
                     :prefix-cls="prefixCls"
+                    :headRows="headRows"
                     :styleObject="tableStyle"
                     :columns="cloneColumns"
                     :obj-data="objData"
@@ -159,6 +160,7 @@
             }
         },
         data () {
+            let makeColumns = this.makeColumns();
             return {
                 ready: false,
                 tableWidth: 0,
@@ -167,7 +169,8 @@
                 compiledUids: [],
                 objData: this.makeObjData(),     // checkbox or highlight-row
                 rebuildData: [],    // for sort or filter
-                cloneColumns: this.makeColumns(),
+                cloneColumns: makeColumns.columns,
+                headRows: makeColumns.headRows,
                 showSlotHeader: true,
                 showSlotFooter: true,
                 bodyHeight: 0,
@@ -401,7 +404,7 @@
                 //     }else{
                 //         this.objData[data._index]._isChecked = status;
                 //     }
-                    
+
                 // });
                 for(const data of this.rebuildData){
                     if(this.objData[data._index]._isDisabled){
@@ -583,12 +586,13 @@
                 return data;
             },
             makeColumns () {
-                let columns = deepCopy(this.columns);
+                let columsCopy = deepCopy(this.columns);
                 let left = [];
                 let right = [];
                 let center = [];
 
-                columns.forEach((column, index) => {
+                let index = 0;
+                let traversal = column => {
                     column._index = index;
                     column._width = column.width ? column.width : '';    // update in handleResize()
                     column._sortType = 'normal';
@@ -606,6 +610,19 @@
                         column._isFiltered = true;
                     }
 
+                    if (!Array.isArray(column.children)) {
+                        column.children = [];
+                    }
+
+                    column.__maxChildrenNum = 0;
+                    if (column.children.length > 0) {
+                        column.children.forEach(elem => {
+                            column.__maxChildrenNum += traversal(elem);
+                        });
+
+                        return column.__maxChildrenNum;
+                    }
+
                     if (column.fixed && column.fixed === 'left') {
                         left.push(column);
                     } else if (column.fixed && column.fixed === 'right') {
@@ -613,8 +630,43 @@
                     } else {
                         center.push(column);
                     }
+
+                    index++;
+
+                    return 1;
+                };
+
+                columsCopy.forEach(elem => {
+                    elem.__maxChildrenNum = traversal(elem);
                 });
-                return left.concat(center).concat(right);
+
+                let columns = left.concat(center).concat(right);
+
+                let queue = []; // 广度优先遍历队列
+                let headRows = []; // 保存生成的行
+                queue = queue.concat(columsCopy); // 初始化队列数据
+
+                while (queue.length > 0) {
+                    let head = queue.shift();
+
+                    head.__depth = head.__depth || 0; // 记录当前表格深度
+                    if (!Array.isArray(head.children)) {
+                        head.children = [];
+                    }
+
+                    // 把单元格放进对应的行中
+                    if (head.__depth in headRows) {
+                        headRows[head.__depth].push(head);
+                    } else {
+                        headRows[head.__depth] = [head];
+                    }
+
+                    queue = queue.concat(head.children.map(
+                        elem => Object.assign(elem, {__depth: head.__depth + 1})
+                    ));
+                }
+
+                return { columns, headRows };
             },
             exportCsv (params) {
                 if (params.filename) {
@@ -674,7 +726,10 @@
             columns: {
                 handler () {
                     // todo 这里有性能问题，可能是左右固定计算属性影响的
-                    this.cloneColumns = this.makeColumns();
+                    let makeColumns = this.makeColumns();
+                    this.cloneColumns = makeColumns.columns;
+                    this.headRows = makeColumns.headRows;
+                    console.log(this.headRows);
                     this.rebuildData = this.makeDataWithSortAndFilter();
                     this.handleResize();
                 },

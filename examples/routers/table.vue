@@ -37,7 +37,35 @@
                         render (row, column, index) {
                             return `<i-button type="primary" size="small" @click="show(${index})">{{ info }}查看</i-button> <i-button type="error" size="small" @click="remove(${index})">删除</i-button>`;
                         }
-                    }
+                    },
+                    {
+                        title: '测试',
+                        children: [
+                            {
+                                title: '测试2',
+                                children: [
+                                {
+                                    title: '测试4',
+                                    children: [
+                                    {title: '测试5'},
+                                    {
+                                        title: '测试6',
+                                        children: [
+                                        {title: '测试7'}
+                                        ]
+                                    }
+                                    ]
+                                },
+                                {
+                                    title: '测试3'
+                                }
+                                ]
+                            },
+                            {
+                                title: '测试3'
+                            }
+                        ]
+                    },
                 ],
                 data6: [
                     {
