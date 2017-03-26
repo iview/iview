@@ -729,7 +729,6 @@
                     let makeColumns = this.makeColumns();
                     this.cloneColumns = makeColumns.columns;
                     this.headRows = makeColumns.headRows;
-                    console.log(this.headRows);
                     this.rebuildData = this.makeDataWithSortAndFilter();
                     this.handleResize();
                 },
