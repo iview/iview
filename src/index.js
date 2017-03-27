@@ -123,9 +123,10 @@ const iview = {
 const install = function (Vue, opts = {}) {
     locale.use(opts.locale);
     locale.i18n(opts.i18n);
+    let prex = opts.prex || '';
 
     Object.keys(iview).forEach((key) => {
-        Vue.component(key, iview[key]);
+        Vue.component(prex+key, iview[key]);
     });
 
     Vue.prototype.$Loading = LoadingBar;
