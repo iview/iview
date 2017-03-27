@@ -12,6 +12,7 @@
                                 <Icon v-if="showClose(item)" type="ios-close-empty" @click.native.stop="handleRemove(index)"></Icon>
                             </div>
                         </div>
+                        <div :class="[prefixCls + '-nav-right']" v-if="showSlot"><slot name="right"></slot></div>
                     </div>
                 </div>
             </div>
@@ -19,7 +20,7 @@
         <div :class="contentClasses" :style="contentStyle"><slot></slot></div>
     </div>
 </template>
-<script>
+<script lang="babel">
     import Icon from '../icon/icon.vue';
     import { oneOf, getStyle } from '../../utils/assist';
 
@@ -59,7 +60,8 @@
                 navList: [],
                 barWidth: 0,
                 barOffset: 0,
-                activeKey: this.value
+                activeKey: this.value,
+                showSlot:false
             };
         },
         computed: {
@@ -225,6 +227,9 @@
                 this.updateBar();
                 this.updateStatus();
             }
+        },
+        mounted(){
+            this.showSlot = this.$slots.default !== undefined;
         }
     };
 </script>
