@@ -12,7 +12,7 @@
                                 <Icon v-if="showClose(item)" type="ios-close-empty" @click.native.stop="handleRemove(index)"></Icon>
                             </div>
                         </div>
-                        <div :class="[prefixCls + '-nav-right']" v-if="showSlot"><slot name="right"></slot></div>
+                        <div :class="[prefixCls + '-nav-right']" v-if="showSlot"><slot name="extra"></slot></div>
                     </div>
                 </div>
             </div>
@@ -61,7 +61,7 @@
                 barWidth: 0,
                 barOffset: 0,
                 activeKey: this.value,
-                showSlot:false
+                showSlot: false
             };
         },
         computed: {
@@ -228,8 +228,8 @@
                 this.updateStatus();
             }
         },
-        mounted(){
-            this.showSlot = this.$slots.default !== undefined;
+        mounted () {
+            this.showSlot = this.$slots.extra !== undefined;
         }
     };
 </script>

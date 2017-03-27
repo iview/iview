@@ -9,8 +9,8 @@
         </Col>
         <Col :span="12">
             <Tabs type="card" closable @on-tab-remove="handleTagRemove">
-                <Tab-pane :label="tab.label" v-for="tab of tabs">{{tab.content}}</Tab-pane>
-                <Button size="small" slot="right" @click="addTab">添加</Button>
+                <Tab-pane :label="tab.label" v-for="tab of tabs" :key="tab">{{tab.content}}</Tab-pane>
+                <Button size="small" slot="extra" @click="addTab">添加</Button>
             </Tabs>
         </Col>
     </Row>
