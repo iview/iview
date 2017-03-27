@@ -208,6 +208,7 @@
             },
             value (val) {
                 this.currentValue = val;
+                if (!val.length) this.selected = [];
             },
             currentValue () {
                 this.$emit('input', this.currentValue);

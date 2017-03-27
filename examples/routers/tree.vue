@@ -5,6 +5,7 @@
     export default {
         data () {
             return {
+                bd: [],
                 baseData: [
                     {
                         expand: true,

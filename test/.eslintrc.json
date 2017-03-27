@@ -1,0 +1,15 @@
+{
+    "extends": [
+        "../.eslintrc.json"
+    ],
+    "globals": {
+        "expect": true
+    },
+    "env": {
+        "node": true,
+        "mocha": true
+    },
+    "rules": {
+        "indent": ["error",2, { "SwitchCase": 1 }]
+    }
+}
