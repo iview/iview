@@ -20,7 +20,7 @@
         <div :class="contentClasses" :style="contentStyle"><slot></slot></div>
     </div>
 </template>
-<script lang="babel">
+<script>
     import Icon from '../icon/icon.vue';
     import { oneOf, getStyle } from '../../utils/assist';
 
