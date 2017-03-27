@@ -8,6 +8,7 @@
             :multiple="multiple"
             :show-checkbox="showCheckbox">
         </Tree-node>
+        <div :class="[prefixCls + '-empty']" v-if="!data.length">{{ emptyText }}</div>
     </div>
 </template>
 <script>
