@@ -6,9 +6,9 @@ var path = require('path');
 var webpack = require('webpack');
 // var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var merge = require('webpack-merge')
+var merge = require('webpack-merge');
 var webpackBaseConfig = require('./webpack.base.config.js');
-var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 
 
 module.exports = merge(webpackBaseConfig, {
