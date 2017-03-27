@@ -70,9 +70,9 @@
 
 <template>
     <div>
-        <Cascader :data="data" v-model="value2" change-on-select></Cascader>
+        <Cascader :data="data" v-model="value2"></Cascader>
         {{ value2 }}
-        <div @click="c">change</div>
+        <Button @click="c">clear</Button>
     </div>
 </template>
 <script>
@@ -131,7 +131,7 @@
         },
         methods: {
             c () {
-                this.value2 = ['jiangsu', 'suzhou', 'zhuozhengyuan']
+                this.value2 = []
             }
         }
     }
