@@ -1,10 +1,9 @@
 /**
  * 公共配置
  */
-var webpack = require('webpack');
 var path = require('path');
 function resolve (dir) {
-  return path.join(__dirname, '..', dir)
+    return path.join(__dirname, '..', dir)
 }
 
 module.exports = {
@@ -61,8 +60,8 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.vue'],
         alias: {
-          'vue': 'vue/dist/vue.esm.js',
-          '@': resolve('src')
+            'vue': 'vue/dist/vue.esm.js',
+            '@': resolve('src')
         }
     }
 };
