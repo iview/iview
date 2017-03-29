@@ -524,7 +524,8 @@
             }
         },
         watch: {
-            model () {
+            model (val) {
+                if (val === '') this.query = '';
                 this.modelToQuery();
                 if (this.multiple) {
                     if (this.slotChangeDuration) {
