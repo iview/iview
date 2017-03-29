@@ -193,62 +193,31 @@
 
 <template>
     <div>
-        <Row>
-            <i-col span="12" style="padding-right:10px">
-                <Select v-model="model11" filterable>
-                    <Option-group label="123">
-                        <i-option value="beijing">北京市</i-option>
-                        <i-option value="shanghai">上海市</i-option>
-                    </Option-group>
-                    <Option-group label="456">
-                        <i-option value="shenzhen">深圳市</i-option>
-                        <i-option value="hangzhou">杭州市</i-option>
-                    </Option-group>
-                    <i-option value="nanjing">南京市</i-option>
-                    <i-option value="chongqing">重庆市</i-option>
-                </Select>
-            </i-col>
-            <i-col span="12">
-                <Select v-model="model12" filterable multiple>
-                    <i-option v-for="item in cityList" :key="item" :value="item.value">{{ item.label }}</i-option>
-                </Select>
-            </i-col>
-        </Row>
-        <div @click="model11 = 'shanghai'">change</div>
+        <i-select v-model="d" filterable style="width: 200px" multiple>
+            <i-option v-for="e in uList" :value="e.id" :label="e.name">
+                <span>{{ e.name }}</span>
+                <span style="float:right;color:#ccc">{{ e.id }}</span>
+            </i-option>
+        </i-select>
+        <p>{{d}}</p>
+        <i-button type="primary" v-on:click="clear">清空</i-button>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                cityList: [
-                    {
-                        value: 'beijing',
-                        label: '北京市'
-                    },
-                    {
-                        value: 'shanghai',
-                        label: '上海市'
-                    },
-                    {
-                        value: 'shenzhen',
-                        label: '深圳市'
-                    },
-                    {
-                        value: 'hangzhou',
-                        label: '杭州市'
-                    },
-                    {
-                        value: 'nanjing',
-                        label: '南京市'
-                    },
-                    {
-                        value: 'chongqing',
-                        label: '重庆市'
-                    }
-                ],
-                model11: '',
-                model12: []
+                d: [],
+                uList : [
+                    {id:1,name:"中国"},
+                    {id:2,name:"美国"},
+                    {id:3,name:"韩国"}
+                ]
+            }
+        },
+        methods: {
+            clear(){
+                this.d = [];
             }
         }
     }

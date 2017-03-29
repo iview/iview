@@ -563,6 +563,7 @@
         watch: {
             value (val) {
                 this.model = val;
+                if (val === '') this.query = '';
             },
             model () {
                 this.$emit('input', this.model);
