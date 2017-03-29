@@ -5,7 +5,7 @@
         </colgroup>
         <thead>
             <tr>
-                <th v-for="(index, column) in columns" :class="alignCls(column)">
+                <th v-for="(index, column) in columns" :class="alignCls(column)" :style="column.sortable?'cursor: pointer':''" @click="thHandleSort($index, column)">
                     <div :class="cellClasses(column)">
                         <template v-if="column.type === 'selection'"><Checkbox :checked="isSelectAll" @on-change="selectAll"></Checkbox></template>
                         <template v-else>
@@ -75,6 +75,11 @@
                 default: false
             }
         },
+        data() {
+            return {
+                previousType: 'desc',
+            }
+        },
         computed: {
             styles () {
                 const style = Object.assign({}, this.style);
@@ -130,6 +135,17 @@
             selectAll () {
                 const status = !this.isSelectAll;
                 this.$parent.selectAll(status);
+            },
+            thHandleSort (index, column) {
+                if (!column.sortable) {
+                    return;
+                }
+                if (this.previousType == 'asc') {
+                    this.previousType = 'desc';
+                } else if (this.previousType == 'desc') {
+                    this.previousType = 'asc';
+                }
+                this.handleSort(index, this.previousType);
             },
             handleSort (index, type) {
                 if (this.columns[index]._sortType === type) {
