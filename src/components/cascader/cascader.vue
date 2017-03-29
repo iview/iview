@@ -162,9 +162,11 @@
             emitValue (val, oldVal) {
                 if (JSON.stringify(val) !== oldVal) {
                     this.$emit('on-change', this.currentValue, JSON.parse(JSON.stringify(this.selected)));
-                    this.dispatch('FormItem', 'on-form-change', {
-                        value: this.currentValue,
-                        selected: JSON.parse(JSON.stringify(this.selected))
+                    this.$nextTick(() => {
+                        this.dispatch('FormItem', 'on-form-change', {
+                            value: this.currentValue,
+                            selected: JSON.parse(JSON.stringify(this.selected))
+                        });
                     });
                 }
             }

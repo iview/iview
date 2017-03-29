@@ -266,11 +266,11 @@
 <template>
     <div>
         <Form ref="DateForm" :model="form" :rules="rules" :label-width="80" style="width: 400px;">
-            <Form-item label="选择日期" prop="date">
-                <Date-picker v-model="form.date" type="datetime"></Date-picker>
+            <Form-item label="选择日期" prop="value1">
+                <Cascader :data="form.data" v-model="form.value1"></Cascader>
             </Form-item>
             <Form-item>
-                <Button type="primary" @click.native="handleClick">确定</Button>
+                <Button type="primary" @click="handleClick">确定</Button>
             </Form-item>
         </Form>
     </div>
@@ -280,12 +280,62 @@
         data () {
             return {
                 form: {
-                    date: ''
+                    value1: [],
+                    data: [{
+                        value: 'beijing',
+                        label: '北京',
+                        children: [
+                            {
+                                value: 'gugong',
+                                label: '故宫'
+                            },
+                            {
+                                value: 'tiantan',
+                                label: '天坛'
+                            },
+                            {
+                                value: 'wangfujing',
+                                label: '王府井'
+                            }
+                        ]
+                    }, {
+                        value: 'jiangsu',
+                        label: '江苏',
+                        children: [
+                            {
+                                value: 'nanjing',
+                                label: '南京',
+                                children: [
+                                    {
+                                        value: 'fuzimiao',
+                                        label: '夫子庙',
+                                    }
+                                ]
+                            },
+                            {
+                                value: 'suzhou',
+                                label: '苏州',
+                                children: [
+                                    {
+                                        value: 'zhuozhengyuan',
+                                        label: '拙政园',
+                                    },
+                                    {
+                                        value: 'shizilin',
+                                        label: '狮子林',
+                                    }
+                                ]
+                            }
+                        ],
+                    }]
                 },
                 rules: {
-                    date: [
-                        { required: true, type: 'date', message: '不能为空', trigger: 'change' },
-                        { type: 'date', message: '日期格式不正确', trigger: 'change'}
+                    value1: [
+                        {
+                            required: true,
+                            type: 'array',
+                            message: '没有填写'
+                        }
                     ]
                 }
             }
@@ -293,11 +343,6 @@
         methods: {
             handleClick() {
                 this.$refs.DateForm.validate();
-            }
-        },
-        watch: {
-            'form.date' (val) {
-                console.log(val);
             }
         }
     }
