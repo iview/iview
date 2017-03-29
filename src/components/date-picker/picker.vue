@@ -352,8 +352,11 @@
                 this.showClose = false;
             },
             handleIconClick () {
-                if (!this.showClose) return;
-                this.handleClear();
+                if (this.showClose) {
+                    this.handleClear();
+                } else {
+                    this.handleFocus();
+                }
             },
             handleClear () {
                 this.visible = false;
