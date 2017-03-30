@@ -4,7 +4,8 @@
             <slot name="title"></slot>
             <Icon type="ios-arrow-down" :class="[prefixCls + '-submenu-title-icon']"></Icon>
         </div>
-        <ul :class="[prefixCls]" v-if="mode === 'vertical'" v-show="opened"><slot></slot></ul>
+        <ul :class="[prefixCls]" v-if="mode === 'vertical'" :style="{ maxHeight: opened ? null : '0px' }" v-el:vdrop><slot></slot></ul>
+        <!-- <ul :class="[prefixCls]" v-if="mode === 'vertical'" v-show="opened" transition="expand-vertical"><slot></slot></ul> -->
         <Drop
             v-else
             v-show="opened"
@@ -17,7 +18,7 @@
 <script>
     import Drop from '../select/dropdown.vue';
     import Icon from '../icon/icon.vue';
-    import { getStyle } from '../../utils/assist';
+    import { getStyle, transitionHeight } from '../../utils/assist';
 
     const prefixCls = 'ivu-menu';
 
@@ -107,7 +108,12 @@
                 }
             },
             opened (val) {
-                if (this.mode === 'vertical') return;
+                if (this.mode === 'vertical') {
+                    this.$nextTick(() => {
+                    transitionHeight(this.$els.vdrop, !val)
+                    })
+                    return;
+                }
                 if (val) {
                     // set drop a width to fixed when menu has fixed position
                     this.dropWidth = parseFloat(getStyle(this.$el, 'width'));
