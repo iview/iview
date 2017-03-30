@@ -16,8 +16,8 @@
                         <div :class="[prefixCls + '-body']"><slot></slot></div>
                         <div :class="[prefixCls + '-footer']" v-if="!footerHide">
                             <slot name="footer">
-                                <i-button type="text" size="large" @click.native="cancel">{{ cancelText }}</i-button>
-                                <i-button type="primary" size="large" :loading="buttonLoading" @click.native="ok">{{ okText }}</i-button>
+                                <i-button type="text" size="large" @click.native="cancel">{{ localeCancelText }}</i-button>
+                                <i-button type="primary" size="large" :loading="buttonLoading" @click.native="ok">{{ localeOkText }}</i-button>
                             </slot>
                         </div>
                     </div>
@@ -30,11 +30,13 @@
     import Icon from '../icon';
     import iButton from '../button/button.vue';
     import { getScrollBarSize } from '../../utils/assist';
-    import { t } from '../../locale';
+    import Locale from '../../mixins/locale';
 
     const prefixCls = 'ivu-modal';
 
     export default {
+        name: 'Modal',
+        mixins: [ Locale ],
         components: { Icon, iButton },
         props: {
             value: {
@@ -57,16 +59,10 @@
                 default: 520
             },
             okText: {
-                type: String,
-                default () {
-                    return t('i.modal.okText');
-                }
+                type: String
             },
             cancelText: {
-                type: String,
-                default () {
-                    return t('i.modal.cancelText');
-                }
+                type: String
             },
             loading: {
                 type: Boolean,
@@ -125,6 +121,20 @@
                 Object.assign(style, styleWidth, customStyle);
 
                 return style;
+            },
+            localeOkText () {
+                if (this.okText === undefined) {
+                    return this.t('i.modal.okText');
+                } else {
+                    return this.okText;
+                }
+            },
+            localeCancelText () {
+                if (this.cancelText === undefined) {
+                    return this.t('i.modal.cancelText');
+                } else {
+                    return this.cancelText;
+                }
             }
         },
         methods: {

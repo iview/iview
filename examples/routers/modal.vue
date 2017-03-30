@@ -1,40 +1,45 @@
 <template>
     <div>
-        <i-button @click.native="modal2 = true">自定义页头和页脚</i-button>
-        <Modal v-model="modal2" width="360">
-            <p slot="header" style="color:#f60;text-align:center">
-                <Icon type="information-circled"></Icon>
-                <span>删除确认</span>
-            </p>
-            <div style="text-align:center">
-                <p>此任务删除后，下游 10 个任务将无法执行。</p>
-                <p>是否继续删除？</p>
-            </div>
-            <div slot="footer">
-                <i-button type="error" size="large" long :loading="modal_loading" @click.native="del">删除</i-button>
-            </div>
-        </Modal>
+        <Button @click="confirm">标准</Button>
+        <Button @click="custom">自定义按钮文字</Button>
+        <Button @click="async">异步关闭</Button>
     </div>
 </template>
 <script>
     export default {
-        data () {
-            return {
-                modal2: false,
-                modal_loading: false,
-                modal3: false,
-                modal4: false,
-                modal5: false
-            }
-        },
         methods: {
-            del () {
-                this.modal_loading = true;
-                setTimeout(() => {
-                    this.modal_loading = false;
-                    this.modal2 = false;
-                    this.$Message.success('删除成功');
-                }, 2000);
+            confirm () {
+                this.$Modal.confirm({
+                    title: '确认对话框标题',
+                    content: '<p>一些对话框内容</p><p>一些对话框内容</p>',
+                    onOk: () => {
+                        this.$Message.info('点击了确定');
+                    },
+                    onCancel: () => {
+                        this.$Message.info('点击了取消');
+                    }
+                });
+            },
+            custom () {
+                this.$Modal.confirm({
+                    title: '确认对话框标题',
+                    content: '<p>一些对话框内容</p><p>一些对话框内容</p>',
+                    okText: 'OK',
+                    cancelText: 'Cancel'
+                });
+            },
+            async () {
+                this.$Modal.confirm({
+                    title: '确认对话框标题',
+                    content: '<p>对话框将在 2秒 后关闭</p>',
+                    loading: true,
+                    onOk: () => {
+                        setTimeout(() => {
+                            this.$Modal.remove();
+                            this.$Message.info('异步关闭了对话框');
+                        }, 2000);
+                    }
+                });
             }
         }
     }
