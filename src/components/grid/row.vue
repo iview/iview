@@ -69,9 +69,6 @@
             gutter (val) {
                 this.updateGutter(val);
             }
-        },
-        mounted () {
-            this.updateGutter(this.gutter);
         }
     };
 </script>

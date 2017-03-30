@@ -67,6 +67,17 @@
 
                 return style;
             }
+        },
+        methods: {
+            updateGutter () {
+                this.$parent.updateGutter(this.$parent.gutter);
+            }
+        },
+        mounted () {
+            this.updateGutter();
+        },
+        beforeDestroy () {
+            this.updateGutter();
         }
     };
 </script>
