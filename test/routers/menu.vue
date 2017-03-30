@@ -1,5 +1,5 @@
 <template>
-    <Menu mode="horizontal" :theme="theme1" :active-key.sync="ak">
+    <Menu mode="vertical" :theme="theme1" :active-key.sync="ak">
         <Menu-item key="1">
             <Icon type="ios-paper"></Icon>
             内容管理
@@ -33,7 +33,6 @@
     <Radio-group :model.sync="theme1">
         <Radio value="light"></Radio>
         <Radio value="dark"></Radio>
-        <Radio value="primary"></Radio>
     </Radio-group>
     <i-button @click="ak = '2'">change</i-button>
 </template>

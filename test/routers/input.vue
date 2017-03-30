@@ -78,6 +78,20 @@
         <Input-number :value="2" size="small"></Input-number>
         <Input-number :value="2"></Input-number>
         <Input-number :value="2" size="large"></Input-number>
+        <br/>
+        <Input-number
+            :max="10"
+            :min="-1"
+            @on-change="e.push('onChange')"
+            @on-focus="e.push('onFocus')"
+            @on-blur="e.push('onBlur')"
+            @on-enter="e.push('onEnter')"
+            :value="2">
+        </Input-number>
+        <ul style="margin: 20px 0; padding: 3px; border: solid 1px #000;">
+            <li v-for="item in e" track-by="$index">{{ item }}</li>
+        </ul>
+
         <i-input type="password"></i-input>
     </div>
 </template>
@@ -105,7 +119,8 @@
                     maxRows: 5
                 },
                 select1: 'http',
-                select2: 'com'
+                select2: 'com',
+                e: []
             }
         },
         computed: {
