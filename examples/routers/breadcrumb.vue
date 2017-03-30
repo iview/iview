@@ -8,7 +8,7 @@
 <div>
     <Breadcrumb separator="<b class='demo-breadcrumb-separator'>=></b>">
         <Breadcrumb-item href="/">Home4</Breadcrumb-item>
-        <Breadcrumb-item href="/components/breadcrumb">Components</Breadcrumb-item>
+        <Breadcrumb-item href="/checkbox" replace>Components</Breadcrumb-item>
         <Breadcrumb-item>Breadcrumb</Breadcrumb-item>
     </Breadcrumb>
     <Breadcrumb separator="">

@@ -1,6 +1,6 @@
 <template>
     <span>
-        <a v-if="href" :href="href" :class="linkClasses">
+        <a v-if="href" :class="linkClasses" @click="handleClick">
             <slot></slot>
         </a>
         <span v-else :class="linkClasses">
@@ -20,6 +20,10 @@
         props: {
             href: {
                 type: String
+            },
+            replace: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -28,15 +32,25 @@
                 showSeparator: false
             };
         },
-        mounted () {
-            this.showSeparator = this.$slots.separator !== undefined;
-        },
         computed: {
             linkClasses () {
                 return `${prefixCls}-link`;
             },
             separatorClasses () {
                 return `${prefixCls}-separator`;
+            }
+        },
+        mounted () {
+            this.showSeparator = this.$slots.separator !== undefined;
+        },
+        methods: {
+            handleClick () {
+                const isRoute = this.$router;
+                if (isRoute) {
+                    this.replace ? this.$router.replace(this.href) : this.$router.push(this.href);
+                } else {
+                    window.location.href = this.href;
+                }
             }
         }
     };
