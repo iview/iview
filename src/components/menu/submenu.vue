@@ -5,7 +5,6 @@
             <Icon type="ios-arrow-down" :class="[prefixCls + '-submenu-title-icon']"></Icon>
         </div>
         <ul :class="[prefixCls]" v-if="mode === 'vertical'" :style="{ maxHeight: opened ? null : '0px' }" v-el:vdrop><slot></slot></ul>
-        <!-- <ul :class="[prefixCls]" v-if="mode === 'vertical'" v-show="opened" transition="expand-vertical"><slot></slot></ul> -->
         <Drop
             v-else
             v-show="opened"
@@ -110,8 +109,8 @@
             opened (val) {
                 if (this.mode === 'vertical') {
                     this.$nextTick(() => {
-                    transitionHeight(this.$els.vdrop, !val)
-                    })
+                        transitionHeight(this.$els.vdrop, !val);
+                    });
                     return;
                 }
                 if (val) {

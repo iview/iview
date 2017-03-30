@@ -169,7 +169,7 @@ export function scrollTop(el, from = 0, to, duration = 500) {
 
 // transitionHeight animation
 export function transitionHeight(el, close = false, duration = 500) {
-    if (typeof window.getComputedStyle == "undefined") return;
+    if (typeof window.getComputedStyle == 'undefined') return;
 
     el.style.height = 'auto';
     el.style.transition = 'none';
@@ -181,8 +181,8 @@ export function transitionHeight(el, close = false, duration = 500) {
     let sourceHeight = close ? height : '0px';
 
     el.style.maxHeight = sourceHeight;
-    if (duration) el.style.transition = "max-height " + duration + "ms";
+    if (duration) el.style.transition = 'max-height ' + duration + 'ms';
     setTimeout(() => {
         el.style.maxHeight = targetHeight;
-    }, 1)
-};
+    }, 1);
+}
