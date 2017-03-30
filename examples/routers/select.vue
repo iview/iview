@@ -194,7 +194,7 @@
 <template>
     <div>
         <i-select v-model="d" filterable style="width: 200px" multiple>
-            <i-option v-for="e in uList" :value="e.id" :label="e.name">
+            <i-option :key="e" v-for="e in uList" :value="e.id" :label="e.name">
                 <span>{{ e.name }}</span>
                 <span style="float:right;color:#ccc">{{ e.id }}</span>
             </i-option>
