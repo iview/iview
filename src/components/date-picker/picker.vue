@@ -260,7 +260,8 @@
         methods: {
             handleClose () {
                 if (this.open !== null) return;
-                if (!this.disableClickOutSide) this.visible = false;
+//                if (!this.disableClickOutSide) this.visible = false;
+                this.visible = false;
                 this.disableClickOutSide = false;
             },
             handleFocus () {
