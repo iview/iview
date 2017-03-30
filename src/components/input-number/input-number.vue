@@ -202,9 +202,11 @@
                 });
             },
             focus () {
+                this.$emit('on-focus');
                 this.focused = true;
             },
             blur () {
+                this.$emit('on-blur');
                 this.focused = false;
             },
             keyDown (e) {
@@ -214,6 +216,8 @@
                 } else if (e.keyCode === 40) {
                     e.preventDefault();
                     this.down(e);
+                } else if (e.keyCode === 13) {
+                    this.$emit('on-enter');
                 }
             },
             change (event) {
