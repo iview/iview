@@ -1,5 +1,5 @@
 <template>
-    <ul :class="simpleWrapClasses" :style="style" v-if="simple">
+    <ul :class="simpleWrapClasses" :style="style" onselectstart="return false;" style="-moz-user-select:none;" v-if="simple">
         <li
             :title="t('i.page.prev')"
             :class="prevClasses"
@@ -23,7 +23,7 @@
             <a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a>
         </li>
     </ul>
-    <ul :class="wrapClasses" :style="style" v-else>
+    <ul :class="wrapClasses" :style="style"  onselectstart="return false;" style="-moz-user-select:none;" v-else>
         <span :class="[prefixCls + '-total']" v-if="showTotal">
             <slot>{{ t('i.page.total') }} {{ total }} <template v-if="total <= 1">{{ t('i.page.item') }}</template><template v-else>{{ t('i.page.items') }}</template></slot>
         </span>

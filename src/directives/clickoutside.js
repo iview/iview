@@ -1,7 +1,7 @@
 export default {
     bind () {
         this.documentHandler = (e) => {
-            if (this.el.contains(e.target)) {
+            if (!document.body.contains(e.target) || this.el.contains(e.target)) {
                 return false;
             }
             if (this.expression) {
