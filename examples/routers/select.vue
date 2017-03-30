@@ -193,31 +193,51 @@
 
 <template>
     <div>
-        <i-select v-model="d" filterable style="width: 200px" multiple>
-            <i-option :key="e" v-for="e in uList" :value="e.id" :label="e.name">
-                <span>{{ e.name }}</span>
-                <span style="float:right;color:#ccc">{{ e.id }}</span>
-            </i-option>
-        </i-select>
-        <p>{{d}}</p>
-        <i-button type="primary" v-on:click="clear">清空</i-button>
+        <Select v-model="model1" style="width:200px">
+            <Option v-for="item in cityList" :value="item.value" :key="item">{{ item.label }}</Option>
+        </Select>
+        {{ model1 }}
+        <Button @click="set">set</Button>
+        <Button @click="add">add</Button>
+        <Button @click="remove">remove</Button>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                d: [],
-                uList : [
-                    {id:1,name:"中国"},
-                    {id:2,name:"美国"},
-                    {id:3,name:"韩国"}
-                ]
+                cityList: [
+                    {
+                        value: 'beijing',
+                        label: '北京市'
+                    },
+                    {
+                        value: 'shanghai',
+                        label: '上海市'
+                    },
+                    {
+                        value: 'shenzhen',
+                        label: '深圳市'
+                    }
+                ],
+                model1: ''
             }
         },
         methods: {
             clear(){
                 this.d = [];
+            },
+            set () {
+                this.model1 = 'shenzhen';
+            },
+            add () {
+                this.cityList.push({
+                    value: 'chongqing',
+                    label: '重庆市'
+                });
+            },
+            remove () {
+                this.cityList.splice(0, 1);
             }
         }
     }

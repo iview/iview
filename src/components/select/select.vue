@@ -36,7 +36,7 @@
     import Icon from '../icon';
     import Drop from './dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
-    import { oneOf, MutationObserver, findComponentDownward } from '../../utils/assist';
+    import { oneOf, findComponentDownward } from '../../utils/assist';
     import { t } from '../../locale';
     import Emitter from '../../mixins/emitter';
 
@@ -506,22 +506,16 @@
             this.updateOptions(true);
             document.addEventListener('keydown', this.handleKeydown);
 
-            // watch slot changed
-            // todo 在 child 的 mounted 和 beforeDestroy 里处理
-            if (MutationObserver) {
-                this.observer = new MutationObserver(() => {
-                    this.modelToQuery();
-                    this.slotChange();
-                    this.updateOptions(true, true);
-                });
-
-                this.observer.observe(this.$refs.options, {
-//                attributes: true,
-                    childList: true,
-                    characterData: true,
-                    subtree: true
-                });
-            }
+            this.$on('append', () => {
+                this.modelToQuery();
+                this.slotChange();
+                this.updateOptions(true, true);
+            });
+            this.$on('remove', () => {
+                this.modelToQuery();
+                this.slotChange();
+                this.updateOptions(true, true);
+            });
 
             this.$on('on-select-selected', (value) => {
                 if (this.model === value) {
@@ -556,9 +550,6 @@
         },
         beforeDestroy () {
             document.removeEventListener('keydown', this.handleKeydown);
-            if (this.observer) {
-                this.observer.disconnect();
-            }
         },
         watch: {
             value (val) {

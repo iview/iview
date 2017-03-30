@@ -65,12 +65,16 @@
         },
         mounted () {
             this.searchLabel = this.$el.innerHTML;
+            this.dispatch('iSelect', 'append');
             this.$on('on-select-close', () => {
                 this.isFocus = false;
             });
             this.$on('on-query-change', (val) => {
                 this.queryChange(val);
             });
+        },
+        beforeDestroy () {
+            this.dispatch('iSelect', 'remove');
         }
     };
 </script>
