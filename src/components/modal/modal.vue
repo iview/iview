@@ -1,10 +1,10 @@
 <template>
     <span>
-        <transition name="fade">
+        <transition :name="transitionNames[1]">
             <div :class="maskClasses" v-show="visible" @click="mask"></div>
         </transition>
         <div :class="wrapClasses" @click="handleWrapClick">
-            <transition name="ease">
+            <transition :name="transitionNames[0]">
                 <div :class="classes" :style="mainStyles" v-show="visible">
                     <div :class="[prefixCls + '-content']">
                         <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
@@ -82,6 +82,12 @@
             scrollable: {
                 type: Boolean,
                 default: false
+            },
+            transitionNames: {
+                type: Array,
+                default () {
+                    return ['ease', 'fade'];
+                }
             }
         },
         data () {
