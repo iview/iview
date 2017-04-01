@@ -591,12 +591,15 @@
                 }
             },
             query (val) {
+                this.$emit('on-query-change', val);
+
                 if (findComponentDownward(this, 'OptionGroup')) {
                     this.broadcast('OptionGroup', 'on-query-change', val);
                     this.broadcast('iOption', 'on-query-change', val);
                 } else {
                     this.broadcast('iOption', 'on-query-change', val);
                 }
+                
                 let is_hidden = true;
 
                 this.$nextTick(() => {
