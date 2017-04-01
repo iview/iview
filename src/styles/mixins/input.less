@@ -124,9 +124,17 @@
     > .@{inputClass} {
         display: table-cell;
 
-        &:not(:first-child):not(:last-child) {
-            border-radius: 0;
-        }
+        //&:not(:first-child):not(:last-child) {
+        //    border-radius: 0;
+        //}
+    }
+    &-with-prepend .@{inputClass} {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    &-with-append .@{inputClass} {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
     }
 
     &-prepend .@{css-prefix}btn,
