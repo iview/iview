@@ -23,7 +23,7 @@
         display: none;
     }
 
-    &-icon + &{
+    &-icon-normal + &{
         padding-right: 32px;
     }
 
@@ -71,6 +71,9 @@
     .@{input-prefix-cls}{
         &-icon-validate{
             display: inline-block;
+        }
+        &-icon + .@{input-prefix-cls}{
+            padding-right: 32px;
         }
     }
 }
