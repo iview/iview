@@ -244,6 +244,9 @@
         watch: {
             targetKeys () {
                 this.splitData(false);
+            },
+            data () {
+                this.splitData(false);
             }
         },
         created () {
