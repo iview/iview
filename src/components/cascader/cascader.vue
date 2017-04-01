@@ -219,6 +219,9 @@
                     return;
                 }
                 this.updateSelected(true);
+            },
+            data () {
+                this.$nextTick(() => this.updateSelected());
             }
         }
     };
