@@ -19,12 +19,19 @@
         right: 0;
         z-index: 3;
     }
+    &-hide-icon &-icon{
+        display: none;
+    }
     &-icon-validate{
         display: none;
     }
 
     &-icon-normal + &{
         padding-right: 32px;
+    }
+    // #554
+    &-hide-icon &-icon-normal + &{
+        padding-right: @input-padding-horizontal;
     }
 
     &-wrapper-large &-icon{

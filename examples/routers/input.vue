@@ -1,7 +1,12 @@
 <template>
     <div style="width: 300px;">
+        <i-input v-model="value11">
+        </i-input>
         <i-input v-model="value11" icon="ios-clock-outline">
-            <span slot="prepend">http://</span>
+            <span slot="prepend">.com</span>
+        </i-input>
+        <i-input v-model="value11" icon="ios-clock-outline">
+            <span slot="append">.com</span>
         </i-input>
     </div>
 </template>
