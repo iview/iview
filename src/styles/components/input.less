@@ -17,14 +17,21 @@
         color: @subsidiary-color;
         position: absolute;
         right: 0;
-        z-index: 1;
+        z-index: 3;
+    }
+    &-hide-icon &-icon{
+        display: none;
     }
     &-icon-validate{
         display: none;
     }
 
-    &-icon + &{
+    &-icon-normal + &{
         padding-right: 32px;
+    }
+    // #554
+    &-hide-icon &-icon-normal + &{
+        padding-right: @input-padding-horizontal;
     }
 
     &-wrapper-large &-icon{
@@ -71,6 +78,9 @@
     .@{input-prefix-cls}{
         &-icon-validate{
             display: inline-block;
+        }
+        &-icon + .@{input-prefix-cls}{
+            padding-right: 32px;
         }
     }
 }

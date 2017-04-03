@@ -1,26 +1,23 @@
 <template>
-    <div>
-        <Input v-model="value" placeholder="请输入..." style="width: 300px" icon="ios-clock-outline"></Input>
-        <input type="text" v-model="value">
-        {{ value }}
-        <!--<Input v-model="value">-->
-            <!--<span slot="prepend">http://</span>-->
-            <!--<span slot="append">.com</span>-->
-        <!--</Input>-->
-        <br>
-        <Input type="textarea" v-model="value" placeholder="请输入..."></Input>
-        <Input type="textarea" v-model="value" :rows="4" placeholder="请输入..."></Input>
-        <br>
-        <br>
-        <Input type="textarea" v-model="value" :autosize="true" placeholder="请输入..."></Input>
-        <Input type="textarea" v-model="value" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."></Input>
+    <div style="width: 300px;">
+        <i-input v-model="value11" icon="ios-clock-outline">
+            <span slot="prepend">.com</span>
+        </i-input>
+        <i-input v-model="value11" icon="ios-clock-outline">
+            <span slot="append">.com</span>
+        </i-input>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                value: ''
+                value11: '',
+                value12: '',
+                value13: '',
+                select1: 'http',
+                select2: 'com',
+                select3: 'day'
             }
         }
     }

@@ -8,20 +8,20 @@
             :multiple="multiple"
             :show-checkbox="showCheckbox">
         </Tree-node>
-        <div :class="[prefixCls + '-empty']" v-if="!data.length">{{ emptyText }}</div>
+        <div :class="[prefixCls + '-empty']" v-if="!data.length">{{ localeEmptyText }}</div>
     </div>
 </template>
 <script>
     import TreeNode from './node.vue';
     import { findComponentsDownward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
-    import { t } from '../../locale';
+    import Locale from '../../mixins/locale';
 
     const prefixCls = 'ivu-tree';
 
     export default {
         name: 'Tree',
-        mixins: [ Emitter ],
+        mixins: [ Emitter, Locale ],
         components: { TreeNode },
         props: {
             data: {
@@ -39,16 +39,22 @@
                 default: false
             },
             emptyText: {
-                type: String,
-                default () {
-                    return t('i.tree.emptyText');
-                }
+                type: String
             }
         },
         data () {
             return {
                 prefixCls: prefixCls
             };
+        },
+        computed: {
+            localeEmptyText () {
+                if (this.emptyText === undefined) {
+                    return this.t('i.tree.emptyText');
+                } else {
+                    return this.emptyText;
+                }
+            }
         },
         methods: {
             getSelectedNodes () {

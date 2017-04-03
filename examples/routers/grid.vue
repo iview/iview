@@ -1,26 +1,29 @@
+<style>
+    .demo-col div{
+        background: #f50;
+    }
+</style>
 <template>
     <div>
-        <Row>
-            <i-col span="12">col-12</i-col>
-            <i-col span="12">col-12</i-col>
+        <Row :gutter="16">
+            <i-col class-name="demo-col" span="4" v-for="i in n" key="i">
+                <div>col-8</div>
+            </i-col>
         </Row>
-        <br>
-        <Row>
-            <i-col span="8">col-8</i-col>
-            <i-col span="8">col-8</i-col>
-            <i-col span="8">col-8</i-col>
-        </Row>
-        <br>
-        <Row>
-            <i-col span="6">col-6</i-col>
-            <i-col span="6">col-6</i-col>
-            <i-col span="6">col-6</i-col>
-            <i-col span="6">col-6</i-col>
-        </Row>
+        <Button @click="add">add</Button>
     </div>
 </template>
 <script>
     export default {
-
+        data () {
+            return {
+                n: 2
+            }
+        },
+        methods: {
+            add () {
+                this.n++;
+            }
+        }
     }
 </script>

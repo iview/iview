@@ -193,28 +193,13 @@
 
 <template>
     <div>
-        <Row>
-            <i-col span="12" style="padding-right:10px">
-                <Select v-model="model11" filterable>
-                    <Option-group label="123">
-                        <i-option value="beijing">北京市</i-option>
-                        <i-option value="shanghai">上海市</i-option>
-                    </Option-group>
-                    <Option-group label="456">
-                        <i-option value="shenzhen">深圳市</i-option>
-                        <i-option value="hangzhou">杭州市</i-option>
-                    </Option-group>
-                    <i-option value="nanjing">南京市</i-option>
-                    <i-option value="chongqing">重庆市</i-option>
-                </Select>
-            </i-col>
-            <i-col span="12">
-                <Select v-model="model12" filterable multiple>
-                    <i-option v-for="item in cityList" :key="item" :value="item.value">{{ item.label }}</i-option>
-                </Select>
-            </i-col>
-        </Row>
-        <div @click="model11 = 'shanghai'">change</div>
+        <Select v-model="model1" style="width:200px">
+            <Option v-for="item in cityList" :value="item.value" :key="item">{{ item.label }}</Option>
+        </Select>
+        {{ model1 }}
+        <Button @click="set">set</Button>
+        <Button @click="add">add</Button>
+        <Button @click="remove">remove</Button>
     </div>
 </template>
 <script>
@@ -233,22 +218,26 @@
                     {
                         value: 'shenzhen',
                         label: '深圳市'
-                    },
-                    {
-                        value: 'hangzhou',
-                        label: '杭州市'
-                    },
-                    {
-                        value: 'nanjing',
-                        label: '南京市'
-                    },
-                    {
-                        value: 'chongqing',
-                        label: '重庆市'
                     }
                 ],
-                model11: '',
-                model12: []
+                model1: ''
+            }
+        },
+        methods: {
+            clear(){
+                this.d = [];
+            },
+            set () {
+                this.model1 = 'shenzhen';
+            },
+            add () {
+                this.cityList.push({
+                    value: 'chongqing',
+                    label: '重庆市'
+                });
+            },
+            remove () {
+                this.cityList.splice(0, 1);
             }
         }
     }

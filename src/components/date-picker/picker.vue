@@ -260,7 +260,8 @@
         methods: {
             handleClose () {
                 if (this.open !== null) return;
-                if (!this.disableClickOutSide) this.visible = false;
+//                if (!this.disableClickOutSide) this.visible = false;
+                this.visible = false;
                 this.disableClickOutSide = false;
             },
             handleFocus () {
@@ -359,8 +360,11 @@
                 this.showClose = false;
             },
             handleIconClick () {
-                if (!this.showClose) return;
-                this.handleClear();
+                if (this.showClose) {
+                    this.handleClear();
+                } else {
+                    this.handleFocus();
+                }
             },
             handleClear () {
                 this.visible = false;

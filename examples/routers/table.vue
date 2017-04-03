@@ -35,7 +35,7 @@
                         width: 150,
                         align: 'center',
                         render (row, column, index) {
-                            return `<i-button type="primary" size="small" @click="show(${index})">{{ info }}查看</i-button> <i-button type="error" size="small" @click="remove(${index})">删除</i-button>`;
+                            return `{{ column }}`;
                         }
                     }
                 ],
@@ -82,6 +82,7 @@
         mounted () {
             setTimeout(() => {
                 this.info = '444';
+//                this.data6[0].name = 'xxx';
             }, 3000);
         }
     }

@@ -1,7 +1,7 @@
 <template>
     <div>
         {{ val1 }}
-        <Date-picker v-model="val1" type="daterange" placeholder="选择日期" style="width: 200px"></Date-picker>
+        <Date-picker v-model="val1" type="date" placeholder="选择日期" style="width: 200px"></Date-picker>
         <div @click="val1 = '2017-03-02'">change</div>
     </div>
 </template>

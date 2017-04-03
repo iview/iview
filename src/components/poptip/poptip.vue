@@ -22,8 +22,8 @@
                             <div :class="[prefixCls + '-body-message']"><slot name="title">{{ title }}</slot></div>
                         </div>
                         <div :class="[prefixCls + '-footer']">
-                            <i-button type="text" size="small" @click.native="cancel">{{ cancelText }}</i-button>
-                            <i-button type="primary" size="small" @click.native="ok">{{ okText }}</i-button>
+                            <i-button type="text" size="small" @click.native="cancel">{{ localeCancelText }}</i-button>
+                            <i-button type="primary" size="small" @click.native="ok">{{ localeOkText }}</i-button>
                         </div>
                     </div>
                     <div :class="[prefixCls + '-inner']" v-if="!confirm">
@@ -42,13 +42,13 @@
     import iButton from '../button/button.vue';
     import clickoutside from '../../directives/clickoutside';
     import { oneOf } from '../../utils/assist';
-    import { t } from '../../locale';
+    import Locale from '../../mixins/locale';
 
     const prefixCls = 'ivu-poptip';
 
     export default {
         name: 'Poptip',
-        mixins: [Popper],
+        mixins: [ Popper, Locale ],
         directives: { clickoutside },
         components: { iButton },
         props: {
@@ -79,16 +79,10 @@
                 default: false
             },
             okText: {
-                type: String,
-                default () {
-                    return t('i.poptip.okText');
-                }
+                type: String
             },
             cancelText: {
-                type: String,
-                default () {
-                    return t('i.poptip.cancelText');
-                }
+                type: String
             }
         },
         data () {
@@ -114,6 +108,20 @@
                     style.width = `${this.width}px`;
                 }
                 return style;
+            },
+            localeOkText () {
+                if (this.okText === undefined) {
+                    return this.t('i.poptip.okText');
+                } else {
+                    return this.okText;
+                }
+            },
+            localeCancelText () {
+                if (this.cancelText === undefined) {
+                    return this.t('i.poptip.cancelText');
+                } else {
+                    return this.cancelText;
+                }
             }
         },
         methods: {

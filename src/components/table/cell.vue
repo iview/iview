@@ -71,6 +71,8 @@
                             return $parent._data;
                         }
                     });
+                    component.row = this.row;
+                    component.column = this.column;
 
                     const Cell = component.$mount();
                     this.$refs.cell.appendChild(Cell.$el);

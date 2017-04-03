@@ -3,7 +3,7 @@ import Modal from './modal.vue';
 import Icon from '../icon/icon.vue';
 import iButton from '../button/button.vue';
 import { camelcaseToHyphen } from '../../utils/assist';
-import { t } from '../../locale';
+import Locale from '../../mixins/locale';
 
 const prefixCls = 'ivu-modal-confirm';
 
@@ -27,8 +27,8 @@ Modal.newInstance = properties => {
                     <div v-html="body"></div>
                 </div>
                 <div class="${prefixCls}-footer">
-                    <i-button type="text" size="large" v-if="showCancel" @click.native="cancel">{{ cancelText }}</i-button>
-                    <i-button type="primary" size="large" :loading="buttonLoading" @click.native="ok">{{ okText }}</i-button>
+                    <i-button type="text" size="large" v-if="showCancel" @click.native="cancel">{{ localeCancelText }}</i-button>
+                    <i-button type="primary" size="large" :loading="buttonLoading" @click.native="ok">{{ localeOkText }}</i-button>
                 </div>
             </div>
         </Modal>
@@ -37,6 +37,7 @@ Modal.newInstance = properties => {
 
     const modal = new Vue({
         el: div,
+        mixins: [ Locale ],
         components: { Modal, iButton, Icon },
         data: Object.assign(_props, {
             visible: false,
@@ -45,8 +46,8 @@ Modal.newInstance = properties => {
             body: '',
             iconType: '',
             iconName: '',
-            okText: t('i.modal.okText'),
-            cancelText: t('i.modal.cancelText'),
+            okText: undefined,
+            cancelText: undefined,
             showCancel: false,
             loading: false,
             buttonLoading: false,
@@ -64,6 +65,20 @@ Modal.newInstance = properties => {
                     'ivu-icon',
                     `ivu-icon-${this.iconName}`
                 ];
+            },
+            localeOkText () {
+                if (this.okText) {
+                    return this.okText;
+                } else {
+                    return this.t('i.modal.okText');
+                }
+            },
+            localeCancelText () {
+                if (this.cancelText) {
+                    return this.cancelText;
+                } else {
+                    return this.t('i.modal.cancelText');
+                }
             }
         },
         methods: {
