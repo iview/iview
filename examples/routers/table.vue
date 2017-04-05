@@ -24,7 +24,19 @@
         </Table>
         </col>
     </Row>
-
+    <Row>
+        <Col span="11">
+        <Table :columns="columns1" :data="data1" width="550" >
+            <div slot="header">头部</div>
+            <div slot="footer">底部</div>
+        </Table>
+        </col>
+        <Col span="11" offset="2" >
+        <Table :columns="columns2" :data="data1"  width="550" height="200">
+            <div slot="footer">底部</div>
+        </Table>
+        </col>
+    </Row>
 </div>
 </template>
 <script>
