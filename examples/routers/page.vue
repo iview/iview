@@ -1,19 +1,15 @@
 <template>
     <div>
-        <Page :total="1000" show-sizer show-elevator show-total class="classr" :style="{float: 'right'}" @on-page-size-change="pc"></Page>
-        <br><br>
-        <Page :total="1000" show-sizer show-elevator show-total size="small" class="classr2"></Page>
-        <br><br>
-        <Page :current="2" :total="50" simple></Page>
+        <Page :total="100" :current="current"></Page>
+        {{ current }}
+        <Button @click="current = 1">set current</Button>
     </div>
 </template>
 <script>
-    import { Page } from 'iview';
     export default {
-        components: { Page },
-        methods: {
-            pc (page) {
-                console.log(page)
+        data () {
+            return {
+                current: 2
             }
         }
     }

@@ -4,7 +4,6 @@
         <Modal
                 v-model="modal1"
                 title="普通的Modal对话框标题"
-                :transition-names="['slide-up', 'ease']"
                 @on-ok="ok"
                 @on-cancel="cancel">
             <p>对话框内容</p>

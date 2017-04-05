@@ -1,5 +1,5 @@
 <template>
-    <span>
+    <div v-transfer-dom>
         <transition :name="transitionNames[1]">
             <div :class="maskClasses" v-show="visible" @click="mask"></div>
         </transition>
@@ -24,11 +24,12 @@
                 </div>
             </transition>
         </div>
-    </span>
+    </div>
 </template>
 <script>
     import Icon from '../icon';
     import iButton from '../button/button.vue';
+    import TransferDom from '../../directives/transfer-dom';
     import { getScrollBarSize } from '../../utils/assist';
     import Locale from '../../mixins/locale';
 
@@ -38,6 +39,7 @@
         name: 'Modal',
         mixins: [ Locale ],
         components: { Icon, iButton },
+        directives: { TransferDom },
         props: {
             value: {
                 type: Boolean,
