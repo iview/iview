@@ -1,5 +1,5 @@
 <template>
-    <table cellspacing="0" cellpadding="0" border="0" :style="styleObject">
+    <table cellspacing="0" cellpadding="0" border="0">
         <colgroup>
             <col v-for="(column, index) in columns" :width="setCellWidth(column, index, false)">
         </colgroup>

@@ -655,8 +655,8 @@
         },
         created () {
             if (!this.context) this.currentContext = this.$parent;
-            this.showSlotHeader = this.$refs.title !== undefined;
-            this.showSlotFooter = this.$refs.footer !== undefined;
+            this.showSlotHeader = this.$slots.title !== undefined;
+            this.showSlotFooter = this.$slots.footer !== undefined;
             this.rebuildData = this.makeDataWithSortAndFilter();
         },
         mounted () {
