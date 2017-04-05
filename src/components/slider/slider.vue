@@ -301,18 +301,21 @@
                 }
             },
             changeSinglePosition (newPos) {
-                if (newPos >= 0 && (newPos <= 100)) {
-                    const lengthPerStep = 100 / ((this.max - this.min) / this.step);
-                    const steps = Math.round(newPos / lengthPerStep);
+                if (newPos < 0) {
+                    newPos = 0;
+                } else if (newPos > 100) {
+                    newPos = 100;
+                }
+                const lengthPerStep = 100 / ((this.max - this.min) / this.step);
+                const steps = Math.round(newPos / lengthPerStep);
 
-                    this.currentValue = Math.round(steps * lengthPerStep * (this.max - this.min) * 0.01 + this.min);
-                    this.setSinglePosition(this.currentValue);
-                    if (!this.dragging) {
-                        if (this.currentValue !== this.oldSingleValue) {
-                            this.$emit('on-change', this.currentValue);
-                            this.dispatch('FormItem', 'on-form-change', this.currentValue);
-                            this.oldSingleValue = this.currentValue;
-                        }
+                this.currentValue = Math.round(steps * lengthPerStep * (this.max - this.min) * 0.01 + this.min);
+                this.setSinglePosition(this.currentValue);
+                if (!this.dragging) {
+                    if (this.currentValue !== this.oldSingleValue) {
+                        this.$emit('on-change', this.currentValue);
+                        this.dispatch('FormItem', 'on-form-change', this.currentValue);
+                        this.oldSingleValue = this.currentValue;
                     }
                 }
             },

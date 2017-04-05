@@ -192,7 +192,7 @@
 <!--</script>-->
 
 <template>
-    <div>
+    <div style="margin: 1000px 0 0 ">
         <Select v-model="model1" style="width:200px">
             <Option v-for="item in cityList" :value="item.value" :key="item">{{ item.label }}</Option>
         </Select>

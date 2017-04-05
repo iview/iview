@@ -1,6 +1,6 @@
 <template>
-    <div style="margin: 100px;">
-        <Slider v-model="value1" :step="5" show-input></Slider>
+    <div style="margin: 0 400px;">
+        <Slider v-model="value1" show-input></Slider>
         <Slider v-model="value2" range></Slider>
         <Slider v-model="value3" range disabled></Slider>
         {{ value1 }}{{value2}}
