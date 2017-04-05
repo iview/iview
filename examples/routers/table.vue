@@ -1,25 +1,18 @@
 <template>
-    <div>
-        <Row>
-            <i-col span="12">
-                <i-table border :content="self" :columns="columns7" :data="data6" :context="self"></i-table>
-            </i-col>
-        </Row>
-    </div>
+    <Table border :context="self" :columns="columns7" :data="data6"></Table>
 </template>
 <script>
     export default {
         data () {
             return {
-                info: '123',
                 self: this,
                 columns7: [
                     {
                         title: '姓名',
                         key: 'name',
-//                        render (row, column, index) {
-//                            return `<Icon type="person"></Icon> <strong>${row.name}</strong>`;
-//                        }
+                        render (row, column, index) {
+                            return `<div style="white-space:nowrap;"><Date-picker type="date" placeholder="选择日期" style="width: 200px"></Date-picker></div>`;
+                        }
                     },
                     {
                         title: '年龄',
@@ -35,7 +28,7 @@
                         width: 150,
                         align: 'center',
                         render (row, column, index) {
-                            return `{{ column }}`;
+                            return `<i-button type="primary" size="small" @click="show(${index})">查看</i-button> <i-button type="error" size="small" @click="remove(${index})">删除</i-button>`;
                         }
                     }
                 ],
@@ -45,27 +38,22 @@
                         age: 18,
                         address: '北京市朝阳区芍药居'
                     },
-//                    {
-//                        name: '张小刚',
-//                        age: 25,
-//                        address: '北京市海淀区西二旗'
-//                    },
-//                    {
-//                        name: '李小红',
-//                        age: 30,
-//                        address: '上海市浦东新区世纪大道'
-//                    },
-//                    {
-//                        name: '周小伟',
-//                        age: 26,
-//                        address: '深圳市南山区深南大道'
-//                    }
+                    {
+                        name: '张小刚',
+                        age: 25,
+                        address: '北京市海淀区西二旗'
+                    },
+                    {
+                        name: '李小红',
+                        age: 30,
+                        address: '上海市浦东新区世纪大道'
+                    },
+                    {
+                        name: '周小伟',
+                        age: 26,
+                        address: '深圳市南山区深南大道'
+                    }
                 ]
-            }
-        },
-        computed: {
-            dddfff () {
-                return this.info
             }
         },
         methods: {
@@ -78,12 +66,6 @@
             remove (index) {
                 this.data6.splice(index, 1);
             }
-        },
-        mounted () {
-            setTimeout(() => {
-                this.info = '444';
-//                this.data6[0].name = 'xxx';
-            }, 3000);
         }
     }
 </script>

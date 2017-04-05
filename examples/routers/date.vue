@@ -1,7 +1,9 @@
 <template>
     <div>
         {{ val1 }}
+        <Date-picker type="datetime" placeholder="选择日期和时间" style="width: 200px"></Date-picker>
         <Date-picker v-model="val1" type="date" placeholder="选择日期" style="width: 200px"></Date-picker>
+        <Date-picker type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></Date-picker>
         <div @click="val1 = '2017-03-02'">change</div>
     </div>
 </template>
