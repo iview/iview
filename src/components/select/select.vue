@@ -506,6 +506,14 @@
                         }
                     });
                 }
+            },
+            broadcastQuery (val) {
+                if (findComponentDownward(this, 'OptionGroup')) {
+                    this.broadcast('OptionGroup', 'on-query-change', val);
+                    this.broadcast('iOption', 'on-query-change', val);
+                } else {
+                    this.broadcast('iOption', 'on-query-change', val);
+                }
             }
         },
         mounted () {
@@ -579,13 +587,21 @@
             },
             visible (val) {
                 if (val) {
-                    if (this.multiple && this.filterable) {
-                        this.$refs.input.focus();
+                    if (this.filterable) {
+                        if (this.multiple) {
+                            this.$refs.input.focus();
+                        } else {
+                            this.$refs.input.select();
+                        }
                     }
                     this.broadcast('Drop', 'on-update-popper');
                 } else {
                     if (this.filterable) {
                         this.$refs.input.blur();
+                        // #566 reset options visible
+                        setTimeout(() => {
+                            this.broadcastQuery('');
+                        }, 300);
                     }
                     this.broadcast('Drop', 'on-destroy-popper');
                 }
@@ -593,12 +609,7 @@
             query (val) {
                 this.$emit('on-query-change', val);
 
-                if (findComponentDownward(this, 'OptionGroup')) {
-                    this.broadcast('OptionGroup', 'on-query-change', val);
-                    this.broadcast('iOption', 'on-query-change', val);
-                } else {
-                    this.broadcast('iOption', 'on-query-change', val);
-                }
+                this.broadcastQuery(val);
                 
                 let is_hidden = true;
 
