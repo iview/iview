@@ -207,6 +207,7 @@
                         this.updateSelected();
                     }
                 }
+                this.$emit('on-visible-change', val);
             },
             value (val) {
                 this.currentValue = val;
