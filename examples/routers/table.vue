@@ -15,7 +15,28 @@
                     },
                     {
                         title: '年龄',
-                        key: 'age'
+                        key: 'age',
+                        filters:[
+                            {
+                                label: '小学',
+                                value: '小学'
+                            },
+                            {
+                                label: '中学',
+                                value: '大学'
+                            },
+                            {
+                                label: '中学',
+                                value: '中学'
+                            }
+                        ],
+                        filterRemote:function(value,key,column){
+                            var that = this;
+                            this.$Notice.open({title:`正在远程过滤${key}`,desc:value,duration:3,onClose:function(){
+                                that.remoteFilter(value,key,column)
+                            }})
+                            
+                        }
                     },
                     {
                         title: '地址',
@@ -43,6 +64,23 @@
                         age: 26,
                         address: '深圳市南山区深南大道'
                     }
+                ]
+            }
+
+        },
+        methods:{
+            remoteFilter:function(val,age,column){
+                this.data1 = [
+                       {
+                        name: '模拟1',
+                        age: 18,
+                        address: '北京市朝阳区芍药居'
+                    },
+                    {
+                        name: '模拟2',
+                        age: 25,
+                        address: '北京市海淀区西二旗'
+                    },
                 ]
             }
         }
