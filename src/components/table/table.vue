@@ -510,7 +510,7 @@
             filterOtherData (data, index) {
                 let column = this.cloneColumns[index];
                 if(typeof column.filterRemote == 'function'){
-                    column.filterRemote.call(this.currentContext,column._filterChecked,column.key,column);
+                    column.filterRemote.call(this.$parent,column._filterChecked,column.key,column);
                 }
 
                 this.cloneColumns.forEach((col, colIndex) => {
