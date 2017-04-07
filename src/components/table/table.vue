@@ -92,7 +92,6 @@
     import ExportCsv from './export-csv';
     import Locale from '../../mixins/locale';
 
-
     const prefixCls = 'ivu-table';
 
     export default {
@@ -153,6 +152,14 @@
             },
             noFilteredDataText: {
                 type: String
+            },
+            expandRowRender: {// expand 自定义组件
+                type: [Object, Function],
+                default () {
+                    return {
+                        render: h => h('p', this.t('i.table.noDataText'))
+                    };
+                }
             }
         },
         data () {
@@ -171,8 +178,7 @@
                 bodyRealHeight: 0,
                 scrollBarWidth: getScrollBarSize(),
                 currentContext: this.context,
-                cloneData: deepCopy(this.data),    // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
-                expandTemplate: this.makeExpand()
+                cloneData: deepCopy(this.data)    // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
             };
         },
         computed: {
@@ -314,16 +320,8 @@
             rowClsName (index) {
                 return this.rowClassName(this.data[index], index);
             },
-            makeExpand () {
-                for (let index in this.columns) {
-                    if (this.columns[index].type == 'expand') {
-                        return this.expandTemplate = this.columns[index].expand;
-                    }
-                }
-                return null;
-            },
             getExpandTemplate () {
-                return this.expandTemplate;
+                return this.expandRowRender;
             },
             getExpandRows () {
                 // 获取已展开行数
@@ -636,7 +634,6 @@
                 let center = [];
 
                 columns.forEach((column, index) => {
-                    if (column.hidden) return;
                     column._index = index;
                     column._width = column.width ? column.width : '';    // update in handleResize()
                     column._sortType = 'normal';
@@ -724,7 +721,6 @@
                     // todo 这里有性能问题，可能是左右固定计算属性影响的
                     this.cloneColumns = this.makeColumns();
                     this.rebuildData = this.makeDataWithSortAndFilter();
-                    this.expandTemplate = this.makeExpand();
                     this.handleResize();
                 },
                 deep: true

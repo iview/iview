@@ -6,7 +6,7 @@
         <template v-else>
             <Button @click="expandAll(false)">收起全部</Button>
         </template>
-        <Table ref="mineTable" :columns="columns1" :data="data1" @on-expand="onExpand" @on-expand-all="onExpandAll">
+        <Table ref="mineTable" :expand-row-render="expandTemplate" :columns="columns1" :data="data1" @on-expand="onExpand" @on-expand-all="onExpandAll">
             <div slot="header">头部</div>
             <div slot="footer">底部</div>
         </Table>
@@ -23,17 +23,6 @@
                 columns1: [
                     {
                         type: 'expand',
-                        width: 60,
-                        align: 'center',
-//                        hidden: true,
-                        expand (row, index) {
-                            //return `<i-button type="primary" size="small" @click="show(${index})">查看</i-button>`;
-                            return expandExample;
-                        }
-//                        render: expandExample
-                    },
-                    {
-                        type: 'selection',
                         width: 60,
                         align: 'center'
                     },
@@ -79,6 +68,13 @@
 //            onRowClick (row, index) {
 //                this.$refs['mineTable'].showExpand(index)
 //            },
+            expandTemplate (row, index) {
+                console.log(row);
+                // render 方式调用
+                return `<i-button type="primary" size="small" @click="show(${index})">查看</i-button>`;
+                // 组件方式调用
+                // return expandExample;
+            },
             onExpand(expands, row, status, index) {
                 console.log('展开一行操作');
                 console.log(expands);

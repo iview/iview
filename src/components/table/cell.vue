@@ -56,7 +56,6 @@
                 this.$parent.$parent.showExpand(this.index);
             },
             compile () {
-                if (this.column.type === 'expand') return;
                 if (this.column.render) {
                     const $parent = this.context;
                     const template = this.column.render(this.row, this.column, this.index);

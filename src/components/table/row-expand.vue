@@ -36,7 +36,7 @@
         },
         data () {
             return {
-                message: 'Hello Word',
+                message: this.t('i.table.noDataText'),
                 tmp: null,
                 context: this.$parent.$parent.currentContext
             };
