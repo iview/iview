@@ -6,8 +6,7 @@
         <template v-else>
             <Button @click="expandAll(false)">收起全部</Button>
         </template>
-        <Table ref="mineTable" :columns="columns1" :data="data1" :expand-template="expandTemplate"
-        @on-expand="onExpand" @on-expand-all="onExpandAll">
+        <Table ref="mineTable" :columns="columns1" :data="data1" @on-expand="onExpand" @on-expand-all="onExpandAll">
             <div slot="header">头部</div>
             <div slot="footer">底部</div>
         </Table>
@@ -20,13 +19,18 @@
     export default {
         data () {
             return {
-                expandTemplate: expandExample,
                 expandAllStatus: true,
                 columns1: [
                     {
                         type: 'expand',
                         width: 60,
-                        align: 'center'
+                        align: 'center',
+//                        hidden: true,
+                        expand (row, index) {
+                            //return `<i-button type="primary" size="small" @click="show(${index})">查看</i-button>`;
+                            return expandExample;
+                        }
+//                        render: expandExample
                     },
                     {
                         type: 'selection',
@@ -87,6 +91,10 @@
             },
             expandAll (status) {
                 this.$refs['mineTable'].showExpandAll(status)
+            },
+
+            show (index) {
+                alert(index);
             }
 
         }

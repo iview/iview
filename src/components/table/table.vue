@@ -153,14 +153,6 @@
             },
             noFilteredDataText: {
                 type: String
-            },
-            expandTemplate: {// expand 自定义组件 可接收 data 参数，为当前 row 参数
-                type: Object,
-                default () {
-                    return {
-                        render: h => h('p', this.t('i.table.noDataText'))
-                    };
-                }
             }
         },
         data () {
@@ -179,7 +171,8 @@
                 bodyRealHeight: 0,
                 scrollBarWidth: getScrollBarSize(),
                 currentContext: this.context,
-                cloneData: deepCopy(this.data)    // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
+                cloneData: deepCopy(this.data),    // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
+                expandTemplate: this.makeExpand()
             };
         },
         computed: {
@@ -320,6 +313,14 @@
         methods: {
             rowClsName (index) {
                 return this.rowClassName(this.data[index], index);
+            },
+            makeExpand () {
+                for (let index in this.columns) {
+                    if (this.columns[index].type == 'expand') {
+                        return this.expandTemplate = this.columns[index].expand;
+                    }
+                }
+                return null;
             },
             getExpandTemplate () {
                 return this.expandTemplate;
@@ -635,6 +636,7 @@
                 let center = [];
 
                 columns.forEach((column, index) => {
+                    if (column.hidden) return;
                     column._index = index;
                     column._width = column.width ? column.width : '';    // update in handleResize()
                     column._sortType = 'normal';
@@ -722,6 +724,7 @@
                     // todo 这里有性能问题，可能是左右固定计算属性影响的
                     this.cloneColumns = this.makeColumns();
                     this.rebuildData = this.makeDataWithSortAndFilter();
+                    this.expandTemplate = this.makeExpand();
                     this.handleResize();
                 },
                 deep: true

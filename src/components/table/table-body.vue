@@ -22,13 +22,14 @@
                             :index="row._index"
                             :checked="rowChecked(row._index)"
                             :disabled="rowDisabled(row._index)"
-                            :expand="rowExpand(row._index)"
-                    ></Cell>
+                            :expand="rowExpand(row._index)">
+
+                    </Cell>
                 </td>
             </tr>
             <tr v-show="rowExpand(row._index)" :class="expandClsses(row._index)">
                 <td :colspan="columenCount()">
-                    <Expand :expand-template="expandTemplate()" :data="row"></Expand>
+                    <Expand :expand-template="expandTemplate()" :data="row" :index="row._index"></Expand>
                 </td>
             </tr>
         </template>
@@ -38,28 +39,13 @@
 <script>
     // todo :key="row"
     import Cell from './cell.vue';
+    import Expand from './row-expand.vue';
     import Mixin from './mixin';
 
     export default {
         name: 'TableBody',
         mixins: [ Mixin ],
-        components: {
-            Cell,
-            Expand: {
-                functional: true,
-                render: function (createElement, context) {
-                    return createElement(context.props.expandTemplate, {
-                        props: {
-                            data: context.props.data
-                        }
-                    });
-                },
-                props: {
-                    expandTemplate: Object,
-                    data: Object
-                }
-            }
-        },
+        components: { Cell, Expand },
         props: {
             prefixCls: String,
             styleObject: Object,
