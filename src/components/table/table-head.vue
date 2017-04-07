@@ -103,7 +103,7 @@
         },
         methods: {
             noExpand () {
-                return this.$parent.getExpandRows() == 0
+                return this.$parent.getExpandRows() == 0;
             },
             onExpandAll () {
                 this.$parent.showExpandAll(this.noExpand());

@@ -159,7 +159,7 @@
                 default () {
                     return {
                         render: h => h('p', this.t('i.table.noDataText'))
-                    }
+                    };
                 }
             }
         },
@@ -322,17 +322,17 @@
                 return this.rowClassName(this.data[index], index);
             },
             getExpandTemplate () {
-                return this.expandTemplate
+                return this.expandTemplate;
             },
             getExpandRows () {
                 // 获取已展开行数
                 const tmpArr = [];
                 for (let index in this.objData) {
                     if (this.objData[index]._showExpand) {
-                        tmpArr.push(this.cloneData[index])
+                        tmpArr.push(this.cloneData[index]);
                     }
                 }
-                return tmpArr
+                return tmpArr;
             },
             showExpand (index) {
                 const status = !this.objData[index]._showExpand;

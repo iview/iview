@@ -52,7 +52,7 @@
                         props: {
                             data: context.props.data
                         }
-                    })
+                    });
                 },
                 props: {
                     expandTemplate: Object,
