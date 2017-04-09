@@ -36,7 +36,7 @@
         },
         data () {
             return {
-                message: this.t('i.table.noDataText'),
+                message: this.$parent.$parent.t('i.table.noDataText'),
                 tmp: null,
                 context: this.$parent.$parent.currentContext
             };
