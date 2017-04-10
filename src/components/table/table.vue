@@ -152,6 +152,10 @@
             },
             noFilteredDataText: {
                 type: String
+            },
+            modal: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -669,6 +673,15 @@
             window.removeEventListener('resize', this.handleResize, false);
         },
         watch: {
+            modal: {
+                handler (val) {
+                    if (val) {
+                        this.fixedHeader();
+                        this.handleResize();
+                    }
+                },
+                deep: true
+            },
             data: {
                 handler () {
                     this.objData = this.makeObjData();
