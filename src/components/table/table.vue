@@ -665,7 +665,10 @@
             this.$nextTick(() => this.ready = true);
             window.addEventListener('resize', this.handleResize, false);
             this.$on('on-visible-change', (val) => {
-                if (val) this.handleResize();
+                if (val) {
+                    this.handleResize();
+                    this.fixedHeader();
+                }
             });
         },
         beforeDestroy () {
