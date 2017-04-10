@@ -112,7 +112,7 @@
                 ];
             },
             showCloseIcon () {
-                return this.currentValue && this.currentValue.length && this.clearable;
+                return this.currentValue && this.currentValue.length && this.clearable && !this.disabled;
             },
             displayRender () {
                 let label = [];
@@ -125,6 +125,7 @@
         },
         methods: {
             clearSelect () {
+                if (this.disabled) return false;
                 const oldVal = JSON.stringify(this.currentValue);
                 this.currentValue = this.selected = this.tmpSelected = [];
                 this.handleClose();
