@@ -2,84 +2,88 @@
     <div :class="wrapClasses" :style="styles">
         <div :class="classes">
             <div :class="[prefixCls + '-title']" v-if="showSlotHeader" ref="title"><slot name="header"></slot></div>
-            <div :class="[prefixCls + '-header']" v-if="showHeader" ref="header" @mousewheel="handleMouseWheel">
-                <table-head
-                    :prefix-cls="prefixCls"
-                    :styleObject="tableStyle"
-                    :columns="cloneColumns"
-                    :obj-data="objData"
-                    :columns-width="columnsWidth"
-                    :data="rebuildData"></table-head>
+            <div style="position: relative;">
+              <div :class="[prefixCls + '-header']" v-if="showHeader" ref="header" @mousewheel="handleMouseWheel">
+                  <table-head
+                      :prefix-cls="prefixCls"
+                      :styleObject="tableStyle"
+                      :columns="cloneColumns"
+                      :obj-data="objData"
+                      :columns-width="columnsWidth"
+                      :data="rebuildData"></table-head>
+              </div>
+              <div :class="[prefixCls + '-body']" :style="bodyStyle" ref="body" @scroll="handleBodyScroll"
+                  v-show="!((!!localeNoDataText && (!data || data.length === 0)) || (!!localeNoFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
+                  <table-body
+                      ref="tbody"
+                      :prefix-cls="prefixCls"
+                      :styleObject="tableStyle"
+                      :columns="cloneColumns"
+                      :data="rebuildData"
+                      :columns-width="columnsWidth"
+                      :obj-data="objData"></table-body>
+              </div>
+              <div
+                  :class="[prefixCls + '-tip']"
+                  v-show="((!!localeNoDataText && (!data || data.length === 0)) || (!!localeNoFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
+                  <table cellspacing="0" cellpadding="0" border="0">
+                      <tbody>
+                          <tr>
+                              <td :style="{ 'height': bodyStyle.height }">
+                                  <span v-html="localeNoDataText" v-if="!data || data.length === 0"></span>
+                                  <span v-html="localeNoFilteredDataText" v-else></span>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+              <div :class="[prefixCls + '-fixed']" :style="fixedTableStyle" v-if="isLeftFixed">
+                  <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
+                      <table-head
+                          fixed="left"
+                          :prefix-cls="prefixCls"
+                          :styleObject="fixedTableStyle"
+                          :columns="leftFixedColumns"
+                          :obj-data="objData"
+                          :columns-width.sync="columnsWidth"
+                          :data="rebuildData"></table-head>
+                  </div>
+                  <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedBody">
+                      <table-body
+                          fixed="left"
+                          :prefix-cls="prefixCls"
+                          :styleObject="fixedTableStyle"
+                          :columns="leftFixedColumns"
+                          :data="rebuildData"
+                          :columns-width="columnsWidth"
+                          :obj-data="objData"></table-body>
+                  </div>
+              </div>
+              <div :class="[prefixCls + '-fixed-right']" :style="fixedRightTableStyle" v-if="isRightFixed">
+                  <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
+                      <table-head
+                          fixed="right"
+                          :prefix-cls="prefixCls"
+                          :styleObject="fixedRightTableStyle"
+                          :columns="rightFixedColumns"
+                          :obj-data="objData"
+                          :columns-width="columnsWidth"
+                          :data="rebuildData"></table-head>
+                  </div>
+                  <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedRightBody">
+                      <table-body
+                          fixed="right"
+                          :prefix-cls="prefixCls"
+                          :styleObject="fixedRightTableStyle"
+                          :columns="rightFixedColumns"
+                          :data="rebuildData"
+                          :columns-width="columnsWidth"
+                          :obj-data="objData"></table-body>
+                  </div>
+              </div>
             </div>
-            <div :class="[prefixCls + '-body']" :style="bodyStyle" ref="body" @scroll="handleBodyScroll"
-                v-show="!((!!localeNoDataText && (!data || data.length === 0)) || (!!localeNoFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
-                <table-body
-                    ref="tbody"
-                    :prefix-cls="prefixCls"
-                    :styleObject="tableStyle"
-                    :columns="cloneColumns"
-                    :data="rebuildData"
-                    :columns-width="columnsWidth"
-                    :obj-data="objData"></table-body>
-            </div>
-            <div
-                :class="[prefixCls + '-tip']"
-                v-show="((!!localeNoDataText && (!data || data.length === 0)) || (!!localeNoFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
-                <table cellspacing="0" cellpadding="0" border="0">
-                    <tbody>
-                        <tr>
-                            <td :style="{ 'height': bodyStyle.height }">
-                                <span v-html="localeNoDataText" v-if="!data || data.length === 0"></span>
-                                <span v-html="localeNoFilteredDataText" v-else></span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div :class="[prefixCls + '-fixed']" :style="fixedTableStyle" v-if="isLeftFixed">
-                <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
-                    <table-head
-                        fixed="left"
-                        :prefix-cls="prefixCls"
-                        :styleObject="fixedTableStyle"
-                        :columns="leftFixedColumns"
-                        :obj-data="objData"
-                        :columns-width.sync="columnsWidth"
-                        :data="rebuildData"></table-head>
-                </div>
-                <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedBody">
-                    <table-body
-                        fixed="left"
-                        :prefix-cls="prefixCls"
-                        :styleObject="fixedTableStyle"
-                        :columns="leftFixedColumns"
-                        :data="rebuildData"
-                        :columns-width="columnsWidth"
-                        :obj-data="objData"></table-body>
-                </div>
-            </div>
-            <div :class="[prefixCls + '-fixed-right']" :style="fixedRightTableStyle" v-if="isRightFixed">
-                <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
-                    <table-head
-                        fixed="right"
-                        :prefix-cls="prefixCls"
-                        :styleObject="fixedRightTableStyle"
-                        :columns="rightFixedColumns"
-                        :obj-data="objData"
-                        :columns-width="columnsWidth"
-                        :data="rebuildData"></table-head>
-                </div>
-                <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedRightBody">
-                    <table-body
-                        fixed="right"
-                        :prefix-cls="prefixCls"
-                        :styleObject="fixedRightTableStyle"
-                        :columns="rightFixedColumns"
-                        :data="rebuildData"
-                        :columns-width="columnsWidth"
-                        :obj-data="objData"></table-body>
-                </div>
-            </div>
+
+
             <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" ref="footer"><slot name="footer"></slot></div>
         </div>
     </div>
@@ -411,7 +415,7 @@
                 //     }else{
                 //         this.objData[data._index]._isChecked = status;
                 //     }
-                    
+
                 // });
                 for(const data of this.rebuildData){
                     if(this.objData[data._index]._isDisabled){

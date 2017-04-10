@@ -1,8 +1,20 @@
 <template>
-    <Table :columns="columns1" :data="data1">
-        <div slot="header">头部</div>
-        <div slot="footer">底部</div>
-    </Table>
+<div>
+  <Row>
+    <Col span="11">
+      <Table :columns="columns1" :data="data1">
+          <div slot="header">头部</div>
+          <div slot="footer">底部</div>
+      </Table>
+    </col>
+    <Col span="11" offset="2">
+      <Table :columns="columns2" :data="data1">
+          <div slot="header">头部</div>
+          <div slot="footer">底部</div>
+      </Table>
+    </col>
+  </Row>
+</div>
 </template>
 <script>
     export default {
@@ -12,6 +24,21 @@
                     {
                         title: '姓名',
                         key: 'name'
+                    },
+                    {
+                        title: '年龄',
+                        key: 'age'
+                    },
+                    {
+                        title: '地址',
+                        key: 'address'
+                    }
+                ],
+                columns2: [
+                    {
+                        title: '姓名',
+                        key: 'name',
+                        fixed:'left'
                     },
                     {
                         title: '年龄',
