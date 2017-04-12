@@ -1,42 +1,56 @@
 <template>
-    <Row>
-        <Col :span="12">
-            <Tabs type="card" closable @on-tab-remove="handleTagRemove">
-                <Tab-pane label="标签一" v-if="tab0">标签一的内容</Tab-pane>
-                <Tab-pane label="标签二" v-if="tab1">标签二的内容</Tab-pane>
-                <Tab-pane label="标签三" v-if="tab2">标签三的内容</Tab-pane>
-            </Tabs>
-        </Col>
-        <Col :span="12">
-            <Tabs type="card" closable @on-tab-remove="handleTagRemove">
-                <Tab-pane :label="tab.label" v-for="tab of tabs" :key="tab">{{tab.content}}</Tab-pane>
-                <Button size="small" slot="extra" @click="addTab">添加</Button>
-            </Tabs>
-        </Col>
-    </Row>
+    <Tabs value="name1" :animated="false">
+        <Tab-pane label="标签一" name="name1">
+            <Table :columns="columns1" :data="data1"></Table>
+        </Tab-pane>
+        <Tab-pane label="标签二" name="name2">
+            <Table :columns="columns1" :data="data1"></Table>
+        </Tab-pane>
+        <Tab-pane label="标签三" name="name3">
+            <Table :columns="columns1" :data="data1"></Table>
+        </Tab-pane>
+    </Tabs>
 </template>
-
-
 <script>
     export default {
         data () {
             return {
-                tabs:[
-                        {label:'标签0',content:'标签内容0'},
-                        {label:'标签1',content:'标签内容1'},
-                        {label:'标签2',content:'标签内容2'},
+                columns1: [
+                    {
+                        title: '姓名',
+                        key: 'name'
+                    },
+                    {
+                        title: '年龄',
+                        key: 'age'
+                    },
+                    {
+                        title: '地址',
+                        key: 'address'
+                    }
                 ],
-                tab0: true,
-                tab1: true,
-                tab2: true
-            }
-        },
-        methods: {
-            handleTagRemove (name) {
-                this['tab' + name] = false;
-            },
-            addTab(){
-                this.tabs.push({label:'标签'+this.tabs.length,content:'标签内容'+this.tabs.length});
+                data1: [
+                    {
+                        name: '王小明',
+                        age: 18,
+                        address: '北京市朝阳区芍药居'
+                    },
+                    {
+                        name: '张小刚',
+                        age: 25,
+                        address: '北京市海淀区西二旗'
+                    },
+                    {
+                        name: '李小红',
+                        age: 30,
+                        address: '上海市浦东新区世纪大道'
+                    },
+                    {
+                        name: '周小伟',
+                        age: 26,
+                        address: '深圳市南山区深南大道'
+                    }
+                ]
             }
         }
     }

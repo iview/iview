@@ -26,6 +26,7 @@
 </template>
 <script>
     import Checkbox from '../checkbox/checkbox.vue';
+    import Icon from '../icon/icon.vue';
     import Emitter from '../../mixins/emitter';
     import { findComponentsDownward } from '../../utils/assist';
 
@@ -34,7 +35,7 @@
     export default {
         name: 'TreeNode',
         mixins: [ Emitter ],
-        components: { Checkbox },
+        components: { Checkbox, Icon },
         props: {
             data: {
                 type: Object,

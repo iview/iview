@@ -168,14 +168,14 @@ export function scrollTop(el, from = 0, to, duration = 500) {
 }
 
 // Find components upward
-function findComponentUpward (content, componentName, componentNames) {
+function findComponentUpward (context, componentName, componentNames) {
     if (typeof componentName === 'string') {
         componentNames = [componentName];
     } else {
         componentNames = componentName;
     }
 
-    let parent = content.$parent;
+    let parent = context.$parent;
     let name = parent.$options.name;
     while (parent && (!name || componentNames.indexOf(name) < 0)) {
         parent = parent.$parent;
@@ -186,8 +186,8 @@ function findComponentUpward (content, componentName, componentNames) {
 export {findComponentUpward};
 
 // Find component downward
-function findComponentDownward (content, componentName) {
-    const childrens = content.$children;
+function findComponentDownward (context, componentName) {
+    const childrens = context.$children;
     let children = null;
 
     if (childrens.length) {
@@ -215,8 +215,8 @@ function findComponentDownward (content, componentName) {
 export {findComponentDownward};
 
 // Find components downward
-function findComponentsDownward (content, componentName, components = []) {
-    const childrens = content.$children;
+function findComponentsDownward (context, componentName, components = []) {
+    const childrens = context.$children;
 
     if (childrens.length) {
         childrens.forEach(child => {
