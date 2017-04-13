@@ -29,7 +29,7 @@ Notification.newInstance = properties => {
         },
         component: notification,
         destroy () {
-            document.body.removeChild(div);
+            document.body.removeChild(document.getElementsByClassName('ivu-message')[0].parentElement);
         }
     };
 };
