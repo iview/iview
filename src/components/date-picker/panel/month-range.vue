@@ -80,7 +80,7 @@
     import YearTable from '../base/year-table.vue';
     import MonthTable from '../base/month-table.vue';
     import Confirm from '../base/confirm.vue';
-    import { toDate, prevMonth, nextMonth, initTimeDate } from '../util';
+    import { toDate, initTimeDate } from '../util';
 
     import Mixin from './mixin';
     import Locale from '../../../mixins/locale';
