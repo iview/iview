@@ -24,7 +24,8 @@
                 default: 'light'
             },
             activeName: {
-                type: [String, Number]
+                type: [String, Number],
+                default:-1
             },
             openNames: {
                 type: Array,
@@ -69,9 +70,6 @@
         },
         methods: {
             updateActiveName () {
-                if (!this.currentActiveName) {
-                    this.currentActiveName = -1;
-                }
                 this.broadcast('Submenu', 'on-update-active-name', false);
                 this.broadcast('MenuItem', 'on-update-active-name', this.currentActiveName);
             },
