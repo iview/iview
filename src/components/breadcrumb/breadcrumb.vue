@@ -23,7 +23,7 @@
             this.updateChildren();
         },
         updated () {
-        	this.updateChildren();
+            this.updateChildren();
         },
         methods: {
             updateChildren () {
