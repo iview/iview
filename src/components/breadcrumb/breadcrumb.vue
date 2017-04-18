@@ -22,6 +22,9 @@
         mounted () {
             this.updateChildren();
         },
+        updated () {
+        	this.updateChildren();
+        },
         methods: {
             updateChildren () {
                 this.$children.forEach((child) => {
