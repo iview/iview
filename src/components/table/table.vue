@@ -20,7 +20,8 @@
                     :columns="cloneColumns"
                     :data="rebuildData"
                     :columns-width="columnsWidth"
-                    :obj-data="objData"></table-body>
+                    :obj-data="objData"
+                    :vue-key="iVueKey"></table-body>
             </div>
             <div
                 :class="[prefixCls + '-tip']"
@@ -55,7 +56,8 @@
                         :columns="leftFixedColumns"
                         :data="rebuildData"
                         :columns-width="columnsWidth"
-                        :obj-data="objData"></table-body>
+                        :obj-data="objData"
+                        :vue-key="iVueKey"></table-body>
                 </div>
             </div>
             <div :class="[prefixCls + '-fixed-right']" :style="fixedRightTableStyle" v-if="isRightFixed">
@@ -77,7 +79,8 @@
                         :columns="rightFixedColumns"
                         :data="rebuildData"
                         :columns-width="columnsWidth"
-                        :obj-data="objData"></table-body>
+                        :obj-data="objData"
+                        :vue-key="iVueKey"></table-body>
                 </div>
             </div>
             <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" ref="footer"><slot name="footer"></slot></div>
@@ -152,6 +155,9 @@
             },
             noFilteredDataText: {
                 type: String
+            },
+            vueKey: {
+                type: [Number, String]
             }
         },
         data () {
@@ -170,7 +176,8 @@
                 bodyRealHeight: 0,
                 scrollBarWidth: getScrollBarSize(),
                 currentContext: this.context,
-                cloneData: deepCopy(this.data)    // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
+                cloneData: deepCopy(this.data),    // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
+                iVueKey: this.vueKey,
             };
         },
         computed: {
@@ -411,7 +418,7 @@
                 //     }else{
                 //         this.objData[data._index]._isChecked = status;
                 //     }
-                    
+
                 // });
                 for(const data of this.rebuildData){
                     if(this.objData[data._index]._isDisabled){
@@ -698,6 +705,11 @@
             },
             height () {
                 this.fixedHeader();
+            },
+            vueKey (val, oldVal) {
+                if (val != oldVal){
+                    this.iVueKey = this.vueKey;
+                }
             }
         }
     };
