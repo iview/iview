@@ -6,7 +6,7 @@
         <tbody :class="[prefixCls + '-tbody']">
             <tr
                 v-for="(row, index) in data"
-                :key="Md5(JSON.stringify({row, columns})) + row._index"
+                :key="'' + row._vueKey + row._index + row._vueOperate"
                 :class="rowClasses(row._index)"
                 @mouseenter.stop="handleMouseIn(row._index)"
                 @mouseleave.stop="handleMouseOut(row._index)"
@@ -29,10 +29,9 @@
     </table>
 </template>
 <script>
-    // todo :key="{row, columns}"
+    // todo :key="row._vueKey + row._vueOperate"
     import Cell from './cell.vue';
     import Mixin from './mixin';
-    import Md5 from '../../utils/md5';
 
     export default {
         name: 'TableBody',
@@ -51,7 +50,6 @@
             }
         },
         methods: {
-            Md5,
             rowClasses (_index) {
                 return [
                     `${this.prefixCls}-row`,
