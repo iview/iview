@@ -1,15 +1,30 @@
 <template>
     <div>
-        <Table :height="height" border :columns="columns1" :data="data2"></Table>
-        <Button @click="height=800">change height</Button>
+        <template v-if="expandAllStatus">
+            <Button @click="expandAll(true)">展开全部</Button>
+        </template>
+        <template v-else>
+            <Button @click="expandAll(false)">收起全部</Button>
+        </template>
+        <Table ref="mineTable" :expand-row-render="expandTemplate" :columns="columns1" :data="data1" @on-expand="onExpand" @on-expand-all="onExpandAll">
+            <div slot="header">头部</div>
+            <div slot="footer">底部</div>
+        </Table>
     </div>
 </template>
 <script>
+
+    import expandExample from './expand-example.vue'
+
     export default {
         data () {
             return {
-                height: 200,
                 columns1: [
+                    {
+                        type: 'expand',
+                        width: 60,
+                        align: 'center'
+                    },
                     {
                         title: '姓名',
                         key: 'name'
@@ -66,6 +81,37 @@
                     }
                 ]
             }
+        },
+        methods: {
+            // 行点击事件测试。 单行打开
+//            onRowClick (row, index) {
+//                this.$refs['mineTable'].showExpand(index)
+//            },
+            expandTemplate (row, index) {
+                console.log(row);
+                // render 方式调用
+                return `<i-button type="primary" size="small" @click="show(${index})">查看</i-button>`;
+                // 组件方式调用
+                // return expandExample;
+            },
+            onExpand(expands, row, status, index) {
+                console.log('展开一行操作');
+                console.log(expands);
+                this.expandAllStatus = expands.length === 0
+            },
+            onExpandAll(expands, rows, status) {
+                console.log('全部展开操作');
+                console.log(expands);
+                this.expandAllStatus = expands.length === 0
+            },
+            expandAll (status) {
+                this.$refs['mineTable'].showExpandAll(status)
+            },
+
+            show (index) {
+                alert(index);
+            }
+
         }
     }
 </script>

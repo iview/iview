@@ -4,6 +4,11 @@
         <template v-if="renderType === 'selection'">
             <Checkbox :value="checked" @on-change="toggleSelect" :disabled="disabled"></Checkbox>
         </template>
+        <template v-if="renderType === 'expand'">
+            <div @click="onExpand" :class="[prefixCls + '-expand']">
+                <Icon :type="expand ? 'ios-arrow-down' : 'ios-arrow-forward'"></Icon>
+            </div>
+        </template>
         <template v-if="renderType === 'normal'"><span v-html="row[column.key]"></span></template>
     </div>
 </template>
@@ -22,6 +27,7 @@
             index: Number,           // _index of data
             checked: Boolean,
             disabled: Boolean,
+            expand:Boolean,
             fixed: {
                 type: [Boolean, String],
                 default: false
@@ -46,6 +52,9 @@
             }
         },
         methods: {
+            onExpand () {
+                this.$parent.$parent.showExpand(this.index);
+            },
             compile () {
                 if (this.column.render) {
                     const $parent = this.context;
@@ -90,6 +99,8 @@
                 this.renderType = 'index';
             } else if (this.column.type === 'selection') {
                 this.renderType = 'selection';
+            } else if (this.column.type === 'expand') {
+                this.renderType = 'expand';
             } else if (this.column.render) {
                 this.renderType = 'render';
             } else {

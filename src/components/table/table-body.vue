@@ -4,39 +4,48 @@
             <col v-for="(column, index) in columns" :width="setCellWidth(column, index, false)">
         </colgroup>
         <tbody :class="[prefixCls + '-tbody']">
+        <template v-for="(row, index) in data">
             <tr
-                v-for="(row, index) in data"
-                :key="row"
-                :class="rowClasses(row._index)"
-                @mouseenter.stop="handleMouseIn(row._index)"
-                @mouseleave.stop="handleMouseOut(row._index)"
-                @click.stop="clickCurrentRow(row._index)"
-                @dblclick.stop="dblclickCurrentRow(row._index)">
+                    :key="row"
+                    :class="rowClasses(row._index)"
+                    @mouseenter.stop="handleMouseIn(row._index)"
+                    @mouseleave.stop="handleMouseOut(row._index)"
+                    @click.stop="clickCurrentRow(row._index)"
+                    @dblclick.stop="dblclickCurrentRow(row._index)">
                 <td v-for="column in columns" :class="alignCls(column, row)">
                     <Cell
-                        :fixed="fixed"
-                        :prefix-cls="prefixCls"
-                        :row="row"
-                        :column="column"
-                        :natural-index="index"
-                        :index="row._index"
-                        :checked="rowChecked(row._index)"
-                        :disabled="rowDisabled(row._index)"
-                        ></Cell>
+                            :fixed="fixed"
+                            :prefix-cls="prefixCls"
+                            :row="row"
+                            :column="column"
+                            :natural-index="index"
+                            :index="row._index"
+                            :checked="rowChecked(row._index)"
+                            :disabled="rowDisabled(row._index)"
+                            :expand="rowExpand(row._index)">
+
+                    </Cell>
                 </td>
             </tr>
+            <tr v-show="rowExpand(row._index)" :class="expandClsses(row._index)">
+                <td :colspan="columenCount()">
+                    <Expand :expand-template="expandTemplate()" :data="row" :index="row._index"></Expand>
+                </td>
+            </tr>
+        </template>
         </tbody>
     </table>
 </template>
 <script>
     // todo :key="row"
     import Cell from './cell.vue';
+    import Expand from './row-expand.vue';
     import Mixin from './mixin';
 
     export default {
         name: 'TableBody',
         mixins: [ Mixin ],
-        components: { Cell },
+        components: { Cell, Expand },
         props: {
             prefixCls: String,
             styleObject: Object,
@@ -59,6 +68,22 @@
                         [`${this.prefixCls}-row-hover`]: this.objData[_index] && this.objData[_index]._isHover
                     }
                 ];
+            },
+            expandClsses (_index) {
+                return [
+                    `${this.prefixCls}-row`,
+                    `${this.prefixCls}-row-expand`,
+                    this.rowClsName(_index),
+                ];
+            },
+            expandTemplate () {
+                return this.$parent.getExpandTemplate();
+            },
+            columenCount () {
+                return this.columns.length;
+            },
+            rowExpand (_index) {
+                return this.objData[_index]._showExpand;
             },
             rowChecked (_index) {
                 return this.objData[_index] && this.objData[_index]._isChecked;
