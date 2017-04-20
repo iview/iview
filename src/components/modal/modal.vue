@@ -32,12 +32,13 @@
     import TransferDom from '../../directives/transfer-dom';
     import { getScrollBarSize } from '../../utils/assist';
     import Locale from '../../mixins/locale';
+    import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-modal';
 
     export default {
         name: 'Modal',
-        mixins: [ Locale ],
+        mixins: [ Locale, Emitter ],
         components: { Icon, iButton },
         directives: { TransferDom },
         props: {
@@ -247,6 +248,7 @@
                         this.addScrollEffect();
                     }
                 }
+                this.broadcast('Table', 'on-visible-change', val);
             },
             loading (val) {
                 if (!val) {

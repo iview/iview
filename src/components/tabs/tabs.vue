@@ -23,11 +23,13 @@
 <script>
     import Icon from '../icon/icon.vue';
     import { oneOf, getStyle } from '../../utils/assist';
+    import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-tabs';
 
     export default {
         name: 'Tabs',
+        mixins: [ Emitter ],
         components: { Icon },
         props: {
             value: {
@@ -226,6 +228,7 @@
             activeKey () {
                 this.updateBar();
                 this.updateStatus();
+                this.broadcast('Table', 'on-visible-change', true);
             }
         },
         mounted () {
