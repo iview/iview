@@ -23,7 +23,9 @@
             this.updateChildren();
         },
         updated () {
-            this.updateChildren();
+            this.$nextTick(() => {
+                this.updateChildren();
+            });
         },
         methods: {
             updateChildren () {
