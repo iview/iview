@@ -167,6 +167,26 @@ export function scrollTop(el, from = 0, to, duration = 500) {
     scroll(from, to, step);
 }
 
+// transitionHeight animation
+export function transitionHeight(el, close = false, duration = 500) {
+    if (typeof window.getComputedStyle == 'undefined') return;
+
+    el.style.height = 'auto';
+    el.style.transition = 'none';
+    el.style.maxHeight = null;
+
+    let height = el.style.maxHeight = window.getComputedStyle(el).height;
+
+    let targetHeight = close ? '0px' : height;
+    let sourceHeight = close ? height : '0px';
+
+    el.style.maxHeight = sourceHeight;
+    if (duration) el.style.transition = 'max-height ' + duration + 'ms';
+    setTimeout(() => {
+        el.style.maxHeight = targetHeight;
+    }, 1);
+}
+
 // Find components upward
 function findComponentUpward (context, componentName, componentNames) {
     if (typeof componentName === 'string') {
