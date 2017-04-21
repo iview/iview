@@ -72,7 +72,8 @@
                 default: ''
             },
             width: {
-                type: [String, Number]
+                type: [String, Number],
+                default: 150
             },
             confirm: {
                 type: Boolean,
