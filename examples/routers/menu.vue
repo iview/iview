@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Menu mode="horizontal" :theme="theme1" active-name="1" @on-select="s">
+        <Menu mode="horizontal" :theme="theme1" @on-select="s">
             <Row type="flex" justify="center" align="middle">
                 <i-col span="12">
                     <Menu-item name="1">

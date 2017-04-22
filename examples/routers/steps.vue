@@ -60,6 +60,20 @@
         <Step title="待进行" content="这里是该步骤的描述信息"></Step>
         <Step title="待进行" content="这里是该步骤的描述信息"></Step>
     </Steps>
+    <Steps direction="vertical" :current="3">
+        <Step title="已完成" content="这里是该步骤的描述信息">
+            <div style="font-size: 16px; color: green">这里是该步骤的描述信息1</div>
+        </Step>
+        <Step title="进行中" content="这里是该步骤的描述信息">
+            <div style="font-size: 24px; color: red">这里是该步骤的描述信息2</div>
+        </Step>
+        <Step title="待进行" content="这里是该步骤的描述信息">
+            <div style="font-size: 46px; color: blue">这里是该步骤的描述信息3</div>
+        </Step>
+        <Step title="待进行" content="这里是该步骤的描述信息">
+            <div style="font-size: 24px; color: green">这里是该步骤的描述信息4</div>
+        </Step>
+    </Steps>
 </div>
 </template>
 <script>

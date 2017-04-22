@@ -230,7 +230,11 @@
                     if (value[1] > this.max) {
                         value[1] = this.max;
                     }
-                    if (this.value[0] === value[0] && this.value[1] === value[1]) return;
+                    if (this.value[0] === value[0] && this.value[1] === value[1]) {
+                        this.setFirstPosition(this.currentValue[0]);
+                        this.setSecondPosition(this.currentValue[1]);
+                        return;
+                    }
 
                     this.currentValue = value;
                     this.setFirstPosition(this.currentValue[0]);

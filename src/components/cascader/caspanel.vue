@@ -56,7 +56,7 @@
             handleTriggerItem (item, fromInit = false) {
                 if (item.disabled) return;
 
-                // return value back recursion
+                // return value back recursion  // 向上递归，设置临时选中值（并非真实选中）
                 const backItem = this.getBaseItem(item);
                 this.tmpItem = backItem;
                 this.emitUpdate([backItem]);
