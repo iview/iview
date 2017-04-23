@@ -110,7 +110,6 @@
         mounted () {
             this.$on('on-click', (key) => {
                 const $parent = this.hasParent();
-                if ($parent) $parent.$emit('on-click', key);
             });
             this.$on('on-hover-click', () => {
                 const $parent = this.hasParent();
