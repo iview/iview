@@ -99,7 +99,7 @@
                 this.currentVisible = false;
             },
             hasParent () {
-                const $parent = this.$parent.$parent;
+                const $parent = this.$parent && this.$parent.$parent && this.$parent.$parent.$parent;
                 if ($parent && $parent.$options.name === 'Dropdown') {
                     return $parent;
                 } else {
