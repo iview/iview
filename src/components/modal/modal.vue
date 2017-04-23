@@ -261,6 +261,11 @@
                 } else {
                     this.removeScrollEffect();
                 }
+            },
+            title (val) {
+                if (this.$slots.header === undefined) {
+                    this.showHead = val?true:false;
+                }
             }
         }
     };
