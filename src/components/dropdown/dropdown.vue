@@ -108,9 +108,6 @@
             }
         },
         mounted () {
-            this.$on('on-click', (key) => {
-                const $parent = this.hasParent();
-            });
             this.$on('on-hover-click', () => {
                 const $parent = this.hasParent();
                 if ($parent) {
