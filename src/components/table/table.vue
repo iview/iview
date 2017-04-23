@@ -497,7 +497,7 @@
             filterData (data, column) {
                 return data.filter((row) => {
                     //如果定义了远程过滤方法则忽略此方法
-                    if (typeof column.filterRemote === 'function') return;
+                    if (typeof column.filterRemote === 'function') return true;
 
                     let status = !column._filterChecked.length;
                     for (let i = 0; i < column._filterChecked.length; i++) {
