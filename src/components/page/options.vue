@@ -7,7 +7,7 @@
         </div>
         <div v-if="showElevator" :class="ElevatorClasses">
             {{ t('i.page.goto') }}
-            <input type="text" :value="_current" @keyup.enter="changePage">
+            <input type="number" :value="_current" :max="pageSize" :min="1" :step="1" @keyup.enter="changePage">
             {{ t('i.page.p') }}
         </div>
     </div>
