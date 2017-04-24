@@ -219,7 +219,16 @@
                 this.options = options;
 
                 if (init) {
-                    this.updateSingleSelected(true, slot);
+
+                    //reslove slot has input update options the dropdown close
+                    this.findChild((child) => {
+                        if (child.value === this.model) {
+                            child.selected = true;
+                        } else {
+                            child.selected = false;
+                        }
+                    });
+
                     this.updateMultipleSelected(true, slot);
                 }
             },
