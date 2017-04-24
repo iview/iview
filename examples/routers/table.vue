@@ -31,7 +31,28 @@
                     },
                     {
                         title: '年龄',
-                        key: 'age'
+                        key: 'age',
+                        filters:[
+                            {
+                                label: '小学',
+                                value: '小学'
+                            },
+                            {
+                                label: '中学',
+                                value: '大学'
+                            },
+                            {
+                                label: '中学',
+                                value: '中学'
+                            }
+                        ],
+                        filterRemote:function(value,key,column){
+                            var that = this;
+                            this.$Notice.open({title:`正在远程过滤${key}`,desc:value,duration:3,onClose:function(){
+                                that.remoteFilter(value,key,column)
+                            }})
+                            
+                        }
                     },
                     {
                         title: '地址',
@@ -111,7 +132,6 @@
             show (index) {
                 alert(index);
             }
-
         }
     }
 </script>

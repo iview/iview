@@ -530,6 +530,9 @@
             },
             filterData (data, column) {
                 return data.filter((row) => {
+                    //如果定义了远程过滤方法则忽略此方法
+                    if (typeof column.filterRemote === 'function') return;
+
                     let status = !column._filterChecked.length;
                     for (let i = 0; i < column._filterChecked.length; i++) {
                         status = column.filterMethod(column._filterChecked[i], row);
@@ -539,6 +542,11 @@
                 });
             },
             filterOtherData (data, index) {
+                let column = this.cloneColumns[index];
+                if (typeof column.filterRemote === 'function') {
+                    column.filterRemote.call(this.$parent, column._filterChecked, column.key, column);
+                }
+
                 this.cloneColumns.forEach((col, colIndex) => {
                     if (colIndex !== index) {
                         data = this.filterData(data, col);

@@ -81,13 +81,15 @@
             },
             close (name) {
                 const notices = this.notices;
-
                 for (let i = 0; i < notices.length; i++) {
                     if (notices[i].name === name) {
                         this.notices.splice(i, 1);
                         break;
                     }
                 }
+            },
+            closeAll () {
+                this.notices = [];
             }
         }
     };
