@@ -55,7 +55,8 @@
                 default: true
             },
             title: {
-                type: String
+                type: [String, Boolean],
+                default: false
             },
             width: {
                 type: [Number, String],
@@ -217,7 +218,7 @@
 
             let showHead = true;
 
-            if (this.$slots.header === undefined && !this.title) {
+            if (this.$slots.header === undefined && this.title === false) {
                 showHead = false;
             }
 
