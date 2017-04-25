@@ -264,7 +264,7 @@
             },
             title (val) {
                 if (this.$slots.header === undefined) {
-                    this.showHead = val?true:false;
+                    this.showHead = !!val;
                 }
             }
         }
