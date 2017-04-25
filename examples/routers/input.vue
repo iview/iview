@@ -1,6 +1,6 @@
 <template>
     <div style="width: 300px;">
-        <i-input v-model="value11" icon="ios-clock-outline">
+        <i-input v-model="value11" icon="ios-clock-outline" autofocus>
             <span slot="prepend">.com</span>
         </i-input>
         <i-input v-model="value11" icon="ios-clock-outline">

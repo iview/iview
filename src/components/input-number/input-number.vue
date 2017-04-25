@@ -19,6 +19,7 @@
                 :class="inputClasses"
                 :disabled="disabled"
                 autocomplete="off"
+                :autofocus="autofocus"
                 @focus="focus"
                 @blur="blur"
                 @keydown.stop="keyDown"
@@ -89,6 +90,9 @@
             disabled: {
                 type: Boolean,
                 default: false
+            },
+            autofocus: {
+                type: String
             }
         },
         data () {

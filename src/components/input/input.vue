@@ -16,6 +16,7 @@
                 :name="name"
                 :value="currentValue"
                 :number="number"
+                :autofocus="autofocus"
                 @keyup.enter="handleEnter"
                 @focus="handleFocus"
                 @blur="handleBlur"
@@ -98,6 +99,9 @@
             number: {
                 type: Boolean,
                 default: false
+            },
+            autofocus: {
+                type: String
             }
         },
         data () {
