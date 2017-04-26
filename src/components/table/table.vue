@@ -87,7 +87,7 @@
 <script>
     import tableHead from './table-head.vue';
     import tableBody from './table-body.vue';
-    import { oneOf, getStyle, deepCopy, getScrollBarSize } from '../../utils/assist';
+    import { oneOf, getStyle, getSize, deepCopy, getScrollBarSize } from '../../utils/assist';
     import Csv from '../../utils/csv';
     import ExportCsv from './export-csv';
     import Locale from '../../mixins/locale';
@@ -318,7 +318,7 @@
                     if (allWidth) {
                         this.tableWidth = this.columns.map(cell => cell.width).reduce((a, b) => a + b);
                     } else {
-                        this.tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
+                        this.tableWidth = parseInt(getSize(this.$el).width) - 1;
                     }
                     this.columnsWidth = {};
                     this.$nextTick(() => {
@@ -331,9 +331,9 @@
                             for (let i = 0; i < $td.length; i++) {    // can not use forEach in Firefox
                                 const column = this.cloneColumns[i];
 
-                                let width = parseInt(getStyle($td[i], 'width'));
+                                let width = parseInt(getSize($td[i]).width);
                                 if (i === autoWidthIndex) {
-                                    width = parseInt(getStyle($td[i], 'width')) - 1;
+                                    width = parseInt(getSize($td[i]).width) - 1;
                                 }
                                 if (column.width) width = column.width;
 
@@ -347,7 +347,7 @@
                         }
                     });
                     // get table real height,for fixed when set height prop,but height < table's height,show scrollBarWidth
-                    this.bodyRealHeight = parseInt(getStyle(this.$refs.tbody.$el, 'height'));
+                    this.bodyRealHeight = parseInt(getSize(this.$refs.tbody.$el).height);
                 });
             },
             handleMouseIn (_index) {
@@ -429,9 +429,9 @@
             fixedHeader () {
                 if (this.height) {
                     this.$nextTick(() => {
-                        const titleHeight = parseInt(getStyle(this.$refs.title, 'height')) || 0;
-                        const headerHeight = parseInt(getStyle(this.$refs.header, 'height')) || 0;
-                        const footerHeight = parseInt(getStyle(this.$refs.footer, 'height')) || 0;
+                        const titleHeight = parseInt(getSize(this.$refs.title).height) || 0;
+                        const headerHeight = parseInt(getSize(this.$refs.header).height) || 0;
+                        const footerHeight = parseInt(getSize(this.$refs.footer).height) || 0;
                         this.bodyHeight = this.height - titleHeight - headerHeight - footerHeight;
                     });
                 } else {
