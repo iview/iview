@@ -119,6 +119,14 @@
             this.$on('on-checked', () => {
                 this.$emit('on-check-change', this.getCheckedNodes());
             });
+        },
+        watch: {
+            data () {
+                this.$nextTick(() => {
+                    this.updateData();
+                    this.broadcast('TreeNode', 'indeterminate');
+                })
+            }
         }
     };
 </script>
