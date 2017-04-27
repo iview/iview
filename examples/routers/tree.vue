@@ -1,5 +1,5 @@
 <template>
-    <Tree :data="baseData" show-checkbox @on-check-change="handleChange" ></Tree>
+    <Tree :data="baseData" show-checkbox @on-check-change="handleChange" @on-toggle-expand="showExpand"></Tree>
 </template>
 <script>
     export default {
@@ -47,6 +47,9 @@
             },
             handleChange () {
                 console.log(1)
+            },
+            showExpand (payload) {
+                console.log(payload)
             }
         },
         mounted () {
