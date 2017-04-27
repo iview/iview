@@ -63,7 +63,8 @@
                 barWidth: 0,
                 barOffset: 0,
                 activeKey: this.value,
-                showSlot: false
+                showSlot: false,
+                childCount: 0
             };
         },
         computed: {
@@ -233,6 +234,14 @@
         },
         mounted () {
             this.showSlot = this.$slots.extra !== undefined;
+            this.childCount = this.$children.length;
+        },
+        updated () {
+            if(this.childCount !== this.$children.length) {
+              this.childCount = this.$children.length;
+              //console.log('子控件发生数量变化');
+              this.updateNav();
         }
+      },
     };
 </script>
