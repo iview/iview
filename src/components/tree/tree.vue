@@ -125,7 +125,7 @@
                 this.$nextTick(() => {
                     this.updateData();
                     this.broadcast('TreeNode', 'indeterminate');
-                })
+                });
             }
         }
     };
