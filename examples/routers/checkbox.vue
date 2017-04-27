@@ -1,7 +1,7 @@
 <template>
     <div>
         <Checkbox-group v-model="fruit">
-            <Checkbox v-for="item in tags" :label="item.label"></Checkbox>
+            <Checkbox v-for="item in tags" :label="item.label" :key="item"></Checkbox>
         </Checkbox-group>
         <div>{{ fruit }}</div>
     </div>
