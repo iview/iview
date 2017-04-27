@@ -8,6 +8,11 @@
                 <th v-for="(column, index) in columns" :class="alignCls(column)">
                     <div :class="cellClasses(column)">
                         <template v-if="column.type === 'selection'"><Checkbox :value="isSelectAll" @on-change="selectAll"></Checkbox></template>
+                        <template v-if="column.type === 'expand'">
+                            <h3 :class="[prefixCls + '-expand']" @click="onExpandAll">
+                                <Icon :type="noExpand() ? 'ios-arrow-forward' : 'ios-arrow-down'"></Icon>
+                            </h3>
+                        </template>
                         <template v-else>
                             <span v-html="renderHeader(column, index)"></span>
                             <span :class="[prefixCls + '-sort']" v-if="column.sortable">
@@ -97,6 +102,12 @@
             }
         },
         methods: {
+            noExpand () {
+                return this.$parent.getExpandRows() == 0;
+            },
+            onExpandAll () {
+                this.$parent.showExpandAll(this.noExpand());
+            },
             cellClasses (column) {
                 return [
                     `${this.prefixCls}-cell`,

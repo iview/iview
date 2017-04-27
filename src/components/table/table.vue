@@ -152,6 +152,14 @@
             },
             noFilteredDataText: {
                 type: String
+            },
+            expandRowRender: {// expand 自定义组件
+                type: [Object, Function],
+                default () {
+                    return {
+                        render: h => h('p', this.t('i.table.noDataText'))
+                    };
+                }
             }
         },
         data () {
@@ -312,6 +320,32 @@
             rowClsName (index) {
                 return this.rowClassName(this.data[index], index);
             },
+            getExpandTemplate () {
+                return this.expandRowRender;
+            },
+            getExpandRows () {
+                // 获取已展开行数
+                const tmpArr = [];
+                for (let index in this.objData) {
+                    if (this.objData[index]._showExpand) {
+                        tmpArr.push(this.cloneData[index]);
+                    }
+                }
+                return tmpArr;
+            },
+            showExpand (index) {
+                const status = !this.objData[index]._showExpand;
+                this.objData[index]._showExpand = status;
+                // 回调事件: 已选中行， 当前行数据， 状态， index
+                this.$emit('on-expand', this.getExpandRows(), JSON.parse(JSON.stringify(this.cloneData[index])), status, index);
+            },
+            showExpandAll (status) {
+                for (let index in this.objData) {
+                    this.objData[index]._showExpand =  status;
+                }
+                // 回调事件， 已选中行， 所有数据, 状态
+                this.$emit('on-expand-all', this.getExpandRows(), JSON.parse(JSON.stringify(this.cloneData)), status);
+            },
             handleResize () {
                 this.$nextTick(() => {
                     const allWidth = !this.columns.some(cell => !cell.width);    // each column set a width
@@ -373,11 +407,11 @@
             },
             clickCurrentRow (_index) {
                 this.highlightCurrentRow (_index);
-                this.$emit('on-row-click', JSON.parse(JSON.stringify(this.cloneData[_index])));
+                this.$emit('on-row-click', JSON.parse(JSON.stringify(this.cloneData[_index])), _index);
             },
             dblclickCurrentRow (_index) {
                 this.highlightCurrentRow (_index);
-                this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.cloneData[_index])));
+                this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.cloneData[_index])), _index);
             },
             getSelection () {
                 let selectionIndexes = [];
@@ -581,6 +615,7 @@
                 this.data.forEach((row, index) => {
                     const newRow = deepCopy(row);// todo 直接替换
                     newRow._isHover = false;
+                    newRow._showExpand = false;
                     if(newRow._disabled){
                         newRow._isDisabled = newRow._disabled;
                     }else{
