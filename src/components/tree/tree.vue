@@ -102,7 +102,6 @@
         },
         mounted () {
             this.updateData();
-
             this.$on('selected', ori => {
                 const nodes = findComponentsDownward(this, 'TreeNode');
                 nodes.forEach(node => {
@@ -118,6 +117,9 @@
             });
             this.$on('on-checked', () => {
                 this.$emit('on-check-change', this.getCheckedNodes());
+            });
+            this.$on('toggle-expand', (payload) => {
+                this.$emit('on-toggle-expand', payload);
             });
         },
         watch: {

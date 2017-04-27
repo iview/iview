@@ -98,6 +98,7 @@
             handleExpand () {
                 if (this.data.disabled) return;
                 this.$set(this.data, 'expand', !this.data.expand);
+                this.dispatch('Tree', 'toggle-expand', this.data);
             },
             handleSelect () {
                 if (this.data.disabled) return;
