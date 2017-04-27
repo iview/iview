@@ -236,8 +236,8 @@
             },
             onSize (pageSize) {
                 this.currentPageSize = pageSize;
-                this.changePage(1);
                 this.$emit('on-page-size-change', pageSize);
+                this.changePage(1);
             },
             onPage (page) {
                 this.changePage(page);
