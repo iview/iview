@@ -52,6 +52,7 @@
             :show-sizer="showSizer"
             :page-size="currentPageSize"
             :page-size-opts="pageSizeOpts"
+            :placement="placement"
             :show-elevator="showElevator"
             :_current.once="currentPage"
             :current="currentPage"
@@ -91,6 +92,12 @@
                 default () {
                     return [10, 20, 30, 40];
                 }
+            },
+            placement: {
+                validator (value) {
+                    return oneOf(value, ['top', 'bottom']);
+                },
+                default: 'bottom'
             },
             size: {
                 validator (value) {

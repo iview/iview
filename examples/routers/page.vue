@@ -1,16 +1,10 @@
 <template>
-    <div>
-        <Page :total="100" :current="current"></Page>
-        {{ current }}
-        <Button @click="current = 1">set current</Button>
+    <div style="margin: 100px;">
+        <Page :total="100" show-sizer placement="top"></Page>
     </div>
 </template>
 <script>
     export default {
-        data () {
-            return {
-                current: 2
-            }
-        }
+
     }
 </script>
