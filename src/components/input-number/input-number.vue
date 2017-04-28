@@ -92,7 +92,8 @@
                 default: false
             },
             autofocus: {
-                type: String
+                type: Boolean,
+                default: false
             }
         },
         data () {
