@@ -90,6 +90,8 @@
             if (!this.group) {
                 this.updateModel();
                 this.showSlot = this.$slots.default !== undefined;
+            } else {
+                this.parent.updateModel(true);
             }
         },
         methods: {

@@ -13,7 +13,7 @@
 <script>
     import Drop from '../select/dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
-    import { oneOf } from '../../utils/assist';
+    import { oneOf, findComponentUpward } from '../../utils/assist';
 
     const prefixCls = 'ivu-dropdown';
 
@@ -99,8 +99,9 @@
                 this.currentVisible = false;
             },
             hasParent () {
-                const $parent = this.$parent.$parent.$parent;
-                if ($parent && $parent.$options.name === 'Dropdown') {
+//                const $parent = this.$parent.$parent.$parent;
+                const $parent = findComponentUpward(this, 'Dropdown');
+                if ($parent) {
                     return $parent;
                 } else {
                     return false;

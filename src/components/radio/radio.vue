@@ -71,6 +71,8 @@
             if (this.parent) this.group = true;
             if (!this.group) {
                 this.updateValue();
+            } else {
+                this.parent.updateValue();
             }
         },
         methods: {

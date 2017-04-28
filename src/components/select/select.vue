@@ -24,8 +24,8 @@
             <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSingleSelect"></Icon>
             <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']"></Icon>
         </div>
-        <transition name="slide-up">
-            <Drop v-show="visible" ref="dropdown">
+        <transition :name="transitionName">
+            <Drop v-show="visible" :placement="placement" ref="dropdown">
                 <ul v-show="notFound" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
                 <ul v-show="!notFound" :class="[prefixCls + '-dropdown-list']" ref="options"><slot></slot></ul>
             </Drop>
@@ -85,6 +85,12 @@
             },
             notFoundText: {
                 type: String
+            },
+            placement: {
+                validator (value) {
+                    return oneOf(value, ['top', 'bottom']);
+                },
+                default: 'bottom'
             }
         },
         data () {
@@ -161,6 +167,9 @@
                 } else {
                     return this.notFoundText;
                 }
+            },
+            transitionName () {
+                return this.placement === 'bottom' ? 'slide-up' : 'slide-down';
             }
         },
         methods: {
@@ -527,11 +536,17 @@
 
             this.$on('append', () => {
                 this.modelToQuery();
+                this.$nextTick(() => {
+                    this.broadcastQuery('');
+                });
                 this.slotChange();
                 this.updateOptions(true, true);
             });
             this.$on('remove', () => {
                 this.modelToQuery();
+                this.$nextTick(() => {
+                    this.broadcastQuery('');
+                });
                 this.slotChange();
                 this.updateOptions(true, true);
             });
