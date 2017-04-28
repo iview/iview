@@ -536,11 +536,17 @@
 
             this.$on('append', () => {
                 this.modelToQuery();
+                this.$nextTick(() => {
+                    this.broadcastQuery('');
+                });
                 this.slotChange();
                 this.updateOptions(true, true);
             });
             this.$on('remove', () => {
                 this.modelToQuery();
+                this.$nextTick(() => {
+                    this.broadcastQuery('');
+                });
                 this.slotChange();
                 this.updateOptions(true, true);
             });
