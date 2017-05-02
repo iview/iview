@@ -94,7 +94,7 @@
             },
             deleteAllOpenKeys () {
                 this.openNames.length = 0;
-            },
+            }
         },
         mounted () {
             this.updateActiveName();
