@@ -91,7 +91,10 @@
                         if (this.openNames.indexOf(item.name) > -1) item.opened = true;
                     });
                 }
-            }
+            },
+            deleteAllOpenKeys () {
+                this.openNames.length = 0;
+            },
         },
         mounted () {
             this.updateActiveName();
@@ -103,6 +106,7 @@
         },
         watch: {
             openNames () {
+                this.updateOpened();
                 this.$emit('on-open-change', this.openNames);
             },
             activeName (val) {
