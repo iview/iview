@@ -98,9 +98,15 @@
                     this.parent.$children.forEach(item => {
                         if (item.$options.name === 'Submenu') item.opened = false;
                     });
+                    
+                    this.opened = true;
+                    this.parent.deleteAllOpenKeys();
+                    this.parent.updateOpenKeys(this.name);
                 }
-                this.opened = !opened;
-                this.parent.updateOpenKeys(this.name);
+                else {
+                    this.opened = !opened;
+                    this.parent.updateOpenKeys(this.name);
+                }
             }
         },
         watch: {
