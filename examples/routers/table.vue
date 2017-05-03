@@ -1,17 +1,32 @@
 <template>
     <div>
-        <Table border :context="self" :columns="columns7" :data="data6"></Table>
-        <abc></abc>
+        <template v-if="expandAllStatus">
+            <Button @click="expandAll(true)">展开全部</Button>
+        </template>
+        <template v-else>
+            <Button @click="expandAll(false)">收起全部</Button>
+        </template>
+        <Table ref="mineTable" :expand-row-render="expandTemplate" :columns="columns1" :data="data1" @on-expand="onExpand" @on-expand-all="onExpandAll">
+            <div slot="header">头部</div>
+            <div slot="footer">底部</div>
+        </Table>
     </div>
 </template>
 <script>
-    import abc from '../components/test.vue';
+
+    import expandExample from './expand-example.vue'
+
     export default {
         components: { abc },
         data () {
             return {
                 self: this,
-                columns7: [
+                columns1: [
+                    {
+                        type: 'expand',
+                        width: 60,
+                        align: 'center'
+                    },
                     {
                         title: '姓名',
                         key: 'name',
@@ -37,7 +52,7 @@
                         }
                     }
                 ],
-                data6: [
+                data1: [
                     {
                         name: '王小明',
                         age: 18,
@@ -62,14 +77,33 @@
             }
         },
         methods: {
-            show (index) {
-                this.$Modal.info({
-                    title: '用户信息',
-                    content: `姓名：${this.data6[index].name}<br>年龄：${this.data6[index].age}<br>地址：${this.data6[index].address}`
-                })
+            // 行点击事件测试。 单行打开
+//            onRowClick (row, index) {
+//                this.$refs['mineTable'].showExpand(index)
+//            },
+            expandTemplate (row, index) {
+                console.log(row);
+                // render 方式调用
+                return `<i-button type="primary" size="small" @click="show(${index})">查看</i-button>`;
+                // 组件方式调用
+                // return expandExample;
             },
-            remove (index) {
-                this.data6.splice(index, 1);
+            onExpand(expands, row, status, index) {
+                console.log('展开一行操作');
+                console.log(expands);
+                this.expandAllStatus = expands.length === 0
+            },
+            onExpandAll(expands, rows, status) {
+                console.log('全部展开操作');
+                console.log(expands);
+                this.expandAllStatus = expands.length === 0
+            },
+            expandAll (status) {
+                this.$refs['mineTable'].showExpandAll(status)
+            },
+
+            show (index) {
+                alert(index);
             }
         }
     }
