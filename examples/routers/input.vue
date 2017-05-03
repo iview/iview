@@ -1,6 +1,6 @@
 <template>
     <div style="width: 300px;">
-        <i-input v-model="value11" icon="ios-clock-outline">
+        <i-input v-model="value11" icon="ios-clock-outline" :autofocus="autofocus">
             <span slot="prepend">.com</span>
         </i-input>
         <i-input v-model="value11" icon="ios-clock-outline">
@@ -17,7 +17,8 @@
                 value13: '',
                 select1: 'http',
                 select2: 'com',
-                select3: 'day'
+                select3: 'day',
+                autofocus: true
             }
         }
     }
