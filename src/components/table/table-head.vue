@@ -9,7 +9,7 @@
                     <div :class="cellClasses(column)">
                         <template v-if="column.type === 'selection'"><Checkbox :value="isSelectAll" @on-change="selectAll"></Checkbox></template>
                         <template v-else>
-                            <span v-html="renderHeader(column, index)"></span>
+                            <span v-html="renderHeader(column, index)" v-if="renderHeader(column, index)"></span>
                             <span :class="[prefixCls + '-sort']" v-if="column.sortable">
                                 <i class="ivu-icon ivu-icon-arrow-up-b" :class="{on: column._sortType === 'asc'}" @click="handleSort(index, 'asc')"></i>
                                 <i class="ivu-icon ivu-icon-arrow-down-b" :class="{on: column._sortType === 'desc'}" @click="handleSort(index, 'desc')"></i>
@@ -125,7 +125,11 @@
                 if ('renderHeader' in this.columns[$index]) {
                     return this.columns[$index].renderHeader(column, $index);
                 } else {
-                    return column.title || '#';
+                    if(column.type === 'selection'){
+                        return column.title;
+                    }else{
+                        return column.title || '#';
+                    }
                 }
             },
             selectAll () {
