@@ -59,6 +59,7 @@
 
                     if (isRealRender) {
                         const component = new Vue({
+                            functional: true,
                             render: (h) => {
                                 return this.column.render(h, this.row, this.column, this.index);
                             }
