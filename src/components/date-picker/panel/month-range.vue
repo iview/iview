@@ -209,6 +209,8 @@
                     this.minDate = newVal[0] ? toDate(newVal[0]) : null;
                     this.maxDate = newVal[1] ? toDate(newVal[1]) : null;
                     if (this.minDate) this.lDate = new Date(this.minDate);
+                    if (this.maxDate) this.rDate = new Date(this.maxDate);
+                    this.rDate.setMonth(this.rDate.getMonth() - 1);
                 }
                 if (this.showTime) this.$refs.timePicker.value = newVal;
             },
