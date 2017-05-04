@@ -1,14 +1,13 @@
 <template>
-    <div>
-        <Cascader :data="data2" v-model="v1" disabled clearable></Cascader>
-        <Cascader :data="data2" clearable></Cascader>
+    <div style="width: 300px;margin: 100px;">
+        <Cascader :data="data2" v-model="v1" change-on-select></Cascader>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                v1: ['zhejiang', 'hangzhou', 'xihu'],
+                v1: ['zhejiang'],
                 data2: [{
                     value: 'zhejiang',
                     label: '浙江',
@@ -23,7 +22,6 @@
                 }, {
                     value: 'jiangsu',
                     label: '江苏',
-                    disabled: true,
                     children: [{
                         value: 'nanjing',
                         label: '南京',
