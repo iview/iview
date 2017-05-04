@@ -48,42 +48,59 @@
         methods: {
             compile () {
                 if (this.column.render) {
-                    const $parent = this.context;
-                    const template = this.column.render(this.row, this.column, this.index);
-                    const cell = document.createElement('div');
-                    cell.innerHTML = template;
+                    // 兼容真 Render，后期废弃旧用法
+                    let isRealRender = false;
+                    try {
+                        this.column.render(this.row, this.column, this.index);
+                    }
+                    catch (err) {
+                        isRealRender = true;
+                    }
 
-                    this.$el.innerHTML = '';
-                    let methods = {};
-                    Object.keys($parent).forEach(key => {
-                        const func = $parent[key];
-                        if (typeof(func) === 'function' && (func.name  === 'boundFn' || func.name === 'n')) {
-                            methods[key] = func;
-                        }
-                    });
-                    const res = Vue.compile(cell.outerHTML);
-                    // todo 临时解决方案
+                    if (isRealRender) {
+                        const component = new Vue({
+                            render: (h) => {
+                                return this.column.render(h, this.row, this.column, this.index);
+                            }
+                        });
+                        const Cell = component.$mount();
+                        this.$refs.cell.appendChild(Cell.$el);
+                    } else {
+                        const $parent = this.context;
+                        const template = this.column.render(this.row, this.column, this.index);
+                        const cell = document.createElement('div');
+                        cell.innerHTML = template;
 
-                    // 获取父组件使用的局部 component
-                    const components = {};
-                    Object.getOwnPropertyNames($parent.$options.components).forEach(item => {
-                        components[item] = $parent.$options.components[item];
-                    });
+                        this.$el.innerHTML = '';
+                        let methods = {};
+                        Object.keys($parent).forEach(key => {
+                            const func = $parent[key];
+                            if (typeof(func) === 'function' && (func.name  === 'boundFn' || func.name === 'n')) {
+                                methods[key] = func;
+                            }
+                        });
+                        const res = Vue.compile(cell.outerHTML);
+                        // 获取父组件使用的局部 component
+                        const components = {};
+                        Object.getOwnPropertyNames($parent.$options.components).forEach(item => {
+                            components[item] = $parent.$options.components[item];
+                        });
 
-                    const component = new Vue({
-                        render: res.render,
-                        staticRenderFns: res.staticRenderFns,
-                        methods: methods,
-                        data () {
-                            return $parent._data;
-                        },
-                        components: components
-                    });
-                    component.row = this.row;
-                    component.column = this.column;
+                        const component = new Vue({
+                            render: res.render,
+                            staticRenderFns: res.staticRenderFns,
+                            methods: methods,
+                            data () {
+                                return $parent._data;
+                            },
+                            components: components
+                        });
+                        component.row = this.row;
+                        component.column = this.column;
 
-                    const Cell = component.$mount();
-                    this.$refs.cell.appendChild(Cell.$el);
+                        const Cell = component.$mount();
+                        this.$refs.cell.appendChild(Cell.$el);
+                    }
                 }
             },
             destroy () {

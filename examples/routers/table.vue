@@ -1,7 +1,7 @@
 <template>
     <div>
-        <Table border :context="self" :columns="columns7" :data="data6"></Table>
-        <abc></abc>
+        <Table border :columns="columns7" :data="data6"></Table>
+        <Button @click="handleAdd"> + 1</Button>
     </div>
 </template>
 <script>
@@ -10,13 +10,23 @@
         components: { abc },
         data () {
             return {
-                self: this,
+                data1: 1,
+//                self: this,
                 columns7: [
                     {
                         title: '姓名',
                         key: 'name',
-                        render (row, column, index) {
-                            return `<abc></abc>`;
+//                        render (row, column, index) {
+//                            return `<abc></abc>`;
+//                        }
+                        render: (h, row, column, index) => {
+                            return h('div', [
+                                h('Button',{
+                                    on: {
+                                        click: this.handleClick
+                                    }
+                                }, 'hello')
+                            ])
                         }
                     },
                     {
@@ -61,6 +71,11 @@
                 ]
             }
         },
+        computed: {
+            ttt () {
+                return this.data1 + 1;
+            }
+        },
         methods: {
             show (index) {
                 this.$Modal.info({
@@ -70,6 +85,12 @@
             },
             remove (index) {
                 this.data6.splice(index, 1);
+            },
+            handleAdd () {
+                this.data1++;
+            },
+            handleClick () {
+                this.$Message.info('111')
             }
         }
     }
