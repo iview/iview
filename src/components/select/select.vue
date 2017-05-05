@@ -22,12 +22,16 @@
                 @keydown.delete="handleInputDelete"
                 ref="input">
             <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSingleSelect"></Icon>
-            <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']"></Icon>
+            <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']" v-if="!remote"></Icon>
         </div>
         <transition :name="transitionName">
-            <Drop v-show="visible" :placement="placement" ref="dropdown">
-                <ul v-show="notFound" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
-                <ul v-show="!notFound" :class="[prefixCls + '-dropdown-list']" ref="options"><slot></slot></ul>
+            <Drop v-show="(visible && options.length) ||
+                (visible && !options.length && loading) ||
+                (visible && remote && !loading && !options.length && query !== '')" :placement="placement" ref="dropdown">
+            <!--<Drop v-show="visible" :placement="placement" ref="dropdown">-->
+                <ul v-show="(notFound && !remote) || (remote && !loading && !options.length)" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
+                <ul v-show="(!notFound && !remote) || (remote && !loading && !notFound)" :class="[prefixCls + '-dropdown-list']" ref="options"><slot></slot></ul>
+                <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
             </Drop>
         </transition>
     </div>
@@ -74,6 +78,20 @@
             filterMethod: {
                 type: Function
             },
+            remote: {
+                type: Boolean,
+                default: false
+            },
+            remoteMethod: {
+                type: Function
+            },
+            loading: {
+                type: Boolean,
+                default: false
+            },
+            loadingText: {
+                type: String
+            },
             size: {
                 validator (value) {
                     return oneOf(value, ['small', 'large', 'default']);
@@ -103,6 +121,7 @@
                 selectedMultiple: [],
                 focusIndex: 0,
                 query: '',
+                selectToChangeQuery: false,    // when select an option, set this first and set query, because query is watching, it will emit event
                 inputLength: 20,
                 notFound: false,
                 slotChangeDuration: false,    // if slot change duration and in multiple, set true and after slot change, set false
@@ -168,6 +187,13 @@
                     return this.notFoundText;
                 }
             },
+            localeLoadingText () {
+                if (this.loadingText === undefined) {
+                    return this.t('i.select.loading');
+                } else {
+                    return this.loadingText;
+                }
+            },
             transitionName () {
                 return this.placement === 'bottom' ? 'slide-up' : 'slide-down';
             }
@@ -187,15 +213,18 @@
             },
             // find option component
             findChild (cb) {
+                const _this = this;
                 const find = function (child) {
                     const name = child.$options.componentName;
 
                     if (name) {
                         cb(child);
                     } else if (child.$children.length) {
-                        child.$children.forEach((innerChild) => {
-                            find(innerChild, cb);
-                        });
+                        _this.$nextTick(() => {
+                            child.$children.forEach((innerChild) => {
+                                find(innerChild, cb);
+                            });
+                        })
                     }
                 };
 
@@ -228,8 +257,10 @@
                 this.options = options;
 
                 if (init) {
-                    this.updateSingleSelected(true, slot);
-                    this.updateMultipleSelected(true, slot);
+                    if (!this.remote) {
+                        this.updateSingleSelected(true, slot);
+                        this.updateMultipleSelected(true, slot);
+                    }
                 }
             },
             updateSingleSelected (init = false, slot = false) {
@@ -535,18 +566,22 @@
             document.addEventListener('keydown', this.handleKeydown);
 
             this.$on('append', () => {
-                this.modelToQuery();
-                this.$nextTick(() => {
-                    this.broadcastQuery('');
-                });
+                if (!this.remote) {
+                    this.modelToQuery();
+                    this.$nextTick(() => {
+                        this.broadcastQuery('');
+                    });
+                }
                 this.slotChange();
                 this.updateOptions(true, true);
             });
             this.$on('remove', () => {
-                this.modelToQuery();
-                this.$nextTick(() => {
-                    this.broadcastQuery('');
-                });
+                if (!this.remote) {
+                    this.modelToQuery();
+                    this.$nextTick(() => {
+                        this.broadcastQuery('');
+                    });
+                }
                 this.slotChange();
                 this.updateOptions(true, true);
             });
@@ -565,6 +600,7 @@
                         }
 
                         if (this.filterable) {
+                            this.selectToChangeQuery = true;
                             this.query = '';
                             this.$refs.input.focus();
                         }
@@ -574,6 +610,7 @@
                         if (this.filterable) {
                             this.findChild((child) => {
                                 if (child.value === value) {
+                                    this.selectToChangeQuery = true;
                                     this.query = child.label === undefined ? child.searchLabel : child.label;
                                 }
                             });
@@ -625,20 +662,29 @@
                 }
             },
             query (val) {
-                this.$emit('on-query-change', val);
+                if (this.remote && this.remoteMethod) {
+                    if (!this.selectToChangeQuery) {
+                        this.$emit('on-query-change', val);
+                        this.remoteMethod(val);
+                    }
+                } else {
+                    if (!this.selectToChangeQuery) {
+                        this.$emit('on-query-change', val);
+                    }
+                    this.broadcastQuery(val);
 
-                this.broadcastQuery(val);
-                
-                let is_hidden = true;
+                    let is_hidden = true;
 
-                this.$nextTick(() => {
-                    this.findChild((child) => {
-                        if (!child.hidden) {
-                            is_hidden = false;
-                        }
+                    this.$nextTick(() => {
+                        this.findChild((child) => {
+                            if (!child.hidden) {
+                                is_hidden = false;
+                            }
+                        });
+                        this.notFound = is_hidden;
                     });
-                    this.notFound = is_hidden;
-                });
+                }
+                this.selectToChangeQuery = false;
                 this.broadcast('Drop', 'on-update-popper');
             }
         }

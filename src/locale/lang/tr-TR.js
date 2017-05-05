@@ -2,7 +2,8 @@ export default {
     i: {
         select: {
             placeholder: 'Seç',
-            noMatch: 'Eşleşen veri yok'
+            noMatch: 'Eşleşen veri yok',
+            loading: 'yükleme'
         },
         table: {
             noDataText: 'Veri Yok',

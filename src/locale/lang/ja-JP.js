@@ -2,7 +2,8 @@ export default {
     i: {
         select: {
             placeholder: '選んでください',
-            noMatch: 'マッチするデータなし'
+            noMatch: 'マッチするデータなし',
+            loading: 'ロード中'
         },
         table: {
             noDataText: 'データなし',
