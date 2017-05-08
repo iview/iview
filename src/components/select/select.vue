@@ -514,7 +514,7 @@
                             if (this.remote) {
                                 this.$nextTick(() => {
                                     this.query = model;
-                                })
+                                });
                             }
                         } else {
                             this.query = '';
