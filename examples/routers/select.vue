@@ -1,5 +1,6 @@
 <template>
     <div style="width: 200px;margin: 100px;">
+        {{ model }}
         <i-select v-model="model" filterable remote :remote-method="remoteMethod" :loading="loading" clearable style="width:200px">
             <i-option v-for="option in options" :value="option.value" :key="option">{{option.label}}</i-option>
         </i-select>
@@ -80,7 +81,7 @@
                             return item.label.toLowerCase()
                                     .indexOf(query.toLowerCase()) > -1;
                         });
-                    }, 200);
+                    }, 500);
                 } else {
                     this.options = [];
                 }

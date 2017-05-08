@@ -25,10 +25,7 @@
             <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']" v-if="!remote"></Icon>
         </div>
         <transition :name="transitionName">
-            <Drop v-show="(visible && options.length) ||
-                (visible && !options.length && loading) ||
-                (visible && remote && !loading && !options.length && query !== '')" :placement="placement" ref="dropdown">
-            <!--<Drop v-show="visible" :placement="placement" ref="dropdown">-->
+            <Drop v-show="dropVisible" :placement="placement" ref="dropdown">
                 <ul v-show="(notFound && !remote) || (remote && !loading && !options.length)" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
                 <ul v-show="(!notFound && !remote) || (remote && !loading && !notFound)" :class="[prefixCls + '-dropdown-list']" ref="options"><slot></slot></ul>
                 <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
@@ -196,6 +193,11 @@
             },
             transitionName () {
                 return this.placement === 'bottom' ? 'slide-up' : 'slide-down';
+            },
+            dropVisible () {
+                let status = true;
+                if (!this.loading && this.remote && this.query === '' && !this.options.length) status = false;
+                return this.visible && status;
             }
         },
         methods: {
@@ -203,7 +205,6 @@
                 if (this.disabled) {
                     return false;
                 }
-
                 this.visible = !this.visible;
             },
             hideMenu () {
@@ -224,7 +225,7 @@
                             child.$children.forEach((innerChild) => {
                                 find(innerChild, cb);
                             });
-                        })
+                        });
                     }
                 };
 
