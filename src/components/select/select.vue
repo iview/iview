@@ -27,7 +27,7 @@
         <transition :name="transitionName">
             <Drop v-show="dropVisible" :placement="placement" ref="dropdown">
                 <ul v-show="(notFound && !remote) || (remote && !loading && !options.length)" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
-                <ul v-show="(!notFound && !remote) || (remote && !loading && !notFound)" :class="[prefixCls + '-dropdown-list']" ref="options"><slot></slot></ul>
+                <ul v-show="(!notFound && !remote) || (remote && !loading && !notFound)" :class="[prefixCls + '-dropdown-list']"><slot></slot></ul>
                 <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
             </Drop>
         </transition>
@@ -510,6 +510,12 @@
                                     this.query = child.label === undefined ? child.searchLabel : child.label;
                                 }
                             });
+                            // 如果删除了搜索词，下拉列表也情况了，所以强制调用一次remoteMethod
+                            if (this.remote) {
+                                this.$nextTick(() => {
+                                    this.query = model;
+                                })
+                            }
                         } else {
                             this.query = '';
                         }

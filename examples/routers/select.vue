@@ -18,7 +18,7 @@
                 ],
                 list: [],
                 loading: false,
-                states: ["Alabama", "Alaska", "Arizona",
+                states: ["Al", "Alabama", "Alaska", "Arizona",
                     "Arkansas", "California", "Colorado",
                     "Connecticut", "Delaware", "Florida",
                     "Georgia", "Hawaii", "Idaho", "Illinois",
