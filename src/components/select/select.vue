@@ -300,7 +300,7 @@
             },
             updateMultipleSelected (init = false, slot = false) {
                 if (this.multiple && Array.isArray(this.model)) {
-                    let selected = [];
+                    let selected = this.remote ? this.selectedMultiple : [];
 
                     for (let i = 0; i < this.model.length; i++) {
                         const model = this.model[i];
@@ -317,7 +317,16 @@
                         }
                     }
 
-                    this.selectedMultiple = selected;
+                    const selectedArray = [];
+                    const selectedObject = {};
+                    selected.forEach(item => {
+                        if (!selectedObject[item.value]) {
+                            selectedArray.push(item);
+                            selectedObject[item.value] = 1;
+                        }
+                    });
+
+                    this.selectedMultiple = this.remote ? selectedArray : selected;
 
                     if (slot) {
                         let selectedModel = [];
@@ -340,6 +349,12 @@
                 if (this.disabled) {
                     return false;
                 }
+
+                if (this.remote) {
+                    const tag = this.model[index];
+                    this.selectedMultiple = this.selectedMultiple.filter(item => item.value !== tag);
+                }
+
                 this.model.splice(index, 1);
 
                 if (this.filterable && this.visible) {

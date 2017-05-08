@@ -1,18 +1,19 @@
 <template>
-    <div style="width: 200px;margin: 100px;">
-        {{ model }}
-        <i-select v-model="model" filterable remote :remote-method="remoteMethod" :loading="loading" clearable style="width:200px">
-            <i-option v-for="option in options" :value="option.value" :key="option">{{option.label}}</i-option>
-        </i-select>
-        <!--<Button @click="handleAdd">+</Button>-->
-    </div>
+    <Row>
+        <i-col span="4">{{model}}</i-col>
+        <i-col span="8">
+            <i-select v-model="model" multiple filterable remote :remote-method="remoteMethod" :loading="loading" clearable>
+                <i-option v-for="option in options" :value="option.value" :key="option">{{option.label}}</i-option>
+            </i-select>
+        </i-col>
+    </Row>
 </template>
 
 <script>
     export default {
         data () {
             return {
-                model: '',
+                model: [],
                 options: [
 
                 ],
