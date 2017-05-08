@@ -630,7 +630,8 @@
                         }
 
                         if (this.filterable) {
-                            this.selectToChangeQuery = true;
+                            // remote&filterable&multiple时，一次点多项，不应该设置true，因为无法置为false，下次的搜索会失效
+                            if (this.query !== '') this.selectToChangeQuery = true;
                             this.query = '';
                             this.$refs.input.focus();
                         }
@@ -640,7 +641,7 @@
                         if (this.filterable) {
                             this.findChild((child) => {
                                 if (child.value === value) {
-                                    this.selectToChangeQuery = true;
+                                    if (this.query !== '') this.selectToChangeQuery = true;
                                     this.query = child.label === undefined ? child.searchLabel : child.label;
                                 }
                             });
@@ -702,6 +703,10 @@
                         this.$emit('on-query-change', val);
                         this.remoteMethod(val);
                     }
+                    this.focusIndex = 0;
+                    this.findChild(child => {
+                        child.isFocus = false;
+                    });
                 } else {
                     if (!this.selectToChangeQuery) {
                         this.$emit('on-query-change', val);

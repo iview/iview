@@ -82,7 +82,7 @@
                             return item.label.toLowerCase()
                                     .indexOf(query.toLowerCase()) > -1;
                         });
-                    }, 500);
+                    }, 200);
                 } else {
                     this.options = [];
                 }
