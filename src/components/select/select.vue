@@ -593,6 +593,10 @@
                     this.$nextTick(() => {
                         this.broadcastQuery('');
                     });
+                } else {
+                    this.findChild(child => {
+                        child.selected = this.model.indexOf(child.value) > -1;
+                    });
                 }
                 this.slotChange();
                 this.updateOptions(true, true);
@@ -602,6 +606,10 @@
                     this.modelToQuery();
                     this.$nextTick(() => {
                         this.broadcastQuery('');
+                    });
+                } else {
+                    this.findChild(child => {
+                        child.selected = this.model.indexOf(child.value) > -1;
                     });
                 }
                 this.slotChange();
@@ -669,6 +677,11 @@
                             this.$refs.input.focus();
                         } else {
                             this.$refs.input.select();
+                        }
+                        if (this.remote) {
+                            this.findChild(child => {
+                                child.selected = this.model.indexOf(child.value) > -1;
+                            });
                         }
                     }
                     this.broadcast('Drop', 'on-update-popper');
