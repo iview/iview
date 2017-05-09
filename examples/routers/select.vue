@@ -2,8 +2,8 @@
     <Row>
         <i-col span="4">{{model}}</i-col>
         <i-col span="8">
-            <i-select v-model="model" multiple filterable remote :remote-method="remoteMethod" :loading="loading" clearable>
-                <i-option v-for="option in options" :value="option.value" :key="option">{{option.label}}</i-option>
+            <i-select v-model="model" @input="handleInput" multiple filterable remote :remote-method="remoteMethod" :loading="loading" clearable>
+                <i-option v-for="option in options" :value="option.value" :key="new Date()">{{option.label}}</i-option>
             </i-select>
         </i-col>
     </Row>
@@ -82,10 +82,13 @@
                             return item.label.toLowerCase()
                                     .indexOf(query.toLowerCase()) > -1;
                         });
-                    }, 200);
+                    }, 500);
                 } else {
                     this.options = [];
                 }
+            },
+            handleInput () {
+//                console.log(1)
             }
         },
         mounted () {

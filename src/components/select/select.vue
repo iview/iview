@@ -222,9 +222,12 @@
                         cb(child);
                     } else if (child.$children.length) {
                         _this.$nextTick(() => {
-                            child.$children.forEach((innerChild) => {
-                                find(innerChild, cb);
-                            });
+//                            child.$children.forEach((innerChild) => {
+//                                find(innerChild, cb);
+//                            });
+                        });
+                        child.$children.forEach((innerChild) => {
+                            find(innerChild, cb);
                         });
                     }
                 };
@@ -300,6 +303,7 @@
             },
             updateMultipleSelected (init = false, slot = false) {
                 if (this.multiple && Array.isArray(this.model)) {
+                    // todo 这里的 label 有问题，另删除字符时也有问题
                     let selected = this.remote ? this.selectedMultiple : [];
 
                     for (let i = 0; i < this.model.length; i++) {
