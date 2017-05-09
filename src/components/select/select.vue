@@ -196,7 +196,8 @@
             },
             dropVisible () {
                 let status = true;
-                if (!this.loading && this.remote && this.query === '' && !this.options.length) status = false;
+                const options = this.$slots.default || [];
+                if (!this.loading && this.remote && this.query === '' && !options.length) status = false;
                 return this.visible && status;
             }
         },
@@ -214,18 +215,12 @@
             },
             // find option component
             findChild (cb) {
-                const _this = this;
                 const find = function (child) {
                     const name = child.$options.componentName;
 
                     if (name) {
                         cb(child);
                     } else if (child.$children.length) {
-                        _this.$nextTick(() => {
-//                            child.$children.forEach((innerChild) => {
-//                                find(innerChild, cb);
-//                            });
-                        });
                         child.$children.forEach((innerChild) => {
                             find(innerChild, cb);
                         });
@@ -599,7 +594,7 @@
                     });
                 } else {
                     this.findChild(child => {
-                        child.selected = this.model.indexOf(child.value) > -1;
+                        child.selected = this.multiple ? this.model.indexOf(child.value) > -1 : this.model === child.value;
                     });
                 }
                 this.slotChange();
@@ -613,7 +608,7 @@
                     });
                 } else {
                     this.findChild(child => {
-                        child.selected = this.model.indexOf(child.value) > -1;
+                        child.selected = this.multiple ? this.model.indexOf(child.value) > -1 : this.model === child.value;
                     });
                 }
                 this.slotChange();
@@ -685,7 +680,7 @@
                         }
                         if (this.remote) {
                             this.findChild(child => {
-                                child.selected = this.model.indexOf(child.value) > -1;
+                                child.selected = this.multiple ? this.model.indexOf(child.value) > -1 : this.model === child.value;
                             });
                         }
                     }
