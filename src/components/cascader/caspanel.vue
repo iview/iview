@@ -15,6 +15,7 @@
 <script>
     import Casitem from './casitem.vue';
     import Emitter from '../../mixins/emitter';
+    import { findComponentUpward } from '../../utils/assist';
 
     export default {
         name: 'Caspanel',
@@ -55,6 +56,16 @@
             },
             handleTriggerItem (item, fromInit = false) {
                 if (item.disabled) return;
+
+                if (item.loading !== undefined && !item.children.length) {
+                    const cascader = findComponentUpward(this, 'Cascader');
+                    if (cascader && cascader.loadData) {
+                        cascader.loadData(item, () => {
+                            this.handleTriggerItem(item);
+                        });
+                        return;
+                    }
+                }
 
                 // return value back recursion  // 向上递归，设置临时选中值（并非真实选中）
                 const backItem = this.getBaseItem(item);

@@ -88,6 +88,9 @@
                 default (label) {
                     return label.join(' / ');
                 }
+            },
+            loadData: {
+                type: Function
             }
         },
         data () {
@@ -224,8 +227,11 @@
                 }
                 this.updateSelected(true);
             },
-            data () {
-                this.$nextTick(() => this.updateSelected());
+            data: {
+                deep: true,
+                handler () {
+                    this.$nextTick(() => this.updateSelected());
+                }
             }
         }
     };
