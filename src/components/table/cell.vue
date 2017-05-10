@@ -96,6 +96,9 @@
                             },
                             components: components
                         });
+                        if ($parent.$store != undefined) {
+                            component.$store = $parent.$store;
+                        }
                         component.row = this.row;
                         component.column = this.column;
 
