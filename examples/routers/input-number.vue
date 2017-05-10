@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Input-number :max="10" :min="-1" v-model="v1" :autofocus="autofocus"></Input-number>
+        <Input-number :max="10" name="he" :min="-1" v-model="v1" :autofocus="autofocus"></Input-number>
         {{ v1 }}
         <div @click="c">change v1</div>
         <Input-number disabled :max="10" :min="1" :step="1.2" v-model="v2"></Input-number>

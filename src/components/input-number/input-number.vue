@@ -24,6 +24,7 @@
                 @blur="blur"
                 @keydown.stop="keyDown"
                 @change="change"
+                :name="name"
                 :value="value">
         </div>
     </div>
@@ -94,6 +95,9 @@
             autofocus: {
                 type: Boolean,
                 default: false
+            },
+            name: {
+                type: String
             }
         },
         data () {
