@@ -4,8 +4,8 @@
             <Button @click="handleLoad">load</Button>
         </i-col>
         <i-col span="6">
-            <!--<Cascader :data="data2" v-model="v1" change-on-select></Cascader>-->
-            <Cascader :data="data2" v-model="v1" :loadData="loadData"></Cascader>
+            <Cascader :data="data3" filterable v-model="v1"></Cascader>
+            <!--<Cascader :data="data2" filterable v-model="v1" :loadData="loadData"></Cascader>-->
         </i-col>
     </Row>
 </template>
@@ -30,6 +30,53 @@
                             label: '中华门'
                         }]
                     }]
+                }],
+                data3: [{
+                    value: 'beijing',
+                    label: '北京',
+                    children: [
+                        {
+                            value: 'gugong',
+                            label: '故宫'
+                        },
+                        {
+                            value: 'tiantan',
+                            label: '天坛'
+                        },
+                        {
+                            value: 'wangfujing',
+                            label: '王府井'
+                        }
+                    ]
+                }, {
+                    value: 'jiangsu',
+                    label: '江苏',
+                    children: [
+                        {
+                            value: 'nanjing',
+                            label: '南京',
+                            children: [
+                                {
+                                    value: 'fuzimiao',
+                                    label: '夫子庙',
+                                }
+                            ]
+                        },
+                        {
+                            value: 'suzhou',
+                            label: '苏州',
+                            children: [
+                                {
+                                    value: 'zhuozhengyuan',
+                                    label: '拙政园',
+                                },
+                                {
+                                    value: 'shizilin',
+                                    label: '狮子林',
+                                }
+                            ]
+                        }
+                    ],
                 }]
             }
         },

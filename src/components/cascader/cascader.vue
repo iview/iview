@@ -3,7 +3,7 @@
         <div :class="[prefixCls + '-rel']" @click="toggleOpen">
             <slot>
                 <i-input
-                    readonly
+                    :readonly="!filterable"
                     :disabled="disabled"
                     v-model="displayRender"
                     :size="size"
@@ -91,6 +91,10 @@
             },
             loadData: {
                 type: Function
+            },
+            filterable: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
