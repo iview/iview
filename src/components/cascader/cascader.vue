@@ -5,7 +5,8 @@
                 <i-input
                     :readonly="!filterable"
                     :disabled="disabled"
-                    v-model="displayRender"
+                    :value="displayRender"
+                    @on-change="handleInput"
                     :size="size"
                     :placeholder="placeholder"></i-input>
                 <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSelect"></Icon>
@@ -16,12 +17,23 @@
             <Drop v-show="visible">
                 <div>
                     <Caspanel
+                        v-show="!filterable || (filterable && query === '')"
                         ref="caspanel"
                         :prefix-cls="prefixCls"
                         :data="data"
                         :disabled="disabled"
                         :change-on-select="changeOnSelect"
                         :trigger="trigger"></Caspanel>
+                    <div :class="[prefixCls + '-dropdown']" v-show="filterable && query !== ''">
+                        <ul :class="[selectPrefixCls + '-dropdown-list']">
+                            <li
+                                :class="[selectPrefixCls + '-item', {
+                                    [selectPrefixCls + '-item-disabled']: item.disabled
+                                }]"
+                                v-for="(item, index) in querySelections"
+                                @click="handleSelectItem(index)">{{ item.label }}</li>
+                        </ul>
+                    </div>
                 </div>
             </Drop>
         </transition>
@@ -37,6 +49,7 @@
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-cascader';
+    const selectPrefixCls = 'ivu-select';
 
     export default {
         name: 'Cascader',
@@ -100,11 +113,13 @@
         data () {
             return {
                 prefixCls: prefixCls,
+                selectPrefixCls: selectPrefixCls,
                 visible: false,
                 selected: [],
                 tmpSelected: [],
                 updatingValue: false,    // to fix set value in changeOnSelect type
-                currentValue: this.value
+                currentValue: this.value,
+                query: ''
             };
         },
         computed: {
@@ -128,6 +143,32 @@
                 }
 
                 return this.renderFormat(label, this.selected);
+            },
+            querySelections () {
+                let selections = [];
+                function getSelections (arr, label, value) {
+                    for (let i = 0; i < arr.length; i++) {
+                        let item = arr[i];
+                        item.__label = label ? label + ' / ' + item.label : item.label;
+                        item.__value = value ? value + ',' + item.value : item.value;
+
+                        if (item.children && item.children.length) {
+                            getSelections(item.children, item.__label, item.__value);
+                            delete item.__label;
+                            delete item.__value;
+                        } else {
+                            selections.push({
+                                label: item.__label,
+                                value: item.__value,
+                                item: item,
+                                disabled: !!item.disabled
+                            });
+                        }
+                    }
+                }
+                getSelections(this.data);
+                selections = selections.filter(item => item.label.indexOf(this.query) > -1);
+                return selections;
             }
         },
         methods: {
@@ -146,7 +187,7 @@
             toggleOpen () {
                 if (this.disabled) return false;
                 if (this.visible) {
-                    this.handleClose();
+                    if (!this.filterable) this.handleClose();
                 } else {
                     this.onFocus();
                 }
@@ -177,6 +218,19 @@
                         });
                     });
                 }
+            },
+            handleInput (event) {
+                this.query = event.target.value;
+            },
+            handleSelectItem (index) {
+                const item = this.querySelections[index];
+
+                if (item.item.disabled) return false;
+                this.query = '';
+                const oldVal = JSON.stringify(this.currentValue);
+                this.currentValue = item.value.split(',');
+                this.emitValue(this.currentValue, oldVal);
+                this.handleClose();
             }
         },
         created () {
