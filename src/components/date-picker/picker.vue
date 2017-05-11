@@ -113,6 +113,10 @@
             formatter: DATE_FORMATTER,
             parser: DATE_PARSER
         },
+        monthrange: {
+            formatter: RANGE_FORMATTER,
+            parser: RANGE_PARSER
+        },
         month: {
             formatter: DATE_FORMATTER,
             parser: DATE_PARSER
@@ -277,7 +281,7 @@
                 const type = this.type;
                 const format = this.format || DEFAULT_FORMATS[type];
 
-                if (type === 'daterange' || type === 'timerange' || type === 'datetimerange') {
+                if (type === 'daterange' || type === 'timerange' || type === 'datetimerange' || type === 'monthrange') {
                     const parser = (
                         TYPE_VALUE_RESOLVER_MAP[type] ||
                         TYPE_VALUE_RESOLVER_MAP['default']
