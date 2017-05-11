@@ -2,8 +2,9 @@
     <Row>
         <i-col span="4">
             <Button @click="handleLoad">load</Button>
+            {{ v1 }}
         </i-col>
-        <i-col span="6">
+        <i-col span="4">
             <Cascader :data="data3" filterable v-model="v1"></Cascader>
             <!--<Cascader :data="data2" filterable v-model="v1" :loadData="loadData"></Cascader>-->
         </i-col>
@@ -14,23 +15,26 @@
         data () {
             return {
                 v1: [],
-                data2: [{
-                    value: 'zhejiang',
-                    label: '浙江',
-                    children: [],
-                    loading: false
-                }, {
-                    value: 'jiangsu',
-                    label: '江苏',
-                    children: [{
-                        value: 'nanjing',
-                        label: '南京',
+                data2: [
+                    {
+                        value: 'zhejiang',
+                        label: '浙江',
+                        children: [],
+                        loading: false
+                    },
+                    {
+                        value: 'jiangsu',
+                        label: '江苏',
                         children: [{
-                            value: 'zhonghuamen',
-                            label: '中华门'
+                            value: 'nanjing',
+                            label: '南京',
+                            children: [{
+                                value: 'zhonghuamen',
+                                label: '中华门'
+                            }]
                         }]
-                    }]
-                }],
+                    }
+                ],
                 data3: [{
                     value: 'beijing',
                     label: '北京',
@@ -67,6 +71,7 @@
                             label: '苏州',
                             children: [
                                 {
+                                    disabled: true,
                                     value: 'zhuozhengyuan',
                                     label: '拙政园',
                                 },
