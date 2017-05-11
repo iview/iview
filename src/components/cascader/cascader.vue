@@ -3,12 +3,17 @@
         <div :class="[prefixCls + '-rel']" @click="toggleOpen">
             <slot>
                 <i-input
+                    ref="input"
                     :readonly="!filterable"
                     :disabled="disabled"
-                    :value="displayRender"
+                    :value="displayInputRender"
                     @on-change="handleInput"
                     :size="size"
-                    :placeholder="placeholder"></i-input>
+                    :placeholder="inputPlaceholder"></i-input>
+                <div
+                    :class="[prefixCls + '-label']"
+                    v-show="filterable && query === ''"
+                    @click="handleFocus">{{ displayRender }}</div>
                 <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSelect"></Icon>
                 <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']"></Icon>
             </slot>
@@ -47,13 +52,14 @@
     import clickoutside from '../../directives/clickoutside';
     import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
+    import Locale from '../../mixins/locale';
 
     const prefixCls = 'ivu-cascader';
     const selectPrefixCls = 'ivu-select';
 
     export default {
         name: 'Cascader',
-        mixins: [ Emitter ],
+        mixins: [ Emitter, Locale ],
         components: { iInput, Drop, Icon, Caspanel },
         directives: { clickoutside },
         props: {
@@ -78,8 +84,7 @@
                 default: true
             },
             placeholder: {
-                type: String,
-                default: '请选择'
+                type: String
             },
             size: {
                 validator (value) {
@@ -128,6 +133,7 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-show-clear`]: this.showCloseIcon,
+                        [`${prefixCls}-size-${this.size}`]: !!this.size,
                         [`${prefixCls}-visible`]: this.visible,
                         [`${prefixCls}-disabled`]: this.disabled
                     }
@@ -143,6 +149,19 @@
                 }
 
                 return this.renderFormat(label, this.selected);
+            },
+            displayInputRender () {
+                return this.filterable ? '' : this.displayRender;
+            },
+            localePlaceholder () {
+                if (this.placeholder === undefined) {
+                    return this.t('i.select.placeholder');
+                } else {
+                    return this.placeholder;
+                }
+            },
+            inputPlaceholder () {
+                return this.filterable && this.currentValue.length ? null : this.localePlaceholder;
             },
             querySelections () {
                 let selections = [];
@@ -226,11 +245,16 @@
                 const item = this.querySelections[index];
 
                 if (item.item.disabled) return false;
+                // todo 还有bug，选完，删除后，失焦，不能回到上次选择的
                 this.query = '';
+                this.$refs.input.currentValue = '';
                 const oldVal = JSON.stringify(this.currentValue);
                 this.currentValue = item.value.split(',');
                 this.emitValue(this.currentValue, oldVal);
                 this.handleClose();
+            },
+            handleFocus () {
+                this.$refs.input.focus();
             }
         },
         created () {
@@ -269,6 +293,11 @@
                 if (val) {
                     if (this.currentValue.length) {
                         this.updateSelected();
+                    }
+                } else {
+                    if (this.filterable) {
+                        this.query = '';
+                        this.$refs.input.currentValue = '';
                     }
                 }
                 this.$emit('on-visible-change', val);
