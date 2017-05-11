@@ -36,7 +36,7 @@
                                     [selectPrefixCls + '-item-disabled']: item.disabled
                                 }]"
                                 v-for="(item, index) in querySelections"
-                                @click="handleSelectItem(index)">{{ item.label }}</li>
+                                @click="handleSelectItem(index)" v-html="item.display"></li>
                         </ul>
                     </div>
                 </div>
@@ -179,6 +179,7 @@
                             selections.push({
                                 label: item.__label,
                                 value: item.__value,
+                                display: item.__label,
                                 item: item,
                                 disabled: !!item.disabled
                             });
@@ -186,7 +187,10 @@
                     }
                 }
                 getSelections(this.data);
-                selections = selections.filter(item => item.label.indexOf(this.query) > -1);
+                selections = selections.filter(item => item.label.indexOf(this.query) > -1).map(item => {
+                    item.display = item.display.replace(new RegExp(this.query, 'g'), `<span>${this.query}</span>`);
+                    return item;
+                });
                 return selections;
             }
         },
@@ -245,7 +249,6 @@
                 const item = this.querySelections[index];
 
                 if (item.item.disabled) return false;
-                // todo 还有bug，选完，删除后，失焦，不能回到上次选择的
                 this.query = '';
                 this.$refs.input.currentValue = '';
                 const oldVal = JSON.stringify(this.currentValue);
