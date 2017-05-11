@@ -48,7 +48,7 @@
             var listener = this.listener;
             // 非window的容器时需要设定back按钮的初始位置
             if (listener != window) {
-                this.setPosition()
+                this.setPosition();
                     // 监听window滚动，滚动时重新计算back按钮的位置，因为fixed是针对window的
                 window.addEventListener('scroll', this.setPosition, false);
             }
@@ -98,9 +98,9 @@
                 var top,
                     listener = this.listener;
                 if (listener == window) {
-                    top = window.pageYOffset
+                    top = window.pageYOffset;
                 } else {
-                    top = listener.scrollTop
+                    top = listener.scrollTop;
                 }
                 this.backTop = top >= this.height;
             },
