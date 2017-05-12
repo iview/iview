@@ -26,7 +26,7 @@
         </div>
         <transition :name="transitionName">
             <Drop v-show="dropVisible" :placement="placement" ref="dropdown">
-                <ul v-show="(notFound && !remote) || (remote && !loading && !options.length)" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
+                <ul v-show="notFountShow" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
                 <ul v-show="(!notFound && !remote) || (remote && !loading && !notFound)" :class="[prefixCls + '-dropdown-list']"><slot></slot></ul>
                 <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
             </Drop>
@@ -199,6 +199,10 @@
                 const options = this.$slots.default || [];
                 if (!this.loading && this.remote && this.query === '' && !options.length) status = false;
                 return this.visible && status;
+            },
+            notFountShow () {
+                const options = this.$slots.default || [];
+                return (this.notFound && !this.remote) || (this.remote && !this.loading && !options.length);
             }
         },
         methods: {
