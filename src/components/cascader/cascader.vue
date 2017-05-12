@@ -29,7 +29,7 @@
                         :disabled="disabled"
                         :change-on-select="changeOnSelect"
                         :trigger="trigger"></Caspanel>
-                    <div :class="[prefixCls + '-dropdown']" v-show="filterable && query !== ''">
+                    <div :class="[prefixCls + '-dropdown']" v-show="filterable && query !== '' && querySelections.length">
                         <ul :class="[selectPrefixCls + '-dropdown-list']">
                             <li
                                 :class="[selectPrefixCls + '-item', {
@@ -39,6 +39,7 @@
                                 @click="handleSelectItem(index)" v-html="item.display"></li>
                         </ul>
                     </div>
+                    <ul v-show="filterable && query !== '' && !querySelections.length" :class="[prefixCls + '-not-found-tip']"><li>{{ localeNotFoundText }}</li></ul>
                 </div>
             </Drop>
         </transition>
@@ -113,6 +114,9 @@
             filterable: {
                 type: Boolean,
                 default: false
+            },
+            notFoundText: {
+                type: String
             }
         },
         data () {
@@ -135,7 +139,8 @@
                         [`${prefixCls}-show-clear`]: this.showCloseIcon,
                         [`${prefixCls}-size-${this.size}`]: !!this.size,
                         [`${prefixCls}-visible`]: this.visible,
-                        [`${prefixCls}-disabled`]: this.disabled
+                        [`${prefixCls}-disabled`]: this.disabled,
+                        [`${prefixCls}-not-found`]: this.filterable && this.query !== '' && !this.querySelections.length
                     }
                 ];
             },
@@ -162,6 +167,13 @@
             },
             inputPlaceholder () {
                 return this.filterable && this.currentValue.length ? null : this.localePlaceholder;
+            },
+            localeNotFoundText () {
+                if (this.notFoundText === undefined) {
+                    return this.t('i.select.noMatch');
+                } else {
+                    return this.notFoundText;
+                }
             },
             querySelections () {
                 let selections = [];
