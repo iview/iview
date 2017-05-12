@@ -61,7 +61,11 @@
                         const component = new Vue({
                             functional: true,
                             render: (h) => {
-                                return this.column.render(h, this.row, this.column, this.index);
+                                return this.column.render(h, {
+                                    row: this.row,
+                                    column: this.column,
+                                    index: this.index
+                                });
                             }
                         });
                         const Cell = component.$mount();
