@@ -118,6 +118,7 @@
                 selectedMultiple: [],
                 focusIndex: 0,
                 query: '',
+                lastQuery: '',
                 selectToChangeQuery: false,    // when select an option, set this first and set query, because query is watching, it will emit event
                 inputLength: 20,
                 notFound: false,
@@ -529,9 +530,9 @@
                                 }
                             });
                             // 如果删除了搜索词，下拉列表也情况了，所以强制调用一次remoteMethod
-                            if (this.remote) {
+                            if (this.remote && this.query !== this.lastQuery) {
                                 this.$nextTick(() => {
-                                    this.query = model;
+                                    this.remoteMethod(this.query);
                                 });
                             }
                         } else {
@@ -702,7 +703,7 @@
             },
             query (val) {
                 if (this.remote && this.remoteMethod) {
-                    if (!this.selectToChangeQuery) {
+                    if (!this.selectToChangeQuery && this.query !== this.lastQuery) {
                         this.$emit('on-query-change', val);
                         this.remoteMethod(val);
                     }
