@@ -65,7 +65,7 @@
                                     row: this.row,
                                     column: this.column,
                                     index: this.index
-                                });
+                                }, this);
                             }
                         });
                         const Cell = component.$mount();

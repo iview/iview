@@ -19,6 +19,11 @@
 //                        render (row, column, index) {
 //                            return `<abc></abc>`;
 //                        }
+//		                render: (h, params, context) => {
+//			                return (
+//				                <div ><button on-click={this.handleClick}>{context.row.age}</button></div>
+//			                )
+//		                }
                         render: (h, row, column, index) => {
                             return h('div', [
                                 h('Button',{
