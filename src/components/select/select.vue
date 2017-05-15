@@ -118,6 +118,7 @@
                 selectedMultiple: [],
                 focusIndex: 0,
                 query: '',
+                lastQuery: '',
                 selectToChangeQuery: false,    // when select an option, set this first and set query, because query is watching, it will emit event
                 inputLength: 20,
                 notFound: false,
@@ -528,10 +529,10 @@
                                     this.query = child.label === undefined ? child.searchLabel : child.label;
                                 }
                             });
-                            // 如果删除了搜索词，下拉列表也情况了，所以强制调用一次remoteMethod
-                            if (this.remote) {
+                            // 如果删除了搜索词，下拉列表也清空了，所以强制调用一次remoteMethod
+                            if (this.remote && this.query !== this.lastQuery) {
                                 this.$nextTick(() => {
-                                    this.query = model;
+                                    this.query = this.lastQuery;
                                 });
                             }
                         } else {
@@ -645,7 +646,7 @@
                             this.findChild((child) => {
                                 if (child.value === value) {
                                     if (this.query !== '') this.selectToChangeQuery = true;
-                                    this.query = child.label === undefined ? child.searchLabel : child.label;
+                                    this.lastQuery = this.query = child.label === undefined ? child.searchLabel : child.label;
                                 }
                             });
                         }

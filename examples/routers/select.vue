@@ -2,7 +2,7 @@
     <Row>
         <i-col span="4">{{model}}</i-col>
         <i-col span="8">
-            <i-select v-model="model" @input="handleInput" multiple filterable remote :remote-method="remoteMethod" :loading="loading" clearable>
+            <i-select v-model="model" @input="handleInput" filterable remote :remote-method="remoteMethod" :loading="loading" clearable>
                 <i-option v-for="option in options" :value="option.value" :key="new Date()">{{option.label}}</i-option>
             </i-select>
         </i-col>
@@ -13,7 +13,7 @@
     export default {
         data () {
             return {
-                model: [],
+                model: '',
                 options: [
 
                 ],
@@ -93,7 +93,10 @@
         },
         mounted () {
             this.list = this.states.map(item => {
-                return { value: item, label: item };
+                return {
+                    value: item,
+                    label: 'L ' + item
+                };
             });
         }
     }
