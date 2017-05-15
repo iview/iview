@@ -1,5 +1,5 @@
 <template>
-    <div :class="classes" :style="style">
+    <div :class="classes" :style="listStyle">
         <div :class="prefixCls + '-header'">
             <Checkbox :value="checkedAll" :disabled="checkedAllDisabled" @on-change="toggleSelectAll"></Checkbox>
             <span>{{ title }}</span>
@@ -40,7 +40,7 @@
             data: Array,
             renderFormat: Function,
             checkedKeys: Array,
-            style: Object,
+            listStyle: Object,
             title: [String, Number],
             filterable: Boolean,
             filterPlaceholder: String,
