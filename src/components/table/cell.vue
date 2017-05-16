@@ -73,8 +73,6 @@
                     } else {
                         const $parent = this.context;
                         const template = this.column.render(this.row, this.column, this.index);
-                        const cell = document.createElement('div');
-                        cell.innerHTML = template;
 
                         this.$el.innerHTML = '';
                         let methods = {};
@@ -84,7 +82,7 @@
                                 methods[key] = func;
                             }
                         });
-                        const res = Vue.compile(cell.outerHTML);
+                        const res = Vue.compile(template);
                         // 获取父组件使用的局部 component
                         const components = {};
                         Object.getOwnPropertyNames($parent.$options.components).forEach(item => {
