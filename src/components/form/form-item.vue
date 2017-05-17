@@ -1,6 +1,6 @@
 <template>
     <div :class="classes">
-        <label :class="[prefixCls + '-label']" :style="labelStyles" v-if="label"><slot name="label">{{ label }}</slot></label>
+        <label :class="[prefixCls + '-label']" :style="labelStyles" v-if="label" ref="formLabel"><slot name="label">{{ label }}</slot></label>
         <div :class="[prefixCls + '-content']" :style="contentStyles">
             <slot></slot>
             <transition name="fade">
@@ -11,7 +11,7 @@
 </template>
 <script>
     // https://github.com/ElemeFE/element/blob/dev/packages/form/src/form-item.vue
-
+	import { oneOf } from '../../utils/assist';
     import AsyncValidator from 'async-validator';
     import Emitter from '../../mixins/emitter';
 
@@ -79,7 +79,8 @@
                 validateState: '',
                 validateMessage: '',
                 validateDisabled: false,
-                validator: {}
+                validator: {},
+                autolabelWidth:null
             };
         },
         watch: {
@@ -133,7 +134,7 @@
             },
             contentStyles () {
                 let style = {};
-                const labelWidth = this.labelWidth || this.form.labelWidth;
+                const labelWidth = this.labelWidth || this.form.labelWidth || this.autolabelWidth;
                 if (labelWidth) {
                     style.marginLeft = `${labelWidth}px`;
                 }
@@ -219,6 +220,10 @@
             }
         },
         mounted () {
+			const labelWidth = this.labelWidth || this.form.labelWidth;
+			if(this.label && !labelWidth && oneOf(this.form.labelPosition, ['left', 'right'])){
+        		this.$nextTick(()=> {this.autolabelWidth = this.$refs['formLabel'].offsetWidth;});
+            }
             if (this.prop) {
                 this.dispatch('iForm', 'on-form-item-add', this);
 
