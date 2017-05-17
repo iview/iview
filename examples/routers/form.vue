@@ -24,7 +24,7 @@
                 </Checkbox-group>
             </Form-item>
             <Form-item label="标题">
-                <Input v-model="formValidate.interest"></Input>
+                <Input v-model="formValidate.title"></Input>
             </Form-item>
             <Form-item>
                 <i-button type="primary" @click="handleSubmit('formValidate')">提交</i-button>
@@ -41,7 +41,7 @@
                 </Checkbox-group>
             </Form-item>
             <Form-item label="标题">
-                <Input v-model="formValidate.interest"></Input>
+                <Input v-model="formValidate.title"></Input>
             </Form-item>
             <Form-item>
                 <i-button type="primary" @click="handleSubmit('formValidate')">提交</i-button>
@@ -56,7 +56,8 @@
         data () {
             return {
                 formValidate: {
-                    interest: ['吃饭', '跑步']
+                    interest: ['吃饭', '跑步'],
+                    title:'title'
                 },
                 ruleValidate: {
                     interest: [

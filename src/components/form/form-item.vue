@@ -11,7 +11,7 @@
 </template>
 <script>
     // https://github.com/ElemeFE/element/blob/dev/packages/form/src/form-item.vue
-	import { oneOf } from '../../utils/assist';
+    import { oneOf } from '../../utils/assist';
     import AsyncValidator from 'async-validator';
     import Emitter from '../../mixins/emitter';
 
@@ -220,9 +220,9 @@
             }
         },
         mounted () {
-			const labelWidth = this.labelWidth || this.form.labelWidth;
-			if(this.label && !labelWidth && oneOf(this.form.labelPosition, ['left', 'right'])){
-        		this.$nextTick(()=> {this.autolabelWidth = this.$refs['formLabel'].offsetWidth;});
+            let labelWidth = this.labelWidth || this.form.labelWidth;
+            if(this.label && !labelWidth && oneOf(this.form.labelPosition, ['left', 'right'])){
+                this.$nextTick(()=> {this.autolabelWidth = this.$refs['formLabel'].offsetWidth;});
             }
             if (this.prop) {
                 this.dispatch('iForm', 'on-form-item-add', this);
