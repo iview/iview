@@ -2,7 +2,7 @@
     <Row>
         <i-col span="4">{{model}}</i-col>
         <i-col span="8">
-            <i-select v-model="model" @input="handleInput" filterable remote :remote-method="remoteMethod" :loading="loading" clearable>
+            <i-select v-model="model" :label="['L Alabama', 'L Hawaii']" multiple @input="handleInput" filterable remote :remote-method="remoteMethod" :loading="loading" clearable>
                 <i-option v-for="option in options" :value="option.value" :key="new Date()">{{option.label}}</i-option>
             </i-select>
         </i-col>
@@ -13,7 +13,8 @@
     export default {
         data () {
             return {
-                model: '',
+//                model: 'Alabama',
+                model: ['Alabama', 'Hawaii'],
                 options: [
 
                 ],
@@ -74,6 +75,7 @@
                 ]
             },
             remoteMethod (query) {
+                console.log(13)
                 if (query !== '') {
                     this.loading = true;
                     setTimeout(() => {

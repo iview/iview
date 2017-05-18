@@ -53,6 +53,10 @@
                 type: [String, Number, Array],
                 default: ''
             },
+            label: {
+                type: [String, Number, Array],
+                default: ''
+            },
             multiple: {
                 type: Boolean,
                 default: false
@@ -303,7 +307,6 @@
             },
             updateMultipleSelected (init = false, slot = false) {
                 if (this.multiple && Array.isArray(this.model)) {
-                    // todo 这里的 label 有问题，另删除字符时也有问题
                     let selected = this.remote ? this.selectedMultiple : [];
 
                     for (let i = 0; i < this.model.length; i++) {
@@ -584,6 +587,23 @@
         },
         mounted () {
             this.modelToQuery();
+            // 处理 remote 初始值
+            if (this.remote) {
+                if (!this.multiple && this.model !== '') {
+                    this.selectToChangeQuery = true;
+                    if (this.label === '') this.label = this.model;
+                    this.lastQuery = this.label;
+                    this.query = this.label;
+                } else if (this.multiple && this.model.length) {
+                    if (this.label.length !== this.model.length) this.label = this.model;
+                    this.selectedMultiple = this.model.map((item, index) => {
+                        return {
+                            value: item,
+                            label: this.label[index]
+                        };
+                    });
+                }
+            }
             this.$nextTick(() => {
                 this.broadcastQuery('');
             });
@@ -687,6 +707,11 @@
                             this.findChild(child => {
                                 child.selected = this.multiple ? this.model.indexOf(child.value) > -1 : this.model === child.value;
                             });
+                            // remote下，设置了默认值，第一次打开时，搜索一次
+                            const options = this.$slots.default || [];
+                            if (this.query !== '' && !options.length) {
+                                this.remoteMethod(this.query);
+                            }
                         }
                     }
                     this.broadcast('Drop', 'on-update-popper');
