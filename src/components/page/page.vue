@@ -125,7 +125,8 @@
             },
             styles: {
                 type: Object
-            }
+            },
+            loading: Boolean
         },
         data () {
             return {
@@ -206,6 +207,9 @@
         },
         methods: {
             changePage (page) {
+                if(this.loading){
+                    return;
+                }
                 if (this.currentPage != page) {
                     this.currentPage = page;
                     this.$emit('on-change', page);
