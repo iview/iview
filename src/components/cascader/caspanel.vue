@@ -61,6 +61,7 @@
                     const cascader = findComponentUpward(this, 'Cascader');
                     if (cascader && cascader.loadData) {
                         cascader.loadData(item, () => {
+                            cascader.isLoadedChildren = true;
                             this.handleTriggerItem(item);
                         });
                         return;

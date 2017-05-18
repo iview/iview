@@ -128,7 +128,9 @@
                 tmpSelected: [],
                 updatingValue: false,    // to fix set value in changeOnSelect type
                 currentValue: this.value,
-                query: ''
+                query: '',
+                validDataStr: '',
+                isLoadedChildren: false    // #950
             };
         },
         computed: {
@@ -270,9 +272,31 @@
             },
             handleFocus () {
                 this.$refs.input.focus();
+            },
+            // 排除 loading 后的 data，避免重复触发 updateSelect
+            getValidData (data) {
+                function deleteData (item) {
+                    const new_item = Object.assign({}, item);
+                    if ('loading' in new_item) {
+                        delete new_item.loading;
+                    }
+                    if ('__value' in new_item) {
+                        delete new_item.__value;
+                    }
+                    if ('__label' in new_item) {
+                        delete new_item.__label;
+                    }
+                    if ('children' in new_item && new_item.children.length) {
+                        new_item.children = new_item.children.map(i => deleteData(i));
+                    }
+                    return new_item;
+                }
+
+                return data.map(item => deleteData(item));
             }
         },
         created () {
+            this.validDataStr = JSON.stringify(this.getValidData(this.data));
             this.$on('on-result-change', (params) => {
                 // lastValue: is click the final val
                 // fromInit: is this emit from update value
@@ -332,7 +356,14 @@
             data: {
                 deep: true,
                 handler () {
-                    this.$nextTick(() => this.updateSelected());
+                    const validDataStr = JSON.stringify(this.getValidData(this.data));
+                    if (validDataStr !== this.validDataStr) {
+                        this.validDataStr = validDataStr;
+                        if (!this.isLoadedChildren) {
+                            this.$nextTick(() => this.updateSelected());
+                        }
+                        this.isLoadedChildren = false;
+                    }
                 }
             }
         }
