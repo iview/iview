@@ -77,12 +77,20 @@
 
     &-dropdown{
         padding: 5px 0;
+        .@{select-dropdown-prefix-cls}-list{
+            max-height: 190px;
+            box-sizing: border-box;
+            overflow: auto;
+        }
     }
 
     &-not-found-tip{
         padding: 5px 0;
         text-align: center;
         color: @btn-disable-color;
+        li:not([class^=ivu-]){
+            margin-bottom: 0;
+        }
     }
     &-not-found .@{select-dropdown-prefix-cls} {
         width: inherit;

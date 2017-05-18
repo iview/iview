@@ -5,7 +5,7 @@
             {{ v1 }}
         </i-col>
         <i-col span="4">
-            <Cascader :data="data3" filterable v-model="v1"></Cascader>
+            <Cascader :data="data2" filterable v-model="v1" style="width: 200px;"></Cascader>
             <!--<Cascader :data="data2" filterable v-model="v1" :loadData="loadData"></Cascader>-->
         </i-col>
     </Row>
@@ -28,10 +28,40 @@
                         children: [{
                             value: 'nanjing',
                             label: '南京',
-                            children: [{
-                                value: 'zhonghuamen',
-                                label: '中华门'
-                            }]
+                            children: [
+                                {
+                                    value: 'zhonghuamen',
+                                    label: '中华门'
+                                },
+                                {
+                                    value: 'v1',
+                                    label: 'v111'
+                                },
+                                {
+                                    value: 'v2',
+                                    label: 'v2222'
+                                },
+                                {
+                                    value: 'v3',
+                                    label: 'v333'
+                                },
+                                {
+                                    value: 'v4',
+                                    label: 'v4444'
+                                },
+                                {
+                                    value: 'v5',
+                                    label: 'v555'
+                                },
+                                {
+                                    value: 'v6',
+                                    label: 'v666'
+                                },
+                                {
+                                    value: 'v7',
+                                    label: 'v777'
+                                }
+                            ]
                         }]
                     }
                 ],
