@@ -694,6 +694,12 @@
                 } else {
                     this.updateSingleSelected();
                 }
+                // #957
+                if (!this.visible && this.filterable) {
+                    this.$nextTick(() => {
+                        this.broadcastQuery('');
+                    });
+                }
             },
             visible (val) {
                 if (val) {
