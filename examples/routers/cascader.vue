@@ -147,9 +147,78 @@
     <!--}-->
 <!--</script>-->
 
+<!--<template>-->
+    <!--<Cascader :data="data4" :load-data="loadData"></Cascader>-->
+<!--</template>-->
+<!--<script>-->
+    <!--export default {-->
+        <!--data () {-->
+            <!--return {-->
+                <!--data4: [-->
+                    <!--{-->
+                        <!--value: 'beijing',-->
+                        <!--label: '北京',-->
+                        <!--children: [],-->
+                        <!--loading: false-->
+                    <!--},-->
+                    <!--{-->
+                        <!--value: 'hangzhou',-->
+                        <!--label: '杭州',-->
+                        <!--children: [],-->
+                        <!--loading:false-->
+                    <!--}-->
+                <!--]-->
+            <!--}-->
+        <!--},-->
+        <!--methods: {-->
+            <!--loadData (item, callback) {-->
+                <!--item.loading = true;-->
+                <!--setTimeout(() => {-->
+                    <!--if (item.value === 'beijing') {-->
+                        <!--item.children = [-->
+                            <!--{-->
+                                <!--value: 'talkingdata',-->
+                                <!--label: 'TalkingData'-->
+                            <!--},-->
+                            <!--{-->
+                                <!--value: 'baidu',-->
+                                <!--label: '百度'-->
+                            <!--},-->
+                            <!--{-->
+                                <!--value: 'sina',-->
+                                <!--label: '新浪'-->
+                            <!--}-->
+                        <!--];-->
+                    <!--} else if (item.value === 'hangzhou') {-->
+                        <!--item.children = [-->
+                            <!--{-->
+                                <!--value: 'ali',-->
+                                <!--label: '阿里巴巴'-->
+                            <!--},-->
+                            <!--{-->
+                                <!--value: '163',-->
+                                <!--label: '网易'-->
+                            <!--}-->
+                        <!--];-->
+                    <!--}-->
+                    <!--item.loading = false;-->
+                    <!--callback();-->
+                <!--}, 1000);-->
+            <!--}-->
+        <!--}-->
+    <!--}-->
+<!--</script>-->
+
+
 
 <template>
-    <Cascader :data="data4" :load-data="loadData" style="width: 200px;"></Cascader>
+    <!--<Cascader :data="data4" :load-data="loadData" style="width: 200px;"></Cascader>-->
+    <div>
+        <Cascader :data="data" v-model="model" :load-data="loadData"></Cascader>
+        <ul>
+            <li v-for="(log, idx) in logs" :key="idx">{{log}}</li>
+        </ul>
+    </div>
 </template>
 <script>
     export default {
@@ -168,44 +237,37 @@
                         children: [],
                         loading:false
                     }
-                ]
+                ],
+                data: [],
+                model: [340000, 340100, 340104],
+                count: 1,
+                logs: []
             }
         },
         methods: {
             loadData (item, callback) {
+                this.logs.push(`第${this.count}次请求: ${item.value}`)
+                this.count++
                 item.loading = true;
                 setTimeout(() => {
-                    if (item.value === 'beijing') {
+                    if (item.value === 340000) {
                         item.children = [
-                            {
-                                value: 'talkingdata',
-                                label: 'TalkingData'
-                            },
-                            {
-                                value: 'baidu',
-                                label: '百度'
-                            },
-                            {
-                                value: 'sina',
-                                label: '新浪'
-                            }
+                            {value: 340100, label: "合肥市", children: [], loading: false}
                         ];
-                    } else if (item.value === 'hangzhou') {
+                    } else if (item.value === 340100) {
                         item.children = [
-                            {
-                                value: 'ali',
-                                label: '阿里巴巴'
-                            },
-                            {
-                                value: '163',
-                                label: '网易'
-                            }
+                            {value: 340104, label: "蜀山区"},
+                            {value: 340111, label: "包河区"}
                         ];
                     }
                     item.loading = false;
                     callback();
                 }, 1000);
             }
+        },
+        mounted() {
+            this.data = [{value: 340000, label: "安徽省", children: [], loading: false}];
         }
     }
 </script>
+
