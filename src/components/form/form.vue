@@ -1,7 +1,5 @@
 <template>
-    <form :class="classes" @submit="formSubmit">
-        <slot></slot>
-    </form>
+    <form :class="classes" @submit="formSubmit"><slot></slot></form>
 </template>
 <script>
     // https://github.com/ElemeFE/element/blob/dev/packages/form/src/form.vue
@@ -78,7 +76,7 @@
 
                 field.validate('', cb);
             },
-            formSubmit(event){
+            formSubmit (event) {
                 event.preventDefault();
             }
         },
