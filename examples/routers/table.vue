@@ -11,7 +11,7 @@
         data () {
             return {
                 data1: 1,
-//                self: this,
+                self: this,
                 columns7: [
                     {
                         title: '姓名',
@@ -42,9 +42,9 @@
                         key: 'action',
                         width: 150,
                         align: 'center',
-                        render (row, column, index) {
-                            return `<i-button type="primary" size="small" @click="show(${index})">查看</i-button> <i-button type="error" size="small" @click="remove(${index})">删除</i-button>`;
-                        }
+//                        render (row, column, index) {
+//                            return `<i-button type="primary" size="small" @click="show(${index})">查看</i-button> <i-button type="error" size="small" @click="remove(${index})">删除</i-button>`;
+//                        }
                     }
                 ],
                 data6: [

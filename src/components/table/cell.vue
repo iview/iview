@@ -10,6 +10,7 @@
 <script>
     import Vue from 'vue';
     import Checkbox from '../checkbox/checkbox.vue';
+    import { findComponentUpward } from '../../utils/assist';
 
     export default {
         name: 'TableCell',
@@ -49,19 +50,19 @@
             compile () {
                 if (this.column.render) {
                     // 兼容真 Render，后期废弃旧用法
-                    let isRealRender = false;
-                    try {
-                        this.column.render(this.row, this.column, this.index);
-                    }
-                    catch (err) {
-                        isRealRender = true;
-                    }
+                    let isRealRender = true;
+                    const Table = findComponentUpward(this, 'Table');
+                    if (Table.context) isRealRender = false;
 
                     if (isRealRender) {
                         const component = new Vue({
                             functional: true,
                             render: (h) => {
-                                return this.column.render(h, this.row, this.column, this.index);
+                                return this.column.render(h, {
+                                    row: this.row,
+                                    column: this.column,
+                                    index: this.index
+                                });
                             }
                         });
                         const Cell = component.$mount();

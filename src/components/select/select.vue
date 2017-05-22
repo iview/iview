@@ -26,7 +26,7 @@
         </div>
         <transition :name="transitionName">
             <Drop v-show="dropVisible" :placement="placement" ref="dropdown">
-                <ul v-show="(notFound && !remote) || (remote && !loading && !options.length)" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
+                <ul v-show="notFountShow" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
                 <ul v-show="(!notFound && !remote) || (remote && !loading && !notFound)" :class="[prefixCls + '-dropdown-list']"><slot></slot></ul>
                 <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
             </Drop>
@@ -50,6 +50,10 @@
         directives: { clickoutside },
         props: {
             value: {
+                type: [String, Number, Array],
+                default: ''
+            },
+            label: {
                 type: [String, Number, Array],
                 default: ''
             },
@@ -118,6 +122,7 @@
                 selectedMultiple: [],
                 focusIndex: 0,
                 query: '',
+                lastQuery: '',
                 selectToChangeQuery: false,    // when select an option, set this first and set query, because query is watching, it will emit event
                 inputLength: 20,
                 notFound: false,
@@ -199,6 +204,10 @@
                 const options = this.$slots.default || [];
                 if (!this.loading && this.remote && this.query === '' && !options.length) status = false;
                 return this.visible && status;
+            },
+            notFountShow () {
+                const options = this.$slots.default || [];
+                return (this.notFound && !this.remote) || (this.remote && !this.loading && !options.length);
             }
         },
         methods: {
@@ -298,7 +307,6 @@
             },
             updateMultipleSelected (init = false, slot = false) {
                 if (this.multiple && Array.isArray(this.model)) {
-                    // todo 这里的 label 有问题，另删除字符时也有问题
                     let selected = this.remote ? this.selectedMultiple : [];
 
                     for (let i = 0; i < this.model.length; i++) {
@@ -524,10 +532,10 @@
                                     this.query = child.label === undefined ? child.searchLabel : child.label;
                                 }
                             });
-                            // 如果删除了搜索词，下拉列表也情况了，所以强制调用一次remoteMethod
-                            if (this.remote) {
+                            // 如果删除了搜索词，下拉列表也清空了，所以强制调用一次remoteMethod
+                            if (this.remote && this.query !== this.lastQuery) {
                                 this.$nextTick(() => {
-                                    this.query = model;
+                                    this.query = this.lastQuery;
                                 });
                             }
                         } else {
@@ -579,6 +587,23 @@
         },
         mounted () {
             this.modelToQuery();
+            // 处理 remote 初始值
+            if (this.remote) {
+                if (!this.multiple && this.model !== '') {
+                    this.selectToChangeQuery = true;
+                    if (this.label === '') this.label = this.model;
+                    this.lastQuery = this.label;
+                    this.query = this.label;
+                } else if (this.multiple && this.model.length) {
+                    if (this.label.length !== this.model.length) this.label = this.model;
+                    this.selectedMultiple = this.model.map((item, index) => {
+                        return {
+                            value: item,
+                            label: this.label[index]
+                        };
+                    });
+                }
+            }
             this.$nextTick(() => {
                 this.broadcastQuery('');
             });
@@ -641,7 +666,7 @@
                             this.findChild((child) => {
                                 if (child.value === value) {
                                     if (this.query !== '') this.selectToChangeQuery = true;
-                                    this.query = child.label === undefined ? child.searchLabel : child.label;
+                                    this.lastQuery = this.query = child.label === undefined ? child.searchLabel : child.label;
                                 }
                             });
                         }
@@ -669,6 +694,12 @@
                 } else {
                     this.updateSingleSelected();
                 }
+                // #957
+                if (!this.visible && this.filterable) {
+                    this.$nextTick(() => {
+                        this.broadcastQuery('');
+                    });
+                }
             },
             visible (val) {
                 if (val) {
@@ -682,6 +713,11 @@
                             this.findChild(child => {
                                 child.selected = this.multiple ? this.model.indexOf(child.value) > -1 : this.model === child.value;
                             });
+                            // remote下，设置了默认值，第一次打开时，搜索一次
+                            const options = this.$slots.default || [];
+                            if (this.query !== '' && !options.length) {
+                                this.remoteMethod(this.query);
+                            }
                         }
                     }
                     this.broadcast('Drop', 'on-update-popper');
