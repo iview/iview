@@ -4,7 +4,8 @@
         <template v-if="renderType === 'selection'">
             <Checkbox :value="checked" @on-change="toggleSelect" :disabled="disabled"></Checkbox>
         </template>
-        <template v-if="renderType === 'normal'"><span v-html="row[column.key]"></span></template>
+        <template v-if="renderType === 'html'"><span v-html="row[column.key]"></span></template>
+        <template v-if="renderType === 'normal'"><span>{{row[column.key]}}</span></template>
     </div>
 </template>
 <script>
@@ -120,6 +121,8 @@
                 this.renderType = 'index';
             } else if (this.column.type === 'selection') {
                 this.renderType = 'selection';
+            } else if (this.column.type === 'html') {
+                this.renderType = 'html';
             } else if (this.column.render) {
                 this.renderType = 'render';
             } else {
