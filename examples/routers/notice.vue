@@ -14,7 +14,7 @@
         mounted () {
             this.$Notice.config({
                 top: 150,
-                duration: 3
+                duration: 30
             });
         }
     }
