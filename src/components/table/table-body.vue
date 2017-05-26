@@ -6,7 +6,7 @@
         <tbody :class="[prefixCls + '-tbody']">
             <tr
                 v-for="(row, index) in data"
-                :key="row"
+                :key="getKey(row)"
                 :class="rowClasses(row._index)"
                 @mouseenter.stop="handleMouseIn(row._index)"
                 @mouseleave.stop="handleMouseOut(row._index)"
@@ -29,7 +29,7 @@
     </table>
 </template>
 <script>
-    // todo :key="row"
+    // todo :key="row.vueKey + row._vueOperate"
     import Cell from './cell.vue';
     import Mixin from './mixin';
 
@@ -47,9 +47,15 @@
             fixed: {
                 type: [Boolean, String],
                 default: false
+            },
+            vueKey: {
+                type: [Number, String]
             }
         },
         methods: {
+            getKey (row) {
+                return '' + (this.vueKey || '') + row._index + row._vueOperate;
+            },
             rowClasses (_index) {
                 return [
                     `${this.prefixCls}-row`,
