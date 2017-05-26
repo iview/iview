@@ -7,7 +7,8 @@ import App from './app.vue';
 import iView from '../src/index';
 // import locale from '../src/locale/lang/en-US';
 import locale from '../src/locale/lang/zh-CN';
-
+import Scrollbar from './components/scrollbar';
+Vue.use(Scrollbar);
 Vue.use(VueRouter);
 Vue.use(iView, { locale });
 
