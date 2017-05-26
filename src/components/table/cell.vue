@@ -55,6 +55,7 @@
                     if (Table.context) isRealRender = false;
 
                     if (isRealRender) {
+                        this.$el.innerHTML = '';
                         const component = new Vue({
                             functional: true,
                             render: (h) => {
