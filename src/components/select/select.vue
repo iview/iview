@@ -155,6 +155,8 @@
                     if (!this.model.length) {
                         status = true;
                     }
+                } else if( this.model === null){
+                    status = true;
                 }
 
                 return status;

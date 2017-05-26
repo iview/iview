@@ -37,6 +37,7 @@
             :readonly="readonly"
             :name="name"
             :value="value"
+            :autofocus="autofocus"
             @keyup.enter="handleEnter"
             @focus="handleFocus"
             @blur="handleBlur"

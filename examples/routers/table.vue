@@ -1,25 +1,30 @@
 <template>
+
     <Scrollbar class="scrollbar">
         <div class="scroll-me">
             <Table width="550" height="200" border :columns="columns2" :data="data4"></Table>
         </div>
     </Scrollbar>
 
+
 </template>
 <script>
     export default {
         data () {
             return {
+
                 columns2: [
                     {
                         title: '姓名',
                         key: 'name',
                         width: 100,
                         fixed: 'left'
+
                     },
                     {
                         title: '年龄',
                         key: 'age',
+
                         width: 100
                     },
                     {
@@ -66,18 +71,22 @@
                     }
                 ],
                 data4: [
+
                     {
                         name: '王小明',
                         age: 18,
                         address: '北京市朝阳区芍药居',
+
                         province: '北京市',
                         city: '朝阳区',
                         zip: 100000
+
                     },
                     {
                         name: '张小刚',
                         age: 25,
                         address: '北京市海淀区西二旗',
+
                         province: '北京市',
                         city: '海淀区',
                         zip: 100000
@@ -132,6 +141,7 @@
                     }
                 ]
             };
+
         }
     };
 </script>
