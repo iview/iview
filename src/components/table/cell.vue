@@ -59,7 +59,7 @@
                     {
                         [`${this.prefixCls}-cell-expand-expanded`]: this.expanded
                     }
-                ]
+                ];
             }
         },
         methods: {
