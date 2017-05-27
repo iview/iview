@@ -1,5 +1,5 @@
 <template>
-    <Table :columns="columns7" :data="data6" @on-expand="expand"></Table>
+    <Table border :columns="columns7" :data="data6" @on-expand="expand"></Table>
 </template>
 <script>
     import etable from '../components/table.vue';

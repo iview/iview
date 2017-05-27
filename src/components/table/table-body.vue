@@ -27,7 +27,7 @@
                     </td>
                 </tr>
                 <tr v-if="rowExpanded(row._index)">
-                    <td :colspan="columns.length">
+                    <td :colspan="columns.length" :class="prefixCls + '-expanded-cell'">
                         <Expand :row="row" :render="expandRender" :index="row._index"></Expand>
                     </td>
                 </tr>
