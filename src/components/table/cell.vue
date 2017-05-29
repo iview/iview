@@ -4,7 +4,6 @@
         <template v-if="renderType === 'selection'">
             <Checkbox :value="checked" @on-change="toggleSelect" :disabled="disabled"></Checkbox>
         </template>
-
         <template v-if="renderType === 'html'"><span v-html="row[column.key]"></span></template>
         <template v-if="renderType === 'normal'"><span>{{row[column.key]}}</span></template>
         <template v-if="renderType === 'expand'">
