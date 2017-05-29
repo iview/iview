@@ -1,37 +1,39 @@
 <template>
-    <div>
-        <Table border :columns="columns7" :data="data6"></Table>
-        <Button @click="handleAdd"> + 1</Button>
-    </div>
+    <Table border :columns="columns7" :data="data6" @on-expand="expand"></Table>
 </template>
 <script>
-    import abc from '../components/test.vue';
+    import etable from '../components/table.vue';
     export default {
-        components: { abc },
+        components: { etable },
         data () {
             return {
-                data1: 1,
-                self: this,
                 columns7: [
+                    {
+                        type: 'expand',
+                        width: 50,
+                        render: (h, params) => {
+//                            return h(etable);
+                            return h('div', params.row.name)
+                        }
+                    },
                     {
                         title: '姓名',
                         key: 'name',
-//                        render (row, column, index) {
-//                            return `<abc></abc>`;
-//                        }
-                        render: (h, row, column, index) => {
+                        render: (h, params) => {
                             return h('div', [
-                                h('Button',{
-                                    on: {
-                                        click: this.handleClick
+                                h('Icon', {
+                                    props: {
+                                        type: 'person'
                                     }
-                                }, 'hello')
-                            ])
+                                }),
+                                h('strong', params.row.name)
+                            ]);
                         }
                     },
                     {
                         title: '年龄',
-                        key: 'age'
+                        key: 'age',
+                        sortable: true
                     },
                     {
                         title: '地址',
@@ -42,9 +44,35 @@
                         key: 'action',
                         width: 150,
                         align: 'center',
-//                        render (row, column, index) {
-//                            return `<i-button type="primary" size="small" @click="show(${index})">查看</i-button> <i-button type="error" size="small" @click="remove(${index})">删除</i-button>`;
-//                        }
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.show(params.index)
+                                        }
+                                    }
+                                }, '查看'),
+                                h('Button', {
+                                    props: {
+                                        type: 'error',
+                                        size: 'small'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.remove(params.index)
+                                        }
+                                    }
+                                }, '删除')
+                            ]);
+                        }
                     }
                 ],
                 data6: [
@@ -61,7 +89,8 @@
                     {
                         name: '李小红',
                         age: 30,
-                        address: '上海市浦东新区世纪大道'
+                        address: '上海市浦东新区世纪大道',
+                        _expanded: true
                     },
                     {
                         name: '周小伟',
@@ -69,11 +98,6 @@
                         address: '深圳市南山区深南大道'
                     }
                 ]
-            }
-        },
-        computed: {
-            ttt () {
-                return this.data1 + 1;
             }
         },
         methods: {
@@ -86,11 +110,9 @@
             remove (index) {
                 this.data6.splice(index, 1);
             },
-            handleAdd () {
-                this.data1++;
-            },
-            handleClick () {
-                this.$Message.info('111')
+            expand (row, s) {
+//                console.log(row);
+//                console.log(s);
             }
         }
     }

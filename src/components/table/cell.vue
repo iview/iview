@@ -4,18 +4,25 @@
         <template v-if="renderType === 'selection'">
             <Checkbox :value="checked" @on-change="toggleSelect" :disabled="disabled"></Checkbox>
         </template>
+
         <template v-if="renderType === 'html'"><span v-html="row[column.key]"></span></template>
         <template v-if="renderType === 'normal'"><span>{{row[column.key]}}</span></template>
+        <template v-if="renderType === 'expand'">
+            <div :class="expandCls" @click="toggleExpand">
+                <Icon type="ios-arrow-right"></Icon>
+            </div>
+        </template>
     </div>
 </template>
 <script>
     import Vue from 'vue';
+    import Icon from '../icon/icon.vue';
     import Checkbox from '../checkbox/checkbox.vue';
     import { findComponentUpward } from '../../utils/assist';
 
     export default {
         name: 'TableCell',
-        components: { Checkbox },
+        components: { Icon, Checkbox },
         props: {
             prefixCls: String,
             row: Object,
@@ -24,6 +31,7 @@
             index: Number,           // _index of data
             checked: Boolean,
             disabled: Boolean,
+            expanded: Boolean,
             fixed: {
                 type: [Boolean, String],
                 default: false
@@ -42,20 +50,30 @@
                     `${this.prefixCls}-cell`,
                     {
                         [`${this.prefixCls}-hidden`]: !this.fixed && this.column.fixed && (this.column.fixed === 'left' || this.column.fixed === 'right'),
-                        [`${this.prefixCls}-cell-ellipsis`]: this.column.ellipsis || false
+                        [`${this.prefixCls}-cell-ellipsis`]: this.column.ellipsis || false,
+                        [`${this.prefixCls}-cell-with-expand`]: this.renderType === 'expand'
+                    }
+                ];
+            },
+            expandCls () {
+                return [
+                    `${this.prefixCls}-cell-expand`,
+                    {
+                        [`${this.prefixCls}-cell-expand-expanded`]: this.expanded
                     }
                 ];
             }
         },
         methods: {
             compile () {
-                if (this.column.render) {
+                if (this.column.render && this.renderType === 'render') {
                     // 兼容真 Render，后期废弃旧用法
                     let isRealRender = true;
                     const Table = findComponentUpward(this, 'Table');
                     if (Table.context) isRealRender = false;
 
                     if (isRealRender) {
+                        this.$el.innerHTML = '';
                         const component = new Vue({
                             functional: true,
                             render: (h) => {
@@ -114,6 +132,9 @@
             },
             toggleSelect () {
                 this.$parent.$parent.toggleSelect(this.index);
+            },
+            toggleExpand () {
+                this.$parent.$parent.toggleExpand(this.index);
             }
         },
         created () {
@@ -123,6 +144,8 @@
                 this.renderType = 'selection';
             } else if (this.column.type === 'html') {
                 this.renderType = 'html';
+            } else if (this.column.type === 'expand') {
+                this.renderType = 'expand';
             } else if (this.column.render) {
                 this.renderType = 'render';
             } else {
