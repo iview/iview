@@ -5,6 +5,7 @@
             :key="notice.name"
             :prefix-cls="prefixCls"
             :styles="notice.styles"
+            :type="notice.type"
             :content="notice.content"
             :duration="notice.duration"
             :closable="notice.closable"

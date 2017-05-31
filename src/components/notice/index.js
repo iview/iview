@@ -71,7 +71,8 @@ function notice (type, options) {
         transitionName: 'move-notice',
         content: content,
         onClose: onClose,
-        closable: true
+        closable: true,
+        type: 'notice'
     });
 }
 

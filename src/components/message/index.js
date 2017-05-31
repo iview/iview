@@ -28,7 +28,7 @@ function getMessageInstance () {
     return messageInstance;
 }
 
-function notice (content, duration = defaultDuration, type, onClose) {
+function notice (content = '', duration = defaultDuration, type, onClose = function () {}, closable = false) {
     if (!onClose) {
         onClose = function () {
 
@@ -52,7 +52,9 @@ function notice (content, duration = defaultDuration, type, onClose) {
                 <span>${content}</span>
             </div>
         `,
-        onClose: onClose
+        onClose: onClose,
+        closable: closable,
+        type: 'message'
     });
 
     // 用于手动消除
@@ -66,20 +68,50 @@ function notice (content, duration = defaultDuration, type, onClose) {
 }
 
 export default {
-    info (content, duration, onClose) {
-        return notice(content, duration, 'info', onClose);
+    info (options) {
+        const type = typeof options;
+        if (type === 'string') {
+            options = {
+                content: options
+            };
+        }
+        return notice(options.content, options.duration, 'info', options.onClose, options.closable);
     },
-    success (content, duration, onClose) {
-        return notice(content, duration, 'success', onClose);
+    success (options) {
+        const type = typeof options;
+        if (type === 'string') {
+            options = {
+                content: options
+            };
+        }
+        return notice(options.content, options.duration, 'success', options.onClose, options.closable);
     },
-    warning (content, duration, onClose) {
-        return notice(content, duration, 'warning', onClose);
+    warning (options) {
+        const type = typeof options;
+        if (type === 'string') {
+            options = {
+                content: options
+            };
+        }
+        return notice(options.content, options.duration, 'warning', options.onClose, options.closable);
     },
-    error (content, duration, onClose) {
-        return notice(content, duration, 'error', onClose);
+    error (options) {
+        const type = typeof options;
+        if (type === 'string') {
+            options = {
+                content: options
+            };
+        }
+        return notice(options.content, options.duration, 'error', options.onClose, options.closable);
     },
-    loading (content, duration, onClose) {
-        return notice(content, duration, 'loading', onClose);
+    loading (options) {
+        const type = typeof options;
+        if (type === 'string') {
+            options = {
+                content: options
+            };
+        }
+        return notice(options.content, options.duration, 'loading', options.onClose, options.closable);
     },
     config (options) {
         if (options.top) {

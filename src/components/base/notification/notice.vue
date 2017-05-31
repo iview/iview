@@ -1,10 +1,20 @@
 <template>
     <transition :name="transitionName">
         <div :class="classes" :style="styles">
-            <div :class="[baseClass + '-content']" ref="content" v-html="content"></div>
-            <a :class="[baseClass + '-close']" @click="close" v-if="closable">
-                <i class="ivu-icon ivu-icon-ios-close-empty"></i>
-            </a>
+            <template v-if="type === 'notice'">
+                <div :class="[baseClass + '-content']" ref="content" v-html="content"></div>
+                <a :class="[baseClass + '-close']" @click="close" v-if="closable">
+                    <i class="ivu-icon ivu-icon-ios-close-empty"></i>
+                </a>
+            </template>
+            <template v-if="type === 'message'">
+                <div :class="[baseClass + '-content']" ref="content">
+                    <div :class="[baseClass + '-content-text']" v-html="content"></div>
+                    <a :class="[baseClass + '-close']" @click="close" v-if="closable">
+                        <i class="ivu-icon ivu-icon-ios-close-empty"></i>
+                    </a>
+                </div>
+            </template>
         </div>
     </transition>
 </template>
@@ -18,6 +28,9 @@
             duration: {
                 type: Number,
                 default: 1.5
+            },
+            type: {
+                type: String
             },
             content: {
                 type: String,
