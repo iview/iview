@@ -1,6 +1,5 @@
 // 判断参数是否是其中之一
 export function oneOf (value, validList) {
-    const validList = validList;
     for(let i = 0, len = validList.length; i < len; i++) {
         if(value === validList[i]) {
             return true;
