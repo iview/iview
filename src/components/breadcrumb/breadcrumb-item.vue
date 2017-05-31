@@ -1,6 +1,6 @@
 <template>
     <span>
-        <a v-if="href" :class="linkClasses" @click="handleClick">
+        <a v-if="showLink" :class="linkClasses" @click="handleClick">
             <slot></slot>
         </a>
         <span v-else :class="linkClasses">
@@ -21,6 +21,12 @@
             href: {
                 type: String
             },
+            routerName: {
+                type: String
+            },
+            routerParam: {
+                type: String
+            },
             replace: {
                 type: Boolean,
                 default: false
@@ -38,6 +44,9 @@
             },
             separatorClasses () {
                 return `${prefixCls}-separator`;
+            },
+            showLink () {
+                return this.href || this.routerName;
             }
         },
         mounted () {
@@ -47,9 +56,16 @@
             handleClick () {
                 const isRoute = this.$router;
                 if (isRoute) {
-                    this.replace ? this.$router.replace(this.href) : this.$router.push(this.href);
+                    this.changeRoute();
                 } else {
                     window.location.href = this.href;
+                }
+            },
+            changeRoute () {
+                if (this.replace) {
+                    this.routerName ? this.$router.replace({ name: this.routerName, params: this.routerParam}) : this.$router.replace(this.href);
+                } else {
+                    this.routerName ? this.$router.push({ name: this.routerName, params: this.routerParam}) : this.$router.push(this.href);
                 }
             }
         }
