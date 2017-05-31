@@ -29,11 +29,6 @@ function getMessageInstance () {
 }
 
 function notice (content = '', duration = defaultDuration, type, onClose = function () {}, closable = false) {
-    if (!onClose) {
-        onClose = function () {
-
-        };
-    }
     const iconType = iconTypes[type];
 
     // if loading
