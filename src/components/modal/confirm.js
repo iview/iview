@@ -8,31 +8,6 @@ const prefixCls = 'ivu-modal-confirm';
 Modal.newInstance = properties => {
     const _props = properties || {};
 
-    // let props = '';
-    // Object.keys(_props).forEach(prop => {
-    //     props += ' :' + camelcaseToHyphen(prop) + '=' + prop;
-    // });
-    //
-    // const div = document.createElement('div');
-    // div.innerHTML = `
-    //     <Modal${props} v-model="visible" :width="width" :scrollable="scrollable">
-    //         <div class="${prefixCls}">
-    //             <div class="${prefixCls}-head">
-    //                 <div class="${prefixCls}-head-title" v-html="title"></div>
-    //             </div>
-    //             <div class="${prefixCls}-body">
-    //                 <div :class="iconTypeCls"><i :class="iconNameCls"></i></div>
-    //                 <div v-html="body"></div>
-    //             </div>
-    //             <div class="${prefixCls}-footer">
-    //                 <i-button type="text" size="large" v-if="showCancel" @click.native="cancel">{{ localeCancelText }}</i-button>
-    //                 <i-button type="primary" size="large" :loading="buttonLoading" @click.native="ok">{{ localeOkText }}</i-button>
-    //             </div>
-    //         </div>
-    //     </Modal>
-    // `;
-    // document.body.appendChild(div);
-
     const Instance = new Vue({
         mixins: [ Locale ],
         data: Object.assign({}, _props, {
