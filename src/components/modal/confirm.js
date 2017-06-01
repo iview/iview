@@ -96,14 +96,16 @@ Modal.newInstance = properties => {
                         attrs: {
                             class: `${prefixCls}-head`
                         }
-                    }, h('div', {
-                        attrs: {
-                            class: `${prefixCls}-head-title`
-                        },
-                        domProps: {
-                            innerHTML: this.title
-                        }
-                    })),
+                    }, [
+                        h('div', {
+                            attrs: {
+                                class: `${prefixCls}-head-title`
+                            },
+                            domProps: {
+                                innerHTML: this.title
+                            }
+                        })
+                    ]),
                     h('div', {
                         attrs: {
                             class: `${prefixCls}-body`
