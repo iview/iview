@@ -10,15 +10,18 @@ Notification.newInstance = properties => {
         props += ' :' + camelcaseToHyphen(prop) + '=' + prop;
     });
 
-    const div = document.createElement('div');
-    div.innerHTML = `<notification${props}></notification>`;
-    document.body.appendChild(div);
-
-    const notification = new Vue({
-        el: div,
+    const Instance = new Vue({
         data: _props,
-        components: { Notification }
-    }).$children[0];
+        render (h) {
+            return h(Notification, {
+                props: _props
+            })
+        }
+    });
+
+    const component = Instance.$mount();
+    document.body.appendChild(component.$el);
+    const notification = Instance.$children[0];
 
     return {
         notice (noticeProps) {
