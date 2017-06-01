@@ -19,10 +19,12 @@
                 :class="inputClasses"
                 :disabled="disabled"
                 autocomplete="off"
+                :autofocus="autofocus"
                 @focus="focus"
                 @blur="blur"
                 @keydown.stop="keyDown"
                 @change="change"
+                :name="name"
                 :value="value">
         </div>
     </div>
@@ -89,6 +91,13 @@
             disabled: {
                 type: Boolean,
                 default: false
+            },
+            autofocus: {
+                type: Boolean,
+                default: false
+            },
+            name: {
+                type: String
             }
         },
         data () {

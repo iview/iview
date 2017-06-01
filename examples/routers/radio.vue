@@ -1,8 +1,10 @@
 <template>
     <div>
         <Radio-group v-model="date.sex">
-            <Radio label="male form"></Radio>
-            <Radio label="female"></Radio>
+            <div v-if="show">
+                <Radio label="male"></Radio>
+                <Radio label="female"></Radio>
+            </div>
         </Radio-group>
         <Button @click="handleChange">change</Button>
     </div>
@@ -12,13 +14,15 @@
         data () {
             return {
                 date: {
-                    sex: ''
-                }
+                    sex: 'male'
+                },
+                show: false
             }
         },
         methods: {
             handleChange () {
-                this.date.sex = 'male form';
+//                this.date.sex = 'male form';
+                this.show = true;
             }
         }
     }

@@ -324,7 +324,7 @@
                 if (this[`${direction}CurrentView`] === 'year') {
                     this.$refs[`${direction}YearTable`].nextTenYear();
                 } else if (this[`${direction}CurrentView`] === 'month') {
-                    this[`${direction}TableYear`]--;
+                    this[`${direction}TableYear`]++;
                 } else {
                     const date = this.date;
                     date.setFullYear(date.getFullYear() + 1);

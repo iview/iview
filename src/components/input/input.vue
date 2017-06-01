@@ -7,6 +7,7 @@
                 <i class="ivu-icon ivu-icon-load-c ivu-load-loop" :class="[prefixCls + '-icon', prefixCls + '-icon-validate']" v-if="!icon"></i>
             </transition>
             <input
+                ref="input"
                 :type="type"
                 :class="inputClasses"
                 :placeholder="placeholder"
@@ -16,6 +17,7 @@
                 :name="name"
                 :value="currentValue"
                 :number="number"
+                :autofocus="autofocus"
                 @keyup.enter="handleEnter"
                 @focus="handleFocus"
                 @blur="handleBlur"
@@ -35,6 +37,7 @@
             :readonly="readonly"
             :name="name"
             :value="value"
+            :autofocus="autofocus"
             @keyup.enter="handleEnter"
             @focus="handleFocus"
             @blur="handleBlur"
@@ -96,6 +99,10 @@
                 type: String
             },
             number: {
+                type: Boolean,
+                default: false
+            },
+            autofocus: {
                 type: Boolean,
                 default: false
             }
@@ -189,6 +196,13 @@
                 const maxRows = autosize.maxRows;
 
                 this.textareaStyles = calcTextareaHeight(this.$refs.textarea, minRows, maxRows);
+            },
+            focus() {
+                if (this.type === 'textarea') {
+                    this.$refs.textarea.focus();
+                } else {
+                    this.$refs.input.focus();
+                }
             }
         },
         watch: {

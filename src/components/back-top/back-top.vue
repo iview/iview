@@ -67,7 +67,8 @@
                 this.backTop = window.pageYOffset >= this.height;
             },
             back () {
-                scrollTop(window, document.body.scrollTop, 0, this.duration);
+                const sTop = document.documentElement.scrollTop || document.body.scrollTop;
+                scrollTop(window, sTop, 0, this.duration);
                 this.$emit('on-click');
             }
         }

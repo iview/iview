@@ -2,7 +2,8 @@ export default {
     i: {
         select: {
             placeholder: 'Select',
-            noMatch: 'No matching data'
+            noMatch: 'No matching data',
+            loading: 'Loading'
         },
         table: {
             noDataText: 'No Data',
