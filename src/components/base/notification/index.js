@@ -25,10 +25,10 @@ Notification.newInstance = properties => {
             notification.close(name);
         },
         component: notification,
-        destroy () {
+        destroy (element) {
             notification.closeAll();
             setTimeout(function() {
-                document.body.removeChild(document.getElementsByClassName('ivu-message')[0].parentElement);
+                document.body.removeChild(document.getElementsByClassName(element)[0]);
             }, 500);
         }
     };

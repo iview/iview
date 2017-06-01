@@ -10,6 +10,7 @@
         <Button @click="success(true)">成功</Button>
         <Button @click="warning(true)">警告</Button>
         <Button @click="error(true)">错误</Button>
+        <Button @click="destroy()">销毁</Button>
     </div>
 </template>
 <script>
@@ -38,6 +39,9 @@
                     title: '这是通知标题',
                     desc: nodesc ? '' : '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描述这里是通知描述'
                 });
+            },
+            destroy () {
+                this.$Notice.destroy();
             }
         }
     }
