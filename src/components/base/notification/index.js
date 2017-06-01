@@ -1,21 +1,15 @@
 import Notification from './notification.vue';
 import Vue from 'vue';
-import { camelcaseToHyphen } from '../../../utils/assist';
 
 Notification.newInstance = properties => {
     const _props = properties || {};
-
-    let props = '';
-    Object.keys(_props).forEach(prop => {
-        props += ' :' + camelcaseToHyphen(prop) + '=' + prop;
-    });
 
     const Instance = new Vue({
         data: _props,
         render (h) {
             return h(Notification, {
                 props: _props
-            })
+            });
         }
     });
 
