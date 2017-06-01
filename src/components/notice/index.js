@@ -113,6 +113,6 @@ export default {
     destroy () {
         let instance = getNoticeInstance();
         noticeInstance = null;
-        instance.destroy();
+        instance.destroy('ivu-notice');
     }
 };
