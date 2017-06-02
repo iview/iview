@@ -1,5 +1,5 @@
 <template>
-    <div style="width: 300px;">
+    <div >
         <i-form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
             <Form-item label="爱好" prop="interest">
                 <Checkbox-group v-model="formValidate.interest">
@@ -14,6 +14,41 @@
                 <i-button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">重置</i-button>
             </Form-item>
         </i-form>
+        <i-form ref="formValidate" :model="formValidate" :rules="ruleValidate" inline>
+            <Form-item label="爱好" prop="interest">
+                <Checkbox-group v-model="formValidate.interest">
+                    <Checkbox label="吃饭"></Checkbox>
+                    <Checkbox label="睡觉"></Checkbox>
+                    <Checkbox label="跑步"></Checkbox>
+                    <Checkbox label="看电影"></Checkbox>
+                </Checkbox-group>
+            </Form-item>
+            <Form-item label="标题">
+                <Input v-model="formValidate.title"></Input>
+            </Form-item>
+            <Form-item>
+                <i-button type="primary" @click="handleSubmit('formValidate')">提交</i-button>
+                <i-button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">重置</i-button>
+            </Form-item>
+        </i-form>
+        <i-form ref="formValidate" :model="formValidate" :rules="ruleValidate" label-position="top">
+            <Form-item label="爱好" prop="interest">
+                <Checkbox-group v-model="formValidate.interest">
+                    <Checkbox label="吃饭"></Checkbox>
+                    <Checkbox label="睡觉"></Checkbox>
+                    <Checkbox label="跑步"></Checkbox>
+                    <Checkbox label="看电影"></Checkbox>
+                </Checkbox-group>
+            </Form-item>
+            <Form-item label="标题">
+                <Input v-model="formValidate.title"></Input>
+            </Form-item>
+            <Form-item>
+                <i-button type="primary" @click="handleSubmit('formValidate')">提交</i-button>
+                <i-button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">重置</i-button>
+            </Form-item>
+        </i-form>
+
     </div>
 </template>
 <script>
@@ -21,7 +56,8 @@
         data () {
             return {
                 formValidate: {
-                    interest: ['吃饭', '跑步']
+                    interest: ['吃饭', '跑步'],
+                    title:'title'
                 },
                 ruleValidate: {
                     interest: [
