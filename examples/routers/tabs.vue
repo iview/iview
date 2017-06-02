@@ -1,6 +1,6 @@
 <template>
-    <Tabs value="name1" :animated="false">
-        <Tab-pane label="标签一" name="name1">
+    <Tabs value="name1" :animated="true">
+        <Tab-pane :label="label1" name="name1">
             <Table :columns="columns1" :data="data1"></Table>
         </Tab-pane>
         <Tab-pane label="标签二" name="name2">
@@ -15,6 +15,12 @@
     export default {
         data () {
             return {
+                label1: (h) => {
+                    return h('div', [
+                        h('span', '标签一'),
+                        h('Button', 'button')
+                    ]);
+                },
                 columns1: [
                     {
                         title: '姓名',
