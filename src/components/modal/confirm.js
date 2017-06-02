@@ -48,6 +48,35 @@ Modal.newInstance = properties => {
                 }
             }, this.localeOkText));
 
+            // render content
+            let body_render;
+            if (this.render) {
+                body_render = h('div', {
+                    attrs: {
+                        class: `${prefixCls}-body ${prefixCls}-body-render`
+                    }
+                }, [this.render(h)]);
+            } else {
+                body_render = h('div', {
+                    attrs: {
+                        class: `${prefixCls}-body`
+                    }
+                }, [
+                    h('div', {
+                        class: this.iconTypeCls
+                    }, [
+                        h('i', {
+                            class: this.iconNameCls
+                        })
+                    ]),
+                    h('div', {
+                        domProps: {
+                            innerHTML: this.body
+                        }
+                    })
+                ]);
+            }
+
             return h(Modal, {
                 props: Object.assign({}, _props, {
                     width: this.width,
@@ -81,24 +110,7 @@ Modal.newInstance = properties => {
                             }
                         })
                     ]),
-                    h('div', {
-                        attrs: {
-                            class: `${prefixCls}-body`
-                        }
-                    }, [
-                        h('div', {
-                            class: this.iconTypeCls
-                        }, [
-                            h('i', {
-                                class: this.iconNameCls
-                            })
-                        ]),
-                        h('div', {
-                            domProps: {
-                                innerHTML: this.body
-                            }
-                        })
-                    ]),
+                    body_render,
                     h('div', {
                         attrs: {
                             class: `${prefixCls}-footer`

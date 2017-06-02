@@ -1,5 +1,6 @@
 <template>
     <div>
+        {{ val }}
         <Button @click="confirm">标准</Button>
         <Button @click="custom">自定义按钮文字</Button>
         <Button @click="async">异步关闭</Button>
@@ -19,7 +20,8 @@
     export default {
         data () {
             return {
-                modal1: false
+                modal1: false,
+                val: ''
             }
         },
         methods: {
@@ -33,6 +35,19 @@
                 this.$Modal.confirm({
                     title: '确认对话框标题',
                     content: '<p>一些对话框内容</p><p>一些对话框内容</p>',
+                    render: (h) => {
+                        return h('Input', {
+                            props: {
+                                value: this.val,
+                                autofocus: true
+                            },
+                            on: {
+                                input: (val) => {
+                                    this.val = val;
+                                }
+                            }
+                        }, '一个按钮')
+                    },
                     onOk: () => {
                         this.$Message.info('点击了确定');
                     },
