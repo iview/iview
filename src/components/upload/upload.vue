@@ -161,6 +161,10 @@
             },
             handleChange (e) {
                 const files = e.target.files;
+            	this.clearFiles();
+                for(const file of Array.from(files)) {
+	                this.handleStart(file);
+                }
 
                 if (!files) {
                     return;
@@ -223,7 +227,6 @@
                     }
                 }
 
-                this.handleStart(file);
                 let formData = new FormData();
                 formData.append(this.name, file);
 
