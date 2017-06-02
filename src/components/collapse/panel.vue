@@ -4,18 +4,21 @@
             <Icon type="arrow-right-b"></Icon>
             <slot></slot>
         </div>
-        <div :class="contentClasses" v-show="isActive">
-            <div :class="boxClasses"><slot name="content"></slot></div>
-        </div>
+        <collapse-transition>
+            <div :class="contentClasses" v-show="isActive">
+                <div :class="boxClasses"><slot name="content"></slot></div>
+            </div>
+        </collapse-transition>
     </div>
 </template>
 <script>
     import Icon from '../icon/icon.vue';
+    import CollapseTransition from '../base/collapse-transition';
     const prefixCls = 'ivu-collapse';
 
     export default {
         name: 'Panel',
-        components: { Icon },
+        components: { Icon, CollapseTransition },
         props: {
             name: {
                 type: String
