@@ -89,6 +89,7 @@ Normal browsers and Internet Explorer 9+.
 |  [Aresn](https://github.com/icarusion) |  ![](https://avatars3.githubusercontent.com/u/5370542?v=3&s=60)  |
 |  [jingsam](https://github.com/jingsam) |  ![](https://avatars3.githubusercontent.com/u/1522494?v=3&s=60)  |  
 |  [rijn](https://github.com/rijn)       |  ![](https://avatars2.githubusercontent.com/u/6976367?v=3&s=60)  |
+|  [lcx960324](https://github.com/lcx960324)       |  ![](https://avatars3.githubusercontent.com/u/9768245?v=3&s=60)  |
 |  [GITleonine1989](https://github.com/GITleonine1989) |  ![](https://avatars1.githubusercontent.com/u/7582490?v=3&s=60)  |
 |  [huixisheng](https://github.com/huixisheng) |  ![](https://avatars1.githubusercontent.com/u/1518967?v=3&s=60)  |
 
