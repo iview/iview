@@ -127,7 +127,8 @@
                 inputLength: 20,
                 notFound: false,
                 slotChangeDuration: false,    // if slot change duration and in multiple, set true and after slot change, set false
-                model: this.value
+                model: this.value,
+                currentLabel: this.label
             };
         },
         computed: {
@@ -593,15 +594,15 @@
             if (this.remote) {
                 if (!this.multiple && this.model !== '') {
                     this.selectToChangeQuery = true;
-                    if (this.label === '') this.label = this.model;
-                    this.lastQuery = this.label;
-                    this.query = this.label;
+                    if (this.currentLabel === '') this.currentLabel = this.model;
+                    this.lastQuery = this.currentLabel;
+                    this.query = this.currentLabel;
                 } else if (this.multiple && this.model.length) {
-                    if (this.label.length !== this.model.length) this.label = this.model;
+                    if (this.currentLabel.length !== this.model.length) this.currentLabel = this.model;
                     this.selectedMultiple = this.model.map((item, index) => {
                         return {
                             value: item,
-                            label: this.label[index]
+                            label: this.currentLabel[index]
                         };
                     });
                 }

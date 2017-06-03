@@ -1,24 +1,21 @@
 import LoadingBar from './loading-bar.vue';
 import Vue from 'vue';
-import { camelcaseToHyphen } from '../../utils/assist';
 
 LoadingBar.newInstance = properties => {
     const _props = properties || {};
 
-    let props = '';
-    Object.keys(_props).forEach(prop => {
-        props += ' :' + camelcaseToHyphen(prop) + '=' + prop;
+    const Instance = new Vue({
+        data: _props,
+        render (h) {
+            return h(LoadingBar, {
+                props: _props
+            });
+        }
     });
 
-    const div = document.createElement('div');
-    div.innerHTML = `<loading-bar${props}></loading-bar>`;
-    document.body.appendChild(div);
-
-    const loading_bar = new Vue({
-        el: div,
-        data: _props,
-        components: { LoadingBar }
-    }).$children[0];
+    const component = Instance.$mount();
+    document.body.appendChild(component.$el);
+    const loading_bar = Instance.$children[0];
 
     return {
         update (options) {
@@ -34,7 +31,7 @@ LoadingBar.newInstance = properties => {
         },
         component: loading_bar,
         destroy () {
-            document.body.removeChild(div);
+            document.body.removeChild(document.getElementsByClassName('ivu-loading-bar')[0]);
         }
     };
 };
