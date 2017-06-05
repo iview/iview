@@ -105,7 +105,7 @@
                 this.$emit('input', checked);
 
                 if (this.group) {
-                    this.$parent.change(this.model);
+                    this.parent.change(this.model);
                 } else {
                     this.$emit('on-change', checked);
                     this.dispatch('FormItem', 'on-form-change', checked);
