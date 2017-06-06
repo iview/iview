@@ -31,9 +31,7 @@ LoadingBar.newInstance = properties => {
         },
         component: loading_bar,
         destroy () {
-            setTimeout(function() {
-                document.body.removeChild(document.getElementsByClassName('ivu-loading-bar')[0].parentElement);
-            }, 500);
+            document.body.removeChild(document.getElementsByClassName('ivu-loading-bar')[0]);
         }
     };
 };

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-transfer-dom>
         <transition :name="transitionNames[1]">
             <div :class="maskClasses" v-show="visible" @click="mask"></div>
         </transition>

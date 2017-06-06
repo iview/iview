@@ -14,37 +14,24 @@
 </style>
 <template>
     <div>
-        <Badge count="3">
+        <Badge dot :count="count">
             <a href="#" class="demo-badge"></a>
         </Badge>
-        <Badge dot>
-            <a href="#" class="demo-badge"></a>
-        </Badge>
-        <Badge dot>
-            <Icon type="ios-bell-outline" size="26"></Icon>
-        </Badge>
-        <Badge dot>
-            <a href="#">可以是一个链接</a>
-        </Badge>
-        <Badge count="100">
-            <a href="#" class="demo-badge"></a>
-        </Badge>
-        <Badge count="1000" overflow-count="999">
-            <a href="#" class="demo-badge"></a>
-        </Badge>
-        <br>
-        <Badge count="10"></Badge>
-        <br><br>
-        <Badge count="20" class-name="demo-badge-alone"></Badge>
+        <Button @click="setCount">set count</Button>
     </div>
 </template>
 <script>
     export default {
         props: {},
         data () {
-            return {};
+            return {
+                count: 50
+            };
         },
-        computed: {},
-        methods: {}
+        methods: {
+            setCount () {
+                this.count = 10;
+            }
+        }
     };
 </script>

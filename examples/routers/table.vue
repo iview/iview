@@ -84,7 +84,8 @@
                     {
                         name: '张小刚',
                         age: 25,
-                        address: '北京市海淀区西二旗'
+                        address: '北京市海淀区西二旗',
+                        _disableExpand: true
                     },
                     {
                         name: '李小红',

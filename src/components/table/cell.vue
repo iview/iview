@@ -5,7 +5,7 @@
             <Checkbox :value="checked" @on-change="toggleSelect" :disabled="disabled"></Checkbox>
         </template>
         <template v-if="renderType === 'normal'"><span v-html="row[column.key]"></span></template>
-        <template v-if="renderType === 'expand'">
+        <template v-if="renderType === 'expand' && !row._disableExpand">
             <div :class="expandCls" @click="toggleExpand">
                 <Icon type="ios-arrow-right"></Icon>
             </div>
