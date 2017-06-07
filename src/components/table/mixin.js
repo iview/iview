@@ -21,10 +21,10 @@ export default {
             let width = '';
             if (column.width) {
                 width = column.width;
-            } else if (this.columnsWidth[column._index]) {
+            } else if (this.columnsWidth[column._index] && column.width == 0) {
                 width = this.columnsWidth[column._index].width;
             }
-            // when browser has scrollBar,set a width to resolve scroll position bug
+			// when browser has scrollBar,set a width to resolve scroll position bug
             if (this.columns.length === index + 1 && top && this.$parent.bodyHeight !== 0) {
                 width += this.$parent.scrollBarWidth;
             }
