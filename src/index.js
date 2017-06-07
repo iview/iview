@@ -125,13 +125,14 @@ const install = function (Vue, opts = {}) {
     locale.i18n(opts.i18n);
 
     Object.keys(iview).forEach((key) => {
+		console.log([key, iview[key]])
         Vue.component(key, iview[key]);
     });
 
-    Vue.prototype.$Loading = LoadingBar;
-    Vue.prototype.$Message = Message;
-    Vue.prototype.$Modal = Modal;
-    Vue.prototype.$Notice = Notice;
+	Vue.$Loading = Vue.prototype.$Loading = LoadingBar;
+	Vue.$Message = Vue.prototype.$Message = Message;
+	Vue.$Modal = Vue.prototype.$Modal = Modal;
+	Vue.$Notice = Vue.prototype.$Notice = Notice;
 };
 
 // auto install
