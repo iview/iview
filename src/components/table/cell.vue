@@ -94,7 +94,8 @@
                         let methods = {};
                         Object.keys($parent).forEach(key => {
                             const func = $parent[key];
-                            if (typeof(func) === 'function' && (func.name  === 'boundFn' || func.name === 'n')) {
+                            let match = func && func.toString && func.toString().match(/^\s*function (\w+)/);
+                            if (match && (match[1]  === 'boundFn' || match[1] === 'n')) {
                                 methods[key] = func;
                             }
                         });
