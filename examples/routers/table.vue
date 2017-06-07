@@ -1,5 +1,7 @@
 <template>
-    <Table border :columns="columns7" :data="data6" @on-expand="expand"></Table>
+    <div>
+        <Table border :columns="columns7" :data="data6" :hover-highlight="false"></Table>
+    </div>
 </template>
 <script>
     import etable from '../components/table.vue';
@@ -8,17 +10,18 @@
         data () {
             return {
                 columns7: [
-                    {
-                        type: 'expand',
-                        width: 50,
-                        render: (h, params) => {
-//                            return h(etable);
-                            return h('div', params.row.name)
-                        }
-                    },
+//                     {
+//                         type: 'expand',
+//                         width: 50,
+//                         render: (h, params) => {
+// //                            return h(etable);
+//                             return h('div', params.row.name)
+//                         }
+//                     },
                     {
                         title: '姓名',
                         key: 'name',
+                        fixed: 'left',
                         render: (h, params) => {
                             return h('div', [
                                 h('Icon', {
