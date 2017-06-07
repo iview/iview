@@ -88,7 +88,7 @@
 
                 if (items.length) {
                     items.forEach(item => {
-                        if (this.openNames.indexOf(item.name) > -1) item.opened = true;
+                        item.opened = this.openNames.indexOf(item.name) > -1;
                     });
                 }
             }
