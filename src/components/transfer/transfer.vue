@@ -7,6 +7,7 @@
     const prefixCls = 'ivu-transfer';
 
     export default {
+        name: "Transfer",
         mixins: [ Emitter, Locale ],
         render (createElement) {
 
