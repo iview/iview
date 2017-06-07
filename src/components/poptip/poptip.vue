@@ -198,12 +198,14 @@
             }
             // if trigger and children is input or textarea,listen focus & blur event
             if (this.trigger === 'focus') {
-                const $children = this.getInputChildren();
-                if ($children) {
-                    $children.addEventListener('focus', this.handleFocus, false);
-                    $children.addEventListener('blur', this.handleBlur, false);
-                    this.isInput = true;
-                }
+                this.isInput = true;
+                this.$nextTick(() => {
+                    const $children = this.getInputChildren();
+                    if ($children) {
+                        $children.addEventListener('focus', this.handleFocus, false);
+                        $children.addEventListener('blur', this.handleBlur, false);
+                    }
+                });
             }
         },
         beforeDestroy () {
