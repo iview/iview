@@ -362,7 +362,7 @@
             handleIconClick () {
                 if (this.showClose) {
                     this.handleClear();
-                } else {
+                } else if (!this.disabled) {
                     this.handleFocus();
                 }
             },
