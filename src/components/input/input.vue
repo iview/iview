@@ -19,6 +19,7 @@
                 :number="number"
                 :autofocus="autofocus"
                 @keyup.enter="handleEnter"
+                @keyup.delete="handleDelete"
                 @focus="handleFocus"
                 @blur="handleBlur"
                 @input="handleInput"
@@ -39,6 +40,7 @@
             :value="value"
             :autofocus="autofocus"
             @keyup.enter="handleEnter"
+            @keyup.delete="handleDelete"
             @focus="handleFocus"
             @blur="handleBlur"
             @input="handleInput">
@@ -47,6 +49,7 @@
 </template>
 <script>
     import { oneOf, findComponentUpward } from '../../utils/assist';
+    import { isIE } from '../../utils/browser';
     import calcTextareaHeight from '../../utils/calcTextareaHeight';
     import Emitter from '../../mixins/emitter';
 
@@ -153,6 +156,11 @@
         methods: {
             handleEnter (event) {
                 this.$emit('on-enter', event);
+            },
+            handleDelete(event) {
+                if(isIE(9)) {
+                    this.handleInput(event);
+                }
             },
             handleIconClick (event) {
                 this.$emit('on-click', event);
