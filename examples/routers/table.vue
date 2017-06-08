@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Table border :columns="columns7" :data="data6" :hover-highlight="false"></Table>
+        <Table border :columns="columns7" :data="data6" disable-highlight></Table>
     </div>
 </template>
 <script>
