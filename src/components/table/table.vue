@@ -152,6 +152,9 @@
             },
             noFilteredDataText: {
                 type: String
+            },
+            disableHighlight: {
+                type: Boolean
             }
         },
         data () {
@@ -351,10 +354,12 @@
                 });
             },
             handleMouseIn (_index) {
+                if (this.disableHighlight) return;
                 if (this.objData[_index]._isHover) return;
                 this.objData[_index]._isHover = true;
             },
             handleMouseOut (_index) {
+                if (this.disableHighlight) return;
                 this.objData[_index]._isHover = false;
             },
             highlightCurrentRow (_index) {
