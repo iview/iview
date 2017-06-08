@@ -2,6 +2,7 @@
     <Table border :columns="columns7" :data="data6" @on-expand="expand"></Table>
 </template>
 <script>
+    import TableExpand from '../components/tableExpand.vue';
     import etable from '../components/table.vue';
     export default {
         components: { etable },
@@ -13,7 +14,8 @@
                         width: 50,
                         render: (h, params) => {
 //                            return h(etable);
-                            return h('div', params.row.name)
+//                            return h('div', params.row.name)
+                            return h(TableExpand, { props: { name: params.row.name } })
                         }
                     },
                     {
