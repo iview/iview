@@ -81,6 +81,10 @@
                     this.openNames.splice(index, 1);
                 } else {
                     this.openNames.push(name);
+                    if (this.accordion) {
+                        this.openNames.splice(0, this.openNames.length);
+                        this.openNames.push(name);
+                    }
                 }
             },
             updateOpened () {
