@@ -1,4 +1,3 @@
-
 export default {
     name: 'TableExpand',
     functional: true,
