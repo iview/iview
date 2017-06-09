@@ -38,7 +38,7 @@
 <script>
     // todo :key="row"
     import Cell from './cell.vue';
-    import Expand from './expand.vue';
+    import Expand from './expand.js';
     import Mixin from './mixin';
 
     export default {
