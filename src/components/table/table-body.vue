@@ -6,7 +6,6 @@
         <tbody :class="[prefixCls + '-tbody']">
             <template v-for="(row, index) in data">
                 <tr
-                    :key="row"
                     :class="rowClasses(row._index)"
                     @mouseenter.stop="handleMouseIn(row._index)"
                     @mouseleave.stop="handleMouseOut(row._index)"
@@ -17,6 +16,7 @@
                             :fixed="fixed"
                             :prefix-cls="prefixCls"
                             :row="row"
+                            :key="row"
                             :column="column"
                             :natural-index="index"
                             :index="row._index"
@@ -28,7 +28,7 @@
                 </tr>
                 <tr v-if="rowExpanded(row._index)">
                     <td :colspan="columns.length" :class="prefixCls + '-expanded-cell'">
-                        <Expand :row="row" :render="expandRender" :index="row._index"></Expand>
+                        <Expand :key="row" :row="row" :render="expandRender" :index="row._index"></Expand>
                     </td>
                 </tr>
             </template>
