@@ -10,17 +10,24 @@
                 <Icon type="ios-arrow-right"></Icon>
             </div>
         </template>
+        <Cell
+            v-if="renderType === 'render'"
+            :row="row"
+            :column="column"
+            :index="index"
+            :render="column.render"></Cell>
     </div>
 </template>
 <script>
     import Vue from 'vue';
+    import Cell from './expand';
     import Icon from '../icon/icon.vue';
     import Checkbox from '../checkbox/checkbox.vue';
     import { findComponentUpward } from '../../utils/assist';
 
     export default {
         name: 'TableCell',
-        components: { Icon, Checkbox },
+        components: { Icon, Checkbox, Cell },
         props: {
             prefixCls: String,
             row: Object,
@@ -65,25 +72,25 @@
         methods: {
             compile () {
                 if (this.column.render && this.renderType === 'render') {
-                    // 兼容真 Render，后期废弃旧用法
+                    // todo 兼容真 Render，后期废弃旧用法
                     let isRealRender = true;
                     const Table = findComponentUpward(this, 'Table');
                     if (Table.context) isRealRender = false;
 
                     if (isRealRender) {
-                        this.$el.innerHTML = '';
-                        const component = new Vue({
-                            functional: true,
-                            render: (h) => {
-                                return this.column.render(h, {
-                                    row: this.row,
-                                    column: this.column,
-                                    index: this.index
-                                });
-                            }
-                        });
-                        const Cell = component.$mount();
-                        this.$refs.cell.appendChild(Cell.$el);
+//                        this.$el.innerHTML = '';
+//                        const component = new Vue({
+//                            functional: true,
+//                            render: (h) => {
+//                                return this.column.render(h, {
+//                                    row: this.row,
+//                                    column: this.column,
+//                                    index: this.index
+//                                });
+//                            }
+//                        });
+//                        const Cell = component.$mount();
+//                        this.$refs.cell.appendChild(Cell.$el);
                     } else {
                         const $parent = this.context;
                         const template = this.column.render(this.row, this.column, this.index);
