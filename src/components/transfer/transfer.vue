@@ -200,8 +200,8 @@
                                 return true;
                             }
                             return false;
-                        })
-                        if (filteredData && filteredData.length > 0) this.rightData.push(filteredData[0])
+                        });
+                        if (filteredData && filteredData.length > 0) this.rightData.push(filteredData[0]);
                     });
                 }
                 if (init) {
