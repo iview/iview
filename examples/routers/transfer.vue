@@ -164,7 +164,7 @@
     export default {
         data () {
             return {
-                data1: this.getMockData(),
+                data1: [] || this.getMockData(),
                 targetKeys1: this.getTargetKeys()
             }
         },
