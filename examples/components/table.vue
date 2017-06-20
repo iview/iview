@@ -96,6 +96,9 @@
                     }
                 ]
             }
+        },
+        mounted () {
+            console.log(1)
         }
     }
 </script>

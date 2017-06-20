@@ -7,10 +7,10 @@
             row: Object
         },
         mounted () {
-            console.log(1);
+//            console.log(1);
         },
         beforeDestroy () {
-            console.log(2);
+//            console.log(2);
         }
     }
 </script>
