@@ -65,8 +65,8 @@
         name: 'TableHead',
         data(){
             return {
-                isDragging : false,
-            }
+                isDragging : false
+            };
         },
         mixins: [ Mixin, Locale ],
         components: { CheckboxGroup, Checkbox, Poptip, iButton },
@@ -108,7 +108,8 @@
         },
         methods: {
             mousemoveHandler(e){
-                if (!this.draggable) {return}
+                if (!this.draggable) return;
+
                 const bodyStyle = document.body.style;
                 let target = e.target;
                 while (target && target.tagName !== 'TH') {
@@ -117,11 +118,11 @@
                 if (target) {
                     let rect = target.getBoundingClientRect();
                     if (rect.width > 12 && rect.right - e.pageX < 10) {
-                      bodyStyle.cursor = 'col-resize';
-                      this.isDragging = true;
+                        bodyStyle.cursor = 'col-resize';
+                        this.isDragging = true;
                     } else {
-                      bodyStyle.cursor = '';
-                      this.isDragging = false;
+                        bodyStyle.cursor = '';
+                        this.isDragging = false;
                     }
                 }else{
                     bodyStyle.cursor = '';
@@ -132,7 +133,7 @@
                 document.body.style.cursor = '';
             },
             mousedownHandler(e,index){
-                if (!this.draggable || !this.isDragging) {return}
+                if (!this.draggable || !this.isDragging) return;
                 const table = this.$parent.$el;
                 document.onselectstart = function() { return false; };
                 document.ondragstart = function() { return false; };
@@ -160,7 +161,7 @@
                     let borderLeft = event.pageX - x;
 
                     if (borderLeft<minX+50) {
-                        borderLeft = minX+50
+                        borderLeft = minX+50;
                     }
                     if (borderLeft>maxX-50) {
                         borderLeft = maxX-50;
@@ -182,7 +183,7 @@
                     this.$emit('emitDrag' , false , deltaX , index);
                     document.removeEventListener('mousemove', handleMouseMove);
                     document.removeEventListener('mouseup', handleMouseUp);
-                }
+                };
                 document.addEventListener('mousemove' , handleMouseMove);
                 document.addEventListener('mouseup', handleMouseUp);
             },

@@ -708,10 +708,10 @@
                         obj.width = i%2?originWidth-deltaX:originWidth+deltaX;
                         this.cloneColumns.splice(index+i,1,obj);
                     }
-                    return
+                    return;
                 }
                 this.isShowResizeBorder = true;
-                this.$refs.resizeBorder.style.left = borderLeft+"px";
+                this.$refs.resizeBorder.style.left = borderLeft+'px';
             }
         },
         created () {
