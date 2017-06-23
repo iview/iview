@@ -1,5 +1,5 @@
 <template>
-    <Table border :columns="columns5" :data="data5"></Table>
+    <Table border draggable :columns="columns5" :data="data5"></Table>
 </template>
 <script>
     import etable from '../components/table.vue';

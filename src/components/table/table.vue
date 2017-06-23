@@ -9,7 +9,10 @@
                     :columns="cloneColumns"
                     :obj-data="objData"
                     :columns-width="columnsWidth"
-                    :data="rebuildData"></table-head>
+                    :data="rebuildData"
+                    :draggable="draggable"
+                    @emitDrag="emitDrag"
+                    ></table-head>
             </div>
             <div :class="[prefixCls + '-body']" :style="bodyStyle" ref="body" @scroll="handleBodyScroll"
                 v-show="!((!!localeNoDataText && (!data || data.length === 0)) || (!!localeNoFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
@@ -45,7 +48,9 @@
                         :columns="leftFixedColumns"
                         :obj-data="objData"
                         :columns-width.sync="columnsWidth"
-                        :data="rebuildData"></table-head>
+                        :data="rebuildData"
+                        :draggable="draggable"
+                        @emitDrag="emitDrag"></table-head>
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedBody">
                     <table-body
@@ -67,7 +72,10 @@
                         :columns="rightFixedColumns"
                         :obj-data="objData"
                         :columns-width="columnsWidth"
-                        :data="rebuildData"></table-head>
+                        :data="rebuildData"
+                        :draggable="draggable"
+                        @emitDrag="emitDrag"
+                        ></table-head>
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedRightBody">
                     <table-body
@@ -81,6 +89,7 @@
                 </div>
             </div>
             <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" ref="footer"><slot name="footer"></slot></div>
+            <div class="ivu-table-resize-border" v-show="isShowResizeBorder" ref="resizeBorder"></div>
         </div>
     </div>
 </template>
@@ -130,6 +139,10 @@
                 type: Boolean,
                 default: false
             },
+            draggable: {
+                type: Boolean,
+                default: false
+            },
             showHeader: {
                 type: Boolean,
                 default: true
@@ -173,7 +186,8 @@
                 bodyRealHeight: 0,
                 scrollBarWidth: getScrollBarSize(),
                 currentContext: this.context,
-                cloneData: deepCopy(this.data)    // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
+                cloneData: deepCopy(this.data),    // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
+                isShowResizeBorder:false
             };
         },
         computed: {
@@ -681,6 +695,23 @@
 
                 const data = Csv(columns, datas, ',', noHeader);
                 ExportCsv.download(params.filename, data);
+            },
+            emitDrag(borderLeft , deltaX , index){
+                if (borderLeft === false) {
+                    this.isShowResizeBorder = false;
+                    for(let i=0;i<2;i++){
+                        let cloneColumns = this.cloneColumns[index+i];
+                        let columnsWidth = this.columnsWidth[index+i];
+                        let obj = Object.assign({},cloneColumns);
+                        let originWidth = cloneColumns.width? cloneColumns.width : columnsWidth.width;
+
+                        obj.width = i%2?originWidth-deltaX:originWidth+deltaX;
+                        this.cloneColumns.splice(index+i,1,obj);
+                    }
+                    return
+                }
+                this.isShowResizeBorder = true;
+                this.$refs.resizeBorder.style.left = borderLeft+"px";
             }
         },
         created () {
