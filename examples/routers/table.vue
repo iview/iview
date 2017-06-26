@@ -11,9 +11,9 @@
                     {
                         type: 'expand',
                         render: (h) => {
-                            return h(etable);
-                        },
-                        width: 50
+                            console.log('expand called');
+                            return h('span', '扩展内容');
+                        }
                     },
                     {
                         title: '日期',

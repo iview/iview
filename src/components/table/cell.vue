@@ -136,10 +136,10 @@
 
             },
             toggleSelect () {
-                this.$parent.$parent.toggleSelect(this.index);
+                this.$parent.$parent.$parent.toggleSelect(this.index);
             },
             toggleExpand () {
-                this.$parent.$parent.toggleExpand(this.index);
+                this.$parent.$parent.$parent.toggleExpand(this.index);
             }
         },
         created () {

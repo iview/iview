@@ -20,6 +20,7 @@
                     :columns="cloneColumns"
                     :data="rebuildData"
                     :columns-width="columnsWidth"
+                    :highlight-data="highlightData"
                     :obj-data="objData"></table-body>
             </div>
             <div
@@ -55,6 +56,7 @@
                         :columns="leftFixedColumns"
                         :data="rebuildData"
                         :columns-width="columnsWidth"
+                        :highlight-data="highlightData"
                         :obj-data="objData"></table-body>
                 </div>
             </div>
@@ -77,6 +79,7 @@
                         :columns="rightFixedColumns"
                         :data="rebuildData"
                         :columns-width="columnsWidth"
+                        :highlight-data="highlightData"
                         :obj-data="objData"></table-body>
                 </div>
             </div>
@@ -164,7 +167,8 @@
                 columnsWidth: {},
                 prefixCls: prefixCls,
                 compiledUids: [],
-                objData: this.makeObjData(),     // checkbox or highlight-row
+                objData: this.makeObjData(),     // checkbox
+                highlightData: this.makeHighlightData(), // for highlight-row
                 rebuildData: [],    // for sort or filter
                 cloneColumns: this.makeColumns(),
                 showSlotHeader: true,
@@ -355,24 +359,24 @@
             },
             handleMouseIn (_index) {
                 if (this.disabledHover) return;
-                if (this.objData[_index]._isHover) return;
-                this.objData[_index]._isHover = true;
+                if (this.highlightData[_index]._isHover) return;
+                this.highlightData[_index]._isHover = true;
             },
             handleMouseOut (_index) {
                 if (this.disabledHover) return;
-                this.objData[_index]._isHover = false;
+                this.highlightData[_index]._isHover = false;
             },
             highlightCurrentRow (_index) {
-                if (!this.highlightRow || this.objData[_index]._isHighlight) return;
+                if (!this.highlightRow || this.highlightData[_index]._isHighlight) return;
 
                 let oldIndex = -1;
-                for (let i in this.objData) {
-                    if (this.objData[i]._isHighlight) {
+                for (let i in this.highlightData) {
+                    if (this.highlightData[i]._isHighlight) {
                         oldIndex = parseInt(i);
-                        this.objData[i]._isHighlight = false;
+                        this.highlightData[i]._isHighlight = false;
                     }
                 }
-                this.objData[_index]._isHighlight = true;
+                this.highlightData[_index]._isHighlight = true;
                 const oldData = oldIndex < 0 ? null : JSON.parse(JSON.stringify(this.cloneData[oldIndex]));
                 this.$emit('on-current-change', JSON.parse(JSON.stringify(this.cloneData[_index])), oldData);
             },
@@ -428,7 +432,7 @@
                 //     }else{
                 //         this.objData[data._index]._isChecked = status;
                 //     }
-                    
+
                 // });
                 for(const data of this.rebuildData){
                     if(this.objData[data._index]._isDisabled){
@@ -597,7 +601,6 @@
                 let data = {};
                 this.data.forEach((row, index) => {
                     const newRow = deepCopy(row);// todo 直接替换
-                    newRow._isHover = false;
                     if (newRow._disabled) {
                         newRow._isDisabled = newRow._disabled;
                     } else {
@@ -613,14 +616,17 @@
                     } else {
                         newRow._isExpanded = false;
                     }
-                    if (newRow._highlight) {
-                        newRow._isHighlight = newRow._highlight;
-                    } else {
-                        newRow._isHighlight = false;
-                    }
                     data[index] = newRow;
                 });
                 return data;
+            },
+            makeHighlightData () {
+                return this.data.map(function () {
+                    return {
+                        _isHover: false,
+                        _isHighlight: false
+                    };
+                });
             },
             makeColumns () {
                 let columns = deepCopy(this.columns);
@@ -708,6 +714,7 @@
             data: {
                 handler () {
                     this.objData = this.makeObjData();
+                    this.highlightData = this.makeHighlightData();
                     this.rebuildData = this.makeDataWithSortAndFilter();
                     this.handleResize();
                     // here will trigger before clickCurrentRow, so use async
