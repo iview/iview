@@ -21,8 +21,8 @@
 
 ## Docs
 
-### [中文文档 (2.0)](https://www.iviewui.com)
 ### [English (2.0)](https://www.iviewui.com)
+### [中文文档 (2.0)](https://www.iviewui.com)
 ### [中文文档 (1.0)](http://v1.iviewui.com)
 
 ## Overview
