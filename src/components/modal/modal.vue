@@ -4,7 +4,7 @@
             <div :class="maskClasses" v-show="visible" @click="mask"></div>
         </transition>
         <div :class="wrapClasses" @click="handleWrapClick">
-            <transition :name="transitionNames[0]">
+            <transition :name="transitionNames[0]" @after-leave="animationFinish">
                 <div :class="classes" :style="mainStyles" v-show="visible">
                     <div :class="[prefixCls + '-content']">
                         <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
@@ -208,6 +208,9 @@
             removeScrollEffect() {
                 document.body.style.overflow = '';
                 this.resetScrollBar();
+            },
+            animationFinish() {
+                this.$emit('on-hidden');
             }
         },
         mounted () {
