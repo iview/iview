@@ -58,4 +58,12 @@
         padding: 7px 16px 8px;
         font-size: @font-size-base !important;
     }
+    // http://browserhacks.com/
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=488725
+    // fixed #1224 #1143 #1127
+    @-moz-document url-prefix() {
+        .@{item-class} {
+            white-space: normal;
+        }
+    }
 }
