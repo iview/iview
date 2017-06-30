@@ -170,6 +170,16 @@
         padding: 0 0 0 4px;
     }
 
+    &-hidden-input{
+        appearance: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: @input-height-base;
+        border: 0;
+        z-index: -1;
+    }
+
     &-not-found{
         text-align: center;
         color: @btn-disable-color;
