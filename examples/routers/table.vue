@@ -11,6 +11,7 @@
                     {
                         type: 'expand',
                         render: (h) => {
+                            console.log('______hover______');
                             return h(etable);
                         },
                         width: 50
