@@ -11,7 +11,9 @@
     }
 
     &-item {
-        float: left;
+        display: inline-block;
+        //float: left;
+        vertical-align: middle;
         min-width: @btn-circle-size;
         height: @btn-circle-size;
         line-height: @btn-circle-size - 2px;
@@ -104,7 +106,8 @@
     &-item-jump-prev,
     &-item-jump-next {
         display: inline-block;
-        float: left;
+        vertical-align: middle;
+        //float: left;
         min-width: @btn-circle-size;
         height: @btn-circle-size;
         line-height: @btn-circle-size - 2px;
@@ -151,15 +154,20 @@
     }
 
     &-options {
-        float: left;
+        display: inline-block;
+        vertical-align: middle;
+        //float: left;
         margin-left: 15px;
         &-sizer {
-            float: left;
+            display: inline-block;
+            //float: left;
             margin-right: 10px;
         }
 
         &-elevator {
-            float: left;
+            display: inline-block;
+            vertical-align: middle;
+            //float: left;
             height: @btn-circle-size;
             line-height: @btn-circle-size;
 
@@ -173,7 +181,8 @@
     }
 
     &-total {
-        float: left;
+        display: inline-block;
+        //float: left;
         height: @btn-circle-size;
         line-height: @btn-circle-size;
         margin-right: 10px;
@@ -189,7 +198,8 @@
     }
 
     &-simple &-simple-pager {
-        float: left;
+        display: inline-block;
+        //float: left;
         margin-right: 8px;
 
         input {

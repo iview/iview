@@ -1,14 +1,8 @@
 <template>
-    <div style="margin: 100px;">
-        <Page :total="100" :current="val" show-sizer placement="top"></Page>
-    </div>
+    <Page :total="100" show-sizer show-elevator show-total></Page>
 </template>
 <script>
     export default {
-        data () {
-            return {
-                val: 2
-            }
-        }
+
     }
 </script>
