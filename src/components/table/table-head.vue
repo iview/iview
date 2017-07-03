@@ -138,7 +138,7 @@
                 document.onselectstart = function() { return false; };
                 document.ondragstart = function() { return false; };
                 
-                var target = event.target;
+                var target = e.target;
                 while (target && target.tagName !== 'TH') {
                     target = target.parentNode;
                 }
