@@ -1,5 +1,9 @@
 <template>
-    <Date-picker type="daterange" placeholder="选择日期" disabled style="width: 200px"></Date-picker>
+    <div>
+        <Date-picker type="daterange" placeholder="选择日期" style="width: 200px"></Date-picker>
+        <Date-picker type="daterange" placeholder="选择日期" style="width: 200px"></Date-picker>
+        <Date-picker type="daterange" placeholder="选择日期" style="width: 200px"></Date-picker>
+    </div>
 </template>
 <script>
     export default {
