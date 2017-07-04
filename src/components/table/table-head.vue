@@ -5,7 +5,7 @@
         </colgroup>
         <thead>
             <tr>
-                <th v-for="(column, index) in columns" :class="alignCls(column)" @mousemove="mousemoveHandler" @mousedown="mousedownHandler($event,index)" @mouseleave="mouseleaveHandler">
+                <th v-for="(column, index) in columns" :class="alignCls(column)" @mousemove="mousemoveHandler($event,index)" @mousedown="mousedownHandler($event,index)" @mouseleave="mouseleaveHandler">
                     <div :class="cellClasses(column)">
                         <template v-if="column.type === 'expand'"></template>
                         <template v-else-if="column.type === 'selection'"><Checkbox :value="isSelectAll" @on-change="selectAll"></Checkbox></template>
@@ -107,10 +107,16 @@
             }
         },
         methods: {
-            mousemoveHandler(e){
+            mousemoveHandler(e , index){
                 if (!this.draggable) return;
 
                 const bodyStyle = document.body.style;
+
+                if (index == this.columns.length-1) {
+                    bodyStyle.cursor = '';
+                    return;
+               }
+
                 let target = e.target;
                 while (target && target.tagName !== 'TH') {
                     target = target.parentNode;
@@ -133,7 +139,7 @@
                 document.body.style.cursor = '';
             },
             mousedownHandler(e,index){
-                if (!this.draggable || !this.isDragging) return;
+                if (!this.draggable || !this.isDragging || index == this.columns.length-1) return;
                 const table = this.$parent.$el;
                 document.onselectstart = function() { return false; };
                 document.ondragstart = function() { return false; };
@@ -146,7 +152,6 @@
                 let startX = e.pageX;
                 let columns = this.columns;
                 let columnsWidth = this.columnsWidth;
-
                 let leftColWidth = columns[index].width?columns[index].width:columnsWidth[index].width;
                 let rightColWidth = columns[index+1].width?columns[index+1].width:columnsWidth[index+1].width;
                 let rect = target && target.getBoundingClientRect();
