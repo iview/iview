@@ -708,6 +708,9 @@
                         obj.width = i%2?originWidth-deltaX:originWidth+deltaX;
                         this.cloneColumns.splice(index+i,1,obj);
                     }
+                    if (this.fixedTableStyle.width !== '0px') {
+                        this.handleResize();
+                    }
                     return;
                 }
                 this.isShowResizeBorder = true;
