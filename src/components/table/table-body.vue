@@ -68,6 +68,8 @@
                     const column = this.columns[i];
                     if (column.type && column.type === 'expand') {
                         if (column.render) render = column.render;
+                    } else if (column.renderExpand) {
+                        render = column.renderExpand;
                     }
                 }
                 return render;
