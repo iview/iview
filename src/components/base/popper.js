@@ -1,7 +1,9 @@
 /**
  * https://github.com/freeze-component/vue-popper
  * */
-import Popper from 'popper.js';
+import Vue from 'vue';
+const isServer = Vue.prototype.$isServer;
+const Popper = isServer ? function() {} : require('popper.js');  // eslint-disable-line
 
 export default {
     props: {
@@ -62,6 +64,7 @@ export default {
     },
     methods: {
         createPopper() {
+            if (isServer) return;
             if (!/^(top|bottom|left|right)(-start|-end)?$/g.test(this.placement)) {
                 return;
             }
@@ -87,19 +90,23 @@ export default {
             });
         },
         updatePopper() {
+            if (isServer) return;
             this.popperJS ? this.popperJS.update() : this.createPopper();
         },
         doDestroy() {
+            if (isServer) return;
             if (this.visible) return;
             this.popperJS.destroy();
             this.popperJS = null;
         },
         destroyPopper() {
+            if (isServer) return;
             if (this.popperJS) {
                 this.resetTransformOrigin(this.popperJS);
             }
         },
         resetTransformOrigin(popper) {
+            if (isServer) return;
             let placementMap = {top: 'bottom', bottom: 'top', left: 'right', right: 'left'};
             let placement = popper._popper.getAttribute('x-placement').split('-')[0];
             let origin = placementMap[placement];
@@ -107,6 +114,7 @@ export default {
         }
     },
     beforeDestroy() {
+        if (isServer) return;
         if (this.popperJS) {
             this.popperJS.destroy();
         }
