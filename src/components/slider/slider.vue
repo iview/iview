@@ -48,7 +48,7 @@
     import InputNumber from '../../components/input-number/input-number.vue';
     import Tooltip from '../../components/tooltip/tooltip.vue';
     import { getStyle, oneOf } from '../../utils/assist';
-    import { on, off } from '../../utils';
+    import { on, off } from '../../utils/dom';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-slider';
