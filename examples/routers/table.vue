@@ -1,5 +1,5 @@
 <template>
-    <Table border :columns="columns5" :data="data5"></Table>
+    <Table border :columns="columns5" :data="data5" @on-select="onSelect(true)" @on-select-cancel="onSelect(false)"></Table>
 </template>
 <script>
     import etable from '../components/table.vue';
@@ -8,6 +8,11 @@
         data () {
             return {
                 columns5: [
+                    {
+                        type: 'selection',
+                        width: 60,
+                        align: 'center'
+                    },
                     {
                         type: 'expand',
                         render: (h) => {
@@ -72,6 +77,12 @@
                         date: '2016-10-04'
                     },
                 ]
+            }
+        },
+
+        methods: {
+            onSelect (value) {
+                window.alert(value);
             }
         }
     }
