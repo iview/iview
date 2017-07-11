@@ -251,7 +251,7 @@
             },
             keyDown (e) {
                 const key = e.keyCode;
-                const condition = (key >= 48 && key <= 57) || key == 8 || key == 37 || key == 39;
+                const condition = (key >= 48 && key <= 57) || (key >= 96 && key <= 105) || key == 8 || key == 37 || key == 39;
 
                 if (!condition) {
                     e.preventDefault();
