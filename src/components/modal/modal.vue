@@ -173,6 +173,7 @@
                     this.$emit('input', false);
                 }
                 this.$emit('on-ok');
+                this.buttonLoading = false;
             },
             EscClose (e) {
                 if (this.visible && this.closable) {
