@@ -8,7 +8,7 @@
             <span :class="[prefixCls + '-star-content']" type="half"></span>
         </div>
         <div :class="[prefixCls + '-text']" v-if="showText" v-show="currentValue > 0">
-            <slot>{{ currentValue }} <template v-if="currentValue <= 1">{{ t('i.rate.star') }}</template><template v-else>{{ t('i.rate.stars') }}</template></slot>
+            <slot><span>{{ currentValue }}</span> <span v-if="currentValue <= 1">{{ t('i.rate.star') }}</span><span v-else>{{ t('i.rate.stars') }}</span></slot>
         </div>
     </div>
 </template>
