@@ -248,7 +248,7 @@
                 this.splitData(false);
             }
         },
-        created () {
+        mounted () {
             this.splitData(true);
         }
     };
