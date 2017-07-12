@@ -17,6 +17,7 @@ export function camelcaseToHyphen (str) {
 // For Modal scrollBar hidden
 let cached;
 export function getScrollBarSize (fresh) {
+    if (isServer) return 0;
     if (fresh || cached === undefined) {
         const inner = document.createElement('div');
         inner.style.width = '100%';
