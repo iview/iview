@@ -7,17 +7,18 @@
             <template v-for="(row, index) in data">
                 <table-tr
                     :row="row"
+                    :key="index"
                     :prefix-cls="prefixCls"
                     @mouseenter.native.stop="handleMouseIn(row._index)"
                     @mouseleave.native.stop="handleMouseOut(row._index)"
                     @click.native.stop="clickCurrentRow(row._index)"
                     @dblclick.native.stop="dblclickCurrentRow(row._index)">
-                    <td v-for="column in columns" :class="alignCls(column, row)">
+                    <td v-for="(column, key) in columns" :class="alignCls(column, row)">
                         <Cell
                             :fixed="fixed"
                             :prefix-cls="prefixCls"
                             :row="row"
-                            :key="row"
+                            :key="key"
                             :column="column"
                             :natural-index="index"
                             :index="row._index"
