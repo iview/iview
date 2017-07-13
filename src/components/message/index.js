@@ -63,6 +63,8 @@ function notice (content = '', duration = defaultDuration, type, onClose = funct
 }
 
 export default {
+    name: 'Message',
+
     info (options) {
         const type = typeof options;
         if (type === 'string') {
