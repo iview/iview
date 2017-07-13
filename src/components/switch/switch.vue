@@ -28,6 +28,10 @@
                 validator (value) {
                     return oneOf(value, ['large', 'small']);
                 }
+            },
+            beforeChange: {
+                type: Function,
+                default: null
             }
         },
         data () {
@@ -56,11 +60,18 @@
                     return false;
                 }
 
-                const checked = !this.currentValue;
-                this.currentValue = checked;
-                this.$emit('input', checked);
-                this.$emit('on-change', checked);
-                this.dispatch('FormItem', 'on-form-change', checked);
+                Promise.resolve(this.beforeChange ? this.beforeChange(this.currentValue) : true)
+                    .then((result) => {
+                        if (result) {
+                            const checked = !this.currentValue;
+                            this.currentValue = checked;
+                            this.$emit('input', checked);
+                            this.$emit('on-change', checked);
+                            this.dispatch('FormItem', 'on-form-change', checked);
+                        } else {
+                            return false;
+                        }
+                    });
             }
         },
         watch: {
