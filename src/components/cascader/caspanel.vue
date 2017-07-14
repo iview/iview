@@ -3,7 +3,7 @@
         <ul v-if="data && data.length" :class="[prefixCls + '-menu']">
             <Casitem
                 v-for="item in data"
-                :key="item"
+                :key="getKey()"
                 :prefix-cls="prefixCls"
                 :data="item"
                 :tmp-item="tmpItem"
@@ -16,6 +16,8 @@
     import Casitem from './casitem.vue';
     import Emitter from '../../mixins/emitter';
     import { findComponentUpward } from '../../utils/assist';
+
+    let key = 1;
 
     export default {
         name: 'Caspanel',
@@ -109,6 +111,9 @@
                 } else {
                     this.$parent.$parent.updateResult(result);
                 }
+            },
+            getKey () {
+                return key++;
             }
         },
         mounted () {
