@@ -14,7 +14,7 @@
                 <span :class="titleClasses" v-html="data.title" @click="handleSelect"></span>
                 <Tree-node
                         v-for="item in data.children"
-                        :key="item"
+                        :key="item.nodeKey"
                         :data="item"
                         :visible="data.expand"
                         :multiple="multiple"

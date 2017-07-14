@@ -2,7 +2,7 @@
     <div :class="prefixCls">
         <Tree-node
             v-for="item in data"
-            :key="item"
+            :key="item.nodeKey"
             :data="item"
             visible
             :multiple="multiple"
@@ -18,6 +18,8 @@
     import Locale from '../../mixins/locale';
 
     const prefixCls = 'ivu-tree';
+
+    let key = 1;
 
     export default {
         name: 'Tree',
@@ -68,6 +70,7 @@
             updateData (isInit = true) {
                 // init checked status
                 function reverseChecked(data) {
+                    if (!data.nodeKey) data.nodeKey = key++;
                     if (data.children) {
                         let checkedLength = 0;
                         data.children.forEach(node => {
