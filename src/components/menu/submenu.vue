@@ -12,7 +12,7 @@
                 v-show="opened"
                 placement="bottom"
                 ref="drop"
-                :style="dropStyle"><ul><slot></slot></ul>
+                :style="dropStyle"><ul :class="[prefixCls + '-drop-list']"><slot></slot></ul>
             </Drop>
         </transition>
     </li>
