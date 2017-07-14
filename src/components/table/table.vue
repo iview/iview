@@ -44,7 +44,7 @@
                         :styleObject="fixedTableStyle"
                         :columns="leftFixedColumns"
                         :obj-data="objData"
-                        :columns-width.sync="columnsWidth"
+                        :columns-width="columnsWidth"
                         :data="rebuildData"></table-head>
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedBody">
@@ -94,6 +94,9 @@
     import Locale from '../../mixins/locale';
 
     const prefixCls = 'ivu-table';
+
+    let rowKey = 1;
+    let columnKey = 1;
 
     export default {
         name: 'Table',
@@ -562,7 +565,10 @@
             },
             makeData () {
                 let data = deepCopy(this.data);
-                data.forEach((row, index) => row._index = index);
+                data.forEach((row, index) => {
+                    row._index = index;
+                    row._rowKey = rowKey++;
+                });
                 return data;
             },
             makeDataWithSort () {
@@ -629,6 +635,7 @@
 
                 columns.forEach((column, index) => {
                     column._index = index;
+                    column._columnKey = columnKey++;
                     column._width = column.width ? column.width : '';    // update in handleResize()
                     column._sortType = 'normal';
                     column._filterVisible = false;
