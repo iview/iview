@@ -1,21 +1,10 @@
 var path = require('path');
 var webpack = require('webpack');
-
+var entry = require('./locale');
 process.env.NODE_ENV = 'production';
 
 module.exports = {
-    entry: {
-        'de-DE': './src/locale/lang/de-DE.js',
-        'en-US': './src/locale/lang/en-US.js',
-        'es-ES': './src/locale/lang/de-DE.js',
-        'fr-FR': './src/locale/lang/zh-CN.js',
-        'ja-JP': './src/locale/lang/zh-CN.js',
-        'pt-BR': './src/locale/lang/zh-CN.js',
-        'ru-RU': './src/locale/lang/zh-CN.js',
-        'tr-TR': './src/locale/lang/tr-TR.js',
-        'zh-CN': './src/locale/lang/zh-CN.js',
-        'zh-TW': './src/locale/lang/zh-TW.js'
-    },
+    entry,
     module: {
         rules: [
             {
