@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://www.iviewui.com">
-        <img width="200" src="https://raw.githubusercontent.com/iview/iview/2.0/assets/logo.svg">
+        <img width="200" src="https://file.iviewui.com/logo.svg">
     </a>
 </p>
 
