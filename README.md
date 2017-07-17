@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://www.iviewui.com">
-        <img width="200" src="https://raw.githubusercontent.com/iview/iview/master/assets/logo.png">
+        <img width="200" src="https://file.iviewui.com/logo.svg">
     </a>
 </p>
 
@@ -34,7 +34,7 @@
 - Dozens of useful and beautiful components.
 - Friendly API. It's made for people with all skill levels.
 - Extensive documentation.
-- It is quite beautiful
+- It is quite beautiful.
 - Support Vue.js 2 and Vue.js 1.
 
 ## Programming
