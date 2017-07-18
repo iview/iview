@@ -8,6 +8,7 @@
             :data="data3"></Table>
 </template>
 <script>
+    import test from '../components/test.vue';
     export default {
         data () {
             return {
@@ -59,20 +60,7 @@
                         fixed: 'right',
                         width: 120,
                         render: (h, params) => {
-                            return h('div', [
-                                h('Button', {
-                                    props: {
-                                        type: 'text',
-                                        size: 'small'
-                                    }
-                                }, '查看'),
-                                h('Button', {
-                                    props: {
-                                        type: 'text',
-                                        size: 'small'
-                                    }
-                                }, '编辑')
-                            ]);
+                            return h(test);
                         }
                     }
                 ],
