@@ -21,15 +21,16 @@
                         title: '姓名',
                         key: 'name',
                         width: 100,
-                        fixed: 'left',
                         sortable: true,
-                        renderHeader: (h, params) => {
-                            return h('Tag', params.index)
-                        }
+//                        fixed: 'left',
+//                        renderHeader: (h, params) => {
+//                            return h('Tag', params.index)
+//                        }
                     },
                     {
                         title: '年龄',
                         key: 'age',
+                        sortable: true,
                         width: 100
                     },
                     {

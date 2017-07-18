@@ -10,7 +10,7 @@
                         <template v-if="column.type === 'expand'"></template>
                         <template v-else-if="column.type === 'selection'"><Checkbox :value="isSelectAll" @on-change="selectAll"></Checkbox></template>
                         <template v-else>
-                            <span v-if="!column.renderHeader">{{ column.title || '#' }}</span>
+                            <span v-if="!column.renderHeader" @click="handleSortByHead(index)">{{ column.title || '#' }}</span>
                             <render-header v-else :render="column.renderHeader" :column="column" :index="index"></render-header>
                             <span :class="[prefixCls + '-sort']" v-if="column.sortable">
                                 <i class="ivu-icon ivu-icon-arrow-up-b" :class="{on: column._sortType === 'asc'}" @click="handleSort(index, 'asc')"></i>
@@ -133,6 +133,19 @@
                     type = 'normal';
                 }
                 this.$parent.handleSort(index, type);
+            },
+            handleSortByHead (index) {
+                const column = this.columns[index];
+                if (column.sortable) {
+                    const type = column._sortType;
+                    if (type === 'normal') {
+                        this.handleSort(index, 'asc');
+                    } else if (type === 'asc') {
+                        this.handleSort(index, 'desc');
+                    } else {
+                        this.handleSort(index, 'normal');
+                    }
+                }
             },
             handleFilter (index) {
                 this.$parent.handleFilter(index);
