@@ -69,7 +69,35 @@
                                 }, '编辑')
                             ]);
                         }
-                    }
+                    },
+                    {
+                        title: '测试',
+                        children: [
+                            {
+                                title: '测试2',
+                                children: [
+                                {
+                                    title: '测试4',
+                                    children: [
+                                    {title: '测试5'},
+                                    {
+                                        title: '测试6',
+                                        children: [
+                                        {title: '测试7'}
+                                        ]
+                                    }
+                                    ]
+                                },
+                                {
+                                    title: '测试3'
+                                }
+                                ]
+                            },
+                            {
+                                title: '测试3'
+                            }
+                        ]
+                    },
                 ],
                 data3: [
                     {
