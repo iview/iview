@@ -51,16 +51,20 @@
                 } else {
                     this.dispatch('Menu', 'on-menu-item-select', this.name);
                 }
-            }
-        },
-        mounted () {
-            this.$on('on-update-active-name', (name) => {
+            },
+            updateActiveStatus(name) {
                 if (this.name === name) {
                     this.active = true;
                     this.dispatch('Submenu', 'on-update-active-name', true);
                 } else {
                     this.active = false;
                 }
+            }
+        },
+        mounted () {
+            this.updateActiveStatus(this.$parent.activeName);
+            this.$on('on-update-active-name', (name) => {
+                this.updateActiveStatus(name);
             });
         }
     };
