@@ -10,7 +10,8 @@
                         <template v-if="column.type === 'expand'"></template>
                         <template v-else-if="column.type === 'selection'"><Checkbox :value="isSelectAll" @on-change="selectAll"></Checkbox></template>
                         <template v-else>
-                            <span v-html="renderHeader(column, index)"></span>
+                            <span v-if="!column.renderHeader">{{ column.title || '#' }}</span>
+                            <render-header v-else :render="column.renderHeader" :column="column" :index="index"></render-header>
                             <span :class="[prefixCls + '-sort']" v-if="column.sortable">
                                 <i class="ivu-icon ivu-icon-arrow-up-b" :class="{on: column._sortType === 'asc'}" @click="handleSort(index, 'asc')"></i>
                                 <i class="ivu-icon ivu-icon-arrow-down-b" :class="{on: column._sortType === 'desc'}" @click="handleSort(index, 'desc')"></i>
@@ -58,13 +59,14 @@
     import Checkbox from '../checkbox/checkbox.vue';
     import Poptip from '../poptip/poptip.vue';
     import iButton from '../button/button.vue';
+    import renderHeader from './header';
     import Mixin from './mixin';
     import Locale from '../../mixins/locale';
 
     export default {
         name: 'TableHead',
         mixins: [ Mixin, Locale ],
-        components: { CheckboxGroup, Checkbox, Poptip, iButton },
+        components: { CheckboxGroup, Checkbox, Poptip, iButton, renderHeader },
         props: {
             prefixCls: String,
             styleObject: Object,
@@ -121,13 +123,6 @@
                         [`${this.prefixCls}-filter-select-item-selected`]: !column._filterChecked.length
                     }
                 ];
-            },
-            renderHeader (column, $index) {
-                if ('renderHeader' in this.columns[$index]) {
-                    return this.columns[$index].renderHeader(column, $index);
-                } else {
-                    return column.title || '#';
-                }
             },
             selectAll () {
                 const status = !this.isSelectAll;
