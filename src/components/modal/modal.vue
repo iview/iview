@@ -121,8 +121,9 @@
             mainStyles () {
                 let style = {};
 
+                const width = parseInt(this.width);
                 const styleWidth = {
-                    width: `${this.width}px`
+                    width: width <= 100 ? `${width}%` : `${width}px`
                 };
 
                 const customStyle = this.styles ? this.styles : {};
