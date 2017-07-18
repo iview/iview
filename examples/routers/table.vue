@@ -1,5 +1,11 @@
 <template>
-    <Table width="550" border highlight-row @on-selection-change="change2" @on-current-change="change1" :columns="columns2" :data="data3"></Table>
+    <Table
+            width="550"
+            border
+            highlight-row
+            :columns="columns2"
+            @on-selection-change="change2"
+            :data="data3"></Table>
 </template>
 <script>
     export default {
