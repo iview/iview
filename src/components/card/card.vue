@@ -66,7 +66,7 @@
                 }
             }
         },
-        mounted () {
+        created () {
             this.showHead = this.$slots.title !== undefined;
             this.showExtra = this.$slots.extra !== undefined;
         }
