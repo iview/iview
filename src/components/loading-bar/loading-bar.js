@@ -1,6 +1,9 @@
 import LoadingBar from './loading-bar.vue';
 import Vue from 'vue';
 
+const isServer = Vue.prototype.$isServer;
+
+
 LoadingBar.newInstance = properties => {
     const _props = properties || {};
 
@@ -14,11 +17,12 @@ LoadingBar.newInstance = properties => {
     });
 
     const component = Instance.$mount();
-    document.body.appendChild(component.$el);
+    !isServer && document.body && document.body.appendChild(component.$el);
     const loading_bar = Instance.$children[0];
 
     return {
         update (options) {
+            if (isServer) return;
             if ('percent' in options) {
                 loading_bar.percent = options.percent;
             }
@@ -31,7 +35,7 @@ LoadingBar.newInstance = properties => {
         },
         component: loading_bar,
         destroy () {
-            document.body.removeChild(document.getElementsByClassName('ivu-loading-bar')[0]);
+            !isServer && document.body && document.body.removeChild(document.getElementsByClassName('ivu-loading-bar')[0]);
         }
     };
 };
