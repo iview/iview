@@ -23,9 +23,9 @@
 //                        align: 'center'
 //                    },
                     {
-                        title: '姓名',
+                        title: '姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名',
                         key: 'name',
-                        width: 100,
+                        width: 200,
 //                        sortable: true,
 //                        fixed: 'right',
                         render: (h, params) => {
@@ -46,14 +46,14 @@
                         title: '年龄',
                         key: 'age',
                         sortable: true,
-                        width: 100
+                        width: 200
                     },
                     {
                         title: '省份',
                         key: 'province',
                         sortable: true,
 //                        fixed: 'right',
-//                        width: 100
+                        width: 200
                     },
 //                    {
 //                        title: '市区',
