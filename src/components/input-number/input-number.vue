@@ -25,7 +25,7 @@
                 @keydown.stop="keyDown"
                 @change="change"
                 :name="name"
-                :value="value">
+                :value="currentValue">
         </div>
     </div>
 </template>

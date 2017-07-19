@@ -1,5 +1,5 @@
 <template>
-    <div v-transfer-dom>
+    <div v-transfer-dom :data-transfer="transfer">
         <transition :name="transitionNames[1]">
             <div :class="maskClasses" v-show="visible" @click="mask"></div>
         </transition>
@@ -91,6 +91,10 @@
                 default () {
                     return ['ease', 'fade'];
                 }
+            },
+            transfer: {
+                type: Boolean,
+                default: true
             }
         },
         data () {
@@ -121,8 +125,9 @@
             mainStyles () {
                 let style = {};
 
+                const width = parseInt(this.width);
                 const styleWidth = {
-                    width: `${this.width}px`
+                    width: width <= 100 ? `${width}%` : `${width}px`
                 };
 
                 const customStyle = this.styles ? this.styles : {};

@@ -53,6 +53,7 @@
                 type: [String, Number, Array],
                 default: ''
             },
+            // 使用时，也得设置 value 才行
             label: {
                 type: [String, Number, Array],
                 default: ''
@@ -586,27 +587,31 @@
                 } else {
                     this.broadcast('iOption', 'on-query-change', val);
                 }
+            },
+            // 处理 remote 初始值
+            updateLabel () {
+                if (this.remote) {
+                    if (!this.multiple && this.model !== '') {
+                        this.selectToChangeQuery = true;
+                        if (this.currentLabel === '') this.currentLabel = this.model;
+                        this.lastQuery = this.currentLabel;
+                        this.query = this.currentLabel;
+                    } else if (this.multiple && this.model.length) {
+                        if (this.currentLabel.length !== this.model.length) this.currentLabel = this.model;
+                        this.selectedMultiple = this.model.map((item, index) => {
+                            return {
+                                value: item,
+                                label: this.currentLabel[index]
+                            };
+                        });
+                    }
+                }
             }
         },
         mounted () {
             this.modelToQuery();
             // 处理 remote 初始值
-            if (this.remote) {
-                if (!this.multiple && this.model !== '') {
-                    this.selectToChangeQuery = true;
-                    if (this.currentLabel === '') this.currentLabel = this.model;
-                    this.lastQuery = this.currentLabel;
-                    this.query = this.currentLabel;
-                } else if (this.multiple && this.model.length) {
-                    if (this.currentLabel.length !== this.model.length) this.currentLabel = this.model;
-                    this.selectedMultiple = this.model.map((item, index) => {
-                        return {
-                            value: item,
-                            label: this.currentLabel[index]
-                        };
-                    });
-                }
-            }
+            this.updateLabel();
             this.$nextTick(() => {
                 this.broadcastQuery('');
             });
@@ -684,6 +689,10 @@
             value (val) {
                 this.model = val;
                 if (val === '') this.query = '';
+            },
+            label (val) {
+                this.currentLabel = val;
+                this.updateLabel();
             },
             model () {
                 this.$emit('input', this.model);
