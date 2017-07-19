@@ -39,7 +39,7 @@
             :maxlength="maxlength"
             :readonly="readonly"
             :name="name"
-            :value="value"
+            :value="currentValue"
             :autofocus="autofocus"
             @keyup.enter="handleEnter"
             @keyup="handleKeyup"
