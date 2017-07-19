@@ -1,5 +1,5 @@
 <template>
-    <div v-transfer-dom>
+    <div v-transfer-dom :data-transfer="transfer">
         <transition :name="transitionNames[1]">
             <div :class="maskClasses" v-show="visible" @click="mask"></div>
         </transition>
@@ -91,6 +91,10 @@
                 default () {
                     return ['ease', 'fade'];
                 }
+            },
+            transfer: {
+                type: Boolean,
+                default: true
             }
         },
         data () {

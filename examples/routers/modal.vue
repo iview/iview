@@ -6,6 +6,7 @@
                 width="70"
                 title="普通的Modal对话框标题"
                 @on-ok="ok"
+                :transfer="true"
                 @on-cancel="cancel">
             <div>
                 <Form :model="formItem" :label-width="80">

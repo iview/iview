@@ -20,7 +20,8 @@
                 v-show="visible"
                 @mouseenter="handleMouseenter"
                 @mouseleave="handleMouseleave"
-                v-transfer-dom:forbidden="transfer">
+                :data-transfer="transfer"
+                v-transfer-dom>
                 <div :class="[prefixCls + '-content']">
                     <div :class="[prefixCls + '-arrow']"></div>
                     <div :class="[prefixCls + '-inner']" v-if="confirm">

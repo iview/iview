@@ -10,7 +10,8 @@
                 v-show="!disabled && (visible || always)"
                 @mouseenter="handleShowPopper"
                 @mouseleave="handleClosePopper"
-                v-transfer-dom:forbidden="transfer">
+                :data-transfer="transfer"
+                v-transfer-dom>
                 <div :class="[prefixCls + '-content']">
                     <div :class="[prefixCls + '-arrow']"></div>
                     <div :class="[prefixCls + '-inner']"><slot name="content">{{ content }}</slot></div>
