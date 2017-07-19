@@ -1,4 +1,6 @@
 import Vue from 'vue';
+import isPromise from 'is-promise';
+
 const isServer = Vue.prototype.$isServer;
 // 判断参数是否是其中之一
 export function oneOf (value, validList) {
@@ -297,4 +299,8 @@ export function removeClass(el, cls) {
     if (!el.classList) {
         el.className = trim(curClass);
     }
+}
+
+export function checkPromise(fn) {
+    return isPromise(fn) ? fn : { then: (next) => next(fn) };
 }

@@ -7,7 +7,7 @@
     </span>
 </template>
 <script>
-    import { oneOf } from '../../utils/assist';
+    import { oneOf, checkPromise } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-switch';
@@ -60,18 +60,17 @@
                     return false;
                 }
 
-                Promise.resolve(this.beforeChange ? this.beforeChange(this.currentValue) : true)
-                    .then((result) => {
-                        if (result) {
-                            const checked = !this.currentValue;
-                            this.currentValue = checked;
-                            this.$emit('input', checked);
-                            this.$emit('on-change', checked);
-                            this.dispatch('FormItem', 'on-form-change', checked);
-                        } else {
-                            return false;
-                        }
-                    });
+                checkPromise(this.beforeChange(this.currentValue)).then((result) => {
+                    if (result) {
+                        const checked = !this.currentValue;
+                        this.currentValue = checked;
+                        this.$emit('input', checked);
+                        this.$emit('on-change', checked);
+                        this.dispatch('FormItem', 'on-form-change', checked);
+                    } else {
+                        return false;
+                    }
+                });
             }
         },
         watch: {
