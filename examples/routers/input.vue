@@ -11,6 +11,8 @@
         <Input v-model="value2" placeholder="default size" icon="ios-clock-outline"></Input>
         <br>
         <Input v-model="value3" size="small" placeholder="small size" icon="ios-clock-outline"></Input>
+        <br>
+        <Input v-model="obj.test" type="textarea" autosize></Input>
     </div>
 </template>
 <script>
@@ -19,7 +21,10 @@
             return {
                 value1: '',
                 value2: '',
-                value3: ''
+                value3: '',
+                obj: {
+
+                }
             }
         }
     }
