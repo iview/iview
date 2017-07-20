@@ -25,7 +25,13 @@
             <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']" v-if="!remote"></Icon>
         </div>
         <transition :name="transitionName">
-            <Drop v-show="dropVisible" :placement="placement" ref="dropdown">
+            <Drop
+                :class="{ [prefixCls + '-dropdown-transfer']: transfer }"
+                v-show="dropVisible"
+                :placement="placement"
+                ref="dropdown"
+                :data-transfer="transfer"
+                v-transfer-dom>
                 <ul v-show="notFountShow" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
                 <ul v-show="(!notFound && !remote) || (remote && !loading && !notFound)" :class="[prefixCls + '-dropdown-list']"><slot></slot></ul>
                 <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
@@ -37,6 +43,7 @@
     import Icon from '../icon';
     import Drop from './dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
+    import TransferDom from '../../directives/transfer-dom';
     import { oneOf, findComponentDownward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     import Locale from '../../mixins/locale';
@@ -47,7 +54,7 @@
         name: 'iSelect',
         mixins: [ Emitter, Locale ],
         components: { Icon, Drop },
-        directives: { clickoutside },
+        directives: { clickoutside, TransferDom },
         props: {
             value: {
                 type: [String, Number, Array],
@@ -111,6 +118,10 @@
                     return oneOf(value, ['top', 'bottom']);
                 },
                 default: 'bottom'
+            },
+            transfer: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
