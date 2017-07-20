@@ -3,7 +3,8 @@
         <div
             :class="[prefixCls + '-selection']"
             ref="reference"
-            @click="toggleMenu">
+            @click="toggleMenu"
+            @keydown="handleKeydown">
             <div class="ivu-tag" v-for="(item, index) in selectedMultiple">
                 <span class="ivu-tag-text">{{ item.label }}</span>
                 <Icon type="ios-close-empty" @click.native.stop="removeTag(index)"></Icon>
@@ -18,9 +19,8 @@
                 :placeholder="showPlaceholder ? localePlaceholder : ''"
                 :style="inputStyle"
                 @blur="handleBlur"
-                @keydown="resetInputState"
-                @keydown.delete="handleInputDelete"
                 ref="input">
+            <input readonly tabindex="-1" v-else :class="[prefixCls + '-hidden-input']" ref="hiddenInput">
             <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSingleSelect"></Icon>
             <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']" v-if="!remote"></Icon>
         </div>
@@ -111,6 +111,10 @@
                     return oneOf(value, ['top', 'bottom']);
                 },
                 default: 'bottom'
+            },
+            stopKeydownEventProp: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -220,6 +224,10 @@
                     return false;
                 }
                 this.visible = !this.visible;
+
+                if(!this.filterable && this.visible) {
+                    this.$refs.hiddenInput.focus();
+                }
             },
             hideMenu () {
                 this.visible = false;
@@ -443,8 +451,23 @@
                 this.hideMenu();
             },
             handleKeydown (e) {
+                if(this.stopKeydownEventProp) {
+                    e.stopPropagation();
+                }
+
+                const keyCode = e.keyCode;
+
+                if(this.filterable) {
+                    this.inputLength = this.$refs.input.value.length * 12 + 20;
+
+                    // if keycode is backspace/delete
+                    if ((keyCode === 8 || keyCode === 46) && this.multiple && this.model.length && this.query === '') {
+                        this.removeTag(this.model.length - 1);
+                    }
+                }
+
+
                 if (this.visible) {
-                    const keyCode = e.keyCode;
                     // Esc slide-up
                     if (keyCode === 27) {
                         e.preventDefault();
@@ -548,14 +571,6 @@
                     }
                 }, 300);
             },
-            resetInputState () {
-                this.inputLength = this.$refs.input.value.length * 12 + 20;
-            },
-            handleInputDelete () {
-                if (this.multiple && this.model.length && this.query === '') {
-                    this.removeTag(this.model.length - 1);
-                }
-            },
             // use when slot changed
             slotChange () {
                 this.options = [];
@@ -617,7 +632,6 @@
             });
 
             this.updateOptions(true);
-            document.addEventListener('keydown', this.handleKeydown);
 
             this.$on('append', () => {
                 if (!this.remote) {
@@ -681,9 +695,6 @@
                     }
                 }
             });
-        },
-        beforeDestroy () {
-            document.removeEventListener('keydown', this.handleKeydown);
         },
         watch: {
             value (val) {
