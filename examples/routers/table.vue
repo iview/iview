@@ -46,6 +46,7 @@
                         title: '年龄',
                         key: 'age',
                         sortable: true,
+//                        sortType: 'asc',
                         width: 200
                     },
                     {
@@ -81,22 +82,22 @@
 //                    }
                 ],
                 data3: [
-//                    {
-//                        name: '王小明',
-//                        age: 18,
-//                        address: '北京市朝阳区芍药居',
-//                        province: '北京市',
-//                        city: '朝阳区',
-//                        zip: 100000
-//                    },
-//                    {
-//                        name: '张小刚',
-//                        age: 25,
-//                        address: '北京市海淀区西二旗',
-//                        province: '北京市',
-//                        city: '海淀区',
-//                        zip: 100000
-//                    },
+                    {
+                        name: '王小明',
+                        age: 18,
+                        address: '北京市朝阳区芍药居',
+                        province: '北京市',
+                        city: '朝阳区',
+                        zip: 100000
+                    },
+                    {
+                        name: '张小刚',
+                        age: 25,
+                        address: '北京市海淀区西二旗',
+                        province: '北京市',
+                        city: '海淀区',
+                        zip: 100000
+                    },
 //                    {
 //                        name: '李小红',
 //                        age: 30,

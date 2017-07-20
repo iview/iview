@@ -660,6 +660,10 @@
                         column._isFiltered = true;
                     }
 
+                    if ('sortType' in column) {
+                        column._sortType = column.sortType;
+                    }
+
                     if (column.fixed && column.fixed === 'left') {
                         left.push(column);
                     } else if (column.fixed && column.fixed === 'right') {
