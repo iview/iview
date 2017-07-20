@@ -1,6 +1,13 @@
 @cascader-prefix-cls: ~"@{css-prefix}cascader";
 @cascader-item-prefix-cls: ~"@{css-prefix}cascader-menu-item";
 
+.selectDropDown{
+    width: auto;
+    padding: 0;
+    white-space: nowrap;
+    overflow: visible;
+}
+
 .@{cascader-prefix-cls} {
     //position: relative;
     line-height: normal;
@@ -64,10 +71,7 @@
     }
 
     .@{select-dropdown-prefix-cls} {
-        width: auto;
-        padding: 0;
-        white-space: nowrap;
-        overflow: visible;
+        .selectDropDown();
     }
 
     .select-item(@cascader-prefix-cls, @cascader-item-prefix-cls);
@@ -136,6 +140,14 @@
                 color: @primary-color;
             }
         }
+    }
+}
+.@{cascader-prefix-cls}-transfer{
+    z-index: @zindex-transfer;
+    .selectDropDown();
+    .select-item(@cascader-prefix-cls, @cascader-item-prefix-cls);
+    .ivu-select-item span{
+        color: @error-color;
     }
 }
 
