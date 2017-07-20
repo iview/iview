@@ -1,39 +1,41 @@
 <template>
-    <Row>
-        <Col span="12" style="padding-right:10px">
-        <Select
-                v-model="model13"
-                filterable
-                remote
-                :remote-method="remoteMethod1"
-                :loading="loading1">
-            <Option v-for="(option, index) in options1" :value="option.value" :key="index">{{option.label}}</Option>
-        </Select>
-        </Col>
-        <Col span="12">
-        <Select
-                v-model="model14"
-                multiple
-                filterable
-                remote
-                :remote-method="remoteMethod2"
-                :loading="loading2">
-            <Option v-for="(option, index) in options2" :value="option.value" :key="index">{{option.label}}</Option>
-        </Select>
-        </Col>
-    </Row>
+    <i-select transfer multiple v-model="m1">
+        <i-option v-for="item in options" :value="item.value" :key="item.value">{{ item.label }}</i-option>
+    </i-select>
 </template>
 <script>
     export default {
         data () {
             return {
-                model13: '',
-                loading1: false,
-                options1: [],
-                model14: [],
-                loading2: false,
-                options2: [],
-                list: ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New hampshire', 'New jersey', 'New mexico', 'New york', 'North carolina', 'North dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode island', 'South carolina', 'South dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West virginia', 'Wisconsin', 'Wyoming'],
+                m1: [],
+                showModal: false,
+                showModal2: false,
+                options: [
+                    {
+                        value: 'beijing',
+                        label: '北京市'
+                    },
+                    {
+                        value: 'shanghai',
+                        label: '上海市'
+                    },
+                    {
+                        value: 'shenzhen',
+                        label: '深圳市'
+                    },
+                    {
+                        value: 'hangzhou',
+                        label: '杭州市'
+                    },
+                    {
+                        value: 'nanjing',
+                        label: '南京市'
+                    },
+                    {
+                        value: 'chongqing',
+                        label: '重庆市'
+                    }
+                ]
             }
         },
         methods: {

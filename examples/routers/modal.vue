@@ -5,7 +5,8 @@
         <Modal v-model="showModal" title="弹窗">
             <Tabs>
                 <Tab-pane label="演示" style="height: 80px;">
-                    <i-select transfer>
+                    <Date-picker transfer type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 200px"></Date-picker>
+                    <i-select transfer multiple v-model="m1">
                         <i-option v-for="item in options" :value="item.value" :key="item.value">{{ item.label }}</i-option>
                     </i-select>
                 </Tab-pane>
@@ -22,6 +23,7 @@
     export default {
         data () {
             return {
+                m1: [],
                 showModal: false,
                 showModal2: false,
                 options: [

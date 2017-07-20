@@ -26,7 +26,7 @@
         </div>
         <transition :name="transitionName">
             <Drop
-                :class="{ [prefixCls + '-dropdown-transfer']: transfer }"
+                :class="dropdownCls"
                 v-show="dropVisible"
                 :placement="placement"
                 ref="dropdown"
@@ -156,6 +156,12 @@
                         [`${prefixCls}-${this.size}`]: !!this.size
                     }
                 ];
+            },
+            dropdownCls () {
+                return {
+                    [prefixCls + '-dropdown-transfer']: this.transfer,
+                    [prefixCls + '-multiple']: this.multiple && this.transfer
+                };
             },
             showPlaceholder () {
                 let status = false;
