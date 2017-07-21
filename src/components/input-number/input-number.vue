@@ -273,6 +273,12 @@
             },
             currentValue (val) {
                 this.changeVal(val);
+            },
+            min () {
+                this.changeVal(this.currentValue);
+            },
+            max () {
+                this.changeVal(this.currentValue);
             }
         }
     };
