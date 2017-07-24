@@ -188,6 +188,10 @@ const router = new VueRouter({
         {
             path: '/split',
             component: require('./routers/split.vue')
+        },
+        {
+            path: '/panel',
+            component: require('./routers/panel.vue')
         }
     ]
 });

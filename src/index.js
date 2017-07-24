@@ -47,6 +47,7 @@ import { Select, Option, OptionGroup } from './components/select';
 import locale from './locale';
 // add by FEN
 import Split from './components/split';
+import Panel from './components/panel';
 
 
 const iview = {
@@ -122,7 +123,8 @@ const iview = {
     Tree,
     Upload,
     // add by FEN
-    Split
+    Split,
+    Panel
 };
 
 const install = function (Vue, opts = {}) {

@@ -56,6 +56,7 @@ li + li { border-left: solid 1px #bbb; padding-left: 10px; margin-left: 10px; }
                 <li><router-link to="/message">Message</router-link></li>
                 <li><router-link to="/notice">Notice</router-link></li>
                 <li><router-link to="/split">Split</router-link></li>
+                <li><router-link to="/panel">Panel</router-link></li>
             </ul>
         </nav>
         <router-view></router-view>

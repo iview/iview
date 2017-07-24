@@ -1,2 +1,2 @@
-import SplitLine from './split.vue'
-export default SplitLine
+import SplitLine from './split.vue';
+export default SplitLine;
