@@ -184,6 +184,10 @@ const router = new VueRouter({
         {
             path: '/notice',
             component: require('./routers/notice.vue')
+        },
+        {
+            path: '/split',
+            component: require('./routers/split.vue')
         }
     ]
 });

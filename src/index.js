@@ -45,6 +45,9 @@ import Upload from './components/upload';
 import { Row, Col } from './components/grid';
 import { Select, Option, OptionGroup } from './components/select';
 import locale from './locale';
+// add by FEN
+import Split from './components/split';
+
 
 const iview = {
     Affix,
@@ -117,7 +120,9 @@ const iview = {
     Tooltip,
     Transfer,
     Tree,
-    Upload
+    Upload,
+    // add by FEN
+    Split
 };
 
 const install = function (Vue, opts = {}) {
