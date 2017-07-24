@@ -709,8 +709,10 @@
         },
         mounted () {
             this.handleResize();
-            this.fixedHeader();
-            this.$nextTick(() => this.ready = true);
+            this.$nextTick(() => {
+                this.fixedHeader();
+                this.ready = true;
+            });
 //            window.addEventListener('resize', this.handleResize, false);
             on(window, 'resize', this.handleResize);
             this.$on('on-visible-change', (val) => {
