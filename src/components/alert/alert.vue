@@ -43,6 +43,10 @@
             banner: {
                 type: Boolean,
                 default: false
+            },
+            inline: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -59,7 +63,8 @@
                     {
                         [`${prefixCls}-with-icon`]: this.showIcon,
                         [`${prefixCls}-with-desc`]: this.desc,
-                        [`${prefixCls}-with-banner`]: this.banner
+                        [`${prefixCls}-with-banner`]: this.banner,
+                        [`${prefixCls}-inline`]: this.inline
                     }
                 ];
             },

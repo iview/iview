@@ -29,6 +29,8 @@
             <Icon type="ios-lightbulb-outline" slot="icon"></Icon>
             <template slot="desc">自定义图标文案自定义图标文案自定义图标文案自定义图标文案自定义图标文案</template>
         </Alert>
+        inline: <Alert show-icon  inline>消息提示文案</Alert>
+
     </div>
 </template>
 <script>
