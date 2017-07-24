@@ -142,7 +142,8 @@
             },
             contentStyles () {
                 let style = {};
-                const labelWidth = this.labelWidth || this.form.labelWidth;
+                // fixed by FEN 有时候需要设置 0 的值
+                const labelWidth = this.labelWidth && this.labelWidth !== 0 || this.form.labelWidth;
                 if (labelWidth) {
                     style.marginLeft = `${labelWidth}px`;
                 }
