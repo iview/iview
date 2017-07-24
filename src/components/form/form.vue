@@ -19,6 +19,10 @@
             labelWidth: {
                 type: Number
             },
+            size: {
+                type: String,
+                default: ''
+            },
             labelPosition: {
                 validator (value) {
                     return oneOf(value, ['left', 'right', 'top']);
@@ -32,6 +36,10 @@
             showMessage: {
                 type: Boolean,
                 default: true
+            },
+            compact: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -45,7 +53,8 @@
                     `${prefixCls}`,
                     `${prefixCls}-label-${this.labelPosition}`,
                     {
-                        [`${prefixCls}-inline`]: this.inline
+                        [`${prefixCls}-inline`]: this.inline,
+                        [`${prefixCls}-compact`]: this.compact
                     }
                 ];
             }

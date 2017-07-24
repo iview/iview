@@ -162,6 +162,10 @@ const router = new VueRouter({
             component: require('./routers/form.vue')
         },
         {
+            path: '/form-compact',
+            component: require('./routers/form-compact.vue')
+        },
+        {
             path: '/table',
             component: require('./routers/table.vue')
         },

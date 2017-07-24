@@ -49,6 +49,7 @@ li + li { border-left: solid 1px #bbb; padding-left: 10px; margin-left: 10px; }
                 <li><router-link to="/transfer">Transfer</router-link></li>
                 <li><router-link to="/date">Date</router-link></li>
                 <li><router-link to="/form">Form</router-link></li>
+                <li><router-link to="/form-compact">Form Compact</router-link></li>
                 <li><router-link to="/table">Table</router-link></li>
                 <li><router-link to="/loading-bar">LoadingBar</router-link></li>
                 <li><router-link to="/modal">Modal</router-link></li>

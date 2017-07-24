@@ -48,6 +48,10 @@
                 type: String,
                 default: ''
             },
+            size: {
+                type: String,
+                default: ''
+            },
             labelWidth: {
                 type: Number
             },
@@ -98,6 +102,7 @@
                     {
                         [`${prefixCls}-required`]: this.required || this.isRequired,
                         [`${prefixCls}-error`]: this.validateState === 'error',
+                        [`${prefixCls}-${this.itemSize}`]: this.itemSize,
                         [`${prefixCls}-validating`]: this.validateState === 'validating'
                     }
                 ];
@@ -122,6 +127,10 @@
 
                     return getPropByPath(model, path).v;
                 }
+            },
+            itemSize () {
+                const size = this.size || this.form.size;
+                return size;
             },
             labelStyles () {
                 let style = {};

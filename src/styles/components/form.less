@@ -27,6 +27,60 @@
             vertical-align: top;
         }
     }
+
+    // add by CargoPM FEN 增加紧凑型布局
+    &-compact{
+        .@{form-item-prefix-cls} {
+            padding-top:4px;
+            padding-bottom:4px;
+            margin-bottom: 0;  
+
+            &-error-tip{
+                display: none;
+                position: absolute;
+                top: 120%;
+                padding: 8px 12px;
+                color: #fff;
+                background: @error-color;
+                border-radius:@border-radius-small;
+                z-index: 5;
+                box-shadow:0 0 5px rgba(0,0,0,.2);
+
+                &:after{
+                    position: absolute;
+                    left: 16px;
+                    top: -10px;
+                    content: '';
+                    width: 0;
+                    height: 0;
+                    border:5px solid transparent;
+                    border-bottom-color: @error-color;
+                }
+            }
+
+            .@{css-prefix}checkbox-group,.@{css-prefix}radio-group{
+                & ~ .@{form-item-prefix-cls}-error-tip {
+                    display: block;
+                    position: static;
+                    color: @error-color;
+                    background: transparent;
+                    box-shadow: none;
+                    padding: 0 0 8px 0;
+
+                    &:after{
+                        display: none;
+                    }
+                }
+            }
+
+
+            &:hover{
+                .@{form-item-prefix-cls}-error-tip{
+                    display: block;
+                }
+            }
+        }
+    }
 }
 
 .@{form-item-prefix-cls} {
@@ -67,5 +121,18 @@
     }
     &-error {
         // todo
+    }
+
+    &-small{
+        .@{form-item-prefix-cls}{
+            &-content {
+                line-height: 24px;
+            }
+
+            &-label{
+                padding-top:6px;
+                padding-bottom:6px;
+            }
+        }
     }
 }
