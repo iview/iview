@@ -1,0 +1,11 @@
+@list-prefix-cls: ~"@{css-prefix}list";
+
+.@{list-prefix-cls}{
+    &__item{
+        padding:4px 8px;
+
+        &:nth-child(even){
+            background-color: @background-color-base;
+        }
+    }
+}

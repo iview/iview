@@ -48,6 +48,7 @@ import locale from './locale';
 // add by FEN
 import Split from './components/split';
 import Panel from './components/panel';
+import List from './components/list';
 
 
 const iview = {
@@ -94,7 +95,7 @@ const iview = {
     iOption: Option,
     OptionGroup,
     Page,
-    Panel: Collapse.Panel,
+    CPanel: Collapse.Panel,
     Poptip,
     Progress,
     iProgress: Progress,
@@ -124,7 +125,9 @@ const iview = {
     Upload,
     // add by FEN
     Split,
-    Panel
+    Panel,
+    List,
+    ListItem: List.Item
 };
 
 const install = function (Vue, opts = {}) {

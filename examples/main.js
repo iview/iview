@@ -192,6 +192,10 @@ const router = new VueRouter({
         {
             path: '/panel',
             component: require('./routers/panel.vue')
+        },
+        {
+            path: '/list',
+            component: require('./routers/list.vue')
         }
     ]
 });
