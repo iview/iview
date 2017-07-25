@@ -53,7 +53,7 @@
                 default: ''
             },
             labelWidth: {
-                type: Number
+                type: [Number,String]
             },
             prop: {
                 type: String
@@ -63,7 +63,7 @@
                 default: false
             },
             rules: {
-                type: [Object, Array]
+                type: [Object, Array] // by FEN
             },
             error: {
                 type: String
@@ -135,16 +135,17 @@
             labelStyles () {
                 let style = {};
                 const labelWidth = this.labelWidth || this.form.labelWidth;
-                if (labelWidth) {
-                    style.width = `${labelWidth}px`;
+                // fixed by FEN 满足 Form 中设置了 lable width 的值，但是又有 item 的 lable width 需要 100%
+                if (labelWidth && labelWidth !== '100%') {
+                    style.width = typeof labelWidth === 'string' && labelWidth === '100%' ? labelWidth : `${labelWidth}px`;
                 }
                 return style;
             },
             contentStyles () {
                 let style = {};
-                // fixed by FEN 有时候需要设置 0 的值
-                const labelWidth = this.labelWidth && this.labelWidth !== 0 || this.form.labelWidth;
-                if (labelWidth) {
+                const labelWidth = this.labelWidth || this.form.labelWidth;
+                // fixed by FEN 满足 Form 中设置了 lable width 的值，但是又有 item 的 lable width 需要 100%
+                if (labelWidth && labelWidth !== '100%') {
                     style.marginLeft = `${labelWidth}px`;
                 }
                 return style;
