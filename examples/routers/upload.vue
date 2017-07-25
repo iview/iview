@@ -32,6 +32,11 @@
             </div>
         </Upload>
         {{ visible }}
+
+        <Upload action="//jsonplaceholder.typicode.com/posts/">
+            <Button type="primary" icon="ios-cloud-upload-outline">上传文件</Button>
+            <span slot="extra"><Alert show-icon inline>请上传文件POA、BOND、营业执照、H/BL 和 IVC/PL</Alert></span>
+        </Upload>
     </div>
 </template>
 <script>

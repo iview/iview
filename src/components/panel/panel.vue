@@ -79,6 +79,10 @@
             indexNumber: {
                 type: Number,
                 default: 0
+            },
+            closeBySelf: {
+                type: Boolean,
+                default: true
             }
         },
         computed: {
@@ -102,8 +106,8 @@
         },
         methods: {
             handleClosePanel (e) {
-                this.visible = false
-                this.$emit('on-close', e)
+                if(this.closeBySelf) this.visible = false;
+                this.$emit('on-close', e);
             }
         }
     }
