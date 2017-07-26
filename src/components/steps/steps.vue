@@ -31,6 +31,9 @@
                     return oneOf(value, ['horizontal', 'vertical']);
                 },
                 default: 'horizontal'
+            },
+            background: {
+                type: String
             }
         },
         computed: {

@@ -1,6 +1,6 @@
 <template>
 <div>
-    <Steps :current="1" size="small">
+    <Steps :current="1" size="small" background="#000">
         <Step title="已完成" content="这里是该步骤的描述信息这里是该步骤的描述信息这里是该步骤的描述信息"></Step>
         <Step title="进行中" content="这里是该步骤的描述信息"></Step>
         <Step title="待进行" content="这里是该步骤的描述信息这里是该步骤的描述信息这里是该步骤的描述信息"></Step>
