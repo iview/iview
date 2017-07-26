@@ -49,6 +49,7 @@ import locale from './locale';
 import Split from './components/split';
 import Panel from './components/panel';
 import List from './components/list';
+import Editor from './components/editor';
 
 
 const iview = {
@@ -127,7 +128,8 @@ const iview = {
     Split,
     Panel,
     List,
-    ListItem: List.Item
+    ListItem: List.Item,
+    Editor
 };
 
 const install = function (Vue, opts = {}) {
