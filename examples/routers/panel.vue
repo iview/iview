@@ -3,6 +3,9 @@
         <Panel title="small & shadow" shadow>
             内容
         </Panel>
+        <Panel title="large & shadow" shadow size="large">
+            内容
+        </Panel>
         <Panel shadow noHeaderBorder>
             <span slot="header">header</span>
         </Panel>

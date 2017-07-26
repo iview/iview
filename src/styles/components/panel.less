@@ -195,6 +195,22 @@
 
   &--big {
     & > .panel__header {
+      padding-top: @panel-padding-big;
+      padding-bottom: @panel-padding-big / 2;
+      margin-left: @panel-padding-big;
+      margin-right: @panel-padding-big;
+
+      .panel__title{
+        font-size:18px;
+      }
+    }
+    & > .panel__body {
+      padding: @panel-padding-big
+    }
+  }
+
+  &--large {
+    & > .panel__header {
       padding-top: @panel-padding-large;
       padding-bottom: @panel-padding-large / 2;
       margin-left: @panel-padding-large;

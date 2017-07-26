@@ -10,8 +10,8 @@
         <div class="panel__body">
             <slot></slot>
         </div>
-        <div class="panel__close" @click="handleClosePanel">
-            <Icon type="ios-close" v-if="closable"></Icon>
+        <div  v-if="closable" class="panel__close" @click="handleClosePanel">
+            <Icon type="ios-close"></Icon>
         </div>
         <div class="panel__index" v-if="indexNumber"><span class="panel__number">{{indexNumber}}</span></div>
     </div>
