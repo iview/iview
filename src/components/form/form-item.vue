@@ -48,8 +48,12 @@
                 type: String,
                 default: ''
             },
+            size: {
+                type: String,
+                default: ''
+            },
             labelWidth: {
-                type: Number
+                type: [Number,String]
             },
             prop: {
                 type: String
@@ -59,7 +63,7 @@
                 default: false
             },
             rules: {
-                type: [Object, Array]
+                type: [Object, Array] // by FEN
             },
             error: {
                 type: String
@@ -98,6 +102,7 @@
                     {
                         [`${prefixCls}-required`]: this.required || this.isRequired,
                         [`${prefixCls}-error`]: this.validateState === 'error',
+                        [`${prefixCls}-${this.itemSize}`]: this.itemSize,
                         [`${prefixCls}-validating`]: this.validateState === 'validating'
                     }
                 ];
@@ -123,18 +128,24 @@
                     return getPropByPath(model, path).v;
                 }
             },
+            itemSize () {
+                const size = this.size || this.form.size;
+                return size;
+            },
             labelStyles () {
                 let style = {};
                 const labelWidth = this.labelWidth || this.form.labelWidth;
-                if (labelWidth) {
-                    style.width = `${labelWidth}px`;
+                // fixed by FEN 满足 Form 中设置了 lable width 的值，但是又有 item 的 lable width 需要 100%
+                if (labelWidth && labelWidth !== '100%') {
+                    style.width = typeof labelWidth === 'string' && labelWidth === '100%' ? labelWidth : `${labelWidth}px`;
                 }
                 return style;
             },
             contentStyles () {
                 let style = {};
                 const labelWidth = this.labelWidth || this.form.labelWidth;
-                if (labelWidth) {
+                // fixed by FEN 满足 Form 中设置了 lable width 的值，但是又有 item 的 lable width 需要 100%
+                if (labelWidth && labelWidth !== '100%') {
                     style.marginLeft = `${labelWidth}px`;
                 }
                 return style;

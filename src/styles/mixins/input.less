@@ -73,7 +73,7 @@
         max-width: 100%;
         height: auto;
         vertical-align: bottom;
-        font-size: @font-size-base;
+        //font-size: @font-size-small; remove by FEN 和其他文字大小不统一
     }
 
     // Size
@@ -129,12 +129,12 @@
         //}
     }
     &-with-prepend .@{inputClass} {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
     }
     &-with-append .@{inputClass} {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
     }
 
     &-prepend .@{css-prefix}btn,

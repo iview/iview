@@ -1,9 +1,8 @@
 {
-  "name": "iview",
-  "version": "2.0.0-rc.19",
-  "title": "iView",
+  "name": "kagou",
+  "version": "1.0.0",
+  "title": "Kagou UI",
   "description": "A high quality  UI components Library with Vue.js",
-  "homepage": "http://www.iviewui.com",
   "keywords": [
     "iview",
     "vue",
@@ -43,7 +42,8 @@
     "async-validator": "^1.7.1",
     "core-js": "^2.4.1",
     "deepmerge": "^1.5.0",
-    "popper.js": "^0.6.4"
+    "popper.js": "^0.6.4",
+    "wangeditor": "^3.0.4"
   },
   "peerDependencies": {
     "vue": "^2.4.1"

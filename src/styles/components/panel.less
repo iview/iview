@@ -1,0 +1,227 @@
+.panel {
+  position: relative;
+  background: #fff;
+
+  & ~ & {
+    margin-top: 16px;
+  }
+
+  & ~ &--small {
+    margin-top: 8px;
+  }
+
+  & > &__header {
+    padding-top: @panel-padding;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #eee;
+    margin-left: @panel-padding;
+    margin-right: @panel-padding;
+    margin-bottom: -4px;
+    line-height: 24px;
+  }
+
+  &__title {
+    font-weight: bold;
+    display: inline-block;
+    color: #333;
+  }
+
+  &__fn {
+    float: right;
+    &&--inline {
+      float: none;
+      display: inline-block;
+      padding-left: 16px;
+    }
+  }
+
+  &__close {
+    position: absolute;
+    right: -8px;
+    top: -8px;
+
+    i{
+      font-size: 22px;
+      color: #666;
+      cursor: pointer;
+
+      &:hover {
+        color: shade(#666, 15%);
+      }
+    }
+  }
+
+  &__index {
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+
+    &:before {
+      position: absolute;
+      top: -24px;
+      left: -24px;
+      display: block;
+      width: 48px;
+      height: 48px;
+      background: #ccc;
+      border-radius: 50%;
+      content: ' ';
+    }
+  }
+
+  &__number{
+    position: absolute;
+    width: 20px;
+    line-height: 20px;
+    text-align: center;
+    color: #fff;
+  }
+
+  & > &__body {
+    padding: @panel-padding;
+  }
+
+  &--shadow {
+    box-shadow: 0 0 6px rgba(0, 0, 0, .1);
+    border:1px solid #ddd;
+  }
+
+  &--split {
+    border: 1px dashed #ddd;
+    background: #f9f9f9;
+  }
+
+  &--transparent {
+    background: transparent;
+  }
+
+  &--no-header-bd {
+    & > .panel {
+      &__header {
+        margin-bottom: -8px;
+        border: transparent;
+      }
+    }
+  }
+
+  &--no-header-bd&--small {
+    & > .panel {
+      &__header {
+        margin-bottom: -4px;
+      }
+    }
+  }
+
+  &--no-padding {
+    & > .panel {
+      &__header {
+        margin-left: 0;
+        margin-right: 0;
+      }
+      &__body {
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+  }
+
+  &--gray {
+    background: @background-color-base ;
+    border: 1px solid #eee;
+    border-radius: 3px;
+  }
+
+  &--no-margin {
+    margin-bottom: 0;
+  }
+
+  &--mini-title {
+    & > .panel {
+      &__header {
+
+        height: 12px;
+        .panel__title {
+          background: #fff;
+          padding-right: 8px;
+        }
+      }
+    }
+  }
+
+  &--line {
+    margin-top: 16px;
+    padding-top: 8px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+
+    & > .panel {
+      &__header {
+        border-bottom: none;
+        margin-bottom: -16px;
+      }
+    }
+  }
+
+  &--gray&--no-header-bd &__header {
+    padding-top: 12px;
+  }
+
+  & & &__header {
+    padding-top: 0;
+  }
+
+  & &--gray > &__header {
+    padding-top: 16px;
+  }
+
+  & &--gray&--no-header-bd > &__header {
+    padding-top: 10px;
+  }
+
+  &--small {
+    & > .panel__body {
+      padding: @panel-padding-small
+    }
+
+    & > .panel__header {
+      padding-top: @panel-padding-small;
+      margin-left: @panel-padding-small;
+      margin-right: @panel-padding-small;
+    }
+  }
+
+  &--big {
+    & > .panel__header {
+      padding-top: @panel-padding-big;
+      padding-bottom: @panel-padding-big / 2;
+      margin-left: @panel-padding-big;
+      margin-right: @panel-padding-big;
+
+      .panel__title{
+        font-size:18px;
+      }
+    }
+    & > .panel__body {
+      padding: @panel-padding-big
+    }
+  }
+
+  &--large {
+    & > .panel__header {
+      padding-top: @panel-padding-large;
+      padding-bottom: @panel-padding-large / 2;
+      margin-left: @panel-padding-large;
+      margin-right: @panel-padding-large;
+
+      .panel__title{
+        font-size:18px;
+      }
+    }
+    & > .panel__body {
+      padding: @panel-padding-large
+    }
+  }
+}

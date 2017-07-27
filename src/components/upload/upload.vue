@@ -2,7 +2,6 @@
     <div :class="[prefixCls]">
         <div
             :class="classes"
-            @click="handleClick"
             @drop.prevent="onDrop"
             @dragover.prevent="dragOver = true"
             @dragleave.prevent="dragOver = false">
@@ -13,7 +12,8 @@
                 @change="handleChange"
                 :multiple="multiple"
                 :accept="accept">
-            <slot></slot>
+            <span @click="handleClick"><slot></slot></span>
+            <slot name="extra"></slot>
         </div>
         <slot name="tip"></slot>
         <upload-list

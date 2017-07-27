@@ -45,6 +45,15 @@ import Upload from './components/upload';
 import { Row, Col } from './components/grid';
 import { Select, Option, OptionGroup } from './components/select';
 import locale from './locale';
+// add by FEN
+import Split from './components/split';
+import Panel from './components/panel';
+import List from './components/list';
+import Editor from './components/editor';
+
+// add by shilei
+
+import FileExport from './components/file-export';
 
 const iview = {
     Affix,
@@ -90,7 +99,7 @@ const iview = {
     iOption: Option,
     OptionGroup,
     Page,
-    Panel: Collapse.Panel,
+    CPanel: Collapse.Panel,
     Poptip,
     Progress,
     iProgress: Progress,
@@ -117,7 +126,14 @@ const iview = {
     Tooltip,
     Transfer,
     Tree,
-    Upload
+    Upload,
+    // add by FEN
+    Split,
+    Panel,
+    List,
+    ListItem: List.Item,
+    Editor,
+    FileExport
 };
 
 const install = function (Vue, opts = {}) {

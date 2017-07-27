@@ -1,14 +1,14 @@
 <template>
     <div :class="wrapClasses" :style="styles">
         <div :class="[prefixCls + '-tail']"><i></i></div>
-        <div :class="[prefixCls + '-head']">
-            <div :class="[prefixCls + '-head-inner']">
+        <div :class="[prefixCls + '-head']" :style="bgStyles">
+            <div :class="[prefixCls + '-head-inner']" >
                 <span v-if="!icon && currentStatus != 'finish' && currentStatus != 'error'">{{ stepNumber }}</span>
                 <span v-else :class="iconClasses"></span>
             </div>
         </div>
         <div :class="[prefixCls + '-main']">
-            <div :class="[prefixCls + '-title']">{{ title }}</div>
+            <div :class="[prefixCls + '-title']" :style="bgStyles">{{ title }}</div>
             <slot>
                 <div v-if="content" :class="[prefixCls + '-content']">{{ content }}</div>
             </slot>
@@ -88,6 +88,18 @@
                 return {
                     width: `${1/this.total*100}%`
                 };
+            },
+            steps () {
+                let parent = this.$parent;
+                while (parent.$options.name !== 'Steps') {
+                    parent = parent.$parent;
+                }
+                return parent;
+            },
+            bgStyles () {
+                return {
+                    background: this.steps.background
+                }
             }
         },
         watch: {

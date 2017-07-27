@@ -162,6 +162,10 @@ const router = new VueRouter({
             component: require('./routers/form.vue')
         },
         {
+            path: '/form-compact',
+            component: require('./routers/form-compact.vue')
+        },
+        {
             path: '/table',
             component: require('./routers/table.vue')
         },
@@ -180,6 +184,26 @@ const router = new VueRouter({
         {
             path: '/notice',
             component: require('./routers/notice.vue')
+        },
+        {
+            path: '/split',
+            component: require('./routers/split.vue')
+        },
+        {
+            path: '/panel',
+            component: require('./routers/panel.vue')
+        },
+        {
+            path: '/list',
+            component: require('./routers/list.vue')
+        },
+        {
+            path: '/editor',
+            component: require('./routers/editor.vue')
+        },
+        {
+            path: '/file-export',
+            component: require('./routers/file-export.vue')
         }
     ]
 });
