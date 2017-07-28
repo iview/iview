@@ -20,8 +20,11 @@
     computed: {},
     methods: {
       handExport () {
-         //  console.log(this.$refs.wordExport)
-        this.$refs.wordExport.wordExport("abc");
+        //  console.log(this.$refs.wordExport)
+        this.$refs.wordExport.wordExport("abc", {
+          size: '595.3pt 841.9pt',// 纸张大小
+          margin:'36.0pt 36.0pt 36.0pt 36.0pt' // 页边距
+        });
       }
     }
   };
