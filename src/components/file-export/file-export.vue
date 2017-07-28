@@ -12,13 +12,28 @@
     }
   };
 
-  function _wordExport (dom, fileName) {
+  function _wordExport (dom, fileName, options) {
     fileName = typeof fileName !== 'undefined' ? fileName : 'WordExport'
     var mhtml = {
-      top: 'Mime-Version: 1.0\nContent-Base: ' + location.href + '\nContent-Type: Multipart/related; boundary="NEXT.ITEM-BOUNDARY";type="text/html"\n\n--NEXT.ITEM-BOUNDARY\nContent-Type: text/html; charset="utf-8"\nContent-Location: ' + location.href + '\n\n<!DOCTYPE html>\n<html>\n_html_</html>',
-      head: '<head>\n<meta http-equiv="Content-Type" content="text/html; charset=utf-8">\n<style>\n_styles_\n</style>\n</head>\n',
+      top: 'Mime-Version: 1.0\nContent-Base: ' + location.href + '\nContent-Type: Multipart/related; boundary="NEXT.ITEM-BOUNDARY";type="text/html"\n\n--NEXT.ITEM-BOUNDARY\nContent-Type: text/html; charset="utf-8"\nContent-Location: ' + location.href + '\n\n<!DOCTYPE html>\n<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml" xmlns="http://www.w3.org/TR/REC-html40">\n_html_</html>',
+      //  其中 if gte mso 9 这段是控制   以页面视图方式打开
+      head: '<head>\n<meta http-equiv="Content-Type" content="text/html; charset=utf-8">\n<!--[if gte mso 9]><xml> <w:WordDocument> <w:View>Print</w:View> <w:GrammarState>Clean</w:GrammarState> <w:TrackMoves>false</w:TrackMoves> <w:TrackFormatting/> <w:ValidateAgainstSchemas/> <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid> <w:IgnoreMixedContent>false</w:IgnoreMixedContent> <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText> <w:DoNotPromoteQF/> <w:LidThemeOther>EN-US</w:LidThemeOther> <w:LidThemeAsian>ZH-CN</w:LidThemeAsian> <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript> <w:Compatibility> <w:BreakWrappedTables/> <w:SnapToGridInCell/> <w:WrapTextWithPunct/> <w:UseAsianBreakRules/> <w:DontGrowAutofit/> <w:SplitPgBreakAndParaMark/> <w:DontVertAlignCellWithSp/> <w:DontBreakConstrainedForcedTables/> <w:DontVertAlignInTxbx/> <w:Word11KerningPairs/> <w:CachedColBalance/> <w:UseFELayout/> </w:Compatibility> <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel> <m:mathPr> <m:mathFont m:val="Cambria Math"/> <m:brkBin m:val="before"/> <m:brkBinSub m:val="--"/> <m:smallFrac m:val="off"/> <m:dispDef/> <m:lMargin m:val="0"/> <m:rMargin m:val="0"/> <m:defJc m:val="centerGroup"/> <m:wrapIndent m:val="1440"/> <m:intLim m:val="subSup"/> <m:naryLim m:val="undOvr"/> </m:mathPr></w:WordDocument> </xml><![endif]-->\n<style>\n_styles_\n</style>\n</head>\n',
       body: '<body>_body_</body>'
     }
+
+    const defaultOptions = {
+      size: '595.3pt 841.9pt',
+      margin: '72.0pt 90.0pt 72.0pt 90.0pt'
+    }
+    options = options || {}
+    options = { ...defaultOptions, ...options}
+    let styles = `@page WordSection1{
+        size:${options.size};
+        margin:${options.margin};
+        mso-header-margin:42.55pt;
+        mso-footer-margin:49.6pt;
+        mso-paper-source:0;
+      }`
 
     // Clone selected element before manipulating it
     var markup = dom
@@ -26,8 +41,7 @@
     // Prepare bottom of mhtml file with image data
     var mhtmlBottom = '\n'
     mhtmlBottom += '--NEXT.ITEM-BOUNDARY--'
-    // TODO: load css from included stylesheet
-    var styles = ''
+
     // Aggregate parts of the file together
     var fileContent = mhtml.top.replace('_html_', mhtml.head.replace('_styles_', styles) + mhtml.body.replace('_body_', markup.innerHTML)) + mhtmlBottom
 

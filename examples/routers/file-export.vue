@@ -1,8 +1,8 @@
 <template>
     <div>
-        <FileExp ref="wordExport">
+        <FileExport ref="wordExport">
             <div>123</div>
-        </FileExp>
+        </FileExport>
         <Button @click="handExport">导出</Button>
     </div>
 </template>
