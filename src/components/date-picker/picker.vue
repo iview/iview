@@ -38,7 +38,7 @@
     import clickoutside from '../../directives/clickoutside';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
-    import { formatDate, parseDate } from './util';
+    import { formatDate, parseDate, clearHours } from './util';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-date-picker';
@@ -420,6 +420,7 @@
 
                     this.picker.$on('on-pick', (date, visible = false) => {
                         if (!isConfirm) this.visible = visible;
+                        if (this.type.indexOf('time') === -1) date = clearHours(date);
                         this.currentValue = date;
                         this.picker.value = date;
                         this.picker.resetView && this.picker.resetView();

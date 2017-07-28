@@ -10,17 +10,12 @@
     </div>
 </template>
 <script>
-    import { getFirstDayOfMonth, getDayCountOfMonth } from '../util';
+    import { getFirstDayOfMonth, getDayCountOfMonth, clearHours } from '../util';
     import { deepCopy } from '../../../utils/assist';
     import Locale from '../../../mixins/locale';
 
     const prefixCls = 'ivu-date-picker-cells';
 
-    const clearHours = function (time) {
-        const cloneDate = new Date(time);
-        cloneDate.setHours(0, 0, 0, 0);
-        return cloneDate.getTime();
-    };
 
     export default {
         mixins: [ Locale ],

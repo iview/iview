@@ -83,3 +83,9 @@ export const initTimeDate = function () {
     date.setSeconds(0);
     return date;
 };
+
+export const clearHours = function (time) {
+    const cloneDate = new Date(time);
+    cloneDate.setHours(0, 0, 0, 0);
+    return cloneDate.getTime();
+};
