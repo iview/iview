@@ -60,7 +60,7 @@
 //            return (num1 * m + num2 * m) / m;
 //        }
         m = Math.pow(10, Math.max(sq1, sq2));
-        return (num1 * m + num2 * m) / m;
+        return (Math.round(num1 * m) + Math.round(num2 * m)) / m;
     }
 
     export default {
