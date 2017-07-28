@@ -51,6 +51,9 @@ import Panel from './components/panel';
 import List from './components/list';
 import Editor from './components/editor';
 
+// add by shilei
+
+import FileExport from './components/file-export';
 
 const iview = {
     Affix,
@@ -129,7 +132,8 @@ const iview = {
     Panel,
     List,
     ListItem: List.Item,
-    Editor
+    Editor,
+    FileExport
 };
 
 const install = function (Vue, opts = {}) {

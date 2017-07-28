@@ -200,6 +200,10 @@ const router = new VueRouter({
         {
             path: '/editor',
             component: require('./routers/editor.vue')
+        },
+        {
+            path: '/file-export',
+            component: require('./routers/file-export.vue')
         }
     ]
 });
