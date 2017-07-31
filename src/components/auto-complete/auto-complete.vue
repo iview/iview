@@ -144,7 +144,7 @@ export default {
         setVisible(value) {
             this.$nextTick(() => {
                 if (typeof value !== 'undefined') {
-                    this.visible = value
+                    this.visible = value;
                 } else {
                     const condiction1 = this.currentValue && this.matchDataSource.length > 0; // 有值且选项不为空
                     const condiction2 = !this.currentValue && this.trigger === 'focus' && this.matchDataSource.length > 0; // 没有值时/允许 focus /选项不为空就展示
