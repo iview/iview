@@ -9,7 +9,7 @@ import iView from '../src/index';
 import locale from '../src/locale/lang/zh-CN';
 
 Vue.use(VueRouter);
-Vue.use(iView, { locale });
+Vue.use(iView, {locale});
 
 // 开启debug模式
 Vue.config.debug = true;
@@ -207,6 +207,9 @@ const router = new VueRouter({
         }
     ]
 });
+const obj = {a: 1, b: 2}
+const test = {...obj}
+console.log(test)
 
 new Vue({
     el: '#app',

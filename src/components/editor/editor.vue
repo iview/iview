@@ -40,7 +40,7 @@
                 'redo'  // 重复
             ]
             e.create()
-            e.txt.html(this.content)
+            e.txt.html(this.defaultContent)
         }
     }
 </script>
