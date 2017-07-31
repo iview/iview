@@ -39,6 +39,12 @@ export default {
             type: Boolean,
             default: false
         },
+        trigger: {
+            validator(value) {
+                return oneOf(value, ['focus', 'change']);
+            },
+            default: 'focus'
+        },
         value: {
             type: [String, Number],
             default: ''
@@ -68,12 +74,6 @@ export default {
             type: String,
             default: ''
         },
-        trigger: {
-            validator(value) {
-                return oneOf(value, ['focus', 'change'])
-            },
-            default: 'focus'
-        },
         placement: {
             validator (value) {
                 return oneOf(value, ['top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left', 'left-start', 'left-end', 'right', 'right-start', 'right-end']);
@@ -93,7 +93,7 @@ export default {
             } else {
                 return this.dataSource.filter(name => {
                     return name.indexOf(this.currentValue) > -1;
-                })
+                });
             }
 
         }
@@ -107,7 +107,7 @@ export default {
             styles: {
                 width: '0px'
             }
-        }
+        };
     },
     mounted () {
         this.setAutoCompleteStyle();
@@ -116,7 +116,7 @@ export default {
         value (val) {
             this.currentValue = val;
         },
-        dataSource (val) {
+        dataSource () {
             this.setVisible();
         }
     },
@@ -138,24 +138,24 @@ export default {
                 this.styles = {
                     width: this.$el.offsetWidth + 'px'
                 };
-            })
+            });
         },
         // 设置自动完成框是否可见（在没有初始值或者没有匹配到值时就不显示）
         setVisible(value) {
             this.$nextTick(() => {
                 if (typeof value !== 'undefined') {
-                  this.visible = value
+                    this.visible = value
                 } else {
-                  const condiction1 = this.currentValue && this.matchDataSource.length > 0; // 有值且选项不为空
-                  const condiction2 = !this.currentValue && this.trigger === 'focus' && this.matchDataSource.length > 0; // 没有值时/允许 focus /选项不为空就展示
-                  const condiction3 = this.async && this.loading; // 支持异步获取
-                  if (condiction1 || condiction2 || condiction3) {
-                      this.visible = true;
-                  } else {
-                      this.visible = false;
-                  }
+                    const condiction1 = this.currentValue && this.matchDataSource.length > 0; // 有值且选项不为空
+                    const condiction2 = !this.currentValue && this.trigger === 'focus' && this.matchDataSource.length > 0; // 没有值时/允许 focus /选项不为空就展示
+                    const condiction3 = this.async && this.loading; // 支持异步获取
+                    if (condiction1 || condiction2 || condiction3) {
+                        this.visible = true;
+                    } else {
+                        this.visible = false;
+                    }
                 }
-            })
+            });
         },
         // 清空输入值
         clearInput() {
@@ -192,8 +192,7 @@ export default {
                     case 38:
                         {
                             e.preventDefault();
-                            this.selectIndex = this.selectIndex === 0 ?
-                            0 : this.selectIndex - 1
+                            this.selectIndex = this.selectIndex === 0 ? 0 : this.selectIndex - 1;
                             this.scrollSelectMenu();
                             break;
                         }
@@ -202,7 +201,7 @@ export default {
                         {
                             e.preventDefault();
                             this.selectIndex = this.selectIndex === this.matchDataSource.length - 1 ?
-                            this.matchDataSource.length - 1 : this.selectIndex + 1
+                            this.matchDataSource.length - 1 : this.selectIndex + 1;
                             this.scrollSelectMenu();
                             break;
                         }
@@ -238,10 +237,10 @@ export default {
                 if ($parent.scrollTop >= $currentSelectItem.offsetTop) {
                     $parent.scrollTop -= itemHeight;
                 }
-            })
+            });
         }
     }
-}
+};
 </script>
 
 <style lang="css">
