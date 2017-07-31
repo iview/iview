@@ -28,13 +28,11 @@
 </template>
 
 <script>
-import fetchJsonp from 'fetch-jsonp'
-import debounce from 'lodash.debounce'
 export default {
     data () {
         return {
             value1: '',
-            dataSource1: ['北京', '上海', '深圳', '广州', '杭州'],
+            dataSource1: ['北京', '上海', '深圳', '广州', '杭州', '北京市'],
 
             value2: '',
 
@@ -54,14 +52,16 @@ export default {
                 this.dataSource3 = ['@163.com', '@qq.com', '@sina.com'].map(domain => value + domain)
             }
         },
-        handleChange4 (value) {
+        handleChange4 (value, isFromSelect) {
             const mockFetchData = ["沙发", "睡衣女夏", "四件套", "手机", "双肩包女", "碎花连衣裙", "手机壳", "水杯", "睡衣", "书包"]
-            this.loading4 = true
-            this.dataSource4 = []
-            setTimeout(() => {
-                this.loading4 = false
-                this.dataSource4 = mockFetchData
-            }, 1000)
+            if(!isFromSelect) {
+              this.loading4 = true
+              this.dataSource4 = []
+              setTimeout(() => {
+                  this.loading4 = false
+                  this.dataSource4 = mockFetchData
+              }, 1000)
+            }
         }
     }
 }
