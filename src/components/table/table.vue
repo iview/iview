@@ -48,9 +48,9 @@
                         :columns="leftFixedColumns"
                         :obj-data="objData"
                         :columns-width="columnsWidth"
-                        :data="rebuildData"
                         :draggable="draggable"
-                        @emitDrag="emitDrag"></table-head>
+                        @emitDrag="emitDrag"
+                        :data="rebuildData"></table-head>
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedBody">
                     <table-body

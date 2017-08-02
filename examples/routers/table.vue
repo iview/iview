@@ -4,10 +4,10 @@
                 width="500"
                 height="200"
                 border
-                draggable
                 highlight-row
                 :columns="columns2"
                 @on-selection-change="change2"
+                draggable
                 :data="data3"></Table>
         <Button @click="addData">添加数据</Button>
     </div>
