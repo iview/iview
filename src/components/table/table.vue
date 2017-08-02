@@ -47,7 +47,7 @@
                         :styleObject="fixedTableStyle"
                         :columns="leftFixedColumns"
                         :obj-data="objData"
-                        :columns-width.sync="columnsWidth"
+                        :columns-width="columnsWidth"
                         :data="rebuildData"
                         :draggable="draggable"
                         @emitDrag="emitDrag"></table-head>
@@ -73,8 +73,6 @@
                         :obj-data="objData"
                         :columns-width="columnsWidth"
                         :data="rebuildData"
-                        :draggable="draggable"
-                        @emitDrag="emitDrag"
                         ></table-head>
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedRightBody">
@@ -706,13 +704,8 @@
 
                     this.tableWidth = calcWidth;
 
-                    switch(this.cloneColumns[index].fixed){
-                        case 'left' :
-                            this.fixedTableStyle.width = parseFloat(this.fixedTableStyle.width) + deltaX + 'px';
-                            break;
-                        case 'right' :
-                            this.fixedRightTableStyle.width = parseFloat(this.fixedRightTableStyle.width) + deltaX + 'px';
-                            break;
+                    if (this.cloneColumns[index].fixed === 'left') {
+                        this.fixedTableStyle.width = parseFloat(this.fixedTableStyle.width) + deltaX + 'px';
                     }
 
                     return;
