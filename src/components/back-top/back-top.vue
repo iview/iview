@@ -9,6 +9,7 @@
 </template>
 <script>
     import { scrollTop } from '../../utils/assist';
+    import { on, off } from '../../utils/dom';
     const prefixCls = 'ivu-back-top';
 
     export default {
@@ -36,12 +37,16 @@
             };
         },
         mounted () {
-            window.addEventListener('scroll', this.handleScroll, false);
-            window.addEventListener('resize', this.handleScroll, false);
+//            window.addEventListener('scroll', this.handleScroll, false);
+//            window.addEventListener('resize', this.handleScroll, false);
+            on(window, 'scroll', this.handleScroll);
+            on(window, 'resize', this.handleScroll);
         },
         beforeDestroy () {
-            window.removeEventListener('scroll', this.handleScroll, false);
-            window.removeEventListener('resize', this.handleScroll, false);
+//            window.removeEventListener('scroll', this.handleScroll, false);
+//            window.removeEventListener('resize', this.handleScroll, false);
+            off(window, 'scroll', this.handleScroll);
+            off(window, 'resize', this.handleScroll);
         },
         computed: {
             classes () {

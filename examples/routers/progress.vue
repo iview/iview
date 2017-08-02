@@ -10,6 +10,11 @@
             <Icon type="checkmark-circled"></Icon>
             <span>成功</span>
         </i-progress>
+        <i-progress :percent="percent"></i-progress>
+        <div style="height: 150px">
+            <i-progress vertical :percent="percent" :stroke-width="20" hide-info></i-progress>
+            <i-progress vertical :percent="percent"></i-progress>
+        </div>
     </div>
 </template>
 <script>

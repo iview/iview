@@ -9,11 +9,11 @@
     export default {
         name: 'Transfer',
         mixins: [ Emitter, Locale ],
-        render (createElement) {
+        render (h) {
 
             function cloneVNode (vnode) {
                 const clonedChildren = vnode.children && vnode.children.map(vnode => cloneVNode(vnode));
-                const cloned = createElement(vnode.tag, vnode.data, clonedChildren);
+                const cloned = h(vnode.tag, vnode.data, clonedChildren);
                 cloned.text = vnode.text;
                 cloned.isComment = vnode.isComment;
                 cloned.componentOptions = vnode.componentOptions;
@@ -29,10 +29,10 @@
             const vNodes = this.$slots.default === undefined ? [] : this.$slots.default;
             const clonedVNodes = this.$slots.default === undefined ? [] : vNodes.map(vnode => cloneVNode(vnode));
 
-            return createElement('div', {
+            return h('div', {
                 'class': this.classes
             }, [
-                createElement('List', {
+                h(List, {
                     ref: 'left',
                     props: {
                         prefixCls: this.prefixCls + '-list',
@@ -52,7 +52,7 @@
                     }
                 }, vNodes),
 
-                createElement('Operation', {
+                h(Operation, {
                     props: {
                         prefixCls: this.prefixCls,
                         operations: this.operations,
@@ -61,7 +61,7 @@
                     }
                 }),
 
-                createElement('List', {
+                h(List, {
                     ref: 'right',
                     props: {
                         prefixCls: this.prefixCls + '-list',
@@ -82,8 +82,6 @@
                 }, clonedVNodes)
             ]);
         },
-
-        components: { List, Operation },
         props: {
             data: {
                 type: Array,
@@ -250,7 +248,7 @@
                 this.splitData(false);
             }
         },
-        created () {
+        mounted () {
             this.splitData(true);
         }
     };

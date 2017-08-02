@@ -1,7 +1,5 @@
 <template>
-    <div
-        :class="[prefixCls]"
-        v-clickoutside="handleClose">
+    <div :class="[prefixCls]" v-clickoutside="handleClose">
         <div ref="reference" :class="[prefixCls + '-rel']">
             <slot>
                 <i-input
@@ -20,7 +18,14 @@
             </slot>
         </div>
         <transition :name="transition">
-            <Drop v-show="opened" :placement="placement" ref="drop">
+            <Drop
+                @click.native="handleTransferClick"
+                v-show="opened"
+                :class="{ [prefixCls + '-transfer']: transfer }"
+                :placement="placement"
+                ref="drop"
+                :data-transfer="transfer"
+                v-transfer-dom>
                 <div ref="picker"></div>
             </Drop>
         </transition>
@@ -31,6 +36,7 @@
     import iInput from '../../components/input/input.vue';
     import Drop from '../../components/select/dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
+    import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
     import { formatDate, parseDate } from './util';
     import Emitter from '../../mixins/emitter';
@@ -142,7 +148,7 @@
         name: 'CalendarPicker',
         mixins: [ Emitter ],
         components: { iInput, Drop },
-        directives: { clickoutside },
+        directives: { clickoutside, TransferDom },
         props: {
             format: {
                 type: String
@@ -188,6 +194,10 @@
             },
             options: {
                 type: Object
+            },
+            transfer: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -198,6 +208,7 @@
                 picker: null,
                 internalValue: '',
                 disableClickOutSide: false,    // fixed when click a date,trigger clickoutside to close picker
+                disableCloseUnderTransfer: false,  // transfer 模式下，点击Drop也会触发关闭
                 currentValue: this.value
             };
         },
@@ -258,7 +269,15 @@
             }
         },
         methods: {
+            // 开启 transfer 时，点击 Drop 即会关闭，这里不让其关闭
+            handleTransferClick () {
+                if (this.transfer) this.disableCloseUnderTransfer = true;
+            },
             handleClose () {
+                if (this.disableCloseUnderTransfer) {
+                    this.disableCloseUnderTransfer = false;
+                    return false;
+                }
                 if (this.open !== null) return;
 //                if (!this.disableClickOutSide) this.visible = false;
                 this.visible = false;

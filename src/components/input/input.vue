@@ -19,6 +19,9 @@
                 :number="number"
                 :autofocus="autofocus"
                 @keyup.enter="handleEnter"
+                @keyup="handleKeyup"
+                @keypress="handleKeypress"
+                @keydown="handleKeydown"
                 @focus="handleFocus"
                 @blur="handleBlur"
                 @input="handleInput"
@@ -36,9 +39,12 @@
             :maxlength="maxlength"
             :readonly="readonly"
             :name="name"
-            :value="value"
+            :value="currentValue"
             :autofocus="autofocus"
             @keyup.enter="handleEnter"
+            @keyup="handleKeyup"
+            @keypress="handleKeypress"
+            @keydown="handleKeydown"
             @focus="handleFocus"
             @blur="handleBlur"
             @input="handleInput">
@@ -153,6 +159,15 @@
         methods: {
             handleEnter (event) {
                 this.$emit('on-enter', event);
+            },
+            handleKeydown (event) {
+                this.$emit('on-keydown', event);
+            },
+            handleKeypress(event) {
+                this.$emit('on-keypress', event);
+            },
+            handleKeyup (event) {
+                this.$emit('on-keyup', event);
             },
             handleIconClick (event) {
                 this.$emit('on-click', event);

@@ -10,7 +10,8 @@
                         <template v-if="column.type === 'expand'"></template>
                         <template v-else-if="column.type === 'selection'"><Checkbox :value="isSelectAll" @on-change="selectAll"></Checkbox></template>
                         <template v-else>
-                            <span v-html="renderHeader(column, index)"></span>
+                            <span v-if="!column.renderHeader" @click="handleSortByHead(index)">{{ column.title || '#' }}</span>
+                            <render-header v-else :render="column.renderHeader" :column="column" :index="index"></render-header>
                             <span :class="[prefixCls + '-sort']" v-if="column.sortable">
                                 <i class="ivu-icon ivu-icon-arrow-up-b" :class="{on: column._sortType === 'asc'}" @click="handleSort(index, 'asc')"></i>
                                 <i class="ivu-icon ivu-icon-arrow-down-b" :class="{on: column._sortType === 'desc'}" @click="handleSort(index, 'desc')"></i>
@@ -26,7 +27,7 @@
                                 <div slot="content" :class="[prefixCls + '-filter-list']" v-if="column._filterMultiple">
                                     <div :class="[prefixCls + '-filter-list-item']">
                                         <checkbox-group v-model="column._filterChecked">
-                                            <checkbox v-for="item in column.filters" :key="item" :label="item.value">{{ item.label }}</checkbox>
+                                            <checkbox v-for="item in column.filters" :key="column._columnKey" :label="item.value">{{ item.label }}</checkbox>
                                         </checkbox-group>
                                     </div>
                                     <div :class="[prefixCls + '-filter-footer']">
@@ -58,6 +59,7 @@
     import Checkbox from '../checkbox/checkbox.vue';
     import Poptip from '../poptip/poptip.vue';
     import iButton from '../button/button.vue';
+    import renderHeader from './header';
     import Mixin from './mixin';
     import Locale from '../../mixins/locale';
 
@@ -69,7 +71,7 @@
             };
         },
         mixins: [ Mixin, Locale ],
-        components: { CheckboxGroup, Checkbox, Poptip, iButton },
+        components: { CheckboxGroup, Checkbox, Poptip, iButton, renderHeader },
         props: {
             prefixCls: String,
             styleObject: Object,
@@ -216,13 +218,6 @@
                     }
                 ];
             },
-            renderHeader (column, $index) {
-                if ('renderHeader' in this.columns[$index]) {
-                    return this.columns[$index].renderHeader(column, $index);
-                } else {
-                    return column.title || '#';
-                }
-            },
             selectAll () {
                 const status = !this.isSelectAll;
                 this.$parent.selectAll(status);
@@ -232,6 +227,19 @@
                     type = 'normal';
                 }
                 this.$parent.handleSort(index, type);
+            },
+            handleSortByHead (index) {
+                const column = this.columns[index];
+                if (column.sortable) {
+                    const type = column._sortType;
+                    if (type === 'normal') {
+                        this.handleSort(index, 'asc');
+                    } else if (type === 'asc') {
+                        this.handleSort(index, 'desc');
+                    } else {
+                        this.handleSort(index, 'normal');
+                    }
+                }
             },
             handleFilter (index) {
                 this.$parent.handleFilter(index);

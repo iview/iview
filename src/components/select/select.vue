@@ -25,7 +25,13 @@
             <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']" v-if="!remote"></Icon>
         </div>
         <transition :name="transitionName">
-            <Drop v-show="dropVisible" :placement="placement" ref="dropdown">
+            <Drop
+                :class="dropdownCls"
+                v-show="dropVisible"
+                :placement="placement"
+                ref="dropdown"
+                :data-transfer="transfer"
+                v-transfer-dom>
                 <ul v-show="notFountShow" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
                 <ul v-show="(!notFound && !remote) || (remote && !loading && !notFound)" :class="[prefixCls + '-dropdown-list']"><slot></slot></ul>
                 <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
@@ -37,6 +43,7 @@
     import Icon from '../icon';
     import Drop from './dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
+    import TransferDom from '../../directives/transfer-dom';
     import { oneOf, findComponentDownward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     import Locale from '../../mixins/locale';
@@ -47,12 +54,13 @@
         name: 'iSelect',
         mixins: [ Emitter, Locale ],
         components: { Icon, Drop },
-        directives: { clickoutside },
+        directives: { clickoutside, TransferDom },
         props: {
             value: {
                 type: [String, Number, Array],
                 default: ''
             },
+            // 使用时，也得设置 value 才行
             label: {
                 type: [String, Number, Array],
                 default: ''
@@ -110,6 +118,10 @@
                     return oneOf(value, ['top', 'bottom']);
                 },
                 default: 'bottom'
+            },
+            transfer: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -144,6 +156,12 @@
                         [`${prefixCls}-${this.size}`]: !!this.size
                     }
                 ];
+            },
+            dropdownCls () {
+                return {
+                    [prefixCls + '-dropdown-transfer']: this.transfer,
+                    [prefixCls + '-multiple']: this.multiple && this.transfer
+                };
             },
             showPlaceholder () {
                 let status = false;
@@ -586,27 +604,31 @@
                 } else {
                     this.broadcast('iOption', 'on-query-change', val);
                 }
+            },
+            // 处理 remote 初始值
+            updateLabel () {
+                if (this.remote) {
+                    if (!this.multiple && this.model !== '') {
+                        this.selectToChangeQuery = true;
+                        if (this.currentLabel === '') this.currentLabel = this.model;
+                        this.lastQuery = this.currentLabel;
+                        this.query = this.currentLabel;
+                    } else if (this.multiple && this.model.length) {
+                        if (this.currentLabel.length !== this.model.length) this.currentLabel = this.model;
+                        this.selectedMultiple = this.model.map((item, index) => {
+                            return {
+                                value: item,
+                                label: this.currentLabel[index]
+                            };
+                        });
+                    }
+                }
             }
         },
         mounted () {
             this.modelToQuery();
             // 处理 remote 初始值
-            if (this.remote) {
-                if (!this.multiple && this.model !== '') {
-                    this.selectToChangeQuery = true;
-                    if (this.currentLabel === '') this.currentLabel = this.model;
-                    this.lastQuery = this.currentLabel;
-                    this.query = this.currentLabel;
-                } else if (this.multiple && this.model.length) {
-                    if (this.currentLabel.length !== this.model.length) this.currentLabel = this.model;
-                    this.selectedMultiple = this.model.map((item, index) => {
-                        return {
-                            value: item,
-                            label: this.currentLabel[index]
-                        };
-                    });
-                }
-            }
+            this.updateLabel();
             this.$nextTick(() => {
                 this.broadcastQuery('');
             });
@@ -684,6 +706,10 @@
             value (val) {
                 this.model = val;
                 if (val === '') this.query = '';
+            },
+            label (val) {
+                this.currentLabel = val;
+                this.updateLabel();
             },
             model () {
                 this.$emit('input', this.model);
