@@ -66,7 +66,6 @@ const csv = {
             const link = document.createElement('a');
             link.download = filename;
             link.href = this._getDownloadUrl(text);
-            link.target = '_blank';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
