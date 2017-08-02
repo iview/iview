@@ -115,7 +115,7 @@
                 if (index == this.columns.length-1) {
                     bodyStyle.cursor = '';
                     return;
-               }
+                }
 
                 let target = e.target;
                 while (target && target.tagName !== 'TH') {
