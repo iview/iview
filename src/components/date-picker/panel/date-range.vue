@@ -42,7 +42,7 @@
                     @on-pick="handleRangePick"
                     @on-pick-click="handlePickClick"></date-table>
                 <year-table
-                    v-ref:left-year-table
+                    ref="leftYearTable"
                     v-show="leftCurrentView === 'year'"
                     :year="leftTableYear"
                     :date="leftTableDate"
@@ -51,7 +51,7 @@
                     @on-pick="handleLeftYearPick"
                     @on-pick-click="handlePickClick"></year-table>
                 <month-table
-                    v-ref:left-month-table
+                    ref="leftMonthTable"
                     v-show="leftCurrentView === 'month'"
                     :month="leftMonth"
                     :date="leftTableDate"
@@ -95,7 +95,7 @@
                     @on-pick="handleRangePick"
                     @on-pick-click="handlePickClick"></date-table>
                 <year-table
-                    v-ref:right-year-table
+                    ref="rightYearTable"
                     v-show="rightCurrentView === 'year'"
                     :year="rightTableYear"
                     :date="rightTableDate"
@@ -104,7 +104,7 @@
                     @on-pick="handleRightYearPick"
                     @on-pick-click="handlePickClick"></year-table>
                 <month-table
-                    v-ref:right-month-table
+                    ref="rightMonthTable"
                     v-show="rightCurrentView === 'month'"
                     :month="rightMonth"
                     :date="rightTableDate"
@@ -115,7 +115,7 @@
             </div>
             <div :class="[prefixCls + '-content']" v-show="isTime">
                 <time-picker
-                    v-ref:time-picker
+                    ref="timePicker"
                     v-show="isTime"
                     @on-pick="handleTimePick"
                     @on-pick-click="handlePickClick"></time-picker>
@@ -324,7 +324,7 @@
                 if (this[`${direction}CurrentView`] === 'year') {
                     this.$refs[`${direction}YearTable`].nextTenYear();
                 } else if (this[`${direction}CurrentView`] === 'month') {
-                    this[`${direction}TableYear`]--;
+                    this[`${direction}TableYear`]++;
                 } else {
                     const date = this.date;
                     date.setFullYear(date.getFullYear() + 1);
@@ -407,7 +407,7 @@
                 this.handleConfirm(false);
             }
         },
-        compiled () {
+        mounted () {
             if (this.showTime) {
                 // todo 这里也到不了
                 this.$refs.timePicker.date = this.minDate;

@@ -16,5 +16,8 @@ npm-debug.log
 *.swp
 *.swo
 *.log
-test/dist/
+examples/dist/
 dist/
+yarn-error.log
+test/unit/coverage
+.vscode

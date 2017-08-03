@@ -7,7 +7,7 @@ const prefixKey = 'ivu_message_key_';
 let defaultDuration = 1.5;
 let top;
 let messageInstance;
-let key = 1;
+let name = 1;
 
 const iconTypes = {
     'info': 'information-circled',
@@ -20,7 +20,7 @@ const iconTypes = {
 function getMessageInstance () {
     messageInstance = messageInstance || Notification.newInstance({
         prefixCls: prefixCls,
-        style: {
+        styles: {
             top: `${top}px`
         }
     });
@@ -28,12 +28,7 @@ function getMessageInstance () {
     return messageInstance;
 }
 
-function notice (content, duration = defaultDuration, type, onClose) {
-    if (!onClose) {
-        onClose = function () {
-
-        };
-    }
+function notice (content = '', duration = defaultDuration, type, onClose = function () {}, closable = false) {
     const iconType = iconTypes[type];
 
     // if loading
@@ -42,9 +37,9 @@ function notice (content, duration = defaultDuration, type, onClose) {
     let instance = getMessageInstance();
 
     instance.notice({
-        key: `${prefixKey}${key}`,
+        name: `${prefixKey}${name}`,
         duration: duration,
-        style: {},
+        styles: {},
         transitionName: 'move-up',
         content: `
             <div class="${prefixCls}-custom-content ${prefixCls}-${type}">
@@ -52,12 +47,14 @@ function notice (content, duration = defaultDuration, type, onClose) {
                 <span>${content}</span>
             </div>
         `,
-        onClose: onClose
+        onClose: onClose,
+        closable: closable,
+        type: 'message'
     });
 
     // 用于手动消除
     return (function () {
-        let target = key++;
+        let target = name++;
 
         return function () {
             instance.remove(`${prefixKey}${target}`);
@@ -66,20 +63,52 @@ function notice (content, duration = defaultDuration, type, onClose) {
 }
 
 export default {
-    info (content, duration, onClose) {
-        return notice(content, duration, 'info', onClose);
+    name: 'Message',
+
+    info (options) {
+        const type = typeof options;
+        if (type === 'string') {
+            options = {
+                content: options
+            };
+        }
+        return notice(options.content, options.duration, 'info', options.onClose, options.closable);
     },
-    success (content, duration, onClose) {
-        return notice(content, duration, 'success', onClose);
+    success (options) {
+        const type = typeof options;
+        if (type === 'string') {
+            options = {
+                content: options
+            };
+        }
+        return notice(options.content, options.duration, 'success', options.onClose, options.closable);
     },
-    warning (content, duration, onClose) {
-        return notice(content, duration, 'warning', onClose);
+    warning (options) {
+        const type = typeof options;
+        if (type === 'string') {
+            options = {
+                content: options
+            };
+        }
+        return notice(options.content, options.duration, 'warning', options.onClose, options.closable);
     },
-    error (content, duration, onClose) {
-        return notice(content, duration, 'error', onClose);
+    error (options) {
+        const type = typeof options;
+        if (type === 'string') {
+            options = {
+                content: options
+            };
+        }
+        return notice(options.content, options.duration, 'error', options.onClose, options.closable);
     },
-    loading (content, duration, onClose) {
-        return notice(content, duration, 'loading', onClose);
+    loading (options) {
+        const type = typeof options;
+        if (type === 'string') {
+            options = {
+                content: options
+            };
+        }
+        return notice(options.content, options.duration, 'loading', options.onClose, options.closable);
     },
     config (options) {
         if (options.top) {
@@ -92,6 +121,6 @@ export default {
     destroy () {
         let instance = getMessageInstance();
         messageInstance = null;
-        instance.destroy();
+        instance.destroy('ivu-message');
     }
 };

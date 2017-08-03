@@ -2,7 +2,8 @@ export default {
     i: {
         select: {
             placeholder: '請選擇',
-            noMatch: '無匹配數據'
+            noMatch: '無匹配數據',
+            loading: '加載中'
         },
         table: {
             noDataText: '暫無數據',

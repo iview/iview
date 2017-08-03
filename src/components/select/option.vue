@@ -2,9 +2,14 @@
     <li :class="classes" @click.stop="select" @mouseout.stop="blur" v-show="!hidden"><slot>{{ showLabel }}</slot></li>
 </template>
 <script>
+    import Emitter from '../../mixins/emitter';
+
     const prefixCls = 'ivu-select-item';
 
     export default {
+        name: 'iOption',
+        componentName: 'select-item',
+        mixins: [ Emitter ],
         props: {
             value: {
                 type: [String, Number],
@@ -18,7 +23,6 @@
                 default: false
             }
         },
-        componentName: 'select-item',
         data () {
             return {
                 selected: false,
@@ -49,7 +53,7 @@
                     return false;
                 }
 
-                this.$dispatch('on-select-selected', this.value);
+                this.dispatch('iSelect', 'on-select-selected', this.value);
             },
             blur () {
                 this.isFocus = false;
@@ -59,16 +63,18 @@
                 this.hidden = !new RegExp(parsedQuery, 'i').test(this.searchLabel);
             }
         },
-        compiled () {
+        mounted () {
             this.searchLabel = this.$el.innerHTML;
-        },
-        events: {
-            'on-select-close' () {
+            this.dispatch('iSelect', 'append');
+            this.$on('on-select-close', () => {
                 this.isFocus = false;
-            },
-            'on-query-change' (val) {
+            });
+            this.$on('on-query-change', (val) => {
                 this.queryChange(val);
-            }
+            });
+        },
+        beforeDestroy () {
+            this.dispatch('iSelect', 'remove');
         }
     };
 </script>

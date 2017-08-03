@@ -1,8 +1,8 @@
 <template>
-    <button :type="htmlType" :class="classes" :disabled="disabled">
+    <button :type="htmlType" :class="classes" :disabled="disabled" @click="handleClick">
         <Icon class="ivu-load-loop" type="load-c" v-if="loading"></Icon>
         <Icon :type="icon" v-if="icon && !loading"></Icon>
-        <span v-if="showSlot" v-el:slot><slot></slot></span>
+        <span v-if="showSlot" ref="slot"><slot></slot></span>
     </button>
 </template>
 <script>
@@ -12,6 +12,7 @@
     const prefixCls = 'ivu-btn';
 
     export default {
+        name: 'Button',
         components: { Icon },
         props: {
             type: {
@@ -63,8 +64,13 @@
                 ];
             }
         },
-        compiled () {
-            this.showSlot = this.$els.slot.innerHTML.replace(/\n/g, '').replace(/<!--[\w\W\r\n]*?-->/gmi, '') !== '';
+        methods: {
+            handleClick (event) {
+                this.$emit('click', event);
+            }
+        },
+        mounted () {
+            this.showSlot = this.$slots.default !== undefined;
         }
     };
 </script>

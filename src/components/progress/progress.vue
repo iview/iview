@@ -43,15 +43,24 @@
             strokeWidth: {
                 type: Number,
                 default: 10
+            },
+            vertical: {
+                type: Boolean,
+                default: false
             }
+        },
+        data () {
+            return {
+                currentStatus: this.status
+            };
         },
         computed: {
             isStatus () {
-                return this.status == 'wrong' || this.status == 'success';
+                return this.currentStatus == 'wrong' || this.currentStatus == 'success';
             },
             statusIcon () {
                 let type = '';
-                switch (this.status) {
+                switch (this.currentStatus) {
                     case 'wrong':
                         type = 'ios-close';
                         break;
@@ -63,7 +72,10 @@
                 return type;
             },
             bgStyle () {
-                return {
+                return this.vertical ? {
+                    height: `${this.percent}%`,
+                    width: `${this.strokeWidth}px`
+                } : {
                     width: `${this.percent}%`,
                     height: `${this.strokeWidth}px`
                 };
@@ -71,9 +83,10 @@
             wrapClasses () {
                 return [
                     `${prefixCls}`,
-                    `${prefixCls}-${this.status}`,
+                    `${prefixCls}-${this.currentStatus}`,
                     {
                         [`${prefixCls}-show-info`]: !this.hideInfo,
+                        [`${prefixCls}-vertical`]: this.vertical
 
                     }
                 ];
@@ -94,16 +107,18 @@
                 return `${prefixCls}-bg`;
             }
         },
-        compiled () {
+        created () {
             this.handleStatus();
         },
         methods: {
             handleStatus (isDown) {
                 if (isDown) {
-                    this.status = 'normal';
+                    this.currentStatus = 'normal';
+                    this.$emit('on-status-change', 'normal');
                 } else {
                     if (parseInt(this.percent, 10) == 100) {
-                        this.status = 'success';
+                        this.currentStatus = 'success';
+                        this.$emit('on-status-change', 'success');
                     }
                 }
             }
@@ -115,6 +130,9 @@
                 } else {
                     this.handleStatus();
                 }
+            },
+            status (val) {
+                this.currentStatus = val;
             }
         }
     };

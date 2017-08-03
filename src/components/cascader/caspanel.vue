@@ -1,28 +1,30 @@
 <template>
-    <ul v-if="data && data.length" :class="[prefixCls + '-menu']">
-        <Casitem
-            v-for="item in data"
-            :prefix-cls="prefixCls"
-            :data.sync="item"
-            :tmp-item="tmpItem"
-            @click.stop="handleClickItem(item)"
-            @mouseenter.stop="handleHoverItem(item)"></Casitem>
-    </ul><Caspanel v-if="sublist && sublist.length" :prefix-cls="prefixCls" :data.sync="sublist" :disabled="disabled" :trigger="trigger" :change-on-select="changeOnSelect"></Caspanel>
+    <span>
+        <ul v-if="data && data.length" :class="[prefixCls + '-menu']">
+            <Casitem
+                v-for="item in data"
+                :key="getKey()"
+                :prefix-cls="prefixCls"
+                :data="item"
+                :tmp-item="tmpItem"
+                @click.native.stop="handleClickItem(item)"
+                @mouseenter.native.stop="handleHoverItem(item)"></Casitem>
+        </ul><Caspanel v-if="sublist && sublist.length" :prefix-cls="prefixCls" :data="sublist" :disabled="disabled" :trigger="trigger" :change-on-select="changeOnSelect"></Caspanel>
+    </span>
 </template>
 <script>
     import Casitem from './casitem.vue';
+    import Emitter from '../../mixins/emitter';
+    import { findComponentUpward } from '../../utils/assist';
+
+    let key = 1;
 
     export default {
         name: 'Caspanel',
+        mixins: [ Emitter ],
         components: { Casitem },
         props: {
             data: {
-                type: Array,
-                default () {
-                    return [];
-                }
-            },
-            sublist: {
                 type: Array,
                 default () {
                     return [];
@@ -36,32 +38,59 @@
         data () {
             return {
                 tmpItem: {},
-                result: []
+                result: [],
+                sublist: []
             };
+        },
+        watch: {
+            data () {
+                this.sublist = [];
+            }
         },
         methods: {
             handleClickItem (item) {
                 if (this.trigger !== 'click' && item.children) return;
-                this.handleTriggerItem(item);
+                this.handleTriggerItem(item, false, true);
             },
             handleHoverItem (item) {
                 if (this.trigger !== 'hover' || !item.children) return;
-                this.handleTriggerItem(item);
+                this.handleTriggerItem(item, false, true);
             },
-            handleTriggerItem (item, fromInit = false) {
+            handleTriggerItem (item, fromInit = false, fromUser = false) {
                 if (item.disabled) return;
 
-                // return value back recursion
+                if (item.loading !== undefined && !item.children.length) {
+                    const cascader = findComponentUpward(this, 'Cascader');
+                    if (cascader && cascader.loadData) {
+                        cascader.loadData(item, () => {
+                            // todo
+                            if (fromUser) {
+                                cascader.isLoadedChildren = true;
+                            }
+                            this.handleTriggerItem(item);
+                        });
+                        return;
+                    }
+                }
+
+                // return value back recursion  // 向上递归，设置临时选中值（并非真实选中）
                 const backItem = this.getBaseItem(item);
                 this.tmpItem = backItem;
                 this.emitUpdate([backItem]);
-
                 if (item.children && item.children.length){
                     this.sublist = item.children;
-                    this.$dispatch('on-result-change', false, this.changeOnSelect, fromInit);
+                    this.dispatch('Cascader', 'on-result-change', {
+                        lastValue: false,
+                        changeOnSelect: this.changeOnSelect,
+                        fromInit: fromInit
+                    });
                 } else {
                     this.sublist = [];
-                    this.$dispatch('on-result-change', true, this.changeOnSelect, fromInit);
+                    this.dispatch('Cascader', 'on-result-change', {
+                        lastValue: true,
+                        changeOnSelect: this.changeOnSelect,
+                        fromInit: fromInit
+                    });
                 }
             },
             updateResult (item) {
@@ -82,15 +111,14 @@
                 } else {
                     this.$parent.$parent.updateResult(result);
                 }
+            },
+            getKey () {
+                return key++;
             }
         },
-        watch: {
-            data () {
-                this.sublist = [];
-            }
-        },
-        events: {
-            'on-find-selected' (val) {
+        mounted () {
+            this.$on('on-find-selected', (params) => {
+                const val = params.value;
                 let value = [...val];
                 for (let i = 0; i < value.length; i++) {
                     for (let j = 0; j < this.data.length; j++) {
@@ -98,17 +126,19 @@
                             this.handleTriggerItem(this.data[j], true);
                             value.splice(0, 1);
                             this.$nextTick(() => {
-                                this.$broadcast('on-find-selected', value);
+                                this.broadcast('Caspanel', 'on-find-selected', {
+                                    value: value
+                                });
                             });
                             return false;
                         }
                     }
                 }
-            },
-            'on-clear' () {
+            });
+            this.$on('on-clear', () => {
                 this.sublist = [];
                 this.tmpItem = {};
-            }
+            });
         }
     };
 </script>

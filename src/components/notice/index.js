@@ -7,7 +7,7 @@ const prefixKey = 'ivu_notice_key_';
 let top = 24;
 let defaultDuration = 4.5;
 let noticeInstance;
-let key = 1;
+let name = 1;
 
 const iconTypes = {
     'info': 'information-circled',
@@ -19,7 +19,7 @@ const iconTypes = {
 function getNoticeInstance () {
     noticeInstance = noticeInstance || Notification.newInstance({
         prefixCls: prefixCls,
-        style: {
+        styles: {
             top: `${top}px`,
             right: 0
         }
@@ -31,12 +31,12 @@ function getNoticeInstance () {
 function notice (type, options) {
     const title = options.title || '';
     const desc = options.desc || '';
-    const noticeKey = options.key || `${prefixKey}${key}`;
+    const noticeKey = options.name || `${prefixKey}${name}`;
     const onClose = options.onClose || function () {};
     // todo const btn = options.btn || null;
     const duration = (options.duration === 0) ? 0 : options.duration || defaultDuration;
 
-    key++;
+    name++;
 
     let instance = getNoticeInstance();
 
@@ -65,13 +65,14 @@ function notice (type, options) {
     }
 
     instance.notice({
-        key: noticeKey.toString(),
+        name: noticeKey.toString(),
         duration: duration,
-        style: {},
+        styles: {},
         transitionName: 'move-notice',
         content: content,
         onClose: onClose,
-        closable: true
+        closable: true,
+        type: 'notice'
     });
 }
 
@@ -99,11 +100,11 @@ export default {
             defaultDuration = options.duration;
         }
     },
-    close (key) {
-        if (key) {
-            key = key.toString();
+    close (name) {
+        if (name) {
+            name = name.toString();
             if (noticeInstance) {
-                noticeInstance.remove(key);
+                noticeInstance.remove(name);
             }
         } else {
             return false;
@@ -112,6 +113,6 @@ export default {
     destroy () {
         let instance = getNoticeInstance();
         noticeInstance = null;
-        instance.destroy();
+        instance.destroy('ivu-notice');
     }
 };

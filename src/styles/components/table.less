@@ -145,6 +145,24 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+        &-with-expand{
+            height: 47px;
+            line-height: 47px;
+            padding: 0;
+            text-align: center;
+        }
+
+        &-expand{
+            cursor: pointer;
+            transition: transform @transition-time @ease-in-out;
+            i{
+                font-size: @font-size-base;
+            }
+            &-expanded{
+                transform: rotate(90deg);
+            }
+        }
     }
     &-hidden{
         visibility: hidden;
@@ -154,6 +172,11 @@
         //position: relative;
         word-wrap: normal;
         vertical-align: middle;
+    }
+
+    td&-expanded-cell{
+        padding: 20px 50px;
+        background: @table-thead-bg;
     }
 
     &-stripe &-body,
@@ -184,6 +207,13 @@
             height: 60px;
             line-height: 60px;
         }
+        .@{table-prefix-cls}-cell-with-expand{
+            height: 59px;
+            line-height: 59px;
+            i{
+                font-size: @font-size-base+2;
+            }
+        }
     }
 
     &-small{
@@ -196,6 +226,10 @@
         &-title, &-footer{
             height: 40px;
             line-height: 40px;
+        }
+        .@{table-prefix-cls}-cell-with-expand{
+            height: 39px;
+            line-height: 39px;
         }
     }
 
@@ -234,6 +268,16 @@
     }
     &-fixed-header{
         overflow: hidden;
+        &-with-empty{
+            .@{table-prefix-cls}-hidden{
+                .@{table-prefix-cls}-sort{
+                    display: none;
+                }
+                .@{table-prefix-cls}-cell span{
+                    display: none;
+                }
+            }
+        }
     }
     &-fixed-body{
         overflow: hidden;

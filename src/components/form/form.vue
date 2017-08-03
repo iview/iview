@@ -1,5 +1,5 @@
 <template>
-    <form :class="classes"><slot></slot></form>
+    <form :class="classes" @submit="formSubmit"><slot></slot></form>
 </template>
 <script>
     // https://github.com/ElemeFE/element/blob/dev/packages/form/src/form.vue
@@ -75,6 +75,9 @@
                 if (!field) { throw new Error('[iView warn]: must call validateField with valid prop string!'); }
 
                 field.validate('', cb);
+            },
+            formSubmit (event) {
+                event.preventDefault();
             }
         },
         watch: {
@@ -82,15 +85,15 @@
                 this.validate();
             }
         },
-        events: {
-            'on-form-item-add' (field) {
+        created () {
+            this.$on('on-form-item-add', (field) => {
                 if (field) this.fields.push(field);
                 return false;
-            },
-            'on-form-item-remove' (field) {
+            });
+            this.$on('on-form-item-remove', (field) => {
                 if (field.prop) this.fields.splice(this.fields.indexOf(field), 1);
                 return false;
-            }
+            });
         }
     };
 </script>

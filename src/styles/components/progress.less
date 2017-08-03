@@ -2,7 +2,13 @@
 
 .@{progress-prefix-cls} {
     display: inline-block;
+
     width: 100%;
+    &-vertical {
+        height: 100%;
+        width: auto;
+    }
+
     font-size: @font-size-small;
     position: relative;
 
@@ -17,6 +23,10 @@
             margin-right: -55px;
         }
     }
+    &-vertical &-outer {
+        height: 100%;
+        width: auto;
+    }
 
     &-inner {
         display: inline-block;
@@ -24,6 +34,20 @@
         background-color: #f3f3f3;
         border-radius: 100px;
         vertical-align: middle;
+    }
+    &-vertical &-inner {
+        height: 100%;
+        width: auto;
+
+        & > *, &:after {
+            display: inline-block;
+            vertical-align: bottom;
+        }
+
+        &:after {
+            content: '';
+            height: 100%;
+        }
     }
 
     &-bg {

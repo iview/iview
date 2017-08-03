@@ -14,4 +14,12 @@
     box-shadow: @shadow-base;
     position: absolute;
     z-index: @zindex-select;
+    &-transfer{
+        z-index: @zindex-transfer;
+    }
+}
+.@{modal-prefix-cls} {
+    .@{select-dropdown-prefix-cls} {
+        position: absolute !important;
+    }
 }

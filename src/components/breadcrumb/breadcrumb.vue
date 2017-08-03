@@ -7,6 +7,7 @@
     const prefixCls = 'ivu-breadcrumb';
 
     export default {
+        name: 'Breadcrumb',
         props: {
             separator: {
                 type: String,
@@ -18,8 +19,13 @@
                 return `${prefixCls}`;
             }
         },
-        compiled () {
+        mounted () {
             this.updateChildren();
+        },
+        updated () {
+            this.$nextTick(() => {
+                this.updateChildren();
+            });
         },
         methods: {
             updateChildren () {

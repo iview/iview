@@ -1,23 +1,35 @@
 <template>
     <div :class="[prefixCls]" @mouseenter="handleShowPopper" @mouseleave="handleClosePopper">
-        <div :class="[prefixCls + '-rel']" v-el:reference>
+        <div :class="[prefixCls + '-rel']" ref="reference">
             <slot></slot>
         </div>
-        <div :class="[prefixCls + '-popper']" transition="fade" v-el:popper v-show="!disabled && (visible || always)">
-            <div :class="[prefixCls + '-content']">
-                <div :class="[prefixCls + '-arrow']"></div>
-                <div :class="[prefixCls + '-inner']"><slot name="content">{{ content }}</slot></div>
+        <transition name="fade">
+            <div
+                :class="[prefixCls + '-popper']"
+                ref="popper"
+                v-show="!disabled && (visible || always)"
+                @mouseenter="handleShowPopper"
+                @mouseleave="handleClosePopper"
+                :data-transfer="transfer"
+                v-transfer-dom>
+                <div :class="[prefixCls + '-content']">
+                    <div :class="[prefixCls + '-arrow']"></div>
+                    <div :class="[prefixCls + '-inner']"><slot name="content">{{ content }}</slot></div>
+                </div>
             </div>
-        </div>
+        </transition>
     </div>
 </template>
 <script>
     import Popper from '../base/popper';
+    import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
 
     const prefixCls = 'ivu-tooltip';
 
     export default {
+        name: 'Tooltip',
+        directives: { TransferDom },
         mixins: [Popper],
         props: {
             placement: {
@@ -32,7 +44,7 @@
             },
             delay: {
                 type: Number,
-                default: 0
+                default: 100
             },
             disabled: {
                 type: Boolean,
@@ -45,6 +57,10 @@
             always: {
                 type: Boolean,
                 default: false
+            },
+            transfer: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -54,14 +70,19 @@
         },
         methods: {
             handleShowPopper() {
+                if (this.timeout) clearTimeout(this.timeout);
                 this.timeout = setTimeout(() => {
                     this.visible = true;
                 }, this.delay);
             },
             handleClosePopper() {
-                clearTimeout(this.timeout);
-                if (!this.controlled) {
-                    this.visible = false;
+                if (this.timeout) {
+                    clearTimeout(this.timeout);
+                    if (!this.controlled) {
+                        this.timeout = setTimeout(() => {
+                            this.visible = false;
+                        }, 100);
+                    }
                 }
             }
         }

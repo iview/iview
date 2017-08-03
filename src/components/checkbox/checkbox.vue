@@ -7,7 +7,7 @@
                 type="checkbox"
                 :class="inputClasses"
                 :disabled="disabled"
-                :value="value"
+                :value="label"
                 v-model="model"
                 @change="change">
             <input
@@ -15,27 +15,32 @@
                 type="checkbox"
                 :class="inputClasses"
                 :disabled="disabled"
-                v-model="checked"
+                :checked="currentValue"
                 @change="change">
         </span>
-        <slot v-if="showSlot"><span v-el:slot>{{ value }}</span></slot>
+        <slot><span v-if="showSlot">{{ label }}</span></slot>
     </label>
 </template>
 <script>
+    import { findComponentUpward } from '../../utils/assist';
+    import Emitter from '../../mixins/emitter';
+
     const prefixCls = 'ivu-checkbox';
 
     export default {
+        name: 'Checkbox',
+        mixins: [ Emitter ],
         props: {
             disabled: {
                 type: Boolean,
                 default: false
             },
             value: {
-                type: [String, Number, Boolean]
-            },
-            checked: {
                 type: Boolean,
                 default: false
+            },
+            label: {
+                type: [String, Number, Boolean]
             },
             indeterminate: {
                 type: Boolean,
@@ -45,9 +50,10 @@
         data () {
             return {
                 model: [],
-                selected: false,
+                currentValue: this.value,
                 group: false,
-                showSlot: true
+                showSlot: true,
+                parent: findComponentUpward(this, 'CheckboxGroup')
             };
         },
         computed: {
@@ -56,7 +62,7 @@
                     `${prefixCls}-wrapper`,
                     {
                         [`${prefixCls}-group-item`]: this.group,
-                        [`${prefixCls}-wrapper-checked`]: this.selected,
+                        [`${prefixCls}-wrapper-checked`]: this.currentValue,
                         [`${prefixCls}-wrapper-disabled`]: this.disabled
                     }
                 ];
@@ -65,7 +71,7 @@
                 return [
                     `${prefixCls}`,
                     {
-                        [`${prefixCls}-checked`]: this.selected,
+                        [`${prefixCls}-checked`]: this.currentValue,
                         [`${prefixCls}-disabled`]: this.disabled,
                         [`${prefixCls}-indeterminate`]: this.indeterminate
                     }
@@ -78,13 +84,14 @@
                 return `${prefixCls}-input`;
             }
         },
-        ready () {
-            if (this.$parent && this.$parent.$options.name === 'checkboxGroup') this.group = true;
+        mounted () {
+            this.parent = findComponentUpward(this, 'CheckboxGroup');
+            if (this.parent) this.group = true;
             if (!this.group) {
                 this.updateModel();
-                if (this.$els.slot && this.$els.slot.innerHTML === '') {
-                    this.showSlot = false;
-                }
+                this.showSlot = this.$slots.default !== undefined;
+            } else {
+                this.parent.updateModel(true);
             }
         },
         methods: {
@@ -93,21 +100,23 @@
                     return false;
                 }
 
-                this.selected = event.target.checked;
+                const checked = event.target.checked;
+                this.currentValue = checked;
+                this.$emit('input', checked);
 
                 if (this.group) {
-                    this.$parent.change(this.model);
+                    this.parent.change(this.model);
                 } else {
-                    this.$emit('on-change', this.checked);
-                    this.$dispatch('on-form-change', this.checked);
+                    this.$emit('on-change', checked);
+                    this.dispatch('FormItem', 'on-form-change', checked);
                 }
             },
             updateModel () {
-                this.selected = this.checked;
+                this.currentValue = this.value;
             }
         },
         watch: {
-            checked () {
+            value () {
                 this.updateModel();
             }
         }

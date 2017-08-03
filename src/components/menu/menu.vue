@@ -2,11 +2,14 @@
     <ul :class="classes" :style="styles"><slot></slot></ul>
 </template>
 <script>
-    import { oneOf } from '../../utils/assist';
+    import { oneOf, findComponentsDownward } from '../../utils/assist';
+    import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-menu';
 
     export default {
+        name: 'Menu',
+        mixins: [ Emitter ],
         props: {
             mode: {
                 validator (value) {
@@ -20,10 +23,10 @@
                 },
                 default: 'light'
             },
-            activeKey: {
+            activeName: {
                 type: [String, Number]
             },
-            openKeys: {
+            openNames: {
                 type: Array,
                 default () {
                     return [];
@@ -37,6 +40,11 @@
                 type: String,
                 default: '240px'
             }
+        },
+        data () {
+            return {
+                currentActiveName: this.activeName
+            };
         },
         computed: {
             classes () {
@@ -60,74 +68,52 @@
             }
         },
         methods: {
-            updateActiveKey () {
-                this.$children.forEach((item, index) => {
-                    if (!this.activeKey && index === 0) {
-                        this.activeKey = -1;
-                    }
-
-                    if (item.$options.name === 'Submenu') {
-                        item.active = false;
-                        item.$children.forEach(subitem => {
-                            if (subitem.$options.name === 'MenuGroup') {
-                                subitem.$children.forEach(groupItem => {
-                                    if (groupItem.key === this.activeKey) {
-                                        groupItem.active = true;
-                                        groupItem.$parent.$parent.active = true;
-                                    } else {
-                                        groupItem.active = false;
-                                    }
-                                });
-                            } else if (subitem.$options.name === 'MenuItem') {
-                                if (subitem.key === this.activeKey) {
-                                    subitem.active = true;
-                                    subitem.$parent.active = true;
-                                } else {
-                                    subitem.active = false;
-                                }
-                            }
-                        });
-                    } else if (item.$options.name === 'MenuGroup') {
-                        item.$children.forEach(groupItem => {
-                            groupItem.active = groupItem.key === this.activeKey;
-                        });
-                    } else if (item.$options.name === 'MenuItem') {
-                        item.active = item.key === this.activeKey;
-                    }
-                });
+            updateActiveName () {
+                if (this.currentActiveName === undefined) {
+                    this.currentActiveName = -1;
+                }
+                this.broadcast('Submenu', 'on-update-active-name', false);
+                this.broadcast('MenuItem', 'on-update-active-name', this.currentActiveName);
             },
-            updateOpenKeys (key) {
-                const index = this.openKeys.indexOf(key);
+            updateOpenKeys (name) {
+                const index = this.openNames.indexOf(name);
                 if (index > -1) {
-                    this.openKeys.splice(index, 1);
+                    this.openNames.splice(index, 1);
                 } else {
-                    this.openKeys.push(key);
+                    this.openNames.push(name);
+                    if (this.accordion) {
+                        this.openNames.splice(0, this.openNames.length);
+                        this.openNames.push(name);
+                    }
                 }
             },
             updateOpened () {
-                this.$children.forEach(item => {
-                    if (item.$options.name === 'Submenu') {
-                        if (this.openKeys.indexOf(item.key) > -1) item.opened = true;
-                    }
-                });
+                const items = findComponentsDownward(this, 'Submenu');
+
+                if (items.length) {
+                    items.forEach(item => {
+                        if (this.openNames.indexOf(item.name) > -1) item.opened = true;
+                    });
+                }
             }
         },
-        compiled () {
-            this.updateActiveKey();
+        mounted () {
+            this.updateActiveName();
             this.updateOpened();
-        },
-        events: {
-            'on-menu-item-select' (key) {
-                this.activeKey = key;
-                this.$emit('on-select', key);
-            }
+            this.$on('on-menu-item-select', (name) => {
+                this.currentActiveName = name;
+                this.$emit('on-select', name);
+            });
         },
         watch: {
-            openKeys () {
-                this.$emit('on-open-change', this.openKeys);
+            openNames () {
+                this.$emit('on-open-change', this.openNames);
             },
-            activeKey () {
-                this.updateActiveKey();
+            activeName (val) {
+                this.currentActiveName = val;
+            },
+            currentActiveName () {
+                this.updateActiveName();
             }
         }
     };

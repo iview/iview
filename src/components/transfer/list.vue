@@ -1,29 +1,31 @@
 <template>
-    <div :class="classes" :style="style">
+    <div :class="classes" :style="listStyle">
         <div :class="prefixCls + '-header'">
-            <Checkbox :checked.sync="checkedAll" :disabled="checkedAllDisabled" @on-change="toggleSelectAll"></Checkbox>
-            <span>{{ title }}</span>
+            <Checkbox :value="checkedAll" :disabled="checkedAllDisabled" @on-change="toggleSelectAll"></Checkbox>
+            <span :class="prefixCls + '-header-title'" @click="toggleSelectAll(!checkedAll)">{{ title }}</span>
             <span :class="prefixCls + '-header-count'">{{ count }}</span>
         </div>
         <div :class="bodyClasses">
             <div :class="prefixCls + '-body-search-wrapper'" v-if="filterable">
                 <Search
                     :prefix-cls="prefixCls + '-search'"
-                    :query.sync="query"
+                    :query="query"
+                    @on-query-clear="handleQueryClear"
+                    @on-query-change="handleQueryChange"
                     :placeholder="filterPlaceholder"></Search>
             </div>
             <ul :class="prefixCls + '-content'">
                 <li
-                    v-for="item in showItems | filterBy filterData"
+                    v-for="item in filterData"
                     :class="itemClasses(item)"
                     @click.prevent="select(item)">
-                    <Checkbox :checked="isCheck(item)" :disabled="item.disabled"></Checkbox>
-                    <span>{{{ showLabel(item) }}}</span>
+                    <Checkbox :value="isCheck(item)" :disabled="item.disabled"></Checkbox>
+                    <span v-html="showLabel(item)"></span>
                 </li>
                 <li :class="prefixCls + '-content-not-found'">{{ notFoundText }}</li>
             </ul>
         </div>
-        <div :class="prefixCls + '-footer'" v-if="showFooter" v-el:footer><slot></slot></div>
+        <div :class="prefixCls + '-footer'" v-if="showFooter"><slot></slot></div>
     </div>
 </template>
 <script>
@@ -31,13 +33,14 @@
     import Checkbox from '../checkbox/checkbox.vue';
 
     export default {
+        name: 'TransferList',
         components: { Search, Checkbox },
         props: {
             prefixCls: String,
             data: Array,
             renderFormat: Function,
             checkedKeys: Array,
-            style: Object,
+            listStyle: Object,
             title: [String, Number],
             filterable: Boolean,
             filterPlaceholder: String,
@@ -51,6 +54,11 @@
                 query: '',
                 showFooter: true
             };
+        },
+        watch: {
+            data () {
+                this.updateFilteredData();
+            }
         },
         computed: {
             classes () {
@@ -79,6 +87,9 @@
             },
             checkedAllDisabled () {
                 return this.data.filter(data => !data.disabled).length <= 0;
+            },
+            filterData () {
+                return this.showItems.filter(item => this.filterMethod(item, this.query));
             }
         },
         methods: {
@@ -105,25 +116,23 @@
                 this.showItems = this.data;
             },
             toggleSelectAll (status) {
-                this.checkedKeys = status ?
+                const keys = status ?
                         this.data.filter(data => !data.disabled || this.checkedKeys.indexOf(data.key) > -1).map(data => data.key) :
                         this.data.filter(data => data.disabled && this.checkedKeys.indexOf(data.key) > -1).map(data => data.key);
+                this.$emit('on-checked-keys-change', keys);
             },
-            filterData (value) {
-                return this.filterMethod(value, this.query);
+            handleQueryClear () {
+                this.query = '';
+            },
+            handleQueryChange (val) {
+                this.query = val;
             }
         },
         created () {
             this.updateFilteredData();
-
         },
-        compiled () {
-            this.showFooter = this.$els.footer.innerHTML !== '';
-        },
-        watch: {
-            data () {
-                this.updateFilteredData();
-            }
+        mounted () {
+            this.showFooter = this.$slots.default !== undefined;
         }
     };
 </script>

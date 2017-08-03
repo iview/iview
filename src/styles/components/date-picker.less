@@ -5,6 +5,7 @@
 
 .@{date-picker-prefix-cls} {
     //position: relative;
+    display: inline-block;
     line-height: normal;
     &-rel{
         position: relative;
@@ -18,6 +19,7 @@
     &-cells{
         width: @date-picker-cells-width;
         margin: 10px;
+        white-space: normal;
         span{
             display: inline-block;
             width: 24px;
@@ -188,6 +190,10 @@
                 float: left;
             }
         }
+    }
+    &-transfer{
+        z-index: @zindex-transfer;
+        max-height: none;
     }
 }
 

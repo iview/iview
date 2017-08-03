@@ -3,7 +3,9 @@
         <label :class="[prefixCls + '-label']" :style="labelStyles" v-if="label"><slot name="label">{{ label }}</slot></label>
         <div :class="[prefixCls + '-content']" :style="contentStyles">
             <slot></slot>
-            <div transition="fade" :class="[prefixCls + '-error-tip']" v-if="validateState === 'error' && showMessage && form.showMessage">{{ validateMessage }}</div>
+            <transition name="fade">
+                <div :class="[prefixCls + '-error-tip']" v-if="validateState === 'error' && showMessage && form.showMessage">{{ validateMessage }}</div>
+            </transition>
         </div>
     </div>
 </template>
@@ -11,6 +13,7 @@
     // https://github.com/ElemeFE/element/blob/dev/packages/form/src/form-item.vue
 
     import AsyncValidator from 'async-validator';
+    import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-form-item';
 
@@ -38,6 +41,8 @@
     }
 
     export default {
+        name: 'FormItem',
+        mixins: [ Emitter ],
         props: {
             label: {
                 type: String,
@@ -186,10 +191,17 @@
 
                 let prop = getPropByPath(model, path);
 
-                if (Array.isArray(value) && value.length > 0) {
+//                if (Array.isArray(value) && value.length > 0) {
+//                    this.validateDisabled = true;
+//                    prop.o[prop.k] = [];
+//                } else if (value !== this.initialValue) {
+//                    this.validateDisabled = true;
+//                    prop.o[prop.k] = this.initialValue;
+//                }
+                if (Array.isArray(value)) {
                     this.validateDisabled = true;
-                    prop.o[prop.k] = [];
-                } else if (value !== this.initialValue) {
+                    prop.o[prop.k] = [].concat(this.initialValue);
+                } else {
                     this.validateDisabled = true;
                     prop.o[prop.k] = this.initialValue;
                 }
@@ -206,9 +218,9 @@
                 this.validate('change');
             }
         },
-        ready () {
+        mounted () {
             if (this.prop) {
-                this.$dispatch('on-form-item-add', this);
+                this.dispatch('iForm', 'on-form-item-add', this);
 
                 Object.defineProperty(this, 'initialValue', {
                     value: this.fieldValue
@@ -229,7 +241,7 @@
             }
         },
         beforeDestroy () {
-            this.$dispatch('on-form-item-remove', this);
+            this.dispatch('iForm', 'on-form-item-remove', this);
         }
     };
 </script>

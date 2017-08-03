@@ -1,8 +1,8 @@
 <template>
     <div v-if="showSizer || showElevator" :class="optsClasses">
         <div v-if="showSizer" :class="sizerClasses">
-            <i-select :model.sync="pageSize" :size="size" @on-change="changeSize">
-                <i-option v-for="item in pageSizeOpts" :value="item" style="text-align:center;">{{ item }} {{ t('i.page.page') }}</i-option>
+            <i-select v-model="currentPageSize" :size="size" :placement="placement" @on-change="changeSize">
+                <i-option v-for="item in pageSizeOpts" :key="item" :value="item" style="text-align:center;">{{ item }} {{ t('i.page.page') }}</i-option>
             </i-select>
         </div>
         <div v-if="showElevator" :class="ElevatorClasses">
@@ -24,6 +24,7 @@
     }
 
     export default {
+        name: 'PageOption',
         mixins: [ Locale ],
         components: { iSelect, iOption },
         props: {
@@ -34,7 +35,18 @@
             _current: Number,
             pageSize: Number,
             allPages: Number,
-            isSmall: Boolean
+            isSmall: Boolean,
+            placement: String
+        },
+        data () {
+            return {
+                currentPageSize: this.pageSize
+            };
+        },
+        watch: {
+            pageSize (val) {
+                this.currentPageSize = val;
+            }
         },
         computed: {
             size () {
@@ -58,7 +70,7 @@
         },
         methods: {
             changeSize () {
-                this.$emit('on-size', this.pageSize);
+                this.$emit('on-size', this.currentPageSize);
             },
             changePage (event) {
                 let val = event.target.value.trim();

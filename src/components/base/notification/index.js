@@ -1,35 +1,35 @@
 import Notification from './notification.vue';
 import Vue from 'vue';
-import { camelcaseToHyphen } from '../../../utils/assist';
 
 Notification.newInstance = properties => {
     const _props = properties || {};
 
-    let props = '';
-    Object.keys(_props).forEach(prop => {
-        props += ' :' + camelcaseToHyphen(prop) + '=' + prop;
+    const Instance = new Vue({
+        data: _props,
+        render (h) {
+            return h(Notification, {
+                props: _props
+            });
+        }
     });
 
-    const div = document.createElement('div');
-    div.innerHTML = `<notification${props}></notification>`;
-    document.body.appendChild(div);
-
-    const notification = new Vue({
-        el: div,
-        data: _props,
-        components: { Notification }
-    }).$children[0];
+    const component = Instance.$mount();
+    document.body.appendChild(component.$el);
+    const notification = Instance.$children[0];
 
     return {
         notice (noticeProps) {
             notification.add(noticeProps);
         },
-        remove (key) {
-            notification.close(key);
+        remove (name) {
+            notification.close(name);
         },
         component: notification,
-        destroy () {
-            document.body.removeChild(div);
+        destroy (element) {
+            notification.closeAll();
+            setTimeout(function() {
+                document.body.removeChild(document.getElementsByClassName(element)[0]);
+            }, 500);
         }
     };
 };

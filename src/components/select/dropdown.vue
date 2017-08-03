@@ -2,10 +2,13 @@
     <div class="ivu-select-dropdown" :style="styles"><slot></slot></div>
 </template>
 <script>
+    import Vue from 'vue';
+    const isServer = Vue.prototype.$isServer;
     import { getStyle } from '../../utils/assist';
-    import Popper from 'popper.js';
+    const Popper = isServer ? function() {} : require('popper.js');  // eslint-disable-line
 
     export default {
+        name: 'Drop',
         props: {
             placement: {
                 type: String,
@@ -15,7 +18,7 @@
         data () {
             return {
                 popper: null,
-                width: '',
+                width: ''
             };
         },
         computed: {
@@ -27,13 +30,14 @@
         },
         methods: {
             update () {
+                if (isServer) return;
                 if (this.popper) {
                     this.$nextTick(() => {
                         this.popper.update();
                     });
                 } else {
                     this.$nextTick(() => {
-                        this.popper = new Popper(this.$parent.$els.reference, this.$el, {
+                        this.popper = new Popper(this.$parent.$refs.reference, this.$el, {
                             gpuAcceleration: false,
                             placement: this.placement,
                             boundariesPadding: 0,
@@ -66,7 +70,7 @@
                 popper._popper.style.transformOrigin = `center ${ origin }`;
             }
         },
-        compiled () {
+        created () {
             this.$on('on-update-popper', this.update);
             this.$on('on-destroy-popper', this.destroy);
         },

@@ -1,7 +1,9 @@
 /**
  * https://github.com/freeze-component/vue-popper
  * */
-import Popper from 'popper.js';
+import Vue from 'vue';
+const isServer = Vue.prototype.$isServer;
+const Popper = isServer ? function() {} : require('popper.js');  // eslint-disable-line
 
 export default {
     props: {
@@ -18,21 +20,29 @@ export default {
         offset: {
             default: 0
         },
-        value: Boolean,
+        value: {
+            type: Boolean,
+            default: false
+        },
         transition: String,
         options: {
             type: Object,
             default () {
                 return {
                     gpuAcceleration: false,
-                    boundariesElement: 'body'
+                    boundariesElement: 'body'    // todo 暂时注释，发现在 vue 2 里方向暂时可以自动识别了，待验证(还是有问题的)
                 };
             }
         },
-        visible: {
-            type: Boolean,
-            default: false
-        }
+        // visible: {
+        //     type: Boolean,
+        //     default: false
+        // }
+    },
+    data () {
+        return {
+            visible: this.value
+        };
     },
     watch: {
         value: {
@@ -54,13 +64,14 @@ export default {
     },
     methods: {
         createPopper() {
+            if (isServer) return;
             if (!/^(top|bottom|left|right)(-start|-end)?$/g.test(this.placement)) {
                 return;
             }
 
             const options = this.options;
-            const popper = this.popper || this.$els.popper;
-            const reference = this.reference || this.$els.reference;
+            const popper = this.popper || this.$refs.popper;
+            const reference = this.reference || this.$refs.reference;
 
             if (!popper || !reference) return;
 
@@ -79,19 +90,23 @@ export default {
             });
         },
         updatePopper() {
+            if (isServer) return;
             this.popperJS ? this.popperJS.update() : this.createPopper();
         },
         doDestroy() {
+            if (isServer) return;
             if (this.visible) return;
             this.popperJS.destroy();
             this.popperJS = null;
         },
         destroyPopper() {
+            if (isServer) return;
             if (this.popperJS) {
                 this.resetTransformOrigin(this.popperJS);
             }
         },
         resetTransformOrigin(popper) {
+            if (isServer) return;
             let placementMap = {top: 'bottom', bottom: 'top', left: 'right', right: 'left'};
             let placement = popper._popper.getAttribute('x-placement').split('-')[0];
             let origin = placementMap[placement];
@@ -99,6 +114,7 @@ export default {
         }
     },
     beforeDestroy() {
+        if (isServer) return;
         if (this.popperJS) {
             this.popperJS.destroy();
         }

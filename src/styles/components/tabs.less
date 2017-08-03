@@ -54,6 +54,10 @@
         white-space: nowrap;
     }
 
+    &-nav-right{
+        float: right;
+    }
+
     &-nav {
         padding-left: 0;
         margin: 0;
@@ -194,7 +198,7 @@
 }
 
 .@{tabs-prefix-cls}-no-animation{
-    .@{tabs-prefix-cls}-content {
+    > .@{tabs-prefix-cls}-content {
         transform: none!important;
 
         > .@{tabs-prefix-cls}-tabpane-inactive {

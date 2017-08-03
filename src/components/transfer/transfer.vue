@@ -1,49 +1,87 @@
-<template>
-    <div :class="classes">
-        <List
-            v-ref:left
-            :prefix-cls="prefixCls + '-list'"
-            :data="leftData"
-            :render-format="renderFormat"
-            :checked-keys.sync="leftCheckedKeys"
-            :valid-keys-count.sync="leftValidKeysCount"
-            :style="listStyle"
-            :title="titles[0]"
-            :filterable="filterable"
-            :filter-placeholder="filterPlaceholder"
-            :filter-method="filterMethod"
-            :not-found-text="notFoundText">
-            <slot></slot>
-        </List><Operation
-            :prefix-cls="prefixCls"
-            :operations="operations"
-            :left-active="leftValidKeysCount > 0"
-            :right-active="rightValidKeysCount > 0"></Operation><List
-            v-ref:right
-            :prefix-cls="prefixCls + '-list'"
-            :data="rightData"
-            :render-format="renderFormat"
-            :checked-keys.sync="rightCheckedKeys"
-            :valid-keys-count.sync="rightValidKeysCount"
-            :style="listStyle"
-            :title="titles[1]"
-            :filterable="filterable"
-            :filter-placeholder="filterPlaceholder"
-            :filter-method="filterMethod"
-            :not-found-text="notFoundText">
-            <slot></slot>
-        </List>
-    </div>
-</template>
 <script>
     import List from './list.vue';
     import Operation from './operation.vue';
-    import { t } from '../../locale';
+    import Locale from '../../mixins/locale';
+    import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-transfer';
 
     export default {
-        components: { List, Operation },
+        name: 'Transfer',
+        mixins: [ Emitter, Locale ],
+        render (h) {
+
+            function cloneVNode (vnode) {
+                const clonedChildren = vnode.children && vnode.children.map(vnode => cloneVNode(vnode));
+                const cloned = h(vnode.tag, vnode.data, clonedChildren);
+                cloned.text = vnode.text;
+                cloned.isComment = vnode.isComment;
+                cloned.componentOptions = vnode.componentOptions;
+                cloned.elm = vnode.elm;
+                cloned.context = vnode.context;
+                cloned.ns = vnode.ns;
+                cloned.isStatic = vnode.isStatic;
+                cloned.key = vnode.key;
+
+                return cloned;
+            }
+
+            const vNodes = this.$slots.default === undefined ? [] : this.$slots.default;
+            const clonedVNodes = this.$slots.default === undefined ? [] : vNodes.map(vnode => cloneVNode(vnode));
+
+            return h('div', {
+                'class': this.classes
+            }, [
+                h(List, {
+                    ref: 'left',
+                    props: {
+                        prefixCls: this.prefixCls + '-list',
+                        data: this.leftData,
+                        renderFormat: this.renderFormat,
+                        checkedKeys: this.leftCheckedKeys,
+                        validKeysCount: this.leftValidKeysCount,
+                        listStyle: this.listStyle,
+                        title: this.localeTitles[0],
+                        filterable: this.filterable,
+                        filterPlaceholder: this.localeFilterPlaceholder,
+                        filterMethod: this.filterMethod,
+                        notFoundText: this.localeNotFoundText
+                    },
+                    on: {
+                        'on-checked-keys-change': this.handleLeftCheckedKeysChange
+                    }
+                }, vNodes),
+
+                h(Operation, {
+                    props: {
+                        prefixCls: this.prefixCls,
+                        operations: this.operations,
+                        leftActive: this.leftValidKeysCount > 0,
+                        rightActive: this.rightValidKeysCount > 0
+                    }
+                }),
+
+                h(List, {
+                    ref: 'right',
+                    props: {
+                        prefixCls: this.prefixCls + '-list',
+                        data: this.rightData,
+                        renderFormat: this.renderFormat,
+                        checkedKeys: this.rightCheckedKeys,
+                        validKeysCount: this.rightValidKeysCount,
+                        listStyle: this.listStyle,
+                        title: this.localeTitles[1],
+                        filterable: this.filterable,
+                        filterPlaceholder: this.localeFilterPlaceholder,
+                        filterMethod: this.filterMethod,
+                        notFoundText: this.localeNotFoundText
+                    },
+                    on: {
+                        'on-checked-keys-change': this.handleRightCheckedKeysChange
+                    }
+                }, clonedVNodes)
+            ]);
+        },
         props: {
             data: {
                 type: Array,
@@ -76,10 +114,7 @@
                 }
             },
             titles: {
-                type: Array,
-                default () {
-                    return [t('i.transfer.titles.source'), t('i.transfer.titles.target')];
-                }
+                type: Array
             },
             operations: {
                 type: Array,
@@ -92,10 +127,7 @@
                 default: false
             },
             filterPlaceholder: {
-                type: String,
-                default () {
-                    return t('i.transfer.filterPlaceholder');
-                }
+                type: String
             },
             filterMethod: {
                 type: Function,
@@ -105,10 +137,7 @@
                 }
             },
             notFoundText: {
-                type: String,
-                default () {
-                    return t('i.transfer.notFoundText');
-                }
+                type: String
             }
         },
         data () {
@@ -131,6 +160,27 @@
             },
             rightValidKeysCount () {
                 return this.getValidKeys('right').length;
+            },
+            localeFilterPlaceholder () {
+                if (this.filterPlaceholder === undefined) {
+                    return this.t('i.transfer.filterPlaceholder');
+                } else {
+                    return this.filterPlaceholder;
+                }
+            },
+            localeNotFoundText () {
+                if (this.notFoundText === undefined) {
+                    return this.t('i.transfer.notFoundText');
+                } else {
+                    return this.notFoundText;
+                }
+            },
+            localeTitles () {
+                if (this.titles === undefined) {
+                    return [this.t('i.transfer.titles.source'), this.t('i.transfer.titles.target')];
+                } else {
+                    return this.titles;
+                }
             }
         },
         methods: {
@@ -142,14 +192,14 @@
                 this.rightData = [];
                 if (this.targetKeys.length > 0) {
                     this.targetKeys.forEach((targetKey) => {
-                        this.rightData.push(
-                                this.leftData.filter((data, index) => {
-                                    if (data.key === targetKey) {
-                                        this.leftData.splice(index, 1);
-                                        return true;
-                                    }
-                                    return false;
-                                })[0]);
+                        const filteredData = this.leftData.filter((data, index) => {
+                            if (data.key === targetKey) {
+                                this.leftData.splice(index, 1);
+                                return true;
+                            }
+                            return false;
+                        });
+                        if (filteredData && filteredData.length > 0) this.rightData.push(filteredData[0]);
                     });
                 }
                 if (init) {
@@ -177,15 +227,28 @@
 
                 this.$refs[opposite].toggleSelectAll(false);
                 this.$emit('on-change', newTargetKeys, direction, moveKeys);
-                this.$dispatch('on-form-change', newTargetKeys, direction, moveKeys);
+                this.dispatch('FormItem', 'on-form-change', {
+                    tarketKeys: newTargetKeys,
+                    direction: direction,
+                    moveKeys: moveKeys
+                });
+            },
+            handleLeftCheckedKeysChange (keys) {
+                this.leftCheckedKeys = keys;
+            },
+            handleRightCheckedKeysChange (keys) {
+                this.rightCheckedKeys = keys;
             }
         },
         watch: {
             targetKeys () {
                 this.splitData(false);
+            },
+            data () {
+                this.splitData(false);
             }
         },
-        created () {
+        mounted () {
             this.splitData(true);
         }
     };

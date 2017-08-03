@@ -1,8 +1,6 @@
 <template>
-    <div
-        :class="[prefixCls]"
-        v-clickoutside="handleClose">
-        <div v-el:reference :class="[prefixCls + '-rel']">
+    <div :class="[prefixCls]" v-clickoutside="handleClose">
+        <div ref="reference" :class="[prefixCls + '-rel']">
             <slot>
                 <i-input
                     :class="[prefixCls + '-editor']"
@@ -11,17 +9,26 @@
                     :size="size"
                     :placeholder="placeholder"
                     :value="visualValue"
-                    @on-change="handleInputChange"
+                    @on-input-change="handleInputChange"
                     @on-focus="handleFocus"
                     @on-click="handleIconClick"
-                    @mouseenter="handleInputMouseenter"
-                    @mouseleave="handleInputMouseleave"
+                    @mouseenter.native="handleInputMouseenter"
+                    @mouseleave.native="handleInputMouseleave"
                     :icon="iconType"></i-input>
             </slot>
         </div>
-        <Drop v-show="opened" :placement="placement" :transition="transition" v-ref:drop>
-            <div v-el:picker></div>
-        </Drop>
+        <transition :name="transition">
+            <Drop
+                @click.native="handleTransferClick"
+                v-show="opened"
+                :class="{ [prefixCls + '-transfer']: transfer }"
+                :placement="placement"
+                ref="drop"
+                :data-transfer="transfer"
+                v-transfer-dom>
+                <div ref="picker"></div>
+            </Drop>
+        </transition>
     </div>
 </template>
 <script>
@@ -29,8 +36,10 @@
     import iInput from '../../components/input/input.vue';
     import Drop from '../../components/select/dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
+    import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
     import { formatDate, parseDate } from './util';
+    import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-date-picker';
 
@@ -136,8 +145,10 @@
     };
 
     export default {
+        name: 'CalendarPicker',
+        mixins: [ Emitter ],
         components: { iInput, Drop },
-        directives: { clickoutside },
+        directives: { clickoutside, TransferDom },
         props: {
             format: {
                 type: String
@@ -183,6 +194,10 @@
             },
             options: {
                 type: Object
+            },
+            transfer: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -192,7 +207,9 @@
                 visible: false,
                 picker: null,
                 internalValue: '',
-                disableClickOutSide: false    // fixed when click a date,trigger clickoutside to close picker
+                disableClickOutSide: false,    // fixed when click a date,trigger clickoutside to close picker
+                disableCloseUnderTransfer: false,  // transfer 模式下，点击Drop也会触发关闭
+                currentValue: this.value
             };
         },
         computed: {
@@ -252,9 +269,18 @@
             }
         },
         methods: {
+            // 开启 transfer 时，点击 Drop 即会关闭，这里不让其关闭
+            handleTransferClick () {
+                if (this.transfer) this.disableCloseUnderTransfer = true;
+            },
             handleClose () {
+                if (this.disableCloseUnderTransfer) {
+                    this.disableCloseUnderTransfer = false;
+                    return false;
+                }
                 if (this.open !== null) return;
-                if (!this.disableClickOutSide) this.visible = false;
+//                if (!this.disableClickOutSide) this.visible = false;
+                this.visible = false;
                 this.disableClickOutSide = false;
             },
             handleFocus () {
@@ -339,6 +365,7 @@
                 this.visualValue = correctValue;
                 event.target.value = correctValue;
                 this.internalValue = correctDate;
+                this.currentValue = correctDate;
 
                 if (correctValue !== oldValue) this.emitChange(correctDate);
             },
@@ -354,28 +381,29 @@
             handleIconClick () {
                 if (this.showClose) {
                     this.handleClear();
-                } else {
+                } else if (!this.disabled) {
                     this.handleFocus();
                 }
             },
             handleClear () {
                 this.visible = false;
                 this.internalValue = '';
-                this.value = '';
+                this.currentValue = '';
                 this.$emit('on-clear');
-                this.$dispatch('on-form-change', '');
+                this.dispatch('FormItem', 'on-form-change', '');
             },
             showPicker () {
                 if (!this.picker) {
+                    let isConfirm = this.confirm;
                     const type = this.type;
 
-                    this.picker = new Vue(this.panel).$mount(this.$els.picker);
+                    this.picker = new Vue(this.panel).$mount(this.$refs.picker);
                     if (type === 'datetime' || type === 'datetimerange') {
-                        this.confirm = true;
+                        isConfirm = true;
                         this.picker.showTime = true;
                     }
                     this.picker.value = this.internalValue;
-                    this.picker.confirm = this.confirm;
+                    this.picker.confirm = isConfirm;
                     this.picker.selectionMode = this.selectionMode;
                     if (this.format) this.picker.format = this.format;
 
@@ -391,8 +419,8 @@
                     }
 
                     this.picker.$on('on-pick', (date, visible = false) => {
-                        if (!this.confirm) this.visible = visible;
-                        this.value = date;
+                        if (!isConfirm) this.visible = visible;
+                        this.currentValue = date;
                         this.picker.value = date;
                         this.picker.resetView && this.picker.resetView();
                         this.emitChange(date);
@@ -415,6 +443,14 @@
                 this.picker.resetView && this.picker.resetView();
             },
             emitChange (date) {
+                const newDate = this.formattingDate(date);
+
+                this.$emit('on-change', newDate);
+                this.$nextTick(() => {
+                    this.dispatch('FormItem', 'on-form-change', newDate);
+                });
+            },
+            formattingDate (date) {
                 const type = this.type;
                 const format = this.format || DEFAULT_FORMATS[type];
                 const formatter = (
@@ -426,9 +462,7 @@
                 if (type === 'daterange' || type === 'timerange') {
                     newDate = [newDate.split(RANGE_SEPARATOR)[0], newDate.split(RANGE_SEPARATOR)[1]];
                 }
-
-                this.$emit('on-change', newDate);
-                this.$dispatch('on-form-change', newDate);
+                return newDate;
             }
         },
         watch: {
@@ -447,8 +481,12 @@
                 if (!val && this.picker && typeof this.picker.handleClear === 'function') {
                     this.picker.handleClear();
                 }
+//                this.$emit('input', val);
             },
-            value: {
+            value (val) {
+                this.currentValue = val;
+            },
+            currentValue: {
                 immediate: true,
                 handler (val) {
                     const type = this.type;
@@ -465,6 +503,7 @@
                     }
 
                     this.internalValue = val;
+                    this.$emit('input', val);
                 }
             },
             open (val) {
@@ -481,16 +520,8 @@
                 this.picker.$destroy();
             }
         },
-        ready () {
+        mounted () {
             if (this.open !== null) this.visible = this.open;
-        },
-        events: {
-            'on-form-blur' () {
-                return false;
-            },
-            'on-form-change' () {
-                return false;
-            }
         }
     };
 </script>

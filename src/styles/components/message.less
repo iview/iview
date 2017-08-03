@@ -14,6 +14,18 @@
         vertical-align: middle;
         position: absolute;
         left: 50%;
+
+        &-close {
+            position: absolute;
+            right: 4px;
+            top: 9px;
+            color: #999;
+            outline: none;
+
+            i.@{icon-prefix-cls}{
+                .close-base(-3px);
+            }
+        }
     }
 
     &-notice-content {
@@ -25,6 +37,15 @@
         box-shadow: @shadow-base;
         background: #fff;
         display: block;
+        &-text{
+            display: inline-block;
+        }
+    }
+
+    &-notice-closable{
+        .@{message-prefix-cls}-notice-content-text{
+            padding-right: 32px;
+        }
     }
 
     &-success .@{icon-prefix-cls} {

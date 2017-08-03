@@ -1,12 +1,15 @@
 <template>
-    <div :class="classes" :style="style">
-        <Notice v-for="notice in notices"
+    <div :class="classes" :style="styles">
+        <Notice
+            v-for="notice in notices"
+            :key="notice.name"
             :prefix-cls="prefixCls"
-            :style="notice.style"
+            :styles="notice.styles"
+            :type="notice.type"
             :content="notice.content"
             :duration="notice.duration"
             :closable="notice.closable"
-            :key="notice.key"
+            :name="notice.name"
             :transition-name="notice.transitionName"
             :on-close="notice.onClose">
         </Notice>
@@ -30,7 +33,7 @@
                 type: String,
                 default: prefixCls
             },
-            style: {
+            styles: {
                 type: Object,
                 default: function () {
                     return {
@@ -63,29 +66,31 @@
         },
         methods: {
             add (notice) {
-                const key = notice.key || getUuid();
+                const name = notice.name || getUuid();
 
                 let _notice = Object.assign({
-                    style: {
+                    styles: {
                         right: '50%'
                     },
                     content: '',
                     duration: 1.5,
                     closable: false,
-                    key: key
+                    name: name
                 }, notice);
 
                 this.notices.push(_notice);
             },
-            close (key) {
+            close (name) {
                 const notices = this.notices;
-
                 for (let i = 0; i < notices.length; i++) {
-                    if (notices[i].key === key) {
+                    if (notices[i].name === name) {
                         this.notices.splice(i, 1);
                         break;
                     }
                 }
+            },
+            closeAll () {
+                this.notices = [];
             }
         }
     };

@@ -4,14 +4,16 @@
             <div :class="[prefixCls + '-nav-container']">
                 <div :class="[prefixCls + '-nav-wrap']">
                     <div :class="[prefixCls + '-nav-scroll']">
-                        <div :class="[prefixCls + '-nav']" v-el:nav>
+                        <div :class="[prefixCls + '-nav']" ref="nav">
                             <div :class="barClasses" :style="barStyle"></div>
-                            <div :class="tabCls(item)" v-for="item in navList" @click="handleChange($index)">
+                            <div :class="tabCls(item)" v-for="(item, index) in navList" @click="handleChange(index)">
                                 <Icon v-if="item.icon !== ''" :type="item.icon"></Icon>
-                                {{ item.label }}
-                                <Icon v-if="showClose(item)" type="ios-close-empty" @click.stop="handleRemove($index)"></Icon>
+                                <Render v-if="item.labelType === 'function'" :render="item.label"></Render>
+                                <template v-else>{{ item.label }}</template>
+                                <Icon v-if="showClose(item)" type="ios-close-empty" @click.native.stop="handleRemove(index)"></Icon>
                             </div>
                         </div>
+                        <div :class="[prefixCls + '-nav-right']" v-if="showSlot"><slot name="extra"></slot></div>
                     </div>
                 </div>
             </div>
@@ -21,14 +23,18 @@
 </template>
 <script>
     import Icon from '../icon/icon.vue';
+    import Render from '../base/render';
     import { oneOf, getStyle } from '../../utils/assist';
+    import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-tabs';
 
     export default {
-        components: { Icon },
+        name: 'Tabs',
+        mixins: [ Emitter ],
+        components: { Icon, Render },
         props: {
-            activeKey: {
+            value: {
                 type: [String, Number]
             },
             type: {
@@ -57,7 +63,9 @@
                 prefixCls: prefixCls,
                 navList: [],
                 barWidth: 0,
-                barOffset: 0
+                barOffset: 0,
+                activeKey: this.value,
+                showSlot: false
             };
         },
         computed: {
@@ -88,7 +96,7 @@
                 ];
             },
             contentStyle () {
-                const x = this.navList.findIndex((nav) => nav.key === this.activeKey);
+                const x = this.navList.findIndex((nav) => nav.name === this.activeKey);
                 const p = x === 0 ? '0%' : `-${x}00%`;
 
                 let style = {};
@@ -122,15 +130,16 @@
                 this.navList = [];
                 this.getTabs().forEach((pane, index) => {
                     this.navList.push({
+                        labelType: typeof pane.label,
                         label: pane.label,
                         icon: pane.icon || '',
-                        key: pane.key || index,
+                        name: pane.currentName || index,
                         disabled: pane.disabled,
                         closable: pane.closable
                     });
-                    if (!pane.key) pane.key = index;
+                    if (!pane.currentName) pane.currentName = index;
                     if (index === 0) {
-                        if (!this.activeKey) this.activeKey = pane.key || index;
+                        if (!this.activeKey) this.activeKey = pane.currentName || index;
                     }
                 });
                 this.updateStatus();
@@ -138,8 +147,8 @@
             },
             updateBar () {
                 this.$nextTick(() => {
-                    const index = this.navList.findIndex((nav) => nav.key === this.activeKey);
-                    const prevTabs = this.$els.nav.querySelectorAll(`.${prefixCls}-tab`);
+                    const index = this.navList.findIndex((nav) => nav.name === this.activeKey);
+                    const prevTabs = this.$refs.nav.querySelectorAll(`.${prefixCls}-tab`);
                     const tab = prevTabs[index];
                     this.barWidth = parseFloat(getStyle(tab, 'width'));
 
@@ -158,29 +167,30 @@
             },
             updateStatus () {
                 const tabs = this.getTabs();
-                tabs.forEach(tab => tab.show = (tab.key === this.activeKey) || this.animated);
+                tabs.forEach(tab => tab.show = (tab.currentName === this.activeKey) || this.animated);
             },
             tabCls (item) {
                 return [
                     `${prefixCls}-tab`,
                     {
                         [`${prefixCls}-tab-disabled`]: item.disabled,
-                        [`${prefixCls}-tab-active`]: item.key === this.activeKey
+                        [`${prefixCls}-tab-active`]: item.name === this.activeKey
                     }
                 ];
             },
             handleChange (index) {
                 const nav = this.navList[index];
                 if (nav.disabled) return;
-                this.activeKey = nav.key;
-                this.$emit('on-click', nav.key);
+                this.activeKey = nav.name;
+                this.$emit('input', nav.name);
+                this.$emit('on-click', nav.name);
             },
             handleRemove (index) {
                 const tabs = this.getTabs();
                 const tab = tabs[index];
-                tab.$destroy(true);
+                tab.$destroy();
 
-                if (tab.key === this.activeKey) {
+                if (tab.currentName === this.activeKey) {
                     const newTabs = this.getTabs();
                     let activeKey = -1;
 
@@ -189,16 +199,17 @@
                         const rightNoDisabledTabs = tabs.filter((item, itemIndex) => !item.disabled && itemIndex > index);
 
                         if (rightNoDisabledTabs.length) {
-                            activeKey = rightNoDisabledTabs[0].key;
+                            activeKey = rightNoDisabledTabs[0].currentName;
                         } else if (leftNoDisabledTabs.length) {
-                            activeKey = leftNoDisabledTabs[leftNoDisabledTabs.length - 1].key;
+                            activeKey = leftNoDisabledTabs[leftNoDisabledTabs.length - 1].currentName;
                         } else {
-                            activeKey = newTabs[0].key;
+                            activeKey = newTabs[0].currentName;
                         }
                     }
                     this.activeKey = activeKey;
+                    this.$emit('input', activeKey);
                 }
-                this.$emit('on-tab-remove', tab.key);
+                this.$emit('on-tab-remove', tab.currentName);
                 this.updateNav();
             },
             showClose (item) {
@@ -214,10 +225,17 @@
             }
         },
         watch: {
+            value (val) {
+                this.activeKey = val;
+            },
             activeKey () {
                 this.updateBar();
                 this.updateStatus();
+                this.broadcast('Table', 'on-visible-change', true);
             }
+        },
+        mounted () {
+            this.showSlot = this.$slots.extra !== undefined;
         }
     };
 </script>

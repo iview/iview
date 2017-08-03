@@ -1,11 +1,20 @@
 @cascader-prefix-cls: ~"@{css-prefix}cascader";
 @cascader-item-prefix-cls: ~"@{css-prefix}cascader-menu-item";
 
+.selectDropDown{
+    width: auto;
+    padding: 0;
+    white-space: nowrap;
+    overflow: visible;
+}
+
 .@{cascader-prefix-cls} {
     //position: relative;
     line-height: normal;
 
     &-rel{
+        display: inline-block;
+        width: 100%;
         position: relative;
     }
 
@@ -15,6 +24,29 @@
     }
     &-disabled .@{css-prefix}input{
         cursor: @cursor-disabled;
+    }
+
+    &-label{
+        width: 100%;
+        height: 100%;
+        line-height: 32px;
+        padding: 0 7px;
+        box-sizing: border-box;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        cursor: pointer;
+        font-size: @font-size-small;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+    &-size-large &-label{
+        line-height: 36px;
+        font-size: @font-size-base;
+    }
+    &-size-small &-label{
+        line-height: 26px;
     }
 
     .@{cascader-prefix-cls}-arrow:nth-of-type(1) {
@@ -39,13 +71,34 @@
     }
 
     .@{select-dropdown-prefix-cls} {
-        width: auto;
-        padding: 0;
-        white-space: nowrap;
-        overflow: visible;
+        .selectDropDown();
     }
 
     .select-item(@cascader-prefix-cls, @cascader-item-prefix-cls);
+    .ivu-select-item span{
+        color: @error-color;
+    }
+
+    &-dropdown{
+        padding: 5px 0;
+        .@{select-dropdown-prefix-cls}-list{
+            max-height: 190px;
+            box-sizing: border-box;
+            overflow: auto;
+        }
+    }
+
+    &-not-found-tip{
+        padding: 5px 0;
+        text-align: center;
+        color: @btn-disable-color;
+        li:not([class^=ivu-]){
+            margin-bottom: 0;
+        }
+    }
+    &-not-found .@{select-dropdown-prefix-cls} {
+        width: inherit;
+    }
 
     &-menu{
         display: inline-block;
@@ -87,6 +140,14 @@
                 color: @primary-color;
             }
         }
+    }
+}
+.@{cascader-prefix-cls}-transfer{
+    z-index: @zindex-transfer;
+    .selectDropDown();
+    .select-item(@cascader-prefix-cls, @cascader-item-prefix-cls);
+    .ivu-select-item span{
+        color: @error-color;
     }
 }
 
