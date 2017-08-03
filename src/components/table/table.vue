@@ -392,6 +392,10 @@
                 this.highlightCurrentRow (_index);
                 this.$emit('on-row-click', JSON.parse(JSON.stringify(this.cloneData[_index])));
             },
+            clickCell(row_index, col_index) {
+                this.highlightCurrentRow (row_index);
+                this.$emit('on-cell-click', JSON.parse(JSON.stringify(this.cloneData[row_index, col_index])));
+            },
             dblclickCurrentRow (_index) {
                 this.highlightCurrentRow (_index);
                 this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.cloneData[_index])));
