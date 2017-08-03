@@ -11,7 +11,7 @@
                     :prefix-cls="prefixCls"
                     @mouseenter.native.stop="handleMouseIn(row._index)"
                     @mouseleave.native.stop="handleMouseOut(row._index)"
-                    @click.native="clickCurrentRow(row._index)"
+                    <!-- @click.native="clickCurrentRow(row._index)" -->
                     @dblclick.native.stop="dblclickCurrentRow(row._index)">
                     <td v-for="(column, col_index) in columns" :class="alignCls(column, row)" @click.native="clickCell(row._index, col_index)">
                         <Cell
@@ -90,9 +90,9 @@
             handleMouseOut (_index) {
                 this.$parent.handleMouseOut(_index);
             },
-            clickCurrentRow (_index) {
-                this.$parent.clickCurrentRow(_index);
-            },
+            // clickCurrentRow (_index) {
+            //     this.$parent.clickCurrentRow(_index);
+            // },
             clickCell (row_index, col_index){
                 this.$parent.clickCell(row_index, col_index);
             },

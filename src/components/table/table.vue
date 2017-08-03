@@ -388,12 +388,13 @@
                 const oldData = oldIndex < 0 ? null : JSON.parse(JSON.stringify(this.cloneData[oldIndex]));
                 this.$emit('on-current-change', JSON.parse(JSON.stringify(this.cloneData[_index])), oldData);
             },
-            clickCurrentRow (_index) {
-                this.highlightCurrentRow (_index);
-                this.$emit('on-row-click', JSON.parse(JSON.stringify(this.cloneData[_index])));
-            },
+            // clickCurrentRow (_index) {
+            //     this.highlightCurrentRow (_index);
+            //     this.$emit('on-row-click', JSON.parse(JSON.stringify(this.cloneData[_index])));
+            // },
             clickCell(row_index, col_index) {
                 this.highlightCurrentRow (row_index);
+                this.$emit('on-row-click', JSON.parse(JSON.stringify(this.cloneData[row_index])));
                 this.$emit('on-cell-click', JSON.parse(JSON.stringify(this.cloneData[row_index, col_index])));
             },
             dblclickCurrentRow (_index) {
