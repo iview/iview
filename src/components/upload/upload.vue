@@ -279,8 +279,8 @@
                     _file.status = 'finished';
                     _file.response = res;
 
-                    this.dispatch('FormItem', 'on-form-change', _file);
                     this.onSuccess(res, _file, this.fileList);
+                    this.dispatch('FormItem', 'on-form-change', _file);  // fixed by FEN 先触发导致验证的时候有问题
 
                     setTimeout(() => {
                         _file.showProgress = false;
@@ -301,6 +301,7 @@
                 const fileList = this.fileList;
                 fileList.splice(fileList.indexOf(file), 1);
                 this.onRemove(file, fileList);
+                this.dispatch('FormItem', 'on-form-change', file); // fixed by FEN 删除列表后的验证判断
             },
             handlePreview(file) {
                 if (file.status === 'finished') {
