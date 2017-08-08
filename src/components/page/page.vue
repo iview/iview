@@ -135,6 +135,12 @@
             };
         },
         watch: {
+            total (val) {
+                let maxPage = Math.ceil(val / this.currentPageSize);
+                if (maxPage < this.currentPage && maxPage > 0) {
+                    this.currentPage = maxPage;
+                }
+            },
             current (val) {
                 this.currentPage = val;
             },
