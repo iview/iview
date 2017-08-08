@@ -459,7 +459,7 @@
                 ).formatter;
 
                 let newDate = formatter(date, format);
-                if (type === 'daterange' || type === 'timerange') {
+                if (type === 'daterange' || type === 'timerange' || type === 'datetimerange') {
                     newDate = [newDate.split(RANGE_SEPARATOR)[0], newDate.split(RANGE_SEPARATOR)[1]];
                 }
                 return newDate;
