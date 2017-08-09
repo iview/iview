@@ -67,7 +67,9 @@
                             if (fromUser) {
                                 cascader.isLoadedChildren = true;
                             }
-                            this.handleTriggerItem(item);
+                            if (item.children.length) {
+                                this.handleTriggerItem(item);
+                            }
                         });
                         return;
                     }
