@@ -1,6 +1,7 @@
 <template>
     <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-        <Form-item label="姓名" prop="name">
+        <Form-item prop="name">
+            <span slot="label"><Icon type="ionic"></Icon></span>
             <Input v-model="formValidate.name" placeholder="请输入姓名"></Input>
         </Form-item>
         <Form-item label="邮箱" prop="mail">
