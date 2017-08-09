@@ -1,7 +1,15 @@
 <template>
     <div>
+        <div>
+            <Checkbox true-value="true" false-value="false" v-model="testValue1">test string</Checkbox>
+            {{ testValue1 }}
+        </div>
+        <div>
+            <Checkbox :true-value="0" :false-value="1" v-model="testValue2">test number</Checkbox>
+            {{ testValue2 }}
+        </div>
         <Checkbox-group v-model="fruit">
-            <Checkbox v-for="item in tags" :label="item.label" :key="item"></Checkbox>
+            <Checkbox v-for="item in tags" :label="item.label" :key="item.label" true-value="true"></Checkbox>
         </Checkbox-group>
         <div>{{ fruit }}</div>
     </div>
@@ -12,7 +20,9 @@
             return {
                 social: ['facebook', 'github'],
                 fruit: ['苹果'],
-                tags: []
+                tags: [],
+                testValue1: null,
+                testValue2: null
             }
         },
         mounted () {
