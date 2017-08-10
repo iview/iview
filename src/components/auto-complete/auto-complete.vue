@@ -3,11 +3,11 @@
     <Dropdown @on-click="handleItemClick" :style="styles" trigger="custom" :visible="this.visible" v-clickoutside="handleClose" :placement="placement" :transfer="transfer">
       <i-input ref="input" v-model="currentValue" @on-change="handleInputChange" @on-focus="handleInputFocus" @on-keydown="handleInputKeydown"
         :placeholder="placeholder" :disabled="disabled" :autofocus="autofocus" :name="name" :icon="icon" :size="size">
-        <span :class="[prefixCls + '-clear']" v-if="clearable" slot="append" @click="clearInput"><Icon type="ios-close-outline"></Icon></span>
       </i-input>
+      <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearInput"></Icon>
       <DropdownMenu v-show="matchDataSource.length > 0 || loading" slot="list">
-        <DropdownItem v-if="loading" key="loading" disabled>loading</DropdownItem>
-        <DropdownItem v-else ref="selectItem" v-for="(value, index) in matchDataSource" :key="value" :name="value" :selected="index === selectIndex">{{value}}</DropdownItem>
+        <DropdownItem v-if="loading" key="loading" disabled>加载中...</DropdownItem>
+        <DropdownItem v-else ref="selectItem" v-for="(value, index) in matchDataSource" :key="value" :name="value" :selected="index === selectedIndex">{{value}}</DropdownItem>
       </DropdownMenu>
     </Dropdown>
   </div>
@@ -31,7 +31,7 @@ export default {
             type: Array,
             default: () => []
         },
-        async: {
+        remote: {
             type: Boolean,
             default: false
         },
@@ -43,7 +43,7 @@ export default {
             validator(value) {
                 return oneOf(value, ['focus', 'change']);
             },
-            default: 'focus'
+            default: 'change'
         },
         value: {
             type: [String, Number],
@@ -86,9 +86,9 @@ export default {
         }
     },
     computed: {
-        matchDataSource() {
-            // if support async, the server control the suggest options
-            if (this.async) {
+        matchDataSource () {
+            // if support remote, the server control the suggest options
+            if (this.remote) {
                 return this.dataSource;
             } else {
                 return this.dataSource.filter(name => {
@@ -96,13 +96,16 @@ export default {
                 });
             }
 
+        },
+        showCloseIcon () {
+            return this.value && this.clearable;
         }
     },
     data () {
         return {
             currentValue: this.value,
             prefixCls: prefixCls,
-            selectIndex: 0,
+            selectedIndex: -1,
             visible: false,
             styles: {
                 width: '0px'
@@ -113,21 +116,19 @@ export default {
         this.setAutoCompleteStyle();
     },
     watch: {
-        value (val) {
+        value(val) {
             this.currentValue = val;
         },
-        dataSource () {
+        dataSource() {
             this.setVisible();
+        },
+        currentValue() {
+            this.setSelectedIndex();
         }
     },
     methods: {
-        // 重置 AutoComplete
-        reset () {
-            this.setVisible(false);
-            this.selectIndex = 0;
-        },
         // 设置 value
-        setValue (val, isFromSelect = false) {
+        setValue(val, isFromSelect = false) {
             this.currentValue = val;
             this.$emit('input', val);
             this.$emit('on-change', val, isFromSelect);
@@ -142,29 +143,37 @@ export default {
         },
         // 设置自动完成框是否可见（在没有初始值或者没有匹配到值时就不显示）
         setVisible(value) {
+            if (typeof value !== 'undefined') {
+                this.visible = value;
+                return value;
+            }
+
             this.$nextTick(() => {
-                if (typeof value !== 'undefined') {
-                    this.visible = value;
+                const condiction1 = this.currentValue && this.matchDataSource.length > 0; // 有值且选项不为空
+                const condiction2 = !this.currentValue && this.trigger === 'focus' && this.matchDataSource.length > 0; // 没有值时/允许 focus /选项不为空就展示
+                const condiction3 = (this.currentValue || this.trigger === 'focus') && this.remote && this.loading; // 支持异步获取
+
+                if (condiction1 || condiction2 || condiction3) {
+                    this.visible = true;
                 } else {
-                    const condiction1 = this.currentValue && this.matchDataSource.length > 0; // 有值且选项不为空
-                    const condiction2 = !this.currentValue && this.trigger === 'focus' && this.matchDataSource.length > 0; // 没有值时/允许 focus /选项不为空就展示
-                    const condiction3 = this.async && this.loading; // 支持异步获取
-                    if (condiction1 || condiction2 || condiction3) {
-                        this.visible = true;
-                    } else {
-                        this.visible = false;
-                    }
+                    this.visible = false;
                 }
             });
         },
+        // 设置当前值在当前可选项中的匹配位置
+        setSelectedIndex() {
+            const index = this.matchDataSource.indexOf(this.currentValue);
+            this.selectedIndex = index;
+        },
         // 清空输入值
         clearInput() {
-            this.$emit('input', '');
+            this.setValue('');
             this.$refs.input.focus();
         },
         // clickoutside 处理
         handleClose() {
             this.setVisible(false);
+            this.setSelectedIndex();
         },
         // focus 处理
         handleInputFocus(e) {
@@ -177,13 +186,11 @@ export default {
             const value = e.target.value;
             this.setValue(value);
             this.setVisible();
-            this.selectIndex = 0;
+            this.selectedIndex = 0;
         },
         handleItemClick(value) {
             this.setValue(value, true);
-            this.setVisible(false);
-            this.$refs.input.focus();
-            this.reset();
+            this.handleClose();
         },
         handleInputKeydown(e) {
             if (this.visible) {
@@ -192,7 +199,7 @@ export default {
                     case 38:
                         {
                             e.preventDefault();
-                            this.selectIndex = this.selectIndex === 0 ? 0 : this.selectIndex - 1;
+                            this.selectedIndex = this.selectedIndex === 0 ? this.matchDataSource.length - 1 : this.selectedIndex - 1;
                             this.scrollSelectMenu();
                             break;
                         }
@@ -200,21 +207,21 @@ export default {
                     case 40:
                         {
                             e.preventDefault();
-                            this.selectIndex = this.selectIndex === this.matchDataSource.length - 1 ?
-                            this.matchDataSource.length - 1 : this.selectIndex + 1;
+                            this.selectedIndex = this.selectedIndex === this.matchDataSource.length - 1 ?
+                            0 : this.selectedIndex + 1;
                             this.scrollSelectMenu();
                             break;
                         }
                         // 回车 press Enter
                     case 13:
                         {
-                            this.handleItemClick(this.matchDataSource[this.selectIndex]);
+                            this.handleItemClick(this.matchDataSource[this.selectedIndex]);
                             break;
                         }
                         // press ESC
                     case 27:
                         {
-                            this.reset();
+                            this.handleClose();
                             break;
                         }
                 }
@@ -223,7 +230,7 @@ export default {
         // 计算下拉菜单是否滚动
         scrollSelectMenu() {
             this.$nextTick(() => {
-                const $currentSelectItem = this.$refs.selectItem[this.selectIndex].$el;
+                const $currentSelectItem = this.$refs.selectItem[this.selectedIndex].$el;
                 const $parent = $currentSelectItem.parentNode;
 
                 const itemHeight = $currentSelectItem.offsetHeight;
