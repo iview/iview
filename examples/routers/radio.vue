@@ -1,11 +1,13 @@
 <template>
     <div>
+        <Radio true-value="true" false-value="false" v-model="testValue">test</Radio> {{ testValue }}
         <Radio-group v-model="date.sex">
             <div v-if="show">
-                <Radio label="male"></Radio>
-                <Radio label="female"></Radio>
+                <Radio label="male" true-value="true" false-value="false"></Radio>
+                <Radio label="female" true-value="true" false-value="false"></Radio>
             </div>
         </Radio-group>
+        {{ date }}
         <Button @click="handleChange">change</Button>
     </div>
 </template>
@@ -16,7 +18,8 @@
                 date: {
                     sex: 'male'
                 },
-                show: false
+                show: false,
+                testValue: null
             }
         },
         methods: {

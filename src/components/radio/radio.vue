@@ -22,7 +22,15 @@
         mixins: [ Emitter ],
         props: {
             value: {
-                type: Boolean,
+                type: [String, Number, Boolean],
+                default: false
+            },
+            trueValue: {
+                type: [String, Number, Boolean],
+                default: true
+            },
+            falseValue: {
+                type: [String, Number, Boolean],
                 default: false
             },
             label: {
@@ -83,7 +91,9 @@
 
                 const checked = event.target.checked;
                 this.currentValue = checked;
-                this.$emit('input', checked);
+
+                let value = checked ? this.trueValue : this.falseValue;
+                this.$emit('input', value);
 
                 if (this.group && this.label !== undefined) {
                     this.parent.change({
@@ -92,16 +102,19 @@
                     });
                 }
                 if (!this.group) {
-                    this.$emit('on-change', checked);
-                    this.dispatch('FormItem', 'on-form-change', checked);
+                    this.$emit('on-change', value);
+                    this.dispatch('FormItem', 'on-form-change', value);
                 }
             },
             updateValue () {
-                this.currentValue = this.value;
+                this.currentValue = this.value === this.trueValue;
             }
         },
         watch: {
-            value () {
+            value (val) {
+                if (val !== this.trueValue && val !== this.falseValue) {
+                    throw 'Value should be trueValue or falseValue.';
+                }
                 this.updateValue();
             }
         }
