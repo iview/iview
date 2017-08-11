@@ -113,6 +113,9 @@ export default {
             popper._popper.style.transformOrigin = ['top', 'bottom'].indexOf(placement) > -1 ? `center ${ origin }` : `${ origin } center`;
         }
     },
+    mounted () {
+        this.updatePopper();        
+    },
     beforeDestroy() {
         if (isServer) return;
         if (this.popperJS) {
