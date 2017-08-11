@@ -71,7 +71,7 @@
                 // init checked status
                 function reverseChecked(data) {
                     if (!data.nodeKey) data.nodeKey = key++;
-                    if (data.children) {
+                    if (data.children && data.children.length) {
                         let checkedLength = 0;
                         data.children.forEach(node => {
                             if (node.children) node = reverseChecked(node);
