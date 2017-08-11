@@ -177,6 +177,7 @@
 
                     callback(this.validateMessage);
                 });
+                this.validateDisabled = false;
             },
             resetField () {
                 this.validateState = '';
