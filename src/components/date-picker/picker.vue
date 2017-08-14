@@ -14,6 +14,7 @@
                     @on-click="handleIconClick"
                     @mouseenter.native="handleInputMouseenter"
                     @mouseleave.native="handleInputMouseleave"
+                    @focusout.native="handleClose"
                     :icon="iconType"></i-input>
             </slot>
         </div>
