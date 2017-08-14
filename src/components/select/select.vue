@@ -17,6 +17,7 @@
                 :class="[prefixCls + '-input']"
                 :placeholder="showPlaceholder ? localePlaceholder : ''"
                 :style="inputStyle"
+                @focus="toggleMenu"
                 @blur="handleBlur"
                 @keydown="resetInputState"
                 @keydown.delete="handleInputDelete"
