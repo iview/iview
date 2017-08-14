@@ -45,6 +45,7 @@ import Upload from './components/upload';
 import { Row, Col } from './components/grid';
 import { Select, Option, OptionGroup } from './components/select';
 import locale from './locale';
+import { addResponsiveVisibilityDirectives } from './directives/responsive-visibility';
 
 const iview = {
     Affix,
@@ -132,6 +133,8 @@ const install = function (Vue, opts = {}) {
     Vue.prototype.$Message = Message;
     Vue.prototype.$Modal = Modal;
     Vue.prototype.$Notice = Notice;
+    
+    addResponsiveVisibilityDirectives(Vue);
 };
 
 // auto install
