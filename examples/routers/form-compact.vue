@@ -1,12 +1,22 @@
 <template>
-    <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80" compact size="small">
+    <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80" compact size="small" inline>
         <Form-item label="姓名" prop="name">
             <Input v-model="formValidate.name" placeholder="请输入姓名" size="small"></Input>
         </Form-item>
+        <Form-item label="test" prop="test" v-for="item in test">
+            <Input v-model="formValidate.name" placeholder="请输入姓名" size="small"></Input>
+        </Form-item>
         <Form-item label="邮箱" prop="mail" size="small">
-            <Input v-model="formValidate.mail" placeholder="请输入邮箱" size="small">
+            <Form-item prop="mail" size="small">
+                <Input v-model="formValidate.mail" placeholder="请输入邮箱" size="small">
                 <span slot="append">@</span>
-            </Input>
+                </Input>
+            </Form-item>
+            <Form-item  prop="mail" size="small">
+                <Input v-model="formValidate.mail" placeholder="请输入邮箱" size="small">
+                <span slot="append">@</span>
+                </Input>
+            </Form-item>
         </Form-item>
         <Form-item label="城市" prop="city">
             <Select v-model="formValidate.city" placeholder="请选择所在地" size="small">
@@ -61,6 +71,7 @@
                     city: '',
                     gender: '',
                     interest: [],
+                    test: [''],
                     date: '',
                     time: '',
                     desc: ''
