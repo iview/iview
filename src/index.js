@@ -3,6 +3,7 @@ import 'core-js/fn/array/find-index';
 
 import Affix from './components/affix';
 import Alert from './components/alert';
+import Avatar from './components/avatar';
 import BackTop from './components/back-top';
 import Badge from './components/badge';
 import Breadcrumb from './components/breadcrumb';
@@ -49,6 +50,7 @@ import locale from './locale';
 const iview = {
     Affix,
     Alert,
+    Avatar,
     BackTop,
     Badge,
     Breadcrumb,
