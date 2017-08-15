@@ -33,7 +33,7 @@
         .@{form-item-prefix-cls} {
             padding-top:4px;
             padding-bottom:4px;
-            margin-bottom: 0;  
+            margin-bottom: 0;
 
             &-error-tip{
                 display: none;
@@ -44,6 +44,7 @@
                 background: @error-color;
                 border-radius:@border-radius-small;
                 z-index: 5;
+                white-space:nowrap;
                 box-shadow:0 0 5px rgba(0,0,0,.2);
 
                 &:after{
@@ -58,7 +59,7 @@
                 }
             }
 
-            .@{css-prefix}checkbox-group,.@{css-prefix}radio-group{
+            .@{css-prefix}checkbox-group,.@{css-prefix}radio-group,.@{css-prefix}upload{
                 & ~ .@{form-item-prefix-cls}-error-tip {
                     display: block;
                     position: static;
@@ -73,9 +74,8 @@
                 }
             }
 
-
-            &:hover{
-                .@{form-item-prefix-cls}-error-tip{
+            &:hover > .@{form-item-prefix-cls}-content{ //防止 item 下面包 item 导致所有的 tips 一起显示
+                > .@{form-item-prefix-cls}-error-tip{
                     display: block;
                 }
             }
@@ -93,7 +93,10 @@
         font-size: @font-size-small;
     }
     & & {
-        margin-bottom: 0;
+      margin-bottom: 0;
+      // add by FEN 紧凑模式下，item 里面的 item padding 为 0 不然对不齐
+      padding-top: 0;
+      padding-bottom:0;
     }
     & & &-content {
         margin-left: 0!important;
