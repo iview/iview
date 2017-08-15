@@ -1,3 +1,10 @@
+<template>
+    <span :class="classes">
+        <img :src="src" v-if="src">
+        <Icon :type="icon" v-else-if="icon"></Icon>
+        <span ref="children" :class="[prefixCls + '-string']" :style="childrenStyle" v-else><slot></slot></span>
+    </span>
+</template>
 <script>
     import Icon from '../icon';
     import { oneOf } from '../../utils/assist';
@@ -6,6 +13,7 @@
 
     export default {
         name: 'Avatar',
+        components: { Icon },
         props: {
             shape: {
                 validator (value) {
@@ -26,6 +34,13 @@
                 type: String
             }
         },
+        data () {
+            return {
+                prefixCls: prefixCls,
+                scale: 1,
+                isSlotShow: false
+            };
+        },
         computed: {
             classes () {
                 return [
@@ -37,32 +52,42 @@
                         [`${prefixCls}-icon`]: !!this.icon
                     }
                 ];
+            },
+            childrenStyle () {
+                let style = {};
+                if (this.isSlotShow) {
+                    style = {
+                        msTransform: `scale(${this.scale})`,
+                        WebkitTransform: `scale(${this.scale})`,
+                        transform: `scale(${this.scale})`,
+                        position: 'absolute',
+                        display: 'inline-block',
+                        left: `calc(50% - ${Math.round(this.$refs.children.offsetWidth / 2)}px)`
+                    };
+                }
+                return style;
             }
         },
-        render (h) {
-            let innerNode = '';
-
-            if (this.src) {
-                innerNode = h('img', {
-                    attrs: {
-                        src: this.src
+        methods: {
+            setScale () {
+                this.isSlotShow = !this.src && !this.icon;
+                if (this.$slots.default) {
+                    const childrenWidth = this.$refs.children.offsetWidth;
+                    const avatarWidth = this.$el.getBoundingClientRect().width;
+                    // add 4px gap for each side to get better performance
+                    if (avatarWidth - 8 < childrenWidth) {
+                        this.scale = (avatarWidth - 8) / childrenWidth;
+                    } else {
+                        this.scale = 1;
                     }
-                });
-            } else if (this.icon) {
-                innerNode = h(Icon, {
-                    props: {
-                        type: this.icon
-                    }
-                });
-            } else if (this.$slots.default) {
-                innerNode = h('span', {
-                    'class': `${prefixCls}-string`
-                }, this.$slots.default);
+                }
             }
-
-            return h('span', {
-                'class': this.classes
-            }, [innerNode]);
+        },
+        mounted () {
+            this.setScale();
+        },
+        updated () {
+            this.setScale();
         }
     };
 </script>

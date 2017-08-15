@@ -14,9 +14,13 @@
         <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" shape="square"></Avatar>
         <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" size="small" shape="square"></Avatar>
         <br><br>
-        <Avatar>Aresn</Avatar>
-        <Avatar>U</Avatar>
-        <Avatar>Tomserm</Avatar>
+        <Avatar size="large">Leo</Avatar>
+        <Avatar size="large">A</Avatar>
+        <Avatar size="default">A</Avatar>
+        <Avatar size="small">A</Avatar>
+        <Avatar size="large">Tomserm</Avatar>
+        <Avatar size="large">{{ name }}</Avatar>
+        {{ name }}
         <br><br>
         <Badge dot>
             <Avatar icon="person" shape="square"></Avatar>
@@ -24,10 +28,20 @@
         <Badge :count="3">
             <Avatar icon="person" shape="square"></Avatar>
         </Badge>
+        <Button @click="change">change</Button>
     </div>
 </template>
 <script>
     export default {
-
+        data () {
+            return {
+                name: 'Aresn'
+            }
+        },
+        methods: {
+            change () {
+                this.name = 'Tomserm'
+            }
+        }
     }
 </script>
