@@ -13,7 +13,7 @@
         },
         data () {
             return {
-
+                prefixCls: prefixCls
             };
         },
         computed: {
