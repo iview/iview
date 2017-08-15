@@ -1,10 +1,3 @@
-<template>
-    <span :class="classes">
-        <img :src="src" v-if="src">
-        <span :class="[prefixCls + '-string']" v-else-if="$slots.default"><slot></slot></span>
-        <Icon :type="icon" v-else-if="icon"></Icon>
-    </span>
-</template>
 <script>
     import Icon from '../icon';
     import { oneOf } from '../../utils/assist';
@@ -13,7 +6,6 @@
 
     export default {
         name: 'Avatar',
-        components: { Icon },
         props: {
             shape: {
                 validator (value) {
@@ -34,11 +26,6 @@
                 type: String
             }
         },
-        data () {
-            return {
-                prefixCls: prefixCls
-            };
-        },
         computed: {
             classes () {
                 return [
@@ -52,8 +39,30 @@
                 ];
             }
         },
-        methods: {
+        render (h) {
+            let innerNode = '';
 
+            if (this.src) {
+                innerNode = h('img', {
+                    attrs: {
+                        src: this.src
+                    }
+                });
+            } else if (this.icon) {
+                innerNode = h(Icon, {
+                    props: {
+                        type: this.icon
+                    }
+                });
+            } else if (this.$slots.default) {
+                innerNode = h('span', {
+                    'class': `${prefixCls}-string`
+                }, this.$slots.default);
+            }
+
+            return h('span', {
+                'class': this.classes
+            }, [innerNode]);
         }
     };
 </script>
