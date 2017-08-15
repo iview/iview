@@ -14,6 +14,7 @@ import Cascader from './components/cascader';
 import Checkbox from './components/checkbox';
 import Circle from './components/circle';
 import Collapse from './components/collapse';
+import ColorPicker from './components/color-picker';
 import DatePicker from './components/date-picker';
 import Dropdown from './components/dropdown';
 import Form from './components/form';
@@ -65,6 +66,10 @@ const iview = {
     Checkbox,
     CheckboxGroup: Checkbox.Group,
     iCircle: Circle,
+    Col,
+    iCol: Col,
+    Collapse,
+    ColorPicker,
     DatePicker,
     Dropdown,
     DropdownItem: Dropdown.Item,
@@ -72,9 +77,6 @@ const iview = {
     Form,
     iForm: Form,
     FormItem: Form.Item,
-    Col,
-    iCol: Col,
-    Collapse,
     Icon,
     Input,
     iInput: Input,
