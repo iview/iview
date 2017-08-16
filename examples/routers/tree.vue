@@ -29,7 +29,8 @@
                             },
                             {
                                 title: 'child2',
-                                id: '1-2'
+                                id: '1-2',
+                                children: []
                             }
                         ]
                     }

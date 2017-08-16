@@ -41,7 +41,7 @@ const csv = {
     _getDownloadUrl (text) {
         const BOM = '\uFEFF';
         // Add BOM to text for open in excel correctly
-        if (window.Blob && window.URL && window.URL.createObjectURL && !has('Safari')) {
+        if (window.Blob && window.URL && window.URL.createObjectURL) {
             const csvData = new Blob([BOM + text], { type: 'text/csv' });
             return URL.createObjectURL(csvData);
         } else {
@@ -66,7 +66,6 @@ const csv = {
             const link = document.createElement('a');
             link.download = filename;
             link.href = this._getDownloadUrl(text);
-            link.target = '_blank';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
