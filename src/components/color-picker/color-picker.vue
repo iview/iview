@@ -68,6 +68,7 @@
             wrapClasses () {
                 return [
                     `${prefixCls}-rel`,
+                    `${prefixCls}-${this.size}`,
                     `${inputPrefixCls}-wrapper`,
                     `${inputPrefixCls}-wrapper-${this.size}`
                 ];

@@ -5,8 +5,20 @@
         line-height: 0;
     }
     &-color{
-        width: 20px;
-        height: 100%;
+        width: 18px;
+        height: 18px;
         border: 1px solid @text-color;
+        position: relative;
+        top: 2px;
+    }
+    &-large &-color{
+        width: 20px;
+        height: 20px;
+        top: 1px;
+    }
+    &-small &-color{
+        width: 14px;
+        height: 14px;
+        top: 3px;
     }
 }
