@@ -7,9 +7,17 @@
             </div>
         </div>
         <Dropdown-menu slot="list">
-            <p>常用于各种自定义下拉内容的场景。</p>
-            <div style="text-align: right;margin:10px;">
-                <Button type="primary">关闭</Button>
+            <div :class="[prefixCls + '-picker']">
+                <div :class="[prefixCls + '-picker-panel']"></div>
+                <div :class="[prefixCls + '-picker-hue-slider']">
+                    <Slider v-model="hueNumber" :min="0" :max="255"></Slider>
+                </div>
+                <div v-if="alpha" :class="[prefixCls + '-picker-alpha-slider']">
+                    <Slider v-model="alphaNumber" :min="0" :max="100"></Slider>
+                </div>
+                <recommend-colors v-if="colors.length" :list="colors" :class="[prefixCls + '-picker-colors']"></recommend-colors>
+                <recommend-colors v-if="!colors.length && recommend" :list="recommendedColor" :class="[prefixCls + '-picker-colors', prefixCls + '-picker-colors-recommended']"></recommend-colors>
+                <Confirm></Confirm>
             </div>
         </Dropdown-menu>
     </Dropdown>
@@ -17,6 +25,9 @@
 <script>
     import Dropdown from '../dropdown/dropdown.vue';
     import DropdownMenu from '../dropdown/dropdown-menu.vue';
+    import Slider from '../slider/slider.vue';
+    import RecommendColors from './recommend-colors.vue';
+    import Confirm from '../date-picker/base/confirm.vue';
     import { oneOf } from '../../utils/assist';
 
     const prefixCls = 'ivu-color-picker';
@@ -24,7 +35,7 @@
 
     export default {
         name: 'ColorPicker',
-        components: { Dropdown, DropdownMenu },
+        components: { Dropdown, DropdownMenu, Slider, Confirm, RecommendColors },
         props: {
             value: {
                 type: String
@@ -33,9 +44,19 @@
                 type: Boolean,
                 default: false
             },
+            recommend: {
+                type: Boolean,
+                default: false
+            },
             format: {
                 validator (value) {
                     return oneOf(value, ['hsl', 'hsv', 'hex', 'rgb']);
+                }
+            },
+            colors: {
+                type: Array,
+                default () {
+                    return [];
                 }
             },
             disabled: {
@@ -61,7 +82,31 @@
         data () {
             return {
                 prefixCls: prefixCls,
-                currentValue: this.value
+                currentValue: this.value,
+                hueNumber: 0,
+                alphaNumber: 0,
+                recommendedColor: [
+                    '#2d8cf0',
+                    '#19be6b',
+                    '#ff9900',
+                    '#ed3f14',
+                    '#00b5ff',
+                    '#19c919',
+                    '#f9e31c',
+                    '#ea1a1a',
+                    '#9b1dea',
+                    '#00c2b1',
+                    '#ac7a33',
+                    '#1d35ea',
+                    '#42bd82',
+                    '#f16b62',
+                    '#ea4ca3',
+                    '#0d94aa',
+                    '#febd79',
+                    '#3b90fc',
+                    '#000000',
+                    '#ffffff'
+                ]
             };
         },
         computed: {

@@ -21,4 +21,45 @@
         height: 14px;
         top: 3px;
     }
+
+    &-picker{
+        padding: 8px 8px 0;
+        &-panel{
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            background: #47cb89;
+            border-radius: 50%;
+        }
+        &-hue-slider{
+
+        }
+        &-alpha-slider{
+
+        }
+        &-colors{
+            margin-top: 8px;
+            span{
+                display: inline-block;
+                width: 18px;
+                height: 18px;
+                em{
+                    display: block;
+                    width: 16px;
+                    height: 16px;
+                    border: 1px solid transparent;
+                    cursor: pointer;
+                    border-radius: 2px;
+                }
+            }
+        }
+        &-colors-recommended{
+            span:last-child em{
+                border: 1px solid #6b6f78;
+            }
+        }
+        .@{picker-prefix-cls}-confirm{
+            margin-top: 8px;
+        }
+    }
 }
