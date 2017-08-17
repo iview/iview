@@ -92,6 +92,7 @@
     import Csv from '../../utils/csv';
     import ExportCsv from './export-csv';
     import Locale from '../../mixins/locale';
+    import v3platform from '../../utils/v3platform';
 
     const prefixCls = 'ivu-table';
 
@@ -140,7 +141,7 @@
             },
             highlightRow: {
                 type: Boolean,
-                default: false
+                default: true
             },
             rowClassName: {
                 type: Function,
@@ -159,6 +160,9 @@
             },
             disabledHover: {
                 type: Boolean
+            },
+            entityCode : {
+            	type: String
             }
         },
         data () {
@@ -385,8 +389,10 @@
                     }
                 }
                 this.objData[_index]._isHighlight = true;
-                const oldData = oldIndex < 0 ? null : JSON.parse(JSON.stringify(this.cloneData[oldIndex]));
-                this.$emit('on-current-change', JSON.parse(JSON.stringify(this.cloneData[_index])), oldData);
+                const oldData = oldIndex < 0 ? null : JSON.parse(JSON.stringify(this.objData[oldIndex]));
+                const newData = JSON.parse(JSON.stringify(this.objData[_index]));
+				v3platform.synCurrentRecordToDs(this,this.entityCode,newData,oldData);
+                this.$emit('on-current-change', newData, oldData);
             },
             clickCurrentRow (_index) {
                 this.highlightCurrentRow (_index);
@@ -416,8 +422,19 @@
                 this.objData[_index]._isChecked = status;
 
                 const selection = this.getSelection();
-                this.$emit(status ? 'on-select' : 'on-select-cancel', selection, JSON.parse(JSON.stringify(this.data[_index])));
+				const newData = JSON.parse(JSON.stringify(this.data[_index]));
+				v3platform.synSelectRecordToDs(this,this.entityCode,newData,status);
+                this.$emit(status ? 'on-select' : 'on-select-cancel', selection, newData);
                 this.$emit('on-selection-change', selection);
+            },
+            select (_indexs,isSel){
+            	for(let i=0,len=_indexs.length;i<len;i++){
+            		let _index = _indexs[i];
+            		let status = this.objData[_index]._isChecked;
+            		if(isSel^status){
+            			this.toggleSelect(_index);
+            		}
+            	}
             },
             toggleExpand (_index) {
                 let data = {};
@@ -706,6 +723,43 @@
             this.showSlotHeader = this.$slots.header !== undefined;
             this.showSlotFooter = this.$slots.footer !== undefined;
             this.rebuildData = this.makeDataWithSortAndFilter();
+            v3platform.registerCurrentHandler(this,(function(_this){
+                return function(entityCode,current){
+                    if(_this.entityCode==entityCode){
+                         _this.$nextTick(function(){
+                            for (let i in _this.objData) {
+                                let data = _this.objData[i];
+                                if(data.id == current.getSysId()){
+                                    _this.highlightCurrentRow(parseInt(i));
+                                    break;
+                                }
+                            }
+                        });
+                    }
+                }
+            })(this));
+            v3platform.registerSelectHandler(this,(function(_this){
+                return function(entityCode,records,isSel){
+                    if(_this.entityCode==entityCode){
+                        _this.$nextTick(function(){
+                            let _indexs = [];
+                            for(let i=0,len=records.length;i<len;i++){
+                                let record = records[i];
+                                for (let i in _this.objData) {
+                                    let data = _this.objData[i];
+                                    if(data.id == record.getSysId()){
+                                        _indexs.push(parseInt(i));
+                                        break;
+                                    }
+                                }
+                            }
+                            if(_indexs.length>0){
+                                _this.select(_indexs,isSel);
+                            }
+                        });
+                    }
+                }
+            })(this));
         },
         mounted () {
             this.handleResize();
