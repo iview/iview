@@ -43,7 +43,8 @@
     "async-validator": "^1.7.1",
     "core-js": "^2.4.1",
     "deepmerge": "^1.5.0",
-    "popper.js": "^0.6.4"
+    "popper.js": "^0.6.4",
+    "tinycolor2": "^1.4.1"
   },
   "peerDependencies": {
     "vue": "^2.4.1"

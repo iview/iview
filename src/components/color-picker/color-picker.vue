@@ -8,12 +8,14 @@
         </div>
         <Dropdown-menu slot="list">
             <div :class="[prefixCls + '-picker']">
-                <div :class="[prefixCls + '-picker-panel']"></div>
+                <div :class="[prefixCls + '-picker-panel']">
+                    <Saturation v-model="saturationColors" @change="childChange"></Saturation>
+                </div>
                 <div :class="[prefixCls + '-picker-hue-slider']">
-                    <Slider v-model="hueNumber" :min="0" :max="255"></Slider>
+                    <Hue v-model="saturationColors" @change="childChange"></Hue>
                 </div>
                 <div v-if="alpha" :class="[prefixCls + '-picker-alpha-slider']">
-                    <Slider v-model="alphaNumber" :min="0" :max="100"></Slider>
+                    <Alpha v-model="saturationColors" @change="childChange"></Alpha>
                 </div>
                 <recommend-colors v-if="colors.length" :list="colors" :class="[prefixCls + '-picker-colors']"></recommend-colors>
                 <recommend-colors v-if="!colors.length && recommend" :list="recommendedColor" :class="[prefixCls + '-picker-colors']"></recommend-colors>
@@ -23,22 +25,76 @@
     </Dropdown>
 </template>
 <script>
+    import tinycolor from 'tinycolor2';
+
     import Dropdown from '../dropdown/dropdown.vue';
     import DropdownMenu from '../dropdown/dropdown-menu.vue';
-    import Slider from '../slider/slider.vue';
     import RecommendColors from './recommend-colors.vue';
     import Confirm from '../date-picker/base/confirm.vue';
+
+    import Saturation from './saturation.vue';
+    import Hue from './hue.vue';
+    import Alpha from './alpha.vue';
+
     import { oneOf } from '../../utils/assist';
 
     const prefixCls = 'ivu-color-picker';
     const inputPrefixCls = 'ivu-input';
 
+    function _colorChange (data, oldHue) {
+        const alpha = data && data.a;
+        let color;
+
+        // hsl is better than hex between conversions
+        if (data && data.hsl) {
+            color = tinycolor(data.hsl);
+        } else if (data && data.hex && data.hex.length > 0) {
+            color = tinycolor(data.hex);
+        } else {
+            color = tinycolor(data);
+        }
+
+        if (color && (color._a === undefined || color._a === null)) {
+            color.setAlpha(alpha || 1);
+        }
+
+        const hsl = color.toHsl();
+        const hsv = color.toHsv();
+
+        if (hsl.s === 0) {
+            hsv.h = hsl.h = data.h || (data.hsl && data.hsl.h) || oldHue || 0;
+        }
+
+        // when the hsv.v is less than 0.0164 (base on test)
+        // because of possible loss of precision
+        // the result of hue and saturation would be miscalculated
+        if (hsv.v < 0.0164) {
+            hsv.h = data.h || (data.hsv && data.hsv.h) || 0;
+            hsv.s = data.s || (data.hsv && data.hsv.s) || 0;
+        }
+
+        if (hsl.l < 0.01) {
+            hsl.h = data.h || (data.hsl && data.hsl.h) || 0;
+            hsl.s = data.s || (data.hsl && data.hsl.s) || 0;
+        }
+
+        return {
+            hsl: hsl,
+            hex: color.toHexString().toUpperCase(),
+            rgba: color.toRgb(),
+            hsv: hsv,
+            oldHue: data.h || oldHue || hsl.h,
+            source: data.source,
+            a: data.a || color.getAlpha()
+        };
+    }
+
     export default {
         name: 'ColorPicker',
-        components: { Dropdown, DropdownMenu, Slider, Confirm, RecommendColors },
+        components: { Dropdown, DropdownMenu, Confirm, RecommendColors, Saturation, Hue, Alpha },
         props: {
             value: {
-                type: String
+                type: Object
             },
             alpha: {
                 type: Boolean,
@@ -81,10 +137,8 @@
         },
         data () {
             return {
+                val: _colorChange(this.value),
                 prefixCls: prefixCls,
-                currentValue: this.value,
-                hueNumber: 0,
-                alphaNumber: 0,
                 recommendedColor: [
                     '#2d8cf0',
                     '#19be6b',
@@ -110,6 +164,15 @@
             };
         },
         computed: {
+            saturationColors: {
+                get () {
+                    return this.val;
+                },
+                set (newVal) {
+                    this.val = newVal;
+                    this.$emit('input', newVal);
+                }
+            },
             wrapClasses () {
                 return [
                     `${prefixCls}-rel`,
@@ -129,8 +192,41 @@
                 ];
             }
         },
+        watch: {
+            value (newVal) {
+                this.val = _colorChange(newVal);
+            }
+        },
         methods: {
+            childChange (data) {
+                this.colorChange(data);
+            },
+            colorChange (data, oldHue) {
+                this.oldHue = this.saturationColors.hsl.h;
+                this.saturationColors = _colorChange(data, oldHue || this.oldHue);
+            },
+            isValidHex (hex) {
+                return tinycolor(hex).isValid();
+            },
+            simpleCheckForValidColor (data) {
+                const keysToCheck = ['r', 'g', 'b', 'a', 'h', 's', 'l', 'v'];
+                let checked = 0;
+                let passed = 0;
 
+                for (let i = 0; i < keysToCheck.length; i++) {
+                    const letter = keysToCheck[i];
+                    if (data[letter]) {
+                        checked++;
+                        if (!isNaN(data[letter])) {
+                            passed++;
+                        }
+                    }
+                }
+
+                if (checked === passed) {
+                    return data;
+                }
+            }
         }
     };
 </script>
