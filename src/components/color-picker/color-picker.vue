@@ -16,7 +16,7 @@
                     <Slider v-model="alphaNumber" :min="0" :max="100"></Slider>
                 </div>
                 <recommend-colors v-if="colors.length" :list="colors" :class="[prefixCls + '-picker-colors']"></recommend-colors>
-                <recommend-colors v-if="!colors.length && recommend" :list="recommendedColor" :class="[prefixCls + '-picker-colors', prefixCls + '-picker-colors-recommended']"></recommend-colors>
+                <recommend-colors v-if="!colors.length && recommend" :list="recommendedColor" :class="[prefixCls + '-picker-colors']"></recommend-colors>
                 <Confirm></Confirm>
             </div>
         </Dropdown-menu>
