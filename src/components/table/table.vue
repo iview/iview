@@ -352,11 +352,6 @@
                                 width = column.width;
                             }
 
-                            if(this.data.length > 0 && width <= column.minWidth){
-                                width = column.minWidth
-                            }
-
-
                             this.cloneColumns[i]._width = width;
                             // this.cloneColumns[i].width = width;
 
