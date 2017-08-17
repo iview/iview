@@ -44,7 +44,7 @@
                     <table-head
                         fixed="left"
                         :prefix-cls="prefixCls"
-                        :styleObject="fixedTableStyle"
+                        :styleObject="tableStyle"
                         :columns="leftFixedColumns"
                         :obj-data="objData"
                         :columns-width="columnsWidth"
@@ -56,7 +56,7 @@
                     <table-body
                         fixed="left"
                         :prefix-cls="prefixCls"
-                        :styleObject="fixedTableStyle"
+                        :styleObject="tableStyle"
                         :columns="leftFixedColumns"
                         :data="rebuildData"
                         :columns-width="columnsWidth"
@@ -326,6 +326,7 @@
             handleResize () {
                 this.$nextTick(() => {
                     const allWidth = !this.columns.some(cell => !cell.width);    // each column set a width
+
                     if (allWidth) {
                         this.tableWidth = this.columns.map(cell => cell.width).reduce((a, b) => a + b);
                         
@@ -335,23 +336,43 @@
                     this.columnsWidth = {};
                     this.$nextTick(() => {
                         let columnsWidth = {};
+                        let fixedLeftwidth = 0;
 
                         const $td =  this.data.length>0?this.$refs.tbody.$el.querySelectorAll('tbody tr')[0].querySelectorAll('td'):this.$refs.header.querySelectorAll('thead tr')[0].querySelectorAll('th');
                         for (let i = 0; i < $td.length; i++) {    // can not use forEach in Firefox
                             const column = this.cloneColumns[i];
 
                             let width = parseInt(getStyle($td[i], 'width'));
+
+                            if (column.fixed && column.fixed === 'left') {
+                                fixedLeftwidth += width;
+                            }
+
                             if (column.width) {
                                 width = column.width;
                             }
 
+                            if(this.data.length > 0 && width <= column.minWidth){
+                                width = column.minWidth
+                            }
+
+
                             this.cloneColumns[i]._width = width;
+                            // this.cloneColumns[i].width = width;
 
                             columnsWidth[column._index] = {
                                 width: width
                             };
+
+
                         }
                         this.columnsWidth = columnsWidth;
+
+
+                        //change fixed style
+                        if (fixedLeftwidth>0) {
+                            this.fixedTableStyle.width = `${fixedLeftwidth}px`;
+                        }
                         
                     });
                     // get table real height,for fixed when set height prop,but height < table's height,show scrollBarWidth
@@ -698,33 +719,48 @@
                     this.isShowResizeBorder = false;
                     document.body.style.cursor = '';
 
-                    let calcWidth = this.tableWidth+deltaX;
+                    let calcWidth = this.tableWidth+deltaX; //the width after drag
+                    let wrapperWidth = this.$el.offsetWidth; // table width
+
+
+                    let changeSingleCol = ()=>{
+                        let cloneColumns = this.cloneColumns[index];
+                        let columnsWidth = this.columnsWidth[index];
+
+                        if (cloneColumns.width) {
+                            this.cloneColumns[index].width = cloneColumns.width+deltaX-1;
+                        }else{
+                            this.columnsWidth[index].width = columnsWidth.width+deltaX-1;
+                        }
+                    };
+
                     // 这里需要继续优化
-                    // if (calcWidth<=this.cloneWidth) {
-                    //     console.log(-deltaX - this.cloneWidth + calcWidth)
-                    //     for(let i=0;i<2;i++){
-                    //         let cloneColumns = this.cloneColumns[index+i];
-                    //         let columnsWidth = this.columnsWidth[index+i];
-                    //         let obj = Object.assign({},cloneColumns);
-                    //         let originWidth = cloneColumns.width? cloneColumns.width : columnsWidth.width;
+                    if (calcWidth<=wrapperWidth && wrapperWidth-calcWidth+deltaX!==1 && deltaX<0) {
+                        deltaX = wrapperWidth - calcWidth+deltaX;
+                        changeSingleCol();
+                        this.tableWidth = wrapperWidth-1;
 
-                    //         obj.width = i%2?originWidth-deltaX:originWidth+deltaX;
-                    //         this.cloneColumns.splice(index+i,1,obj);
-                    //     }
-                    // }
+                    }else if(wrapperWidth-calcWidth+deltaX===1 && deltaX<0){
+                        for(let i=0;i<2;i++){
+                            let cloneColumns = this.cloneColumns[index+i];
+                            let columnsWidth = this.columnsWidth[index+i];
+                            if (cloneColumns.width) {
+                                this.cloneColumns[index+i].width = i%2?cloneColumns.width-deltaX:cloneColumns.width+deltaX;
+                            }else{
+                                this.columnsWidth[index+i].width = i%2?columnsWidth.width-deltaX:columnsWidth.width+deltaX;
+                            }
+                        }
+                    }else{
+                        changeSingleCol();
+                        this.tableWidth = calcWidth;
+                    }
 
-                    let cloneColumns = this.cloneColumns[index];
-                    let columnsWidth = this.columnsWidth[index];
-                    let obj = Object.assign({},cloneColumns);
-                    let originWidth = cloneColumns.width? cloneColumns.width : columnsWidth.width;
-                    obj.width = originWidth+deltaX;
-                    this.cloneColumns.splice(index,1,obj);
-
-                    this.tableWidth = calcWidth;
 
                     if (this.cloneColumns[index].fixed === 'left') {
-                        this.fixedTableStyle.width = parseFloat(this.fixedTableStyle.width) + deltaX + 'px';
+                        this.fixedTableStyle.width = parseFloat(this.fixedTableStyle.width) + deltaX-1 + 'px';
                     }
+
+
 
                     return;
                 }
@@ -745,7 +781,7 @@
             });
             this.fixedTableStyle.width = `${fixedLeftwidth}px`;
 
-            //fixedLeftStyle
+            //fixedRightStyle
             let fixedRightwidth = 0;
             this.rightFixedColumns.forEach((col) => {
                 if (col.fixed && col.fixed === 'right') fixedRightwidth += col._width;

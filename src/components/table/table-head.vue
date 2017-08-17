@@ -65,11 +65,7 @@
 
     export default {
         name: 'TableHead',
-        data(){
-            return {
-                isDragging : false
-            };
-        },
+        isDragging : false,
         mixins: [ Mixin, Locale ],
         components: { CheckboxGroup, Checkbox, Poptip, iButton, renderHeader },
         props: {
@@ -93,6 +89,7 @@
                 const style = Object.assign({}, this.styleObject);
                 const width = this.$parent.bodyHeight === 0 ? parseInt(this.styleObject.width) : parseInt(this.styleObject.width) + this.$parent.scrollBarWidth;
                 style.width = `${width}px`;
+
                 return style;
             },
             isSelectAll () {
@@ -110,7 +107,7 @@
         },
         methods: {
             mousemoveHandler(e , index){
-                if (!this.draggable) return;
+                if (!this.draggable || this.columns[index].type === 'selection') return;
 
                 const bodyStyle = document.body.style;
 
@@ -127,21 +124,21 @@
                     let rect = target.getBoundingClientRect();
                     if (rect.width > 12 && rect.right - e.pageX < 10) {
                         bodyStyle.cursor = 'col-resize';
-                        this.isDragging = true;
+                        this.$options.isDragging = true;
                     } else {
                         bodyStyle.cursor = '';
-                        this.isDragging = false;
+                        this.$options.isDragging = false;
                     }
                 }else{
                     bodyStyle.cursor = '';
-                    this.isDragging = false;
+                    this.$options.isDragging = false;
                 }
             },
             mouseleaveHandler(){
                 document.body.style.cursor = '';
             },
             mousedownHandler(e,index){
-                if (!this.draggable || !this.isDragging || index == this.columns.length-1) return;
+                if (!this.draggable || !this.$options.isDragging || index == this.columns.length-1) return;
                 const table = this.$parent.$el;
                 document.onselectstart = function() { return false; };
                 document.ondragstart = function() { return false; };
