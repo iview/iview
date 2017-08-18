@@ -4,10 +4,10 @@
             <i class="ivu-icon ivu-icon-arrow-down-b ivu-input-icon ivu-input-icon-normal"></i>
             <div :class="inputClasses">
                 <div :class="[prefixCls + '-color']">
-                    <div :class="[prefixCls + '-color-empty']" v-if="value === '' && !visible">
+                    <div :class="[prefixCls + '-color-empty']" v-show="value === '' && !visible">
                         <Icon type="ios-close-empty"></Icon>
                     </div>
-                    <div v-else :style="{backgroundColor: displayedColor}"></div>
+                    <div v-show="value || visible" :style="{backgroundColor: displayedColor}"></div>
                 </div>
             </div>
         </div>
@@ -22,8 +22,16 @@
                 <div v-if="alpha" :class="[prefixCls + '-picker-alpha-slider']">
                     <Alpha v-model="saturationColors" @change="childChange"></Alpha>
                 </div>
-                <recommend-colors v-if="colors.length" :list="colors" :class="[prefixCls + '-picker-colors']"></recommend-colors>
-                <recommend-colors v-if="!colors.length && recommend" :list="recommendedColor" :class="[prefixCls + '-picker-colors']"></recommend-colors>
+                <recommend-colors
+                    v-if="colors.length"
+                    :list="colors"
+                    :class="[prefixCls + '-picker-colors']"
+                    @picker-color="handleSelectColor"></recommend-colors>
+                <recommend-colors
+                    v-if="!colors.length && recommend"
+                    :list="recommendedColor"
+                    :class="[prefixCls + '-picker-colors']"
+                    @picker-color="handleSelectColor"></recommend-colors>
                 <Confirm @on-pick-success="handleSuccess" @on-pick-clear="handleClear"></Confirm>
             </div>
         </Dropdown-menu>
@@ -278,6 +286,9 @@
             handleClear () {
                 this.$emit('input', '');
                 this.$refs.picker.handleClose();
+            },
+            handleSelectColor (color) {
+                this.val = _colorChange(color);
             }
         }
     };
