@@ -1,9 +1,11 @@
 <template>
-    <Dropdown trigger="click" :transfer="transfer" :placement="placement">
+    <Dropdown trigger="click" :transfer="transfer" :placement="placement" @on-visible-change="handleToggleVisible">
         <div :class="wrapClasses">
             <i class="ivu-icon ivu-icon-arrow-down-b ivu-input-icon ivu-input-icon-normal"></i>
             <div :class="inputClasses">
-                <div :class="[prefixCls + '-color']" style="background-color: rgb(32, 160, 255);"></div>
+                <div :class="[prefixCls + '-color']">
+                    <div :style="{backgroundColor: displayedColor}"></div>
+                </div>
             </div>
         </div>
         <Dropdown-menu slot="list">
@@ -19,7 +21,7 @@
                 </div>
                 <recommend-colors v-if="colors.length" :list="colors" :class="[prefixCls + '-picker-colors']"></recommend-colors>
                 <recommend-colors v-if="!colors.length && recommend" :list="recommendedColor" :class="[prefixCls + '-picker-colors']"></recommend-colors>
-                <Confirm></Confirm>
+                <Confirm @on-pick-success="handleSuccess" @on-pick-clear="handleClear"></Confirm>
             </div>
         </Dropdown-menu>
     </Dropdown>
@@ -94,7 +96,7 @@
         components: { Dropdown, DropdownMenu, Confirm, RecommendColors, Saturation, Hue, Alpha },
         props: {
             value: {
-                type: Object
+                type: String
             },
             alpha: {
                 type: Boolean,
@@ -139,6 +141,7 @@
             return {
                 val: _colorChange(this.value),
                 prefixCls: prefixCls,
+                visible: false,
                 recommendedColor: [
                     '#2d8cf0',
                     '#19be6b',
@@ -170,7 +173,6 @@
                 },
                 set (newVal) {
                     this.val = newVal;
-                    this.$emit('input', newVal);
                 }
             },
             wrapClasses () {
@@ -190,14 +192,70 @@
                         [`${inputPrefixCls}-disabled`]: this.disabled
                     }
                 ];
+            },
+            displayedColor () {
+                let color;
+                if (this.visible) {
+                    const rgba = this.saturationColors.rgba;
+                    color = {
+                        r: rgba.r,
+                        g: rgba.g,
+                        b: rgba.b,
+                        a: rgba.a
+                    };
+                } else {
+                    color = tinycolor(this.value).toRgb();
+                }
+                return `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`;
             }
         },
         watch: {
             value (newVal) {
                 this.val = _colorChange(newVal);
+            },
+            visible () {
+                this.val = _colorChange(this.value);
             }
         },
         methods: {
+            formatColor () {
+                const defaultColor = {
+                    hex: '#ff0000',
+                    hsl: {
+                        h: 0,
+                        s: 1,
+                        l: 0.5,
+                        a: 1
+                    },
+                    hsv: {
+                        h: 0,
+                        s: 1,
+                        v: 1,
+                        a: 1
+                    },
+                    rgba: {
+                        r: 255,
+                        g: 0,
+                        b: 0,
+                        a: 1
+                    },
+                    a: 1
+                };
+                if (this.value) {
+                    const color = tinycolor(this.value);
+                    const hex = color.toHex();
+                    const hsl = color.toHsl();
+                    const hsv = color.toHsv();
+                    const rgba = color.toRgb();
+
+                    defaultColor.hex = hex;
+                    defaultColor.hsl = hsl;
+                    defaultColor.hsv = hsv;
+                    defaultColor.rgba = rgba;
+                    defaultColor.a = rgba.a;
+                }
+                return defaultColor;
+            },
             childChange (data) {
                 this.colorChange(data);
             },
@@ -226,6 +284,16 @@
                 if (checked === passed) {
                     return data;
                 }
+            },
+            handleToggleVisible (visible) {
+                this.visible = visible;
+            },
+            handleSuccess () {
+                this.$emit('input', this.val);
+            },
+            handleClear () {
+                this.$emit('input', '');
+                // todo
             }
         }
     };
