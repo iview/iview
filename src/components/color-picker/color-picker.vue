@@ -1,5 +1,5 @@
 <template>
-    <Dropdown trigger="click" :transfer="transfer" :placement="placement" @on-visible-change="handleToggleVisible">
+    <Dropdown ref="picker" trigger="click" :transfer="transfer" :placement="placement" @on-visible-change="handleToggleVisible">
         <div :class="wrapClasses">
             <i class="ivu-icon ivu-icon-arrow-down-b ivu-input-icon ivu-input-icon-normal"></i>
             <div :class="inputClasses">
@@ -288,12 +288,29 @@
             handleToggleVisible (visible) {
                 this.visible = visible;
             },
+            getFormatColor () {
+                const value = this.saturationColors;
+                let color;
+                if (this.format) {
+                    if (this.format === 'hsl') {
+                        color = tinycolor(value.hsl).toHslString();
+                    } else if (this.format === 'hsv') {
+                        color = tinycolor(value.hsv).toHsvString();
+                    }
+                } else if (this.alpha) {
+                    color = `rgba(${value.rgba.r}, ${value.rgba.g}, ${value.rgba.b}, ${value.rgba.a})`;
+                } else {
+                    color = value.hex;
+                }
+                return color;
+            },
             handleSuccess () {
-                this.$emit('input', this.val);
+                this.$emit('input', this.getFormatColor());
+                this.$refs.picker.handleClose();
             },
             handleClear () {
                 this.$emit('input', '');
-                // todo
+                this.$refs.picker.handleClose();
             }
         }
     };
