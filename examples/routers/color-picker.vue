@@ -2,13 +2,13 @@
     <div style="margin: 100px;">
         {{ color }}
         <!--<Input placeholder="请输入..." size="large" style="width: 50px;"></Input>-->
-        <!--<color-picker placement="bottom-start" size="large"></color-picker>-->
-        <Date-picker transfer type="date" placeholder="选择日期" size="large" style="width: 200px"></Date-picker>
+        <color-picker v-model="color" placement="bottom-start" size="large"></color-picker>
+        <Date-picker transfer type="date" placeholder="选择日期" style="width: 200px"></Date-picker>
         <color-picker :transfer="true" ref="xxx" v-model="color" format="rgb" alpha :recommend="true"></color-picker>
-        <color-picker v-model="color2" :alpha="false" :recommend="false"></color-picker>
+        <color-picker v-model="color2" format="hsv" :alpha="true" :recommend="false"></color-picker>
         <!--<Date-picker type="date" placeholder="选择日期" style="width: 200px"></Date-picker>-->
-        <!--<color-picker placement="bottom-start" size="small"></color-picker>-->
-        <!--<Date-picker type="date" placeholder="选择日期" size="small" style="width: 200px"></Date-picker>-->
+        <color-picker v-model="color" placement="bottom-start" size="small"></color-picker>
+        <Date-picker type="date" placeholder="选择日期" size="small" style="width: 200px"></Date-picker>
         <Button @click="setColor">set color</Button>
     </div>
 </template>
@@ -17,7 +17,7 @@
         props: {},
         data () {
             return {
-                color: 'rgba(255,255,255,.85)',
+                color: 'rgba(12,34,255,.85)',
                 color2: ''
             };
         },

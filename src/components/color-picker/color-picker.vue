@@ -1,56 +1,66 @@
 <template>
-    <Dropdown :class="classes" class-name="ivu-transfer-" ref="picker" trigger="click" :transfer="transfer" :placement="placement" @on-visible-change="handleToggleVisible">
-        <div :class="wrapClasses">
+    <div :class="classes" v-clickoutside="handleClose">
+        <div ref="reference" @click="toggleVisible" :class="wrapClasses">
             <i class="ivu-icon ivu-icon-arrow-down-b ivu-input-icon ivu-input-icon-normal"></i>
             <div :class="inputClasses">
                 <div :class="[prefixCls + '-color']">
                     <div :class="[prefixCls + '-color-empty']" v-show="value === '' && !visible">
-                        <Icon type="ios-close-empty"></Icon>
+                        <i class="ivu-icon ivu-icon-ios-close-empty"></i>
                     </div>
                     <div v-show="value || visible" :style="{backgroundColor: displayedColor}"></div>
                 </div>
             </div>
         </div>
-        <Dropdown-menu slot="list">
-            <div :class="[prefixCls + '-picker']">
-                <div :class="[prefixCls + '-picker-wrapper']">
-                    <div :class="[prefixCls + '-picker-panel']">
-                        <Saturation v-model="saturationColors" @change="childChange"></Saturation>
+        <transition :name="transition">
+            <Drop
+                v-show="visible"
+                @click.native="handleTransferClick"
+                :class="{ [prefixCls + '-transfer']: transfer }"
+                class-name="ivu-transfer-no-max-height"
+                :placement="placement"
+                ref="drop"
+                :data-transfer="transfer"
+                v-transfer-dom>
+                <div :class="[prefixCls + '-picker']">
+                    <div :class="[prefixCls + '-picker-wrapper']">
+                        <div :class="[prefixCls + '-picker-panel']">
+                            <Saturation v-model="saturationColors" @change="childChange"></Saturation>
+                        </div>
+                        <div :class="[prefixCls + '-picker-hue-slider']">
+                            <Hue v-model="saturationColors" @change="childChange"></Hue>
+                        </div>
+                        <div v-if="alpha" :class="[prefixCls + '-picker-alpha-slider']">
+                            <Alpha v-model="saturationColors" @change="childChange"></Alpha>
+                        </div>
+                        <recommend-colors
+                            v-if="colors.length"
+                            :list="colors"
+                            :class="[prefixCls + '-picker-colors']"
+                            @picker-color="handleSelectColor"></recommend-colors>
+                        <recommend-colors
+                            v-if="!colors.length && recommend"
+                            :list="recommendedColor"
+                            :class="[prefixCls + '-picker-colors']"
+                            @picker-color="handleSelectColor"></recommend-colors>
                     </div>
-                    <div :class="[prefixCls + '-picker-hue-slider']">
-                        <Hue v-model="saturationColors" @change="childChange"></Hue>
+                    <div :class="[prefixCls + '-confirm']">
+                        <span :class="[prefixCls + '-confirm-color']">{{ formatColor }}</span>
+                        <Confirm @on-pick-success="handleSuccess" @on-pick-clear="handleClear"></Confirm>
                     </div>
-                    <div v-if="alpha" :class="[prefixCls + '-picker-alpha-slider']">
-                        <Alpha v-model="saturationColors" @change="childChange"></Alpha>
-                    </div>
-                    <recommend-colors
-                        v-if="colors.length"
-                        :list="colors"
-                        :class="[prefixCls + '-picker-colors']"
-                        @picker-color="handleSelectColor"></recommend-colors>
-                    <recommend-colors
-                        v-if="!colors.length && recommend"
-                        :list="recommendedColor"
-                        :class="[prefixCls + '-picker-colors']"
-                        @picker-color="handleSelectColor"></recommend-colors>
                 </div>
-                <div :class="[prefixCls + '-confirm']">
-                    <span :class="[prefixCls + '-confirm-color']">{{ formatColor }}</span>
-                    <Confirm @on-pick-success="handleSuccess" @on-pick-clear="handleClear"></Confirm>
-                </div>
-            </div>
-        </Dropdown-menu>
-    </Dropdown>
+            </Drop>
+        </transition>
+    </div>
 </template>
 <script>
     import tinycolor from 'tinycolor2';
 
-    import Icon from '../icon/icon.vue';
-    import Dropdown from '../dropdown/dropdown.vue';
-    import DropdownMenu from '../dropdown/dropdown-menu.vue';
+    import clickoutside from '../../directives/clickoutside';
+    import TransferDom from '../../directives/transfer-dom';
+
+    import Drop from '../../components/select/dropdown.vue';
     import RecommendColors from './recommend-colors.vue';
     import Confirm from '../date-picker/base/confirm.vue';
-
     import Saturation from './saturation.vue';
     import Hue from './hue.vue';
     import Alpha from './alpha.vue';
@@ -111,7 +121,8 @@
 
     export default {
         name: 'ColorPicker',
-        components: { Icon, Dropdown, DropdownMenu, Confirm, RecommendColors, Saturation, Hue, Alpha },
+        components: { Drop, Confirm, RecommendColors, Saturation, Hue, Alpha },
+        directives: { clickoutside, TransferDom },
         props: {
             value: {
                 type: String
@@ -142,7 +153,8 @@
             size: {
                 validator (value) {
                     return oneOf(value, ['small', 'large', 'default']);
-                }
+                },
+                default: 'default'
             },
             placement: {
                 validator (value) {
@@ -160,6 +172,7 @@
                 val: _colorChange(this.value),
                 prefixCls: prefixCls,
                 visible: false,
+                disableCloseUnderTransfer: false,  // transfer 模式下，点击Drop也会触发关闭
                 recommendedColor: [
                     '#2d8cf0',
                     '#19be6b',
@@ -189,6 +202,13 @@
             };
         },
         computed: {
+            transition () {
+                if (this.placement === 'bottom-start' || this.placement === 'bottom' || this.placement === 'bottom-end') {
+                    return 'slide-up';
+                } else {
+                    return 'fade';
+                }
+            },
             saturationColors: {
                 get () {
                     return this.val;
@@ -266,11 +286,30 @@
             value (newVal) {
                 this.val = _colorChange(newVal);
             },
-            visible () {
+            visible (val) {
                 this.val = _colorChange(this.value);
+                if (val) {
+                    this.$refs.drop.update();
+                } else {
+                    this.$refs.drop.destroy();
+                }
             }
         },
         methods: {
+            // 开启 transfer 时，点击 Drop 即会关闭，这里不让其关闭
+            handleTransferClick () {
+                if (this.transfer) this.disableCloseUnderTransfer = true;
+            },
+            handleClose () {
+                if (this.disableCloseUnderTransfer) {
+                    this.disableCloseUnderTransfer = false;
+                    return false;
+                }
+                this.visible = false;
+            },
+            toggleVisible () {
+                this.visible = !this.visible;
+            },
             childChange (data) {
                 this.colorChange(data);
             },
@@ -300,18 +339,15 @@
                     return data;
                 }
             },
-            handleToggleVisible (visible) {
-                this.visible = visible;
-            },
             handleSuccess () {
                 const color = this.formatColor;
                 this.$emit('input', color);
                 this.$emit('on-change', color);
-                this.$refs.picker.handleClose();
+                this.handleClose();
             },
             handleClear () {
                 this.$emit('input', '');
-                this.$refs.picker.handleClose();
+                this.handleClose();
             },
             handleSelectColor (color) {
                 this.val = _colorChange(color);
