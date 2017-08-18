@@ -279,10 +279,11 @@
                 let style = {};
                 if (this.bodyHeight !== 0) {
                     let height = this.bodyHeight + this.scrollBarWidth - 1;
-
-                    if (this.width && this.width < this.tableWidth){
+                    let width = this.width ? this.width : this.$el.offsetWidth;
+                    if (width < this.tableWidth){
                         height = this.bodyHeight;
                     }
+
 //                    style.height = this.scrollBarWidth > 0 ? `${this.bodyHeight}px` : `${this.bodyHeight - 1}px`;
                     style.height = this.scrollBarWidth > 0 ? `${height}px` : `${height - 1}px`;
                 }
@@ -337,7 +338,7 @@
                     this.$nextTick(() => {
                         let columnsWidth = {};
                         let fixedLeftwidth = 0;
-
+                        let fixedRightwidth = this.bodyRealHeight>this.bodyHeight?this.scrollBarWidth:0;
                         const $td =  this.data.length>0?this.$refs.tbody.$el.querySelectorAll('tbody tr')[0].querySelectorAll('td'):this.$refs.header.querySelectorAll('thead tr')[0].querySelectorAll('th');
                         for (let i = 0; i < $td.length; i++) {    // can not use forEach in Firefox
                             const column = this.cloneColumns[i];
@@ -346,6 +347,10 @@
 
                             if (column.fixed && column.fixed === 'left') {
                                 fixedLeftwidth += width;
+                            }
+
+                            if (column.fixed && column.fixed === 'right') {
+                                fixedRightwidth += width;
                             }
 
                             if (column.width) {
@@ -365,9 +370,8 @@
 
 
                         //change fixed style
-                        if (fixedLeftwidth>0) {
-                            this.fixedTableStyle.width = `${fixedLeftwidth}px`;
-                        }
+                        if (fixedLeftwidth>0) this.fixedTableStyle.width = `${fixedLeftwidth}px`;
+                        if (fixedRightwidth>0) this.fixedRightTableStyle.width = `${fixedRightwidth}px`;
                         
                     });
                     // get table real height,for fixed when set height prop,but height < table's height,show scrollBarWidth
@@ -720,12 +724,12 @@
 
                     let changeSingleCol = ()=>{
                         let cloneColumns = this.cloneColumns[index];
-                        let columnsWidth = this.columnsWidth[index];
+                        let columnsWidth = this.columnsWidth[cloneColumns._index];
 
                         if (cloneColumns.width) {
                             this.cloneColumns[index].width = cloneColumns.width+deltaX-1;
                         }else{
-                            this.columnsWidth[index].width = columnsWidth.width+deltaX-1;
+                            this.columnsWidth[cloneColumns._index].width = columnsWidth.width+deltaX-1;
                         }
                     };
 
@@ -738,11 +742,11 @@
                     }else if(wrapperWidth-calcWidth+deltaX===1 && deltaX<0){
                         for(let i=0;i<2;i++){
                             let cloneColumns = this.cloneColumns[index+i];
-                            let columnsWidth = this.columnsWidth[index+i];
+                            let columnsWidth = this.columnsWidth[cloneColumns._index];
                             if (cloneColumns.width) {
                                 this.cloneColumns[index+i].width = i%2?cloneColumns.width-deltaX:cloneColumns.width+deltaX;
                             }else{
-                                this.columnsWidth[index+i].width = i%2?columnsWidth.width-deltaX:columnsWidth.width+deltaX;
+                                this.columnsWidth[cloneColumns._index].width = i%2?columnsWidth.width-deltaX:columnsWidth.width+deltaX;
                             }
                         }
                     }else{
@@ -754,7 +758,6 @@
                     if (this.cloneColumns[index].fixed === 'left') {
                         this.fixedTableStyle.width = parseFloat(this.fixedTableStyle.width) + deltaX-1 + 'px';
                     }
-
 
 
                     return;
@@ -772,14 +775,14 @@
             //fixedLeftStyle
             let fixedLeftwidth = 0;
             this.leftFixedColumns.forEach((col) => {
-                if (col.fixed && col.fixed === 'left') fixedLeftwidth += col._width;
+                if (col.fixed && col.fixed === 'left' && col._width>0) fixedLeftwidth += col._width;
             });
             this.fixedTableStyle.width = `${fixedLeftwidth}px`;
 
             //fixedRightStyle
             let fixedRightwidth = 0;
             this.rightFixedColumns.forEach((col) => {
-                if (col.fixed && col.fixed === 'right') fixedRightwidth += col._width;
+                if (col.fixed && col.fixed === 'right' && col._width>0) fixedRightwidth += col._width;
             });
 
             fixedRightwidth += this.scrollBarWidth;

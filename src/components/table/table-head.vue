@@ -89,7 +89,6 @@
                 const style = Object.assign({}, this.styleObject);
                 const width = this.$parent.bodyHeight === 0 ? parseInt(this.styleObject.width) : parseInt(this.styleObject.width) + this.$parent.scrollBarWidth;
                 style.width = `${width}px`;
-
                 return style;
             },
             isSelectAll () {
@@ -107,7 +106,10 @@
         },
         methods: {
             mousemoveHandler(e , index){
-                if (!this.draggable || this.columns[index].type === 'selection') return;
+                if (!this.draggable || this.columns[index].type === 'selection' || this.columns[index+1].fixed==='right') {
+                    this.$options.isDragging = false;
+                    return;
+                }
 
                 const bodyStyle = document.body.style;
 
@@ -138,7 +140,7 @@
                 document.body.style.cursor = '';
             },
             mousedownHandler(e,index){
-                if (!this.draggable || !this.$options.isDragging || index == this.columns.length-1) return;
+                if (!this.$options.isDragging) return;
                 const table = this.$parent.$el;
                 document.onselectstart = function() { return false; };
                 document.ondragstart = function() { return false; };
