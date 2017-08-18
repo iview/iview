@@ -34,7 +34,10 @@
                         :class="[prefixCls + '-picker-colors']"
                         @picker-color="handleSelectColor"></recommend-colors>
                 </div>
-                <Confirm @on-pick-success="handleSuccess" @on-pick-clear="handleClear"></Confirm>
+                <div :class="[prefixCls + '-confirm']">
+                    <span :class="[prefixCls + '-confirm-color']">{{ formatColor }}</span>
+                    <Confirm @on-pick-success="handleSuccess" @on-pick-clear="handleClear"></Confirm>
+                </div>
             </div>
         </Dropdown-menu>
     </Dropdown>
@@ -58,7 +61,7 @@
     const inputPrefixCls = 'ivu-input';
 
     function _colorChange (data, oldHue) {
-        data = data === '' ? '#ff0000' : data;
+        data = data === '' ? '#2d8cf0' : data;
         const alpha = data && data.a;
         let color;
 
@@ -170,12 +173,16 @@
                     '#00c2b1',
                     '#ac7a33',
                     '#1d35ea',
-                    '#42bd82',
+                    '#8bc34a',
                     '#f16b62',
                     '#ea4ca3',
                     '#0d94aa',
                     '#febd79',
-                    '#3b90fc',
+                    '#5d4037',
+                    '#00bcd4',
+                    '#f06292',
+                    '#cddc39',
+                    '#607d8b',
                     '#000000',
                     '#ffffff'
                 ]
@@ -222,6 +229,29 @@
                     color = tinycolor(this.value).toRgb();
                 }
                 return `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`;
+            },
+            formatColor () {
+                const value = this.saturationColors;
+                const format = this.format;
+                let color;
+
+                const rgba = `rgba(${value.rgba.r}, ${value.rgba.g}, ${value.rgba.b}, ${value.rgba.a})`;
+                if (format) {
+                    if (format === 'hsl') {
+                        color = tinycolor(value.hsl).toHslString();
+                    } else if (format === 'hsv') {
+                        color = tinycolor(value.hsv).toHsvString();
+                    } else if (format === 'hex') {
+                        color = value.hex;
+                    } else if (format === 'rgb') {
+                        color = rgba;
+                    }
+                } else if (this.alpha) {
+                    color = rgba;
+                } else {
+                    color = value.hex;
+                }
+                return color;
             }
         },
         watch: {
@@ -265,31 +295,10 @@
             handleToggleVisible (visible) {
                 this.visible = visible;
             },
-            getFormatColor () {
-                const value = this.saturationColors;
-                const format = this.format;
-                let color;
-
-                const rgba = `rgba(${value.rgba.r}, ${value.rgba.g}, ${value.rgba.b}, ${value.rgba.a})`;
-                if (format) {
-                    if (format === 'hsl') {
-                        color = tinycolor(value.hsl).toHslString();
-                    } else if (format === 'hsv') {
-                        color = tinycolor(value.hsv).toHsvString();
-                    } else if (format === 'hex') {
-                        color = value.hex;
-                    } else if (format === 'rgb') {
-                        color = rgba;
-                    }
-                } else if (this.alpha) {
-                    color = rgba;
-                } else {
-                    color = value.hex;
-                }
-                return color;
-            },
             handleSuccess () {
-                this.$emit('input', this.getFormatColor());
+                const color = this.formatColor;
+                this.$emit('input', color);
+                this.$emit('on-change', color);
                 this.$refs.picker.handleClose();
             },
             handleClear () {
