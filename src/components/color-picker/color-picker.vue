@@ -1,5 +1,5 @@
 <template>
-    <Dropdown :class="[prefixCls]" ref="picker" trigger="click" :transfer="transfer" :placement="placement" @on-visible-change="handleToggleVisible">
+    <Dropdown :class="classes" class-name="ivu-transfer-" ref="picker" trigger="click" :transfer="transfer" :placement="placement" @on-visible-change="handleToggleVisible">
         <div :class="wrapClasses">
             <i class="ivu-icon ivu-icon-arrow-down-b ivu-input-icon ivu-input-icon-normal"></i>
             <div :class="inputClasses">
@@ -196,6 +196,14 @@
                 set (newVal) {
                     this.val = newVal;
                 }
+            },
+            classes () {
+                return [
+                    `${prefixCls}`,
+                    {
+                        [`${prefixCls}-transfer`]: this.transfer
+                    }
+                ];
             },
             wrapClasses () {
                 return [
