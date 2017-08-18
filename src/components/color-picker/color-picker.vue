@@ -4,7 +4,10 @@
             <i class="ivu-icon ivu-icon-arrow-down-b ivu-input-icon ivu-input-icon-normal"></i>
             <div :class="inputClasses">
                 <div :class="[prefixCls + '-color']">
-                    <div :style="{backgroundColor: displayedColor}"></div>
+                    <div :class="[prefixCls + '-color-empty']" v-if="value === '' && !visible">
+                        <Icon type="ios-close-empty"></Icon>
+                    </div>
+                    <div v-else :style="{backgroundColor: displayedColor}"></div>
                 </div>
             </div>
         </div>
@@ -29,6 +32,7 @@
 <script>
     import tinycolor from 'tinycolor2';
 
+    import Icon from '../icon/icon.vue';
     import Dropdown from '../dropdown/dropdown.vue';
     import DropdownMenu from '../dropdown/dropdown-menu.vue';
     import RecommendColors from './recommend-colors.vue';
@@ -44,6 +48,7 @@
     const inputPrefixCls = 'ivu-input';
 
     function _colorChange (data, oldHue) {
+        data = data === '' ? '#ff0000' : data;
         const alpha = data && data.a;
         let color;
 
@@ -93,7 +98,7 @@
 
     export default {
         name: 'ColorPicker',
-        components: { Dropdown, DropdownMenu, Confirm, RecommendColors, Saturation, Hue, Alpha },
+        components: { Icon, Dropdown, DropdownMenu, Confirm, RecommendColors, Saturation, Hue, Alpha },
         props: {
             value: {
                 type: String
@@ -218,44 +223,6 @@
             }
         },
         methods: {
-            formatColor () {
-                const defaultColor = {
-                    hex: '#ff0000',
-                    hsl: {
-                        h: 0,
-                        s: 1,
-                        l: 0.5,
-                        a: 1
-                    },
-                    hsv: {
-                        h: 0,
-                        s: 1,
-                        v: 1,
-                        a: 1
-                    },
-                    rgba: {
-                        r: 255,
-                        g: 0,
-                        b: 0,
-                        a: 1
-                    },
-                    a: 1
-                };
-                if (this.value) {
-                    const color = tinycolor(this.value);
-                    const hex = color.toHex();
-                    const hsl = color.toHsl();
-                    const hsv = color.toHsv();
-                    const rgba = color.toRgb();
-
-                    defaultColor.hex = hex;
-                    defaultColor.hsl = hsl;
-                    defaultColor.hsv = hsv;
-                    defaultColor.rgba = rgba;
-                    defaultColor.a = rgba.a;
-                }
-                return defaultColor;
-            },
             childChange (data) {
                 this.colorChange(data);
             },
