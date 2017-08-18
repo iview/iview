@@ -4,7 +4,7 @@
         <!--<Input placeholder="请输入..." size="large" style="width: 50px;"></Input>-->
         <!--<color-picker placement="bottom-start" size="large"></color-picker>-->
         <!--<Date-picker type="date" placeholder="选择日期" size="large" style="width: 200px"></Date-picker>-->
-        <color-picker ref="xxx" v-model="color" :recommend="true"></color-picker>
+        <color-picker ref="xxx" v-model="color" format="rgb" alpha :recommend="true"></color-picker>
         <color-picker v-model="color2" :alpha="false" :recommend="false"></color-picker>
         <!--<Date-picker type="date" placeholder="选择日期" style="width: 200px"></Date-picker>-->
         <!--<color-picker placement="bottom-start" size="small"></color-picker>-->
@@ -17,7 +17,7 @@
         props: {},
         data () {
             return {
-                color: '',
+                color: 'rgba(255,255,255,.85)',
                 color2: ''
             };
         },

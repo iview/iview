@@ -1,6 +1,9 @@
 @color-picker-prefix-cls: ~"@{css-prefix}color-picker";
 
 .@{color-picker-prefix-cls} {
+    & .@{select-dropdown-prefix-cls} {
+        padding: 0;
+    }
     &-rel{
         line-height: 0;
     }
@@ -38,7 +41,9 @@
     }
 
     &-picker{
-        padding: 4px 8px 0;
+        &-wrapper{
+            padding: 8px 8px 0;
+        }
         &-panel{
             width: 200px;
             margin: 0 auto;

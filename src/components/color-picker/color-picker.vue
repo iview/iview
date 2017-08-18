@@ -1,5 +1,5 @@
 <template>
-    <Dropdown ref="picker" trigger="click" :transfer="transfer" :placement="placement" @on-visible-change="handleToggleVisible">
+    <Dropdown :class="[prefixCls]" ref="picker" trigger="click" :transfer="transfer" :placement="placement" @on-visible-change="handleToggleVisible">
         <div :class="wrapClasses">
             <i class="ivu-icon ivu-icon-arrow-down-b ivu-input-icon ivu-input-icon-normal"></i>
             <div :class="inputClasses">
@@ -13,25 +13,27 @@
         </div>
         <Dropdown-menu slot="list">
             <div :class="[prefixCls + '-picker']">
-                <div :class="[prefixCls + '-picker-panel']">
-                    <Saturation v-model="saturationColors" @change="childChange"></Saturation>
+                <div :class="[prefixCls + '-picker-wrapper']">
+                    <div :class="[prefixCls + '-picker-panel']">
+                        <Saturation v-model="saturationColors" @change="childChange"></Saturation>
+                    </div>
+                    <div :class="[prefixCls + '-picker-hue-slider']">
+                        <Hue v-model="saturationColors" @change="childChange"></Hue>
+                    </div>
+                    <div v-if="alpha" :class="[prefixCls + '-picker-alpha-slider']">
+                        <Alpha v-model="saturationColors" @change="childChange"></Alpha>
+                    </div>
+                    <recommend-colors
+                        v-if="colors.length"
+                        :list="colors"
+                        :class="[prefixCls + '-picker-colors']"
+                        @picker-color="handleSelectColor"></recommend-colors>
+                    <recommend-colors
+                        v-if="!colors.length && recommend"
+                        :list="recommendedColor"
+                        :class="[prefixCls + '-picker-colors']"
+                        @picker-color="handleSelectColor"></recommend-colors>
                 </div>
-                <div :class="[prefixCls + '-picker-hue-slider']">
-                    <Hue v-model="saturationColors" @change="childChange"></Hue>
-                </div>
-                <div v-if="alpha" :class="[prefixCls + '-picker-alpha-slider']">
-                    <Alpha v-model="saturationColors" @change="childChange"></Alpha>
-                </div>
-                <recommend-colors
-                    v-if="colors.length"
-                    :list="colors"
-                    :class="[prefixCls + '-picker-colors']"
-                    @picker-color="handleSelectColor"></recommend-colors>
-                <recommend-colors
-                    v-if="!colors.length && recommend"
-                    :list="recommendedColor"
-                    :class="[prefixCls + '-picker-colors']"
-                    @picker-color="handleSelectColor"></recommend-colors>
                 <Confirm @on-pick-success="handleSuccess" @on-pick-clear="handleClear"></Confirm>
             </div>
         </Dropdown-menu>
@@ -265,15 +267,22 @@
             },
             getFormatColor () {
                 const value = this.saturationColors;
+                const format = this.format;
                 let color;
-                if (this.format) {
-                    if (this.format === 'hsl') {
+
+                const rgba = `rgba(${value.rgba.r}, ${value.rgba.g}, ${value.rgba.b}, ${value.rgba.a})`;
+                if (format) {
+                    if (format === 'hsl') {
                         color = tinycolor(value.hsl).toHslString();
-                    } else if (this.format === 'hsv') {
+                    } else if (format === 'hsv') {
                         color = tinycolor(value.hsv).toHsvString();
+                    } else if (format === 'hex') {
+                        color = value.hex;
+                    } else if (format === 'rgb') {
+                        color = rgba;
                     }
                 } else if (this.alpha) {
-                    color = `rgba(${value.rgba.r}, ${value.rgba.g}, ${value.rgba.b}, ${value.rgba.a})`;
+                    color = rgba;
                 } else {
                     color = value.hex;
                 }
