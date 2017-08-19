@@ -462,6 +462,7 @@
                         continue;
                     }else{
                         this.objData[data._index]._isChecked = status;
+                        v3platform.synSelectRecordToDs(this,this.entityCode,this.objData[data._index],status);
                     }
                 }
                 const selection = this.getSelection();
@@ -723,6 +724,15 @@
             this.showSlotHeader = this.$slots.header !== undefined;
             this.showSlotFooter = this.$slots.footer !== undefined;
             this.rebuildData = this.makeDataWithSortAndFilter();
+            let columns = this.columns;
+            if (columns && columns.length>0) {
+                for (let i = 0, l = columns.length; i < l; i++) {
+                    let column = columns[i];
+                    if (column.type === "selection") {
+                        v3platform.markDsMultipleSelect(this, this.entityCode);
+                    }
+                }
+            }
             v3platform.registerCurrentHandler(this,(function(_this){
                 return function(entityCode,current){
                     if(_this.entityCode==entityCode){
