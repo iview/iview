@@ -1,0 +1,24 @@
+.ivu-autocomplete {
+
+    &:hover &-arrow {
+      display: inline-block;
+    }
+
+    &-arrow {
+      display: none;
+      position: absolute;
+      top: 50%;
+      right: 8px;
+      line-height: 1;
+      margin-top: -7px;
+      font-size: 14px;
+      color: #80848f;
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
+    }
+
+    .ivu-dropdown-menu {
+        max-height: 200px;
+        overflow-y: auto;
+    }
+}

@@ -182,6 +182,10 @@ const router = new VueRouter({
             component: require('./routers/notice.vue')
         },
         {
+            path: '/autocomplete',
+            component: require('./routers/auto-complete.vue')
+        },
+        {
             path: '/avatar',
             component: require('./routers/avatar.vue')
         },

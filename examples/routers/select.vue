@@ -1,5 +1,5 @@
 <template>
-    <i-select transfer multiple v-model="m1">
+    <i-select transfer v-model="m1" clearable>
         <i-option v-for="item in options" :value="item.value" :key="item.value">{{ item.label }}</i-option>
     </i-select>
 </template>
