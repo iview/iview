@@ -1,5 +1,5 @@
 <template>
-    <div class="ivu-select-dropdown" :style="styles"><slot></slot></div>
+    <div class="ivu-select-dropdown" :class="className" :style="styles"><slot></slot></div>
 </template>
 <script>
     import Vue from 'vue';
@@ -13,6 +13,9 @@
             placement: {
                 type: String,
                 default: 'bottom-start'
+            },
+            className: {
+                type: String
             }
         },
         data () {
