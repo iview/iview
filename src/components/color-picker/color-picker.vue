@@ -215,6 +215,7 @@
                 },
                 set (newVal) {
                     this.val = newVal;
+                    this.$emit('on-active-change', this.formatColor);
                 }
             },
             classes () {
@@ -347,6 +348,7 @@
             },
             handleClear () {
                 this.$emit('input', '');
+                this.$emit('on-change', '');
                 this.handleClose();
             },
             handleSelectColor (color) {

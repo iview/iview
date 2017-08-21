@@ -2,7 +2,7 @@
     <div style="margin: 100px;">
         {{ color }}
         <!--<Input placeholder="请输入..." size="large" style="width: 50px;"></Input>-->
-        <color-picker v-model="color" placement="bottom-start" size="large"></color-picker>
+        <color-picker @on-change="c1" @on-active-change="c2" v-model="color" placement="bottom-start" size="large"></color-picker>
         <Date-picker transfer type="date" placeholder="选择日期" style="width: 200px"></Date-picker>
         <color-picker :transfer="true" ref="xxx" v-model="color" format="rgb" alpha :recommend="true"></color-picker>
         <color-picker v-model="color2" format="hsv" :alpha="true" :recommend="false"></color-picker>
@@ -25,6 +25,12 @@
         methods: {
             setColor () {
                 this.color = '#26bc77';
+            },
+            c1 (d) {
+                console.log(d);
+            },
+            c2 (d) {
+                console.log(d);
             }
         }
     };
