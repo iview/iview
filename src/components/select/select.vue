@@ -14,6 +14,7 @@
                 type="text"
                 v-if="filterable"
                 v-model="query"
+                :disabled="disabled"
                 :class="[prefixCls + '-input']"
                 :placeholder="showPlaceholder ? localePlaceholder : ''"
                 :style="inputStyle"
