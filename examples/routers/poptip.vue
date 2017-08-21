@@ -8,6 +8,13 @@
                 @on-cancel="cancel">
             <Button>删除</Button>
         </Poptip>
+        <Poptip
+                confirm
+                title="您确认删除这条内容吗？"
+                @on-ok="ok"
+                @on-cancel="cancel">
+            <Button>删除</Button>
+        </Poptip>
     </div>
 </template>
 <script>
