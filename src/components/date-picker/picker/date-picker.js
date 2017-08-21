@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import Picker from '../picker.vue';
 import DatePanel from '../panel/date.vue';
 import DateRangePanel from '../panel/date-range.vue';
@@ -31,6 +32,7 @@ export default {
             }
         }
 
-        this.panel = getPanel(this.type);
+        const panel = getPanel(this.type);
+        this.Panel = new Vue(panel);
     }
 };

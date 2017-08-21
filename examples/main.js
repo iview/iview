@@ -184,6 +184,14 @@ const router = new VueRouter({
         {
             path: '/autocomplete',
             component: require('./routers/auto-complete.vue')
+        },
+        {
+            path: '/avatar',
+            component: require('./routers/avatar.vue')
+        },
+        {
+            path: '/color-picker',
+            component: require('./routers/color-picker.vue')
         }
     ]
 });
