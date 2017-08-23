@@ -23,8 +23,6 @@
 
         &-inner {
             display: inline-block;
-            width: 14px;
-            height: 14px;
             position: relative;
             top: 0;
             left: 0;
@@ -36,16 +34,44 @@
             &:after {
                 content: '';
                 display: table;
-                width: 4px;
-                height: 8px;
                 position: absolute;
                 top: 1px;
-                left: 4px;
                 border: 2px solid #fff;
                 border-top: 0;
                 border-left: 0;
                 transform: rotate(45deg) scale(0);
                 transition: all @transition-time @ease-in-out;
+            }
+        }
+
+        &-inner-small {
+            width: 13px;
+            height: 13px;
+            &:after {
+                width: 3px;
+                height: 6px;
+                left: 4px;
+                top: 2px;
+            }
+        }
+
+        &-inner-medium {
+            width: 14px;
+            height: 14px;
+            &:after {
+                width: 4px;
+                height: 8px;
+                left: 4px;
+            }
+        }
+
+        &-inner-large {
+            width: 16px;
+            height: 16px;
+            &:after {
+                width: 5px;
+                height: 10px;
+                left: 5px;
             }
         }
 
@@ -81,18 +107,7 @@
             background-color: @primary-color;
 
             &:after {
-                content: '';
-                display: table;
-                width: 4px;
-                height: 8px;
-                position: absolute;
-                top: 1px;
-                left: 4px;
-                border: 2px solid #fff;
-                border-top: 0;
-                border-left: 0;
                 transform: rotate(45deg) scale(1);
-                transition: all @transition-time @ease-in-out;
             }
         }
     }
@@ -146,12 +161,35 @@
     .@{checkbox-prefix-cls}-indeterminate{
         .@{checkbox-inner-prefix-cls}:after{
             content: '';
-            width: 8px;
             height: 1px;
             transform: scale(1);
             position: absolute;
-            left: 2px;
-            top: 5px;
+        }
+
+        .@{checkbox-prefix-cls} {
+            &-inner-small {
+                &:after {
+                    left: 1px;
+                    top: 2px;
+                    width: 4px;
+                }
+            }
+
+            &-inner-medium {
+                &:after {
+                    left: 2px;
+                    top: 5px;
+                    width: 8px;
+                }
+            }
+
+            &-inner-large {
+                &:after {
+                    left: 2px;
+                    top: 6px;
+                    width: 10px;
+                }
+            }
         }
 
         &:hover {

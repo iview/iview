@@ -46,8 +46,6 @@
     }
     &-inner {
         display: inline-block;
-        width: 14px;
-        height: 14px;
         position: relative;
         top: 0;
         left: 0;
@@ -58,8 +56,6 @@
 
         &:after {
             position: absolute;
-            width: 8px;
-            height: 8px;
             left: 2px;
             top: 2px;
             border-radius: @border-radius-base;
@@ -73,6 +69,34 @@
             transform: scale(0);
         }
     }
+
+    &-inner-small {
+        width: 13px;
+        height: 13px;
+        &:after {
+            width: 7px;
+            height: 7px;
+        }
+    }
+
+    &-inner-medium {
+        width: 14px;
+        height: 14px;
+        &:after {
+            width: 8px;
+            height: 8px;
+        }
+    }
+
+    &-inner-large {
+        width: 16px;
+        height: 16px;
+        &:after {
+            width: 10px;
+            height: 10px;
+        }
+    }
+
 
     &-input {
         position: absolute;
