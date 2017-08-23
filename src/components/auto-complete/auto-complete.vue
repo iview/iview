@@ -82,7 +82,8 @@
         },
         data () {
             return {
-                currentValue: this.value
+                currentValue: this.value,
+                disableEmitChange: false    // for Form reset
             };
         },
         computed: {
@@ -99,11 +100,16 @@
         },
         watch: {
             value (val) {
+                this.disableEmitChange = true;
                 this.currentValue = val;
             },
             currentValue (val) {
                 this.$refs.select.query = val;
                 this.$emit('input', val);
+                if (this.disableEmitChange) {
+                    this.disableEmitChange = false;
+                    return;
+                }
                 this.$emit('on-change', val);
                 this.dispatch('FormItem', 'on-form-change', val);
             }
