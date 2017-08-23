@@ -36,9 +36,11 @@
     import iOption from '../select/option.vue';
     import iInput from '../input/input.vue';
     import { oneOf } from '../../utils/assist';
+    import Emitter from '../../mixins/emitter';
 
     export default {
         name: 'AutoComplete',
+        mixins: [ Emitter ],
         components: { iSelect, iOption, iInput },
         props: {
             value: {
@@ -103,6 +105,7 @@
                 this.$refs.select.query = val;
                 this.$emit('input', val);
                 this.$emit('on-change', val);
+                this.dispatch('FormItem', 'on-form-change', val);
             }
         },
         methods: {

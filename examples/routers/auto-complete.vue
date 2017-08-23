@@ -30,7 +30,7 @@
                 ]
             },
             hc (v) {
-                console.log(v)
+//                console.log(v)
             },
             fm (value, item) {
                 return item.toUpperCase().indexOf(value.toUpperCase()) !== -1;

@@ -685,6 +685,7 @@
 
             this.$on('on-select-selected', (value) => {
                 if (this.model === value) {
+                    if (this.autoComplete) this.$emit('on-change', value);
                     this.hideMenu();
                 } else {
                     if (this.multiple) {
