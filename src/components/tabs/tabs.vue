@@ -182,7 +182,6 @@
                 const nav = this.navList[index];
                 if (nav.disabled) return;
                 this.activeKey = nav.name;
-                this.$emit('input', nav.name);
                 this.$emit('on-click', nav.name);
             },
             handleRemove (index) {
