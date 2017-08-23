@@ -66,6 +66,7 @@
     import Alpha from './alpha.vue';
 
     import { oneOf } from '../../utils/assist';
+    import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-color-picker';
     const inputPrefixCls = 'ivu-input';
@@ -121,6 +122,7 @@
 
     export default {
         name: 'ColorPicker',
+        mixins: [ Emitter ],
         components: { Drop, Confirm, RecommendColors, Saturation, Hue, Alpha },
         directives: { clickoutside, TransferDom },
         props: {
@@ -344,11 +346,13 @@
                 const color = this.formatColor;
                 this.$emit('input', color);
                 this.$emit('on-change', color);
+                this.dispatch('FormItem', 'on-form-change', color);
                 this.handleClose();
             },
             handleClear () {
                 this.$emit('input', '');
                 this.$emit('on-change', '');
+                this.dispatch('FormItem', 'on-form-change', '');
                 this.handleClose();
             },
             handleSelectColor (color) {
