@@ -188,6 +188,10 @@ const router = new VueRouter({
         {
             path: '/color-picker',
             component: require('./routers/color-picker.vue')
+        },
+        {
+            path: '/auto-complete',
+            component: require('./routers/auto-complete.vue')
         }
     ]
 });
