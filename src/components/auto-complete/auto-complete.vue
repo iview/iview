@@ -21,7 +21,7 @@
                 :placeholder="placeholder"
                 :disabled="disabled"
                 :size="size"
-                :icon="closeIcon"
+                :icon="inputIcon"
                 @on-click="handleClear"
                 @on-focus="handleFocus"
                 @on-blur="handleBlur"></i-input>
@@ -71,6 +71,9 @@
                     return oneOf(value, ['small', 'large', 'default']);
                 }
             },
+            icon: {
+                type: String
+            },
             filterMethod: {
                 type: [Function, Boolean],
                 default: false
@@ -87,8 +90,14 @@
             };
         },
         computed: {
-            closeIcon () {
-                return this.clearable && this.currentValue ? 'ios-close' : '';
+            inputIcon () {
+                let icon = '';
+                if (this.clearable && this.currentValue) {
+                    icon = 'ios-close';
+                } else if (this.icon) {
+                    icon = this.icon;
+                }
+                return icon;
             },
             filteredData () {
                 if (this.filterMethod) {
