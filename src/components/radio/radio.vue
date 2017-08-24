@@ -12,7 +12,7 @@
     </label>
 </template>
 <script>
-    import { findComponentUpward } from '../../utils/assist';
+    import { findComponentUpward, oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-radio';
@@ -39,6 +39,11 @@
             disabled: {
                 type: Boolean,
                 default: false
+            },
+            size: {
+                validator (value) {
+                    return oneOf(value, ['small', 'large', 'default']);
+                }
             }
         },
         data () {
@@ -55,7 +60,8 @@
                     {
                         [`${prefixCls}-group-item`]: this.group,
                         [`${prefixCls}-wrapper-checked`]: this.currentValue,
-                        [`${prefixCls}-wrapper-disabled`]: this.disabled
+                        [`${prefixCls}-wrapper-disabled`]: this.disabled,
+                        [`${prefixCls}-${this.size}`]: !!this.size
                     }
                 ];
             },
