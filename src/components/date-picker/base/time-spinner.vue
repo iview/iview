@@ -171,7 +171,7 @@
                 const times = ['hours', 'minutes', 'seconds'];
                 this.$nextTick(() => {
                     times.forEach(type => {
-                        this.$refs[type].scrollTop = 24 * this.getScrollIndex(type, this[type]);
+                        this.$refs[type].scrollTop = 24 * this.getItemIndex(type, this[type]);
                     });
                 });
             },
