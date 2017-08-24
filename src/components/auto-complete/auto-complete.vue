@@ -140,6 +140,7 @@
                 this.$refs.select.visible = false;
             },
             handleClear () {
+                if (!this.clearable) return;
                 this.currentValue = '';
                 this.$refs.select.model = '';
             }
