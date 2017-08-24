@@ -1,6 +1,6 @@
 <template>
     <div style="margin: 100px;width: 200px;">
-        <AutoComplete transfer v-model="value" :data="data" @on-change="hc" :filter-method="fm">
+        <AutoComplete transfer v-model="value" :data="data" @on-search="handleSearch" @on-change="hc" :filter-method="fm">
             <!--<Option v-for="item in data" :value="item" :label="item" :key="item">-->
                 <!--<span style="color: red">{{ item }}</span>-->
             <!--</Option>-->
@@ -16,8 +16,8 @@
         data () {
             return {
                 value: '',
-//                data: [],
-                data: ['Burns Bay Road', 'Downing Street', 'Wall Street']
+                data: [],
+//                data: ['Burns Bay Road', 'Downing Street', 'Wall Street']
             };
         },
         computed: {},
