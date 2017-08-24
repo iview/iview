@@ -39,6 +39,10 @@
             disabled: {
                 type: Boolean,
                 default: false
+            },
+            size: {
+                type: String,
+                default: 'medium'
             }
         },
         data () {
@@ -69,7 +73,15 @@
                 ];
             },
             innerClasses () {
-                return `${prefixCls}-inner`;
+                const size = this.size;
+                return [
+                    `${prefixCls}-inner`,
+                    {
+                        [`${prefixCls}-inner-small`]: size == 'small',
+                        [`${prefixCls}-inner-medium`]: size == 'medium',
+                        [`${prefixCls}-inner-large`]: size == 'large'
+                    }
+                ];
             },
             inputClasses () {
                 return `${prefixCls}-input`;
