@@ -5,7 +5,7 @@
     // https://github.com/ElemeFE/element/blob/dev/packages/form/src/form.vue
     import { oneOf } from '../../utils/assist';
 
-    const prefixCls = 'ivu-form';
+    const prefixCls = 'bsc-form';
 
     export default {
         name: 'iForm',

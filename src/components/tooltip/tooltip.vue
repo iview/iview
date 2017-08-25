@@ -25,7 +25,7 @@
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
 
-    const prefixCls = 'ivu-tooltip';
+    const prefixCls = 'bsc-tooltip';
 
     export default {
         name: 'Tooltip',

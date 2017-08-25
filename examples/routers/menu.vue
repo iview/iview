@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Menu mode="horizontal" :theme="theme1" active-name="1">
+        <Menu :theme="theme1" active-name="1">
             <Menu-item name="1">
                 <Icon type="ios-paper"></Icon>
                 内容管理

@@ -23,7 +23,7 @@
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf, findComponentUpward } from '../../utils/assist';
 
-    const prefixCls = 'ivu-dropdown';
+    const prefixCls = 'bsc-dropdown';
 
     export default {
         name: 'Dropdown',

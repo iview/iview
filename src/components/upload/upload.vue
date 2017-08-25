@@ -29,7 +29,7 @@
     import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
-    const prefixCls = 'ivu-upload';
+    const prefixCls = 'bsc-upload';
 
     export default {
         name: 'Upload',

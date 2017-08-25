@@ -12,7 +12,7 @@
 <script>
     import { oneOf } from '../../utils/assist';
 
-    const prefixCls = 'ivu-chart-circle';
+    const prefixCls = 'bsc-chart-circle';
 
     export default {
         name: 'Circle',

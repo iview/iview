@@ -14,11 +14,11 @@ describe('TimePicker.vue', () => {
     picker.handleIconClick(); // open the picker panels
 
     vm.$nextTick(() => {
-      const spiners = picker.$el.querySelectorAll('.ivu-time-picker-cells-list');
+      const spiners = picker.$el.querySelectorAll('.bsc-time-picker-cells-list');
       expect(spiners.length).to.equal(3); // hh:mm:ss
-      expect(spiners[0].querySelectorAll('.ivu-time-picker-cells-cell').length).to.equal(24);
-      expect(spiners[1].querySelectorAll('.ivu-time-picker-cells-cell').length).to.equal(60);
-      expect(spiners[2].querySelectorAll('.ivu-time-picker-cells-cell').length).to.equal(60);
+      expect(spiners[0].querySelectorAll('.bsc-time-picker-cells-cell').length).to.equal(24);
+      expect(spiners[1].querySelectorAll('.bsc-time-picker-cells-cell').length).to.equal(60);
+      expect(spiners[2].querySelectorAll('.bsc-time-picker-cells-cell').length).to.equal(60);
       done();
     });
   });
@@ -31,10 +31,10 @@ describe('TimePicker.vue', () => {
     picker.handleIconClick(); // open the picker panels
 
     vm.$nextTick(() => {
-      const spiners = picker.$el.querySelectorAll('.ivu-time-picker-cells-list');
+      const spiners = picker.$el.querySelectorAll('.bsc-time-picker-cells-list');
       expect([...spiners].filter(el => el.style.display != 'none').length).to.equal(2); // hh:mm
-      expect(spiners[0].querySelectorAll('.ivu-time-picker-cells-cell').length).to.equal(24);
-      expect(spiners[1].querySelectorAll('.ivu-time-picker-cells-cell').length).to.equal(60);
+      expect(spiners[0].querySelectorAll('.bsc-time-picker-cells-cell').length).to.equal(24);
+      expect(spiners[1].querySelectorAll('.bsc-time-picker-cells-cell').length).to.equal(60);
       done();
     });
   });
@@ -47,13 +47,13 @@ describe('TimePicker.vue', () => {
     picker.handleIconClick(); // open the picker panels
 
     vm.$nextTick(() => {
-      const spiners = picker.$el.querySelectorAll('.ivu-time-picker-cells-list');
-      const minutesList = [...spiners[1].querySelectorAll('.ivu-time-picker-cells-cell')];
+      const spiners = picker.$el.querySelectorAll('.bsc-time-picker-cells-list');
+      const minutesList = [...spiners[1].querySelectorAll('.bsc-time-picker-cells-cell')];
 
-      expect(spiners[0].querySelectorAll('.ivu-time-picker-cells-cell').length).to.equal(24);
+      expect(spiners[0].querySelectorAll('.bsc-time-picker-cells-cell').length).to.equal(24);
       expect(minutesList.map(el => el.textContent).join(',')).to.equal('00,15,30,45');
-      expect(spiners[1].querySelectorAll('.ivu-time-picker-cells-cell').length).to.equal(4);
-      expect(spiners[2].querySelectorAll('.ivu-time-picker-cells-cell').length).to.equal(60);
+      expect(spiners[1].querySelectorAll('.bsc-time-picker-cells-cell').length).to.equal(4);
+      expect(spiners[2].querySelectorAll('.bsc-time-picker-cells-cell').length).to.equal(60);
       done();
     });
   });

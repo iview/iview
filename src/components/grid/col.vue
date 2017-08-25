@@ -4,7 +4,7 @@
     </div>
 </template>
 <script>
-    const prefixCls = 'ivu-col';
+    const prefixCls = 'bsc-col';
 
     export default {
         name: 'iCol',

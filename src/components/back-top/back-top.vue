@@ -2,7 +2,7 @@
     <div :class="classes" :style="styles" @click="back">
         <slot>
             <div :class="innerClasses">
-                <i class="ivu-icon ivu-icon-chevron-up"></i>
+                <i class="bsc-icon bsc-icon-chevron-up"></i>
             </div>
         </slot>
     </div>
@@ -10,7 +10,7 @@
 <script>
     import { scrollTop } from '../../utils/assist';
     import { on, off } from '../../utils/dom';
-    const prefixCls = 'ivu-back-top';
+    const prefixCls = 'bsc-back-top';
 
     export default {
         props: {

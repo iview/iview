@@ -1,11 +1,11 @@
 <template>
-    <div class="ivu-color-picker-hue">
-        <div class="ivu-color-picker-hue-container" ref="container"
+    <div class="bsc-color-picker-hue">
+        <div class="bsc-color-picker-hue-container" ref="container"
              @mousedown="handleMouseDown"
              @touchmove="handleChange"
              @touchstart="handleChange">
-            <div class="ivu-color-picker-hue-pointer" :style="{top: 0, left: pointerLeft}">
-                <div class="ivu-color-picker-hue-picker"></div>
+            <div class="bsc-color-picker-hue-pointer" :style="{top: 0, left: pointerLeft}">
+                <div class="bsc-color-picker-hue-picker"></div>
             </div>
         </div>
     </div>

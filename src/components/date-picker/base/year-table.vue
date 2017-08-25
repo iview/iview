@@ -5,7 +5,7 @@
 </template>
 <script>
     import { deepCopy } from '../../../utils/assist';
-    const prefixCls = 'ivu-date-picker-cells';
+    const prefixCls = 'bsc-date-picker-cells';
 
     export default {
         props: {

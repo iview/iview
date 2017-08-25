@@ -4,7 +4,7 @@
     import Locale from '../../mixins/locale';
     import Emitter from '../../mixins/emitter';
 
-    const prefixCls = 'ivu-transfer';
+    const prefixCls = 'bsc-transfer';
 
     export default {
         name: 'Transfer',

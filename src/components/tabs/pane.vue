@@ -2,7 +2,7 @@
     <div :class="prefixCls" v-show="show"><slot></slot></div>
 </template>
 <script>
-    const prefixCls = 'ivu-tabs-tabpane';
+    const prefixCls = 'bsc-tabs-tabpane';
 
     export default {
         name: 'TabPane',

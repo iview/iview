@@ -13,7 +13,7 @@
     </span>
 </template>
 <script>
-    const prefixCls = 'ivu-breadcrumb-item';
+    const prefixCls = 'bsc-breadcrumb-item';
 
     export default {
         name: 'BreadcrumbItem',

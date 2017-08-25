@@ -17,7 +17,7 @@
     import iOption from '../../components/select/option.vue';
     import Locale from '../../mixins/locale';
 
-    const prefixCls = 'ivu-page';
+    const prefixCls = 'bsc-page';
 
     function isValueNumber (value) {
         return (/^[1-9][0-9]*$/).test(value + '');

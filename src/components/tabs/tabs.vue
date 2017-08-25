@@ -27,7 +27,7 @@
     import { oneOf, getStyle } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
-    const prefixCls = 'ivu-tabs';
+    const prefixCls = 'bsc-tabs';
 
     export default {
         name: 'Tabs',

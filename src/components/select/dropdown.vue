@@ -1,5 +1,5 @@
 <template>
-    <div class="ivu-select-dropdown" :class="className" :style="styles"><slot></slot></div>
+    <div class="bsc-select-dropdown" :class="className" :style="styles"><slot></slot></div>
 </template>
 <script>
     import Vue from 'vue';

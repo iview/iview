@@ -2,7 +2,7 @@
     <i :class="classes" :style="styles"></i>
 </template>
 <script>
-    const prefixCls = 'ivu-icon';
+    const prefixCls = 'bsc-icon';
 
     export default {
         name: 'Icon',

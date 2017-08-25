@@ -40,7 +40,7 @@
     import { formatDate, parseDate } from './util';
     import Emitter from '../../mixins/emitter';
 
-    const prefixCls = 'ivu-date-picker';
+    const prefixCls = 'bsc-date-picker';
 
     const DEFAULT_FORMATS = {
         date: 'yyyy-MM-dd',

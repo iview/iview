@@ -9,7 +9,7 @@
     </span>
 </template>
 <script>
-    const prefixCls = 'ivu-badge';
+    const prefixCls = 'bsc-badge';
 
     export default {
         name: 'Badge',

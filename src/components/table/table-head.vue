@@ -13,8 +13,8 @@
                             <span v-if="!column.renderHeader" @click="handleSortByHead(index)">{{ column.title || '#' }}</span>
                             <render-header v-else :render="column.renderHeader" :column="column" :index="index"></render-header>
                             <span :class="[prefixCls + '-sort']" v-if="column.sortable">
-                                <i class="ivu-icon ivu-icon-arrow-up-b" :class="{on: column._sortType === 'asc'}" @click="handleSort(index, 'asc')"></i>
-                                <i class="ivu-icon ivu-icon-arrow-down-b" :class="{on: column._sortType === 'desc'}" @click="handleSort(index, 'desc')"></i>
+                                <i class="bsc-icon bsc-icon-arrow-up-b" :class="{on: column._sortType === 'asc'}" @click="handleSort(index, 'asc')"></i>
+                                <i class="bsc-icon bsc-icon-arrow-down-b" :class="{on: column._sortType === 'desc'}" @click="handleSort(index, 'desc')"></i>
                             </span>
                             <Poptip
                                 v-if="isPopperShow(column)"
@@ -22,7 +22,7 @@
                                 placement="bottom"
                                 @on-popper-hide="handleFilterHide(index)">
                                 <span :class="[prefixCls + '-filter']">
-                                    <i class="ivu-icon ivu-icon-funnel" :class="{on: column._isFiltered}"></i>
+                                    <i class="bsc-icon bsc-icon-funnel" :class="{on: column._isFiltered}"></i>
                                 </span>
                                 <div slot="content" :class="[prefixCls + '-filter-list']" v-if="column._filterMultiple">
                                     <div :class="[prefixCls + '-filter-list-item']">

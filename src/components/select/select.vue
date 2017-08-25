@@ -5,8 +5,8 @@
             ref="reference"
             @click="toggleMenu">
             <slot name="input">
-                <div class="ivu-tag" v-for="(item, index) in selectedMultiple">
-                    <span class="ivu-tag-text">{{ item.label }}</span>
+                <div class="bsc-tag" v-for="(item, index) in selectedMultiple">
+                    <span class="bsc-tag-text">{{ item.label }}</span>
                     <Icon type="ios-close-empty" @click.native.stop="removeTag(index)"></Icon>
                 </div>
                 <span :class="[prefixCls + '-placeholder']" v-show="showPlaceholder && !filterable">{{ localePlaceholder }}</span>
@@ -51,7 +51,7 @@
     import Emitter from '../../mixins/emitter';
     import Locale from '../../mixins/locale';
 
-    const prefixCls = 'ivu-select';
+    const prefixCls = 'bsc-select';
 
     export default {
         name: 'iSelect',
@@ -169,7 +169,7 @@
                 return {
                     [prefixCls + '-dropdown-transfer']: this.transfer,
                     [prefixCls + '-multiple']: this.multiple && this.transfer,
-                    ['ivu-auto-complete']: this.autoComplete,
+                    ['bsc-auto-complete']: this.autoComplete,
                 };
             },
             selectionCls () {

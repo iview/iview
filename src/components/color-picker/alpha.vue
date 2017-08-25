@@ -1,15 +1,15 @@
 <template>
-    <div class="ivu-color-picker-alpha">
-        <div class="ivu-color-picker-alpha-checkboard-wrap">
-            <div class="ivu-color-picker-alpha-checkerboard"></div>
+    <div class="bsc-color-picker-alpha">
+        <div class="bsc-color-picker-alpha-checkboard-wrap">
+            <div class="bsc-color-picker-alpha-checkerboard"></div>
         </div>
-        <div class="ivu-color-picker-alpha-gradient" :style="{background: gradientColor}"></div>
-        <div class="ivu-color-picker-alpha-container" ref="container"
+        <div class="bsc-color-picker-alpha-gradient" :style="{background: gradientColor}"></div>
+        <div class="bsc-color-picker-alpha-container" ref="container"
              @mousedown="handleMouseDown"
              @touchmove="handleChange"
              @touchstart="handleChange">
-            <div class="ivu-color-picker-alpha-pointer" :style="{left: colors.a * 100 + '%'}">
-                <div class="ivu-color-picker-alpha-picker"></div>
+            <div class="bsc-color-picker-alpha-pointer" :style="{left: colors.a * 100 + '%'}">
+                <div class="bsc-color-picker-alpha-picker"></div>
             </div>
         </div>
     </div>

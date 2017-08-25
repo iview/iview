@@ -1,11 +1,11 @@
 <template>
     <div :class="classes" v-clickoutside="handleClose">
         <div ref="reference" @click="toggleVisible" :class="wrapClasses">
-            <i class="ivu-icon ivu-icon-arrow-down-b ivu-input-icon ivu-input-icon-normal"></i>
+            <i class="bsc-icon bsc-icon-arrow-down-b bsc-input-icon bsc-input-icon-normal"></i>
             <div :class="inputClasses">
                 <div :class="[prefixCls + '-color']">
                     <div :class="[prefixCls + '-color-empty']" v-show="value === '' && !visible">
-                        <i class="ivu-icon ivu-icon-ios-close-empty"></i>
+                        <i class="bsc-icon bsc-icon-ios-close-empty"></i>
                     </div>
                     <div v-show="value || visible" :style="{backgroundColor: displayedColor}"></div>
                 </div>
@@ -16,7 +16,7 @@
                 v-show="visible"
                 @click.native="handleTransferClick"
                 :class="{ [prefixCls + '-transfer']: transfer }"
-                class-name="ivu-transfer-no-max-height"
+                class-name="bsc-transfer-no-max-height"
                 :placement="placement"
                 ref="drop"
                 :data-transfer="transfer"
@@ -68,8 +68,8 @@
     import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
-    const prefixCls = 'ivu-color-picker';
-    const inputPrefixCls = 'ivu-input';
+    const prefixCls = 'bsc-color-picker';
+    const inputPrefixCls = 'bsc-input';
 
     function _colorChange (data, oldHue) {
         data = data === '' ? '#2d8cf0' : data;

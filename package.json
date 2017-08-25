@@ -1,8 +1,8 @@
 {
-  "name": "iview",
+  "name": "iview-bsc",
   "version": "2.1.0",
-  "title": "iView",
-  "description": "A high quality  UI components Library with Vue.js",
+  "title": "iview-bsc",
+  "description": "iview for baishancloud",
   "homepage": "http://www.iviewui.com",
   "keywords": [
     "iview",
@@ -32,12 +32,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/iview/iview"
+    "url": "https://github.com/baishancloud/iview-bsc"
   },
   "author": "Aresn",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/iview/iview/issues"
+    "url": "https://github.com/baishancloud/iview-bsc/issues"
   },
   "dependencies": {
     "async-validator": "^1.7.1",

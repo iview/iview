@@ -10,7 +10,7 @@
     import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
-    const prefixCls = 'ivu-switch';
+    const prefixCls = 'bsc-switch';
 
     export default {
         name: 'Switch',

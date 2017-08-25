@@ -9,7 +9,7 @@
     import Icon from '../icon';
     import { oneOf } from '../../utils/assist';
 
-    const prefixCls = 'ivu-avatar';
+    const prefixCls = 'bsc-avatar';
 
     export default {
         name: 'Avatar',

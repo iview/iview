@@ -13,10 +13,10 @@ describe('DatePicker.vue', () => {
     const picker = vm.$children[0];
     picker.showPicker();
     vm.$nextTick(() => {
-      const calendarBody = vm.$el.querySelector('.ivu-picker-panel-body .ivu-date-picker-cells:first-of-type');
-      const calendarCells = [...calendarBody.querySelectorAll('.ivu-date-picker-cells-cell')].filter(el => {
-        const prevMonth = el.classList.contains('ivu-date-picker-cells-cell-prev-month');
-        const nextMonth = el.classList.contains('ivu-date-picker-cells-cell-next-month');
+      const calendarBody = vm.$el.querySelector('.bsc-picker-panel-body .bsc-date-picker-cells:first-of-type');
+      const calendarCells = [...calendarBody.querySelectorAll('.bsc-date-picker-cells-cell')].filter(el => {
+        const prevMonth = el.classList.contains('bsc-date-picker-cells-cell-prev-month');
+        const nextMonth = el.classList.contains('bsc-date-picker-cells-cell-next-month');
         return !prevMonth && !nextMonth;
       });
       const today = new Date();

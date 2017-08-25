@@ -4,14 +4,14 @@
             <template v-if="type === 'notice'">
                 <div :class="[baseClass + '-content']" ref="content" v-html="content"></div>
                 <a :class="[baseClass + '-close']" @click="close" v-if="closable">
-                    <i class="ivu-icon ivu-icon-ios-close-empty"></i>
+                    <i class="bsc-icon bsc-icon-ios-close-empty"></i>
                 </a>
             </template>
             <template v-if="type === 'message'">
                 <div :class="[baseClass + '-content']" ref="content">
                     <div :class="[baseClass + '-content-text']" v-html="content"></div>
                     <a :class="[baseClass + '-close']" @click="close" v-if="closable">
-                        <i class="ivu-icon ivu-icon-ios-close-empty"></i>
+                        <i class="bsc-icon bsc-icon-ios-close-empty"></i>
                     </a>
                 </div>
             </template>
@@ -108,7 +108,7 @@
             }
 
             // check if with desc in Notice component
-            if (this.prefixCls === 'ivu-notice') {
+            if (this.prefixCls === 'bsc-notice') {
                 this.withDesc = this.$refs.content.querySelectorAll(`.${this.prefixCls}-desc`)[0].innerHTML !== '';
             }
         },

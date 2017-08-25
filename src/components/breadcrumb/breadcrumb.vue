@@ -4,7 +4,7 @@
     </div>
 </template>
 <script>
-    const prefixCls = 'ivu-breadcrumb';
+    const prefixCls = 'bsc-breadcrumb';
 
     export default {
         name: 'Breadcrumb',

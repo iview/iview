@@ -6,7 +6,7 @@
 <script>
     import { deepCopy } from '../../../utils/assist';
     import Locale from '../../../mixins/locale';
-    const prefixCls = 'ivu-date-picker-cells';
+    const prefixCls = 'bsc-date-picker-cells';
 
     export default {
         mixins: [ Locale ],

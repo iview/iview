@@ -93,7 +93,7 @@
     import ExportCsv from './export-csv';
     import Locale from '../../mixins/locale';
 
-    const prefixCls = 'ivu-table';
+    const prefixCls = 'bsc-table';
 
     let rowKey = 1;
     let columnKey = 1;

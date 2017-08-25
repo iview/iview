@@ -189,11 +189,12 @@
         }
     }
 
-    &-dark&-vertical &-item, &-dark&-vertical &-submenu-title{
+    &-dark&-vertical &-item, &-dark&-vertical &-submenu-title {
         color: @menu-dark-subsidiary-color;
         &-active:not(.@{menu-prefix-cls}-submenu),
-        &-active:not(.@{menu-prefix-cls}-submenu):hover
-        {
+        &-active:not(.@{menu-prefix-cls}-submenu):hover {
+            border-left: 4px solid #39f;
+            border-right: 0;
             background: @menu-dark-active-bg;
         }
         &:hover{
@@ -201,7 +202,7 @@
             background: @menu-dark-title;
         }
         &-active:not(.@{menu-prefix-cls}-submenu){
-            color: @primary-color;
+            color: #fff;
             border-right: 2px solid @primary-color;
         }
     }

@@ -11,7 +11,7 @@
 <script>
     import { oneOf } from '../../utils/assist';
 
-    const prefixCls = 'ivu-spin';
+    const prefixCls = 'bsc-spin';
 
     export default {
         name: 'Spin',

@@ -13,11 +13,11 @@ describe('Breadcrumb.vue', () => {
         <Breadcrumb-item>Breadcrumb</Breadcrumb-item>
       </Breadcrumb>
     `);
-    expect(vm.$el.querySelectorAll('.ivu-breadcrumb-item-link').length).to.equal(3);
+    expect(vm.$el.querySelectorAll('.bsc-breadcrumb-item-link').length).to.equal(3);
 
     vm.$nextTick(_ => {
-      // console.log(vm.$el.querySelector('.ivu-breadcrumb-item-separator').innerHTML);
-      expect(vm.$el.querySelector('.ivu-breadcrumb-item-separator').innerHTML).to.equal('<b class="demo-breadcrumb-separator">=&gt;</b>');
+      // console.log(vm.$el.querySelector('.bsc-breadcrumb-item-separator').innerHTML);
+      expect(vm.$el.querySelector('.bsc-breadcrumb-item-separator').innerHTML).to.equal('<b class="demo-breadcrumb-separator">=&gt;</b>');
       done();
     });
   });

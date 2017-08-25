@@ -53,8 +53,8 @@
 
     import { initTimeDate, toDate, formatDate } from '../util';
 
-    const prefixCls = 'ivu-picker-panel';
-    const timePrefixCls = 'ivu-time-picker';
+    const prefixCls = 'bsc-picker-panel';
+    const timePrefixCls = 'bsc-time-picker';
 
     export default {
         name: 'TimePicker',

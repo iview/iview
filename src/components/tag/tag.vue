@@ -9,7 +9,7 @@
     import Icon from '../icon';
     import { oneOf } from '../../utils/assist';
 
-    const prefixCls = 'ivu-tag';
+    const prefixCls = 'bsc-tag';
 
     export default {
         name: 'Tag',

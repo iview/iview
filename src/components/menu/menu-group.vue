@@ -5,7 +5,7 @@
     </li>
 </template>
 <script>
-    const prefixCls = 'ivu-menu';
+    const prefixCls = 'bsc-menu';
 
     export default {
         name: 'MenuGroup',

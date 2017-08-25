@@ -4,7 +4,7 @@
         align-items: center;
         justify-content: center;
 
-    .ivu-modal{
+    .bsc-modal{
         top: 0;
     }
     }

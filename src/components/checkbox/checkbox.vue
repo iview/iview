@@ -25,7 +25,7 @@
     import { findComponentUpward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
-    const prefixCls = 'ivu-checkbox';
+    const prefixCls = 'bsc-checkbox';
 
     export default {
         name: 'Checkbox',

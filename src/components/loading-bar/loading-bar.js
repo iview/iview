@@ -31,7 +31,7 @@ LoadingBar.newInstance = properties => {
         },
         component: loading_bar,
         destroy () {
-            document.body.removeChild(document.getElementsByClassName('ivu-loading-bar')[0]);
+            document.body.removeChild(document.getElementsByClassName('bsc-loading-bar')[0]);
         }
     };
 };

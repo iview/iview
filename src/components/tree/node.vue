@@ -31,7 +31,7 @@
     import Emitter from '../../mixins/emitter';
     import { findComponentsDownward } from '../../utils/assist';
 
-    const prefixCls = 'ivu-tree';
+    const prefixCls = 'bsc-tree';
 
     export default {
         name: 'TreeNode',

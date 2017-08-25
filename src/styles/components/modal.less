@@ -37,7 +37,7 @@
         position: relative;
         background-color: #fff;
         border: 0;
-        border-radius: @border-radius-base;
+        border-radius: 0;
         background-clip: padding-box;
     }
 
@@ -56,12 +56,19 @@
     }
 
     &-footer {
-        border-top: 1px solid @border-color-split;
-        padding: 12px 18px 12px 18px;
+        background: @modal-footer-bg;
+        padding: 6px 18px;
         text-align: right;
         button + button {
             margin-left: 8px;
             margin-bottom: 0;
+        }
+
+        button {
+            min-width: 58px;
+            padding: 2px 7px;
+            font-size: 12px;
+            border-radius: 3px;
         }
     }
 }
