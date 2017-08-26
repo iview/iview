@@ -48,6 +48,27 @@
                 transition: all @transition-time @ease-in-out;
             }
         }
+        &-large{
+            & .@{checkbox-inner-prefix-cls} {
+                width: 16px;
+                height: 16px;
+                &:after{
+                    width: 5px;
+                    height: 9px;
+                }
+            }
+        }
+        &-small{
+            font-size: 12px;
+            & .@{checkbox-inner-prefix-cls} {
+                width: 12px;
+                height: 12px;
+                &:after{
+                    top: 0;
+                    left: 3px;
+                }
+            }
+        }
 
         &-input {
             width: 100%;
@@ -93,6 +114,26 @@
                 border-left: 0;
                 transform: rotate(45deg) scale(1);
                 transition: all @transition-time @ease-in-out;
+            }
+        }
+    }
+    .@{checkbox-prefix-cls}-large{
+        .@{checkbox-prefix-cls}-checked{
+            .@{checkbox-inner-prefix-cls} {
+                &:after{
+                    width: 5px;
+                    height: 9px;
+                }
+            }
+        }
+    }
+    .@{checkbox-prefix-cls}-small{
+        .@{checkbox-prefix-cls}-checked{
+            .@{checkbox-inner-prefix-cls} {
+                &:after{
+                    top: 0;
+                    left: 3px;
+                }
             }
         }
     }
@@ -164,6 +205,22 @@
             border-color: @primary-color;
         }
     }
+    .@{checkbox-prefix-cls}-large {
+        .@{checkbox-prefix-cls}-indeterminate{
+            .@{checkbox-inner-prefix-cls}:after{
+                width: 10px;
+                top: 6px;
+            }
+        }
+    }
+    .@{checkbox-prefix-cls}-small {
+        .@{checkbox-prefix-cls}-indeterminate{
+            .@{checkbox-inner-prefix-cls}:after{
+                width: 6px;
+                top: 4px;
+            }
+        }
+    }
 
     .@{checkbox-prefix-cls}-wrapper {
         cursor: pointer;
@@ -172,6 +229,10 @@
         margin-right: 8px;
         &-disabled{
             cursor: @cursor-disabled;
+        }
+
+        &.@{checkbox-prefix-cls}-large{
+            font-size: @font-size-base;
         }
     }
 

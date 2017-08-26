@@ -1,21 +1,31 @@
 <template>
-    <div>
-        <Poptip trigger="hover" title="提示标题" content="提示内容">
-            <Button>hover 激活</Button>
+    <div style="margin: 100px;">
+        <Poptip
+                confirm
+                transfer
+                title="您确认删除这条内容吗？"
+                @on-ok="ok"
+                @on-cancel="cancel">
+            <Button>删除</Button>
         </Poptip>
-        <Poptip transfer title="提示标题" content="提示内容">
-            <Button>click 激活</Button>
-        </Poptip>
-        <Poptip trigger="focus" title="提示标题" content="提示内容">
-            <Button>focus 激活</Button>
-        </Poptip>
-        <Poptip trigger="focus" title="提示标题" content="提示内容">
-            <i-input placeholder="输入框的 focus"></i-input>
+        <Poptip
+                confirm
+                title="您确认删除这条内容吗？"
+                @on-ok="ok"
+                @on-cancel="cancel">
+            <Button>删除</Button>
         </Poptip>
     </div>
 </template>
 <script>
     export default {
-
+        methods: {
+            ok () {
+                this.$Message.info('点击了确定');
+            },
+            cancel () {
+                this.$Message.info('点击了取消');
+            }
+        }
     }
 </script>

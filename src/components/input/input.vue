@@ -74,7 +74,7 @@
             },
             size: {
                 validator (value) {
-                    return oneOf(value, ['small', 'large']);
+                    return oneOf(value, ['small', 'large', 'default']);
                 }
             },
             placeholder: {
@@ -212,11 +212,18 @@
 
                 this.textareaStyles = calcTextareaHeight(this.$refs.textarea, minRows, maxRows);
             },
-            focus() {
+            focus () {
                 if (this.type === 'textarea') {
                     this.$refs.textarea.focus();
                 } else {
                     this.$refs.input.focus();
+                }
+            },
+            blur () {
+                if (this.type === 'textarea') {
+                    this.$refs.textarea.blur();
+                } else {
+                    this.$refs.input.blur();
                 }
             }
         },

@@ -14,7 +14,7 @@
         </div>
         <transition name="fade">
             <div
-                :class="[prefixCls + '-popper']"
+                :class="popperClasses"
                 :style="styles"
                 ref="popper"
                 v-show="visible"
@@ -111,6 +111,14 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-confirm`]: this.confirm
+                    }
+                ];
+            },
+            popperClasses () {
+                return [
+                    `${prefixCls}-popper`,
+                    {
+                        [`${prefixCls}-confirm`]: this.transfer && this.confirm
                     }
                 ];
             },
