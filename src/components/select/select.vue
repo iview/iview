@@ -3,7 +3,7 @@
         <div
             :class="[prefixCls + '-selection']"
             ref="reference"
-            @click="toggleMenu">
+            @click="showMenu">
             <div class="ivu-tag" v-for="(item, index) in selectedMultiple">
                 <span class="ivu-tag-text">{{ item.label }}</span>
                 <Icon type="ios-close-empty" @click.native.stop="removeTag(index)"></Icon>
@@ -17,7 +17,8 @@
                 :class="[prefixCls + '-input']"
                 :placeholder="showPlaceholder ? localePlaceholder : ''"
                 :style="inputStyle"
-                @focus="toggleMenu"
+                @focus="showMenu"
+                @focusout="hideMenu"
                 @blur="handleBlur"
                 @keydown="resetInputState"
                 @keydown.delete="handleInputDelete"
@@ -238,6 +239,12 @@
                     return false;
                 }
                 this.visible = !this.visible;
+            },
+            showMenu () {
+                if (this.disabled) {
+                    return false;
+                }
+                this.visible = true;
             },
             hideMenu () {
                 this.visible = false;
