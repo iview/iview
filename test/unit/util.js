@@ -83,3 +83,13 @@ exports.triggerEvent = function(elm, name, ...opts) {
 
   return elm;
 };
+
+/**
+* Wait for components inner async process, when this.$nextTick is not enough
+* @param {Function} the condition to verify before calling the callback
+* @param {Function} the callback to call when condition is true
+*/
+exports.waitForIt = function waitForIt(condition, callback) {
+  if (condition()) callback();
+  else setTimeout(() => waitForIt(condition, callback), 50);
+};
