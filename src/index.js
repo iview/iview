@@ -1,4 +1,5 @@
 // es6 polyfill
+import 'core-js/fn/array/find';
 import 'core-js/fn/array/find-index';
 
 import Affix from './components/affix';
