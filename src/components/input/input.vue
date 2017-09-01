@@ -7,6 +7,7 @@
                 <i class="ivu-icon ivu-icon-load-c ivu-load-loop" :class="[prefixCls + '-icon', prefixCls + '-icon-validate']" v-if="!icon"></i>
             </transition>
             <input
+                :autocomplete="autocomplete"
                 ref="input"
                 :type="type"
                 :class="inputClasses"
@@ -29,6 +30,7 @@
             <div :class="[prefixCls + '-group-append']" v-if="append" v-show="slotReady"><slot name="append"></slot></div>
         </template>
         <textarea
+            :autocomplete="autocomplete"
             v-else
             ref="textarea"
             :class="textareaClasses"
@@ -111,6 +113,10 @@
             autofocus: {
                 type: Boolean,
                 default: false
+            },
+            autocomplete: {
+                type: String,
+                default: 'off'
             }
         },
         data () {
