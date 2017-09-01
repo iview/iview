@@ -24,7 +24,7 @@
 <script>
     import Icon from '../icon/icon.vue';
     import Render from '../base/render';
-    import { oneOf, getStyle } from '../../utils/assist';
+    import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-tabs';
@@ -150,13 +150,13 @@
                     const index = this.navList.findIndex((nav) => nav.name === this.activeKey);
                     const prevTabs = this.$refs.nav.querySelectorAll(`.${prefixCls}-tab`);
                     const tab = prevTabs[index];
-                    this.barWidth = parseFloat(getStyle(tab, 'width'));
+                    this.barWidth = parseFloat(tab.offsetWidth);
 
                     if (index > 0) {
                         let offset = 0;
                         const gutter = this.size === 'small' ? 0 : 16;
                         for (let i = 0; i < index; i++) {
-                            offset += parseFloat(getStyle(prevTabs[i], 'width')) + gutter;
+                            offset += parseFloat(prevTabs[i].offsetWidth) + gutter;
                         }
 
                         this.barOffset = offset;
