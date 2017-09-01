@@ -115,7 +115,9 @@
                 default: false
             },
             autocomplete: {
-                type: String,
+                validator (value) {
+                    return oneOf(value, ['on', 'off']);
+                },
                 default: 'off'
             }
         },
