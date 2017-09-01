@@ -296,7 +296,6 @@
             handleClear() {
                 this.minDate = null;
                 this.maxDate = null;
-                this.date = new Date();
                 this.handleConfirm();
                 if (this.showTime) this.$refs.timePicker.handleClear();
             },
