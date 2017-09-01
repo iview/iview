@@ -56,7 +56,7 @@ describe('Select.vue', () => {
       });
     });
 
-    xit('should accept normal characters', done => {
+    it('should accept normal characters', done => {
       vm = createVue({
         template: `
           <Select :value="2">
