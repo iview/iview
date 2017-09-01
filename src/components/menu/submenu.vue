@@ -54,7 +54,6 @@
                 return [
                     `${prefixCls}-submenu`,
                     {
-                        [`${prefixCls}-item-active`]: this.active,
                         [`${prefixCls}-opened`]: this.opened,
                         [`${prefixCls}-submenu-disabled`]: this.disabled
                     }
