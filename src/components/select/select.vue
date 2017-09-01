@@ -639,6 +639,8 @@
                                 label: this.currentLabel[index]
                             };
                         });
+                    } else if (this.multiple && !this.model.length) {
+                        this.selectedMultiple = [];
                     }
                 }
             }
