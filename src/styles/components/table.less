@@ -120,6 +120,9 @@
             text-align: right;
         }
     }
+    th span{
+        white-space: nowrap;
+    }
 
     & table{
         //width: 100%;
@@ -359,5 +362,14 @@
               text-align: center;
             }
         }
+    }
+
+    &-resize-border{
+        position: absolute;
+        z-index: 5;
+        width: 1px;
+        height: 100%;
+        border-left:1px dashed @border-color-base;
+        top:0;
     }
 }

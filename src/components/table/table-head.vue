@@ -5,7 +5,7 @@
         </colgroup>
         <thead>
             <tr>
-                <th v-for="(column, index) in columns" :class="alignCls(column)">
+                <th v-for="(column, index) in columns" :class="alignCls(column)" @mousemove="mousemoveHandler($event,index)" @mousedown="mousedownHandler($event,index)" @mouseleave="mouseleaveHandler">
                     <div :class="cellClasses(column)">
                         <template v-if="column.type === 'expand'"></template>
                         <template v-else-if="column.type === 'selection'"><Checkbox :value="isSelectAll" @on-change="selectAll"></Checkbox></template>
@@ -65,6 +65,7 @@
 
     export default {
         name: 'TableHead',
+        isDragging : false,
         mixins: [ Mixin, Locale ],
         components: { CheckboxGroup, Checkbox, Poptip, iButton, renderHeader },
         props: {
@@ -74,6 +75,10 @@
             objData: Object,
             data: Array,    // rebuildData
             columnsWidth: Object,
+            draggable: {
+                type:Boolean,
+                default:false
+            },
             fixed: {
                 type: [Boolean, String],
                 default: false
@@ -100,6 +105,94 @@
             }
         },
         methods: {
+            mousemoveHandler(e , index){
+                if (!this.draggable || this.columns[index].type === 'selection' || this.columns[index+1].fixed==='right') {
+                    this.$options.isDragging = false;
+                    return;
+                }
+
+                const bodyStyle = document.body.style;
+
+                if (index == this.columns.length-1) {
+                    bodyStyle.cursor = '';
+                    return;
+                }
+
+                let target = e.target;
+                while (target && target.tagName !== 'TH') {
+                    target = target.parentNode;
+                }
+                if (target) {
+                    let rect = target.getBoundingClientRect();
+                    if (rect.width > 12 && rect.right - e.pageX < 10) {
+                        bodyStyle.cursor = 'col-resize';
+                        this.$options.isDragging = true;
+                    } else {
+                        bodyStyle.cursor = '';
+                        this.$options.isDragging = false;
+                    }
+                }else{
+                    bodyStyle.cursor = '';
+                    this.$options.isDragging = false;
+                }
+            },
+            mouseleaveHandler(){
+                document.body.style.cursor = '';
+            },
+            mousedownHandler(e,index){
+                if (!this.$options.isDragging) return;
+                const table = this.$parent.$el;
+                document.onselectstart = function() { return false; };
+                document.ondragstart = function() { return false; };
+                
+                var target = e.target;
+                while (target && target.tagName !== 'TH') {
+                    target = target.parentNode;
+                }
+
+                let startX = e.pageX;
+                let columns = this.columns;
+                let columnsWidth = this.columnsWidth;
+                let leftColWidth = columns[index].width?columns[index].width:columnsWidth[index].width;
+                let rightColWidth = columns[index+1].width?columns[index+1].width:columnsWidth[index+1].width;
+                let rect = target && target.getBoundingClientRect();
+                let x = table.getBoundingClientRect().left;
+
+                let minX = rect.left - x;
+                let maxX = rect.right + rightColWidth - x;
+
+
+                const handleMouseMove = (event) => {
+                    
+                    let borderLeft = event.pageX - x;
+
+                    if (borderLeft<minX+50) {
+                        borderLeft = minX+50;
+                    }
+                    if (borderLeft>maxX-50) {
+                        borderLeft = maxX-50;
+                    }
+                    document.body.style.cursor = 'col-resize';
+                    this.$emit('emitDrag' , borderLeft);
+                };
+                const handleMouseUp = (event)=>{
+
+                    let deltaX = event.pageX - startX;
+
+                    if (deltaX<0 && deltaX < -leftColWidth+50) {
+                        deltaX = -leftColWidth+50;
+                    }
+                    if (deltaX>0 && deltaX > rightColWidth-50) {
+                        deltaX = rightColWidth -50;
+                    }
+
+                    this.$emit('emitDrag' , false , deltaX , index);
+                    document.removeEventListener('mousemove', handleMouseMove);
+                    document.removeEventListener('mouseup', handleMouseUp);
+                };
+                document.addEventListener('mousemove' , handleMouseMove);
+                document.addEventListener('mouseup', handleMouseUp);
+            },
             cellClasses (column) {
                 return [
                     `${this.prefixCls}-cell`,
