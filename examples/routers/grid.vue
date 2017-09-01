@@ -1,7 +1,7 @@
 <style>
-    .ivu-col div{
-        background: rgba(0,153,229,.7);
-    }
+    /*.ivu-col div{*/
+        /*background: rgba(0,153,229,.7);*/
+    /*}*/
 </style>
 <template>
     <div>
