@@ -58,6 +58,16 @@ exports.createTest = function(Compo, propsData = {}, mounted = false) {
 };
 
 /**
+ * Transform Date string (yyyy-mm-dd hh:mm:ss) to Date object
+ * @param {String}
+ */
+exports.stringToDate = function(str) {
+  const parts = str.split(/[^\d]/).filter(Boolean);
+  parts[1] = parts[1] - 1;
+  return new Date(...parts);
+};
+
+/**
  * 触发一个事件
  * mouseenter, mouseleave, mouseover, keyup, change, click 等
  * @param  {Element} elm
