@@ -73,8 +73,12 @@ export function getStyle (element, styleName) {
         styleName = 'cssFloat';
     }
     try {
-        const computed = document.defaultView.getComputedStyle(element, '');
-        return element.style[styleName] || computed ? computed[styleName] : null;
+        let _style;
+        if(!(_style = element.style[styleName])){
+            const computed = document.defaultView.getComputedStyle(element, '');
+            _style = computed ? computed[styleName] : null;
+        }
+        return _style;
     } catch(e) {
         return element.style[styleName];
     }
@@ -114,23 +118,19 @@ function typeOf(obj) {
 function deepCopy(data) {
     const t = typeOf(data);
     let o;
-
     if (t === 'array') {
         o = [];
-    } else if ( t === 'object') {
-        o = {};
-    } else {
-        return data;
-    }
-
-    if (t === 'array') {
         for (let i = 0; i < data.length; i++) {
             o.push(deepCopy(data[i]));
         }
     } else if ( t === 'object') {
+        o = {};
         for (let i in data) {
             o[i] = deepCopy(data[i]);
         }
+    }
+    else{
+        return data;
     }
     return o;
 }
@@ -239,7 +239,7 @@ export {findComponentsDownward};
 
 /* istanbul ignore next */
 const trim = function(string) {
-    return (string || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '');
+    return (string + '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '');
 };
 
 /* istanbul ignore next */
