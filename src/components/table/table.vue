@@ -331,7 +331,7 @@
                 this.$nextTick(() => {
                     const allWidth = !this.columns.some(cell => !cell.width);    // each column set a width
                     if (allWidth) {
-                        this.tableWidth = this.columns.map(cell => cell.width).reduce((a, b) => a + b);
+                        this.tableWidth = this.columns.map(cell => cell.width).reduce((a, b) => a + b, 0);
                     } else {
                         this.tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
                     }
@@ -438,7 +438,7 @@
                 //     }else{
                 //         this.objData[data._index]._isChecked = status;
                 //     }
-                    
+
                 // });
                 for(const data of this.rebuildData){
                     if(this.objData[data._index]._isDisabled){
