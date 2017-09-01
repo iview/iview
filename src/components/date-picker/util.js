@@ -1,9 +1,17 @@
 import dateUtil from '../../utils/date';
 
 export const toDate = function(date) {
-    date = new Date(date);
-    if (isNaN(date.getTime())) return null;
-    return date;
+    let _date = new Date(date);
+    // IE patch start (#1422)
+    if (isNaN(_date.getTime()) && typeof date === 'string'){
+        _date = date.split('-').map(Number);
+        _date[1] += 1;
+        _date = new Date(..._date);
+    }
+    // IE patch end
+
+    if (isNaN(_date.getTime())) return null;
+    return _date;
 };
 
 export const formatDate = function(date, format) {
