@@ -291,7 +291,7 @@
                 this.findChild((child) => {
                     options.push({
                         value: child.value,
-                        label: (child.label === undefined) ? child.$el.innerHTML : child.label
+                        label: (child.label === undefined) ? child.$el.textContent : child.label
                     });
                     child.index = index++;
 
