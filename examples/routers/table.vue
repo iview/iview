@@ -1,143 +1,87 @@
 <template>
-    <div>
-        <Table
-                width="500"
-                height="200"
-                border
-                highlight-row
-                :columns="columns2"
-                @on-selection-change="change2"
-                :data="data3"></Table>
-        <Button @click="addData">添加数据</Button>
-    </div>
+    <Table :columns="columns10" :data="data9"></Table>
 </template>
 <script>
-    import test from '../components/test.vue';
+    import expandRow from '../components/tableExpand.vue';
     export default {
+        components: { expandRow },
         data () {
             return {
-                columns2: [
-//                    {
-//                        type: 'selection',
-//                        width: 60,
-//                        align: 'center'
-//                    },
+                columns10: [
                     {
-                        title: '姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名',
-                        key: 'name',
-                        width: 200,
-//                        sortable: true,
-//                        fixed: 'right',
+                        type: 'expand',
+                        width: 100,
+                        title: '展',
+                        renderHeader (h) {
+                            return h('i', '展开')
+                        },
                         render: (h, params) => {
-                            return h('div', [
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    on: {
-                                        click: this.edit
-                                    },
-                                }, '修改')
-                            ]);
+                            return h(expandRow, {
+                                props: {
+                                    row: params.row
+                                }
+                            })
                         }
                     },
                     {
-                        title: '年龄',
-                        key: 'age',
-                        sortable: true,
-//                        sortType: 'asc',
-                        width: 200
+                        title: '姓名',
+                        key: 'name'
                     },
                     {
-                        title: '省份',
-                        key: 'province',
-                        sortable: true,
-//                        fixed: 'right',
-                        width: 200
+                        title: '年龄',
+                        key: 'age'
                     },
-//                    {
-//                        title: '市区',
-//                        key: 'city',
-//                        width: 100
-//                    },
-//                    {
-//                        title: '地址',
-//                        key: 'address',
-//                        width: 200
-//                    },
-//                    {
-//                        title: '邮编',
-//                        key: 'zip',
-//                        width: 100
-//                    },
-//                    {
-//                        title: '操作',
-//                        key: 'action',
-//                        fixed: 'right',
-//                        width: 120,
-//                        render: (h, params) => {
-//                            return h(test);
-//                        }
-//                    }
+                    {
+                        title: '地址',
+                        key: 'address'
+                    }
                 ],
-                data3: [
+                data9: [
                     {
                         name: '王小明',
                         age: 18,
                         address: '北京市朝阳区芍药居',
-                        province: '北京市',
-                        city: '朝阳区',
-                        zip: 100000
+                        job: '数据工程师',
+                        interest: '羽毛球',
+                        birthday: '1991-05-14',
+                        book: '乔布斯传',
+                        movie: '致命魔术',
+                        music: 'I Cry'
                     },
                     {
                         name: '张小刚',
                         age: 25,
                         address: '北京市海淀区西二旗',
-                        province: '北京市',
-                        city: '海淀区',
-                        zip: 100000
+                        job: '数据科学家',
+                        interest: '排球',
+                        birthday: '1989-03-18',
+                        book: '我的奋斗',
+                        movie: '罗马假日',
+                        music: 'My Heart Will Go On'
                     },
-//                    {
-//                        name: '李小红',
-//                        age: 30,
-//                        address: '上海市浦东新区世纪大道',
-//                        province: '上海市',
-//                        city: '浦东新区',
-//                        zip: 100000
-//                    },
-//                    {
-//                        name: '周小伟',
-//                        age: 26,
-//                        address: '深圳市南山区深南大道',
-//                        province: '广东',
-//                        city: '南山区',
-//                        zip: 100000
-//                    }
+                    {
+                        name: '李小红',
+                        age: 30,
+                        address: '上海市浦东新区世纪大道',
+                        job: '数据产品经理',
+                        interest: '网球',
+                        birthday: '1992-01-31',
+                        book: '赢',
+                        movie: '乔布斯',
+                        music: 'Don’t Cry'
+                    },
+                    {
+                        name: '周小伟',
+                        age: 26,
+                        address: '深圳市南山区深南大道',
+                        job: '数据分析师',
+                        interest: '桌球，跑步',
+                        birthday: '1988-7-25',
+                        book: '红楼梦',
+                        movie: '倩女幽魂',
+                        music: '演员'
+                    }
                 ]
-            }
-        },
-        methods: {
-            change1 (d, l) {
-//                console.log(d)
-//                console.log(l)
-            },
-            change2 (d, l) {
-                console.log(d);
-                console.log(l);
-            },
-            addData () {
-                this.data3.push({
-                    name: '周小伟',
-                    age: 26,
-                    address: '深圳市南山区深南大道',
-                    province: '广东',
-                    city: '南山区',
-                    zip: 100000
-                })
-            },
-            edit () {
-                
             }
         }
     }
