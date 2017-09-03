@@ -1,6 +1,6 @@
 <template>
     <div>
-        <i-switch v-model="m1">
+        <i-switch v-model="m1" :before-change="beforeChange">
             <span slot="open">开</span>
             <span slot="close">关</span>
         </i-switch>
@@ -18,6 +18,13 @@
         methods: {
             change (status) {
                 console.log(status)
+            },
+            beforeChange (currentValue) {
+                return currentValue ? true : new Promise((resolve) => {
+                    setTimeout(function () {
+                        resolve(true);
+                    }, 1000);
+                });
             }
         }
     }
