@@ -37,9 +37,6 @@
 - It is quite beautiful.
 - Support Vue.js 2 and Vue.js 1.
 
-## Programming
-![iView](https://raw.githubusercontent.com/iview/iview/2.0/assets/iview2.png)
-
 ## Install
 
 ### Install webpack project in the first place
