@@ -156,7 +156,7 @@ describe('Select.vue', () => {
   });
 
   describe('Performance tests', () => {
-    xit('should handle big numbers of options', done => {
+    it('should handle big numbers of options', done => {
       const manyLaterOptions = Array.apply(null, Array(200)).map((_, i) => {
         return {
           value: i + 1,
