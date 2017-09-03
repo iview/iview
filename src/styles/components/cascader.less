@@ -149,6 +149,18 @@
     .ivu-select-item span{
         color: @error-color;
     }
+    .@{cascader-prefix-cls} {
+        &-menu{
+            &-item{
+                padding-right: 24px;
+                transition: all @transition-time @ease-in-out;
+                &-active{
+                    background-color: @background-color-select-hover;
+                    color: @primary-color;
+                }
+            }
+        }
+    }
 }
 
 .@{form-item-prefix-cls}-error{
