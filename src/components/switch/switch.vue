@@ -17,7 +17,15 @@
         mixins: [ Emitter ],
         props: {
             value: {
-                type: Boolean,
+                type: [String, Number, Boolean],
+                default: false
+            },
+            trueValue: {
+                type: [String, Number, Boolean],
+                default: true
+            },
+            falseValue: {
+                type: [String, Number, Boolean],
                 default: false
             },
             disabled: {
@@ -56,7 +64,8 @@
                     return false;
                 }
 
-                const checked = !this.currentValue;
+                const checked = this.currentValue === this.trueValue ? this.falseValue : this.trueValue;
+
                 this.currentValue = checked;
                 this.$emit('input', checked);
                 this.$emit('on-change', checked);
@@ -65,6 +74,9 @@
         },
         watch: {
             value (val) {
+                if (val !== this.trueValue && val !== this.falseValue) {
+                    throw 'Value should be trueValue or falseValue.';
+                }
                 this.currentValue = val;
             }
         }
