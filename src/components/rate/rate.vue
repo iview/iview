@@ -47,7 +47,7 @@
                 prefixCls: prefixCls,
                 hoverIndex: -1,
                 isHover: false,
-                isHalf: this.allowHalf && this.value % 1 == 0.5,
+                isHalf: this.allowHalf && this.value.toString().indexOf('.') >= 0,
                 currentValue: this.value
             };
         },
