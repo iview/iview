@@ -1,8 +1,8 @@
 <template>
     <span :class="wrapClasses" @click="toggle">
         <span :class="innerClasses">
-            <slot name="open" v-if="currentValue"></slot>
-            <slot name="close" v-if="!currentValue"></slot>
+            <slot name="open" v-if="currentValue === trueValue"></slot>
+            <slot name="close" v-if="currentValue === falseValue"></slot>
         </span>
     </span>
 </template>
@@ -17,7 +17,15 @@
         mixins: [ Emitter ],
         props: {
             value: {
-                type: Boolean,
+                type: [String, Number, Boolean],
+                default: false
+            },
+            trueValue: {
+                type: [String, Number, Boolean],
+                default: true
+            },
+            falseValue: {
+                type: [String, Number, Boolean],
                 default: false
             },
             disabled: {
@@ -26,7 +34,7 @@
             },
             size: {
                 validator (value) {
-                    return oneOf(value, ['large', 'small']);
+                    return oneOf(value, ['large', 'small', 'default']);
                 }
             }
         },
@@ -40,7 +48,7 @@
                 return [
                     `${prefixCls}`,
                     {
-                        [`${prefixCls}-checked`]: this.currentValue,
+                        [`${prefixCls}-checked`]: this.currentValue === this.trueValue,
                         [`${prefixCls}-disabled`]: this.disabled,
                         [`${prefixCls}-${this.size}`]: !!this.size
                     }
@@ -56,7 +64,8 @@
                     return false;
                 }
 
-                const checked = !this.currentValue;
+                const checked = this.currentValue === this.trueValue ? this.falseValue : this.trueValue;
+
                 this.currentValue = checked;
                 this.$emit('input', checked);
                 this.$emit('on-change', checked);
@@ -65,6 +74,9 @@
         },
         watch: {
             value (val) {
+                if (val !== this.trueValue && val !== this.falseValue) {
+                    throw 'Value should be trueValue or falseValue.';
+                }
                 this.currentValue = val;
             }
         }

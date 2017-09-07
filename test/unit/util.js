@@ -58,6 +58,16 @@ exports.createTest = function(Compo, propsData = {}, mounted = false) {
 };
 
 /**
+ * Transform Date string (yyyy-mm-dd hh:mm:ss) to Date object
+ * @param {String}
+ */
+exports.stringToDate = function(str) {
+  const parts = str.split(/[^\d]/).filter(Boolean);
+  parts[1] = parts[1] - 1;
+  return new Date(...parts);
+};
+
+/**
  * 触发一个事件
  * mouseenter, mouseleave, mouseover, keyup, change, click 等
  * @param  {Element} elm
@@ -82,4 +92,14 @@ exports.triggerEvent = function(elm, name, ...opts) {
     : elm.fireEvent('on' + name, evt);
 
   return elm;
+};
+
+/**
+* Wait for components inner async process, when this.$nextTick is not enough
+* @param {Function} the condition to verify before calling the callback
+* @param {Function} the callback to call when condition is true
+*/
+exports.waitForIt = function waitForIt(condition, callback) {
+  if (condition()) callback();
+  else setTimeout(() => waitForIt(condition, callback), 50);
 };

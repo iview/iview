@@ -1,18 +1,18 @@
 <template>
     <div :class="classes">
         <div :class="[prefixCls+ '-list']" ref="hours">
-            <ul :class="[prefixCls + '-ul']" @click="handleClickHours">
-                <li :class="getCellCls(item)" v-for="(item, index) in hoursList" v-show="!item.hide" :index="index">{{ formatTime(item.text) }}</li>
+            <ul :class="[prefixCls + '-ul']">
+                <li :class="getCellCls(item)" v-for="item in hoursList" v-show="!item.hide" @click="handleClick('hours', item)">{{ formatTime(item.text) }}</li>
             </ul>
         </div>
         <div :class="[prefixCls+ '-list']" ref="minutes">
-            <ul :class="[prefixCls + '-ul']" @click="handleClickMinutes">
-                <li :class="getCellCls(item)" v-for="(item, index) in minutesList" v-show="!item.hide" :index="index">{{ formatTime(item.text) }}</li>
+            <ul :class="[prefixCls + '-ul']">
+                <li :class="getCellCls(item)" v-for="item in minutesList" v-show="!item.hide" @click="handleClick('minutes', item)">{{ formatTime(item.text) }}</li>
             </ul>
         </div>
         <div :class="[prefixCls+ '-list']" v-show="showSeconds" ref="seconds">
-            <ul :class="[prefixCls + '-ul']" @click="handleClickSeconds">
-                <li :class="getCellCls(item)" v-for="(item, index) in secondsList" v-show="!item.hide" :index="index">{{ formatTime(item.text) }}</li>
+            <ul :class="[prefixCls + '-ul']">
+                <li :class="getCellCls(item)" v-for="item in secondsList" v-show="!item.hide" @click="handleClick('seconds', item)">{{ formatTime(item.text) }}</li>
             </ul>
         </div>
     </div>
@@ -41,10 +41,15 @@
             showSeconds: {
                 type: Boolean,
                 default: true
+            },
+            steps: {
+                type: Array,
+                default: () => []
             }
         },
         data () {
             return {
+                spinerSteps: [1, 1, 1].map((one, i) => Math.abs(this.steps[i]) || one),
                 prefixCls: prefixCls,
                 compiled: false
             };
@@ -60,6 +65,7 @@
             },
             hoursList () {
                 let hours = [];
+                const step = this.spinerSteps[0];
                 const hour_tmpl = {
                     text: 0,
                     selected: false,
@@ -67,7 +73,7 @@
                     hide: false
                 };
 
-                for (let i = 0; i < 24; i++) {
+                for (let i = 0; i < 24; i += step) {
                     const hour = deepCopy(hour_tmpl);
                     hour.text = i;
 
@@ -83,6 +89,7 @@
             },
             minutesList () {
                 let minutes = [];
+                const step = this.spinerSteps[1];
                 const minute_tmpl = {
                     text: 0,
                     selected: false,
@@ -90,7 +97,7 @@
                     hide: false
                 };
 
-                for (let i = 0; i < 60; i++) {
+                for (let i = 0; i < 60; i += step) {
                     const minute = deepCopy(minute_tmpl);
                     minute.text = i;
 
@@ -101,11 +108,11 @@
                     if (this.minutes === i) minute.selected = true;
                     minutes.push(minute);
                 }
-
                 return minutes;
             },
             secondsList () {
                 let seconds = [];
+                const step = this.spinerSteps[2];
                 const second_tmpl = {
                     text: 0,
                     selected: false,
@@ -113,7 +120,7 @@
                     hide: false
                 };
 
-                for (let i = 0; i < 60; i++) {
+                for (let i = 0; i < 60; i += step) {
                     const second = deepCopy(second_tmpl);
                     second.text = i;
 
@@ -138,24 +145,11 @@
                     }
                 ];
             },
-            handleClickHours (event) {
-                this.handleClick('hours', event);
-            },
-            handleClickMinutes (event) {
-                this.handleClick('minutes', event);
-            },
-            handleClickSeconds (event) {
-                this.handleClick('seconds', event);
-            },
-            handleClick (type, event) {
-                const target = event.target;
-                if (target.tagName === 'LI') {
-                    const cell = this[`${type}List`][parseInt(event.target.getAttribute('index'))];
-                    if (cell.disabled) return;
-                    const data = {};
-                    data[type] = cell.text;
-                    this.$emit('on-change', data);
-                }
+            handleClick (type, cell) {
+                if (cell.disabled) return;
+                const data = {};
+                data[type] = cell.text;
+                this.$emit('on-change', data);
                 this.$emit('on-pick-click');
             },
             scroll (type, index) {
@@ -177,26 +171,30 @@
                 const times = ['hours', 'minutes', 'seconds'];
                 this.$nextTick(() => {
                     times.forEach(type => {
-                        this.$refs[type].scrollTop = 24 * this.getScrollIndex(type, this[type]);
+                        this.$refs[type].scrollTop = 24 * this.getItemIndex(type, this[type]);
                     });
                 });
             },
             formatTime (text) {
                 return text < 10 ? '0' + text : text;
+            },
+            getItemIndex(type, val){
+                const item = this[`${type}List`].find(obj => obj.text == val);
+                return this[`${type}List`].indexOf(item);
             }
         },
         watch: {
             hours (val) {
                 if (!this.compiled) return;
-                this.scroll('hours', val);
+                this.scroll('hours', this.getItemIndex('hours', val));
             },
             minutes (val) {
                 if (!this.compiled) return;
-                this.scroll('minutes', val);
+                this.scroll('minutes', this.getItemIndex('minutes', val));
             },
             seconds (val) {
                 if (!this.compiled) return;
-                this.scroll('seconds', val);
+                this.scroll('seconds', this.getItemIndex('seconds', val));
             }
         },
         mounted () {

@@ -1,12 +1,11 @@
 <template>
     <div
         :class="classes"
-        @click="handleClick"
         @mousemove="handleMouseMove">
         <div :class="[prefixCls + '-header']">
             <span>{{ t('i.datepicker.weeks.sun') }}</span><span>{{ t('i.datepicker.weeks.mon') }}</span><span>{{ t('i.datepicker.weeks.tue') }}</span><span>{{ t('i.datepicker.weeks.wed') }}</span><span>{{ t('i.datepicker.weeks.thu') }}</span><span>{{ t('i.datepicker.weeks.fri') }}</span><span>{{ t('i.datepicker.weeks.sat') }}</span>
         </div>
-        <span :class="getCellCls(cell)" v-for="(cell, index) in readCells"><em :index="index">{{ cell.text }}</em></span>
+        <span :class="getCellCls(cell)" v-for="(cell, index) in readCells"><em :index="index" @click="handleClick(cell)">{{ cell.text }}</em></span>
     </div>
 </template>
 <script>
@@ -106,6 +105,7 @@
                 const cell_tmpl = {
                     text: '',
                     type: '',
+                    date: null,
                     selected: false,
                     disabled: false,
                     range: false,
@@ -117,14 +117,8 @@
                         const cell = deepCopy(cell_tmpl);
                         cell.type = 'prev-month';
                         cell.text = dateCountOfLastMonth - (day - 1) + i;
-
-                        let prevMonth = this.month - 1;
-                        let prevYear = this.year;
-                        if (this.month === 0) {
-                            prevMonth = 11;
-                            prevYear -= 1;
-                        }
-                        const time = clearHours(new Date(prevYear, prevMonth, cell.text));
+                        cell.date = new Date(this.year, this.month - 1, cell.text);
+                        const time = clearHours(cell.date);
                         cell.disabled = typeof disabledDate === 'function' && disabledDate(new Date(time));
                         cells.push(cell);
                     }
@@ -132,9 +126,10 @@
 
                 for (let i = 1; i <= dateCountOfMonth; i++) {
                     const cell = deepCopy(cell_tmpl);
-                    const time = clearHours(new Date(this.year, this.month, i));
-                    cell.type = time === today ? 'today' : 'normal';
                     cell.text = i;
+                    cell.date = new Date(this.year, this.month, cell.text);
+                    const time = clearHours(cell.date);
+                    cell.type = time === today ? 'today' : 'normal';
                     cell.selected = time === selectDay;
                     cell.disabled = typeof disabledDate === 'function' && disabledDate(new Date(time));
                     cell.range = time >= minDay && time <= maxDay;
@@ -149,14 +144,8 @@
                     const cell = deepCopy(cell_tmpl);
                     cell.type = 'next-month';
                     cell.text = i;
-
-                    let nextMonth = this.month + 1;
-                    let nextYear = this.year;
-                    if (this.month === 11) {
-                        nextMonth = 0;
-                        nextYear += 1;
-                    }
-                    const time = clearHours(new Date(nextYear, nextMonth, cell.text));
+                    cell.date = new Date(this.year, this.month + 1, cell.text);
+                    const time = clearHours(cell.date);
                     cell.disabled = typeof disabledDate === 'function' && disabledDate(new Date(time));
                     cells.push(cell);
                 }
@@ -165,71 +154,39 @@
             }
         },
         methods: {
-            getDateOfCell (cell) {
-                let year = this.year;
-                let month = this.month;
-                let day = cell.text;
+            handleClick (cell) {
 
-                const date = this.date;
-                const hours = date.getHours();
-                const minutes = date.getMinutes();
-                const seconds = date.getSeconds();
+                if (cell.disabled) return;
+                const newDate = cell.date;
 
-                if (cell.type === 'prev-month') {
-                    if (month === 0) {
-                        month = 11;
-                        year--;
-                    } else {
-                        month--;
-                    }
-                } else if (cell.type === 'next-month') {
-                    if (month === 11) {
-                        month = 0;
-                        year++;
-                    } else {
-                        month++;
-                    }
-                }
+                if (this.selectionMode === 'range') {
+                    if (this.minDate && this.maxDate) {
+                        const minDate = new Date(newDate.getTime());
+                        const maxDate = null;
+                        this.rangeState.selecting = true;
+                        this.markRange(this.minDate);
 
-                return new Date(year, month, day, hours, minutes, seconds);
-            },
-            handleClick (event) {
-                const target = event.target;
-                if (target.tagName === 'EM') {
-                    const cell = this.cells[parseInt(event.target.getAttribute('index'))];
-                    if (cell.disabled) return;
+                        this.$emit('on-pick', {minDate, maxDate}, false);
+                    } else if (this.minDate && !this.maxDate) {
+                        if (newDate >= this.minDate) {
+                            const maxDate = new Date(newDate.getTime());
+                            this.rangeState.selecting = false;
 
-                    const newDate = this.getDateOfCell(cell);
-
-                    if (this.selectionMode === 'range') {
-                        if (this.minDate && this.maxDate) {
+                            this.$emit('on-pick', {minDate: this.minDate, maxDate});
+                        } else {
                             const minDate = new Date(newDate.getTime());
-                            const maxDate = null;
-                            this.rangeState.selecting = true;
-                            this.markRange(this.minDate);
-
-                            this.$emit('on-pick', {minDate, maxDate}, false);
-                        } else if (this.minDate && !this.maxDate) {
-                            if (newDate >= this.minDate) {
-                                const maxDate = new Date(newDate.getTime());
-                                this.rangeState.selecting = false;
-
-                                this.$emit('on-pick', {minDate: this.minDate, maxDate});
-                            } else {
-                                const minDate = new Date(newDate.getTime());
-
-                                this.$emit('on-pick', {minDate, maxDate: this.maxDate}, false);
-                            }
-                        } else if (!this.minDate) {
-                            const minDate = new Date(newDate.getTime());
-                            this.rangeState.selecting = true;
-                            this.markRange(this.minDate);
 
                             this.$emit('on-pick', {minDate, maxDate: this.maxDate}, false);
                         }
-                    } else {
-                        this.$emit('on-pick', newDate);
+                    } else if (!this.minDate) {
+                        const minDate = new Date(newDate.getTime());
+                        this.rangeState.selecting = true;
+                        this.markRange(this.minDate);
+
+                        this.$emit('on-pick', {minDate, maxDate: this.maxDate}, false);
                     }
+                } else {
+                    this.$emit('on-pick', newDate);
                 }
                 this.$emit('on-pick-click');
             },
@@ -246,7 +203,7 @@
                 if (target.tagName === 'EM') {
                     const cell = this.cells[parseInt(event.target.getAttribute('index'))];
 //                    if (cell.disabled) return;    // todo 待确定
-                    this.rangeState.endDate = this.getDateOfCell(cell);
+                    this.rangeState.endDate = cell.date;
                 }
             },
             markRange (maxDate) {

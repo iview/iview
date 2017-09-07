@@ -11,7 +11,7 @@
                 type: String
             },
             label: {
-                type: String,
+                type: [String, Function],
                 default: ''
             },
             icon: {

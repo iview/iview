@@ -1,24 +1,30 @@
 <template>
-    <div style="width: 300px;">
-        <i-input v-model="value11" icon="ios-clock-outline" :autofocus="autofocus">
-            <span slot="prepend">.com</span>
-        </i-input>
-        <i-input v-model="value11" icon="ios-clock-outline">
-            <span slot="append">.com</span>
-        </i-input>
+    <div style="width: 100px;">
+        <Input autocomplete="on" v-model="value1" size="large" placeholder="large size"></Input>
+        <br>
+        <Input v-model="value2" placeholder="default size"></Input>
+        <br>
+        <Input v-model="value3" size="small" placeholder="small size"></Input>
+        <br>
+        <Input v-model="value1" size="large" placeholder="large size" icon="ios-clock-outline"></Input>
+        <br>
+        <Input v-model="value2" placeholder="default size" icon="ios-clock-outline"></Input>
+        <br>
+        <Input v-model="value3" size="small" placeholder="small size" icon="ios-clock-outline"></Input>
+        <br>
+        <Input v-model="obj.test" type="textarea" autosize></Input>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                value11: '',
-                value12: '',
-                value13: '',
-                select1: 'http',
-                select2: 'com',
-                select3: 'day',
-                autofocus: true
+                value1: '',
+                value2: '',
+                value3: '',
+                obj: {
+
+                }
             }
         }
     }

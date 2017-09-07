@@ -3,7 +3,7 @@
         <ul v-if="data && data.length" :class="[prefixCls + '-menu']">
             <Casitem
                 v-for="item in data"
-                :key="item"
+                :key="getKey()"
                 :prefix-cls="prefixCls"
                 :data="item"
                 :tmp-item="tmpItem"
@@ -15,7 +15,9 @@
 <script>
     import Casitem from './casitem.vue';
     import Emitter from '../../mixins/emitter';
-    import { findComponentUpward } from '../../utils/assist';
+    import { findComponentUpward, findComponentDownward } from '../../utils/assist';
+
+    let key = 1;
 
     export default {
         name: 'Caspanel',
@@ -48,20 +50,26 @@
         methods: {
             handleClickItem (item) {
                 if (this.trigger !== 'click' && item.children) return;
-                this.handleTriggerItem(item);
+                this.handleTriggerItem(item, false, true);
             },
             handleHoverItem (item) {
                 if (this.trigger !== 'hover' || !item.children) return;
-                this.handleTriggerItem(item);
+                this.handleTriggerItem(item, false, true);
             },
-            handleTriggerItem (item, fromInit = false) {
+            handleTriggerItem (item, fromInit = false, fromUser = false) {
                 if (item.disabled) return;
 
                 if (item.loading !== undefined && !item.children.length) {
                     const cascader = findComponentUpward(this, 'Cascader');
                     if (cascader && cascader.loadData) {
                         cascader.loadData(item, () => {
-                            this.handleTriggerItem(item);
+                            // todo
+                            if (fromUser) {
+                                cascader.isLoadedChildren = true;
+                            }
+                            if (item.children.length) {
+                                this.handleTriggerItem(item);
+                            }
                         });
                         return;
                     }
@@ -78,6 +86,14 @@
                         changeOnSelect: this.changeOnSelect,
                         fromInit: fromInit
                     });
+
+                    // #1553
+                    if (this.changeOnSelect) {
+                        const Caspanel = findComponentDownward(this, 'Caspanel');
+                        if (Caspanel) {
+                            Caspanel.$emit('on-clear', true);
+                        }
+                    }
                 } else {
                     this.sublist = [];
                     this.dispatch('Cascader', 'on-result-change', {
@@ -105,6 +121,9 @@
                 } else {
                     this.$parent.$parent.updateResult(result);
                 }
+            },
+            getKey () {
+                return key++;
             }
         },
         mounted () {
@@ -126,9 +145,16 @@
                     }
                 }
             });
-            this.$on('on-clear', () => {
+            // deep for #1553
+            this.$on('on-clear', (deep = false) => {
                 this.sublist = [];
                 this.tmpItem = {};
+                if (deep) {
+                    const Caspanel = findComponentDownward(this, 'Caspanel');
+                    if (Caspanel) {
+                        Caspanel.$emit('on-clear', true);
+                    }
+                }
             });
         }
     };

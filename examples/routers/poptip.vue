@@ -2,6 +2,7 @@
     <div style="margin: 100px;">
         <Poptip
                 confirm
+                transfer
                 title="您确认删除这条内容吗？"
                 @on-ok="ok"
                 @on-cancel="cancel">
@@ -9,12 +10,10 @@
         </Poptip>
         <Poptip
                 confirm
-                title="Are you sure delete this task?"
+                title="您确认删除这条内容吗？"
                 @on-ok="ok"
-                @on-cancel="cancel"
-                ok-text="yes"
-                cancel-text="no">
-            <Button>国际化</Button>
+                @on-cancel="cancel">
+            <Button>删除</Button>
         </Poptip>
     </div>
 </template>

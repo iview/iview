@@ -3,13 +3,13 @@
         <div :class="handlerClasses">
             <a
                 @click="up"
-                @mouse.down="preventDefault"
+                @mousedown="preventDefault"
                 :class="upClasses">
                 <span :class="innerUpClasses" @click="preventDefault"></span>
             </a>
             <a
                 @click="down"
-                @mouse.down="preventDefault"
+                @mousedown="preventDefault"
                 :class="downClasses">
                 <span :class="innerDownClasses" @click="preventDefault"></span>
             </a>
@@ -25,7 +25,7 @@
                 @keydown.stop="keyDown"
                 @change="change"
                 :name="name"
-                :value="value">
+                :value="currentValue">
         </div>
     </div>
 </template>
@@ -60,7 +60,7 @@
 //            return (num1 * m + num2 * m) / m;
 //        }
         m = Math.pow(10, Math.max(sq1, sq2));
-        return (num1 * m + num2 * m) / m;
+        return (Math.round(num1 * m) + Math.round(num2 * m)) / m;
     }
 
     export default {
@@ -85,7 +85,7 @@
             },
             size: {
                 validator (value) {
-                    return oneOf(value, ['small', 'large']);
+                    return oneOf(value, ['small', 'large', 'default']);
                 }
             },
             disabled: {
@@ -273,6 +273,12 @@
             },
             currentValue (val) {
                 this.changeVal(val);
+            },
+            min () {
+                this.changeVal(this.currentValue);
+            },
+            max () {
+                this.changeVal(this.currentValue);
             }
         }
     };

@@ -48,6 +48,7 @@
     import InputNumber from '../../components/input-number/input-number.vue';
     import Tooltip from '../../components/tooltip/tooltip.vue';
     import { getStyle, oneOf } from '../../utils/assist';
+    import { on, off } from '../../utils/dom';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-slider';
@@ -278,15 +279,18 @@
                 if (this.disabled) return;
                 event.preventDefault();
                 this.onSingleDragStart(event);
-                window.addEventListener('mousemove', this.onSingleDragging);
-                window.addEventListener('mouseup', this.onSingleDragEnd);
+//                window.addEventListener('mousemove', this.onSingleDragging);
+//                window.addEventListener('mouseup', this.onSingleDragEnd);
+                on(window, 'mousemove', this.onSingleDragging);
+                on(window, 'mouseup', this.onSingleDragEnd);
             },
             onSingleDragStart (event) {
-                this.dragging = true;
+                this.dragging = false;
                 this.startX = event.clientX;
                 this.startPos = parseInt(this.singlePosition, 10);
             },
             onSingleDragging (event) {
+                this.dragging = true;
                 if (this.dragging) {
                     this.$refs.tooltip.visible = true;
                     this.currentX = event.clientX;
@@ -300,9 +304,11 @@
                     this.dragging = false;
                     this.$refs.tooltip.visible = false;
                     this.changeSinglePosition(this.newPos);
-                    window.removeEventListener('mousemove', this.onSingleDragging);
-                    window.removeEventListener('mouseup', this.onSingleDragEnd);
+//                    window.removeEventListener('mousemove', this.onSingleDragging);
+//                    window.removeEventListener('mouseup', this.onSingleDragEnd);
                 }
+                off(window, 'mousemove', this.onSingleDragging);
+                off(window, 'mouseup', this.onSingleDragEnd);
             },
             changeSinglePosition (newPos) {
                 if (newPos < 0) {
@@ -337,15 +343,18 @@
                 if (this.disabled) return;
                 event.preventDefault();
                 this.onFirstDragStart(event);
-                window.addEventListener('mousemove', this.onFirstDragging);
-                window.addEventListener('mouseup', this.onFirstDragEnd);
+//                window.addEventListener('mousemove', this.onFirstDragging);
+//                window.addEventListener('mouseup', this.onFirstDragEnd);
+                on(window, 'mousemove', this.onFirstDragging);
+                on(window, 'mouseup', this.onFirstDragEnd);
             },
             onFirstDragStart (event) {
-                this.firstDragging = true;
+                this.firstDragging = false;
                 this.startX = event.clientX;
                 this.startPos = parseInt(this.firstPosition, 10);
             },
             onFirstDragging (event) {
+                this.firstDragging = true;
                 if (this.firstDragging) {
                     this.$refs.tooltip.visible = true;
                     this.currentX = event.clientX;
@@ -359,9 +368,11 @@
                     this.firstDragging = false;
                     this.$refs.tooltip.visible = false;
                     this.changeFirstPosition(this.newPos);
-                    window.removeEventListener('mousemove', this.onFirstDragging);
-                    window.removeEventListener('mouseup', this.onFirstDragEnd);
+//                    window.removeEventListener('mousemove', this.onFirstDragging);
+//                    window.removeEventListener('mouseup', this.onFirstDragEnd);
                 }
+                off(window, 'mousemove', this.onFirstDragging);
+                off(window, 'mouseup', this.onFirstDragEnd);
             },
             changeFirstPosition (newPos) {
                 if (newPos < 0) {
@@ -390,15 +401,18 @@
                 if (this.disabled) return;
                 event.preventDefault();
                 this.onSecondDragStart(event);
-                window.addEventListener('mousemove', this.onSecondDragging);
-                window.addEventListener('mouseup', this.onSecondDragEnd);
+//                window.addEventListener('mousemove', this.onSecondDragging);
+//                window.addEventListener('mouseup', this.onSecondDragEnd);
+                on(window, 'mousemove', this.onSecondDragging);
+                on(window, 'mouseup', this.onSecondDragEnd);
             },
             onSecondDragStart (event) {
-                this.secondDragging = true;
+                this.secondDragging = false;
                 this.startX = event.clientX;
                 this.startPos = parseInt(this.secondPosition, 10);
             },
             onSecondDragging (event) {
+                this.secondDragging = true;
                 if (this.secondDragging) {
                     this.$refs.tooltip2.visible = true;
                     this.currentX = event.clientX;
@@ -412,9 +426,11 @@
                     this.secondDragging = false;
                     this.$refs.tooltip2.visible = false;
                     this.changeSecondPosition(this.newPos);
-                    window.removeEventListener('mousemove', this.onSecondDragging);
-                    window.removeEventListener('mouseup', this.onSecondDragEnd);
+//                    window.removeEventListener('mousemove', this.onSecondDragging);
+//                    window.removeEventListener('mouseup', this.onSecondDragEnd);
                 }
+                off(window, 'mousemove', this.onSecondDragging);
+                off(window, 'mouseup', this.onSecondDragEnd);
             },
             changeSecondPosition (newPos) {
                 if (newPos > 100) {

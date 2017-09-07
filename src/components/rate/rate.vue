@@ -8,7 +8,7 @@
             <span :class="[prefixCls + '-star-content']" type="half"></span>
         </div>
         <div :class="[prefixCls + '-text']" v-if="showText" v-show="currentValue > 0">
-            <slot>{{ currentValue }} <template v-if="currentValue <= 1">{{ t('i.rate.star') }}</template><template v-else>{{ t('i.rate.stars') }}</template></slot>
+            <slot><span>{{ currentValue }}</span> <span v-if="currentValue <= 1">{{ t('i.rate.star') }}</span><span v-else>{{ t('i.rate.stars') }}</span></slot>
         </div>
     </div>
 </template>
@@ -47,7 +47,7 @@
                 prefixCls: prefixCls,
                 hoverIndex: -1,
                 isHover: false,
-                isHalf: false,
+                isHalf: this.allowHalf && this.value.toString().indexOf('.') >= 0,
                 currentValue: this.value
             };
         },
@@ -114,7 +114,7 @@
                 this.hoverIndex = -1;
             },
             setHalf (val) {
-                this.isHalf = val.toString().indexOf('.') >= 0;
+                this.isHalf = this.allowHalf && val.toString().indexOf('.') >= 0;
             },
             handleClick (value) {
                 if (this.disabled) return;

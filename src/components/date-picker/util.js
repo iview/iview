@@ -1,9 +1,17 @@
 import dateUtil from '../../utils/date';
 
 export const toDate = function(date) {
-    date = new Date(date);
-    if (isNaN(date.getTime())) return null;
-    return date;
+    let _date = new Date(date);
+    // IE patch start (#1422)
+    if (isNaN(_date.getTime()) && typeof date === 'string'){
+        _date = date.split('-').map(Number);
+        _date[1] += 1;
+        _date = new Date(..._date);
+    }
+    // IE patch end
+
+    if (isNaN(_date.getTime())) return null;
+    return _date;
 };
 
 export const formatDate = function(date, format) {
@@ -17,19 +25,7 @@ export const parseDate = function(string, format) {
 };
 
 export const getDayCountOfMonth = function(year, month) {
-    if (month === 3 || month === 5 || month === 8 || month === 10) {
-        return 30;
-    }
-
-    if (month === 1) {
-        if (year % 4 === 0 && year % 100 !== 0 || year % 400 === 0) {
-            return 29;
-        } else {
-            return 28;
-        }
-    }
-
-    return 31;
+    return new Date(year, month + 1, 0).getDate();
 };
 
 export const getFirstDayOfMonth = function(date) {
@@ -38,45 +34,27 @@ export const getFirstDayOfMonth = function(date) {
     return temp.getDay();
 };
 
-export const prevMonth = function(src) {
-    const year = src.getFullYear();
-    const month = src.getMonth();
-    const date = src.getDate();
-
-    const newYear = month === 0 ? year - 1 : year;
-    const newMonth = month === 0 ? 11 : month - 1;
-
-    const newMonthDayCount = getDayCountOfMonth(newYear, newMonth);
-    if (newMonthDayCount < date) {
-        src.setDate(newMonthDayCount);
+export const siblingMonth = function(src, diff) {
+    const temp = new Date(src); // lets copy it so we don't change the original
+    const newMonth = temp.getMonth() + diff;
+    const newMonthDayCount = getDayCountOfMonth(temp.getFullYear(), newMonth);
+    if (newMonthDayCount < temp.getDate()) {
+        temp.setDate(newMonthDayCount);
     }
+    temp.setMonth(newMonth);
 
-    src.setMonth(newMonth);
-    src.setFullYear(newYear);
+    return temp;
+};
 
-    return new Date(src.getTime());
+export const prevMonth = function(src) {
+    return siblingMonth(src, -1);
 };
 
 export const nextMonth = function(src) {
-    const year = src.getFullYear();
-    const month = src.getMonth();
-    const date = src.getDate();
-
-    const newYear = month === 11 ? year + 1 : year;
-    const newMonth = month === 11 ? 0 : month + 1;
-
-    const newMonthDayCount = getDayCountOfMonth(newYear, newMonth);
-    if (newMonthDayCount < date) {
-        src.setDate(newMonthDayCount);
-    }
-
-    src.setMonth(newMonth);
-    src.setFullYear(newYear);
-
-    return new Date(src.getTime());
+    return siblingMonth(src, 1);
 };
 
-export const initTimeDate = function () {
+export const initTimeDate = function() {
     const date = new Date();
     date.setHours(0);
     date.setMinutes(0);

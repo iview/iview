@@ -1,32 +1,33 @@
 <template>
-    <transition name="slide-up">
+    <collapse-transition>
         <ul :class="classes" v-show="visible">
             <li>
                 <span :class="arrowClasses" @click="handleExpand">
                     <Icon type="arrow-right-b"></Icon>
                 </span>
                 <Checkbox
-                    v-if="showCheckbox"
-                    :value="data.checked"
-                    :indeterminate="indeterminate"
-                    :disabled="data.disabled || data.disableCheckbox"
-                    @click.native.prevent="handleCheck"></Checkbox>
+                        v-if="showCheckbox"
+                        :value="data.checked"
+                        :indeterminate="indeterminate"
+                        :disabled="data.disabled || data.disableCheckbox"
+                        @click.native.prevent="handleCheck"></Checkbox>
                 <span :class="titleClasses" v-html="data.title" @click="handleSelect"></span>
                 <Tree-node
-                    v-for="item in data.children"
-                    :key="item"
-                    :data="item"
-                    :visible="data.expand"
-                    :multiple="multiple"
-                    :show-checkbox="showCheckbox">
+                        v-for="item in data.children"
+                        :key="item.nodeKey"
+                        :data="item"
+                        :visible="data.expand"
+                        :multiple="multiple"
+                        :show-checkbox="showCheckbox">
                 </Tree-node>
             </li>
         </ul>
-    </transition>
+    </collapse-transition>
 </template>
 <script>
     import Checkbox from '../checkbox/checkbox.vue';
     import Icon from '../icon/icon.vue';
+    import CollapseTransition from '../base/collapse-transition';
     import Emitter from '../../mixins/emitter';
     import { findComponentsDownward } from '../../utils/assist';
 
@@ -35,7 +36,7 @@
     export default {
         name: 'TreeNode',
         mixins: [ Emitter ],
-        components: { Checkbox, Icon },
+        components: { Checkbox, Icon, CollapseTransition },
         props: {
             data: {
                 type: Object,

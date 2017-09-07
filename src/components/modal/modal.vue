@@ -1,10 +1,10 @@
 <template>
-    <div v-transfer-dom>
+    <div v-transfer-dom :data-transfer="transfer">
         <transition :name="transitionNames[1]">
             <div :class="maskClasses" v-show="visible" @click="mask"></div>
         </transition>
         <div :class="wrapClasses" @click="handleWrapClick">
-            <transition :name="transitionNames[0]">
+            <transition :name="transitionNames[0]" @after-leave="animationFinish">
                 <div :class="classes" :style="mainStyles" v-show="visible">
                     <div :class="[prefixCls + '-content']">
                         <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
@@ -91,6 +91,10 @@
                 default () {
                     return ['ease', 'fade'];
                 }
+            },
+            transfer: {
+                type: Boolean,
+                default: true
             }
         },
         data () {
@@ -121,8 +125,9 @@
             mainStyles () {
                 let style = {};
 
+                const width = parseInt(this.width);
                 const styleWidth = {
-                    width: `${this.width}px`
+                    width: width <= 100 ? `${width}%` : `${width}px`
                 };
 
                 const customStyle = this.styles ? this.styles : {};
@@ -208,6 +213,9 @@
             removeScrollEffect() {
                 document.body.style.overflow = '';
                 this.resetScrollBar();
+            },
+            animationFinish() {
+                this.$emit('on-hidden');
             }
         },
         mounted () {

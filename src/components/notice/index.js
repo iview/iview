@@ -71,7 +71,8 @@ function notice (type, options) {
         transitionName: 'move-notice',
         content: content,
         onClose: onClose,
-        closable: true
+        closable: true,
+        type: 'notice'
     });
 }
 
@@ -112,6 +113,6 @@ export default {
     destroy () {
         let instance = getNoticeInstance();
         noticeInstance = null;
-        instance.destroy();
+        instance.destroy('ivu-notice');
     }
 };

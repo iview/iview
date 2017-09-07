@@ -4,19 +4,23 @@
             <slot name="title"></slot>
             <Icon type="ios-arrow-down" :class="[prefixCls + '-submenu-title-icon']"></Icon>
         </div>
-        <ul :class="[prefixCls]" v-if="mode === 'vertical'" v-show="opened"><slot></slot></ul>
+        <collapse-transition v-if="mode === 'vertical'">
+            <ul :class="[prefixCls]" v-show="opened"><slot></slot></ul>
+        </collapse-transition>
         <transition name="slide-up" v-else>
             <Drop
                 v-show="opened"
                 placement="bottom"
                 ref="drop"
-                :style="dropStyle"><slot></slot></Drop>
+                :style="dropStyle"><ul :class="[prefixCls + '-drop-list']"><slot></slot></ul>
+            </Drop>
         </transition>
     </li>
 </template>
 <script>
     import Drop from '../select/dropdown.vue';
     import Icon from '../icon/icon.vue';
+    import CollapseTransition from '../base/collapse-transition';
     import { getStyle, findComponentUpward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
@@ -25,7 +29,7 @@
     export default {
         name: 'Submenu',
         mixins: [ Emitter ],
-        components: { Icon, Drop },
+        components: { Icon, Drop, CollapseTransition },
         props: {
             name: {
                 type: [String, Number],

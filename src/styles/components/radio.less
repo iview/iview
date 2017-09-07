@@ -6,6 +6,7 @@
 .@{radio-group-prefix-cls} {
     display: inline-block;
     font-size: @font-size-small;
+    vertical-align: middle;
     &-vertical{
         .@{radio-prefix-cls}-wrapper {
             display: block;
@@ -70,6 +71,30 @@
             opacity: 0;
             transition: all @transition-time @ease-in-out;
             transform: scale(0);
+        }
+    }
+    &-large{
+        font-size: @font-size-base;
+        & .@{radio-inner-prefix-cls}{
+            width: 16px;
+            height: 16px;
+            &:after{
+                width: 10px;
+                height: 10px;
+            }
+        }
+        &.@{radio-prefix-cls}-wrapper, & .@{radio-prefix-cls}-wrapper{
+            font-size: @font-size-base;
+        }
+    }
+    &-small{
+        & .@{radio-inner-prefix-cls}{
+            width: 12px;
+            height: 12px;
+            &:after{
+                width: 6px;
+                height: 6px;
+            }
         }
     }
 

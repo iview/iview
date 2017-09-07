@@ -1,10 +1,17 @@
 <p align="center">
     <a href="https://www.iviewui.com">
-        <img width="200" src="https://raw.githubusercontent.com/iview/iview/master/assets/logo.png">
+        <img width="200" src="https://file.iviewui.com/logo.svg">
     </a>
 </p>
 
-# iView  [![](https://img.shields.io/travis/iview/iview.svg?style=flat-square)](https://travis-ci.org/iview/iview) [![iView](https://img.shields.io/npm/v/iview.svg?style=flat-square)](https://www.npmjs.org/package/iview) [![NPM downloads](http://img.shields.io/npm/dm/iview.svg?style=flat-square)](https://npmjs.org/package/iview) [![Join the chat at https://gitter.im/iview/iview](https://img.shields.io/badge/chat-on_gitter-30b392.svg?style=flat-square)](https://gitter.im/iview/iview?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# iView 
+[![](https://img.shields.io/travis/iview/iview.svg?style=flat-square)](https://travis-ci.org/iview/iview) 
+[![iView](https://img.shields.io/npm/v/iview.svg?style=flat-square)](https://www.npmjs.org/package/iview)
+[![NPM downloads](http://img.shields.io/npm/dm/iview.svg?style=flat-square)](https://npmjs.org/package/iview)
+[![NPM downloads](https://img.shields.io/npm/dt/iview.svg?style=flat-square)](https://npmjs.org/package/iview)
+![JS gzip size](http://img.badgesize.io/https://unpkg.com/iview/dist/iview.min.js?compression=gzip&label=gzip%20size:%20JS&style=flat-square)
+![CSS gzip size](http://img.badgesize.io/https://unpkg.com/iview/dist/styles/iview.css?compression=gzip&label=gzip%20size:%20CSS&style=flat-square)
+[![Join the chat at https://gitter.im/iview/iview](https://img.shields.io/badge/chat-on_gitter-30b392.svg?style=flat-square)](https://gitter.im/iview/iview?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ### A high quality  UI Toolkit built on Vue.js.
 
@@ -14,31 +21,28 @@
 
 ## Docs
 
+### [English (2.0)](https://www.iviewui.com)
 ### [中文文档 (2.0)](https://www.iviewui.com)
 ### [中文文档 (1.0)](http://v1.iviewui.com)
-### [English (2.0)](https://www.iviewui.com)(Working)
 
 ## Overview
 
-### [组件概览（Component Overview）](https://www.iviewui.com/overview)
+### [Component Overview](https://www.iviewui.com/overview)
 
 ## Features
 
-- High quality and rich functions
-- Friendly APIs,free and flexible
-- Great Documentation
-- It is quite beautiful
-- Support Vue.js 2 and Vue.js 1
-- Based on npm + webpack + babel, using ES2015
-
-## Programming
-![iView](https://raw.githubusercontent.com/iview/iview/2.0/assets/iview2.png)
+- Dozens of useful and beautiful components.
+- Friendly API. It's made for people with all skill levels.
+- Extensive documentation.
+- It is quite beautiful.
+- Support Vue.js 2 and Vue.js 1.
 
 ## Install
 
-### Install vue-webpack project in the first place
+### Install webpack project in the first place
+We recommend you install project through [iView Cli](https://github.com/iview/iview-cli) Or [iview-project](https://github.com/iview/iview-project).
 
-Use [iview-project](https://github.com/iview/iview-project)(Recommended) Or [vue-cli](https://github.com/vuejs/vue-cli)
+You can also use [vue-cli](https://github.com/vuejs/vue-cli).
 
 ### Install iView
 
@@ -72,18 +76,22 @@ Use css
 import 'iview/dist/styles/iview.css';
 ```
 
-## Browser Support
+## Compatibility
 
-Normal browsers and Internet Explorer 9+.
+- Support Vue.js 2.x
+- Support Vue.js 1.x [Visit 1.0 doc](http://v1.iviewui.com/)
+- Support SSR
+- Support Nuxt.js
+- [Electron](http://electron.atom.io/)
+- iView does not support IE8 or below since [Vue.js](https://vuejs.org/v2/guide/reactivity.html) is using Object.defineProperty which do not be supported by these browsers to track changes.
+
 
 ## Major Contributors
-|Name   |Avatar   |
-|---|---|
-|  [Aresn](https://github.com/icarusion) |  ![](https://avatars3.githubusercontent.com/u/5370542?v=3&s=60)  |
-|  [jingsam](https://github.com/jingsam) |  ![](https://avatars3.githubusercontent.com/u/1522494?v=3&s=60)  |  
-|  [rijn](https://github.com/rijn)       |  ![](https://avatars2.githubusercontent.com/u/6976367?v=3&s=60)  |
-|  [GITleonine1989](https://github.com/GITleonine1989) |  ![](https://avatars1.githubusercontent.com/u/7582490?v=3&s=60)  |
-|  [huixisheng](https://github.com/huixisheng) |  ![](https://avatars1.githubusercontent.com/u/1518967?v=3&s=60)  |
+|Name|Avatar|Name|Avatar|Name|Avatar|
+|---|---|---|---|---|---|
+|[Aresn](https://github.com/icarusion) |  ![](https://avatars3.githubusercontent.com/u/5370542?v=3&s=60)  |[jingsam](https://github.com/jingsam) |  ![](https://avatars3.githubusercontent.com/u/1522494?v=3&s=60)  | [rijn](https://github.com/rijn)       |  ![](https://avatars2.githubusercontent.com/u/6976367?v=3&s=60)  |
+|[lcx960324](https://github.com/lcx960324)           |  ![](https://avatars3.githubusercontent.com/u/9768245?v=3&s=60)  |[GITleonine1989](https://github.com/GITleonine1989) |  ![](https://avatars1.githubusercontent.com/u/7582490?v=3&s=60)  |[huixisheng](https://github.com/huixisheng)         |  ![](https://avatars1.githubusercontent.com/u/1518967?v=3&s=60)  |
+|[Sergio Crisostomo](https://github.com/SergioCrisostomo)           |  ![](https://avatars3.githubusercontent.com/u/5614559?v=3&s=60)  |
 
 
 ## Links

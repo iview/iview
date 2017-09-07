@@ -7,6 +7,7 @@
                 <i class="ivu-icon ivu-icon-load-c ivu-load-loop" :class="[prefixCls + '-icon', prefixCls + '-icon-validate']" v-if="!icon"></i>
             </transition>
             <input
+                :autocomplete="autocomplete"
                 ref="input"
                 :type="type"
                 :class="inputClasses"
@@ -19,6 +20,9 @@
                 :number="number"
                 :autofocus="autofocus"
                 @keyup.enter="handleEnter"
+                @keyup="handleKeyup"
+                @keypress="handleKeypress"
+                @keydown="handleKeydown"
                 @focus="handleFocus"
                 @blur="handleBlur"
                 @input="handleInput"
@@ -26,6 +30,7 @@
             <div :class="[prefixCls + '-group-append']" v-if="append" v-show="slotReady"><slot name="append"></slot></div>
         </template>
         <textarea
+            :autocomplete="autocomplete"
             v-else
             ref="textarea"
             :class="textareaClasses"
@@ -36,8 +41,12 @@
             :maxlength="maxlength"
             :readonly="readonly"
             :name="name"
-            :value="value"
+            :value="currentValue"
+            :autofocus="autofocus"
             @keyup.enter="handleEnter"
+            @keyup="handleKeyup"
+            @keypress="handleKeypress"
+            @keydown="handleKeydown"
             @focus="handleFocus"
             @blur="handleBlur"
             @input="handleInput">
@@ -67,7 +76,7 @@
             },
             size: {
                 validator (value) {
-                    return oneOf(value, ['small', 'large']);
+                    return oneOf(value, ['small', 'large', 'default']);
                 }
             },
             placeholder: {
@@ -104,6 +113,12 @@
             autofocus: {
                 type: Boolean,
                 default: false
+            },
+            autocomplete: {
+                validator (value) {
+                    return oneOf(value, ['on', 'off']);
+                },
+                default: 'off'
             }
         },
         data () {
@@ -153,6 +168,15 @@
             handleEnter (event) {
                 this.$emit('on-enter', event);
             },
+            handleKeydown (event) {
+                this.$emit('on-keydown', event);
+            },
+            handleKeypress(event) {
+                this.$emit('on-keypress', event);
+            },
+            handleKeyup (event) {
+                this.$emit('on-keyup', event);
+            },
             handleIconClick (event) {
                 this.$emit('on-click', event);
             },
@@ -196,11 +220,18 @@
 
                 this.textareaStyles = calcTextareaHeight(this.$refs.textarea, minRows, maxRows);
             },
-            focus() {
+            focus () {
                 if (this.type === 'textarea') {
                     this.$refs.textarea.focus();
                 } else {
                     this.$refs.input.focus();
+                }
+            },
+            blur () {
+                if (this.type === 'textarea') {
+                    this.$refs.textarea.blur();
+                } else {
+                    this.$refs.input.blur();
                 }
             }
         },

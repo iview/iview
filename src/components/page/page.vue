@@ -135,6 +135,12 @@
             };
         },
         watch: {
+            total (val) {
+                let maxPage = Math.ceil(val / this.currentPageSize);
+                if (maxPage < this.currentPage && maxPage > 0) {
+                    this.currentPage = maxPage;
+                }
+            },
             current (val) {
                 this.currentPage = val;
             },
@@ -208,6 +214,7 @@
             changePage (page) {
                 if (this.currentPage != page) {
                     this.currentPage = page;
+                    this.$emit('update:current', page);
                     this.$emit('on-change', page);
                 }
             },
@@ -251,7 +258,7 @@
             },
             keyDown (e) {
                 const key = e.keyCode;
-                const condition = (key >= 48 && key <= 57) || key == 8 || key == 37 || key == 39;
+                const condition = (key >= 48 && key <= 57) || (key >= 96 && key <= 105) || key == 8 || key == 37 || key == 39;
 
                 if (!condition) {
                     e.preventDefault();

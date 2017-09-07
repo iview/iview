@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import Picker from '../picker.vue';
 import TimePanel from '../panel/time.vue';
 import TimeRangePanel from '../panel/time-range.vue';
@@ -21,6 +22,10 @@ export default {
             },
             default: 'time'
         },
+        steps: {
+            type: Array,
+            default: () => []
+        },
         value: {}
     },
     created () {
@@ -31,6 +36,11 @@ export default {
                 this.currentValue = '';
             }
         }
-        this.panel = getPanel(this.type);
+        const Panel = Vue.extend(getPanel(this.type));
+        this.Panel = new Panel({
+            propsData: {
+                steps: this.steps
+            }
+        });
     }
 };

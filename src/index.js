@@ -1,8 +1,11 @@
 // es6 polyfill
+import 'core-js/fn/array/find';
 import 'core-js/fn/array/find-index';
 
 import Affix from './components/affix';
 import Alert from './components/alert';
+import AutoComplete from './components/auto-complete';
+import Avatar from './components/avatar';
 import BackTop from './components/back-top';
 import Badge from './components/badge';
 import Breadcrumb from './components/breadcrumb';
@@ -13,6 +16,7 @@ import Cascader from './components/cascader';
 import Checkbox from './components/checkbox';
 import Circle from './components/circle';
 import Collapse from './components/collapse';
+import ColorPicker from './components/color-picker';
 import DatePicker from './components/date-picker';
 import Dropdown from './components/dropdown';
 import Form from './components/form';
@@ -49,6 +53,8 @@ import locale from './locale';
 const iview = {
     Affix,
     Alert,
+    AutoComplete,
+    Avatar,
     BackTop,
     Badge,
     Breadcrumb,
@@ -63,6 +69,10 @@ const iview = {
     Checkbox,
     CheckboxGroup: Checkbox.Group,
     iCircle: Circle,
+    Col,
+    iCol: Col,
+    Collapse,
+    ColorPicker,
     DatePicker,
     Dropdown,
     DropdownItem: Dropdown.Item,
@@ -70,9 +80,6 @@ const iview = {
     Form,
     iForm: Form,
     FormItem: Form.Item,
-    Col,
-    iCol: Col,
-    Collapse,
     Icon,
     Input,
     iInput: Input,

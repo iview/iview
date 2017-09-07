@@ -27,7 +27,8 @@ module.exports = merge(webpackBaseConfig, {
     resolve: {
         alias: {
             iview: '../../src/index',
-            vue: 'vue/dist/vue.js'
+            vue: 'vue/dist/vue.esm.js'
+            // vue: 'vue/dist/vue.runtime.js'
         }
     },
     plugins: [

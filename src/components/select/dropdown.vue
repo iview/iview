@@ -1,9 +1,11 @@
 <template>
-    <div class="ivu-select-dropdown" :style="styles"><slot></slot></div>
+    <div class="ivu-select-dropdown" :class="className" :style="styles"><slot></slot></div>
 </template>
 <script>
+    import Vue from 'vue';
+    const isServer = Vue.prototype.$isServer;
     import { getStyle } from '../../utils/assist';
-    import Popper from 'popper.js';
+    const Popper = isServer ? function() {} : require('popper.js');  // eslint-disable-line
 
     export default {
         name: 'Drop',
@@ -11,6 +13,9 @@
             placement: {
                 type: String,
                 default: 'bottom-start'
+            },
+            className: {
+                type: String
             }
         },
         data () {
@@ -28,6 +33,7 @@
         },
         methods: {
             update () {
+                if (isServer) return;
                 if (this.popper) {
                     this.$nextTick(() => {
                         this.popper.update();

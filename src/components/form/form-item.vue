@@ -1,6 +1,6 @@
 <template>
     <div :class="classes">
-        <label :class="[prefixCls + '-label']" :style="labelStyles" v-if="label"><slot name="label">{{ label }}</slot></label>
+        <label :class="[prefixCls + '-label']" :style="labelStyles" v-if="label || $slots.label"><slot name="label">{{ label }}</slot></label>
         <div :class="[prefixCls + '-content']" :style="contentStyles">
             <slot></slot>
             <transition name="fade">
@@ -177,6 +177,7 @@
 
                     callback(this.validateMessage);
                 });
+                this.validateDisabled = false;
             },
             resetField () {
                 this.validateState = '';
