@@ -1,12 +1,11 @@
 export function debounce(fn) {
-    let waiting;
     return function() {
-        if (waiting) return;
-        waiting = true;
+        if (this._waiting) return;
+        this._waiting = true;
         const context = this,
             args = arguments;
         const later = function() {
-            waiting = false;
+            this._waiting = false;
             fn.apply(context, args);
         };
         this.$nextTick(later);
