@@ -1,8 +1,8 @@
 <template>
     <span :class="wrapClasses" @click="toggle">
         <span :class="innerClasses">
-            <slot name="open" v-if="currentValue"></slot>
-            <slot name="close" v-if="!currentValue"></slot>
+            <slot name="open" v-if="currentValue === trueValue"></slot>
+            <slot name="close" v-if="currentValue === falseValue"></slot>
         </span>
     </span>
 </template>
@@ -48,7 +48,7 @@
                 return [
                     `${prefixCls}`,
                     {
-                        [`${prefixCls}-checked`]: this.currentValue,
+                        [`${prefixCls}-checked`]: this.currentValue === this.trueValue,
                         [`${prefixCls}-disabled`]: this.disabled,
                         [`${prefixCls}-${this.size}`]: !!this.size
                     }
