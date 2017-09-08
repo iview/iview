@@ -624,18 +624,20 @@
                     this.broadcast('iOption', 'on-query-change', val);
                 }
             },
-            debouncedAppendRemove: debounce(function(){
-                if (!this.remote) {
-                    this.modelToQuery();
-                    this.$nextTick(() => this.broadcastQuery(''));
-                } else {
-                    this.findChild((child) => {
-                        child.selected = this.multiple ? this.model.indexOf(child.value) > -1 : this.model === child.value;
-                    });
-                }
-                this.slotChange();
-                this.updateOptions(true, true);
-            }),
+            debouncedAppendRemove(){
+                return debounce(function(){
+                    if (!this.remote) {
+                        this.modelToQuery();
+                        this.$nextTick(() => this.broadcastQuery(''));
+                    } else {
+                        this.findChild((child) => {
+                            child.selected = this.multiple ? this.model.indexOf(child.value) > -1 : this.model === child.value;
+                        });
+                    }
+                    this.slotChange();
+                    this.updateOptions(true, true);
+                });
+            },
             // 处理 remote 初始值
             updateLabel () {
                 if (this.remote) {
@@ -669,8 +671,8 @@
             this.updateOptions(true);
             document.addEventListener('keydown', this.handleKeydown);
 
-            this.$on('append', this.debouncedAppendRemove);
-            this.$on('remove', this.debouncedAppendRemove);
+            this.$on('append', this.debouncedAppendRemove());
+            this.$on('remove', this.debouncedAppendRemove());
 
             this.$on('on-select-selected', (value) => {
                 if (this.model === value) {
