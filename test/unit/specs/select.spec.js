@@ -1,4 +1,4 @@
-import {createVue, destroyVM, waitForIt} from '../util';
+import {createVue, destroyVM, waitForIt, promissedTick} from '../util';
 
 describe('Select.vue', () => {
   let vm;
@@ -152,6 +152,82 @@ describe('Select.vue', () => {
         done();
       };
       waitForIt(condition, callback);
+    });
+  });
+
+  describe('Behavior tests', () => {
+    it('should create different and independent instances', done => {
+      const options = [
+        {value: 'beijing', label: 'Beijing'},
+        {value: 'stockholm', label: 'Stockholm'},
+        {value: 'lisboa', label: 'Lisboa'}
+      ];
+
+      vm = createVue({
+        template: `
+          <div>
+            <i-select v-model="modelA" multiple style="width:260px">
+              <i-option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</i-option>
+            </i-select>
+            <i-select v-model="modelB" multiple style="width:260px">
+              <i-option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</i-option>
+            </i-select>
+          </div>
+        `,
+        data() {
+          return {
+            cityList: [],
+            modelA: [],
+            modelB: []
+          };
+        },
+        mounted() {
+          setTimeout(() => (this.cityList = options), 200);
+        }
+      });
+      const [SelectA, SelectB] = vm.$children;
+      SelectA.toggleMenu();
+      SelectB.toggleMenu();
+
+      new Promise(resolve => {
+        const condition = function() {
+          const optionsA = SelectA.$el.querySelectorAll('.ivu-select-item');
+          const optionsB = SelectB.$el.querySelectorAll('.ivu-select-item');
+          return optionsA.length > 0 && optionsB.length > 0;
+        };
+        waitForIt(condition, resolve);
+      })
+        .then(() => {
+          // click in A options
+          const optionsA = SelectA.$el.querySelectorAll('.ivu-select-item');
+          optionsA[0].click();
+          return promissedTick(SelectA);
+        })
+        .then(() => {
+          expect(SelectA.value[0]).to.equal(options[0].value);
+          expect(SelectA.value.length).to.equal(1);
+          expect(SelectB.value.length).to.equal(0);
+
+          // click in B options
+          const optionsB = SelectB.$el.querySelectorAll('.ivu-select-item');
+          optionsB[1].click();
+          optionsB[2].click();
+          return promissedTick(SelectB);
+        })
+        .then(() => {
+          // lets check the values!
+          const getSelections = component => {
+            const tags = component.$el.querySelectorAll('.ivu-select-selection .ivu-tag');
+            return [...tags].map(el => el.textContent.trim()).join(',');
+          };
+          const selectAValue = getSelections(SelectA);
+          const selectBValue = getSelections(SelectB);
+
+          expect(selectAValue).to.equal(options[0].label);
+          expect(selectBValue).to.equal(options.slice(1, 3).map(obj => obj.label.trim()).join(','));
+
+          done();
+        });
     });
   });
 
