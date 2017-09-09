@@ -285,7 +285,7 @@
                     });
                 }
             },
-            updateOptions (init, slot = false) {
+            updateOptions (slot = false) {
                 let options = [];
                 let index = 1;
 
@@ -296,18 +296,14 @@
                     });
                     child.index = index++;
 
-                    if (init) {
-                        this.optionInstances.push(child);
-                    }
+                    this.optionInstances.push(child);
                 });
 
                 this.options = options;
 
-                if (init) {
-                    if (!this.remote) {
-                        this.updateSingleSelected(true, slot);
-                        this.updateMultipleSelected(true, slot);
-                    }
+                if (!this.remote) {
+                    this.updateSingleSelected(true, slot);
+                    this.updateMultipleSelected(true, slot);
                 }
             },
             updateSingleSelected (init = false, slot = false) {
@@ -635,7 +631,7 @@
                         });
                     }
                     this.slotChange();
-                    this.updateOptions(true, true);
+                    this.updateOptions(true);
                 });
             },
             // 处理 remote 初始值
