@@ -103,3 +103,13 @@ exports.waitForIt = function waitForIt(condition, callback) {
   if (condition()) callback();
   else setTimeout(() => waitForIt(condition, callback), 50);
 };
+
+/**
+* Call a components .$nextTick in a promissified way
+* @param {Vue Component} the component to work with
+*/
+exports.promissedTick = component => {
+  return new Promise((resolve, reject) => {
+    component.$nextTick(resolve);
+  });
+};
