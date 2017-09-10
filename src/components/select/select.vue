@@ -664,7 +664,7 @@
                 this.broadcastQuery('');
             });
 
-            this.updateOptions(true);
+            this.updateOptions();
             document.addEventListener('keydown', this.handleKeydown);
 
             this.$on('append', this.debouncedAppendRemove());
