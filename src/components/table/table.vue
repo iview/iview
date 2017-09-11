@@ -341,7 +341,7 @@
                         let autoWidthIndex = -1;
                         if (allWidth) autoWidthIndex = this.cloneColumns.findIndex(cell => !cell.width);//todo 这行可能有问题
 
-                        if (this.data.length) {
+                        if (this.data.length && this.$refs.tbody) {
                             const $td = this.$refs.tbody.$el.querySelectorAll('tbody tr')[0].querySelectorAll('td');
                             for (let i = 0; i < $td.length; i++) {    // can not use forEach in Firefox
                                 const column = this.cloneColumns[i];
@@ -362,7 +362,7 @@
                         }
                     });
                     // get table real height,for fixed when set height prop,but height < table's height,show scrollBarWidth
-                    this.bodyRealHeight = parseInt(getStyle(this.$refs.tbody.$el, 'height'));
+                    this.$refs.tbody && (this.bodyRealHeight = parseInt(getStyle(this.$refs.tbody.$el, 'height')));
                 });
             },
             handleMouseIn (_index) {
