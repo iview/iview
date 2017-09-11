@@ -339,10 +339,11 @@
                     this.$nextTick(() => {
                         let columnsWidth = {};
                         let autoWidthIndex = -1;
+                        const tbody=this.$refs.tbody;
                         if (allWidth) autoWidthIndex = this.cloneColumns.findIndex(cell => !cell.width);//todo 这行可能有问题
-
-                        if (this.data.length) {
-                            const $td = this.$refs.tbody.$el.querySelectorAll('tbody tr')[0].querySelectorAll('td');
+                        
+                        if (this.data.length && tbody && tbody.$el) {
+                            const $td = tbody.$el.querySelectorAll('tbody tr')[0].querySelectorAll('td');
                             for (let i = 0; i < $td.length; i++) {    // can not use forEach in Firefox
                                 const column = this.cloneColumns[i];
 
@@ -362,7 +363,7 @@
                         }
                     });
                     // get table real height,for fixed when set height prop,but height < table's height,show scrollBarWidth
-                    this.bodyRealHeight = parseInt(getStyle(this.$refs.tbody.$el, 'height'));
+                    tbody && tbody.$el && (this.bodyRealHeight = parseInt(getStyle(tbody.$el, 'height')));
                 });
             },
             handleMouseIn (_index) {
