@@ -26,7 +26,7 @@
             },
             size: {
                 validator (value) {
-                    return oneOf(value, ['large', 'small']);
+                    return oneOf(value, ['large', 'small', 'default']);
                 }
             }
         },

@@ -2,10 +2,11 @@
     <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
         <Form-item prop="name">
             <span slot="label"><Icon type="ionic"></Icon></span>
-            <Input v-model="formValidate.name" placeholder="请输入姓名"></Input>
+            <AutoComplete v-model="formValidate.name" :data="['Li','Liang','Zhang']" placeholder="请输入姓名"></AutoComplete>
         </Form-item>
         <Form-item label="邮箱" prop="mail">
-            <Input v-model="formValidate.mail" placeholder="请输入邮箱"></Input>
+            <!--<Input v-model="formValidate.mail" placeholder="请输入邮箱"></Input>-->
+            <ColorPicker v-model="formValidate.mail"></ColorPicker>
         </Form-item>
         <Form-item label="城市" prop="city">
             <Select v-model="formValidate.city" placeholder="请选择所在地">
@@ -56,6 +57,7 @@
     export default {
         data () {
             return {
+                name: '',
                 formValidate: {
                     name: '',
                     mail: '',
@@ -68,11 +70,10 @@
                 },
                 ruleValidate: {
                     name: [
-                        { required: true, message: '姓名不能为空', trigger: 'blur' }
+                        { required: true, message: '姓名不能为空', trigger: 'change' }
                     ],
                     mail: [
-                        { required: true, message: '邮箱不能为空', trigger: 'blur' },
-                        { type: 'email', message: '邮箱格式不正确', trigger: 'blur' }
+                        { required: true, message: '邮箱不能为空', trigger: 'change' }
                     ],
                     city: [
                         { required: true, message: '请选择城市', trigger: 'change' }
