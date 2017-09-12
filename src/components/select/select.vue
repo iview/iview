@@ -234,12 +234,6 @@
             }
         },
         methods: {
-            toggleMenu () {
-                if (this.disabled) {
-                    return false;
-                }
-                this.visible = !this.visible;
-            },
             showMenu () {
                 if (this.disabled) {
                     return false;
