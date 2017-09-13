@@ -150,7 +150,7 @@
                     const index = this.navList.findIndex((nav) => nav.name === this.activeKey);
                     const prevTabs = this.$refs.nav.querySelectorAll(`.${prefixCls}-tab`);
                     const tab = prevTabs[index];
-                    this.barWidth = parseFloat(tab.offsetWidth);
+                    this.barWidth = tab ? parseFloat(tab.offsetWidth) : 0;
 
                     if (index > 0) {
                         let offset = 0;
