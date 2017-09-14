@@ -1,4 +1,4 @@
-import { createVue, destroyVM, stringToDate } from '../util';
+import { createVue, destroyVM, stringToDate, promissedTick } from '../util';
 
 describe('DatePicker.vue', () => {
   let vm;
@@ -73,6 +73,49 @@ describe('DatePicker.vue', () => {
           done();
         });
       });
+    });
+  });
+
+  it('should change type progamatically', done => {
+    vm = createVue({
+      template: '<Date-picker :type="dateType"></Date-picker>',
+      data() {
+        return {
+          dateType: 'month'
+        };
+      }
+    });
+
+    const picker = vm.$children[0];
+    picker.handleIconClick();
+    vm.$nextTick(() => {
+      const panel = vm.$el.querySelector('.ivu-picker-panel-content');
+      const dayPanel = panel.querySelector('[class="ivu-date-picker-cells"]');
+      const monthPanel = panel.querySelector('.ivu-date-picker-cells-month');
+      const yearPanel = panel.querySelector('.ivu-date-picker-cells-year');
+
+      expect(dayPanel.style.display).to.equal('none');
+      expect(monthPanel.style.display).to.equal('');
+      expect(yearPanel.style.display).to.equal('none');
+
+      expect(picker.type).to.equal('month');
+      expect(picker.selectionMode).to.equal('month');
+
+      vm.dateType = 'year';
+      promissedTick(picker)
+		.then(() => {
+          expect(picker.type).to.equal('year');
+          expect(picker.selectionMode).to.equal('year');
+
+          vm.dateType = 'date';
+          return promissedTick(picker);
+        })
+		.then(() => {
+          expect(picker.type).to.equal('date');
+          expect(picker.selectionMode).to.equal('day');
+
+          done();
+        });
     });
   });
 

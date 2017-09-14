@@ -23,6 +23,17 @@ export default {
         },
         value: {}
     },
+    watch: {
+        type(value){
+            const typeMap = {
+                year: 'year',
+                month: 'month',
+                date: 'day'
+            };
+            const validType = oneOf(value, Object.keys(typeMap));
+            if (validType) this.Panel.selectionMode = typeMap[value];
+        }
+    },
     created () {
         if (!this.currentValue) {
             if (this.type === 'daterange' || this.type === 'datetimerange') {
