@@ -85,7 +85,7 @@
     "less-loader": "^2.2.3",
     "lolex": "^1.5.2",
     "mocha": "^3.5.3",
-    "sinon": "^1.17.7",
+    "sinon": "^3.2.1",
     "sinon-chai": "^2.13.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.9",
