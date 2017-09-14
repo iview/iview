@@ -1,5 +1,5 @@
 <template>
-    <transition :name="transitionName">
+    <transition :name="transitionName" @enter="handleEnter" @leave="handleLeave">
         <div :class="classes" :style="styles">
             <template v-if="type === 'notice'">
                 <div :class="[baseClass + '-content']" ref="content" v-html="content"></div>
@@ -96,6 +96,18 @@
                 this.clearCloseTimer();
                 this.onClose();
                 this.$parent.close(this.name);
+            },
+            handleEnter (el) {
+                if (this.type === 'message') {
+                    el.style.height = el.scrollHeight + 'px';
+                }
+            },
+            handleLeave (el) {
+                if (this.type === 'message') {
+                    el.style.height = 0;
+                    el.style.paddingTop = 0;
+                    el.style.paddingBottom = 0;
+                }
             }
         },
         mounted () {

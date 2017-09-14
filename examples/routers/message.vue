@@ -38,10 +38,10 @@
             }
         },
         mounted () {
-            this.$Message.config({
-                top: 50,
-                duration: 3
-            });
+//            this.$Message.config({
+//                top: 50,
+//                duration: 3
+//            });
         }
     }
 </script>
