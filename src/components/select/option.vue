@@ -63,10 +63,14 @@
             queryChange (val) {
                 const parsedQuery = val.replace(/(\^|\(|\)|\[|\]|\$|\*|\+|\.|\?|\\|\{|\}|\|)/g, '\\$1');
                 this.hidden = !new RegExp(parsedQuery, 'i').test(this.searchLabel);
+            },
+            // 在使用函数防抖后，设置 key 后，不更新组件了，导致SearchLabel 不更新 #1865
+            updateSearchLabel () {
+                this.searchLabel = this.$el.innerHTML;
             }
         },
         mounted () {
-            this.searchLabel = this.$el.innerHTML;
+            this.updateSearchLabel();
             this.dispatch('iSelect', 'append');
             this.$on('on-select-close', () => {
                 this.isFocus = false;

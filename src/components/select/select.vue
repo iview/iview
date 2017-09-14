@@ -627,6 +627,7 @@
                         this.$nextTick(() => this.broadcastQuery(''));
                     } else {
                         this.findChild((child) => {
+                            child.updateSearchLabel();   // #1865
                             child.selected = this.multiple ? this.model.indexOf(child.value) > -1 : this.model === child.value;
                         });
                     }
