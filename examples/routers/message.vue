@@ -22,7 +22,10 @@
                 })
             },
             success () {
-                this.$Message.success('这是一条成功的提示');
+                this.$Message.success({
+                    content: '这是一条成功的提示',
+                    duration: 4
+                });
             },
             warning () {
                 this.$Message.warning('这是一条警告的提示');
@@ -33,6 +36,12 @@
             destroy () {
                 this.$Message.destroy();
             }
+        },
+        mounted () {
+            this.$Message.config({
+                top: 50,
+                duration: 3
+            });
         }
     }
 </script>
