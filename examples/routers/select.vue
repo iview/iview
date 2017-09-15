@@ -90,6 +90,8 @@
         <Row>
             <Col span="12" style="padding-right:10px">
             <Select
+                    size="small"
+                    placeholder="提示提示"
                     v-model="model13"
                     filterable
                     remote
