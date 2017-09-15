@@ -6,7 +6,8 @@
         <!--<div @click="changeMax">change max</div>-->
         <!--<Input-number disabled :max="10" :min="1" :step="1.2" v-model="v2"></Input-number>-->
         <!--<Input-number :max="10" :min="1" v-model="obj.v"></Input-number>-->
-        <InputNumber :max="10" :min="1" v-model="value1"></InputNumber>
+        {{ value1 }}
+        <InputNumber :precision="1" :max="10" :min="1" :step="0.1" v-model="value1"></InputNumber>
     </div>
 </template>
 <script>
@@ -21,7 +22,7 @@
                 obj: {
 
                 },
-                value1: 1
+                value1: 1.0
             };
         },
         computed: {},

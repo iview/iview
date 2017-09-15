@@ -25,7 +25,7 @@
                 @keydown.stop="keyDown"
                 @change="change"
                 :name="name"
-                :value="currentValue">
+                :value="precisionValue">
         </div>
     </div>
 </template>
@@ -98,6 +98,9 @@
             },
             name: {
                 type: String
+            },
+            precision: {
+                type: Number
             }
         },
         data () {
@@ -151,6 +154,10 @@
             },
             inputClasses () {
                 return `${prefixCls}-input`;
+            },
+            precisionValue () {
+                // can not display 1.0
+                return this.currentValue.toFixed(this.precision);
             }
         },
         methods: {
@@ -208,6 +215,7 @@
                 this.setValue(val);
             },
             setValue (val) {
+                val = Number(Number(val).toFixed(this.precision));
                 this.$nextTick(() => {
                     this.currentValue = val;
                     this.$emit('input', val);
