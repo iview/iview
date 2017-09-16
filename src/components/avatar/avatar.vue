@@ -71,7 +71,7 @@
         methods: {
             setScale () {
                 this.isSlotShow = !this.src && !this.icon;
-                if (this.$slots.default) {
+                if (this.$refs.children) {
                     const childrenWidth = this.$refs.children.offsetWidth;
                     const avatarWidth = this.$el.getBoundingClientRect().width;
                     // add 4px gap for each side to get better performance
