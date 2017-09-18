@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Table highlight-row :columns="columns3" :data="data1" ref="table" @on-current-change="handleChange"></Table>
+        <Table highlight-row :columns="columns3" :data="data1" ref="table" @on-current-change="handleChange" @on-row-click="rc"></Table>
         <Button @click="handleClear">clear</Button>
     </div>
 </template>
@@ -20,7 +20,8 @@
                     },
                     {
                         title: '年龄',
-                        key: 'age'
+                        key: 'age',
+                        sortable: true
                     },
                     {
                         title: '地址',
@@ -56,7 +57,10 @@
                 this.$refs.table.clearCurrentRow();
             },
             handleChange (newData, oldData) {
-                console.log(newData, oldData)
+//                console.log(newData, oldData)
+            },
+            rc (data, index) {
+                console.log(data, index);
             }
         }
     }
