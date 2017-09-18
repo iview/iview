@@ -82,11 +82,15 @@
             </div>
             <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" ref="footer"><slot name="footer"></slot></div>
         </div>
+        <Spin fix size="large" v-if="loading">
+            <slot name="loading"></slot>
+        </Spin>
     </div>
 </template>
 <script>
     import tableHead from './table-head.vue';
     import tableBody from './table-body.vue';
+    import Spin from '../spin/spin.vue';
     import { oneOf, getStyle, deepCopy, getScrollBarSize } from '../../utils/assist';
     import { on, off } from '../../utils/dom';
     import Csv from '../../utils/csv';
@@ -101,7 +105,7 @@
     export default {
         name: 'Table',
         mixins: [ Locale ],
-        components: { tableHead, tableBody },
+        components: { tableHead, tableBody, Spin },
         props: {
             data: {
                 type: Array,
@@ -159,6 +163,10 @@
             },
             disabledHover: {
                 type: Boolean
+            },
+            loading: {
+                type: Boolean,
+                default: false
             }
         },
         data () {

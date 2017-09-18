@@ -1,31 +1,74 @@
 <template>
     <div>
-        <Table highlight-row :columns="columns3" :data="data1" ref="table" @on-current-change="handleChange" @on-row-click="rc"></Table>
+        <Table width="550" height="200" highlight-row :loading="loading" :columns="columns3" :data="data1" ref="table" @on-current-change="handleChange" @on-row-click="rc">
+            <div slot="loading">
+                <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+                <div>Loading</div>
+            </div>
+        </Table>
+        <br><br>
         <Button @click="handleClear">clear</Button>
+        <Button @click="loading = !loading">Loading</Button>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
+                loading: false,
                 columns3: [
                     {
-                        type: 'index',
-                        width: 60,
-                        align: 'center'
-                    },
-                    {
                         title: '姓名',
-                        key: 'name'
+                        key: 'name',
+                        width: 100,
+                        fixed: 'left'
                     },
                     {
                         title: '年龄',
                         key: 'age',
-                        sortable: true
+                        width: 100
+                    },
+                    {
+                        title: '省份',
+                        key: 'province',
+                        width: 100
+                    },
+                    {
+                        title: '市区',
+                        key: 'city',
+                        width: 100
                     },
                     {
                         title: '地址',
-                        key: 'address'
+                        key: 'address',
+                        width: 200
+                    },
+                    {
+                        title: '邮编',
+                        key: 'zip',
+                        width: 100
+                    },
+                    {
+                        title: '操作',
+                        key: 'action',
+                        fixed: 'right',
+                        width: 120,
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'text',
+                                        size: 'small'
+                                    }
+                                }, '查看'),
+                                h('Button', {
+                                    props: {
+                                        type: 'text',
+                                        size: 'small'
+                                    }
+                                }, '编辑')
+                            ]);
+                        }
                     }
                 ],
                 data1: [
