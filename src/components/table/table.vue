@@ -159,7 +159,11 @@
             },
             disabledHover: {
                 type: Boolean
-            }
+            },
+            rowClickSelect: {
+                type: Boolean,
+                default:false
+            },
         },
         data () {
             return {
@@ -398,6 +402,9 @@
             },
             clickCurrentRow (_index) {
                 this.highlightCurrentRow (_index);
+                if(this.rowClickSelect){
+                    this.toggleSelect(_index);
+                }
                 this.$emit('on-row-click', JSON.parse(JSON.stringify(this.cloneData[_index])));
             },
             dblclickCurrentRow (_index) {
