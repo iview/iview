@@ -144,11 +144,11 @@
 
 <style>
     .demo-spin-article{
-        width: 400px;
-        height: 200px;
+        /*width: 400px;*/
+        /*height: 200px;*/
         padding: 10px;
         position: relative;
-        border: 1px solid #eee;
+        border: 1px solid red;
         text-align: center;
     }
     .demo-spin-article h3{
@@ -174,7 +174,10 @@
                 <p>三山半落青天外，二水中分白鹭洲。</p>
                 <p>总为浮云能蔽日，长安不见使人愁。</p>
             </article>
-            <Spin size="large" fix v-if="spinShow"></Spin>
+            <Spin size="large" fix v-if="spinShow">
+                <!--<Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>-->
+                <!--<div>Loading</div>-->
+            </Spin>
         </div>
         <br>
         切换显示状态：<i-switch @on-change="spinShow = !spinShow"></i-switch>

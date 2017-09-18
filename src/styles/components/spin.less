@@ -28,19 +28,18 @@
     &-fix {
         position: absolute;
         top: 0;
-        bottom: 0;
         left: 0;
-        right: 0;
         z-index: @zindex-spin;
-        display: table;
         .square(100%);
-        background-color: #fff;
+        background-color: rgba(255,255,255,.95);
     }
 
     &-fix &-main {
-        display: table-cell;
-        vertical-align: middle;
-        .square(inherit);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
     }
 
     &-fix &-dot {
