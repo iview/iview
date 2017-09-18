@@ -374,9 +374,8 @@
                 if (this.disabledHover) return;
                 this.objData[_index]._isHover = false;
             },
-            highlightCurrentRow (_index) {
-                if (!this.highlightRow || this.objData[_index]._isHighlight) return;
-
+            // 通用处理 highlightCurrentRow 和 clearCurrentRow
+            handleCurrentRow (type, _index) {
                 let oldIndex = -1;
                 for (let i in this.objData) {
                     if (this.objData[i]._isHighlight) {
@@ -384,9 +383,18 @@
                         this.objData[i]._isHighlight = false;
                     }
                 }
-                this.objData[_index]._isHighlight = true;
+                if (type === 'highlight') this.objData[_index]._isHighlight = true;
                 const oldData = oldIndex < 0 ? null : JSON.parse(JSON.stringify(this.cloneData[oldIndex]));
-                this.$emit('on-current-change', JSON.parse(JSON.stringify(this.cloneData[_index])), oldData);
+                const newData = type === 'highlight' ? JSON.parse(JSON.stringify(this.cloneData[_index])) : null;
+                this.$emit('on-current-change', newData, oldData);
+            },
+            highlightCurrentRow (_index) {
+                if (!this.highlightRow || this.objData[_index]._isHighlight) return;
+                this.handleCurrentRow('highlight', _index);
+            },
+            clearCurrentRow () {
+                if (!this.highlightRow) return;
+                this.handleCurrentRow('clear');
             },
             clickCurrentRow (_index) {
                 this.highlightCurrentRow (_index);
