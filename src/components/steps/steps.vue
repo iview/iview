@@ -8,6 +8,21 @@
 
     const prefixCls = 'ivu-steps';
 
+    function debounce(fn) {
+        let waiting;
+        return function() {
+            if (waiting) return;
+            waiting = true;
+            const context = this,
+                args = arguments;
+            const later = function() {
+                waiting = false;
+                fn.apply(context, args);
+            };
+            this.$nextTick(later);
+        };
+    }
+
     export default {
         name: 'Steps',
         props: {
@@ -43,11 +58,6 @@
                     }
                 ];
             }
-        },
-        mounted () {
-            this.updateChildProps(true);
-            this.setNextError();
-            this.updateCurrent(true);
         },
         methods: {
             updateChildProps (isInit) {
@@ -98,7 +108,22 @@
                 } else {
                     this.$children[this.current].currentStatus = this.status;
                 }
+            },
+            debouncedAppendRemove () {
+                return debounce(function () {
+                    this.updateSteps();
+                });
+            },
+            updateSteps () {
+                this.updateChildProps(true);
+                this.setNextError();
+                this.updateCurrent(true);
             }
+        },
+        mounted () {
+            this.updateSteps();
+            this.$on('append', this.debouncedAppendRemove());
+            this.$on('remove', this.debouncedAppendRemove());
         },
         watch: {
             current () {
