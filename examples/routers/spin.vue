@@ -181,6 +181,8 @@
         </div>
         <br>
         切换显示状态：<i-switch @on-change="spinShow = !spinShow"></i-switch>
+        <Button @click="show">show</Button>
+        <Button @click="hide">hide</Button>
     </div>
 </template>
 <script>
@@ -188,6 +190,29 @@
         data () {
             return {
                 spinShow: true
+            }
+        },
+        methods: {
+            show () {
+                this.$Spin.show({
+                    render: (h) => {
+                        return h('div', [
+                            h('Icon', {
+                                props: {
+                                    type: 'load-c',
+                                    size: 24
+                                }
+                            }),
+                            h('div', 'Loading')
+                        ])
+                    }
+                });
+                setTimeout(() => {
+                    this.$Spin.hide();
+                }, 3000)
+            },
+            hide () {
+                this.$Spin.hide();
             }
         }
     }
