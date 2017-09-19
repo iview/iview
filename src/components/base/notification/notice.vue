@@ -104,9 +104,12 @@
             },
             handleLeave (el) {
                 if (this.type === 'message') {
-                    el.style.height = 0;
-                    el.style.paddingTop = 0;
-                    el.style.paddingBottom = 0;
+                    // 优化一下，如果当前只有一个 Message，则不使用 js 过渡动画，这样更优美
+                    if (document.getElementsByClassName('ivu-message-notice').length !== 1) {
+                        el.style.height = 0;
+                        el.style.paddingTop = 0;
+                        el.style.paddingBottom = 0;
+                    }
                 }
             }
         },

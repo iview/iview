@@ -16,7 +16,7 @@
                     content: '这是一条普通提示2',
                     duration: 500,
                     onClose () {
-                        console.log(123)
+//                        console.log(123)
                     },
                     closable: true
                 })
