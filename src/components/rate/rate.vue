@@ -1,5 +1,6 @@
 <template>
     <div :class="classes" @mouseleave="handleMouseleave">
+        <input type="hidden" :name="name" :value="currentValue">
         <div
             v-for="item in count"
             :class="starCls(item)"
@@ -19,6 +20,7 @@
     const prefixCls = 'ivu-rate';
 
     export default {
+        name: 'Rate',
         mixins: [ Locale, Emitter ],
         props: {
             count: {
@@ -40,6 +42,9 @@
             showText: {
                 type: Boolean,
                 default: false
+            },
+            name: {
+                type: String
             }
         },
         data () {

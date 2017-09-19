@@ -5,6 +5,7 @@
             ref="reference"
             @click="toggleMenu">
             <slot name="input">
+                <input type="hidden" :name="name" :value="model">
                 <div class="ivu-tag" v-for="(item, index) in selectedMultiple">
                     <span class="ivu-tag-text">{{ item.label }}</span>
                     <Icon type="ios-close-empty" @click.native.stop="removeTag(index)"></Icon>
@@ -131,6 +132,9 @@
             autoComplete: {
                 type: Boolean,
                 default: false
+            },
+            name: {
+                type: String
             }
         },
         data () {

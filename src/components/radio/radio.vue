@@ -7,6 +7,7 @@
                 :class="inputClasses"
                 :disabled="disabled"
                 :checked="currentValue"
+                :name="name"
                 @change="change">
         </span><slot>{{ label }}</slot>
     </label>
@@ -44,6 +45,9 @@
                 validator (value) {
                     return oneOf(value, ['small', 'large', 'default']);
                 }
+            },
+            name: {
+                type: String
             }
         },
         data () {

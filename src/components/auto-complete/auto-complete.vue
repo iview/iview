@@ -18,6 +18,7 @@
                 ref="input"
                 slot="input"
                 v-model="currentValue"
+                :name="name"
                 :placeholder="placeholder"
                 :disabled="disabled"
                 :size="size"
@@ -81,6 +82,9 @@
             transfer: {
                 type: Boolean,
                 default: false
+            },
+            name: {
+                type: String
             }
         },
         data () {

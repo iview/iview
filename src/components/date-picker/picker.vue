@@ -9,6 +9,7 @@
                     :size="size"
                     :placeholder="placeholder"
                     :value="visualValue"
+                    :name="name"
                     @on-input-change="handleInputChange"
                     @on-focus="handleFocus"
                     @on-click="handleIconClick"
@@ -197,6 +198,9 @@
             transfer: {
                 type: Boolean,
                 default: false
+            },
+            name: {
+                type: String
             }
         },
         data () {

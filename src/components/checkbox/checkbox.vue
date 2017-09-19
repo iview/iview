@@ -9,6 +9,7 @@
                 :disabled="disabled"
                 :value="label"
                 v-model="model"
+                :name="name"
                 @change="change">
             <input
                 v-if="!group"
@@ -16,6 +17,7 @@
                 :class="inputClasses"
                 :disabled="disabled"
                 :checked="currentValue"
+                :name="name"
                 @change="change">
         </span>
         <slot><span v-if="showSlot">{{ label }}</span></slot>
@@ -58,6 +60,9 @@
                 validator (value) {
                     return oneOf(value, ['small', 'large', 'default']);
                 }
+            },
+            name: {
+                type: String
             }
         },
         data () {

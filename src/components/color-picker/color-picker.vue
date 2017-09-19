@@ -1,6 +1,7 @@
 <template>
     <div :class="classes" v-clickoutside="handleClose">
         <div ref="reference" @click="toggleVisible" :class="wrapClasses">
+            <input type="hidden" :name="name" :value="currentValue">
             <i class="ivu-icon ivu-icon-arrow-down-b ivu-input-icon ivu-input-icon-normal"></i>
             <div :class="inputClasses">
                 <div :class="[prefixCls + '-color']">
@@ -167,11 +168,15 @@
             transfer: {
                 type: Boolean,
                 default: false
+            },
+            name: {
+                type: String
             }
         },
         data () {
             return {
                 val: _colorChange(this.value),
+                currentValue: this.value,
                 prefixCls: prefixCls,
                 visible: false,
                 disableCloseUnderTransfer: false,  // transfer 模式下，点击Drop也会触发关闭
@@ -344,12 +349,14 @@
             },
             handleSuccess () {
                 const color = this.formatColor;
+                this.currentValue = color;
                 this.$emit('input', color);
                 this.$emit('on-change', color);
                 this.dispatch('FormItem', 'on-form-change', color);
                 this.handleClose();
             },
             handleClear () {
+                this.currentValue = '';
                 this.$emit('input', '');
                 this.$emit('on-change', '');
                 this.dispatch('FormItem', 'on-form-change', '');

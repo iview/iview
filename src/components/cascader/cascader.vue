@@ -1,6 +1,7 @@
 <template>
     <div :class="classes" v-clickoutside="handleClose">
         <div :class="[prefixCls + '-rel']" @click="toggleOpen" ref="reference">
+            <input type="hidden" :name="name" :value="currentValue">
             <slot>
                 <i-input
                     ref="input"
@@ -127,6 +128,9 @@
             transfer: {
                 type: Boolean,
                 default: false
+            },
+            name: {
+                type: String
             }
         },
         data () {

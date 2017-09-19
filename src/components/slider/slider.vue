@@ -9,6 +9,7 @@
             :disabled="disabled"
             @on-change="handleInputChange"></Input-number>
         <div :class="[prefixCls + '-wrap']" ref="slider" @click.self="sliderClick">
+            <input type="hidden" :name="name" :value="currentValue">
             <template v-if="showStops">
                 <div :class="[prefixCls + '-stop']" v-for="item in stops" :style="{ 'left': item + '%' }" @click.self="sliderClick"></div>
             </template>
@@ -102,6 +103,9 @@
                 validator (value) {
                     return oneOf(value, ['hover', 'always', 'never']);
                 }
+            },
+            name: {
+                type: String
             }
         },
         data () {
