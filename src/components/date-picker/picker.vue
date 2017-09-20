@@ -9,7 +9,6 @@
                     :size="size"
                     :placeholder="placeholder"
                     :value="visualValue"
-                    :name="name"
                     @on-input-change="handleInputChange"
                     @on-focus="handleFocus"
                     @on-click="handleIconClick"
@@ -38,7 +37,7 @@
     import clickoutside from '../../directives/clickoutside';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
-    import { formatDate, parseDate } from './util';
+    import { formatDate, parseDate} from './util';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-date-picker';
@@ -51,7 +50,8 @@
         time: 'HH:mm:ss',
         timerange: 'HH:mm:ss',
         daterange: 'yyyy-MM-dd',
-        datetimerange: 'yyyy-MM-dd HH:mm:ss'
+        datetimerange: 'yyyy-MM-dd HH:mm:ss',
+        monthrange:'yyyy-MM',//添加月范围 周 类型
     };
 
     const RANGE_SEPARATOR = ' - ';
@@ -60,7 +60,11 @@
         return formatDate(value, format);
     };
     const DATE_PARSER = function(text, format) {
-        return parseDate(text, format);
+        if(text instanceof Date){
+            return text;
+        }else{
+            return parseDate(text, format);
+        }
     };
     const RANGE_FORMATTER = function(value, format) {
         if (Array.isArray(value) && value.length === 2) {
@@ -78,8 +82,11 @@
         if (array.length === 2) {
             const range1 = array[0];
             const range2 = array[1];
-
-            return [parseDate(range1, format), parseDate(range2, format)];
+            if(range1 instanceof Date && range2 instanceof Date){
+                return [range1,range2];
+            }else{
+                return [parseDate(range1, format), parseDate(range2, format)];
+            }
         }
         return [];
     };
@@ -115,6 +122,10 @@
             formatter: RANGE_FORMATTER,
             parser: RANGE_PARSER
         },
+        monthrange:{
+            formatter: RANGE_FORMATTER,
+            parser: RANGE_PARSER
+        },
         time: {
             formatter: DATE_FORMATTER,
             parser: DATE_PARSER
@@ -141,7 +152,7 @@
                     return null;
                 }
             }
-        }
+        },
     };
 
     export default {
@@ -179,7 +190,7 @@
             },
             size: {
                 validator (value) {
-                    return oneOf(value, ['small', 'large', 'default']);
+                    return oneOf(value, ['small', 'large']);
                 }
             },
             placeholder: {
@@ -198,9 +209,6 @@
             transfer: {
                 type: Boolean,
                 default: false
-            },
-            name: {
-                type: String
             }
         },
         data () {
@@ -237,6 +245,8 @@
                     return 'month';
                 } else if (this.type === 'year') {
                     return 'year';
+                }else if(this.type === 'monthrange'){
+                    return 'month';
                 }
 
                 return 'day';
@@ -249,8 +259,8 @@
                         TYPE_VALUE_RESOLVER_MAP[this.type] ||
                         TYPE_VALUE_RESOLVER_MAP['default']
                     ).formatter;
+                    const type = this.type;
                     const format = DEFAULT_FORMATS[this.type];
-
                     return formatter(value, this.format || format);
                 },
 
@@ -293,13 +303,11 @@
             handleInputChange (event) {
                 const oldValue = this.visualValue;
                 const value = event.target.value;
-
                 let correctValue = '';
                 let correctDate = '';
                 const type = this.type;
                 const format = this.format || DEFAULT_FORMATS[type];
-
-                if (type === 'daterange' || type === 'timerange' || type === 'datetimerange') {
+                if (type === 'daterange' || type === 'timerange' || type === 'datetimerange' || type === 'monthrange') {
                     const parser = (
                         TYPE_VALUE_RESOLVER_MAP[type] ||
                         TYPE_VALUE_RESOLVER_MAP['default']
@@ -364,7 +372,6 @@
 
                     correctDate = parseDate(correctValue, format);
                 }
-
                 this.visualValue = correctValue;
                 event.target.value = correctValue;
                 this.internalValue = correctDate;
@@ -447,7 +454,6 @@
             },
             emitChange (date) {
                 const newDate = this.formattingDate(date);
-
                 this.$emit('on-change', newDate);
                 this.$nextTick(() => {
                     this.dispatch('FormItem', 'on-form-change', newDate);
@@ -462,7 +468,7 @@
                 ).formatter;
 
                 let newDate = formatter(date, format);
-                if (type === 'daterange' || type === 'timerange' || type === 'datetimerange') {
+                if (type === 'daterange' || type === 'timerange' || type === 'datetimerange' || type==='monthrange') {
                     newDate = [newDate.split(RANGE_SEPARATOR)[0], newDate.split(RANGE_SEPARATOR)[1]];
                 }
                 return newDate;
@@ -497,14 +503,12 @@
                         TYPE_VALUE_RESOLVER_MAP[type] ||
                         TYPE_VALUE_RESOLVER_MAP['default']
                     ).parser;
-
                     if (val && type === 'time' && !(val instanceof Date)) {
                         val = parser(val, this.format || DEFAULT_FORMATS[type]);
                     } else if (val && type === 'timerange' && Array.isArray(val) && val.length === 2 && !(val[0] instanceof Date) && !(val[1] instanceof Date)) {
                         val = val.join(RANGE_SEPARATOR);
                         val = parser(val, this.format || DEFAULT_FORMATS[type]);
                     }
-
                     this.internalValue = val;
                     this.$emit('input', val);
                 }

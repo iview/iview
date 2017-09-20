@@ -2,10 +2,19 @@ import Vue from 'vue';
 import Picker from '../picker.vue';
 import DatePanel from '../panel/date.vue';
 import DateRangePanel from '../panel/date-range.vue';
+import MonthRangePanel from '../panel/month-range.vue';
+import WeekPanel from '../panel/week.vue';
+import WeekRangePanel from '../panel/week-range.vue';
 
 const getPanel = function (type) {
     if (type === 'daterange' || type === 'datetimerange') {
         return DateRangePanel;
+    }else if(type === 'monthrange'){
+        return MonthRangePanel;
+    }else if(type ==='weekrange'){
+        return WeekRangePanel;
+    }else if(type === 'week'){
+        return WeekPanel;
     }
     return DatePanel;
 };
@@ -17,32 +26,21 @@ export default {
     props: {
         type: {
             validator (value) {
-                return oneOf(value, ['year', 'month', 'date', 'daterange', 'datetime', 'datetimerange']);
+                return oneOf(value, ['year', 'month', 'date', 'daterange', 'datetime', 'datetimerange', 'monthrange', 'week', 'weekrange']);
             },
             default: 'date'
         },
         value: {}
     },
-    watch: {
-        type(value){
-            const typeMap = {
-                year: 'year',
-                month: 'month',
-                date: 'day'
-            };
-            const validType = oneOf(value, Object.keys(typeMap));
-            if (validType) this.Panel.selectionMode = typeMap[value];
-        }
-    },
     created () {
+
         if (!this.currentValue) {
-            if (this.type === 'daterange' || this.type === 'datetimerange') {
+            if (this.type === 'daterange' || this.type === 'datetimerange' || this.type === 'monthrange' || this.type === 'weekrange') {
                 this.currentValue = ['',''];
             } else {
                 this.currentValue = '';
             }
         }
-
         const panel = getPanel(this.type);
         this.Panel = new Vue(panel);
     }
