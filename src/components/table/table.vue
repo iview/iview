@@ -96,6 +96,7 @@
     import Csv from '../../utils/csv';
     import ExportCsv from './export-csv';
     import Locale from '../../mixins/locale';
+    import elementResizeDetectorMaker from 'element-resize-detector';
 
     const prefixCls = 'ivu-table';
 
@@ -727,8 +728,11 @@
             this.handleResize();
             this.fixedHeader();
             this.$nextTick(() => this.ready = true);
-//            window.addEventListener('resize', this.handleResize, false);
+
             on(window, 'resize', this.handleResize);
+            this.observer = elementResizeDetectorMaker();
+            this.observer.listenTo(this.$el, this.handleResize);
+
             this.$on('on-visible-change', (val) => {
                 if (val) {
                     this.handleResize();
@@ -737,8 +741,8 @@
             });
         },
         beforeDestroy () {
-//            window.removeEventListener('resize', this.handleResize, false);
             off(window, 'resize', this.handleResize);
+            this.observer.removeListener(this.$el, this.handleResize);
         },
         watch: {
             data: {
