@@ -195,7 +195,7 @@
             </div>
             <div class="layout-content">
                 <div class="layout-content-main">
-                    <Table :columns="columns1" :data="data1"></Table>
+                    <Table stripe :columns="columns1" :data="data1"></Table>
                 </div>
             </div>
             <div class="layout-copy">
