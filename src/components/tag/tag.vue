@@ -21,7 +21,7 @@
             },
             color: {
                 validator (value) {
-                    return oneOf(value, ['blue', 'green', 'red', 'yellow']);
+                    return oneOf(value, ['blue', 'green', 'red', 'yellow', 'default']);
                 }
             },
             type: {
