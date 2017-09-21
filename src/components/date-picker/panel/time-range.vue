@@ -1,5 +1,5 @@
 <template>
-    <div :class="classes">
+    <div :class="classes" @mousedown.prevent>
         <div :class="[prefixCls + '-body']">
             <div :class="[prefixCls + '-content', prefixCls + '-content-left']">
                 <div :class="[timePrefixCls + '-header']">

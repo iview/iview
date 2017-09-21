@@ -1,5 +1,5 @@
 <template>
-    <div :class="classes">
+    <div :class="classes" @mousedown.prevent>
         <div :class="[prefixCls + '-sidebar']" v-if="shortcuts.length">
             <div
                 :class="[prefixCls + '-shortcut']"

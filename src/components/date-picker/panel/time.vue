@@ -1,5 +1,5 @@
 <template>
-    <div :class="[prefixCls + '-body-wrapper']">
+    <div :class="[prefixCls + '-body-wrapper']" @mousedown.prevent>
         <div :class="[prefixCls + '-body']">
             <div :class="[timePrefixCls + '-header']" v-if="showDate">{{ visibleDate }}</div>
             <div :class="[prefixCls + '-content']">
