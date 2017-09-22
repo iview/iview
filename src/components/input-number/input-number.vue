@@ -16,6 +16,7 @@
         </div>
         <div :class="inputWrapClasses">
             <input
+                :id="elementId"
                 :class="inputClasses"
                 :disabled="disabled"
                 autocomplete="off"
@@ -101,6 +102,9 @@
             },
             precision: {
                 type: Number
+            },
+            elementId: {
+                type: String
             }
         },
         data () {

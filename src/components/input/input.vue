@@ -7,6 +7,7 @@
                 <i class="ivu-icon ivu-icon-load-c ivu-load-loop" :class="[prefixCls + '-icon', prefixCls + '-icon-validate']" v-if="!icon"></i>
             </transition>
             <input
+                :id="elementId"
                 :autocomplete="autocomplete"
                 ref="input"
                 :type="type"
@@ -30,8 +31,9 @@
             <div :class="[prefixCls + '-group-append']" v-if="append" v-show="slotReady"><slot name="append"></slot></div>
         </template>
         <textarea
-            :autocomplete="autocomplete"
             v-else
+            :id="elementId"
+            :autocomplete="autocomplete"
             ref="textarea"
             :class="textareaClasses"
             :style="textareaStyles"
@@ -119,6 +121,9 @@
                     return oneOf(value, ['on', 'off']);
                 },
                 default: 'off'
+            },
+            elementId: {
+                type: String
             }
         },
         data () {

@@ -15,6 +15,7 @@
         :transfer="transfer">
         <slot name="input">
             <i-input
+                :element-id="elementId"
                 ref="input"
                 slot="input"
                 v-model="currentValue"
@@ -84,6 +85,9 @@
                 default: false
             },
             name: {
+                type: String
+            },
+            elementId: {
                 type: String
             }
         },

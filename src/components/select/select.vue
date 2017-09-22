@@ -13,6 +13,7 @@
                 <span :class="[prefixCls + '-placeholder']" v-show="showPlaceholder && !filterable">{{ localePlaceholder }}</span>
                 <span :class="[prefixCls + '-selected-value']" v-show="!showPlaceholder && !multiple && !filterable">{{ selectedSingle }}</span>
                 <input
+                    :id="elementId"
                     type="text"
                     v-if="filterable"
                     v-model="query"
@@ -134,6 +135,9 @@
                 default: false
             },
             name: {
+                type: String
+            },
+            elementId: {
                 type: String
             }
         },

@@ -3,6 +3,7 @@
         <div ref="reference" :class="[prefixCls + '-rel']">
             <slot>
                 <i-input
+                    :element-id="elementId"
                     :class="[prefixCls + '-editor']"
                     :readonly="!editable || readonly"
                     :disabled="disabled"
@@ -201,6 +202,9 @@
                 default: false
             },
             name: {
+                type: String
+            },
+            elementId: {
                 type: String
             }
         },

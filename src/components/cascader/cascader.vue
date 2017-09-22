@@ -4,6 +4,7 @@
             <input type="hidden" :name="name" :value="currentValue">
             <slot>
                 <i-input
+                    :element-id="elementId"
                     ref="input"
                     :readonly="!filterable"
                     :disabled="disabled"
@@ -130,6 +131,9 @@
                 default: false
             },
             name: {
+                type: String
+            },
+            elementId: {
                 type: String
             }
         },
