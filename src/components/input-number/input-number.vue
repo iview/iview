@@ -161,7 +161,7 @@
             },
             precisionValue () {
                 // can not display 1.0
-                return this.currentValue.toFixed(this.precision);
+                return this.precision ? this.currentValue.toFixed(this.precision) : this.currentValue;
             }
         },
         methods: {
@@ -219,7 +219,9 @@
                 this.setValue(val);
             },
             setValue (val) {
-                val = Number(Number(val).toFixed(this.precision));
+                // 如果 step 是小数，且没有设置 precision，是有问题的
+                if (this.precision) val = Number(Number(val).toFixed(this.precision));
+
                 this.$nextTick(() => {
                     this.currentValue = val;
                     this.$emit('input', val);
