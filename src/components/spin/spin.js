@@ -27,7 +27,7 @@ Spin.newInstance = properties => {
                 });
             }
             return h('div', {
-                'class': 'ivu-spin-fullscreen'
+                'class': 'ivu-spin-fullscreen ivu-spin-fullscreen-wrapper'
             }, [vnode]);
         }
     });

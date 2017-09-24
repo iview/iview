@@ -159,7 +159,7 @@
         font-style: normal;
         font-size: 14px;
     }
-    .demo-spin-article p{
+    .demo-spin-article p {
         font-size: 16px;
     }
 </style>
@@ -194,19 +194,7 @@
         },
         methods: {
             show () {
-                this.$Spin.show({
-                    render: (h) => {
-                        return h('div', [
-                            h('Icon', {
-                                props: {
-                                    type: 'load-c',
-                                    size: 24
-                                }
-                            }),
-                            h('div', 'Loading')
-                        ])
-                    }
-                });
+                this.$Spin.show();
                 setTimeout(() => {
                     this.$Spin.hide();
                 }, 3000)
