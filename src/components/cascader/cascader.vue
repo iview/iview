@@ -279,6 +279,18 @@
             },
             handleSelectItem (index) {
                 const item = this.querySelections[index];
+                //#1981
+                if (this.changeOnSelect && this.query !== '') {
+                    let display = item.display.split(' / '),
+                        values = item.value.split(',');
+                    for (let i = display.length - 1; i >= 0; i--) {
+                        let text = display[i];
+                        if (new RegExp(`<span>${this.query}</span>`, 'g').test(text)) {
+                            item.value = values.slice(0, i + 1).join(',');
+                            break;
+                        }
+                    }
+                }
 
                 if (item.item.disabled) return false;
                 this.query = '';
