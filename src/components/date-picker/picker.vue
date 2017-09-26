@@ -514,6 +514,8 @@
                     } else if (val && type === 'timerange' && Array.isArray(val) && val.length === 2 && !(val[0] instanceof Date) && !(val[1] instanceof Date)) {
                         val = val.join(RANGE_SEPARATOR);
                         val = parser(val, this.format || DEFAULT_FORMATS[type]);
+                    } else if (typeof val === 'string' && type.indexOf('time') !== 0 ){
+                        val = parser(val, this.format || DEFAULT_FORMATS[type]);
                     }
 
                     this.internalValue = val;
