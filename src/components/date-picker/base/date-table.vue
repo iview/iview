@@ -89,8 +89,8 @@
             },
             cells () {
                 const date = new Date(this.year, this.month, 1);
-                let day = getFirstDayOfMonth(date);    // day of first day
-                day = (day === 0 ? 7 : day);
+                const weekStartDay = Number(this.t('i.datepicker.weekStartDay'));
+                const day = (getFirstDayOfMonth(date) || 7) - weekStartDay; // day of first day
                 const today = clearHours(new Date());    // timestamp of today
                 const selectDay = clearHours(new Date(this.value));    // timestamp of selected day
                 const minDay = clearHours(new Date(this.minDate));

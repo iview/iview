@@ -33,6 +33,7 @@ export default {
             month11: 'Novembro',
             month12: 'Dezembro',
             year: 'Ano',
+            weekStartDay: '1',
             weeks: {
                 sun: 'Dom',
                 mon: 'Seg',
