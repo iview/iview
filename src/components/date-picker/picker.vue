@@ -366,6 +366,8 @@
                         } else {
                             correctValue = formatDate(parsedDate, format);
                         }
+                    } else if (!parsedDate) {
+                        correctValue = '';
                     } else {
                         correctValue = oldValue;
                     }
