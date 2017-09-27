@@ -10,10 +10,10 @@
             <div :class="[datePrefixCls + '-header']" v-show="currentView !== 'time'">
                 <span
                     :class="iconBtnCls('prev', '-double')"
-                    @click="prevYear"><Icon type="ios-arrow-left"></Icon></span>
+                    @click="changeYear(-1)"><Icon type="ios-arrow-left"></Icon></span>
                 <span
                     :class="iconBtnCls('prev')"
-                    @click="prevMonth"
+                    @click="changeMonth(-1)"
                     v-show="currentView === 'date'"><Icon type="ios-arrow-left"></Icon></span>
                 <span
                     :class="[datePrefixCls + '-header-label']"
@@ -24,10 +24,10 @@
                     v-show="currentView === 'date'">{{ monthLabel }}</span>
                 <span
                     :class="iconBtnCls('next', '-double')"
-                    @click="nextYear"><Icon type="ios-arrow-right"></Icon></span>
+                    @click="changeYear(+1)"><Icon type="ios-arrow-right"></Icon></span>
                 <span
                     :class="iconBtnCls('next')"
-                    @click="nextMonth"
+                    @click="changeMonth(+1)"
                     v-show="currentView === 'date'"><Icon type="ios-arrow-right"></Icon></span>
             </div>
             <div :class="[prefixCls + '-content']">
@@ -87,7 +87,7 @@
     import Mixin from './mixin';
     import Locale from '../../../mixins/locale';
 
-    import { initTimeDate } from '../util';
+    import { initTimeDate, siblingMonth } from '../util';
 
     const prefixCls = 'ivu-picker-panel';
     const datePrefixCls = 'ivu-date-picker';
@@ -144,8 +144,7 @@
                 newVal = new Date(newVal);
                 if (!isNaN(newVal)) {
                     this.date = newVal;
-                    this.year = newVal.getFullYear();
-                    this.month = newVal.getMonth();
+                    this.setMonthYear(newVal);
                 }
                 if (this.showTime) this.$refs.timePicker.value = newVal;
             },
@@ -163,6 +162,10 @@
             resetDate () {
                 this.date = new Date(this.date);
             },
+            setMonthYear(date){
+                this.month = date.getMonth();
+                this.year = date.getFullYear();
+            },
             handleClear () {
                 this.date = new Date();
                 this.$emit('on-pick', '');
@@ -178,42 +181,20 @@
                         this.currentView = 'date';
                     }
                 }
-
-                this.year = this.date.getFullYear();
-                this.month = this.date.getMonth();
+                this.setMonthYear(this.date);
                 if (reset) this.isTime = false;
             },
-            prevYear () {
+            changeYear(dir){
                 if (this.currentView === 'year') {
-                    this.$refs.yearTable.prevTenYear();
+                    this.$refs.yearTable[dir == 1 ? 'nextTenYear' : 'prevTenYear']();
                 } else {
-                    this.year--;
-                    this.date.setFullYear(this.year);
-                    this.resetDate();
+                    this.year+= dir;
+                    this.date = siblingMonth(this.date, dir * 12);
                 }
             },
-            nextYear () {
-                if (this.currentView === 'year') {
-                    this.$refs.yearTable.nextTenYear();
-                } else {
-                    this.year++;
-                    this.date.setFullYear(this.year);
-                    this.resetDate();
-                }
-            },
-            prevMonth () {
-                this.month--;
-                if (this.month < 0) {
-                    this.month = 11;
-                    this.year--;
-                }
-            },
-            nextMonth () {
-                this.month++;
-                if (this.month > 11) {
-                    this.month = 0;
-                    this.year++;
-                }
+            changeMonth(dir){
+                this.date = siblingMonth(this.date, dir);
+                this.setMonthYear(this.date);
             },
             showYearPicker () {
                 this.currentView = 'year';
@@ -245,13 +226,11 @@
             },
             handleMonthPick (month) {
                 this.month = month;
-                const selectionMode = this.selectionMode;
-                if (selectionMode !== 'month') {
-                    this.date.setMonth(month);
+                this.date.setMonth(month);
+                if (this.selectionMode !== 'month') {
                     this.currentView = 'date';
                     this.resetDate();
                 } else {
-                    this.date.setMonth(month);
                     this.year && this.date.setFullYear(this.year);
                     this.resetDate();
                     const value = new Date(this.date.getFullYear(), month, 1);
@@ -261,12 +240,8 @@
             handleDatePick (value) {
                 if (this.selectionMode === 'day') {
                     this.$emit('on-pick', new Date(value.getTime()));
-                    this.date.setFullYear(value.getFullYear());
-                    this.date.setMonth(value.getMonth());
-                    this.date.setDate(value.getDate());
+                    this.date = new Date(value);
                 }
-
-                this.resetDate();
             },
             handleTimePick (date) {
                 this.handleDatePick(date);
@@ -278,8 +253,7 @@
             }
 
             if (this.date && !this.year) {
-                this.year = this.date.getFullYear();
-                this.month = this.date.getMonth();
+                this.setMonthYear(this.date);
             }
             if (this.showTime) {
                 // todo 这里可能有问题，并不能进入到这里，但不影响正常使用
