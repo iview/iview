@@ -57,18 +57,24 @@
                 });
             },
             validate(callback) {
-                let valid = true;
-                let count = 0;
-                this.fields.forEach(field => {
-                    field.validate('', errors => {
-                        if (errors) {
-                            valid = false;
-                        }
-                        if (typeof callback === 'function' && ++count === this.fields.length) {
-                            callback(valid);
-                        }
+                return new Promise(resolve => {
+                    let valid = true;
+                    let count = 0;
+                    this.fields.forEach(field => {
+                        field.validate('', errors => {
+                            if (errors) {
+                                valid = false;
+                            }
+                            if (++count === this.fields.length) {
+                                // all finish
+                                resolve(valid)
+                                if (typeof callback === 'function') {
+                                    callback(valid);
+                                }
+                            }
+                        });
                     });
-                });
+                })
             },
             validateField(prop, cb) {
                 const field = this.fields.filter(field => field.prop === prop)[0];
