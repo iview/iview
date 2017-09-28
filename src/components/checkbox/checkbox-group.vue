@@ -22,6 +22,10 @@
                 validator (value) {
                     return oneOf(value, ['small', 'large', 'default']);
                 }
+            },
+            sort: {
+                type: Boolean,
+                default: false
             }
         },
         data () {

@@ -121,6 +121,9 @@
                 this.$emit('input', value);
 
                 if (this.group) {
+                    if(this.parent.sort){
+                        this.sortModel();
+                    }
                     this.parent.change(this.model);
                 } else {
                     this.$emit('on-change', value);
@@ -129,6 +132,22 @@
             },
             updateModel () {
                 this.currentValue = this.value === this.trueValue;
+            },
+            sortModel () {
+                let preIndex, current, model = this.model, labelArray = [];
+                this.parent.$children.forEach(child => {
+                    labelArray.push(child.label);
+                })
+                for(var i=1; i<model.length; i++){
+                    preIndex = i -1;
+                    current = model[i];
+                    while(preIndex>=0 && labelArray.indexOf(model[preIndex]) > labelArray.indexOf(current)){
+                        model[preIndex+1] = model[preIndex];
+                        preIndex--;
+                    }
+                    model[preIndex+1] = current;
+                }
+                this.model = model;
             }
         },
         watch: {

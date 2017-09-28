@@ -22,7 +22,7 @@
             <Checkbox :true-value="0" :false-value="1" v-model="testValue2">test number</Checkbox>
             {{ testValue2 }}
         </div>
-        <Checkbox-group v-model="fruit" size="large">
+        <Checkbox-group v-model="fruit" size="large" sort>
             <Checkbox v-for="item in tags" :label="item.label" :key="item.label" true-value="true"></Checkbox>
         </Checkbox-group>
         <div>{{ fruit }}</div>
