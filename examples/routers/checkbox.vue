@@ -26,6 +26,28 @@
             <Checkbox v-for="item in tags" :label="item.label" :key="item.label" true-value="true"></Checkbox>
         </Checkbox-group>
         <div>{{ fruit }}</div>
+        
+        <section>
+            <strong>无排序案例(随意勾选下列多选框)</strong>
+            <div>
+                题目：下列哪些是属于前框框架和库（）<br/>
+                答案选项：<Input style="width: 360px;"  v-model="exam" readonly></Input>
+            </div>
+            <Checkbox-group v-model="value" size="large" @on-change="checkExam">
+                <Checkbox v-for="item in examList" :label="item.label" :key="item.label" true-value="true">{{item.text}}</Checkbox>
+            </Checkbox-group>
+        </section>
+
+        <section>
+            <strong>有排序案例(随意勾选下列多选框)</strong>
+            <div>
+                题目：下列哪些是属于前框框架和库（）<br/>
+                答案选项：<Input style="width: 360px;"  v-model="exam2" readonly></Input>
+            </div>
+            <Checkbox-group v-model="value2" size="large" @on-change="checkExam2" sort>
+                <Checkbox v-for="item in examList" :label="item.label" :key="item.label" true-value="true">{{item.text}}</Checkbox>
+            </Checkbox-group>
+        </section>
     </div>
 </template>
 <script>
@@ -36,7 +58,12 @@
                 fruit: ['苹果'],
                 tags: [],
                 testValue1: null,
-                testValue2: null
+                testValue2: null,
+                examList: [],
+                exam: "",
+                value: [],
+                exam2: "",
+                value2: []
             }
         },
         mounted () {
@@ -53,6 +80,41 @@
                     }
                 ]
             }, 1000);
+            this.getExamList();
+        },
+        methods: {
+            getExamList () {
+                this.examList = [
+                    {
+                        label: 'A',
+                        text: 'A.Vue'
+                    },
+                    {
+                        label: 'B',
+                        text: 'B.React'
+                    },
+                    {
+                        label: 'C',
+                        text: 'C.Angular'
+                    },
+                    {
+                        label: 'D',
+                        text: 'D.jQuery'
+                    }
+                ];
+            },
+            checkExam (data) {
+                this.exam = "";
+                data.forEach(item => {
+                    this.exam = this.exam +" "+ item;
+                })
+            },
+            checkExam2 (data) {
+                this.exam2 = "";
+                data.forEach(item => {
+                    this.exam2 = this.exam2 +" "+ item;
+                })
+            }
         }
     }
 </script>
