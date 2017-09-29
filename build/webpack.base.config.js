@@ -1,8 +1,8 @@
 /**
  * 公共配置
  */
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
 function resolve (dir) {
     return path.join(__dirname, '..', dir);
 }

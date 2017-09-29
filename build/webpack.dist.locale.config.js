@@ -1,6 +1,6 @@
-var path = require('path');
-var webpack = require('webpack');
-var entry = require('./locale');
+const path = require('path');
+const webpack = require('webpack');
+const entry = require('./locale');
 process.env.NODE_ENV = 'production';
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
                 loader: 'babel-loader',
                 exclude: /node_modules/
             }
-        ],
+        ]
     },
     output: {
         path: path.resolve(__dirname, '../dist/locale'),
@@ -29,4 +29,4 @@ module.exports = {
             }
         })
     ]
-}
+};
