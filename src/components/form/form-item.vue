@@ -85,8 +85,13 @@
         },
         watch: {
             error (val) {
-                this.validateMessage = val;
-                this.validateState = 'error';
+                if (val === '') {
+                    this.validateMessage = '';
+                    this.validateState = '';
+                } else {
+                    this.validateMessage = val;
+                    this.validateState = 'error';
+                }
             },
             validateStatus (val) {
                 this.validateState = val;
