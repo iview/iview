@@ -4,8 +4,11 @@ const prefixCls = 'ivu-message';
 const iconPrefixCls = 'ivu-icon';
 const prefixKey = 'ivu_message_key_';
 
-let defaultDuration = 1.5;
-let top;
+const defaults = {
+    top: 24,
+    duration: 1.5
+};
+
 let messageInstance;
 let name = 1;
 
@@ -21,14 +24,14 @@ function getMessageInstance () {
     messageInstance = messageInstance || Notification.newInstance({
         prefixCls: prefixCls,
         styles: {
-            top: `${top}px`
+            top: `${defaults.top}px`
         }
     });
 
     return messageInstance;
 }
 
-function notice (content = '', duration = defaultDuration, type, onClose = function () {}, closable = false) {
+function notice (content = '', duration = defaults.duration, type, onClose = function () {}, closable = false) {
     const iconType = iconTypes[type];
 
     // if loading
@@ -66,56 +69,34 @@ export default {
     name: 'Message',
 
     info (options) {
-        const type = typeof options;
-        if (type === 'string') {
-            options = {
-                content: options
-            };
-        }
-        return notice(options.content, options.duration, 'info', options.onClose, options.closable);
+        return this.message('info', options);
     },
     success (options) {
-        const type = typeof options;
-        if (type === 'string') {
-            options = {
-                content: options
-            };
-        }
-        return notice(options.content, options.duration, 'success', options.onClose, options.closable);
+        return this.message('success', options);
     },
     warning (options) {
-        const type = typeof options;
-        if (type === 'string') {
-            options = {
-                content: options
-            };
-        }
-        return notice(options.content, options.duration, 'warning', options.onClose, options.closable);
+        return this.message('warning', options);
     },
     error (options) {
-        const type = typeof options;
-        if (type === 'string') {
-            options = {
-                content: options
-            };
-        }
-        return notice(options.content, options.duration, 'error', options.onClose, options.closable);
+        return this.message('error', options);
     },
     loading (options) {
-        const type = typeof options;
-        if (type === 'string') {
+        return this.message('loading', options);
+    },
+    message(type, options){
+        if (typeof options === 'string') {
             options = {
                 content: options
             };
         }
-        return notice(options.content, options.duration, 'loading', options.onClose, options.closable);
+        return notice(options.content, options.duration, type, options.onClose, options.closable);
     },
     config (options) {
-        if (options.top) {
-            top = options.top;
+        if (options.top || options.top === 0) {
+            defaults.top = options.top;
         }
-        if (options.duration) {
-            defaultDuration = options.duration;
+        if (options.duration || options.duration === 0) {
+            defaults.duration = options.duration;
         }
     },
     destroy () {
