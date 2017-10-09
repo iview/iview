@@ -53,7 +53,7 @@
 
                 if (this.dot) {
                     status = true;
-                    if (typeof this.count !== 'undefined') {
+                    if (this.count !== null) {
                         if (parseInt(this.count) === 0) {
                             status = false;
                         }
