@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "async-validator": "^1.8.1",
+    "compression-webpack-plugin": "^1.0.0",
     "core-js": "^2.5.0",
     "deepmerge": "^1.5.1",
     "element-resize-detector": "^1.1.12",
