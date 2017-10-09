@@ -1,6 +1,6 @@
 <template>
     <transition name="fade">
-        <div :class="classes" @click.native.stop="clickTag">
+        <div :class="classes">
             <span :class="dotClasses" v-if="showDot"></span><span :class="textClasses"><slot></slot></span><Icon v-if="closable" type="ios-close-empty" @click.native.stop="close"></Icon>
         </div>
     </transition>
@@ -60,13 +60,6 @@
                     this.$emit('on-close', event);
                 } else {
                     this.$emit('on-close', event, this.name);
-                }
-            },
-            clickTag (event) {
-                if (this.name === undefined) {
-                    this.$emit('on-click', event);
-                } else {
-                    this.$emit('on-click', event, this.name);
                 }
             }
         }
