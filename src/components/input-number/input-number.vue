@@ -25,7 +25,7 @@
                 @blur="blur"
                 @keydown.stop="keyDown"
                 @change="change"
-                :readonly="readonly"
+                :readonly="readonly || !editable"
                 :name="name"
                 :value="precisionValue">
         </div>
@@ -101,6 +101,10 @@
             readonly: {
                 type: Boolean,
                 default: false
+            },
+            editable: {
+                type: Boolean,
+                default: true
             },
             name: {
                 type: String

@@ -182,15 +182,15 @@
         watch: {
             hours (val) {
                 if (!this.compiled) return;
-				this.scroll('hours', this.hoursList.findIndex(obj => obj.text == val));
+                this.scroll('hours', this.hoursList.findIndex(obj => obj.text == val));
             },
             minutes (val) {
                 if (!this.compiled) return;
-				this.scroll('minutes', this.minutesList.findIndex(obj => obj.text == val));
+                this.scroll('minutes', this.minutesList.findIndex(obj => obj.text == val));
             },
             seconds (val) {
                 if (!this.compiled) return;
-				this.scroll('seconds', this.secondsList.findIndex(obj => obj.text == val));
+                this.scroll('seconds', this.secondsList.findIndex(obj => obj.text == val));
             }
         },
         mounted () {
