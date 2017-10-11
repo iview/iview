@@ -25,6 +25,7 @@
                 @blur="blur"
                 @keydown.stop="keyDown"
                 @change="change"
+                :readonly="readonly"
                 :name="name"
                 :value="precisionValue">
         </div>
@@ -94,6 +95,10 @@
                 default: false
             },
             autofocus: {
+                type: Boolean,
+                default: false
+            },
+            readonly: {
                 type: Boolean,
                 default: false
             },
@@ -183,7 +188,7 @@
                 this.changeStep('down', e);
             },
             changeStep (type, e) {
-                if (this.disabled) {
+                if (this.disabled || this.readonly) {
                     return false;
                 }
 
