@@ -254,13 +254,13 @@
             change (event) {
                 let val = event.target.value.trim();
 
-                if (event.type == 'input' && val.match(/^\.$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
+                if (event.type == 'input' && val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
                 if (event.type == 'change' && Number(val) === this.currentValue) return; // already fired change for input event
 
                 const {min, max} = this;
-
+                const isEmptyString = val.length === 0;
                 val = Number(val);
-                if (!isNaN(val)) {
+                if (!isNaN(val) && !isEmptyString) {
                     this.currentValue = val;
 
                     if (val > max) {
