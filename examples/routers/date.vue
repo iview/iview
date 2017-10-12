@@ -1,8 +1,8 @@
 <template>
     <div>
+        <Date-picker transfer placeholder="选择日期" style="width: 200px"></Date-picker>
         <Date-picker transfer type="daterange" placeholder="选择日期" style="width: 200px"></Date-picker>
-        <Date-picker type="daterange" placeholder="选择日期" style="width: 200px"></Date-picker>
-        <Date-picker type="datetimerange" placeholder="选择日期" style="width: 200px" @on-change="changeDate"></Date-picker>
+        <Date-picker transfer type="datetimerange" placeholder="选择日期" style="width: 200px" @on-change="changeDate"></Date-picker>
     </div>
 </template>
 <script>
@@ -14,7 +14,11 @@
         }
     }
 </script>
-
+<style>
+    body{
+        width: 100%;
+    }
+</style>
 
 
 <!--<template>-->
