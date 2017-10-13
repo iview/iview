@@ -74,7 +74,18 @@
             }
         },
         created () {
-            this.$on('on-update-popper', this.update);
+            var parent = this.$parent
+            var isInModal = false
+            while (parent && parent.$vnode && !isInModal) {
+                if (parent.$vnode.componentOptions.tag === 'Modal') {
+                    isInModal = true
+                } else {
+                    parent = parent.$parent
+                }
+            }
+            if (!isInModal) {
+                this.$on('on-update-popper', this.update);
+            }
             this.$on('on-destroy-popper', this.destroy);
         },
         beforeDestroy () {
