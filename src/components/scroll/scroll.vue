@@ -22,6 +22,7 @@
 <script>
     import throttle from 'lodash.throttle';
     import loader from './loading-component.vue';
+    import { on, off } from '../../utils/dom';
 
     const prefixCls = 'ivu-scroll';
     const dragConfig = {
@@ -159,7 +160,7 @@
                 // if we remove the handler too soon the screen will bump
                 if (this.touchScroll) {
                     setTimeout(() => {
-                        window.removeEventListener('touchend', this.pointerUpHandler);
+                        off(window, 'touchend', this.pointerUpHandler);
                         this.$refs.scrollContainer.removeEventListener('touchmove', this.pointerMoveHandler);
                         this.touchScroll = false;
                     }, 500);
@@ -233,7 +234,7 @@
                     this.$refs.scrollContainer.scrollTop = 5;
 
                 this.pointerTouchDown = this.getTouchCoordinates(e);
-                window.addEventListener('touchend', this.pointerUpHandler);
+                on(window, 'touchend', this.pointerUpHandler);
                 this.$refs.scrollContainer.parentElement.addEventListener('touchmove', e => {
                     e.stopPropagation();
                     this.pointerMoveHandler(e);
@@ -252,7 +253,6 @@
                 if (!this.touchScroll) {
                     const wasDragged = Math.abs(yDiff) > dragConfig.minimumStartDragOffset;
                     if (wasDragged) this.touchScroll = true;
-                    else return;
                 }
             },
 
@@ -260,7 +260,7 @@
                 this.pointerTouchDown = null;
             }
         },
-        created(){
+        created() {
             this.handleScroll = throttle(this.onScroll, 150, {leading: false});
             this.pointerUpHandler = this.onPointerUp.bind(this); // because we need the same function to add and remove event handlers
             this.pointerMoveHandler = throttle(this.onPointerMove, 50, {leading: false});
