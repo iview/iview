@@ -100,7 +100,7 @@
             // just to improve feeling of loading and avoid scroll trailing events fired by the browser
             waitOneSecond() {
                 return new Promise(resolve => {
-                    setTimeout(resolve, 2000);
+                    setTimeout(resolve, 1000);
                 });
             },
 
