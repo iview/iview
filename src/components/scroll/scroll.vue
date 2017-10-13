@@ -117,7 +117,7 @@
                     let bottomLoaderHeight = 0;
                     const container = this.$refs.scrollContainer;
                     const initialScrollTop = container.scrollTop;
-                    for (var i = 0; i < 20; i++) {
+                    for (let i = 0; i < 20; i++) {
                         setTimeout(() => {
                             bottomLoaderHeight = Math.max(
                                 bottomLoaderHeight,
@@ -262,7 +262,7 @@
         },
         created(){
             this.handleScroll = throttle(this.onScroll, 150, {leading: false});
-            this.pointerUpHandler = this.onPointerUp.bind(this), // because we need the same function to add and remove event handlers
+            this.pointerUpHandler = this.onPointerUp.bind(this); // because we need the same function to add and remove event handlers
             this.pointerMoveHandler = throttle(this.onPointerMove, 50, {leading: false});
         }
     };
