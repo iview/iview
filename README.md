@@ -60,9 +60,9 @@ More info [in the website](https://www.iviewui.com/docs/guide/install-en)
 
 ## Usage
 
-```html
+```vue
 <template>
-    <Slider v-model="value" range></Slider>
+    <Slider v-model="value" range />
 </template>
 <script>
     export default {
