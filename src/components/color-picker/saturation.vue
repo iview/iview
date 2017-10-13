@@ -14,7 +14,7 @@
     </div>
 </template>
 <script>
-    import throttle from '../../utils/throttle';
+    import throttle from 'lodash.throttle';
 
     export default {
         name: 'Saturation',
