@@ -1,4 +1,3 @@
-
 <template>
     <div :class="wrapClasses" style="touch-action: none;">
         <div

@@ -192,6 +192,10 @@ const router = new VueRouter({
         {
             path: '/auto-complete',
             component: require('./routers/auto-complete.vue')
+        },
+        {
+            path: '/scroll',
+            component: require('./routers/scroll.vue')
         }
     ]
 });
