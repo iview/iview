@@ -1,6 +1,6 @@
 <template>
     <collapse-transition>
-        <ul :class="classes" v-show="visible">
+        <ul :class="classes">
             <li>
                 <span :class="arrowClasses" @click="handleExpand">
                     <Icon type="arrow-right-b"></Icon>
@@ -8,15 +8,15 @@
                 <Checkbox
                         v-if="showCheckbox"
                         :value="data.checked"
-                        :indeterminate="indeterminate"
+                        :indeterminate="data.indeterminate"
                         :disabled="data.disabled || data.disableCheckbox"
                         @click.native.prevent="handleCheck"></Checkbox>
                 <span :class="titleClasses" v-html="data.title" @click="handleSelect"></span>
                 <Tree-node
+                        v-if="data.expand"
                         v-for="item in data.children"
                         :key="item.nodeKey"
                         :data="item"
-                        :visible="data.expand"
                         :multiple="multiple"
                         :show-checkbox="showCheckbox">
                 </Tree-node>
@@ -29,7 +29,6 @@
     import Icon from '../icon/icon.vue';
     import CollapseTransition from '../base/collapse-transition';
     import Emitter from '../../mixins/emitter';
-    import { findComponentsDownward } from '../../utils/assist';
 
     const prefixCls = 'ivu-tree';
 
@@ -51,16 +50,11 @@
             showCheckbox: {
                 type: Boolean,
                 default: false
-            },
-            visible: {
-                type: Boolean,
-                default: false
             }
         },
         data () {
             return {
-                prefixCls: prefixCls,
-                indeterminate: false
+                prefixCls: prefixCls
             };
         },
         computed: {
@@ -103,40 +97,16 @@
             },
             handleSelect () {
                 if (this.data.disabled) return;
-                if (this.data.selected) {
-                    this.data.selected = false;
-                } else if (this.multiple) {
-                    this.$set(this.data, 'selected', !this.data.selected);
-                } else {
-                    this.dispatch('Tree', 'selected', this.data);
-                }
-                this.dispatch('Tree', 'on-selected');
+                this.dispatch('Tree', 'on-selected', this.data.nodeKey);
             },
             handleCheck () {
-                if (this.disabled) return;
-                const checked = !this.data.checked;
-                if (!checked || this.indeterminate) {
-                    findComponentsDownward(this, 'TreeNode').forEach(node => node.data.checked = false);
-                } else {
-                    findComponentsDownward(this, 'TreeNode').forEach(node => node.data.checked = true);
-                }
-                this.data.checked = checked;
-                this.dispatch('Tree', 'checked');
-                this.dispatch('Tree', 'on-checked');
-            },
-            setIndeterminate () {
-                this.indeterminate = this.data.checked ? false : findComponentsDownward(this, 'TreeNode').some(node => node.data.checked);
+                if (this.data.disabled) return;
+                const changes = {
+                    checked: !this.data.checked && !this.data.indeterminate,
+                    nodeKey: this.data.nodeKey
+                };
+                this.dispatch('Tree', 'on-check', changes);
             }
-        },
-        created () {
-            // created node.vue first, mounted tree.vue second
-            if (!this.data.checked) this.$set(this.data, 'checked', false);
-        },
-        mounted () {
-            this.$on('indeterminate', () => {
-                this.broadcast('TreeNode', 'indeterminate');
-                this.setIndeterminate();
-            });
         }
     };
 </script>
