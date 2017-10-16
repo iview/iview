@@ -95,6 +95,7 @@
                     v-model="model13"
                     filterable
                     remote
+                    transfer
                     :remote-method="remoteMethod1"
                     :loading="loading1">
                 <Option v-for="(option, index) in options1" :value="option.value" :key="index">{{option.label}}</Option>
