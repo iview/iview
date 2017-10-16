@@ -9,13 +9,13 @@
             ref="scrollContainer"
         >
             <div :class="loaderClasses" :style="{paddingTop: wrapperPadding.paddingTop}" ref="toploader">
-                <loader :text="loadingText" :active="showTopLoader"></loader>
+                <loader :text="localeLoadingText" :active="showTopLoader"></loader>
             </div>
             <div :class="slotContainerClasses" ref="scrollContent">
                 <slot></slot>
             </div>
             <div :class="loaderClasses" :style="{paddingBottom: wrapperPadding.paddingBottom}" ref="bottomLoader">
-                <loader :text="loadingText" :active="showBottomLoader"></loader>
+                <loader :text="localeLoadingText" :active="showBottomLoader"></loader>
             </div>
         </div>
     </div>
@@ -24,6 +24,7 @@
     import throttle from 'lodash.throttle';
     import loader from './loading-component.vue';
     import { on, off } from '../../utils/dom';
+    import Locale from '../../mixins/locale';
 
     const prefixCls = 'ivu-scroll';
     const dragConfig = {
@@ -35,7 +36,7 @@
 
     export default {
         name: 'Scroll',
-        mixins: [],
+        mixins: [ Locale ],
         components: {loader},
         props: {
             height: {
@@ -52,8 +53,7 @@
                 type: Function
             },
             loadingText: {
-                type: String,
-                default: ''
+                type: String
             }
         },
         data() {
@@ -98,7 +98,14 @@
                     paddingTop: this.topRubberPadding + 'px',
                     paddingBottom: this.bottomRubberPadding + 'px'
                 };
-            }
+            },
+            localeLoadingText () {
+                if (this.loadingText === undefined) {
+                    return this.t('i.select.loading');
+                } else {
+                    return this.loadingText;
+                }
+            },
         },
         methods: {
             // just to improve feeling of loading and avoid scroll trailing events fired by the browser

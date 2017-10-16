@@ -1,5 +1,5 @@
 <template>
-    <Scroll :on-reach-top="loadData" loading-text="L-o-a-d-i-n-g...">
+    <Scroll :on-reach-edge="loadData">
         <section v-for="item in list">
             <div class="city">
                 <p>{{ item }}</p>
