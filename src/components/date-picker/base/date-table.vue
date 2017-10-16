@@ -93,7 +93,7 @@
                 const weekStartDay = Number(this.t('i.datepicker.weekStartDay'));
                 const translatedDays = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'].map(item => {
                     return this.t('i.datepicker.weeks.' + item);
-                })
+                });
                 const weekDays = translatedDays.splice(weekStartDay, 7 - weekStartDay).concat(translatedDays.splice(0, weekStartDay));
                 return weekDays;
             },

@@ -2,6 +2,7 @@
     <div :class="wrapClasses" style="touch-action: none;">
         <div
             :class="scrollContainerClasses"
+            :style="{height: height + 'px'}"
             @scroll="handleScroll"
             @wheel="onWheel"
             @touchstart="onPointerDown"
@@ -35,6 +36,10 @@
         mixins: [],
         components: {loader},
         props: {
+            height: {
+                type: [Number, String],
+                default: 300
+            },
             onReachTop: {
                 type: Function,
                 default: () => Promise.resolve()
