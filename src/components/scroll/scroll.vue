@@ -31,6 +31,8 @@
         minimumStartDragOffset: 5, // minimum start drag offset
     };
 
+    const noop = () => Promise.resolve();
+
     export default {
         name: 'Scroll',
         mixins: [],
@@ -41,16 +43,13 @@
                 default: 300
             },
             onReachTop: {
-                type: Function,
-                default: () => Promise.resolve()
+                type: Function
             },
             onReachBottom: {
-                type: Function,
-                default: () => Promise.resolve()
+                type: Function
             },
             onReachEdge: {
-                type: Function,
-                default: () => Promise.resolve()
+                type: Function
             },
             loadingText: {
                 type: String,
@@ -134,8 +133,8 @@
                     }
                 }
 
-                const callbacks = [this.waitOneSecond(), this.onReachEdge(dir)];
-                callbacks.push(dir > 0 ? this.onReachTop() : this.onReachBottom());
+                const callbacks = [this.waitOneSecond(), this.onReachEdge ? this.onReachEdge(dir) : noop()];
+                callbacks.push(dir > 0 ? this.onReachTop ? this.onReachTop() : noop() : this.onReachBottom ? this.onReachBottom() : noop());
 
                 let tooSlow = setTimeout(() => {
                     this.reset();
@@ -182,6 +181,15 @@
 
             stretchEdge(direction) {
                 clearTimeout(this.rubberRollBackTimeout);
+
+                // check if set these props
+                if (!this.onReachEdge) {
+                    if (direction > 0) {
+                        if (!this.onReachTop) return;
+                    } else {
+                        if (!this.onReachBottom) return;
+                    }
+                }
 
                 // if the scroll is not strong enough, lets reset it
                 this.rubberRollBackTimeout = setTimeout(() => {
