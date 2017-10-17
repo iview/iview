@@ -714,8 +714,9 @@
                 let noHeader = false;
                 if ('noHeader' in params) noHeader = params.noHeader;
 
-                const data = Csv(columns, datas, ',', noHeader);
-                ExportCsv.download(params.filename, data);
+                const data = Csv(columns, datas, params, noHeader);
+                if (params.callback) params.callback(data);
+                else ExportCsv.download(params.filename, data);
             }
         },
         created () {
