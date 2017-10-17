@@ -1,5 +1,6 @@
 export default {
     i: {
+        locale: 'es-ES',
         select: {
             placeholder: 'Seleccionar',
             noMatch: 'Sin coincidencias',
@@ -19,6 +20,7 @@ export default {
             endTime: 'Hora de fin',
             clear: 'Limpiar',
             ok: 'Aceptar',
+            datePanelLabel: '[mmmm] [yyyy]',
             month: 'Mes',
             month1: 'Enero',
             month2: 'Febrero',

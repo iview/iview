@@ -1,5 +1,6 @@
 export default {
     i: {
+        locale: 'sv-SE',
         select: {
             placeholder: 'Välj',
             noMatch: 'Ingen träff',
@@ -19,6 +20,7 @@ export default {
             endTime: 'Slut tid',
             clear: 'Rensa',
             ok: 'Ok',
+            datePanelLabel: '[mmmm] [yyyy]',
             month: 'Månad',
             month1: 'Januari',
             month2: 'Februari',

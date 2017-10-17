@@ -1,5 +1,6 @@
 export default {
     i: {
+        locale: 'vi-VN',
         select: {
             placeholder: 'Chọn',
             noMatch: 'Không tìm thấy',
@@ -19,6 +20,7 @@ export default {
             endTime: 'Ngày kết thúc',
             clear: 'Xóa',
             ok: 'Đồng ý',
+            datePanelLabel: '[Tháng mm]/[yyyy]',
             month: '',
             month1: 'Tháng 1',
             month2: 'Tháng 2',
