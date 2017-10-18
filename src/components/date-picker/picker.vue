@@ -517,7 +517,7 @@
                         val = val.join(RANGE_SEPARATOR);
                         val = parser(val, this.format || DEFAULT_FORMATS[type]);
                     } else if (typeof val === 'string' && type.indexOf('time') !== 0 ){
-                        val = parser(val, this.format || DEFAULT_FORMATS[type]);
+                        val = parser(val, this.format || DEFAULT_FORMATS[type]) || val;
                     }
 
                     this.internalValue = val;

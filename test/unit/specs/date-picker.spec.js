@@ -103,19 +103,19 @@ describe('DatePicker.vue', () => {
 
       vm.dateType = 'year';
       promissedTick(picker)
-		.then(() => {
-          expect(picker.type).to.equal('year');
-          expect(picker.selectionMode).to.equal('year');
+          .then(() => {
+            expect(picker.type).to.equal('year');
+            expect(picker.selectionMode).to.equal('year');
 
-          vm.dateType = 'date';
-          return promissedTick(picker);
-        })
-		.then(() => {
-          expect(picker.type).to.equal('date');
-          expect(picker.selectionMode).to.equal('day');
+            vm.dateType = 'date';
+            return promissedTick(picker);
+          })
+          .then(() => {
+            expect(picker.type).to.equal('date');
+            expect(picker.selectionMode).to.equal('day');
 
-          done();
-        });
+            done();
+          });
     });
   });
 
@@ -176,4 +176,19 @@ describe('DatePicker.vue', () => {
       });
     });
   });
+
+  it('should accept a empty string as input v-model value', done => {
+    vm = createVue({
+      template: '<date-picker v-model="value" type="date"></date-picker>',
+      data(){
+        return {value: ''};
+      }
+    });
+
+    vm.$nextTick(() => {
+      expect(vm.value).to.equal('');
+      done();
+    });
+  });
+
 });
