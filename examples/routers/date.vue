@@ -1,12 +1,19 @@
 <template>
     <div>
-        <Date-picker transfer placeholder="选择日期" style="width: 200px"></Date-picker>
-        <Date-picker transfer type="daterange" placeholder="选择日期" style="width: 200px"></Date-picker>
+        {{ value1 }}-{{ value2 }}
+        <Date-picker v-model="value1" placeholder="选择日期" style="width: 200px"></Date-picker>
+        <Date-picker v-model="value2" type="daterange" placeholder="选择日期" style="width: 200px"></Date-picker>
         <Date-picker transfer type="datetimerange" placeholder="选择日期" style="width: 200px" @on-change="changeDate"></Date-picker>
     </div>
 </template>
 <script>
     export default {
+        data () {
+            return {
+                value1: '',
+                value2: []
+            }
+        },
         methods: {
             changeDate(date){
                 console.log(date);
