@@ -44,7 +44,8 @@ Spin.newInstance = properties => {
             spin.visible = false;
             setTimeout(function() {
                 spin.$parent.$destroy();
-                document.body.removeChild(document.getElementsByClassName('ivu-spin-fullscreen')[0]);
+                let tempSpinNodes = document.getElementsByClassName('ivu-spin-fullscreen')
+                ( tempSpinNodes && tempSpinNodes[0] && document.body.removeChild(tempSpinNodes[0]) );
                 cb();
             }, 500);
         },
