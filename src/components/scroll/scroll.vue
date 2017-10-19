@@ -178,7 +178,7 @@
                 }
             },
 
-            onWheel() {
+            onWheel(event) {
                 if (this.isLoading) return;
 
                 // get the wheel direction
