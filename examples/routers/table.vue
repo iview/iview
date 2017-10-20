@@ -164,43 +164,47 @@
     <div class="layout" :class="{'layout-hide-text': spanLeft < 5}">
         <Row type="flex">
             <Col :span="spanLeft" class="layout-menu-left">
-            <Menu active-name="1" theme="dark" width="auto">
-                <div class="layout-logo-left"></div>
-                <MenuItem name="1">
-                    <Icon type="ios-navigate" :size="iconSize"></Icon>
-                    <span class="layout-text">选项 1</span>
-                </MenuItem>
-                <MenuItem name="2">
-                    <Icon type="ios-keypad" :size="iconSize"></Icon>
-                    <span class="layout-text">选项 2</span>
-                </MenuItem>
-                <MenuItem name="3">
-                    <Icon type="ios-analytics" :size="iconSize"></Icon>
-                    <span class="layout-text">选项 3</span>
-                </MenuItem>
-            </Menu>
+                <Menu active-name="1" theme="dark" width="auto">
+                    <div class="layout-logo-left"></div>
+                    <MenuItem name="1">
+                        <Icon type="ios-navigate" :size="iconSize"></Icon>
+                        <span class="layout-text">选项 1</span>
+                    </MenuItem>
+                    <MenuItem name="2">
+                        <Icon type="ios-keypad" :size="iconSize"></Icon>
+                        <span class="layout-text">选项 2</span>
+                    </MenuItem>
+                    <MenuItem name="3">
+                        <Icon type="ios-analytics" :size="iconSize"></Icon>
+                        <span class="layout-text">选项 3</span>
+                    </MenuItem>
+                </Menu>
             </Col>
             <Col :span="spanRight">
-            <div class="layout-header">
-                <Button type="text" @click="toggleClick">
-                    <Icon type="navicon" size="32"></Icon>
-                </Button>
-            </div>
-            <div class="layout-breadcrumb">
-                <Breadcrumb>
-                    <BreadcrumbItem href="#">首页</BreadcrumbItem>
-                    <BreadcrumbItem href="#">应用中心</BreadcrumbItem>
-                    <BreadcrumbItem>某应用</BreadcrumbItem>
-                </Breadcrumb>
-            </div>
-            <div class="layout-content">
-                <div class="layout-content-main">
-                    <Table stripe :columns="columns1" :data="data1"></Table>
+                <div class="layout-header">
+                    <Button type="text" @click="toggleClick">
+                        <Icon type="navicon" size="32"></Icon>
+                    </Button>
                 </div>
-            </div>
-            <div class="layout-copy">
-                2011-2016 &copy; TalkingData
-            </div>
+                <div class="layout-breadcrumb">
+                    <Breadcrumb>
+                        <BreadcrumbItem href="#">首页</BreadcrumbItem>
+                        <BreadcrumbItem href="#">应用中心</BreadcrumbItem>
+                        <BreadcrumbItem>某应用</BreadcrumbItem>
+                    </Breadcrumb>
+                </div>
+                <div class="layout-content">
+                    <div class="layout-content-main">
+                        <Table stripe :columns="columns1" :data="data1"></Table>
+                    </div>
+                    <hr style="margin: 10px 0;" />
+                    <div class="layout-content-main">
+                        <Table stripe :columns="columns2" :data="data2" ref="csvTable" />
+                        <i-button type="primary" size="large" @click="exportCSV">
+                            <icon type="ios-download-outline"></icon> Export to CSV
+                        </i-button>
+                    </div>
+                </div>
             </Col>
         </Row>
     </div>
@@ -330,8 +334,44 @@
                         age: 26,
                         address: '深圳市南山区深南大道'
                     }
+                ],
+                columns2: [
+                    {
+                        title: '姓名',
+                        key: 'name'
+                    },
+                    {
+                        title: '年龄',
+                        key: 'age'
+                    },
+                    {
+                        title: '地址',
+                        key: 'address'
+                    }
+                ],
+                data2: [
+                    {
+                        name: '王小明',
+                        age: 18,
+                        address: '北京市朝\n阳区芍药居'
+                    },
+                    {
+                        name: '张小刚',
+                        age: 25,
+                        address: '北京市海,淀区西二旗'
+                    },
+                    {
+                        name: '李小红',
+                        age: 30,
+                        address: '上海市浦东\r新区世纪大道'
+                    },
+                    {
+                        name: '周小伟',
+                        age: 26,
+                        address: '深圳市南山区深南大道'
+                    }
                 ]
-            }
+            };
         },
         computed: {
             iconSize () {
@@ -347,7 +387,14 @@
                     this.spanLeft = 5;
                     this.spanRight = 19;
                 }
+            },
+            exportCSV () {
+                this.$refs.csvTable.exportCsv({
+                    filename: '原始数据',
+                    separator: ';',
+                    quoted: true
+                });
             }
         }
-    }
+    };
 </script>
