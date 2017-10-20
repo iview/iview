@@ -57,8 +57,9 @@
                 </Checkbox-group>
             </Form-item>
             <Form-item label-for="input" label="介绍" prop="desc">
-                <Input element-id="input" v-model="formValidate.desc" type="text" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."></Input>
+                <Input element-id="input" icon="ios-search" size="small" v-model="formValidate.desc" type="text" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."></Input>
             </Form-item>
+                <Input element-id="input" icon="ios-search" size="small" v-model="formValidate.desc" type="text" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."></Input>
             <Form-item>
                 <Button type="primary" @click="handleSubmit('formValidate')">提交</Button>
                 <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
