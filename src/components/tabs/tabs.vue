@@ -69,10 +69,10 @@
                 barOffset: 0,
                 activeKey: this.value,
                 showSlot: false,
-                navStyle:{
+                navStyle: {
                     transform: ''
                 },
-                scrollable:false
+                scrollable: false
             };
         },
         computed: {
@@ -319,7 +319,7 @@
                 this.updateBar();
                 this.updateStatus();
                 this.broadcast('Table', 'on-visible-change', true);
-                this.$nextTick(function(){
+                this.$nextTick(() => {
                     this.scrollToActiveTab();
                 });
             }
