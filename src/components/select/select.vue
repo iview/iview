@@ -369,6 +369,7 @@
 
                     const selectedArray = [];
                     const selectedObject = {};
+
                     selected.forEach(item => {
                         if (!selectedObject[item.value]) {
                             selectedArray.push(item);
@@ -376,7 +377,8 @@
                         }
                     });
 
-                    this.selectedMultiple = this.remote ? selectedArray : selected;
+                    // #2066
+                    this.selectedMultiple = this.remote ? this.model.length ? selectedArray : [] : selected;
 
                     if (slot) {
                         let selectedModel = [];
