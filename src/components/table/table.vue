@@ -574,6 +574,7 @@
 
                 this.cloneColumns[index]._isFiltered = true;
                 this.cloneColumns[index]._filterVisible = false;
+                this.$emit('on-filter-change', column);
             },
             handleFilterSelect (index, value) {
                 this.cloneColumns[index]._filterChecked = [value];
@@ -587,6 +588,7 @@
                 let filterData = this.makeDataWithSort();
                 filterData = this.filterOtherData(filterData, index);
                 this.rebuildData = filterData;
+                this.$emit('on-filter-change', this.cloneColumns[index]);
             },
             makeData () {
                 let data = deepCopy(this.data);
