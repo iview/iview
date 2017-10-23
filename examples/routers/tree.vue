@@ -1,48 +1,42 @@
 <template>
-    <Tree :data="db" show-checkbox></Tree>
+    <div>
+        <Tree :data="baseData" show-checkbox></Tree>
+        <Button @click="handleAdd">add</Button>
+        <Button @click="handleUpdate">update</Button>
+    </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                db:[
+                baseData: [
                     {
-                        title: '父级',
-                        checked: false,
+                        expand: true,
+                        title: 'parent 1',
                         children: [
                             {
-                                title: '孩子',
-                                checked: false,
+                                title: 'parent 1-0',
+                                expand: true,
+                                disabled: true,
                                 children: [
                                     {
-                                        title: '孙子',
-                                        checked: true
+                                        title: 'leaf',
+                                        disableCheckbox: true
                                     },
                                     {
-                                        title: '孙子',
-                                        checked: false,
-                                        children: [
-                                            {
-                                                title: '曾孙',
-                                                checked: false
-                                            }
-                                        ]
+                                        title: 'leaf',
                                     }
                                 ]
-                            }
-                        ]
-                    },
-                    {
-                        title: '其他',
-                        checked: false,
-                        children: [
-                            {
-                                title: '其他孩子',
-                                checked: true
                             },
                             {
-                                title: '其他孩子2',
-                                checked: true
+                                title: 'parent 1-1',
+                                expand: true,
+                                checked: true,
+                                children: [
+                                    {
+                                        title: '<span style="color: red">leaf</span>',
+                                    }
+                                ]
                             }
                         ]
                     }
@@ -50,10 +44,17 @@
             }
         },
         methods: {
-
-        },
-        mounted () {
-
+            handleAdd () {
+                this.baseData.push(
+                    {
+                        title: 'test name',
+                        checked: true
+                    }
+                )
+            },
+            handleUpdate () {
+                this.$set(this.baseData[0].children[0], 'disabled', false);
+            }
         }
     }
 </script>
