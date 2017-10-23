@@ -54,7 +54,7 @@
                         [`${prefixCls}-${this.color}`]: !!this.color && (this.checkable && this.isChecked),
                         [`${prefixCls}-${this.type}`]: !!this.type,
                         [`${prefixCls}-closable`]: this.closable,
-                        [`${prefixCls}-checkable`]: this.checkable
+                        [`${prefixCls}-checked`]: this.isChecked
                     }
                 ];
             },
