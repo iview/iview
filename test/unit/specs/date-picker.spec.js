@@ -1,4 +1,4 @@
-import { createVue, destroyVM, stringToDate, promissedTick } from '../util';
+import { createVue, destroyVM, stringToDate, dateToString, promissedTick } from '../util';
 
 describe('DatePicker.vue', () => {
   let vm;
@@ -187,6 +187,46 @@ describe('DatePicker.vue', () => {
 
     vm.$nextTick(() => {
       expect(vm.value).to.equal('');
+      done();
+    });
+  });
+
+  it('should convert strings to Date objects', done => {
+    vm = createVue({
+      template: `
+        <div>
+          <date-picker v-model="value1" type="daterange" style="width: 200px"></date-picker>
+          <date-picker v-model="value2" type="daterange" placement="bottom-end" style="width: 200px"></date-picker>
+          <date-picker v-model="value3" type="datetime" placement="bottom-end" style="width: 200px"></date-picker>
+          <date-picker v-model="value4" type="datetimerange" placement="bottom-end" style="width: 200px"></date-picker>
+        </div>
+      `,
+      data() {
+        return {
+          value1: ['2017-10-10', '2017-10-20'],
+          value2: [new Date(), new Date()],
+          value3: '2017-10-10 10:00:00',
+          value4: ['2027-10-10 10:00:00', '2027-10-20 10:00:00']
+        };
+      }
+    });
+
+    vm.$nextTick(() => {
+      const {value1, value2, value3, value4} = vm;
+
+      expect(value1[0] instanceof Date).to.equal(true);
+      expect(value1[1] instanceof Date).to.equal(true);
+      expect(value1.map(dateToString).join('|')).to.equal('2017-10-10|2017-10-20');
+
+      expect(value2[0] instanceof Date).to.equal(true);
+      expect(value2[1] instanceof Date).to.equal(true);
+      expect(value2.map(dateToString).join('|')).to.equal([new Date(), new Date()].map(dateToString).join('|'));
+
+      expect(dateToString(vm.value3)).to.equal('2017-10-10');
+
+      expect(value4[0] instanceof Date).to.equal(true);
+      expect(value4[1] instanceof Date).to.equal(true);
+      expect(value4.map(dateToString).join('|')).to.equal('2027-10-10|2027-10-20');
       done();
     });
   });
