@@ -67,7 +67,7 @@ export const formatDateLabels = (function() {
       Formats:
       yyyy - 4 digit year
       m - month, numeric, 1 - 12
-      m - month, numeric, 01 - 12
+      mm - month, numeric, 01 - 12
       mmm - month, 3 letters, as in `toLocaleDateString`
       Mmm - month, 3 letters, capitalize the return from `toLocaleDateString`
       mmmm - month, full name, as in `toLocaleDateString`
@@ -76,8 +76,8 @@ export const formatDateLabels = (function() {
 
     const formats = {
         yyyy: date => date.getFullYear(),
-        m: date => date.getMonth(),
-        mm: date => ('0' + date.getMonth()).slice(-2),
+        m: date => date.getMonth() + 1,
+        mm: date => ('0' + (date.getMonth() + 1)).slice(-2),
         mmm: (date, locale) => {
             const monthName = date.toLocaleDateString(locale, {
                 month: 'long'

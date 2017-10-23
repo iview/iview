@@ -103,19 +103,19 @@ describe('DatePicker.vue', () => {
 
       vm.dateType = 'year';
       promissedTick(picker)
-          .then(() => {
-            expect(picker.type).to.equal('year');
-            expect(picker.selectionMode).to.equal('year');
+        .then(() => {
+          expect(picker.type).to.equal('year');
+          expect(picker.selectionMode).to.equal('year');
 
-            vm.dateType = 'date';
-            return promissedTick(picker);
-          })
-          .then(() => {
-            expect(picker.type).to.equal('date');
-            expect(picker.selectionMode).to.equal('day');
+          vm.dateType = 'date';
+          return promissedTick(picker);
+        })
+        .then(() => {
+          expect(picker.type).to.equal('date');
+          expect(picker.selectionMode).to.equal('day');
 
-            done();
-          });
+          done();
+        });
     });
   });
 
@@ -191,4 +191,41 @@ describe('DatePicker.vue', () => {
     });
   });
 
+  it('should render date-picker label correctly in zh-CN', done => {
+    vm = createVue(`
+      <Date-picker type="date"></Date-picker>
+    `);
+
+    const picker = vm.$children[0];
+    picker.handleIconClick();
+    vm.$nextTick(() => {
+      const now = new Date();
+      const labels = vm.$el.querySelectorAll('.ivu-picker-panel-body .ivu-date-picker-header-label');
+      const labelText = [...labels].map(el => el.textContent).join(' ');
+      expect(labelText).to.equal([now.getFullYear() + '年', now.getMonth() + 1 + '月'].join(' '));
+      done();
+    });
+  });
+
+  it('Should format labels correctly', done => {
+    const formater = require('../../../src/components/date-picker/util').formatDateLabels;
+    const expectedResults = require('./assets/locale-expects.js').default;
+    const locales = [
+      'de-DE', 'en-US', 'es-ES', 'fr-FR', 'id-ID', 'ja-JP', 'ko-KR', 'pt-BR',
+      'pt-PT', 'ru-RU', 'sv-SE', 'tr-TR', 'vi-VN', 'zh-CN', 'zh-TW'
+    ].reduce((obj, locale) => {
+      obj[locale] = require('../../../src/locale/lang/' + locale).default;
+      return obj;
+    }, {});
+    const testDate = new Date(2030, 9); // October 2030
+
+    Object.keys(locales).forEach(locale => {
+      const format = locales[locale].i.datepicker.datePanelLabel;
+      const f = formater(locale, format, testDate);
+      const labelText = f.labels.map(obj => obj.label).join(f.separator);
+      expect(labelText).to.equal(expectedResults[locale]);
+    });
+    expect(Object.keys(locales).length > 0).to.equal(true);
+    done();
+  });
 });
