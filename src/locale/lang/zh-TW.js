@@ -20,7 +20,7 @@ export default {
             endTime: '結束時間',
             clear: '清空',
             ok: '確定',
-            datePanelLabel: '[yyyy] [mmmm]',
+            datePanelLabel: '[yyyy年] [m月]',
             month: '月',
             month1: '1 月',
             month2: '2 月',

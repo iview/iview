@@ -1,22 +1,31 @@
 <template>
     <div>
-        {{ value1 }}-{{ value2 }}
+        {{ value1 }}
         <Date-picker v-model="value1" placeholder="选择日期" style="width: 200px"></Date-picker>
-        <Date-picker v-model="value2" type="daterange" placeholder="选择日期" style="width: 200px"></Date-picker>
-        <Date-picker transfer type="datetimerange" placeholder="选择日期" style="width: 200px" @on-change="changeDate"></Date-picker>
+        <Button @click="setDate">set date</Button>
+        <Button @click="getDate">get date</Button>
+        <!--<Date-picker v-model="value2" type="daterange" placeholder="选择日期" style="width: 200px"></Date-picker>-->
+        <!--<Date-picker transfer type="datetimerange" placeholder="选择日期" style="width: 200px" @on-change="changeDate"></Date-picker>-->
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                value1: '',
+                value1: '2017-10-23',
                 value2: []
             }
         },
         methods: {
             changeDate(date){
                 console.log(date);
+            },
+            setDate () {
+                this.value1 = '2017-09-20';
+            },
+            getDate () {
+                const date = new Date(this.value1);
+                console.log(date.getMonth()+1)
             }
         }
     }
