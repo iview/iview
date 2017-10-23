@@ -1,7 +1,7 @@
 <template>
     <div>
         {{ value1 }}
-        <Date-picker v-model="value1" placeholder="选择日期" style="width: 200px"></Date-picker>
+        <Date-picker v-model="value1" :editable="false" type="datetimerange" placeholder="选择日期" style="width: 200px"></Date-picker>
         <Button @click="setDate">set date</Button>
         <Button @click="getDate">get date</Button>
         <!--<Date-picker v-model="value2" type="daterange" placeholder="选择日期" style="width: 200px"></Date-picker>-->
@@ -12,7 +12,7 @@
     export default {
         data () {
             return {
-                value1: '2017-10-23',
+                value1: ['2017-10-10', '2017-10-20'],
                 value2: []
             }
         },
@@ -21,7 +21,7 @@
                 console.log(date);
             },
             setDate () {
-                this.value1 = '2017-09-20';
+                this.value1 = ['2016-10-10', '2017-10-10'];
             },
             getDate () {
                 const date = new Date(this.value1);
