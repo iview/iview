@@ -94,39 +94,65 @@
     }
 </script> -->
 
+<!--<template>-->
+    <!--<div>-->
+    <!--<Button type="ghost" @click="toFirst" size="small">to first</Button>-->
+    <!--<Button type="ghost" @click="toLast" size="small">to last</Button>-->
+    <!--<Tabs type="card" :animated="animated"  v-model="activeTab">-->
+        <!--<TabPane v-for="tab in tabs" :key="tab" :label="'标签' + tab"  :name="tab+''" closable>标签{{ tab }}</TabPane>-->
+        <!--<div slot="extra">-->
+            <!--<Button type="ghost" @click="handleTabsAdd" size="small">增加</Button>-->
+        <!--</div>-->
+    <!--</Tabs>-->
+    <!--</div>-->
+<!--</template>-->
+<!--<script>-->
+    <!--export default {-->
+        <!--data () {-->
+            <!--return {-->
+                <!--tabs: 2,-->
+                <!--activeTab:"2",-->
+                <!--animated:true-->
+            <!--}-->
+        <!--},-->
+        <!--methods: {-->
+            <!--handleTabsAdd () {-->
+                <!--this.tabs ++;-->
+                <!--this.activeTab = this.tabs + '';-->
+            <!--},-->
+            <!--toFirst () {-->
+                <!--this.activeTab = '1';-->
+            <!--},-->
+            <!--toLast () {-->
+                <!--this.activeTab = this.tabs+'';-->
+            <!--}-->
+        <!--}-->
+    <!--}-->
+<!--</script>-->
+
 <template>
     <div>
-    <Button type="ghost" @click="toFirst" size="small">to first</Button>
-    <Button type="ghost" @click="toLast" size="small">to last</Button>
-    <Tabs type="card" :animated="animated"  v-model="activeTab">
-        <TabPane v-for="tab in tabs" :key="tab" :label="'标签' + tab"  :name="tab+''" closable>标签{{ tab }}</TabPane>
-        <div slot="extra">
-            <Button type="ghost" @click="handleTabsAdd" size="small">增加</Button>
-        </div>
-    </Tabs>
+        <Tabs type="card">
+            <TabPane v-for="tab in tabs" :key="tab" :label="'标签' + tab">标签{{ tab }}</TabPane>
+        </Tabs>
+        <Button type="ghost" @click="handleTabsAdd" size="small">增加</Button>
+        <Button type="ghost" @click="handleTabsMin" size="small">减少</Button>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                tabs: 2,
-                activeTab:"2",
-                animated:true
+                tabs: 2
             }
         },
         methods: {
             handleTabsAdd () {
                 this.tabs ++;
-                this.activeTab = this.tabs + '';
             },
-            toFirst () {
-                this.activeTab = '1';
-            },
-            toLast () {
-                this.activeTab = this.tabs+'';
+            handleTabsMin () {
+                this.tabs --;
             }
         }
     }
 </script>
-
