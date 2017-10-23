@@ -49,11 +49,11 @@
         },
         methods: {
             handleClickItem (item) {
-                if (this.trigger !== 'click' && item.children) return;
+                if (this.trigger !== 'click' && item.children && item.children.length) return;  // #1922
                 this.handleTriggerItem(item, false, true);
             },
             handleHoverItem (item) {
-                if (this.trigger !== 'hover' || !item.children) return;
+                if (this.trigger !== 'hover' || !item.children || !item.children.length) return;  // #1922
                 this.handleTriggerItem(item, false, true);
             },
             handleTriggerItem (item, fromInit = false, fromUser = false) {

@@ -1,6 +1,6 @@
 <template>
     <div style="width: 200px;margin: 100px;">
-        <Cascader :data="data" v-model="value1"></Cascader>
+        <Cascader :data="data" v-model="value1" trigger="hover"></Cascader>
     </div>
 </template>
 <script>
@@ -11,20 +11,7 @@
                 data: [{
                     value: 'beijing',
                     label: '北京',
-                    children: [
-                        {
-                            value: 'gugong',
-                            label: '故宫'
-                        },
-                        {
-                            value: 'tiantan',
-                            label: '天坛'
-                        },
-                        {
-                            value: 'wangfujing',
-                            label: '王府井'
-                        }
-                    ]
+                    children: []
                 }, {
                     value: 'jiangsu',
                     label: '江苏',
