@@ -17,6 +17,12 @@
     cursor: pointer;
     //transition: all @transition-time @ease-in-out;
 
+    // for color and unchecked
+    &:not(&-border):not(&-dot):not(&-checked){
+        background: transparent;
+        border: 0;
+    }
+
     &-dot{
         height: 32px;
         line-height: 32px;
