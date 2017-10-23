@@ -1,8 +1,7 @@
 <template>
     <transition name="fade">
         <div :class="classes" @click.stop="check">
-            <span :class="dotClasses" v-if="showDot"></span><span :class="textClasses"><slot></slot></span>
-            <Icon v-if="closable" type="ios-close-empty" @click.native.stop="close"></Icon>
+            <span :class="dotClasses" v-if="showDot"></span><span :class="textClasses"><slot></slot></span><Icon v-if="closable" type="ios-close-empty" @click.native.stop="close"></Icon>
         </div>
     </transition>
 </template>
@@ -71,17 +70,20 @@
         },
         methods: {
             close (event) {
-                this._emitAction(event, 'on-close');
-            },
-            check (event) {
-                this.isChecked = !this.isChecked;
-                this._emitAction(event, 'on-check');
-            },
-            _emitAction (event, action) {
                 if (this.name === undefined) {
-                    this.$emit(action, event);
+                    this.$emit('on-close', event);
                 } else {
-                    this.$emit(action, event, this.name);
+                    this.$emit('on-close', event, this.name);
+                }
+            },
+            check () {
+                if (!this.checkable) return;
+                const checked = !this.isChecked;
+                this.isChecked = checked;
+                if (this.name === undefined) {
+                    this.$emit('on-change', checked);
+                } else {
+                    this.$emit('on-change', checked, this.name);
                 }
             }
         }
