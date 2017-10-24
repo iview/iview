@@ -44,13 +44,13 @@
         data () {
             return {
                 prefixCls: prefixCls,
-                stateTree: JSON.parse(JSON.stringify(this.data)),
+                stateTree: this.data,
                 flatState: [],
             };
         },
         watch: {
             data(){
-                this.stateTree = JSON.parse(JSON.stringify(this.data));
+                this.stateTree = this.data;
                 this.flatState = this.compileFlatState();
                 this.rebuildTree();
             }
@@ -109,7 +109,7 @@
                     this.updateTreeDown(node, {checked: true});
                     // propagate upwards
                     const parentKey = this.flatState[node.nodeKey].parent;
-                    if (!parentKey) return;
+                    if (!parentKey && parentKey !== 0) return;
                     const parent = this.flatState[parentKey].node;
                     const childHasCheckSetter = typeof node.checked != 'undefined' && node.checked;
                     if (childHasCheckSetter && parent.checked != node.checked) {
