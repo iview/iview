@@ -49,10 +49,13 @@
             };
         },
         watch: {
-            data(){
-                this.stateTree = this.data;
-                this.flatState = this.compileFlatState();
-                this.rebuildTree();
+            data: {
+                deep: true,
+                handler () {
+                    this.stateTree = this.data;
+                    this.flatState = this.compileFlatState();
+                    this.rebuildTree();
+                }
             }
         },
         computed: {

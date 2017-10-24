@@ -39,7 +39,8 @@
                                         render: (h) => {
                                             return h('Button', {
                                                 props: {
-                                                    type: 'primary'
+                                                    type: 'primary',
+                                                    size: 'small'
                                                 },
                                                 on: {
                                                     click: () => {
