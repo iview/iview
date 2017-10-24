@@ -16,8 +16,8 @@
                 <span v-else :class="titleClasses" v-html="data.title" @click="handleSelect"></span>
                 <Tree-node
                         v-if="data.expand"
-                        v-for="item in data.children"
-                        :key="item.nodeKey"
+                        v-for="(item, i) in data.children"
+                        :key="i"
                         :data="item"
                         :multiple="multiple"
                         :show-checkbox="showCheckbox">
@@ -60,6 +60,9 @@
             return {
                 prefixCls: prefixCls
             };
+        },
+        watch: {
+
         },
         computed: {
             classes () {
@@ -104,12 +107,15 @@
                 if (item.disabled) return;
 
                 // async loading
-                if (item.loading !== undefined && !item.children.length) {
+                if (item.children.length === 0) {
                     const tree = findComponentUpward(this, 'Tree');
                     if (tree && tree.loadData) {
-                        tree.loadData(item, () => {
-                            if (item.children.length) {
-                                this.handleExpand(item);
+                        this.$set(this.data, 'loading', true);
+                        tree.loadData(item, children => {
+                            this.$set(this.data, 'loading', false);
+                            if (children.length) {
+                                this.$set(this.data, 'children', children);
+                                this.$nextTick(() => this.handleExpand());
                             }
                         });
                         return;

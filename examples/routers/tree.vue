@@ -34,11 +34,11 @@
                                                     size: 'small'
                                                 },
                                                 on: {
-                                                    click: () => {
-                                                        this.cc();
+                                                    click: ({target}) => {
+                                                        this.logger(target.textContent);
                                                     }
                                                 }
-                                            }, '我是按钮')
+                                            }, 'I\'m a button!');
                                         }
                                     }
                                 ]
@@ -46,7 +46,7 @@
                         ]
                     }
                 ]
-            }
+            };
         },
         methods: {
             handleAdd () {
@@ -55,18 +55,20 @@
                         title: 'test name',
                         checked: true
                     }
-                )
+                );
             },
             handleUpdate () {
-                this.$set(this.baseData[0].children[0].children[1], 'checked', true);
+                const child = this.baseData[0].children[0].children[1];
+              //  console.log(JSON.stringify(this.baseData), '\n', JSON.stringify(child));
+                if (!child) return this.$Message.error('Node is async and is not loaded yet');
+                else this.$set(child, 'checked', true);
             },
-            cc () {
-                console.log(99)
+            logger (txt) {
+                console.log(txt);
             },
             loadData (item, callback) {
-                item.loading = true;
                 setTimeout(() => {
-                    item.children = [
+                    callback([
                         {
                             title: 'children-1',
                             loading: false,
@@ -77,11 +79,9 @@
                             loading: false,
                             children: []
                         }
-                    ];
-                    item.loading = false;
-                    callback();
+                    ]);
                 }, 2000);
             }
         }
-    }
+    };
 </script>
