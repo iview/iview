@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Tree :data="baseData" show-checkbox multiple></Tree>
+        <Tree :data="baseData" :load-data="loadData" show-checkbox multiple></Tree>
         <Button @click="handleAdd">add</Button>
         <Button @click="handleUpdate">update</Button>
     </div>
@@ -16,18 +16,9 @@
                         children: [
                             {
                                 title: 'parent 1-0',
-                                expand: true,
-                                disabled: true,
-                                children: [
-                                    {
-                                        title: 'leaf',
-                                        disableCheckbox: true
-                                    },
-                                    {
-                                        title: 'leaf',
-                                        checked: false
-                                    }
-                                ]
+                                expand: false,
+                                children: [],
+                                loading: false
                             },
                             {
                                 title: 'parent 1-1',
@@ -71,6 +62,25 @@
             },
             cc () {
                 console.log(99)
+            },
+            loadData (item, callback) {
+                item.loading = true;
+                setTimeout(() => {
+                    item.children = [
+                        {
+                            title: 'children-1',
+                            loading: false,
+                            children: []
+                        },
+                        {
+                            title: 'children-2',
+                            loading: false,
+                            children: []
+                        }
+                    ];
+                    item.loading = false;
+                    callback();
+                }, 2000);
             }
         }
     }

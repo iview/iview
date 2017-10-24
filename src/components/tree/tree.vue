@@ -39,6 +39,9 @@
             },
             emptyText: {
                 type: String
+            },
+            loadData: {
+                type: Function
             }
         },
         data () {
