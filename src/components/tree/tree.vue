@@ -1,8 +1,8 @@
 <template>
     <div :class="prefixCls">
         <Tree-node
-            v-for="item in stateTree"
-            :key="item.nodeKey"
+            v-for="(item, i) in stateTree"
+            :key="i"
             :data="item"
             visible
             :multiple="multiple"
