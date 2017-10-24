@@ -11,7 +11,8 @@
                         :indeterminate="data.indeterminate"
                         :disabled="data.disabled || data.disableCheckbox"
                         @click.native.prevent="handleCheck"></Checkbox>
-                <span :class="titleClasses" v-html="data.title" @click="handleSelect"></span>
+                <Render v-if="data.render" :render="data.render"></Render>
+                <span v-else :class="titleClasses" v-html="data.title" @click="handleSelect"></span>
                 <Tree-node
                         v-if="data.expand"
                         v-for="item in data.children"
@@ -27,6 +28,7 @@
 <script>
     import Checkbox from '../checkbox/checkbox.vue';
     import Icon from '../icon/icon.vue';
+    import Render from '../base/render';
     import CollapseTransition from '../base/collapse-transition';
     import Emitter from '../../mixins/emitter';
 
@@ -35,7 +37,7 @@
     export default {
         name: 'TreeNode',
         mixins: [ Emitter ],
-        components: { Checkbox, Icon, CollapseTransition },
+        components: { Checkbox, Icon, CollapseTransition, Render },
         props: {
             data: {
                 type: Object,

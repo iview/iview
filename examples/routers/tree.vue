@@ -13,7 +13,6 @@
                     {
                         expand: true,
                         title: 'parent 1',
-                        checked: true,
                         children: [
                             {
                                 title: 'parent 1-0',
@@ -26,16 +25,29 @@
                                     },
                                     {
                                         title: 'leaf',
+                                        checked: false
                                     }
                                 ]
                             },
                             {
                                 title: 'parent 1-1',
-                                expand: false,
+                                expand: true,
                                 checked: true,
                                 children: [
                                     {
                                         title: '<span style="color: red">leaf</span>',
+                                        render: (h) => {
+                                            return h('Button', {
+                                                props: {
+                                                    type: 'primary'
+                                                },
+                                                on: {
+                                                    click: () => {
+                                                        this.cc();
+                                                    }
+                                                }
+                                            }, '我是按钮')
+                                        }
                                     }
                                 ]
                             }
@@ -54,7 +66,10 @@
                 )
             },
             handleUpdate () {
-                this.$set(this.baseData[0].children[0], 'disabled', false);
+                this.$set(this.baseData[0].children[0].children[1], 'checked', true);
+            },
+            cc () {
+                console.log(99)
             }
         }
     }
