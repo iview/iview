@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Tree :data="baseData" show-checkbox></Tree>
+        <Tree :data="baseData" show-checkbox multiple></Tree>
         <Button @click="handleAdd">add</Button>
         <Button @click="handleUpdate">update</Button>
     </div>
@@ -13,6 +13,7 @@
                     {
                         expand: true,
                         title: 'parent 1',
+                        checked: true,
                         children: [
                             {
                                 title: 'parent 1-0',
@@ -30,7 +31,7 @@
                             },
                             {
                                 title: 'parent 1-1',
-                                expand: true,
+                                expand: false,
                                 checked: true,
                                 children: [
                                     {
