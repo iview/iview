@@ -147,9 +147,9 @@
             },
             handleSelect (nodeKey) {
                 const node = this.flatState[nodeKey].node;
-                if (!this.multiple){ // reset selected
+                if (!this.multiple){ // reset previously selected node
                     const currentSelectedKey = this.flatState.findIndex(obj => obj.node.selected);
-                    if (currentSelectedKey >= 0) this.$set(this.flatState[currentSelectedKey].node, 'selected', false);
+                    if (currentSelectedKey >= 0 && currentSelectedKey !== nodeKey) this.$set(this.flatState[currentSelectedKey].node, 'selected', false);
                 }
                 this.$set(node, 'selected', !node.selected);
 
