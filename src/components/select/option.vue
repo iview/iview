@@ -66,7 +66,7 @@
             },
             // 在使用函数防抖后，设置 key 后，不更新组件了，导致SearchLabel 不更新 #1865
             updateSearchLabel () {
-                this.searchLabel = this.$el.innerHTML;
+                this.searchLabel = this.$el.textContent;
             }
         },
         mounted () {

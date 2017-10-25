@@ -77,6 +77,27 @@ describe('Select.vue', () => {
       });
     });
 
+    it('should display normal characters in input when in filterable mode', done => {
+      vm = createVue({
+        template: `
+          <Select v-model="value" filterable>
+            <Option v-for="item in options" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
+        `,
+        data() {
+          return {
+            value: 2,
+            options: [{value: 1, label: '> 100$'}, {value: 2, label: '< 100$'}]
+          };
+        }
+      });
+      vm.$nextTick(() => {
+        const input = vm.$el.querySelector('.ivu-select-input');
+        expect(input.value).to.equal('< 100$');
+        done();
+      });
+    });
+
     it('should use the value\'s label instead of placeholder when both are set', done => {
       vm = createVue({
         template: `
