@@ -42,6 +42,9 @@
             },
             loadData: {
                 type: Function
+            },
+            render: {
+                type: Function
             }
         },
         data () {

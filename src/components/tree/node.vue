@@ -12,8 +12,9 @@
                         :indeterminate="data.indeterminate"
                         :disabled="data.disabled || data.disableCheckbox"
                         @click.native.prevent="handleCheck"></Checkbox>
-                <Render v-if="data.render" :render="data.render"></Render>
-                <span v-else :class="titleClasses" v-html="data.title" @click="handleSelect"></span>
+                <Render v-if="data.render" :render="data.render" :node="data"></Render>
+                <Render v-else-if="isParentRender" :render="parentRender" :node="data"></Render>
+                <span v-else :class="titleClasses" @click="handleSelect">{{ data.title }}</span>
                 <Tree-node
                         v-if="data.expand"
                         v-for="(item, i) in data.children"
@@ -29,7 +30,7 @@
 <script>
     import Checkbox from '../checkbox/checkbox.vue';
     import Icon from '../icon/icon.vue';
-    import Render from '../base/render';
+    import Render from './render';
     import CollapseTransition from '../base/collapse-transition';
     import Emitter from '../../mixins/emitter';
     import { findComponentUpward } from '../../utils/assist';
@@ -60,9 +61,6 @@
             return {
                 prefixCls: prefixCls
             };
-        },
-        watch: {
-
         },
         computed: {
             classes () {
@@ -99,6 +97,18 @@
             },
             showLoading () {
                 return 'loading' in this.data && this.data.loading;
+            },
+            isParentRender () {
+                const Tree = findComponentUpward(this, 'Tree');
+                return Tree && Tree.render;
+            },
+            parentRender () {
+                const Tree = findComponentUpward(this, 'Tree');
+                if (Tree && Tree.render) {
+                    return Tree.render;
+                } else {
+                    return null;
+                }
             }
         },
         methods: {
