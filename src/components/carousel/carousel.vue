@@ -112,11 +112,6 @@
                     `${prefixCls}`
                 ];
             },
-            listStyle () {
-                return {
-                    width: `${this.trackWidth * 2}px`,
-                };
-            },
             trackStyles () {
                 return {
                     width: `${this.trackWidth}px`,
@@ -251,7 +246,7 @@
                 let index =  this.showCopyTrack ? this.copyTrackIndex : this.trackIndex;
                 index += offset;
                 while (index < 0) index += slidesLen;
-                if (((offset > 0 && index === slidesLen) || offset < 0 && index === slidesLen - 1) && this.loop) {
+                if (((offset > 0 && index === slidesLen) || (offset < 0 && index === slidesLen - 1)) && this.loop) {
                     // 极限值（左滑：当前索引为总图片张数， 右滑：当前索引为总图片张数 - 1）切换轨道
                     this.showCopyTrack = !this.showCopyTrack;
                     this.trackIndex += offset;
