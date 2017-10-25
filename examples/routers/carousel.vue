@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Carousel v-model="v1" dots="inside" trigger="hover" autoplay loop radius-dot>
+        <Carousel v-model="v1" dots="inside" trigger="hover" autoplay loop radius-dot easing="fade">
             <Carousel-item>
                 <div class="demo-carousel">1</div>
             </Carousel-item>
