@@ -146,14 +146,14 @@
             }
         },
         methods: {
-            renderContent (h, { node }) {
+            renderContent (h, { data, node }) {
                 return h('span', {
                     style: {
                         display: 'inline-block',
                         width: '100%'
                     }
                 }, [
-                    h('span', node.title),
+                    h('span', data.title),
                     h('span', {
                         style: {
                             display: 'inline-block',
@@ -169,7 +169,7 @@
                                 marginRight: '8px'
                             },
                             on: {
-                                click: () => { this.append(node) }
+                                click: () => { this.append(node, data) }
                             }
                         }),
                         h('Button', {
@@ -177,21 +177,22 @@
                                 icon: 'ios-minus-empty'
                             }),
                             on: {
-                                click: () => { this.remove(node) }
+                                click: () => { this.remove(node, data) }
                             }
                         })
                     ])
                 ]);
             },
-            append (node) {
-                this.$set(node, 'children', [{
+            append (node, data) {
+                this.$set(data, 'children', [{
                     title: 'appended node',
                     expand: true
                 }]);
             },
-            remove (node) {
+            remove (node, data) {
                 const parent = node.parent;
                 console.log(node);
+                console.log(data);
             }
         }
     }
