@@ -146,7 +146,7 @@
             }
         },
         methods: {
-            renderContent (h, { data, node }) {
+            renderContent (h, { data, node, root }) {
                 return h('span', {
                     style: {
                         display: 'inline-block',
@@ -169,7 +169,7 @@
                                 marginRight: '8px'
                             },
                             on: {
-                                click: () => { this.append(node, data) }
+                                click: () => { this.append(data) }
                             }
                         }),
                         h('Button', {
@@ -177,22 +177,23 @@
                                 icon: 'ios-minus-empty'
                             }),
                             on: {
-                                click: () => { this.remove(node, data) }
+                                click: () => { this.remove(node, data, root) }
                             }
                         })
                     ])
                 ]);
             },
-            append (node, data) {
+            append (data) {
                 this.$set(data, 'children', [{
                     title: 'appended node',
                     expand: true
                 }]);
             },
-            remove (node, data) {
-                const parent = node.parent;
-                console.log(node);
-                console.log(data);
+            remove (node, data, root) {
+                const parentKey = root.find(el => el === node).parent;
+                const parent = root.find(el => el.nodeKey === parentKey).node;
+                const index = parent.children.indexOf(data);
+                parent.children.splice(index, 1);
             }
         }
     }
