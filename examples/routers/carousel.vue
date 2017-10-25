@@ -1,10 +1,8 @@
 <template>
     <div>
-        <Carousel v-model="v1" dots="inside" trigger="hover">
+        <Carousel v-model="v1" dots="inside" trigger="hover" autoplay loop radius-dot>
             <Carousel-item>
-                <Card>
-                    <div class="demo-carousel">1</div>
-                </Card>
+                <div class="demo-carousel">1</div>
             </Carousel-item>
             <Carousel-item>
                 <div class="demo-carousel">2</div>
@@ -24,8 +22,8 @@
     export default {
         data () {
             return {
-                v1: 1
-            }
+                v1: 0
+            };
         },
         methods: {
             push () {
