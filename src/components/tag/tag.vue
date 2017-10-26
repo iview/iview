@@ -51,7 +51,7 @@
                 return [
                     `${prefixCls}`,
                     {
-                        [`${prefixCls}-${this.color}`]: !!this.color && (this.checkable && this.isChecked),
+                        [`${prefixCls}-${this.color}`]: !!this.color,
                         [`${prefixCls}-${this.type}`]: !!this.type,
                         [`${prefixCls}-closable`]: this.closable,
                         [`${prefixCls}-checked`]: this.isChecked
