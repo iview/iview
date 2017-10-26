@@ -345,6 +345,7 @@
                         this.tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
                     }
                     this.columnsWidth = {};
+                    if (!this.$refs.tbody) return;
                     this.$nextTick(() => {
                         let columnsWidth = {};
                         let autoWidthIndex = -1;
