@@ -128,7 +128,6 @@
             },
 
             onCallback(dir) {
-                console.log('onCallback', dir);
                 this.isLoading = true;
                 this.showBodyLoader = true;
                 if (dir > 0) {
