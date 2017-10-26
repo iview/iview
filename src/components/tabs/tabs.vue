@@ -155,6 +155,7 @@
             updateBar () {
                 this.$nextTick(() => {
                     const index = this.navList.findIndex((nav) => nav.name === this.activeKey);
+                    if (!this.$refs.nav) return;  // 页面销毁时，这里会报错，为了解决 #2100
                     const prevTabs = this.$refs.nav.querySelectorAll(`.${prefixCls}-tab`);
                     const tab = prevTabs[index];
                     this.barWidth = tab ? parseFloat(tab.offsetWidth) : 0;
