@@ -85,6 +85,11 @@
                     }
                 }
             }
+        },
+        mounted () {
+            if (this.always) {
+                this.updatePopper();
+            }
         }
     };
 </script>

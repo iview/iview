@@ -180,6 +180,22 @@ const router = new VueRouter({
         {
             path: '/notice',
             component: require('./routers/notice.vue')
+        },
+        {
+            path: '/avatar',
+            component: require('./routers/avatar.vue')
+        },
+        {
+            path: '/color-picker',
+            component: require('./routers/color-picker.vue')
+        },
+        {
+            path: '/auto-complete',
+            component: require('./routers/auto-complete.vue')
+        },
+        {
+            path: '/scroll',
+            component: require('./routers/scroll.vue')
         }
     ]
 });

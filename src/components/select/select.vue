@@ -1,32 +1,43 @@
 <template>
     <div :class="classes" v-clickoutside="handleClose">
         <div
-            :class="[prefixCls + '-selection']"
+            :class="selectionCls"
             ref="reference"
             @click="toggleMenu">
-            <div class="ivu-tag" v-for="(item, index) in selectedMultiple">
-                <span class="ivu-tag-text">{{ item.label }}</span>
-                <Icon type="ios-close-empty" @click.native.stop="removeTag(index)"></Icon>
-            </div>
-            <span :class="[prefixCls + '-placeholder']" v-show="showPlaceholder && !filterable">{{ localePlaceholder }}</span>
-            <span :class="[prefixCls + '-selected-value']" v-show="!showPlaceholder && !multiple && !filterable">{{ selectedSingle }}</span>
-            <input
-                type="text"
-                v-if="filterable"
-                v-model="query"
-                :class="[prefixCls + '-input']"
-                :placeholder="showPlaceholder ? localePlaceholder : ''"
-                :style="inputStyle"
-                @blur="handleBlur"
-                @keydown="resetInputState"
-                @keydown.delete="handleInputDelete"
-                ref="input">
-            <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSingleSelect"></Icon>
-            <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']" v-if="!remote"></Icon>
+            <slot name="input">
+                <input type="hidden" :name="name" :value="model">
+                <div class="ivu-tag ivu-tag-checked" v-for="(item, index) in selectedMultiple">
+                    <span class="ivu-tag-text">{{ item.label }}</span>
+                    <Icon type="ios-close-empty" @click.native.stop="removeTag(index)"></Icon>
+                </div>
+                <span :class="[prefixCls + '-placeholder']" v-show="showPlaceholder && !filterable">{{ localePlaceholder }}</span>
+                <span :class="[prefixCls + '-selected-value']" v-show="!showPlaceholder && !multiple && !filterable">{{ selectedSingle }}</span>
+                <input
+                    :id="elementId"
+                    type="text"
+                    v-if="filterable"
+                    v-model="query"
+                    :disabled="disabled"
+                    :class="[prefixCls + '-input']"
+                    :placeholder="showPlaceholder ? localePlaceholder : ''"
+                    :style="inputStyle"
+                    @blur="handleBlur"
+                    @keydown="resetInputState"
+                    @keydown.delete="handleInputDelete"
+                    ref="input">
+                <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSingleSelect"></Icon>
+                <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']" v-if="!remote"></Icon>
+            </slot>
         </div>
         <transition :name="transitionName">
-            <Drop v-show="dropVisible" :placement="placement" ref="dropdown">
-                <ul v-show="notFountShow" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
+            <Drop
+                :class="dropdownCls"
+                v-show="dropVisible"
+                :placement="placement"
+                ref="dropdown"
+                :data-transfer="transfer"
+                v-transfer-dom>
+                <ul v-show="notFoundShow" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
                 <ul v-show="(!notFound && !remote) || (remote && !loading && !notFound)" :class="[prefixCls + '-dropdown-list']"><slot></slot></ul>
                 <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
             </Drop>
@@ -37,9 +48,11 @@
     import Icon from '../icon';
     import Drop from './dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
+    import TransferDom from '../../directives/transfer-dom';
     import { oneOf, findComponentDownward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     import Locale from '../../mixins/locale';
+    import {debounce} from './utils';
 
     const prefixCls = 'ivu-select';
 
@@ -47,7 +60,7 @@
         name: 'iSelect',
         mixins: [ Emitter, Locale ],
         components: { Icon, Drop },
-        directives: { clickoutside },
+        directives: { clickoutside, TransferDom },
         props: {
             value: {
                 type: [String, Number, Array],
@@ -111,6 +124,21 @@
                     return oneOf(value, ['top', 'bottom']);
                 },
                 default: 'bottom'
+            },
+            transfer: {
+                type: Boolean,
+                default: false
+            },
+            // Use for AutoComplete
+            autoComplete: {
+                type: Boolean,
+                default: false
+            },
+            name: {
+                type: String
+            },
+            elementId: {
+                type: String
             }
         },
         data () {
@@ -145,6 +173,18 @@
                         [`${prefixCls}-${this.size}`]: !!this.size
                     }
                 ];
+            },
+            dropdownCls () {
+                return {
+                    [prefixCls + '-dropdown-transfer']: this.transfer,
+                    [prefixCls + '-multiple']: this.multiple && this.transfer,
+                    ['ivu-auto-complete']: this.autoComplete,
+                };
+            },
+            selectionCls () {
+                return {
+                    [`${prefixCls}-selection`]: !this.autoComplete
+                };
             },
             showPlaceholder () {
                 let status = false;
@@ -207,16 +247,19 @@
                 let status = true;
                 const options = this.$slots.default || [];
                 if (!this.loading && this.remote && this.query === '' && !options.length) status = false;
+
+                if (this.autoComplete && !options.length) status = false;
+
                 return this.visible && status;
             },
-            notFountShow () {
+            notFoundShow () {
                 const options = this.$slots.default || [];
                 return (this.notFound && !this.remote) || (this.remote && !this.loading && !options.length);
             }
         },
         methods: {
             toggleMenu () {
-                if (this.disabled) {
+                if (this.disabled || this.autoComplete) {
                     return false;
                 }
                 this.visible = !this.visible;
@@ -250,29 +293,25 @@
                     });
                 }
             },
-            updateOptions (init, slot = false) {
+            updateOptions (slot = false) {
                 let options = [];
                 let index = 1;
 
                 this.findChild((child) => {
                     options.push({
                         value: child.value,
-                        label: (child.label === undefined) ? child.$el.innerHTML : child.label
+                        label: (child.label === undefined) ? child.$el.textContent : child.label
                     });
                     child.index = index++;
 
-                    if (init) {
-                        this.optionInstances.push(child);
-                    }
+                    this.optionInstances.push(child);
                 });
 
                 this.options = options;
 
-                if (init) {
-                    if (!this.remote) {
-                        this.updateSingleSelected(true, slot);
-                        this.updateMultipleSelected(true, slot);
-                    }
+                if (!this.remote) {
+                    this.updateSingleSelected(true, slot);
+                    this.updateMultipleSelected(true, slot);
                 }
             },
             updateSingleSelected (init = false, slot = false) {
@@ -330,6 +369,7 @@
 
                     const selectedArray = [];
                     const selectedObject = {};
+
                     selected.forEach(item => {
                         if (!selectedObject[item.value]) {
                             selectedArray.push(item);
@@ -337,7 +377,8 @@
                         }
                     });
 
-                    this.selectedMultiple = this.remote ? selectedArray : selected;
+                    // #2066
+                    this.selectedMultiple = this.remote ? this.model.length ? selectedArray : [] : selected;
 
                     if (slot) {
                         let selectedModel = [];
@@ -525,6 +566,7 @@
             },
             handleBlur () {
                 setTimeout(() => {
+                    if (this.autoComplete) return;
                     const model = this.model;
 
                     if (this.multiple) {
@@ -588,6 +630,21 @@
                     this.broadcast('iOption', 'on-query-change', val);
                 }
             },
+            debouncedAppendRemove(){
+                return debounce(function(){
+                    if (!this.remote) {
+                        this.modelToQuery();
+                        this.$nextTick(() => this.broadcastQuery(''));
+                    } else {
+                        this.findChild((child) => {
+                            child.updateSearchLabel();   // #1865
+                            child.selected = this.multiple ? this.model.indexOf(child.value) > -1 : this.model === child.value;
+                        });
+                    }
+                    this.slotChange();
+                    this.updateOptions(true);
+                });
+            },
             // 处理 remote 初始值
             updateLabel () {
                 if (this.remote) {
@@ -604,6 +661,8 @@
                                 label: this.currentLabel[index]
                             };
                         });
+                    } else if (this.multiple && !this.model.length) {
+                        this.selectedMultiple = [];
                     }
                 }
             }
@@ -616,40 +675,15 @@
                 this.broadcastQuery('');
             });
 
-            this.updateOptions(true);
+            this.updateOptions();
             document.addEventListener('keydown', this.handleKeydown);
 
-            this.$on('append', () => {
-                if (!this.remote) {
-                    this.modelToQuery();
-                    this.$nextTick(() => {
-                        this.broadcastQuery('');
-                    });
-                } else {
-                    this.findChild(child => {
-                        child.selected = this.multiple ? this.model.indexOf(child.value) > -1 : this.model === child.value;
-                    });
-                }
-                this.slotChange();
-                this.updateOptions(true, true);
-            });
-            this.$on('remove', () => {
-                if (!this.remote) {
-                    this.modelToQuery();
-                    this.$nextTick(() => {
-                        this.broadcastQuery('');
-                    });
-                } else {
-                    this.findChild(child => {
-                        child.selected = this.multiple ? this.model.indexOf(child.value) > -1 : this.model === child.value;
-                    });
-                }
-                this.slotChange();
-                this.updateOptions(true, true);
-            });
+            this.$on('append', this.debouncedAppendRemove());
+            this.$on('remove', this.debouncedAppendRemove());
 
             this.$on('on-select-selected', (value) => {
                 if (this.model === value) {
+                    if (this.autoComplete) this.$emit('on-change', value);
                     this.hideMenu();
                 } else {
                     if (this.multiple) {
@@ -719,7 +753,7 @@
                         if (this.multiple) {
                             this.$refs.input.focus();
                         } else {
-                            this.$refs.input.select();
+                            if (!this.autoComplete) this.$refs.input.select();
                         }
                         if (this.remote) {
                             this.findChild(child => {
@@ -735,7 +769,7 @@
                     this.broadcast('Drop', 'on-update-popper');
                 } else {
                     if (this.filterable) {
-                        this.$refs.input.blur();
+                        if (!this.autoComplete) this.$refs.input.blur();
                         // #566 reset options visible
                         setTimeout(() => {
                             this.broadcastQuery('');

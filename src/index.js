@@ -1,8 +1,11 @@
 // es6 polyfill
+import 'core-js/fn/array/find';
 import 'core-js/fn/array/find-index';
 
 import Affix from './components/affix';
 import Alert from './components/alert';
+import AutoComplete from './components/auto-complete';
+import Avatar from './components/avatar';
 import BackTop from './components/back-top';
 import Badge from './components/badge';
 import Breadcrumb from './components/breadcrumb';
@@ -13,12 +16,14 @@ import Cascader from './components/cascader';
 import Checkbox from './components/checkbox';
 import Circle from './components/circle';
 import Collapse from './components/collapse';
+import ColorPicker from './components/color-picker';
 import DatePicker from './components/date-picker';
 import Dropdown from './components/dropdown';
 import Form from './components/form';
 import Icon from './components/icon';
 import Input from './components/input';
 import InputNumber from './components/input-number';
+import Scroll from './components/scroll';
 import LoadingBar from './components/loading-bar';
 import Menu from './components/menu';
 import Message from './components/message';
@@ -42,13 +47,15 @@ import Tooltip from './components/tooltip';
 import Transfer from './components/transfer';
 import Tree from './components/tree';
 import Upload from './components/upload';
-import { Row, Col } from './components/grid';
-import { Select, Option, OptionGroup } from './components/select';
+import {Row, Col} from './components/grid';
+import {Select, Option, OptionGroup} from './components/select';
 import locale from './locale';
 
 const iview = {
     Affix,
     Alert,
+    AutoComplete,
+    Avatar,
     BackTop,
     Badge,
     Breadcrumb,
@@ -63,6 +70,10 @@ const iview = {
     Checkbox,
     CheckboxGroup: Checkbox.Group,
     iCircle: Circle,
+    Col,
+    iCol: Col,
+    Collapse,
+    ColorPicker,
     DatePicker,
     Dropdown,
     DropdownItem: Dropdown.Item,
@@ -70,13 +81,11 @@ const iview = {
     Form,
     iForm: Form,
     FormItem: Form.Item,
-    Col,
-    iCol: Col,
-    Collapse,
     Icon,
     Input,
     iInput: Input,
     InputNumber,
+    Scroll,
     LoadingBar,
     Menu,
     iMenu: Menu,
@@ -104,7 +113,7 @@ const iview = {
     Spin,
     Step: Steps.Step,
     Steps,
-    // Switch,
+	// Switch,
     iSwitch: Switch,
     iTable: Table,
     Table,
@@ -120,11 +129,11 @@ const iview = {
     Upload
 };
 
-const install = function (Vue, opts = {}) {
+const install = function(Vue, opts = {}) {
     locale.use(opts.locale);
     locale.i18n(opts.i18n);
 
-    Object.keys(iview).forEach((key) => {
+    Object.keys(iview).forEach(key => {
         Vue.component(key, iview[key]);
     });
 
@@ -132,6 +141,7 @@ const install = function (Vue, opts = {}) {
     Vue.prototype.$Message = Message;
     Vue.prototype.$Modal = Modal;
     Vue.prototype.$Notice = Notice;
+    Vue.prototype.$Spin = Spin;
 };
 
 // auto install
@@ -139,4 +149,4 @@ if (typeof window !== 'undefined' && window.Vue) {
     install(window.Vue);
 }
 
-module.exports = Object.assign(iview, {install});   // eslint-disable-line no-undef
+module.exports = Object.assign(iview, {install}); // eslint-disable-line no-undef

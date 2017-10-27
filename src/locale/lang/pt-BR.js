@@ -1,5 +1,6 @@
 export default {
     i: {
+        locale: 'pt-BR',
         select: {
             placeholder: 'Selecionar',
             noMatch: 'Não encontrado',
@@ -19,6 +20,7 @@ export default {
             endTime: 'Hora final',
             clear: 'Limpar',
             ok: 'Confirmar',
+            datePanelLabel: '[mmmm] de [yyyy]',
             month: 'Mês',
             month1: 'Janeiro',
             month2: 'Fevereiro',
@@ -33,6 +35,7 @@ export default {
             month11: 'Novembro',
             month12: 'Dezembro',
             year: 'Ano',
+            weekStartDay: '0',
             weeks: {
                 sun: 'Dom',
                 mon: 'Seg',

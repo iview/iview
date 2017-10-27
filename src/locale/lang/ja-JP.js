@@ -1,5 +1,6 @@
 export default {
     i: {
+        locale: 'ja-JP',
         select: {
             placeholder: '選んでください',
             noMatch: 'マッチするデータなし',
@@ -19,6 +20,7 @@ export default {
             endTime: '終了時間',
             clear: 'クリーア',
             ok: '確定',
+            datePanelLabel: '[yyyy年] [m月]',
             month: '月',
             month1: '1 月',
             month2: '2 月',
@@ -33,6 +35,7 @@ export default {
             month11: '11 月',
             month12: '12 月',
             year: '年',
+            weekStartDay: '0',
             weeks: {
                 sun: '日',
                 mon: '月',

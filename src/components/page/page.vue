@@ -135,6 +135,12 @@
             };
         },
         watch: {
+            total (val) {
+                let maxPage = Math.ceil(val / this.currentPageSize);
+                if (maxPage < this.currentPage && maxPage > 0) {
+                    this.currentPage = maxPage;
+                }
+            },
             current (val) {
                 this.currentPage = val;
             },
@@ -208,6 +214,7 @@
             changePage (page) {
                 if (this.currentPage != page) {
                     this.currentPage = page;
+                    this.$emit('update:current', page);
                     this.$emit('on-change', page);
                 }
             },

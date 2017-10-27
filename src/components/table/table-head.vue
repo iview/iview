@@ -7,7 +7,10 @@
             <tr>
                 <th v-for="(column, index) in columns" :class="alignCls(column)">
                     <div :class="cellClasses(column)">
-                        <template v-if="column.type === 'expand'"></template>
+                        <template v-if="column.type === 'expand'">
+                            <span v-if="!column.renderHeader">{{ column.title || '' }}</span>
+                            <render-header v-else :render="column.renderHeader" :column="column" :index="index"></render-header>
+                        </template>
                         <template v-else-if="column.type === 'selection'"><Checkbox :value="isSelectAll" @on-change="selectAll"></Checkbox></template>
                         <template v-else>
                             <span v-if="!column.renderHeader" @click="handleSortByHead(index)">{{ column.title || '#' }}</span>
@@ -89,6 +92,7 @@
             isSelectAll () {
                 let isSelectAll = true;
                 if (!this.data.length) isSelectAll = false;
+                if (!this.data.find(item => !item._disabled)) isSelectAll = false;    // #1751
                 for (let i = 0; i < this.data.length; i++) {
                     if (!this.objData[this.data[i]._index]._isChecked && !this.objData[this.data[i]._index]._isDisabled) {
                         isSelectAll = false;

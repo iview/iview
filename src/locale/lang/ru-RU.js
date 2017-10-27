@@ -1,5 +1,6 @@
 export default {
     i: {
+        locale: 'ru-RU',
         select: {
             placeholder: 'Выбрать',
             noMatch: 'Нет соответствующих данных',
@@ -19,6 +20,7 @@ export default {
             endTime: 'Конечное время',
             clear: 'Очистить',
             ok: 'OK',
+            datePanelLabel: '[Mmmm] [yyyy]',
             month: '',
             month1: 'Январь',
             month2: 'Февраль',
@@ -33,6 +35,7 @@ export default {
             month11: 'Ноябрь',
             month12: 'Декабрь',
             year: '',
+            weekStartDay: '1',
             weeks: {
                 sun: 'Вс',
                 mon: 'Пн',

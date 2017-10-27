@@ -38,7 +38,10 @@
     }
     &-arrow{
         cursor: pointer;
-        i{
+        width: 12px;
+        text-align: center;
+        display: inline-block;
+        i {
             transition: all @transition-time @ease-in-out;
         }
         &-open{
@@ -46,12 +49,12 @@
                 transform: rotate(90deg);
             }
         }
-        &-hidden{
-            cursor: auto;
-            i{
-                display: none;
-            }
-        }
+        //&-hidden{
+        //    cursor: auto;
+        //    i{
+        //        display: none;
+        //    }
+        //}
         &-disabled{
             cursor: @cursor-disabled;
         }

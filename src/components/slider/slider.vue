@@ -9,6 +9,7 @@
             :disabled="disabled"
             @on-change="handleInputChange"></Input-number>
         <div :class="[prefixCls + '-wrap']" ref="slider" @click.self="sliderClick">
+            <input type="hidden" :name="name" :value="currentValue">
             <template v-if="showStops">
                 <div :class="[prefixCls + '-stop']" v-for="item in stops" :style="{ 'left': item + '%' }" @click.self="sliderClick"></div>
             </template>
@@ -102,6 +103,9 @@
                 validator (value) {
                     return oneOf(value, ['hover', 'always', 'never']);
                 }
+            },
+            name: {
+                type: String
             }
         },
         data () {
@@ -285,11 +289,12 @@
                 on(window, 'mouseup', this.onSingleDragEnd);
             },
             onSingleDragStart (event) {
-                this.dragging = true;
+                this.dragging = false;
                 this.startX = event.clientX;
                 this.startPos = parseInt(this.singlePosition, 10);
             },
             onSingleDragging (event) {
+                this.dragging = true;
                 if (this.dragging) {
                     this.$refs.tooltip.visible = true;
                     this.currentX = event.clientX;
@@ -305,9 +310,9 @@
                     this.changeSinglePosition(this.newPos);
 //                    window.removeEventListener('mousemove', this.onSingleDragging);
 //                    window.removeEventListener('mouseup', this.onSingleDragEnd);
-                    off(window, 'mousemove', this.onSingleDragging);
-                    off(window, 'mouseup', this.onSingleDragEnd);
                 }
+                off(window, 'mousemove', this.onSingleDragging);
+                off(window, 'mouseup', this.onSingleDragEnd);
             },
             changeSinglePosition (newPos) {
                 if (newPos < 0) {
@@ -348,11 +353,12 @@
                 on(window, 'mouseup', this.onFirstDragEnd);
             },
             onFirstDragStart (event) {
-                this.firstDragging = true;
+                this.firstDragging = false;
                 this.startX = event.clientX;
                 this.startPos = parseInt(this.firstPosition, 10);
             },
             onFirstDragging (event) {
+                this.firstDragging = true;
                 if (this.firstDragging) {
                     this.$refs.tooltip.visible = true;
                     this.currentX = event.clientX;
@@ -368,9 +374,9 @@
                     this.changeFirstPosition(this.newPos);
 //                    window.removeEventListener('mousemove', this.onFirstDragging);
 //                    window.removeEventListener('mouseup', this.onFirstDragEnd);
-                    off(window, 'mousemove', this.onFirstDragging);
-                    off(window, 'mouseup', this.onFirstDragEnd);
                 }
+                off(window, 'mousemove', this.onFirstDragging);
+                off(window, 'mouseup', this.onFirstDragEnd);
             },
             changeFirstPosition (newPos) {
                 if (newPos < 0) {
@@ -405,11 +411,12 @@
                 on(window, 'mouseup', this.onSecondDragEnd);
             },
             onSecondDragStart (event) {
-                this.secondDragging = true;
+                this.secondDragging = false;
                 this.startX = event.clientX;
                 this.startPos = parseInt(this.secondPosition, 10);
             },
             onSecondDragging (event) {
+                this.secondDragging = true;
                 if (this.secondDragging) {
                     this.$refs.tooltip2.visible = true;
                     this.currentX = event.clientX;
@@ -425,9 +432,9 @@
                     this.changeSecondPosition(this.newPos);
 //                    window.removeEventListener('mousemove', this.onSecondDragging);
 //                    window.removeEventListener('mouseup', this.onSecondDragEnd);
-                    off(window, 'mousemove', this.onSecondDragging);
-                    off(window, 'mouseup', this.onSecondDragEnd);
                 }
+                off(window, 'mousemove', this.onSecondDragging);
+                off(window, 'mouseup', this.onSecondDragEnd);
             },
             changeSecondPosition (newPos) {
                 if (newPos > 100) {

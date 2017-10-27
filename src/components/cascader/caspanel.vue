@@ -15,7 +15,7 @@
 <script>
     import Casitem from './casitem.vue';
     import Emitter from '../../mixins/emitter';
-    import { findComponentUpward } from '../../utils/assist';
+    import { findComponentUpward, findComponentDownward } from '../../utils/assist';
 
     let key = 1;
 
@@ -49,11 +49,11 @@
         },
         methods: {
             handleClickItem (item) {
-                if (this.trigger !== 'click' && item.children) return;
+                if (this.trigger !== 'click' && item.children && item.children.length) return;  // #1922
                 this.handleTriggerItem(item, false, true);
             },
             handleHoverItem (item) {
-                if (this.trigger !== 'hover' || !item.children) return;
+                if (this.trigger !== 'hover' || !item.children || !item.children.length) return;  // #1922
                 this.handleTriggerItem(item, false, true);
             },
             handleTriggerItem (item, fromInit = false, fromUser = false) {
@@ -67,7 +67,9 @@
                             if (fromUser) {
                                 cascader.isLoadedChildren = true;
                             }
-                            this.handleTriggerItem(item);
+                            if (item.children.length) {
+                                this.handleTriggerItem(item);
+                            }
                         });
                         return;
                     }
@@ -84,6 +86,14 @@
                         changeOnSelect: this.changeOnSelect,
                         fromInit: fromInit
                     });
+
+                    // #1553
+                    if (this.changeOnSelect) {
+                        const Caspanel = findComponentDownward(this, 'Caspanel');
+                        if (Caspanel) {
+                            Caspanel.$emit('on-clear', true);
+                        }
+                    }
                 } else {
                     this.sublist = [];
                     this.dispatch('Cascader', 'on-result-change', {
@@ -135,9 +145,16 @@
                     }
                 }
             });
-            this.$on('on-clear', () => {
+            // deep for #1553
+            this.$on('on-clear', (deep = false) => {
                 this.sublist = [];
                 this.tmpItem = {};
+                if (deep) {
+                    const Caspanel = findComponentDownward(this, 'Caspanel');
+                    if (Caspanel) {
+                        Caspanel.$emit('on-clear', true);
+                    }
+                }
             });
         }
     };

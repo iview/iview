@@ -28,19 +28,28 @@
     &-fix {
         position: absolute;
         top: 0;
-        bottom: 0;
         left: 0;
-        right: 0;
         z-index: @zindex-spin;
-        display: table;
         .square(100%);
-        background-color: #fff;
+        background-color: rgba(255,255,255,.9);
+    }
+    &-fullscreen{
+        z-index: @zindex-spin-fullscreen;
+        &-wrapper{
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
     }
 
     &-fix &-main {
-        display: table-cell;
-        vertical-align: middle;
-        .square(inherit);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
     }
 
     &-fix &-dot {
@@ -54,6 +63,15 @@
 
     &-show-text &-text {
         display: block;
+    }
+}
+
+// use in Table loading, Table right border is not included in .ivu-table-wrapper, so fix it
+.@{table-prefix-cls}-wrapper{
+    > .@{spin-prefix-cls}-fix{
+        border: 1px solid @border-color-base;
+        border-top: 0;
+        border-left: 0;
     }
 }
 

@@ -27,6 +27,15 @@
         mounted () {
             this.$parent.slotChange();
         },
+        watch: {
+            width (val) {
+                if (val && this.$parent.loop) {
+                    this.$nextTick(() => {
+                        this.$parent.initCopyTrackDom();
+                    });
+                }
+            }
+        },
         beforeDestroy () {
             this.$parent.slotChange();
         }

@@ -55,6 +55,7 @@ export default {
         visible(val) {
             if (val) {
                 this.updatePopper();
+                this.$emit('on-popper-show');
             } else {
                 this.destroyPopper();
                 this.$emit('on-popper-hide');

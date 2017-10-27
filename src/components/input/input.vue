@@ -7,6 +7,8 @@
                 <i class="ivu-icon ivu-icon-load-c ivu-load-loop" :class="[prefixCls + '-icon', prefixCls + '-icon-validate']" v-if="!icon"></i>
             </transition>
             <input
+                :id="elementId"
+                :autocomplete="autocomplete"
                 ref="input"
                 :type="type"
                 :class="inputClasses"
@@ -30,6 +32,8 @@
         </template>
         <textarea
             v-else
+            :id="elementId"
+            :autocomplete="autocomplete"
             ref="textarea"
             :class="textareaClasses"
             :style="textareaStyles"
@@ -74,7 +78,7 @@
             },
             size: {
                 validator (value) {
-                    return oneOf(value, ['small', 'large']);
+                    return oneOf(value, ['small', 'large', 'default']);
                 }
             },
             placeholder: {
@@ -111,6 +115,15 @@
             autofocus: {
                 type: Boolean,
                 default: false
+            },
+            autocomplete: {
+                validator (value) {
+                    return oneOf(value, ['on', 'off']);
+                },
+                default: 'off'
+            },
+            elementId: {
+                type: String
             }
         },
         data () {
@@ -212,11 +225,18 @@
 
                 this.textareaStyles = calcTextareaHeight(this.$refs.textarea, minRows, maxRows);
             },
-            focus() {
+            focus () {
                 if (this.type === 'textarea') {
                     this.$refs.textarea.focus();
                 } else {
                     this.$refs.input.focus();
+                }
+            },
+            blur () {
+                if (this.type === 'textarea') {
+                    this.$refs.textarea.blur();
+                } else {
+                    this.$refs.input.blur();
                 }
             }
         },

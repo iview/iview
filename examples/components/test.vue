@@ -1,20 +1,39 @@
 <template>
-    <Dropdown transfer>
-        <a href="javascript:void(0)">
-            下拉菜单
-            <Icon type="arrow-down-b"></Icon>
-        </a>
-        <Dropdown-menu slot="list">
-            <Dropdown-item>驴打滚</Dropdown-item>
-            <Dropdown-item>炸酱面</Dropdown-item>
-            <Dropdown-item disabled>豆汁儿</Dropdown-item>
-            <Dropdown-item>冰糖葫芦</Dropdown-item>
-            <Dropdown-item divided>北京烤鸭</Dropdown-item>
-        </Dropdown-menu>
-    </Dropdown>
+    <div>
+        <Row class="expand-row">
+            <Col span="8">
+            <span class="expand-key">职业：</span>
+            <span class="expand-value">{{ row.job }}</span>
+            </Col>
+            <Col span="8">
+            <span class="expand-key">兴趣：</span>
+            <span class="expand-value">{{ row.interest }}</span>
+            </Col>
+            <Col span="8">
+            <span class="expand-key">生日：</span>
+            <span class="expand-value">{{ row.birthday }}</span>
+            </Col>
+        </Row>
+        <Row>
+            <Col span="8">
+            <span class="expand-key">最喜欢的书：</span>
+            <span class="expand-value">《{{ row.book }}》</span>
+            </Col>
+            <Col span="8">
+            <span class="expand-key">最喜欢的电影：</span>
+            <span class="expand-value">{{ row.movie }}</span>
+            </Col>
+            <Col span="8">
+            <span class="expand-key">最喜欢的音乐：</span>
+            <span class="expand-value">{{ row.music }}</span>
+            </Col>
+        </Row>
+    </div>
 </template>
 <script>
     export default {
-
-    }
+        props: {
+            row: Object
+        }
+    };
 </script>

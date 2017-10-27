@@ -189,20 +189,12 @@ function findComponentUpward (context, componentName, componentNames) {
 export {findComponentUpward};
 
 // Find component downward
-function findComponentDownward (context, componentName) {
+export function findComponentDownward (context, componentName) {
     const childrens = context.$children;
     let children = null;
 
     if (childrens.length) {
-        childrens.forEach(child => {
-            const name = child.$options.name;
-            if (name === componentName) {
-                children = child;
-            }
-        });
-
-        for (let i = 0; i < childrens.length; i++) {
-            const child = childrens[i];
+        for (const child of childrens) {
             const name = child.$options.name;
             if (name === componentName) {
                 children = child;
@@ -215,27 +207,15 @@ function findComponentDownward (context, componentName) {
     }
     return children;
 }
-export {findComponentDownward};
 
 // Find components downward
-function findComponentsDownward (context, componentName, components = []) {
-    const childrens = context.$children;
-
-    if (childrens.length) {
-        childrens.forEach(child => {
-            const name = child.$options.name;
-            const childs = child.$children;
-
-            if (name === componentName) components.push(child);
-            if (childs.length) {
-                const findChilds = findComponentsDownward(child, componentName, components);
-                if (findChilds) components.concat(findChilds);
-            }
-        });
-    }
-    return components;
+export function findComponentsDownward (context, componentName) {
+    return context.$children.reduce((components, child) => {
+        if (child.$options.name === componentName) components.push(child);
+        const foundChilds = findComponentsDownward(child, componentName);
+        return components.concat(foundChilds);
+    }, []);
 }
-export {findComponentsDownward};
 
 /* istanbul ignore next */
 const trim = function(string) {

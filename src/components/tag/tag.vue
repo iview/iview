@@ -1,6 +1,6 @@
 <template>
     <transition name="fade">
-        <div :class="classes">
+        <div :class="classes" @click.stop="check">
             <span :class="dotClasses" v-if="showDot"></span><span :class="textClasses"><slot></slot></span><Icon v-if="closable" type="ios-close-empty" @click.native.stop="close"></Icon>
         </div>
     </transition>
@@ -19,9 +19,17 @@
                 type: Boolean,
                 default: false
             },
+            checkable: {
+                type: Boolean,
+                default: false
+            },
+            checked: {
+                type: Boolean,
+                default: true
+            },
             color: {
                 validator (value) {
-                    return oneOf(value, ['blue', 'green', 'red', 'yellow']);
+                    return oneOf(value, ['blue', 'green', 'red', 'yellow', 'default']);
                 }
             },
             type: {
@@ -33,6 +41,11 @@
                 type: [String, Number]
             }
         },
+        data () {
+            return {
+                isChecked: this.checked
+            };
+        },
         computed: {
             classes () {
                 return [
@@ -40,7 +53,8 @@
                     {
                         [`${prefixCls}-${this.color}`]: !!this.color,
                         [`${prefixCls}-${this.type}`]: !!this.type,
-                        [`${prefixCls}-closable`]: this.closable
+                        [`${prefixCls}-closable`]: this.closable,
+                        [`${prefixCls}-checked`]: this.isChecked
                     }
                 ];
             },
@@ -60,6 +74,16 @@
                     this.$emit('on-close', event);
                 } else {
                     this.$emit('on-close', event, this.name);
+                }
+            },
+            check () {
+                if (!this.checkable) return;
+                const checked = !this.isChecked;
+                this.isChecked = checked;
+                if (this.name === undefined) {
+                    this.$emit('on-change', checked);
+                } else {
+                    this.$emit('on-change', checked, this.name);
                 }
             }
         }

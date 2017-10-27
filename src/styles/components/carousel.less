@@ -31,6 +31,9 @@
         overflow: hidden;
 
         z-index: 1;
+        &.higher {
+            z-index: 2;
+        }
     }
 
     &-item {
@@ -159,6 +162,11 @@
                 color: transparent;
 
                 transition: all .5s;
+                &.radius {
+                    width: 6px;
+                    height: 6px;
+                    border-radius: 50%;
+                }
             }
 
             &:hover > button {
@@ -168,6 +176,9 @@
             &.@{carousel-prefix-cls}-active > button {
                 opacity: 1;
                 width: 24px;
+                &.radius{
+                    width: 6px;
+                }
             }
         }
     }
