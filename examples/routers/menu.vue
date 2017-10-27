@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Menu mode="horizontal" :theme="theme1" active-name="3-1">
+        <Menu mode="horizontal" :theme="theme1" active-name="222-1">
 
                 <Submenu name="222">
                     <template slot="title">

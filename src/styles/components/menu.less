@@ -102,15 +102,15 @@
             border-bottom:none;
         }
     }
-    &-light&-horizontal &-submenu .@{select-dropdown-prefix-cls}  &-submenu  &-submenu-title{
+    &-horizontal &-submenu .@{select-dropdown-prefix-cls}  &-submenu  &-submenu-title{
         line-height: 2;
         padding-left: 16px;
     }
-    &-light&-horizontal &-submenu .@{select-dropdown-prefix-cls}  &-submenu  &-submenu-title > i,
-    &-light&-horizontal &-submenu .@{select-dropdown-prefix-cls}  &-submenu  &-submenu-title span > i{
+    &-horizontal &-submenu .@{select-dropdown-prefix-cls}  &-submenu  &-submenu-title > i,
+    &-horizontal &-submenu .@{select-dropdown-prefix-cls}  &-submenu  &-submenu-title span > i{
         margin-right:4px;
     }
-    &-light&-horizontal &-submenu .@{select-dropdown-prefix-cls}  &-submenu & &-item{
+    &-horizontal &-submenu .@{select-dropdown-prefix-cls}  &-submenu & &-item{
         padding-left: 32px;
     }
     &-dark&-horizontal &-item, &-dark&-horizontal &-submenu{
@@ -120,10 +120,29 @@
         }
     }
 
+    &-dark&-horizontal &-submenu .@{select-dropdown-prefix-cls}  &-submenu{
+        padding: 0px;
+        width: 100%;
+        color: @text-color;
+        &-active, &:hover{
+            color: @primary-color;
+            border-bottom:none;
+        }
+    }
+
     &-primary&-horizontal &-item, &-primary&-horizontal &-submenu{
         color: #fff;
         &-active, &:hover{
             background: @link-active-color;
+        }
+    }
+
+    &-primary&-horizontal &-submenu .@{select-dropdown-prefix-cls}  &-submenu{
+        padding: 0px;
+        width: 100%;
+        color: @text-color;
+        &-active, &:hover{
+            background: #fff;;
         }
     }
 
