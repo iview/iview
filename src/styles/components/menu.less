@@ -77,7 +77,7 @@
     &-horizontal &-submenu
     {
         float: left;
-        padding: 0 20px;
+        padding: 0 16px;
         position: relative;
         cursor: pointer;
         z-index: 3;
@@ -94,7 +94,25 @@
             border-bottom: 2px solid @primary-color;
         }
     }
-
+    &-light&-horizontal &-submenu .@{select-dropdown-prefix-cls}  &-submenu{
+        padding: 0px;
+        width: 100%;
+        &-active, &:hover{
+            color: @primary-color;
+            border-bottom:none;
+        }
+    }
+    &-light&-horizontal &-submenu .@{select-dropdown-prefix-cls}  &-submenu  &-submenu-title{
+        line-height: 2;
+        padding-left: 16px;
+    }
+    &-light&-horizontal &-submenu .@{select-dropdown-prefix-cls}  &-submenu  &-submenu-title > i,
+    &-light&-horizontal &-submenu .@{select-dropdown-prefix-cls}  &-submenu  &-submenu-title span > i{
+        margin-right:4px;
+    }
+    &-light&-horizontal &-submenu .@{select-dropdown-prefix-cls}  &-submenu & &-item{
+        padding-left: 32px;
+    }
     &-dark&-horizontal &-item, &-dark&-horizontal &-submenu{
         color: @menu-dark-subsidiary-color;
         &-active, &:hover{
@@ -151,6 +169,16 @@
             background: @background-color-select-hover;
         }
     }
+         &-vertical &-submenu > & > &-submenu > &-submenu-title
+        {          
+            background-color: transparent;
+            padding-left: 30px;
+        }
+
+        &-vertical &-submenu > & > &-submenu  &-item
+        {     
+            padding-left: 43px;
+        }
 
     &-vertical &-submenu-title-icon{
         float: right;
@@ -160,12 +188,12 @@
     &-submenu-title-icon {
         transition: transform @transition-time @ease-in-out;
     }
-    &-opened &-submenu-title-icon{
+    &-opened > &-submenu-title > &-submenu-title-icon{
         transform: rotate(180deg);
     }
 
     &-vertical &-submenu &-item{
-        padding-left: 43px;
+        padding-left: 30px;
     }
     &-vertical &-item-group{
         &-title{
