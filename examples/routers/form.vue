@@ -1,70 +1,206 @@
 <template>
     <div>
-        <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-            <Form-item label-for="autocomplete" prop="name">
-                <span slot="label"><Icon type="ionic"></Icon></span>
-                <AutoComplete element-id="autocomplete" v-model="formValidate.name" :data="['Li','Liang','Zhang']" placeholder="请输入姓名"></AutoComplete>
-            </Form-item>
-            <Form-item label="邮箱" prop="mail">
-                <!--<Input v-model="formValidate.mail" placeholder="请输入邮箱"></Input>-->
-                <ColorPicker v-model="formValidate.mail"></ColorPicker>
-            </Form-item>
-            <Form-item label-for="select"  label="城市" prop="city">
-                <Select element-id="select" filterable v-model="formValidate.city" placeholder="请选择所在地">
-                    <Option value="beijing">北京市</Option>
-                    <Option value="shanghai">上海市</Option>
-                    <Option value="shenzhen">深圳市</Option>
-                </Select>
-            </Form-item>
-            <Form-item label-for="date" label="选择日期" prop="date">
-                <Date-picker element-id="date" type="date" placeholder="选择日期" v-model="formValidate.date"></Date-picker>
-            </Form-item>
-            <Form-item label-for="cascader" label="级联选择" prop="cascader">
-                <Cascader elementId="cascader" :data="dataCascader" v-model="formValidate.cascader"></Cascader>
-            </Form-item>
+        <Tabs type="card">
+          <TabPane label="默认大小">
+            <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+                <Form-item label-for="autocomplete" prop="name">
+                    <span slot="label"><Icon type="ionic"></Icon></span>
+                    <AutoComplete element-id="autocomplete" v-model="formValidate.name" :data="['Li','Liang','Zhang']" placeholder="请输入姓名" icon="ios-search"></AutoComplete>
+                </Form-item>
+                <Form-item label-for="input" label="介绍" prop="desc">
+                    <Input element-id="input" icon="ios-search" v-model="formValidate.desc" type="text" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."></Input>
+                </Form-item>
+                <Form-item label="邮箱" prop="mail">
+                    <!--<Input v-model="formValidate.mail" placeholder="请输入邮箱"></Input>-->
+                    <ColorPicker v-model="formValidate.mail"></ColorPicker>
+                </Form-item>
+                <Form-item label-for="select"  label="城市" prop="city">
+                    <Select element-id="select" filterable v-model="formValidate.city" placeholder="请选择所在地">
+                        <Option value="beijing">北京市</Option>
+                        <Option value="shanghai">上海市</Option>
+                        <Option value="shenzhen">深圳市</Option>
+                    </Select>
+                </Form-item>
+                <Form-item label-for="date" label="选择日期" prop="date">
+                    <Date-picker element-id="date" type="date" placeholder="选择日期" v-model="formValidate.date"></Date-picker>
+                </Form-item>
+                <Form-item label-for="cascader" label="级联选择" prop="cascader">
+                    <Cascader elementId="cascader" :data="dataCascader" v-model="formValidate.cascader"></Cascader>
+                </Form-item>
 
-            <Form-item label-for="inputnumber" label="数字框" prop="inputnumber">
-                <InputNumber elementId="inputnumber" :max="10" :min="1" v-model="formValidate.inputnumber"></InputNumber>
-            </Form-item>
+                <Form-item label-for="inputnumber" label="数字框" prop="inputnumber">
+                    <InputNumber elementId="inputnumber" :max="10" :min="1" v-model="formValidate.inputnumber"></InputNumber>
+                </Form-item>
 
-            <Form-item label="选择日期">
-                <Row>
-                    <Col span="11">
-                    <Form-item prop="date">
-                        <Date-picker type="date" placeholder="选择日期" v-model="formValidate.date"></Date-picker>
-                    </Form-item>
-                    </Col>
-                    <Col span="2" style="text-align: center">-</Col>
-                    <Col span="11">
-                    <Form-item prop="time">
-                        <Time-picker type="time" placeholder="选择时间" v-model="formValidate.time"></Time-picker>
-                    </Form-item>
-                    </Col>
-                </Row>
-            </Form-item>
-            <Form-item label="性别" prop="gender">
-                <Radio-group v-model="formValidate.gender">
-                    <Radio label="male">男</Radio>
-                    <Radio label="female">女</Radio>
-                </Radio-group>
-            </Form-item>
-            <Form-item label="爱好" prop="interest">
-                <Checkbox-group v-model="formValidate.interest">
-                    <Checkbox label="吃饭"></Checkbox>
-                    <Checkbox label="睡觉"></Checkbox>
-                    <Checkbox label="跑步"></Checkbox>
-                    <Checkbox label="看电影"></Checkbox>
-                </Checkbox-group>
-            </Form-item>
-            <Form-item label-for="input" label="介绍" prop="desc">
-                <Input element-id="input" icon="ios-search" size="small" v-model="formValidate.desc" type="text" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."></Input>
-            </Form-item>
-                <Input element-id="input" icon="ios-search" size="small" v-model="formValidate.desc" type="text" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."></Input>
-            <Form-item>
-                <Button type="primary" @click="handleSubmit('formValidate')">提交</Button>
-                <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
-            </Form-item>
-        </Form>
+                <Form-item label="选择日期">
+                    <Row>
+                        <Col span="11">
+                        <Form-item prop="date">
+                            <Date-picker type="date" placeholder="选择日期" v-model="formValidate.date"></Date-picker>
+                        </Form-item>
+                        </Col>
+                        <Col span="2" style="text-align: center">-</Col>
+                        <Col span="11">
+                        <Form-item prop="time">
+                            <Time-picker type="time" placeholder="选择时间" v-model="formValidate.time"></Time-picker>
+                        </Form-item>
+                        </Col>
+                    </Row>
+                </Form-item>
+                <Form-item label="性别" prop="gender">
+                    <Radio-group v-model="formValidate.gender">
+                        <Radio label="male">男</Radio>
+                        <Radio label="female">女</Radio>
+                    </Radio-group>
+                </Form-item>
+                <Form-item label="爱好" prop="interest">
+                    <Checkbox-group v-model="formValidate.interest">
+                        <Checkbox label="吃饭"></Checkbox>
+                        <Checkbox label="睡觉"></Checkbox>
+                        <Checkbox label="跑步"></Checkbox>
+                        <Checkbox label="看电影"></Checkbox>
+                    </Checkbox-group>
+                </Form-item>
+                <Form-item>
+                    <Button type="primary" @click="handleSubmit('formValidate')" icon="ios-cloud-upload-outline">提交</Button>
+                    <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px" icon="ios-reload">重置</Button>
+                </Form-item>
+            </Form>
+          </TabPane>
+          <TabPane label="小表单">
+            <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+                <Form-item label-for="autocomplete" prop="name">
+                    <span slot="label"><Icon type="ionic"></Icon></span>
+                    <AutoComplete element-id="autocomplete" v-model="formValidate.name" :data="['Li','Liang','Zhang']" placeholder="请输入姓名" icon="ios-search" size="small"></AutoComplete>
+                </Form-item>
+                <Form-item label-for="input" label="介绍" prop="desc">
+                    <Input element-id="input" icon="ios-search" size="small" v-model="formValidate.desc" type="text" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."></Input>
+                </Form-item>
+                <Form-item label="邮箱" prop="mail">
+                    <!--<Input v-model="formValidate.mail" placeholder="请输入邮箱"></Input>-->
+                    <ColorPicker v-model="formValidate.mail" size="small"></ColorPicker>
+                </Form-item>
+                <Form-item label-for="select"  label="城市" prop="city">
+                    <Select element-id="select" filterable v-model="formValidate.city" placeholder="请选择所在地" size="small">
+                        <Option value="beijing">北京市</Option>
+                        <Option value="shanghai">上海市</Option>
+                        <Option value="shenzhen">深圳市</Option>
+                    </Select>
+                </Form-item>
+                <Form-item label-for="date" label="选择日期" prop="date">
+                    <Date-picker element-id="date" type="date" placeholder="选择日期" v-model="formValidate.date" size="small"></Date-picker>
+                </Form-item>
+                <Form-item label-for="cascader" label="级联选择" prop="cascader">
+                    <Cascader elementId="cascader" :data="dataCascader" v-model="formValidate.cascader" size="small"></Cascader>
+                </Form-item>
+
+                <Form-item label-for="inputnumber" label="数字框" prop="inputnumber">
+                    <InputNumber elementId="inputnumber" :max="10" :min="1" v-model="formValidate.inputnumber" size="small"></InputNumber>
+                </Form-item>
+
+                <Form-item label="选择日期">
+                    <Row>
+                        <Col span="11">
+                        <Form-item prop="date">
+                            <Date-picker type="date" placeholder="选择日期" v-model="formValidate.date" size="small"></Date-picker>
+                        </Form-item>
+                        </Col>
+                        <Col span="2" style="text-align: center">-</Col>
+                        <Col span="11">
+                        <Form-item prop="time">
+                            <Time-picker type="time" placeholder="选择时间" v-model="formValidate.time" size="small"></Time-picker>
+                        </Form-item>
+                        </Col>
+                    </Row>
+                </Form-item>
+                <Form-item label="性别" prop="gender">
+                    <Radio-group v-model="formValidate.gender" size="small">
+                        <Radio label="male">男</Radio>
+                        <Radio label="female">女</Radio>
+                    </Radio-group>
+                </Form-item>
+                <Form-item label="爱好" prop="interest" size="small">
+                    <Checkbox-group v-model="formValidate.interest">
+                        <Checkbox label="吃饭"></Checkbox>
+                        <Checkbox label="睡觉"></Checkbox>
+                        <Checkbox label="跑步"></Checkbox>
+                        <Checkbox label="看电影"></Checkbox>
+                    </Checkbox-group>
+                </Form-item>
+                <Form-item>
+                    <Button type="primary" @click="handleSubmit('formValidate')" size="small" icon="ios-cloud-upload-outline">提交</Button>
+                    <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px" size="small" icon="ios-reload">重置</Button>
+                </Form-item>
+            </Form>
+          </TabPane>
+          <TabPane label="大表单">
+            <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+                <Form-item label-for="autocomplete" prop="name">
+                    <span slot="label"><Icon type="ionic"></Icon></span>
+                    <AutoComplete element-id="autocomplete" v-model="formValidate.name" :data="['Li','Liang','Zhang']" placeholder="请输入姓名" icon="ios-search" size="large"></AutoComplete>
+                </Form-item>
+                <Form-item label-for="input" label="介绍" prop="desc">
+                    <Input element-id="input" icon="ios-search" size="large" v-model="formValidate.desc" type="text" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."></Input>
+                </Form-item>
+                <Form-item label="邮箱" prop="mail">
+                    <!--<Input v-model="formValidate.mail" placeholder="请输入邮箱"></Input>-->
+                    <ColorPicker v-model="formValidate.mail" size="large"></ColorPicker>
+                </Form-item>
+                <Form-item label-for="select"  label="城市" prop="city">
+                    <Select element-id="select" filterable v-model="formValidate.city" placeholder="请选择所在地" size="large">
+                        <Option value="beijing">北京市</Option>
+                        <Option value="shanghai">上海市</Option>
+                        <Option value="shenzhen">深圳市</Option>
+                    </Select>
+                </Form-item>
+                <Form-item label-for="date" label="选择日期" prop="date">
+                    <Date-picker element-id="date" type="date" placeholder="选择日期" v-model="formValidate.date" size="large"></Date-picker>
+                </Form-item>
+                <Form-item label-for="cascader" label="级联选择" prop="cascader">
+                    <Cascader elementId="cascader" :data="dataCascader" v-model="formValidate.cascader" size="large"></Cascader>
+                </Form-item>
+
+                <Form-item label-for="inputnumber" label="数字框" prop="inputnumber">
+                    <InputNumber elementId="inputnumber" :max="10" :min="1" v-model="formValidate.inputnumber" size="large"></InputNumber>
+                </Form-item>
+
+                <Form-item label="选择日期">
+                    <Row>
+                        <Col span="11">
+                        <Form-item prop="date">
+                            <Date-picker type="date" placeholder="选择日期" v-model="formValidate.date" size="large"></Date-picker>
+                        </Form-item>
+                        </Col>
+                        <Col span="2" style="text-align: center">-</Col>
+                        <Col span="11">
+                        <Form-item prop="time">
+                            <Time-picker type="time" placeholder="选择时间" v-model="formValidate.time" size="large"></Time-picker>
+                        </Form-item>
+                        </Col>
+                    </Row>
+                </Form-item>
+                <Form-item label="性别" prop="gender">
+                    <Radio-group v-model="formValidate.gender" size="large">
+                        <Radio label="male">男</Radio>
+                        <Radio label="female">女</Radio>
+                    </Radio-group>
+                </Form-item>
+                <Form-item label="爱好" prop="interest" size="large">
+                    <Checkbox-group v-model="formValidate.interest">
+                        <Checkbox label="吃饭"></Checkbox>
+                        <Checkbox label="睡觉"></Checkbox>
+                        <Checkbox label="跑步"></Checkbox>
+                        <Checkbox label="看电影"></Checkbox>
+                    </Checkbox-group>
+                </Form-item>
+                <Form-item>
+                    <Button type="primary" @click="handleSubmit('formValidate')" size="large" icon="ios-cloud-upload-outline">提交</Button>
+                    <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px" size="large" icon="ios-reload">重置</Button>
+                </Form-item>
+            </Form>
+          </TabPane>
+        </Tabs>
+
 
         <div style="margin: 100px">
             <form action="/">
