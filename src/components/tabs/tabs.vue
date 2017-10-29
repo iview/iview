@@ -310,6 +310,16 @@
             },
             handleResize(){
                 this.updateNavScroll();
+            },
+            isInsideHiddenElement () {
+                let parentNode = this.$el.parentNode;
+                while(parentNode) {
+                    if (parentNode.style.display === 'none') {
+                        return parentNode;
+                    }
+                    parentNode = parentNode.parentNode;
+                }
+                return false;
             }
         },
         watch: {
@@ -329,6 +339,18 @@
             this.showSlot = this.$slots.extra !== undefined;
             this.observer = elementResizeDetectorMaker();
             this.observer.listenTo(this.$refs.navWrap, this.handleResize);
+
+            const hiddenParentNode = this.isInsideHiddenElement();
+            if (hiddenParentNode) {
+                const mutationObserver = new MutationObserver(() => {
+                    if (hiddenParentNode.style.display !== 'none') {
+                        this.updateBar();
+                        mutationObserver.disconnect();
+                    }
+                });
+
+                mutationObserver.observe(hiddenParentNode, { attributes: true, childList: true, characterData: true, attributeFilter: ['style'] });
+            }
         },
         beforeDestroy() {
             this.observer.removeListener(this.$refs.navWrap, this.handleResize);
