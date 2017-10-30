@@ -130,28 +130,65 @@
     <!--}-->
 <!--</script>-->
 
+<!--<template>-->
+    <!--<div>-->
+        <!--<Tabs type="card">-->
+            <!--<TabPane v-for="tab in tabs" :key="tab" :label="'标签' + tab">标签{{ tab }}</TabPane>-->
+        <!--</Tabs>-->
+        <!--<Button type="ghost" @click="handleTabsAdd" size="small">增加</Button>-->
+        <!--<Button type="ghost" @click="handleTabsMin" size="small">减少</Button>-->
+    <!--</div>-->
+<!--</template>-->
+<!--<script>-->
+    <!--export default {-->
+        <!--data () {-->
+            <!--return {-->
+                <!--tabs: 2-->
+            <!--}-->
+        <!--},-->
+        <!--methods: {-->
+            <!--handleTabsAdd () {-->
+                <!--this.tabs ++;-->
+            <!--},-->
+            <!--handleTabsMin () {-->
+                <!--this.tabs &#45;&#45;;-->
+            <!--}-->
+        <!--}-->
+    <!--}-->
+<!--</script>-->
+
 <template>
     <div>
-        <Tabs type="card">
-            <TabPane v-for="tab in tabs" :key="tab" :label="'标签' + tab">标签{{ tab }}</TabPane>
-        </Tabs>
-        <Button type="ghost" @click="handleTabsAdd" size="small">增加</Button>
-        <Button type="ghost" @click="handleTabsMin" size="small">减少</Button>
+        <Button type="primary" @click="modal1 = true">显示对话框</Button>
+        <Modal
+                v-model="modal1"
+                title="普通的Modal对话框标题"
+                @on-ok="ok"
+                @on-cancel="cancel">
+            <p>对话框内容</p>
+            <p>对话框内容</p>
+            <p>对话框内容</p>
+            <Tabs value="name1">
+                <TabPane label="标签一" name="name1">标签一的内容</TabPane>
+                <TabPane label="标签二" name="name2">标签二的内容</TabPane>
+                <TabPane label="标签三" name="name3">标签三的内容</TabPane>
+            </Tabs>
+        </Modal>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                tabs: 2
+                modal1: false
             }
         },
         methods: {
-            handleTabsAdd () {
-                this.tabs ++;
+            ok () {
+                this.$Message.info('点击了确定');
             },
-            handleTabsMin () {
-                this.tabs --;
+            cancel () {
+                this.$Message.info('点击了取消');
             }
         }
     }
