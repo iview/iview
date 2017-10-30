@@ -26,7 +26,7 @@
 <script>
     import Icon from '../icon/icon.vue';
     import Render from '../base/render';
-    import { oneOf } from '../../utils/assist';
+    import { oneOf, MutationObserver } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     import elementResizeDetectorMaker from 'element-resize-detector';
 
@@ -342,18 +342,19 @@
 
             const hiddenParentNode = this.isInsideHiddenElement();
             if (hiddenParentNode) {
-                const mutationObserver = new MutationObserver(() => {
+                this.mutationObserver = new MutationObserver(() => {
                     if (hiddenParentNode.style.display !== 'none') {
                         this.updateBar();
-                        mutationObserver.disconnect();
+                        this.mutationObserver.disconnect();
                     }
                 });
 
-                mutationObserver.observe(hiddenParentNode, { attributes: true, childList: true, characterData: true, attributeFilter: ['style'] });
+                this.mutationObserver.observe(hiddenParentNode, { attributes: true, childList: true, characterData: true, attributeFilter: ['style'] });
             }
         },
         beforeDestroy() {
             this.observer.removeListener(this.$refs.navWrap, this.handleResize);
+            this.mutationObserver.disconnect();
         }
     };
 </script>
