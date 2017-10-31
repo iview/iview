@@ -190,7 +190,7 @@
                 let status = false;
 
                 if ((typeof this.model) === 'string') {
-                    if (this.model === '') {
+                    if (this.model === '' && this.selectedSingle === '') {
                         status = true;
                     }
                 } else if (Array.isArray(this.model)) {
