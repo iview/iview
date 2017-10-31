@@ -100,6 +100,9 @@
         mounted () {
             this.updateActiveName();
             this.updateOpened();
+            this.$on('on-open-change', (names) => {
+                this.updateOpened();
+            });
             this.$on('on-menu-item-select', (name) => {
                 this.currentActiveName = name;
                 this.$emit('on-select', name);

@@ -540,6 +540,7 @@
                 if (!this.cloneColumns[index]._isFiltered) this.cloneColumns[index]._filterChecked = [];
             },
             filterData (data, column) {
+                this.handleResize();
                 return data.filter((row) => {
                     //如果定义了远程过滤方法则忽略此方法
                     if (typeof column.filterRemote === 'function') return true;
@@ -575,7 +576,7 @@
 
                 this.cloneColumns[index]._isFiltered = true;
                 this.cloneColumns[index]._filterVisible = false;
-                this.$emit('on-filter-change', column);
+                this.$emit('on-filter-change', column, this.rebuildData);
             },
             handleFilterSelect (index, value) {
                 this.cloneColumns[index]._filterChecked = [value];
@@ -589,7 +590,7 @@
                 let filterData = this.makeDataWithSort();
                 filterData = this.filterOtherData(filterData, index);
                 this.rebuildData = filterData;
-                this.$emit('on-filter-change', this.cloneColumns[index]);
+                this.$emit('on-filter-change', this.cloneColumns[index], this.rebuildData);
             },
             makeData () {
                 let data = deepCopy(this.data);
