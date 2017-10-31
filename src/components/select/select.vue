@@ -157,7 +157,8 @@
                 notFound: false,
                 slotChangeDuration: false,    // if slot change duration and in multiple, set true and after slot change, set false
                 model: this.value,
-                currentLabel: this.label
+                currentLabel: this.label,
+                hasSelectItem: true
             };
         },
         computed: {
@@ -166,7 +167,7 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-visible`]: this.visible,
-                        [`${prefixCls}-disabled`]: this.disabled,
+                        [`${prefixCls}-disabled`]: this.disabled || !this.hasSelectItem,
                         [`${prefixCls}-multiple`]: this.multiple,
                         [`${prefixCls}-single`]: !this.multiple,
                         [`${prefixCls}-show-clear`]: this.showCloseIcon,
@@ -259,7 +260,7 @@
         },
         methods: {
             toggleMenu () {
-                if (this.disabled || this.autoComplete) {
+                if (this.disabled || this.autoComplete || !this.hasSelectItem) {
                     return false;
                 }
                 this.visible = !this.visible;
@@ -668,6 +669,18 @@
             }
         },
         mounted () {
+            // 如果没有选项则下拉框不可点
+            let liTags = document.getElementsByTagName('li');
+            let tempChanged = false;
+            for (let index = 0, length = liTags.length; index < length; index++) {
+                let temp = liTags[index].getAttribute('class');
+                if ('ivu-select-item' == temp) {
+                    tempChanged = true;
+                    break;
+                }
+            }
+            this.hasSelectItem = tempChanged;
+
             this.modelToQuery();
             // 处理 remote 初始值
             this.updateLabel();
