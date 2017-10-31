@@ -158,7 +158,7 @@
                 slotChangeDuration: false,    // if slot change duration and in multiple, set true and after slot change, set false
                 model: this.value,
                 currentLabel: this.label,
-	            hasSelectItem: true
+                hasSelectItem: true
             };
         },
         computed: {
@@ -669,17 +669,17 @@
             }
         },
         mounted () {
-        	// 如果没有选项则下拉框不可点
-	        let liTags = document.getElementsByTagName('li');
-	        let tempChanged = false;
-	        for (let index = 0, length = liTags.length; index < length; index++) {
-		        let temp = liTags[index].getAttribute('class');
-		        if ('ivu-select-item' == temp) {
-			        tempChanged = true;
-			        break
-		        }
-	        }
-	        this.hasSelectItem = tempChanged;
+            // 如果没有选项则下拉框不可点
+            let liTags = document.getElementsByTagName('li');
+            let tempChanged = false;
+            for (let index = 0, length = liTags.length; index < length; index++) {
+                let temp = liTags[index].getAttribute('class');
+                if ('ivu-select-item' == temp) {
+                    tempChanged = true;
+                    break;
+                }
+            }
+            this.hasSelectItem = tempChanged;
 
             this.modelToQuery();
             // 处理 remote 初始值
