@@ -37,6 +37,15 @@
 - It is quite beautiful.
 - Supports both Vue.js 2 and Vue.js 1.
 
+## Who's using iView
+
+- [TalkingData](http://www.talkingdata.com/)
+- [Alibaba](http://www.alibaba.com/)
+- [JD](http://www.jd.com/)
+- [DiDi](http://www.didichuxing.com/)
+
+> If your company or products use iView, welcome to click [here](https://github.com/iview/iview/issues/2143) to leave a message.
+
 ## Install
 
 > Please install Webpack first!
