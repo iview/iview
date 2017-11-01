@@ -8,6 +8,121 @@ export default Table;
 
 export interface Table extends Vue {
   /**
+   * 显示的结构化数据，其中，字段 cellClassName 用于设置任意单元格的样式名称，因此数据不能使用该字段，详见示例特定样式。,默认值[]
+   */
+  data: object[];
+  /**
+   * 表格列的配置描述，具体项见后文,默认值[]
+   */
+  columns: object[];
+  /**
+   * 是否显示间隔斑马纹,默认值false
+   */
+  stripe: boolean;
+  /**
+   * 是否显示纵向边框,默认值false
+   */
+  border: boolean;
+  /**
+   * 是否显示表头,默认值true
+   */
+  'show-header': boolean;
+  /**
+   * 表格宽度，单位 px,默认值自动
+   */
+  width: number | string;
+  /**
+   * 表格高度，单位 px，设置后，如果表格内容大于此值，会固定表头
+   */
+  height: number | string;
+  /**
+   * 表格是否加载中,默认值false
+   */
+  loading: boolean;
+  /**
+   * 禁用鼠标悬停时的高亮,默认值false
+   */
+  'disabled-hover': boolean;
+  /**
+   * 是否支持高亮选中的行，即单选,默认值false
+   */
+  'highlight-row': boolean;
+  /**
+   * 行的 className 的回调方法，传入参数：
+   * row：当前行数据
+   * index：当前行的索引
+   */
+  'row-class-name': (row: object, index: number) => void;
+  /**
+   * 表格尺寸，可选值为 large、small、default 或者不填
+   */
+  size: string;
+  /**
+   * 数据为空时显示的提示内容,默认值暂无数据
+   */
+  'no-data-text': string;
+  /**
+   * 筛选数据为空时显示的提示内容,默认值暂无筛选结果
+   */
+  'no-filtered-data-text': string;
+  /**
+   * 开启 highlight-row 后有效，当表格的当前行发生变化的时候会触发	
+   * currentRow：当前高亮行的数据
+   * oldCurrentRow：上一次高亮的数据
+   */
+  'on-current-change': (currentRow: object, oldCurrentRow: object) => void;
+  /**
+   * 在多选模式下有效，选中某一项时触发	
+   * selection：已选项数据
+   * row：刚选择的项数据
+   */
+  'on-select': (selection: object[], row: object) => void;
+  /**
+   * 在多选模式下有效，取消选中某一项时触发	
+   * selection：已选项数据
+   * row：取消选择的项数据
+   */
+  'on-select-cancel': (selection: object[], row: object) => void;
+  /**
+   * 在多选模式下有效，点击全选时触发	
+   * selection：已选项数据
+   */
+  'on-select-all': (selection: object[]) => void;
+  /**
+   * 在多选模式下有效，只要选中项发生变化时就会触发	
+   * selection：已选项数据
+   */
+  'on-selection-change': (selection: object[]) => void;
+  /**
+   * 排序时有效，当点击排序时触发	
+   * column：当前列数据
+   * key：排序依据的指标
+   * order：排序的顺序，值为 asc 或 desc
+   */
+  'on-sort-change': (column: object, key: string, order: 'asc' | 'desc') => void;
+  /**
+   * 筛选时有效，筛选条件发生变化时触发	当前列数据
+   */
+  'on-filter-change': () => void;
+  /**
+   * 单击某一行时触发
+   * currentRow：当前行的数据
+   * index: 当前行的索引
+   */
+  'on-row-click': (currentRow: object, index: number) => void;
+  /**
+   * 双击某一行时触发	
+   * currentRow：当前行的数据
+   * index: 当前行的索引
+   */
+  'on-row-dblclick': (currentRow: object, index: number) => void;
+  /**
+   * 展开或收起某一行时触发	
+   * row：当前行的数据
+   * status：当前的状态
+   */
+  'on-expand': (row: object, status: string) => void;
+  /**
    * 导出数据
    */
   exportCsv: (params: TableExportCsvParams) => void;
@@ -15,6 +130,90 @@ export interface Table extends Vue {
    * 执行改变大小重绘table
    */
   handleResize: () => void;
+  /**
+   * 清除高亮项，仅在开启 highlight-row 时可用
+   */
+  clearCurrentRow: () => void;
+}
+
+export interface TableColumn {
+  /**
+   * 列类型，可选值为 index、selection、expand、html
+   */
+  'type': string;
+  /**
+   * 列头显示文字
+   */
+  title?: string;
+  /**
+   * 对应列内容的字段名
+   */
+  key?: string;
+  /**
+   * 列宽
+   */
+  width?: number | string;
+  /**
+   * 对齐方式，可选值为 left 左对齐、right 右对齐和 center 居中对齐,默认 left
+   */
+  align?: string;
+  /**
+   * 列的样式名称
+   */
+  className?: string;
+  /**
+   * 列是否固定在左侧或者右侧，可选值为 left 左侧和 right 右侧
+   */
+  fixed?: string;
+  /**
+   * 开启后，文本将不换行，超出部分显示为省略号,默认false
+   */
+  ellipsis?: boolean;
+  /**
+   * 自定义渲染列，使用 Vue 的 Render 函数。
+   * 传入两个参数，第一个是 h，第二个为对象，包含 row、column 和 index，分别指当前行数据，当前列数据，当前行索引，详见示例。
+   * 学习 Render 函数的内容 从 rc.18 版本开始，我们将不再支持旧的用法。旧的 render 函数已被废弃。
+   */
+  render?: (h?:
+    (
+      el: string | object | Function,
+      data: string | RenderCreateElementData | RenderCreateElementResult | Array<RenderCreateElementResult>,
+      vnode?: string | RenderCreateElementResult[]
+    ) => RenderCreateElementResult,
+    params?: TableColumnRenderParams
+  ) => RenderCreateElementResult;
+  /**
+   * 自定义列头显示内容，传入参数有两个，column 和 index，分别为当前列数据和当前列索引，不支持渲染自定义组件
+   */
+  renderHeader?: () => void;
+  /**
+   * 对应列是否可以排序，如果设置为 custom，则代表用户希望远程排序，需要监听 Table 的 on- sort - change 事件,默认false
+   */
+  sortable?: boolean;
+  /**
+   * 自定义排序使用的方法，接收三个参数 a 、 b 和 type，当设置 sortable: true 时有效。type 值为 asc 和 desc
+   */
+  sortMethod?: () => void;
+  /**
+   * 过滤数据的选项，格式为数组，数组中每项包含 label 和 value 属性，使用过滤，必须同时配置filterMethod
+   */
+  filters?: any[];
+  /**
+   * 数据过滤使用的方法，如果是多选的筛选项，对每一条数据会执行多次，任意一次返回 true 就会显示
+   */
+  filterMethod?: () => void;
+  /**
+   * 数据过滤的选项是否多选,默认true
+   */
+  filterMultiple?: boolean;
+  /**
+   * 在初始化时使用过滤，数组，值为需要过滤的 value 集合
+   */
+  filteredValue?: any[];
+  /**
+   * 使用远程过滤
+   */
+  filterRemote?: () => void;
 }
 
 export interface RenderCreateElementData {
@@ -52,7 +251,7 @@ export interface RenderCreateElementData {
    * 自定义指令. 注意事项：不能对绑定的旧值设值
    * Vue 会为您持续追踨
    */
-  directives?: Array<object>;
+  directives?: object[];
   /**
    * 如果子组件有定义 slot 的名称
    */
@@ -71,11 +270,11 @@ export interface TableColumnRenderParams {
   /**
    * 当前行数据
    */
-  row: any;
+  row: object;
   /**
    * 当前列数据
    */
-  column: any;
+  column: object;
   /**
    * 当前行索引
    */
@@ -102,82 +301,6 @@ export interface RenderCreateElementResult {
   raw?: boolean;
   tag?: string;
   text?: object;
-}
-
-export interface TableColumn {
-  /**
-   * 列头显示文字
-   */
-  title?: string;
-  /**
-   * 对应列内容的字段名
-   */
-  key?: string;
-  /**
-   * 列宽
-   */
-  width?: number | string;
-  /**
-   * 对齐方式，可选值为 left 左对齐、right 右对齐和 center 居中对齐,默认 left
-   */
-  align?: string;
-  /**
-   * 列的样式名称
-   */
-  className?: string;
-  /**
-   * 列是否固定在左侧或者右侧，可选值为 left 左侧和 right 右侧
-   */
-  fixed?: string;
-  /**
-   * 开启后，文本将不换行，超出部分显示为省略号,默认false
-   */
-  ellipsis?: Boolean;
-  /**
-   * 自定义渲染列，使用 Vue 的 Render 函数。
-   * 传入两个参数，第一个是 h，第二个为对象，包含 row、column 和 index，分别指当前行数据，当前列数据，当前行索引，详见示例。
-   * 学习 Render 函数的内容 从 rc.18 版本开始，我们将不再支持旧的用法。旧的 render 函数已被废弃。
-   */
-  render?: (h?:
-    (
-      el: string | object | Function,
-      data: string | RenderCreateElementData | RenderCreateElementResult | Array<RenderCreateElementResult>,
-      vnode?: string | RenderCreateElementResult[]
-    ) => RenderCreateElementResult,
-    params?: TableColumnRenderParams
-  ) => RenderCreateElementResult;
-  /**
-   * 自定义列头显示内容，传入参数有两个，column 和 index，分别为当前列数据和当前列索引，不支持渲染自定义组件
-   */
-  renderHeader?: Function;
-  /**
-   * 对应列是否可以排序，如果设置为 custom，则代表用户希望远程排序，需要监听 Table 的 on- sort - change 事件,默认false
-   */
-  sortable?: Boolean;
-  /**
-   * 自定义排序使用的方法，接收三个参数 a 、 b 和 type，当设置 sortable: true 时有效。type 值为 asc 和 desc
-   */
-  sortMethod?: Function;
-  /**
-   * 过滤数据的选项，格式为数组，数组中每项包含 label 和 value 属性，使用过滤，必须同时配置filterMethod
-   */
-  filters?: Array<any>;
-  /**
-   * 数据过滤使用的方法，如果是多选的筛选项，对每一条数据会执行多次，任意一次返回 true 就会显示
-   */
-  filterMethod?: Function;
-  /**
-   * 数据过滤的选项是否多选,默认true
-   */
-  filterMultiple?: Boolean;
-  /**
-   * 在初始化时使用过滤，数组，值为需要过滤的 value 集合
-   */
-  filteredValue?: Array<any>;
-  /**
-   * 使用远程过滤
-   */
-  filterRemote?: Function;
 }
 
 export interface TableExportCsvParams {
