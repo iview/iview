@@ -3,6 +3,19 @@
 .@{circle-prefix-cls}{
     display: inline-block;
     position: relative;
+    max-width: 100%;
+
+    &:before {
+      content: '';
+      display: block;
+      padding-top: 100%;
+    }
+
+    svg {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
 
     &-inner {
         width: 100%;

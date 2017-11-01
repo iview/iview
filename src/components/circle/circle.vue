@@ -51,8 +51,7 @@
         computed: {
             circleSize () {
                 return {
-                    width: `${this.size}px`,
-                    height: `${this.size}px`
+                    width: `${this.size}px`
                 };
             },
             radius () {
