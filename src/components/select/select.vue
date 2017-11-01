@@ -3,7 +3,7 @@
         <div
             :class="selectionCls"
             ref="reference"
-            @click="toggleMenu">
+            @click="showMenu">
             <slot name="input">
                 <input type="hidden" :name="name" :value="model">
                 <div class="ivu-tag ivu-tag-checked" v-for="(item, index) in selectedMultiple">
@@ -21,13 +21,15 @@
                     :class="[prefixCls + '-input']"
                     :placeholder="showPlaceholder ? localePlaceholder : ''"
                     :style="inputStyle"
+                    @focus="showMenu"
+                    @focusout="hideMenu"
                     @blur="handleBlur"
                     @keydown="resetInputState"
                     @keydown.delete="handleInputDelete"
                     ref="input">
                 <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSingleSelect"></Icon>
                 <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']" v-if="!remote"></Icon>
-            </slot>
+            </slot>            
         </div>
         <transition :name="transitionName">
             <Drop
@@ -258,11 +260,11 @@
             }
         },
         methods: {
-            toggleMenu () {
-                if (this.disabled || this.autoComplete) {
+            showMenu () {
+                if (this.disabled) {
                     return false;
                 }
-                this.visible = !this.visible;
+                this.visible = true;
             },
             hideMenu () {
                 this.visible = false;
