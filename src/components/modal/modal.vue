@@ -229,6 +229,7 @@
                     }
                 }
                 this.broadcast('Table', 'on-visible-change', val);
+                this.$emit('on-visible-change', val);
             },
             loading (val) {
                 if (!val) {
