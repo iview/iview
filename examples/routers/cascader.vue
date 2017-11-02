@@ -1,17 +1,27 @@
 <template>
-    <div style="width: 200px;margin: 100px;">
-        <Cascader :data="data" v-model="value1" trigger="hover"></Cascader>
-    </div>
+    <Cascader v-model="value3" :data="data" filterable @on-change="hc"></Cascader>
 </template>
 <script>
     export default {
         data () {
             return {
-                value1: [],
                 data: [{
                     value: 'beijing',
                     label: '北京',
-                    children: []
+                    children: [
+                        {
+                            value: 'gugong',
+                            label: '故宫'
+                        },
+                        {
+                            value: 'tiantan',
+                            label: '天坛'
+                        },
+                        {
+                            value: 'wangfujing',
+                            label: '王府井'
+                        }
+                    ]
                 }, {
                     value: 'jiangsu',
                     label: '江苏',
@@ -41,7 +51,13 @@
                             ]
                         }
                     ],
-                }]
+                }],
+                value3: []
+            }
+        },
+        methods: {
+            hc (a,b) {
+                console.log(a,b)
             }
         }
     }
