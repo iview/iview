@@ -70,70 +70,87 @@ export interface Table extends Vue {
    * currentRow：当前高亮行的数据
    * oldCurrentRow：上一次高亮的数据
    */
-  'on-current-change': (currentRow: object, oldCurrentRow: object) => void;
+  $emit(eventName: 'on-current-change', currentRow: object, oldCurrentRow: object): this;
   /**
    * 在多选模式下有效，选中某一项时触发	
    * selection：已选项数据
    * row：刚选择的项数据
    */
-  'on-select': (selection: object[], row: object) => void;
+  $emit(eventName: 'on-select', selection: object[], row: object): this;
   /**
    * 在多选模式下有效，取消选中某一项时触发	
    * selection：已选项数据
    * row：取消选择的项数据
    */
-  'on-select-cancel': (selection: object[], row: object) => void;
+  $emit(eventName: 'on-select-cancel', selection: object[], row: object): this;
   /**
    * 在多选模式下有效，点击全选时触发	
    * selection：已选项数据
    */
-  'on-select-all': (selection: object[]) => void;
+  $emit(eventName: 'on-select-all', selection: object[]): this;
   /**
    * 在多选模式下有效，只要选中项发生变化时就会触发	
    * selection：已选项数据
    */
-  'on-selection-change': (selection: object[]) => void;
+  $emit(eventName: 'on-selection-change', selection: object[]): this;
   /**
    * 排序时有效，当点击排序时触发	
    * column：当前列数据
    * key：排序依据的指标
    * order：排序的顺序，值为 asc 或 desc
    */
-  'on-sort-change': (column: object, key: string, order: 'asc' | 'desc') => void;
+  $emit(eventName: 'on-sort-change', column: object, key: string, order: 'asc' | 'desc'): this;
   /**
    * 筛选时有效，筛选条件发生变化时触发	当前列数据
    */
-  'on-filter-change': () => void;
+  $emit(eventName: 'on-filter-change', ): this;
   /**
    * 单击某一行时触发
    * currentRow：当前行的数据
    * index: 当前行的索引
    */
-  'on-row-click': (currentRow: object, index: number) => void;
+  $emit(eventName: 'on-row-click', currentRow: object, index: number): this;
   /**
    * 双击某一行时触发	
    * currentRow：当前行的数据
    * index: 当前行的索引
    */
-  'on-row-dblclick': (currentRow: object, index: number) => void;
+  $emit(eventName: 'on-row-dblclick', currentRow: object, index: number): this;
   /**
    * 展开或收起某一行时触发	
    * row：当前行的数据
    * status：当前的状态
    */
-  'on-expand': (row: object, status: string) => void;
+  $emit(eventName: 'on-expand', row: object, status: string): this;
   /**
    * 导出数据
    */
-  exportCsv: (params: TableExportCsvParams) => void;
+  exportCsv(params: TableExportCsvParams): void;
   /**
    * 执行改变大小重绘table
    */
-  handleResize: () => void;
+  handleResize(): void;
   /**
    * 清除高亮项，仅在开启 highlight-row 时可用
    */
-  clearCurrentRow: () => void;
+  clearCurrentRow(): void;
+  /**
+   * slot插槽对象
+   */
+  $slot: {
+    /**
+     * 表头
+     */
+    header: Vue,
+    /**
+     * 页脚
+     */
+    footer: Vue,
+    /**
+     * 加载中
+     */
+    loading: Vue
+  }  
 }
 
 export interface TableColumn {

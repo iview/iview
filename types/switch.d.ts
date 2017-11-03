@@ -30,5 +30,18 @@ export interface Switch extends Vue {
   /**
    * 开关变化时触发，返回当前的状态
    */
-  'on-change':(value:boolean)=>void;
+  $emit(eventName: 'on-change', value: boolean): this;
+  /**
+   * slot插槽对象
+   */
+  $slot: {
+    /**
+     * 自定义显示打开时的内容
+     */
+    open: Vue,
+    /**
+     * 自定义显示关闭时的内容
+     */
+    close: Vue
+  }
 }

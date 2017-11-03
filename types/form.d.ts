@@ -34,15 +34,15 @@ export interface Form extends Vue {
   /**
    * 对整个表单进行校验，参数为检验完的回调，会返回一个 Boolean 表示成功与失败
    */
-  validate: (callback?: (valid: boolean) => void) => void;
+  validate(callback?: (valid: boolean) => void): void;
   /**
    * 对部分表单字段进行校验的方法，参数1为需校验的 prop，参数2为检验完回调，返回错误信息
    */
-  validateField: (prop: string, callback?: (valid: boolean) => void) => void;
+  validateField(prop: string, callback?: (valid: boolean) => void): void;
   /**
    * 对整个表单进行重置，将所有字段值重置为空并移除校验结果
    */
-  resetFields: () => void;
+  resetFields(): void;
 }
 
 export interface FormItem extends Vue {
@@ -78,6 +78,19 @@ export interface FormItem extends Vue {
    * 是否显示校验错误信息,默认值true
    */
   'show-message': boolean;
+  /**
+   * slot插槽对象
+   */
+  $slot: {
+    /**
+     * 内容
+     */
+    '': Vue,
+    /**
+     * label 内容
+     */
+    label: Vue
+  }
 }
 
 

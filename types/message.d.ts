@@ -4,55 +4,69 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue from "vue";
 
-export default Message;
+export default MessageInstance;
 
-export interface Message {
+export interface MessageInstance {
   /**
-   * info
-   * @param content 提示内容
-   * @param duration 自动关闭的延时，单位秒，不关闭可以写 0
-   * @param onClose 关闭时的回调
+   * 消息
    */
-  info(content: string, duration?: number, onClose?: Function): Function;
+  info(config: MessageConfig): void;
   /**
-   * success
-   * @param content 提示内容
-   * @param duration 自动关闭的延时，单位秒，不关闭可以写 0
-   * @param onClose 关闭时的回调
+   * 成功
    */
-  success(content: string, duration?: number, onClose?: Function): Function;
+  success(config: MessageConfig): void;
   /**
-   * warning
-   * @param content 提示内容
-   * @param duration 自动关闭的延时，单位秒，不关闭可以写 0
-   * @param onClose 关闭时的回调
+   * 警告
    */
-  warning(content: string, duration?: number, onClose?: Function): Function;
+  warning(config: MessageConfig): void;
   /**
-   * error
-   * @param content 提示内容
-   * @param duration 自动关闭的延时，单位秒，不关闭可以写 0
-   * @param onClose 关闭时的回调
+   * 错误
    */
-  error(content: string, duration?: number, onClose?: Function): Function;
+  error(config: MessageConfig): void;
   /**
-   * loading
-   * @param content 提示内容
-   * @param duration 自动关闭的延时，单位秒，不关闭可以写 0
-   * @param onClose 关闭时的回调
+   * 对话框
    */
-  loading(content: string, duration?: number, onClose?: Function): Function;
-  //配置
-  config(options: MessageConfig): Function;
-  //销毁
-  destroy(): Function;
+  confirm(config: MessageConfig): void;
+  /**
+   * 配置
+   */
+  config(options: MessageConfig): void;
+  /**
+   * 销毁
+   */
+  destroy(): void;
 }
 
 export interface MessageConfig {
-  //提示组件距离顶端的距离，单位像素	number	默认24
-  top: number;
-  //默认自动关闭的延时，单位秒	number	默认1.5
-  duration: number;
+  /**
+   * 提示内容
+   */
+  content?: string;
+  /**
+   * 关闭时的回调
+   */
+  onClose?: () => void;
+  /**
+   * 页面是否可以滚动，默认值false
+   */
+  closable?: boolean;
+  /**
+   * 提示组件距离顶端的距离，单位像素，默认值24
+   */
+  top?: number;
+  /**
+   * 默认自动关闭的延时，单位秒，默认值1.5
+   */
+  duration?: number;
+}
+
+declare module "vue/types/vue" {
+  interface Vue {
+    /**
+     * 全局提示
+     */
+    $Message: MessageInstance;
+  }
 }
 
 

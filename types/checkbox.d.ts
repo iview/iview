@@ -38,7 +38,7 @@ export interface Checkbox extends Vue {
   /**
    * 只在单独使用时有效。在选项状态发生改变时触发，通过修改外部的数据改变时不会触发
    */
-  'on-change': (value: boolean) => void;
+  $emit(eventName: 'on-change', value: boolean): this;
 }
 
 export interface CheckboxGroup extends Vue {
@@ -53,5 +53,5 @@ export interface CheckboxGroup extends Vue {
   /**
    * 在选项状态发生改变时触发，返回已选中的数组。通过修改外部的数据改变时不会触发
    */
-  'on-change':(...values: boolean[]) => void;
+  $emit(eventName: 'on-change', values: boolean[]): this;
 }

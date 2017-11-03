@@ -33,23 +33,23 @@ export interface GridCol extends Vue {
   /**
    * 栅格的占位格数，可选值为0~24的整数，为 0 时，相当于display:none
    */
-  span:number | string;
+  span: number | string;
   /**
    * 栅格的顺序，在flex布局模式下有效
    */
-  order:number | string;
+  order: number | string;
   /**
    * 栅格左侧的间隔格数，间隔内不可以有栅格
    */
-  offset:number | string;
+  offset: number | string;
   /**
    * 栅格向右移动格数
    */
-  push:number | string;
+  push: number | string;
   /**
    * 栅格向左移动格数
    */
-  pull:number | string;
+  pull: number | string;
   /**
    * 自定义的class名称
    */
@@ -57,17 +57,17 @@ export interface GridCol extends Vue {
   /**
    * <768px 响应式栅格，可为栅格数或一个包含其他属性的对象
    */
-  xs:number | object;
+  xs: number | object;
   /**
    * ≥768px 响应式栅格，可为栅格数或一个包含其他属性的对象
    */
-  sm:number | object;
+  sm: number | object;
   /**
    * ≥992px 响应式栅格，可为栅格数或一个包含其他属性的对象
    */
-  md:number | object;
+  md: number | object;
   /**
    * ≥1200px 响应式栅格，可为栅格数或一个包含其他属性的对象
    */
-  lg:number | object;
+  lg: number | object;
 }

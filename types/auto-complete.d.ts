@@ -54,13 +54,13 @@ export interface AutoComplete extends Vue {
   /**
    * 选中 option，或 input 的 value 变化时，调用此函数
    */
-  'on-change': (value: string | number) => void;
+  $emit(eventName: 'on-change', value: string | number): this;
   /**
    * 被选中时调用，参数为选中项的 value 值
    */
-  'on-select': (value: string | number) => void;
+  $emit(eventName: 'on-select', value: string | number): this;
   /**
    * 搜索补全项的时候调用
    */
-  'on-search': (query: string) => void;
+  $emit(eventName: 'on-search', query: string): this;
 }

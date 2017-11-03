@@ -4,41 +4,41 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue from "vue";
 
-export default Notice;
+export default NoticeInstance;
 
-export interface Notice {
+export interface NoticeInstance {
   /**
    * 打开
    */
-  open(config: NoticeConfig): Function;
+  open(config: NoticeConfig): void;
   /**
    * 信息
    */
-  info(config: NoticeConfig): Function;
+  info(config: NoticeConfig): void;
   /**
    * 成功
    */
-  success(config: NoticeConfig): Function;
+  success(config: NoticeConfig): void;
   /**
    * 警告
    */
-  warning(config: NoticeConfig): Function;
+  warning(config: NoticeConfig): void;
   /**
    * 错误
    */
-  error(config: NoticeConfig): Function;
+  error(config: NoticeConfig): void;
   /**
    * 全局配置
    */
-  config(options: NoticeGlobalConfig): Function;
+  config(options: NoticeGlobalConfig): void;
   /**
    * 全局关闭某个通知
    */
-  close(key: string): Function;
+  close(name: string): void;
   /**
    * 全局销毁
    */
-  destroy(): Function;
+  destroy(): void;
 }
 
 export interface NoticeConfig {
@@ -73,4 +73,13 @@ export interface NoticeGlobalConfig {
    * 默认自动关闭的延时，单位秒 默认4.5
    */
   duration: number;
+}
+
+declare module "vue/types/vue" {
+  interface Vue {
+    /**
+     * 通知提醒
+     */
+    $Notice: NoticeInstance;
+  }
 }

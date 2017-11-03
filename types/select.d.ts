@@ -78,19 +78,19 @@ export interface Select extends Vue {
   /**
    * 选中的Option变化时触发，默认返回 value，如需返回 label，详见 label-in-value 属性	当前选中项
    */
-  'on-change': () => void;
+  $emit(eventName: 'on-change'): this;
   /**
    * 搜索词改变时触发,query
    */
-  'on-query-change': (query: string) => void;
+  $emit(eventName: 'on-query-change', query: string): this;
   /**
    * 设置搜索词，为空时清空，仅在 filterable="true" 时有效
    */
-  setQuery: (query: string) => void;
+  setQuery(query: string): void;
   /**
    * 清空单选项，仅在 clearable="true" 时有效
    */
-  clearSingleSelect: () => void;
+  clearSingleSelect(): void;
 }
 
 export interface SelectOption extends Vue {

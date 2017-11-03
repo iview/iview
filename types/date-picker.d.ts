@@ -57,19 +57,23 @@ export interface DatePicker extends Vue {
    */
   size: string;
   /**
-   * 是否禁用选择器,默认值false
+   * 是否禁用选择器,
+   * 默认值false
    */
   disabled: boolean;
   /**
-   * 是否显示清除按钮,默认值true
+   * 是否显示清除按钮,
+   * 默认值true
    */
   clearable: boolean;
   /**
-   * 完全只读，开启后不会弹出选择器，只在没有设置 open 属性下生效,默认值false
+   * 完全只读，开启后不会弹出选择器，只在没有设置 open 属性下生效,
+   * 默认值false
    */
   readonly: boolean;
   /**
-   * 文本框是否可以输入，只在没有使用 slot 时有效,默认值true
+   * 文本框是否可以输入，只在没有使用 slot 时有效,
+   * 默认值true
    */
   editable: boolean;
   /**
@@ -85,19 +89,28 @@ export interface DatePicker extends Vue {
   /**
    * 日期发生变化时触发	已经格式化后的日期，比如 2016-01-01
    */
-  'on-change': (value: string) => void;
+  $emit(eventName: 'on-change', value: string): this;
   /**
    * 弹出日历和关闭日历时触发
    */
-  'on-open-change': (value: boolean) => void;
+  $emit(eventName: 'on-open-change', value: boolean): this;
   /**
    * 在 confirm 模式下有效，点击确定按钮时触发
    */
-  'on-ok': () => void;
+  $emit(eventName: 'on-ok'): this;
   /**
    * 在 confirm 模式或 clearable = true 时有效，在清空日期时触发
    */
-  'on-clear': () => void;
+  $emit(eventName: 'on-clear'): this;
+  /**
+   * slot插槽对象
+   */
+  $slot: {
+    /**
+     * 自定义选择器的显示内容，建议与 open 等参数一起使用，详见示例
+     */
+    '': Vue,
+  }
 }
 
 export interface DatePickerOptions extends Vue {
@@ -111,5 +124,5 @@ export interface DatePickerOptions extends Vue {
   /**
    * 设置不可选择的日期，参数为当前的日期，需要返回 Boolean 是否禁用这天
    */
-  disabledDate: () => boolean;
+  disabledDate(): boolean;
 }

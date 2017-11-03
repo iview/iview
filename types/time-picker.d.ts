@@ -136,17 +136,26 @@ export interface TimePicker extends Vue {
   /**
   * 时间发生变化时触发	已经格式化后的时间，比如 09:41:00
   */
-  'on-change': (value: string) => void;
+  $emit(eventName: 'on-change', value: string): this;
   /**
   * 弹出浮层和关闭浮层时触发
   */
-  'on-open-change': (value: boolean) => void;
+  $emit(eventName: 'on-open-change', value: boolean): this;
   /**
   * 点击确定按钮时触发
   */
-  'on-ok': () => void;
+  $emit(eventName: 'on-ok'): this;
   /**
   * 在清空日期时触发
   */
-  'on-clear': () => void;
+  $emit(eventName: 'on-clear'): this;
+  /**
+   * slot插槽对象
+   */
+  $slot: {
+    /**
+     * 自定义选择器的显示内容，建议与 open 等参数一起使用，详见示例
+     */
+    '': Vue,
+  }  
 }

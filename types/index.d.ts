@@ -8,7 +8,6 @@ export default IView;
 
 import { Button } from "./button";
 import { Dropdown } from "./dropdown";
-import { Form } from "./form";
 import { Icon } from "./icon";
 import { Input } from "./input";
 import { Radio } from "./radio";
@@ -19,17 +18,26 @@ import { Select } from "./select";
 import { AutoComplete } from "./auto-complete";
 import { DatePicker } from "./date-picker";
 import { TimePicker } from "./time-picker";
-import { Loading } from "./loading";
+import { Cascader } from "./cascader";
+import { Transfer } from "./transfer";
+import { InputNumber } from "./input-number";
+import { Rate } from "./rate";
+import { Upload } from "./upload";
+import { ColorPicker } from "./color-picker";
+import { Form } from "./form";
+import { Alert } from "./alert";
+import { Card } from "./card";
+
+import { LoadingBarInstance } from "./loading-bar";
 import { Menu } from "./menu";
-import { Message } from "./message";
+import { MessageInstance } from "./message";
 import { Modal } from "./modal";
-import { Notice } from "./notice";
+import { NoticeInstance } from "./notice";
 import { GridRow, GridCol } from "./grid";
 
 export declare module IView {
   interface IButton extends Button { }
   interface IDropdown extends Dropdown { }
-  interface IForm extends Form { }
   interface IIcon extends Icon { }
   interface IInput extends Input { }
   interface IRadio extends Radio { }
@@ -40,11 +48,21 @@ export declare module IView {
   interface IAutoComplete extends AutoComplete { }
   interface IDatePicker extends DatePicker { }
   interface ITimePicker extends TimePicker { }
-  interface ILoading extends Loading { }
+  interface ICascader extends Cascader { }
+  interface ITransfer extends Transfer { }
+  interface IInputNumber extends InputNumber { }
+  interface IRate extends Rate { }
+  interface IUpload extends Upload { }
+  interface IColorPicker extends ColorPicker { }
+  interface IForm extends Form { }
+  interface IAlert extends Alert { }
+  interface ICard extends Card { }
+
+  interface ILoadingBarInstance extends LoadingBarInstance { }
   interface IMenu extends Menu { }
-  interface IMessage extends Message { }
+  interface IMessageInstance extends MessageInstance { }
   interface IModal extends Modal { }
-  interface INotice extends Notice { }
+  interface INoticeInstance extends NoticeInstance { }
   interface IGridRow extends GridRow { }
   interface IGridCol extends GridCol { }
 }

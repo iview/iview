@@ -34,14 +34,14 @@ export interface Radio extends Vue {
   /**
    * 在选项状态发生改变时触发，返回当前状态。通过修改外部的数据改变时不会触发
    */
-  'on-change':(...args:boolean[])=>void;
+  $emit(eventName: 'on-change', ...args: boolean[]): this;
 }
 
 export interface RadioGroup extends Vue {
   /**
    * 指定当前选中的项目数据。可以使用 v-model 双向绑定数据
    */
-  value: string|number;
+  value: string | number;
   /**
    * 可选值为 button 或不填，为 button 时使用按钮样式
    */
@@ -57,5 +57,5 @@ export interface RadioGroup extends Vue {
   /**
    * 在选项状态发生改变时触发，返回当前选中的项。通过修改外部的数据改变时不会触发
    */
-  'on-change':(...args:boolean[])=>void;
+  $emit(eventName: 'on-change', ...args: boolean[]): this;
 }

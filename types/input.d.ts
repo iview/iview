@@ -66,37 +66,50 @@ export interface Input extends Vue {
   /**
    * 按下回车键时触发
    */
-  'on-enter': () => void;
+  $emit(eventName: 'on-enter'): this;
   /**
    * 设置 icon 属性后，点击图标时触发
    */
-  'on-click': () => void;
+  $emit(eventName: 'on-click'): this;
   /**
    * 数据改变时触发
    */
-  'on-change': (event:string) => void;
+  $emit(eventName: 'on-change', event: string): this;
   /**
    * 输入框聚焦时触发
    */
-  'on-focus': () => void;
+  $emit(eventName: 'on-focus'): this;
   /**
    * 输入框失去焦点时触发
    */
-  'on-blur': () => void;
+  $emit(eventName: 'on-blur'): this;
   /**
    * 原生的 keyup 事件
    */
-  'on-keyup': (event:KeyboardEvent) => void;
+  $emit(eventName: 'on-keyup', event: KeyboardEvent): this;
   /**
    * 原生的 keydown 事件
    */
-  'on-keydown': (event:KeyboardEvent) => void;
+  $emit(eventName: 'on-keydown', event: KeyboardEvent): this;
   /**
    * 原生的 keypress 事件
    */
-  'on-keypress': (event:KeyboardEvent) => void;
+  $emit(eventName: 'on-keypress', event: KeyboardEvent): this;
   /**
    * 手动聚焦输入框
    */
-  focus: () => void;
+  focus(): void;
+  /**
+   * slot插槽对象
+   */
+  $slot: {
+    /**
+     * 前置内容，仅在 text 类型下有效
+     */
+    prepend: Vue,
+    /**
+     * 后置内容，仅在 text 类型下有效
+     */
+    append: Vue
+  }
 }

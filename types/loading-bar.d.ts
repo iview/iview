@@ -4,48 +4,60 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue from "vue";
 
-export default Loading;
+export default LoadingBarInstance;
 
-export interface Loading {
+export interface LoadingBarInstance {
   /**
    * 开始从 0 显示进度条，并自动加载进度
    */
-  start(): Function;
+  start(): void;
   /**
    * 结束进度条，自动补全剩余进度
    */
-  finish(): Function;
+  finish(): void;
   /**
    * 以错误的类型结束进度条，自动补全剩余进度
    */
-  error(): Function;
+  error(): void;
   /**
    * 精确加载到指定的进度
    * @param percent 指定的进度百分比
    */
-  update(percent: number): Function;
+  update(percent: number): void;
   /**
    * 全局配置
    * @param options 配置对象
    */
-  config(options: LoadingConfig): Function;
+  config(options: LoadingBarConfig): void;
   /**
    * 全局销毁
    */
-  destroy(): Function;
+  destroy(): void;
 }
 
-export interface LoadingConfig {
+export interface LoadingBarConfig {
   /**
-   * 进度条的颜色，默认为 iView 主色 primary
+   * 进度条的颜色，默认为 iView 主色 
+   * 默认值primary
    */
   color?: string;
   /**
-   * 失败时的进度条颜色，默认为 iView 主色 error
+   * 失败时的进度条颜色，默认为 iView 主色 
+   * 默认值error
    */
   failedColor?: string;
   /**
-   * 进度条高度，单位 px ,默认为 2
+   * 进度条高度，单位 px 
+   * 默认值2
    */
   height?: number;
+}
+
+declare module "vue/types/vue" {
+  interface Vue {
+    /**
+     * 加载进度条
+     */
+    $Loading: LoadingBarInstance;
+  }
 }
