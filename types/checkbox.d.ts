@@ -8,7 +8,8 @@ export default Checkbox;
 
 export interface Checkbox extends Vue {
   /**
-   * 只在单独使用时有效。可以使用 v-model 双向绑定数据,默认值false
+   * 只在单独使用时有效。可以使用 v-model 双向绑定数据
+   * @default false
    */
   value: boolean;
   /**
@@ -16,11 +17,13 @@ export interface Checkbox extends Vue {
    */
   label: string | number | boolean;
   /**
-   * 是否禁用当前项,默认值false
+   * 是否禁用当前项
+   * @default false
    */
   disabled: boolean;
   /**
-   * 设置 indeterminate 状态，只负责样式控制,默认值false
+   * 设置 indeterminate 状态，只负责样式控制
+   * @default false
    */
   indeterminate: boolean;
   /**
@@ -28,11 +31,13 @@ export interface Checkbox extends Vue {
    */
   size: string;
   /**
-   * 选中时的值，当使用类似 1 和 0 来判断是否选中时会很有用,默认值true
+   * 选中时的值，当使用类似 1 和 0 来判断是否选中时会很有用
+   * @default true
    */
   'true-value': string | number | boolean;
   /**
-   * 没有选中时的值，当使用类似 1 和 0 来判断是否选中时会很有用,默认值false
+   * 没有选中时的值，当使用类似 1 和 0 来判断是否选中时会很有用
+   * @default false
    */
   'false-value': string | number | boolean;
   /**
@@ -43,7 +48,8 @@ export interface Checkbox extends Vue {
 
 export interface CheckboxGroup extends Vue {
   /**
-   * 指定选中项目的集合，可以使用 v-model 双向绑定数据,默认值[]
+   * 指定选中项目的集合，可以使用 v-model 双向绑定数据
+   * @default []
    */
   value: string[] | number[] | boolean[];
   /**

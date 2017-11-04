@@ -30,7 +30,7 @@ export interface DatePicker extends Vue {
    * bottom,bottom-start,bottom-end,
    * left,left-start,left-end,
    * right,right-start,right-end
-   * 默认值bottom-start
+   * @default bottom-start
    */
   placement: 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end'
   /**
@@ -43,13 +43,13 @@ export interface DatePicker extends Vue {
   options: object;
   /**
    * 是否显示底部控制栏，开启后，选择完日期，选择器不会主动关闭，需用户确认后才可关闭,
-   * 默认值false
+   * @default false
    */
   confirm: boolean;
   /**
    * 手动控制日期选择器的显示状态，true 为显示，false 为收起。使用该属性后，选择器不会主动关闭。
    * 建议配合 slot 及 confirm 和相关事件一起使用
-   * 默认值null
+   * @default null
    */
   open: boolean;
   /**
@@ -58,28 +58,28 @@ export interface DatePicker extends Vue {
   size: string;
   /**
    * 是否禁用选择器,
-   * 默认值false
+   * @default false
    */
   disabled: boolean;
   /**
    * 是否显示清除按钮,
-   * 默认值true
+   * @default true
    */
   clearable: boolean;
   /**
    * 完全只读，开启后不会弹出选择器，只在没有设置 open 属性下生效,
-   * 默认值false
+   * @default false
    */
   readonly: boolean;
   /**
    * 文本框是否可以输入，只在没有使用 slot 时有效,
-   * 默认值true
+   * @default true
    */
   editable: boolean;
   /**
    * 是否将弹层放置于 body 内，在 Tabs、带有 fixed 的 Table 列内使用时，
    * 建议添加此属性，它将不受父级样式影响，从而达到更好的效果,
-   * 默认值false
+   * @default false
    */
   transfer: boolean;
   /**
@@ -110,7 +110,7 @@ export interface DatePicker extends Vue {
      * 自定义选择器的显示内容，建议与 open 等参数一起使用，详见示例
      */
     '': Vue,
-  }
+  };
 }
 
 export interface DatePickerOptions extends Vue {

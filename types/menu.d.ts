@@ -9,12 +9,12 @@ export default Menu;
 export interface Menu extends Vue {
   /**
    * 菜单类型，可选值为 horizontal（水平） 和 vertical（垂直）
-   * 默认值vertical
+   * @default vertical
    */
   mode: string;
   /**
    * 主题，可选值为 light、dark、primary，其中 primary 只适用于 mode="horizontal"
-   * 默认值light
+   * @default light
    */
   theme: string;
   /**
@@ -27,12 +27,12 @@ export interface Menu extends Vue {
   'open-names': string[] | number[];
   /**
    * 是否开启手风琴模式，开启后每次至多展开一个子菜单
-   * 默认值false
+   * @default false
    */
   accordion: boolean;
   /**
    * 导航菜单的宽度，只在 mode="vertical" 时有效，如果使用 Col 等布局，建议设置为 auto
-   * 默认值240px
+   * @default 240px
    */
   width: string;
   /**
@@ -41,7 +41,7 @@ export interface Menu extends Vue {
   $emit(eventName: 'on-select', name: string | number): this;
   /**
    * 当 展开/收起 子菜单时触发	
-   * 默认值当前展开的 Submenu 的 name 值数组
+   * @default 当前展开的 Submenu 的 name 值数组
    */
   $emit(eventName: 'on-open-change', names: string[] | number[]): this;
   /**
@@ -82,13 +82,13 @@ export interface Submenu extends Vue {
      * 子菜单标题
      */
     title: string;
-  }
+  };
 }
 
 export interface MenuGroup extends Vue {
   /**
    * 分组标题
-   * 默认值空
+   * @default 空
    */
   title: string;
 }

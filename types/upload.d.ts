@@ -48,7 +48,7 @@ export interface Upload extends Vue {
    * format 是识别文件的后缀名，
    * accept 为 input 标签原生的 accept 属性，
    * 会在选择文件时过滤，可以两者结合使用，
-   * 默认值[]
+   * @default []
    */
   format: string[];
   /**
@@ -72,7 +72,7 @@ export interface Upload extends Vue {
   /**
    * 上传文件之前的钩子，参数为上传的文件，若返回 false 或者 Promise 则停止上传
    */
-  $emit(eventName:'before-upload'): this;
+  $emit(eventName: 'before-upload'): this;
   /**
    * 文件上传时的钩子，返回字段为 event, file, fileList
    */
@@ -104,7 +104,7 @@ export interface Upload extends Vue {
   /**
    * 清空已上传的文件列表
    */
-  'clearFiles': () => void;
+  'clearFiles'(): void;
   /**
    * slot插槽对象
    */
@@ -117,5 +117,5 @@ export interface Upload extends Vue {
      * 辅助提示内容
      */
     tip: Vue
-  }
+  };
 }

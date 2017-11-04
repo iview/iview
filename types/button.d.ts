@@ -20,11 +20,13 @@ export interface Button extends Vue {
    */
   shape: string;
   /**
-   * 开启后，按钮的长度为 100%,默认值false
+   * 开启后，按钮的长度为 100%
+   * @default false
    */
   long: boolean;
   /**
-   * 设置button原生的type，可选值为button、submit、reset,默认值button
+   * 设置button原生的type，可选值为button、submit、reset
+   * @default button
    */
   'html-type': string;
   /**
@@ -32,7 +34,8 @@ export interface Button extends Vue {
    */
   disabled:boolean;
   /**
-   * 设置按钮为加载中状态,默认值false
+   * 设置按钮为加载中状态
+   * @default false
    */
   loading: boolean;
   /**
@@ -51,7 +54,8 @@ export interface ButtonGroup extends Vue {
    */
   shape: string;
   /**
-   * 是否纵向排列按钮组,默认值false
+   * 是否纵向排列按钮组
+   * @default false
    */
   vertical: boolean;
 }

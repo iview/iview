@@ -52,7 +52,7 @@ export interface Transfer extends Vue {
   'filter-method': (value: string) => void;
   /**
    * 当列表为空时显示的内容
-   * 默认值列表为空
+   * @default 列表为空
    */
   'not-found-text': string;
   /**
@@ -67,5 +67,5 @@ export interface Transfer extends Vue {
      * 自定义底部内容
      */
     '': Vue,
-  }
+  };
 }

@@ -9,17 +9,17 @@ export default Alert;
 export interface Alert extends Vue {
   /**
    * 警告提示样式，可选值为info、success、warning、error
-   * 默认值info
+   * @default info
    */
   type: 'info' | 'success' | 'warning' | 'error';
   /**
    * 是否可关闭
-   * 默认值false
+   * @default false
    */
   closable: boolean;
   /**
    * 是否显示图标
-   * 默认值false
+   * @default false
    */
   'show-icon': boolean;
   /**
@@ -46,5 +46,5 @@ export interface Alert extends Vue {
      * 自定义关闭内容
      */
     close: Vue
-  }
+  };
 }

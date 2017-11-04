@@ -8,7 +8,8 @@ export default TimePicker;
 
 export interface TimePicker extends Vue {
   /**
-   * 显示类型，可选值为 time、timerange,默认值time
+   * 显示类型，可选值为 time、timerange
+   * @default time
    */
   'type': 'time' | 'timerange';
   /**
@@ -45,7 +46,8 @@ export interface TimePicker extends Vue {
    */
   value: Date;
   /**
-   * 展示的时间格式,默认值HH:mm:ss
+   * 展示的时间格式
+   * @default HH:mm:ss
    * 名称	  说明	                示例
    * yyyy   年份（四位）	        2016
    * yy	    年份（两位）	        16
@@ -87,21 +89,23 @@ export interface TimePicker extends Vue {
    * bottom,bottom-start,bottom-end
    * left,left-start,left-end
    * right,right-start,right-end
-   * 默认值bottom-start
+   * @default bottom-start
    */
   placement: 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end';
   /**
-   * 占位文本,默认值空
+   * 占位文本
+   * @default 空
    */
   placeholder: string;
   /**
-  * 是否显示底部控制栏,默认值false
+  * 是否显示底部控制栏
+   * @default false
   */
   confirm: boolean;
   /**
   * 手动控制时间选择器的显示状态，true 为显示，false 为收起。
   * 使用该属性后，选择器不会主动关闭。建议配合 slot 及 confirm 和相关事件一起使用,
-  * 默认值null
+  * @default null
   */
   open: boolean;
   /**
@@ -109,24 +113,29 @@ export interface TimePicker extends Vue {
   */
   size: string;
   /**
-  * 是否禁用选择器,默认值false
+  * 是否禁用选择器
+   * @default false
   */
   disabled: boolean;
   /**
-  * 是否显示清除按钮,默认值true
+  * 是否显示清除按钮
+   * @default true
   */
   clearable: boolean;
   /**
-  * 完全只读，开启后不会弹出选择器，只在没有设置 open 属性下生效,默认值false
+  * 完全只读，开启后不会弹出选择器，只在没有设置 open 属性下生效
+   * @default false
   */
   readonly: boolean;
   /**
-  * 文本框是否可以输入，只在没有使用 slot 时有效,默认值true
+  * 文本框是否可以输入，只在没有使用 slot 时有效
+   * @default true
   */
   editable: boolean;
   /**
   * 是否将弹层放置于 body 内，在 Tabs、带有 fixed 的 Table 列内使用时，
-  建议添加此属性，它将不受父级样式影响，从而达到更好的效果,默认值false
+  建议添加此属性，它将不受父级样式影响，从而达到更好的效果
+   * @default false
   */
   transfer: boolean;
   /**
@@ -157,5 +166,5 @@ export interface TimePicker extends Vue {
      * 自定义选择器的显示内容，建议与 open 等参数一起使用，详见示例
      */
     '': Vue,
-  }  
+  };
 }

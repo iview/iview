@@ -25,7 +25,7 @@ export interface ColorPicker extends Vue {
   colors: string[];
   /**
    * 颜色的格式，可选值为 hsl、hsv、hex、rgb
-   * 默认值开启 alpha 时为 rgb，其它为 hex
+   * @default 开启 alpha 时为 rgb，其它为 hex
    */
   format: 'hsl' | 'hsv' | 'hex' | 'rgb';
   /**
@@ -34,12 +34,12 @@ export interface ColorPicker extends Vue {
   size: '' | 'large' | 'small' | 'default';
   /**
    * 当绑定值变化时触发
-   * 默认值当前值
+   * @default 当前值
    */
   $emit(eventName: 'on-change', value: string): this;
   /**
    * 面板中当前显示的颜色发生改变时触发
-   * 默认值当前显示的颜色值
+   * @default 当前显示的颜色值
    */
   $emit(eventName: 'on-active-change', value: string): this;
 }

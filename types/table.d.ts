@@ -8,27 +8,33 @@ export default Table;
 
 export interface Table extends Vue {
   /**
-   * 显示的结构化数据，其中，字段 cellClassName 用于设置任意单元格的样式名称，因此数据不能使用该字段，详见示例特定样式。,默认值[]
+   * 显示的结构化数据，其中，字段 cellClassName 用于设置任意单元格的样式名称，因此数据不能使用该字段，详见示例特定样式。
+   * @default []
    */
   data: object[];
   /**
-   * 表格列的配置描述，具体项见后文,默认值[]
+   * 表格列的配置描述，具体项见后文
+   * @default []
    */
   columns: object[];
   /**
-   * 是否显示间隔斑马纹,默认值false
+   * 是否显示间隔斑马纹
+   * @default false
    */
   stripe: boolean;
   /**
-   * 是否显示纵向边框,默认值false
+   * 是否显示纵向边框
+   * @default false
    */
   border: boolean;
   /**
-   * 是否显示表头,默认值true
+   * 是否显示表头
+   * @default true
    */
   'show-header': boolean;
   /**
-   * 表格宽度，单位 px,默认值自动
+   * 表格宽度，单位 px
+   * @default 自动
    */
   width: number | string;
   /**
@@ -36,15 +42,18 @@ export interface Table extends Vue {
    */
   height: number | string;
   /**
-   * 表格是否加载中,默认值false
+   * 表格是否加载中
+   * @default false
    */
   loading: boolean;
   /**
-   * 禁用鼠标悬停时的高亮,默认值false
+   * 禁用鼠标悬停时的高亮
+   * @default false
    */
   'disabled-hover': boolean;
   /**
-   * 是否支持高亮选中的行，即单选,默认值false
+   * 是否支持高亮选中的行，即单选
+   * @default false
    */
   'highlight-row': boolean;
   /**
@@ -58,11 +67,13 @@ export interface Table extends Vue {
    */
   size: string;
   /**
-   * 数据为空时显示的提示内容,默认值暂无数据
+   * 数据为空时显示的提示内容
+   * @default 暂无数据
    */
   'no-data-text': string;
   /**
-   * 筛选数据为空时显示的提示内容,默认值暂无筛选结果
+   * 筛选数据为空时显示的提示内容
+   * @default 暂无筛选结果
    */
   'no-filtered-data-text': string;
   /**
@@ -150,7 +161,7 @@ export interface Table extends Vue {
      * 加载中
      */
     loading: Vue
-  }  
+  };
 }
 
 export interface TableColumn {

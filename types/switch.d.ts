@@ -8,7 +8,8 @@ export default Switch;
 
 export interface Switch extends Vue {
   /**
-   * 指定当前是否选中，可以使用 v-model 双向绑定数据,默认值false
+   * 指定当前是否选中，可以使用 v-model 双向绑定数据
+   * @default false
    */
   value: boolean;
   /**
@@ -16,15 +17,18 @@ export interface Switch extends Vue {
    */
   size: string;
   /**
-   * 禁用开关,默认值false
+   * 禁用开关
+   * @default false
    */
   disabled: boolean;
   /**
-   * 选中时的值，当使用类似 1 和 0 来判断是否选中时会很有用,默认值true
+   * 选中时的值，当使用类似 1 和 0 来判断是否选中时会很有用
+   * @default true
    */
   'true-value': string | number | boolean;
   /**
-   * 没有选中时的值，当使用类似 1 和 0 来判断是否选中时会很有用,默认值false
+   * 没有选中时的值，当使用类似 1 和 0 来判断是否选中时会很有用
+   * @default false
    */
   'false-value': string | number | boolean;
   /**
@@ -43,5 +47,5 @@ export interface Switch extends Vue {
      * 自定义显示关闭时的内容
      */
     close: Vue
-  }
+  };
 }

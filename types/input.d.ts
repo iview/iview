@@ -8,11 +8,13 @@ export default Input;
 
 export interface Input extends Vue {
   /**
-   * 输入框类型，可选值为 text、password 或 textarea,默认值text
+   * 输入框类型，可选值为 text、password 或 textarea
+   * @default text
    */
   'type': string;
   /**
-   * 绑定的值，可使用 v-model 双向绑定,默认值空
+   * 绑定的值，可使用 v-model 双向绑定
+   * @default 空
    */
   value: string | number;
   /**
@@ -24,11 +26,13 @@ export interface Input extends Vue {
    */
   placeholder: string;
   /**
-   * 设置输入框为禁用状态,默认值false
+   * 设置输入框为禁用状态
+   * @default false
    */
   disabled: boolean;
   /**
-   * 设置输入框为只读,默认值false
+   * 设置输入框为只读
+   * @default false
    */
   readonly: boolean;
   /**
@@ -40,19 +44,23 @@ export interface Input extends Vue {
    */
   icon: string;
   /**
-   * 文本域默认行数，仅在 textarea 类型下有效,默认值2
+   * 文本域默认行数，仅在 textarea 类型下有效
+   * @default 2
    */
   rows: number;
   /**
-   * 自适应内容高度，仅在 textarea 类型下有效，可传入对象，如 { minRows: 2, maxRows: 6 },默认值false
+   * 自适应内容高度，仅在 textarea 类型下有效，可传入对象，如 { minRows: 2, maxRows: 6 }
+   * @default false
    */
   autosize: boolean | object;
   /**
-   * 将用户的输入转换为 number 类型,默认值false
+   * 将用户的输入转换为 number 类型
+   * @default false
    */
   number: boolean;
   /**
-   * 自动获取焦点,默认值false
+   * 自动获取焦点
+   * @default false
    */
   autofocus: boolean;
   /**
@@ -111,5 +119,5 @@ export interface Input extends Vue {
      * 后置内容，仅在 text 类型下有效
      */
     append: Vue
-  }
+  };
 }

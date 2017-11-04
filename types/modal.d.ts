@@ -9,7 +9,7 @@ export default Modal;
 export interface Modal {
   /**
    * 对话框是否显示，可使用 v-model 双向绑定数据。
-   * 默认值false
+   * @default false
    */
   value: boolean;
   /**
@@ -18,34 +18,38 @@ export interface Modal {
   title: string;
   /**
    * 是否显示右上角的关闭按钮，关闭后 Esc 按键也将关闭,
-   * 默认值true
+   * @default true
    */
   closable: boolean;
   /**
-   * 是否允许点击遮罩层关闭,默认值true
+   * 是否允许点击遮罩层关闭
+   * @default true
    */
   'mask-closable': boolean;
   /**
    * 点击确定按钮时，确定按钮是否显示 loading 状态，开启则需手动设置visible来关闭对话框,
-   * 默认值false
+   * @default false
    */
   loading: boolean;
   /**
-   * 页面是否可以滚动,默认值false
+   * 页面是否可以滚动
+   * @default false
    */
   scrollable: boolean;
   /**
-   * 确定按钮文字,默认值确定
+   * 确定按钮文字
+   * @default 确定
    */
   'ok-text': string;
   /**
-   * 取消按钮文字,默认值取消
+   * 取消按钮文字
+   * @default 取消
    */
   'cancel-text': string;
   /**
    * 对话框宽度，单位 px。
    * 对话框的宽度是响应式的，当屏幕尺寸小于 768px 时，宽度会变为自动auto,
-   * 默认值	520
+   * @default 	520
    */
   width: number | string;
   /**
@@ -58,7 +62,7 @@ export interface Modal {
   'class-name': string;
   /**
    * 自定义显示动画，第一项是模态框，第二项是背景,
-   * 默认值['ease', 'fade']
+   * @default ['ease', 'fade']
    */
   'transition-names': Array<string>;
   /**
@@ -93,7 +97,7 @@ export interface Modal {
      * 自定义右上角关闭内容
      */
     close: Vue
-  }
+  };
 }
 
 export interface ModalInstance {
@@ -150,7 +154,7 @@ export interface ModalConfig {
   cancelText?: string;
   /**
    * 点击确定按钮时，确定按钮是否显示 loading 状态，开启则需手动调用Modal.remove()来关闭对话框
-   * 默认值false
+   * @default false
    */
   loading?: boolean;
   /**

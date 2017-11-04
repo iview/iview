@@ -16,23 +16,28 @@ export interface Cascader extends Vue {
    */
   value: object[];
   /**
-   * 选择后展示的函数，用于自定义显示格式,默认值label => label.join(' / ')
+   * 选择后展示的函数，用于自定义显示格式
+   * @default label => label.join(' / ')
    */
   'render-format': (label: string[]) => string
   /**
-   * 是否禁用选择器,默认值false
+   * 是否禁用选择器
+   * @default false
    */
   disabled: boolean;
   /**
-   * 是否支持清除,默认值true
+   * 是否支持清除
+   * @default true
    */
   clearable: boolean;
   /**
-   * 输入框占位符,默认值请选择
+   * 输入框占位符
+   * @default 请选择
    */
   placeholder: string;
   /**
-   * 次级菜单展开方式，可选值为 click 或 hover,默认值click
+   * 次级菜单展开方式，可选值为 click 或 hover
+   * @default click
    */
   trigger: 'click' | 'hover';
   /**

@@ -8,27 +8,33 @@ export default Select;
 
 export interface Select extends Vue {
   /**
-   * 指定选中项目的 value 值，可以使用 v-model 双向绑定数据。单选时只接受 String 或 Number，多选时只接受 Array,默认值空
+   * 指定选中项目的 value 值，可以使用 v-model 双向绑定数据。单选时只接受 String 或 Number，多选时只接受 Array
+   * @default 空
    */
   value: string | number | string[] | number[];
   /**
-   * 是否支持多选,默认值false
+   * 是否支持多选
+   * @default false
    */
   multiple: boolean;
   /**
-   * 是否禁用,默认值false
+   * 是否禁用
+   * @default false
    */
   disabled: boolean;
   /**
-   * 是否可以清空选项，只在单选时有效,默认值false
+   * 是否可以清空选项，只在单选时有效
+   * @default false
    */
   clearable: boolean;
   /**
-   * 是否支持搜索,默认值false
+   * 是否支持搜索
+   * @default false
    */
   filterable: boolean;
   /**
-   * 是否使用远程搜索,默认值false
+   * 是否使用远程搜索
+   * @default false
    */
   remote: boolean;
   /**
@@ -36,11 +42,13 @@ export interface Select extends Vue {
    */
   'remote-method': () => void;
   /**
-   * 当前是否正在远程搜索,默认值false
+   * 当前是否正在远程搜索
+   * @default false
    */
   loading: boolean;
   /**
-   * 远程搜索中的文字提示,默认值加载中
+   * 远程搜索中的文字提示
+   * @default 加载中
    */
   'loading-text': string;
   /**
@@ -48,27 +56,33 @@ export interface Select extends Vue {
    */
   label: string | number | string[] | number[];
   /**
-   * 选择框大小，可选值为large、small、default或者不填,默认值请选择
+   * 选择框大小，可选值为large、small、default或者不填
+   * @default 请选择
    */
   size: string;
   /**
-   * 选择框默认文字,默认值请选择
+   * 选择框默认文字
+   * @default 请选择
    */
   placeholder: string;
   /**
-   * 当下拉列表为空时显示的内容,默认值无匹配数据
+   * 当下拉列表为空时显示的内容
+   * @default 无匹配数据
    */
   'not-found-text': string;
   /**
-   * 在返回选项时，是否将 label 和 value 一并返回，默认只返回,默认值false
+   * 在返回选项时，是否将 label 和 value 一并返回，默认只返回
+   * @default false
    */
   'label-in-value': boolean;
   /**
-   * 弹窗的展开方向，可选值为 bottom 和 top,默认值bottom
+   * 弹窗的展开方向，可选值为 bottom 和 top
+   * @default bottom
    */
   placement: 'bottom' | 'top';
   /**
-   * 是否将弹层放置于 body 内，在 Tabs、带有 fixed 的 Table 列内使用时，建议添加此属性，它将不受父级样式影响，从而达到更好的效果,默认值false
+   * 是否将弹层放置于 body 内，在 Tabs、带有 fixed 的 Table 列内使用时，建议添加此属性，它将不受父级样式影响，从而达到更好的效果
+   * @default false
    */
   transfer: boolean;
   /**
@@ -105,14 +119,16 @@ export interface SelectOption extends Vue {
    */
   label: string;
   /**
-   * 是否禁用当前项,默认值false
+   * 是否禁用当前项
+   * @default false
    */
   disabled: boolean;
 }
 
 export interface SelectOptionGroup extends Vue {
   /**
-   * 分组的组名,默认值空
+   * 分组的组名
+   * @default 空
    */
   label: string;
 }

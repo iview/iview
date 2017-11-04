@@ -16,7 +16,8 @@ export interface Form extends Vue {
    */
   rules: object;
   /**
-   * 是否开启行内表单模式,默认值false
+   * 是否开启行内表单模式
+   * @default false
    */
   inline: boolean;
   /**
@@ -28,7 +29,8 @@ export interface Form extends Vue {
    */
   'label-width': number;
   /**
-   * 是否显示校验错误信息,默认值true
+   * 是否显示校验错误信息
+   * @default true
    */
   'show-message': boolean;
   /**
@@ -75,7 +77,8 @@ export interface FormItem extends Vue {
    */
   error: string;
   /**
-   * 是否显示校验错误信息,默认值true
+   * 是否显示校验错误信息
+   * @default true
    */
   'show-message': boolean;
   /**
@@ -90,7 +93,7 @@ export interface FormItem extends Vue {
      * label 内容
      */
     label: Vue
-  }
+  };
 }
 
 

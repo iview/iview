@@ -12,15 +12,18 @@ export interface AutoComplete extends Vue {
    */
   value: string | number;
   /**
-   * 自动完成的数据源,默认值[]
+   * 自动完成的数据源
+   * @default []
    */
   data: string[] | number[];
   /**
-   * 是否可以清空选项,默认值false
+   * 是否可以清空选项
+   * @default false
    */
   clearable: boolean;
   /**
-   * 是否禁用,默认值false
+   * 是否禁用
+   * @default false
    */
   disabled: boolean;
   /**
@@ -38,13 +41,13 @@ export interface AutoComplete extends Vue {
   /**
    * 是否根据输入项进行筛选。当其为一个函数时，会接收 value 和 option 两个参数，
    * 当 option 符合筛选条件时，应返回 true，反之则返回 false,
-   * 默认值false
+   * @default false
    */
   'filter-method': boolean | (() => boolean);
   /**
    * 是否将弹层放置于 body 内，在 Tabs、带有 fixed 的 Table 列内使用时，
    * 建议添加此属性，它将不受父级样式影响，从而达到更好的效果,
-   * 默认值false
+   * @default false
    */
   transfer: string;
   /**

@@ -38,17 +38,17 @@ export interface LoadingBarInstance {
 export interface LoadingBarConfig {
   /**
    * 进度条的颜色，默认为 iView 主色 
-   * 默认值primary
+   * @default primary
    */
   color?: string;
   /**
    * 失败时的进度条颜色，默认为 iView 主色 
-   * 默认值error
+   * @default error
    */
   failedColor?: string;
   /**
    * 进度条高度，单位 px 
-   * 默认值2
+   * @default 2
    */
   height?: number;
 }

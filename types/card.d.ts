@@ -39,5 +39,5 @@ export interface Card extends Vue {
      * 卡片主体内容
      */
     '': typeof Vue;
-  }
+  };
 }

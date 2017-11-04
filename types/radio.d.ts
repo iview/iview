@@ -8,7 +8,8 @@ export default Radio;
 
 export interface Radio extends Vue {
   /**
-   * 只在单独使用时有效。可以使用 v-model 双向绑定数据,默认值false
+   * 只在单独使用时有效。可以使用 v-model 双向绑定数据
+   * @default false
    */
   value: boolean;
   /**
@@ -16,7 +17,8 @@ export interface Radio extends Vue {
    */
   label: string | number;
   /**
-   * 是否禁用当前项,默认值false
+   * 是否禁用当前项
+   * @default false
    */
   disabled: boolean;
   /**
@@ -24,11 +26,13 @@ export interface Radio extends Vue {
    */
   size: string;
   /**
-   * 选中时的值，当使用类似 1 和 0 来判断是否选中时会很有用,默认值true
+   * 选中时的值，当使用类似 1 和 0 来判断是否选中时会很有用
+   * @default true
    */
   'true-value': string | number | boolean;
   /**
-   * 没有选中时的值，当使用类似 1 和 0 来判断是否选中时会很有用,默认值false
+   * 没有选中时的值，当使用类似 1 和 0 来判断是否选中时会很有用
+   * @default false
    */
   'false-value': string | number | boolean;
   /**
@@ -51,7 +55,8 @@ export interface RadioGroup extends Vue {
    */
   size: string;
   /**
-   * 是否垂直排列，按钮样式下无效,默认值false
+   * 是否垂直排列，按钮样式下无效
+   * @default false
    */
   vertical: boolean;
   /**

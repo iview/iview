@@ -8,7 +8,8 @@ export default GridRow;
 
 export interface GridRow extends Vue {
   /**
-   * 栅格间距，单位 px，左右平分,默认值0
+   * 栅格间距，单位 px，左右平分
+   * @default 0
    */
   gutter: number;
   /**
