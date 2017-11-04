@@ -20,6 +20,7 @@
                 :class="inputClasses"
                 :disabled="disabled"
                 autocomplete="off"
+                spellcheck="false"
                 :autofocus="autofocus"
                 @focus="focus"
                 @blur="blur"

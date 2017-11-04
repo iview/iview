@@ -10,6 +10,8 @@
             <input
                 type="text"
                 :value="currentPage"
+                autocomplete="off"
+                spellcheck="false"
                 @keydown="keyDown"
                 @keyup="keyUp"
                 @change="keyUp">

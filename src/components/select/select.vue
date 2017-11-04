@@ -21,6 +21,8 @@
                     :class="[prefixCls + '-input']"
                     :placeholder="showPlaceholder ? localePlaceholder : ''"
                     :style="inputStyle"
+                    autocomplete="off"
+                    spellcheck="false"
                     @blur="handleBlur"
                     @keydown="resetInputState"
                     @keydown.delete="handleInputDelete"
