@@ -103,24 +103,29 @@ export interface Modal {
 export interface ModalInstance {
   /**
    * 消息
+   * @param config ModalConfig为相关配置,string为待显示的内容
    */
-  info(config: ModalConfig): void;
+  info(config: ModalConfig | string): void;
   /**
    * 成功
+   * @param config ModalConfig为相关配置,string为待显示的内容
    */
-  success(config: ModalConfig): void;
+  success(config: ModalConfig | string): void;
   /**
    * 警告
+   * @param config ModalConfig为相关配置,string为待显示的内容
    */
-  warning(config: ModalConfig): void;
+  warning(config: ModalConfig | string): void;
   /**
    * 错误
+   * @param config ModalConfig为相关配置,string为待显示的内容
    */
-  error(config: ModalConfig): void;
+  error(config: ModalConfig | string): void;
   /**
    * 对话框
+   * @param config ModalConfig为相关配置,string为待显示的内容
    */
-  confirm(config: ModalConfig): void;
+  confirm(config: ModalConfig | string): void;
   /**
    * 移除
    */
@@ -129,11 +134,11 @@ export interface ModalInstance {
 
 export interface ModalConfig {
   /**
-   * 标题
+   * 标题或者Element选择器字符串
    */
   title?: string;
   /**
-   * 内容
+   * 内容或者Element选择器字符串
    */
   content?: string;
   /**

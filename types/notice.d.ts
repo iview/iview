@@ -9,22 +9,27 @@ export default NoticeInstance;
 export interface NoticeInstance {
   /**
    * 打开
+   * @param config NoticeConfig为相关配置,string为待显示的内容
    */
-  open(config: NoticeConfig): void;
+  open(config: NoticeConfig | string): void;
   /**
    * 信息
+   * @param config NoticeConfig为相关配置,string为待显示的内容
    */
-  info(config: NoticeConfig): void;
+  info(config: NoticeConfig | string): void;
   /**
    * 成功
+   * @param config NoticeConfig为相关配置,string为待显示的内容
    */
-  success(config: NoticeConfig): void;
+  success(config: NoticeConfig | string): void;
   /**
    * 警告
+   * @param config NoticeConfig为相关配置,string为待显示的内容
    */
-  warning(config: NoticeConfig): void;
+  warning(config: NoticeConfig | string): void;
   /**
    * 错误
+   * @param config NoticeConfig为相关配置,string为待显示的内容
    */
   error(config: NoticeConfig): void;
   /**
