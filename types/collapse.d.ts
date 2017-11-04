@@ -22,7 +22,7 @@ export interface Collapse extends Vue {
   $emit(eventName: 'on-change', []): this;
 }
 
-export interface Panel extends Vue {
+export interface CollapsePanel extends Vue {
   /**
    * 当前面板的 name，与 Collapse的value对应，不填为索引值
    * @default index的值

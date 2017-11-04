@@ -205,11 +205,11 @@ export interface TableColumn {
   render?: (h?:
     (
       el: string | object | Function,
-      data: string | RenderCreateElementData | RenderCreateElementResult | Array<RenderCreateElementResult>,
-      vnode?: string | RenderCreateElementResult[]
-    ) => RenderCreateElementResult,
+      data: string | TableRenderCreateElementData | TableRenderCreateElementResult | Array<TableRenderCreateElementResult>,
+      vnode?: string | TableRenderCreateElementResult[]
+    ) => TableRenderCreateElementResult,
     params?: TableColumnRenderParams
-  ) => RenderCreateElementResult;
+  ) => TableRenderCreateElementResult;
   /**
    * 自定义列头显示内容，传入参数有两个，column 和 index，分别为当前列数据和当前列索引，不支持渲染自定义组件
    */
@@ -244,7 +244,7 @@ export interface TableColumn {
   filterRemote?: () => void;
 }
 
-export interface RenderCreateElementData {
+export interface TableRenderCreateElementData {
   /**
    * 和`v-bind:class`一样的 API
    */
@@ -309,7 +309,7 @@ export interface TableColumnRenderParams {
   index: number;
 }
 
-export interface RenderCreateElementResult {
+export interface TableRenderCreateElementResult {
   child?: object;
   children?: Array<any>;
   componentInstance?: object;
