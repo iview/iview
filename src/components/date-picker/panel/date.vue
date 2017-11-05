@@ -15,13 +15,10 @@
                     :class="iconBtnCls('prev')"
                     @click="changeMonth(-1)"
                     v-show="currentView === 'date'"><Icon type="ios-arrow-left"></Icon></span>
-                <span
-                    :class="[datePrefixCls + '-header-label']"
-                    @click="showYearPicker">{{ yearLabel }}</span>
-                <span
-                    :class="[datePrefixCls + '-header-label']"
-                    @click="showMonthPicker"
-                    v-show="currentView === 'date'">{{ monthLabel }}</span>
+                <date-panel-label
+                    :date-panel-label="datePanelLabel"
+                    :current-view="currentView"
+                    :date-prefix-cls="datePrefixCls"/>
                 <span
                     :class="iconBtnCls('next', '-double')"
                     @click="changeYear(+1)"><Icon type="ios-arrow-right"></Icon></span>
@@ -83,11 +80,12 @@
     import MonthTable from '../base/month-table.vue';
     import TimePicker from './time.vue';
     import Confirm from '../base/confirm.vue';
+    import datePanelLabel from './date-panel-label.vue';
 
     import Mixin from './mixin';
     import Locale from '../../../mixins/locale';
 
-    import { initTimeDate, siblingMonth } from '../util';
+    import { initTimeDate, siblingMonth, formatDateLabels } from '../util';
 
     const prefixCls = 'ivu-picker-panel';
     const datePrefixCls = 'ivu-date-picker';
@@ -95,7 +93,7 @@
     export default {
         name: 'DatePicker',
         mixins: [ Mixin, Locale ],
-        components: { Icon, DateTable, YearTable, MonthTable, TimePicker, Confirm },
+        components: { Icon, DateTable, YearTable, MonthTable, TimePicker, Confirm, datePanelLabel },
         data () {
             return {
                 prefixCls: prefixCls,
@@ -123,19 +121,21 @@
                     }
                 ];
             },
-            yearLabel () {
-                const tYear = this.t('i.datepicker.year');
-                const year = this.year;
-                if (!year) return '';
-                if (this.currentView === 'year') {
-                    const startYear = Math.floor(year / 10) * 10;
-                    return `${startYear}${tYear} - ${startYear + 9}${tYear}`;
-                }
-                return `${year}${tYear}`;
-            },
-            monthLabel () {
-                const month = this.month + 1;
-                return this.t(`i.datepicker.month${month}`);
+            datePanelLabel () {
+                if (!this.year) return null; // not ready yet
+                const locale = this.t('i.locale');
+                const datePanelLabel = this.t('i.datepicker.datePanelLabel');
+                const date = new Date(this.year, this.month);
+                const { labels, separator } = formatDateLabels(locale, datePanelLabel, date);
+
+                const handler = type => {
+                    return () => (this.currentView = type);
+                };
+
+                return {
+                    separator: separator,
+                    labels: labels.map(obj => ((obj.handler = handler(obj.type)), obj))
+                };
             }
         },
         watch: {
@@ -195,12 +195,6 @@
             changeMonth(dir){
                 this.date = siblingMonth(this.date, dir);
                 this.setMonthYear(this.date);
-            },
-            showYearPicker () {
-                this.currentView = 'year';
-            },
-            showMonthPicker () {
-                this.currentView = 'month';
             },
             handleToggleTime () {
                 if (this.currentView === 'date') {

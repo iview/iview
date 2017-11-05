@@ -1,19 +1,10 @@
 <template>
-    <div style="margin: 100px;">
-        <Poptip
-                confirm
-                transfer
-                title="您确认删除这条内容吗？"
-                @on-ok="ok"
-                @on-cancel="cancel">
-            <Button>删除</Button>
-        </Poptip>
-        <Poptip
-                confirm
-                title="您确认删除这条内容吗？"
-                @on-ok="ok"
-                @on-cancel="cancel">
-            <Button>删除</Button>
+    <div style="margin: 200px;">
+        <Poptip title="提示标题" transfer>
+            <div slot="content" style="padding: 50px">
+                <Button>click me</Button>
+            </div>
+            <Button>click 激活</Button>
         </Poptip>
     </div>
 </template>

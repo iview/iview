@@ -68,6 +68,14 @@ exports.stringToDate = function(str) {
 };
 
 /**
+ * Transform Date to yyyy-mm-dd string
+ * @param {Date}
+ */
+exports.dateToString = function(d) {
+  return [d.getFullYear(), d.getMonth() + 1, d.getDate()].map(nr => nr > 9 ? nr : '0' + nr).join('-');
+};
+
+/**
  * 触发一个事件
  * mouseenter, mouseleave, mouseover, keyup, change, click 等
  * @param  {Element} elm

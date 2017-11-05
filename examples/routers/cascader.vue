@@ -1,13 +1,10 @@
 <template>
-    <div style="width: 200px;margin: 100px;">
-        <Cascader :data="data" v-model="value1"></Cascader>
-    </div>
+    <Cascader v-model="value3" :data="data" filterable @on-change="hc"></Cascader>
 </template>
 <script>
     export default {
         data () {
             return {
-                value1: [],
                 data: [{
                     value: 'beijing',
                     label: '北京',
@@ -54,7 +51,13 @@
                             ]
                         }
                     ],
-                }]
+                }],
+                value3: []
+            }
+        },
+        methods: {
+            hc (a,b) {
+                console.log(a,b)
             }
         }
     }

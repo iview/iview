@@ -263,6 +263,7 @@
                 if (!isNaN(val) && !isEmptyString) {
                     this.currentValue = val;
 
+                    if (event.type == 'input' && val < min) return; // prevent fire early in case user is typing a bigger number. Change will handle this otherwise.
                     if (val > max) {
                         this.setValue(max);
                     } else if (val < min) {

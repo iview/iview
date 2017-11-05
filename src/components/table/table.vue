@@ -345,6 +345,7 @@
                         this.tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
                     }
                     this.columnsWidth = {};
+                    if (!this.$refs.tbody) return;
                     this.$nextTick(() => {
                         let columnsWidth = {};
                         let autoWidthIndex = -1;
@@ -574,6 +575,7 @@
 
                 this.cloneColumns[index]._isFiltered = true;
                 this.cloneColumns[index]._filterVisible = false;
+                this.$emit('on-filter-change', column);
             },
             handleFilterSelect (index, value) {
                 this.cloneColumns[index]._filterChecked = [value];
@@ -587,6 +589,7 @@
                 let filterData = this.makeDataWithSort();
                 filterData = this.filterOtherData(filterData, index);
                 this.rebuildData = filterData;
+                this.$emit('on-filter-change', this.cloneColumns[index]);
             },
             makeData () {
                 let data = deepCopy(this.data);
@@ -714,8 +717,9 @@
                 let noHeader = false;
                 if ('noHeader' in params) noHeader = params.noHeader;
 
-                const data = Csv(columns, datas, ',', noHeader);
-                ExportCsv.download(params.filename, data);
+                const data = Csv(columns, datas, params, noHeader);
+                if (params.callback) params.callback(data);
+                else ExportCsv.download(params.filename, data);
             }
         },
         created () {

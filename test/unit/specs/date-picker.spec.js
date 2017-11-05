@@ -1,4 +1,4 @@
-import { createVue, destroyVM, stringToDate, promissedTick } from '../util';
+import { createVue, destroyVM, stringToDate, dateToString, promissedTick } from '../util';
 
 describe('DatePicker.vue', () => {
   let vm;
@@ -103,19 +103,19 @@ describe('DatePicker.vue', () => {
 
       vm.dateType = 'year';
       promissedTick(picker)
-          .then(() => {
-            expect(picker.type).to.equal('year');
-            expect(picker.selectionMode).to.equal('year');
+        .then(() => {
+          expect(picker.type).to.equal('year');
+          expect(picker.selectionMode).to.equal('year');
 
-            vm.dateType = 'date';
-            return promissedTick(picker);
-          })
-          .then(() => {
-            expect(picker.type).to.equal('date');
-            expect(picker.selectionMode).to.equal('day');
+          vm.dateType = 'date';
+          return promissedTick(picker);
+        })
+        .then(() => {
+          expect(picker.type).to.equal('date');
+          expect(picker.selectionMode).to.equal('day');
 
-            done();
-          });
+          done();
+        });
     });
   });
 
@@ -191,4 +191,81 @@ describe('DatePicker.vue', () => {
     });
   });
 
+  it('should convert strings to Date objects', done => {
+    vm = createVue({
+      template: `
+        <div>
+          <date-picker v-model="value1" type="daterange" style="width: 200px"></date-picker>
+          <date-picker v-model="value2" type="daterange" placement="bottom-end" style="width: 200px"></date-picker>
+          <date-picker v-model="value3" type="datetime" placement="bottom-end" style="width: 200px"></date-picker>
+          <date-picker v-model="value4" type="datetimerange" placement="bottom-end" style="width: 200px"></date-picker>
+        </div>
+      `,
+      data() {
+        return {
+          value1: ['2017-10-10', '2017-10-20'],
+          value2: [new Date(), new Date()],
+          value3: '2017-10-10 10:00:00',
+          value4: ['2027-10-10 10:00:00', '2027-10-20 10:00:00']
+        };
+      }
+    });
+
+    vm.$nextTick(() => {
+      const {value1, value2, value3, value4} = vm;
+
+      expect(value1[0] instanceof Date).to.equal(true);
+      expect(value1[1] instanceof Date).to.equal(true);
+      expect(value1.map(dateToString).join('|')).to.equal('2017-10-10|2017-10-20');
+
+      expect(value2[0] instanceof Date).to.equal(true);
+      expect(value2[1] instanceof Date).to.equal(true);
+      expect(value2.map(dateToString).join('|')).to.equal([new Date(), new Date()].map(dateToString).join('|'));
+
+      expect(dateToString(vm.value3)).to.equal('2017-10-10');
+
+      expect(value4[0] instanceof Date).to.equal(true);
+      expect(value4[1] instanceof Date).to.equal(true);
+      expect(value4.map(dateToString).join('|')).to.equal('2027-10-10|2027-10-20');
+      done();
+    });
+  });
+
+  it('should render date-picker label correctly in zh-CN', done => {
+    vm = createVue(`
+      <Date-picker type="date"></Date-picker>
+    `);
+
+    const picker = vm.$children[0];
+    picker.handleIconClick();
+    vm.$nextTick(() => {
+      const now = new Date();
+      const labels = vm.$el.querySelectorAll('.ivu-picker-panel-body .ivu-date-picker-header-label');
+      const labelText = [...labels].map(el => el.textContent).join(' ');
+      expect(labelText).to.equal([now.getFullYear() + '年', now.getMonth() + 1 + '月'].join(' '));
+      done();
+    });
+  });
+
+  it('Should format labels correctly', done => {
+    const formater = require('../../../src/components/date-picker/util').formatDateLabels;
+    const expectedResults = require('./assets/locale-expects.js').default;
+    const locales = [
+      'de-DE', 'en-US', 'es-ES', 'fr-FR', 'id-ID', 'ja-JP', 'ko-KR', 'pt-BR',
+      'pt-PT', 'ru-RU', 'sv-SE', 'tr-TR', 'vi-VN', 'zh-CN', 'zh-TW'
+    ].reduce((obj, locale) => {
+      obj[locale] = require('../../../src/locale/lang/' + locale).default;
+      return obj;
+    }, {});
+    const testDate = new Date(2030, 9); // October 2030
+
+    Object.keys(locales).forEach(locale => {
+      const format = locales[locale].i.datepicker.datePanelLabel;
+      const f = formater(locale, format, testDate);
+      const labelText = f.labels.map(obj => obj.label).join(f.separator);
+      expect(labelText).to.equal(expectedResults[locale]);
+    });
+    expect(Object.keys(locales).length > 0).to.equal(true);
+    done();
+  });
 });

@@ -61,3 +61,64 @@ export const initTimeDate = function() {
     date.setSeconds(0);
     return date;
 };
+
+export const formatDateLabels = (function() {
+    /*
+      Formats:
+      yyyy - 4 digit year
+      m - month, numeric, 1 - 12
+      mm - month, numeric, 01 - 12
+      mmm - month, 3 letters, as in `toLocaleDateString`
+      Mmm - month, 3 letters, capitalize the return from `toLocaleDateString`
+      mmmm - month, full name, as in `toLocaleDateString`
+      Mmmm - month, full name, capitalize the return from `toLocaleDateString`
+    */
+
+    const formats = {
+        yyyy: date => date.getFullYear(),
+        m: date => date.getMonth() + 1,
+        mm: date => ('0' + (date.getMonth() + 1)).slice(-2),
+        mmm: (date, locale) => {
+            const monthName = date.toLocaleDateString(locale, {
+                month: 'long'
+            });
+            return monthName.slice(0, 3);
+        },
+        Mmm: (date, locale) => {
+            const monthName = date.toLocaleDateString(locale, {
+                month: 'long'
+            });
+            return (monthName[0].toUpperCase() + monthName.slice(1).toLowerCase()).slice(0, 3);
+        },
+        mmmm: (date, locale) =>
+            date.toLocaleDateString(locale, {
+                month: 'long'
+            }),
+        Mmmm: (date, locale) => {
+            const monthName = date.toLocaleDateString(locale, {
+                month: 'long'
+            });
+            return monthName[0].toUpperCase() + monthName.slice(1).toLowerCase();
+        }
+    };
+    const formatRegex = new RegExp(['yyyy', 'Mmmm', 'mmmm', 'Mmm', 'mmm', 'mm', 'm'].join('|'), 'g');
+
+    return function(locale, format, date) {
+        const componetsRegex = /(\[[^\]]+\])([^\[\]]+)(\[[^\]]+\])/;
+        const components = format.match(componetsRegex).slice(1);
+        const separator = components[1];
+        const labels = [components[0], components[2]].map(component => {
+            const label = component.replace(/\[[^\]]+\]/, str => {
+                return str.slice(1, -1).replace(formatRegex, match => formats[match](date, locale));
+            });
+            return {
+                label: label,
+                type: component.includes('yy') ? 'year' : 'month'
+            };
+        });
+        return {
+            separator: separator,
+            labels: labels
+        };
+    };
+})();

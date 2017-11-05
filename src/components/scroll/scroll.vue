@@ -54,9 +54,11 @@
             },
             loadingText: {
                 type: String
-            }
+            },
+            distanceToEdge: [Number, Array]
         },
         data() {
+            const distanceToEdge = this.calculateProximityThreshold();
             return {
                 showTopLoader: false,
                 showBottomLoader: false,
@@ -73,6 +75,10 @@
                 handleScroll: () => {},
                 pointerUpHandler: () => {},
                 pointerMoveHandler: () => {},
+
+                // near to edge detectors
+                topProximityThreshold: distanceToEdge[0],
+                bottomProximityThreshold: distanceToEdge[1]
             };
         },
         computed: {
@@ -113,6 +119,12 @@
                 return new Promise(resolve => {
                     setTimeout(resolve, 1000);
                 });
+            },
+
+            calculateProximityThreshold(){
+                const dte = this.distanceToEdge;
+                if (typeof dte == 'undefined') return [20, 20];
+                return Array.isArray(dte) ? dte : [dte, dte];
             },
 
             onCallback(dir) {
@@ -178,7 +190,7 @@
                 }
             },
 
-            onWheel() {
+            onWheel(event) {
                 if (this.isLoading) return;
 
                 // get the wheel direction
@@ -206,10 +218,10 @@
                 // to give the feeling its ruberish and can be puled more to start loading
                 if (direction > 0 && this.reachedTopScrollLimit) {
                     this.topRubberPadding += 5 - this.topRubberPadding / 5;
-                    if (this.topRubberPadding > 20) this.onCallback(1);
+                    if (this.topRubberPadding > this.topProximityThreshold) this.onCallback(1);
                 } else if (direction < 0 && this.reachedBottomScrollLimit) {
                     this.bottomRubberPadding += 6 - this.bottomRubberPadding / 4;
-                    if (this.bottomRubberPadding > 20) this.onCallback(-1);
+                    if (this.bottomRubberPadding > this.bottomProximityThreshold) this.onCallback(-1);
                 } else {
                     this.onScroll();
                 }
@@ -221,9 +233,11 @@
                 const scrollDirection = Math.sign(this.lastScroll - el.scrollTop); // IE has no Math.sign, check that webpack polyfills this
                 const displacement = el.scrollHeight - el.clientHeight - el.scrollTop;
 
-                if (scrollDirection == -1 && displacement <= dragConfig.sensitivity) {
+                const topNegativeProximity = this.topProximityThreshold < 0 ? this.topProximityThreshold : 0;
+                const bottomNegativeProximity = this.bottomProximityThreshold < 0 ? this.bottomProximityThreshold : 0;
+                if (scrollDirection == -1 && displacement + bottomNegativeProximity <= dragConfig.sensitivity) {
                     this.reachedBottomScrollLimit = true;
-                } else if (scrollDirection >= 0 && el.scrollTop == 0) {
+                } else if (scrollDirection >= 0 && el.scrollTop + topNegativeProximity <= 0) {
                     this.reachedTopScrollLimit = true;
                 } else {
                     this.reachedTopScrollLimit = false;

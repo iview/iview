@@ -70,7 +70,7 @@
 <!--</script>-->
 
 
-<template>
+<!-- <template>
     <Tabs type="card" closable @on-tab-remove="handleTabRemove">
         <TabPane label="标签一" v-if="tab0">标签一的内容</TabPane>
         <TabPane label="标签二" v-if="tab1">标签二的内容</TabPane>
@@ -89,6 +89,106 @@
         methods: {
             handleTabRemove (name) {
                 this['tab' + name] = false;
+            }
+        }
+    }
+</script> -->
+
+<!--<template>-->
+    <!--<div>-->
+    <!--<Button type="ghost" @click="toFirst" size="small">to first</Button>-->
+    <!--<Button type="ghost" @click="toLast" size="small">to last</Button>-->
+    <!--<Tabs type="card" :animated="animated"  v-model="activeTab">-->
+        <!--<TabPane v-for="tab in tabs" :key="tab" :label="'标签' + tab"  :name="tab+''" closable>标签{{ tab }}</TabPane>-->
+        <!--<div slot="extra">-->
+            <!--<Button type="ghost" @click="handleTabsAdd" size="small">增加</Button>-->
+        <!--</div>-->
+    <!--</Tabs>-->
+    <!--</div>-->
+<!--</template>-->
+<!--<script>-->
+    <!--export default {-->
+        <!--data () {-->
+            <!--return {-->
+                <!--tabs: 2,-->
+                <!--activeTab:"2",-->
+                <!--animated:true-->
+            <!--}-->
+        <!--},-->
+        <!--methods: {-->
+            <!--handleTabsAdd () {-->
+                <!--this.tabs ++;-->
+                <!--this.activeTab = this.tabs + '';-->
+            <!--},-->
+            <!--toFirst () {-->
+                <!--this.activeTab = '1';-->
+            <!--},-->
+            <!--toLast () {-->
+                <!--this.activeTab = this.tabs+'';-->
+            <!--}-->
+        <!--}-->
+    <!--}-->
+<!--</script>-->
+
+<!--<template>-->
+    <!--<div>-->
+        <!--<Tabs type="card">-->
+            <!--<TabPane v-for="tab in tabs" :key="tab" :label="'标签' + tab">标签{{ tab }}</TabPane>-->
+        <!--</Tabs>-->
+        <!--<Button type="ghost" @click="handleTabsAdd" size="small">增加</Button>-->
+        <!--<Button type="ghost" @click="handleTabsMin" size="small">减少</Button>-->
+    <!--</div>-->
+<!--</template>-->
+<!--<script>-->
+    <!--export default {-->
+        <!--data () {-->
+            <!--return {-->
+                <!--tabs: 2-->
+            <!--}-->
+        <!--},-->
+        <!--methods: {-->
+            <!--handleTabsAdd () {-->
+                <!--this.tabs ++;-->
+            <!--},-->
+            <!--handleTabsMin () {-->
+                <!--this.tabs &#45;&#45;;-->
+            <!--}-->
+        <!--}-->
+    <!--}-->
+<!--</script>-->
+
+<template>
+    <div>
+        <Button type="primary" @click="modal1 = true">显示对话框</Button>
+        <Modal
+                v-model="modal1"
+                title="普通的Modal对话框标题"
+                @on-ok="ok"
+                @on-cancel="cancel">
+            <p>对话框内容</p>
+            <p>对话框内容</p>
+            <p>对话框内容</p>
+            <Tabs value="name1">
+                <TabPane label="标签一" name="name1">标签一的内容</TabPane>
+                <TabPane label="标签二" name="name2">标签二的内容</TabPane>
+                <TabPane label="标签三" name="name3">标签三的内容</TabPane>
+            </Tabs>
+        </Modal>
+    </div>
+</template>
+<script>
+    export default {
+        data () {
+            return {
+                modal1: false
+            }
+        },
+        methods: {
+            ok () {
+                this.$Message.info('点击了确定');
+            },
+            cancel () {
+                this.$Message.info('点击了取消');
             }
         }
     }

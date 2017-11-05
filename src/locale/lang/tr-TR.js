@@ -1,5 +1,6 @@
 export default {
     i: {
+        locale: 'tr-TR',
         select: {
             placeholder: 'Seç',
             noMatch: 'Eşleşen veri yok',
@@ -19,6 +20,7 @@ export default {
             endTime: 'Bitişe',
             clear: 'Temizle',
             ok: 'Tamam',
+            datePanelLabel: '[mmmm] [yyyy]',
             month: '',
             month1: 'Ocak',
             month2: 'Şubat',

@@ -18,6 +18,7 @@
                 :style="styles"
                 ref="popper"
                 v-show="visible"
+                @click="handleTransferClick"
                 @mouseenter="handleMouseenter"
                 @mouseleave="handleMouseleave"
                 :data-transfer="transfer"
@@ -102,7 +103,8 @@
             return {
                 prefixCls: prefixCls,
                 showTitle: true,
-                isInput: false
+                isInput: false,
+                disableCloseUnderTransfer: false,  // transfer 模式下，点击 slot 也会触发关闭
             };
         },
         computed: {
@@ -156,7 +158,14 @@
                 }
                 this.visible = !this.visible;
             },
+            handleTransferClick () {
+                if (this.transfer) this.disableCloseUnderTransfer = true;
+            },
             handleClose () {
+                if (this.disableCloseUnderTransfer) {
+                    this.disableCloseUnderTransfer = false;
+                    return false;
+                }
                 if (this.confirm) {
                     this.visible = false;
                     return true;

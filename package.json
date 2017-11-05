@@ -1,6 +1,6 @@
 {
   "name": "iview",
-  "version": "2.5.1",
+  "version": "2.6.0",
   "title": "iView",
   "description": "A high quality  UI components Library with Vue.js",
   "homepage": "http://www.iviewui.com",
@@ -41,7 +41,6 @@
   },
   "dependencies": {
     "async-validator": "^1.8.1",
-    "compression-webpack-plugin": "^1.0.1",
     "core-js": "^2.5.0",
     "deepmerge": "^1.5.2",
     "element-resize-detector": "^1.1.12",
@@ -50,7 +49,7 @@
     "tinycolor2": "^1.4.1"
   },
   "peerDependencies": {
-    "vue": "^2.4.3"
+    "vue": "^2.5.2"
   },
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",
@@ -62,6 +61,7 @@
     "babel-preset-stage-3": "^6.24.1",
     "babel-runtime": "^6.26.0",
     "chai": "^3.5.0",
+    "compression-webpack-plugin": "^1.0.1",
     "cross-env": "^3.2.4",
     "css-loader": "^0.23.1",
     "eslint": "^3.19.0",

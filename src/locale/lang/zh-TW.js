@@ -1,5 +1,6 @@
 export default {
     i: {
+        locale: 'zh-TW',
         select: {
             placeholder: '請選擇',
             noMatch: '無匹配數據',
@@ -19,6 +20,7 @@ export default {
             endTime: '結束時間',
             clear: '清空',
             ok: '確定',
+            datePanelLabel: '[yyyy年] [m月]',
             month: '月',
             month1: '1 月',
             month2: '2 月',
