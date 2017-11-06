@@ -37,7 +37,7 @@
                 :data-transfer="transfer"
                 v-transfer-dom>
                 <ul v-show="notFoundShow" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
-                <ul v-show="(!notFound && !remote) || (remote && !loading && !notFound)" :class="[prefixCls + '-dropdown-list']"><slot></slot></ul>
+                <ul v-show="!value || (!notFound && !remote) || (remote && !loading && !notFound)" :class="[prefixCls + '-dropdown-list']"><slot></slot></ul>
                 <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
             </Drop>
         </transition>
@@ -250,7 +250,7 @@
             },
             notFoundShow () {
                 const options = this.$slots.default || [];
-                return (this.notFound && !this.remote) || (this.remote && !this.loading && !options.length);
+                return !this.value || (this.notFound && !this.remote) || (this.remote && !this.loading && !options.length);
             }
         },
         methods: {
