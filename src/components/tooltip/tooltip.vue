@@ -68,6 +68,11 @@
                 prefixCls: prefixCls
             };
         },
+        watch: {
+            content () {
+                this.updatePopper();
+            }
+        },
         methods: {
             handleShowPopper() {
                 if (this.timeout) clearTimeout(this.timeout);
