@@ -150,7 +150,6 @@ if (typeof window !== 'undefined' && window.Vue) {
     install(window.Vue);
 }
 
-// module.exports = Object.assign(iview, {install, locales}); // eslint-disable-line no-undef
 module.exports = {  // eslint-disable-line no-undef
     version: '2.6.0',
     locale: locale.use,
