@@ -260,7 +260,7 @@
             },
             keyDown (e) {
                 const key = e.keyCode;
-                const condition = (key >= 48 && key <= 57) || (key >= 96 && key <= 105) || key == 8 || key == 37 || key == 39;
+                const condition = (key >= 48 && key <= 57) || (key >= 96 && key <= 105) || key === 8 || key === 37 || key === 39;
 
                 if (!condition) {
                     e.preventDefault();
@@ -274,12 +274,12 @@
                     this.prev();
                 } else if (key === 40) {
                     this.next();
-                } else if (key == 13) {
+                } else if (key === 13) {
                     let page = 1;
 
                     if (val > this.allPages) {
                         page = this.allPages;
-                    } else if (val <= 0) {
+                    } else if (val <= 0 || !val) {
                         page = 1;
                     } else {
                         page = val;

@@ -4,6 +4,7 @@
         {{ current }}
         <Button type="primary" @click="subject">- 1</Button>
         <Button type="primary" @click="change">Change</Button>
+        <Page :current="2" :total="50" simple></Page>
     </div>
 </template>
 <script>
