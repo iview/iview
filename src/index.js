@@ -49,7 +49,8 @@ import Tree from './components/tree';
 import Upload from './components/upload';
 import {Row, Col} from './components/grid';
 import {Select, Option, OptionGroup} from './components/select';
-import locale from './locale';
+import locale from './locale/index';
+import locales from './locale/locales';
 
 const iview = {
     Affix,
@@ -149,4 +150,4 @@ if (typeof window !== 'undefined' && window.Vue) {
     install(window.Vue);
 }
 
-module.exports = Object.assign(iview, {install}); // eslint-disable-line no-undef
+module.exports = Object.assign(iview, {install, locales}); // eslint-disable-line no-undef
