@@ -699,86 +699,226 @@
     <!--}-->
 <!--</script>-->
 
+<!--<template>-->
+    <!--<Table :columns="columns10" :data="data9"></Table>-->
+<!--</template>-->
+<!--<script>-->
+    <!--import expandRow from '../components/tableExpand.vue';-->
+    <!--export default {-->
+        <!--components: { expandRow },-->
+        <!--data () {-->
+            <!--return {-->
+                <!--columns10: [-->
+                    <!--{-->
+                        <!--type: 'expand',-->
+                        <!--width: 50,-->
+                        <!--render: (h, params) => {-->
+                            <!--return h(expandRow, {-->
+                                <!--props: {-->
+                                    <!--row: params.row-->
+                                <!--}-->
+                            <!--})-->
+                        <!--}-->
+                    <!--},-->
+                    <!--{-->
+                        <!--title: 'Name',-->
+                        <!--key: 'name'-->
+                    <!--},-->
+                    <!--{-->
+                        <!--title: 'Age',-->
+                        <!--key: 'age',-->
+                        <!--fixed: 'right'-->
+                    <!--},-->
+                    <!--{-->
+                        <!--title: 'Address',-->
+                        <!--key: 'address',-->
+                        <!--fixed: 'right'-->
+                    <!--}-->
+                <!--],-->
+                <!--data9: [-->
+                    <!--{-->
+                        <!--name: 'John Brown',-->
+                        <!--age: 18,-->
+                        <!--address: 'New York No. 1 Lake Park',-->
+                        <!--job: 'Data engineer',-->
+                        <!--interest: 'badminton',-->
+                        <!--birthday: '1991-05-14',-->
+                        <!--book: 'Steve Jobs',-->
+                        <!--movie: 'The Prestige',-->
+                        <!--music: 'I Cry'-->
+                    <!--},-->
+                    <!--{-->
+                        <!--name: 'Jim Green',-->
+                        <!--age: 25,-->
+                        <!--address: 'London No. 1 Lake Park',-->
+                        <!--job: 'Data Scientist',-->
+                        <!--interest: 'volleyball',-->
+                        <!--birthday: '1989-03-18',-->
+                        <!--book: 'My Struggle',-->
+                        <!--movie: 'Roman Holiday',-->
+                        <!--music: 'My Heart Will Go On'-->
+                    <!--},-->
+                    <!--{-->
+                        <!--name: 'Joe Black',-->
+                        <!--age: 30,-->
+                        <!--address: 'Sydney No. 1 Lake Park',-->
+                        <!--job: 'Data Product Manager',-->
+                        <!--interest: 'tennis',-->
+                        <!--birthday: '1992-01-31',-->
+                        <!--book: 'Win',-->
+                        <!--movie: 'Jobs',-->
+                        <!--music: 'Don’t Cry'-->
+                    <!--},-->
+                    <!--{-->
+                        <!--name: 'Jon Snow',-->
+                        <!--age: 26,-->
+                        <!--address: 'Ottawa No. 2 Lake Park',-->
+                        <!--job: 'Data Analyst',-->
+                        <!--interest: 'snooker',-->
+                        <!--birthday: '1988-7-25',-->
+                        <!--book: 'A Dream in Red Mansions',-->
+                        <!--movie: 'A Chinese Ghost Story',-->
+                        <!--music: 'actor'-->
+                    <!--}-->
+                <!--]-->
+            <!--}-->
+        <!--}-->
+    <!--}-->
+<!--</script>-->
+
+
 <template>
-    <Table :columns="columns10" :data="data9"></Table>
+    <div>
+        <div style="width: 550px;">
+            <Table height="200" border :columns="columns2" :data="data4"></Table>
+        </div>
+        <br><br><br>
+        <Table width="550" height="200" border :columns="columns2" :data="data4"></Table>
+    </div>
 </template>
 <script>
-    import expandRow from '../components/tableExpand.vue';
     export default {
-        components: { expandRow },
         data () {
             return {
-                columns10: [
-                    {
-                        type: 'expand',
-                        width: 50,
-                        render: (h, params) => {
-                            return h(expandRow, {
-                                props: {
-                                    row: params.row
-                                }
-                            })
-                        }
-                    },
+                columns2: [
                     {
                         title: 'Name',
-                        key: 'name'
+                        key: 'name',
+                        width: 100,
+//                        fixed: 'left'
                     },
                     {
                         title: 'Age',
                         key: 'age',
-                        fixed: 'right'
+                        width: 100
+                    },
+                    {
+                        title: 'Province',
+                        key: 'province',
+                        width: 100
+                    },
+                    {
+                        title: 'City',
+                        key: 'city',
+                        width: 100
                     },
                     {
                         title: 'Address',
                         key: 'address',
-                        fixed: 'right'
+                        width: 200
+                    },
+                    {
+                        title: 'Postcode',
+                        key: 'zip',
+                        width: 100
+                    },
+                    {
+                        title: 'Action',
+                        key: 'action',
+                        fixed: 'right',
+                        width: 120,
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'text',
+                                        size: 'small'
+                                    }
+                                }, 'View'),
+                                h('Button', {
+                                    props: {
+                                        type: 'text',
+                                        size: 'small'
+                                    }
+                                }, 'Edit')
+                            ]);
+                        }
                     }
                 ],
-                data9: [
+                data4: [
                     {
                         name: 'John Brown',
                         age: 18,
                         address: 'New York No. 1 Lake Park',
-                        job: 'Data engineer',
-                        interest: 'badminton',
-                        birthday: '1991-05-14',
-                        book: 'Steve Jobs',
-                        movie: 'The Prestige',
-                        music: 'I Cry'
+                        province: 'America',
+                        city: 'New York',
+                        zip: 100000
                     },
                     {
                         name: 'Jim Green',
-                        age: 25,
-                        address: 'London No. 1 Lake Park',
-                        job: 'Data Scientist',
-                        interest: 'volleyball',
-                        birthday: '1989-03-18',
-                        book: 'My Struggle',
-                        movie: 'Roman Holiday',
-                        music: 'My Heart Will Go On'
+                        age: 24,
+                        address: 'Washington, D.C. No. 1 Lake Park',
+                        province: 'America',
+                        city: 'Washington, D.C.',
+                        zip: 100000
                     },
                     {
                         name: 'Joe Black',
                         age: 30,
                         address: 'Sydney No. 1 Lake Park',
-                        job: 'Data Product Manager',
-                        interest: 'tennis',
-                        birthday: '1992-01-31',
-                        book: 'Win',
-                        movie: 'Jobs',
-                        music: 'Don’t Cry'
+                        province: 'Australian',
+                        city: 'Sydney',
+                        zip: 100000
                     },
                     {
                         name: 'Jon Snow',
                         age: 26,
                         address: 'Ottawa No. 2 Lake Park',
-                        job: 'Data Analyst',
-                        interest: 'snooker',
-                        birthday: '1988-7-25',
-                        book: 'A Dream in Red Mansions',
-                        movie: 'A Chinese Ghost Story',
-                        music: 'actor'
+                        province: 'Canada',
+                        city: 'Ottawa',
+                        zip: 100000
+                    },
+                    {
+                        name: 'John Brown',
+                        age: 18,
+                        address: 'New York No. 1 Lake Park',
+                        province: 'America',
+                        city: 'New York',
+                        zip: 100000
+                    },
+                    {
+                        name: 'Jim Green',
+                        age: 24,
+                        address: 'Washington, D.C. No. 1 Lake Park',
+                        province: 'America',
+                        city: 'Washington, D.C.',
+                        zip: 100000
+                    },
+                    {
+                        name: 'Joe Black',
+                        age: 30,
+                        address: 'Sydney No. 1 Lake Park',
+                        province: 'Australian',
+                        city: 'Sydney',
+                        zip: 100000
+                    },
+                    {
+                        name: 'Jon Snow',
+                        age: 26,
+                        address: 'Ottawa No. 2 Lake Park',
+                        province: 'Canada',
+                        city: 'Ottawa',
+                        zip: 100000
                     }
                 ]
             }
