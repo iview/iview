@@ -54,7 +54,7 @@
     import { oneOf, findComponentDownward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     import Locale from '../../mixins/locale';
-    import {debounce} from './utils';
+    import { debounce } from './utils';
 
     const prefixCls = 'ivu-select';
 
