@@ -51,7 +51,7 @@ import {Row, Col} from './components/grid';
 import {Select, Option, OptionGroup} from './components/select';
 import locale from './locale/index';
 
-const iview = {
+const components = {
     Affix,
     Alert,
     AutoComplete,
@@ -60,7 +60,6 @@ const iview = {
     Badge,
     Breadcrumb,
     BreadcrumbItem: Breadcrumb.Item,
-    iButton: Button,
     Button,
     ButtonGroup: Button.Group,
     Card,
@@ -69,9 +68,7 @@ const iview = {
     Cascader,
     Checkbox,
     CheckboxGroup: Checkbox.Group,
-    iCircle: Circle,
     Col,
-    iCol: Col,
     Collapse,
     ColorPicker,
     DatePicker,
@@ -79,16 +76,13 @@ const iview = {
     DropdownItem: Dropdown.Item,
     DropdownMenu: Dropdown.Menu,
     Form,
-    iForm: Form,
     FormItem: Form.Item,
     Icon,
     Input,
-    iInput: Input,
     InputNumber,
     Scroll,
     LoadingBar,
     Menu,
-    iMenu: Menu,
     MenuGroup: Menu.Group,
     MenuItem: Menu.Item,
     Submenu: Menu.Sub,
@@ -96,26 +90,20 @@ const iview = {
     Modal,
     Notice,
     Option: Option,
-    iOption: Option,
     OptionGroup,
     Page,
     Panel: Collapse.Panel,
     Poptip,
     Progress,
-    iProgress: Progress,
     Radio,
     RadioGroup: Radio.Group,
     Rate,
     Row,
     Select,
-    iSelect: Select,
     Slider,
     Spin,
     Step: Steps.Step,
     Steps,
-	// Switch,
-    iSwitch: Switch,
-    iTable: Table,
     Table,
     Tabs: Tabs,
     TabPane: Tabs.Pane,
@@ -127,6 +115,21 @@ const iview = {
     Transfer,
     Tree,
     Upload
+};
+
+const iview = {
+    ...components,
+    iButton: Button,
+    iCircle: Circle,
+    iCol: Col,
+    iForm: Form,
+    iInput: Input,
+    iMenu: Menu,
+    iOption: Option,
+    iProgress: Progress,
+    iSelect: Select,
+    iSwitch: Switch,
+    iTable: Table
 };
 
 const install = function(Vue, opts = {}) {
@@ -149,82 +152,20 @@ if (typeof window !== 'undefined' && window.Vue) {
     install(window.Vue);
 }
 
-module.exports = {  // eslint-disable-line no-undef
+const API = {
     version: '2.6.0',
     locale: locale.use,
     i18n: locale.i18n,
     install,
-    Affix,
-    Alert,
-    AutoComplete,
-    Avatar,
-    BackTop,
-    Badge,
-    Breadcrumb,
-    BreadcrumbItem: Breadcrumb.Item,
-    Button,
-    ButtonGroup: Button.Group,
-    Card,
-    Carousel,
-    CarouselItem: Carousel.Item,
-    Cascader,
-    Checkbox,
-    CheckboxGroup: Checkbox.Group,
     Circle,
-    Col,
-    Collapse,
-    ColorPicker,
-    DatePicker,
-    Dropdown,
-    DropdownItem: Dropdown.Item,
-    DropdownMenu: Dropdown.Menu,
-    Form,
-    FormItem: Form.Item,
-    Icon,
-    Input,
-    InputNumber,
-    Scroll,
-    LoadingBar,
-    Menu,
-    MenuGroup: Menu.Group,
-    MenuItem: Menu.Item,
-    Submenu: Menu.Sub,
-    Message,
-    Modal,
-    Notice,
-    Option: Option,
-    OptionGroup,
-    Page,
-    Panel: Collapse.Panel,
-    Poptip,
-    Progress,
-    Radio,
-    RadioGroup: Radio.Group,
-    Rate,
-    Row,
-    Select,
-    Slider,
-    Spin,
-    Step: Steps.Step,
-    Steps,
     Switch,
-    Table,
-    Tabs: Tabs,
-    TabPane: Tabs.Pane,
-    Tag,
-    Timeline,
-    TimelineItem: Timeline.Item,
-    TimePicker,
-    Tooltip,
-    Transfer,
-    Tree,
-    Upload
+    ...components
 };
 
-module.exports.lang = (code) => { // eslint-disable-line no-undef
+API.lang = (code) => {
     const langObject = window['iview/locale'].default;
     if (code === langObject.i.locale) locale.use(langObject);
     else console.log(`The ${code} language pack is not loaded.`); // eslint-disable-line no-console
 };
 
-module.exports.default = module.exports;   // eslint-disable-line no-undef
+module.exports.default = module.exports = API;   // eslint-disable-line no-undef
