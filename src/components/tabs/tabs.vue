@@ -3,7 +3,7 @@
         <div :class="[prefixCls + '-bar']">
             <div :class="[prefixCls + '-nav-right']" v-if="showSlot"><slot name="extra"></slot></div>
             <div :class="[prefixCls + '-nav-container']">
-                <div ref="navWrap" :class="[prefixCls + '-nav-wrap', scrollable ? prefixCls + '-nav-scrollable' : '']" >
+                <div ref="navWrap" :class="[prefixCls + '-nav-wrap', scrollable ? prefixCls + '-nav-scrollable' : '']">
                     <span :class="[prefixCls + '-nav-prev', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollPrev"><Icon type="chevron-left"></Icon></span>
                     <span :class="[prefixCls + '-nav-next', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollNext"><Icon type="chevron-right"></Icon></span>
                     <div ref="navScroll" :class="[prefixCls + '-nav-scroll']">
