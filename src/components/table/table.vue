@@ -333,17 +333,36 @@
             }
         },
         methods: {
+            computeTableWidth(){
+                //add 2017-11-09 @zeroht
+                let _width1 = 0;
+                this.columns.forEach(function (column) {
+                    if (column.minWidth){
+                        _width1 += parseInt(column.minWidth);
+                    }else if (column.width){
+                        _width1 += parseInt(column.width);
+                    }
+                });
+
+                let _width2 = parseInt(getStyle(this.$el, 'width')) - 1;
+                return _width1 > _width2 ? _width1 : _width2;
+            },
             rowClsName (index) {
                 return this.rowClassName(this.data[index], index);
             },
             handleResize () {
                 this.$nextTick(() => {
                     const allWidth = !this.columns.some(cell => !cell.width);    // each column set a width
+                    /*
                     if (allWidth) {
                         this.tableWidth = this.columns.map(cell => cell.width).reduce((a, b) => a + b, 0);
                     } else {
                         this.tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
                     }
+                    */
+                    //modify 2017-11-09 @zeroht
+                    this.tableWidth = this.computeTableWidth();
+
                     this.columnsWidth = {};
                     if (!this.$refs.tbody) return;
                     this.$nextTick(() => {

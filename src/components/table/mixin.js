@@ -33,6 +33,12 @@ export default {
                 const firstFixedIndex = this.columns.findIndex((col) => col.fixed === 'right');
                 if (firstFixedIndex === index) width += this.$parent.scrollBarWidth;
             }
+            
+            //add 2017-11-09 @zeroht 
+            if (width && column.minWidth && width < column.minWidth){
+                width = column.minWidth;
+            }
+            
             if (width === '0') width = '';
             return width;
         }
