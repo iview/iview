@@ -50,7 +50,6 @@ import Upload from './components/upload';
 import {Row, Col} from './components/grid';
 import {Select, Option, OptionGroup} from './components/select';
 import locale from './locale/index';
-import locales from './locale/locales';
 
 const iview = {
     Affix,
@@ -155,7 +154,6 @@ module.exports = {  // eslint-disable-line no-undef
     locale: locale.use,
     i18n: locale.i18n,
     install,
-    locales,
     Affix,
     Alert,
     AutoComplete,
@@ -221,6 +219,12 @@ module.exports = {  // eslint-disable-line no-undef
     Transfer,
     Tree,
     Upload
+};
+
+module.exports.lang = (code) => { // eslint-disable-line no-undef
+    const langObject = window['iview/locale'].default;
+    if (code === langObject.i.locale) locale.use(langObject);
+    else console.log(`The ${code} language pack is not loaded.`); // eslint-disable-line no-console
 };
 
 module.exports.default = module.exports;   // eslint-disable-line no-undef
