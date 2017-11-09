@@ -50,6 +50,7 @@ import Upload from './components/upload';
 import {Row, Col} from './components/grid';
 import {Select, Option, OptionGroup} from './components/select';
 import locale from './locale/index';
+import lang from './locale/lang';
 
 const iview = {
     Affix,
@@ -153,6 +154,10 @@ module.exports = {  // eslint-disable-line no-undef
     version: '2.6.0',
     locale: locale.use,
     i18n: locale.i18n,
+    get currentLanguage(){
+        return locale.currentLanguage;
+    },
+    lang,
     install,
     Affix,
     Alert,
@@ -219,12 +224,6 @@ module.exports = {  // eslint-disable-line no-undef
     Transfer,
     Tree,
     Upload
-};
-
-module.exports.lang = (code) => { // eslint-disable-line no-undef
-    const langObject = window['iview/locale'].default;
-    if (code === langObject.i.locale) locale.use(langObject);
-    else console.log(`The ${code} language pack is not loaded.`); // eslint-disable-line no-console
 };
 
 module.exports.default = module.exports;   // eslint-disable-line no-undef
