@@ -113,7 +113,7 @@ export const formatDateLabels = (function() {
             });
             return {
                 label: label,
-                type: component.includes('yy') ? 'year' : 'month'
+                type: component.indexOf('yy') != -1 ? 'year' : 'month'
             };
         });
         return {
