@@ -119,6 +119,36 @@ describe('DatePicker.vue', () => {
     });
   });
 
+  it('should fire `on-change` when reseting value', done => {
+    const now = new Date();
+    const nowDate = [now.getFullYear(), now.getMonth() + 1, now.getDate()].map(nr => (nr > 9 ? nr : '0' + nr)).join('-');
+    let callback;
+    vm = createVue({
+      template: '<date-picker :value="date" type="date" @on-change="handleChange"></date-picker>',
+      data(){
+        return { date: now };
+      },
+      methods: {
+        onChange(date) {
+          callback(date, this.date);
+        }
+      }
+    });
+
+    vm.$nextTick(() => {
+      const picker = vm.$children[0];
+      const displayField = vm.$el.querySelector('.ivu-input');
+      expect(displayField.value).to.equal(nowDate);
+
+      picker.showClose = true; // to simulate mouseenter in the Input
+      picker.handleIconClick(); // reset the input value
+      vm.$nextTick(() => {
+        expect(displayField.value).to.equal('');
+        done();
+      });
+    });
+  });
+
   it('should have same behavior after a reset as before the reset', done => {
     vm = createVue(`
       <Date-picker type="datetimerange"></Date-picker>
