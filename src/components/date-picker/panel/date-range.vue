@@ -372,7 +372,7 @@
                 this.minDate = val.minDate;
                 this.maxDate = val.maxDate;
 
-                // Remove when Chromium has fixed bug
+                // todo Remove when Chromium has fixed bug
                 // https://github.com/iview/iview/issues/2122
                 this.$nextTick(() => {
                     this.minDate = val.minDate;

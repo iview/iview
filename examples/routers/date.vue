@@ -191,14 +191,14 @@
 
 <template>
     <div>
-        <DatePicker v-model="value" @on-change="handleChange" type="date" placeholder="Select date" style="width: 200px"></DatePicker>
+        <DatePicker v-model="value" @on-change="handleChange" type="daterange" placeholder="Select date" style="width: 200px"></DatePicker>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                value: new Date()
+                value: []
             }
         },
         methods: {
