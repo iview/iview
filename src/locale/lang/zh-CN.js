@@ -1,4 +1,4 @@
-export default {
+const lang = {
     i: {
         locale: 'zh-CN',
         select: {
@@ -97,3 +97,7 @@ export default {
         }
     }
 };
+
+if (typeof window.iview != 'undefined') iview.langs['zh-CN'] = lang;
+
+export default lang;
