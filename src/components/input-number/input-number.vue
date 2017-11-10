@@ -238,12 +238,12 @@
                 });
             },
             focus () {
-                this.$emit('on-focus');
                 this.focused = true;
+                this.$emit('on-focus');
             },
             blur () {
-                this.$emit('on-blur');
                 this.focused = false;
+                this.$emit('on-blur');
             },
             keyDown (e) {
                 if (e.keyCode === 38) {
@@ -252,8 +252,6 @@
                 } else if (e.keyCode === 40) {
                     e.preventDefault();
                     this.down(e);
-                } else if (e.keyCode === 13) {
-                  this.$emit('on-enter');
                 }
             },
             change (event) {
