@@ -98,6 +98,11 @@ const lang = {
     }
 };
 
-if (typeof window.iview != 'undefined') iview.langs['zh-CN'] = lang;
+if (typeof window.iview != 'undefined') {
+    if (!('langs' in iview)) {
+        iview.langs = {};
+    }
+    iview.langs['zh-CN'] = lang;
+}
 
 export default lang;

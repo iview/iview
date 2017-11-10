@@ -98,6 +98,11 @@ const lang = {
     }
 };
 
-if (typeof window.iview != 'undefined') iview.langs['en-US'] = lang;
+if (typeof window.iview != 'undefined') {
+    if (!('langs' in iview)) {
+        iview.langs = {};
+    }
+    iview.langs['en-US'] = lang;
+}
 
 export default lang;
