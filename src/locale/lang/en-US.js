@@ -100,6 +100,6 @@ const lang = {
     }
 };
 
-setLang(lang.i.locale);
+setLang(lang.i.locale, lang);
 
 export default lang;
