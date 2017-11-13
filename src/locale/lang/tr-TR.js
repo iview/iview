@@ -1,4 +1,6 @@
-export default {
+import { setLang } from '../index';
+
+const lang = {
     i: {
         locale: 'tr-TR',
         select: {
@@ -97,3 +99,7 @@ export default {
         }
     }
 };
+
+setLang(lang.i.locale);
+
+export default lang;
