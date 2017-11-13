@@ -45,16 +45,4 @@ export const i18n = function(fn) {
     i18nHandler = fn || i18nHandler;
 };
 
-// using with vue-i18n in CDN
-/*eslint-disable */
-export const setLang = function (name, lang) {
-    if (typeof window.iview !== 'undefined') {
-        if (!('langs' in iview)) {
-            iview.langs = {};
-        }
-        iview.langs[name] = lang;
-    }
-};
-/*eslint-enable */
-
-export default { use, t, i18n, setLang };
+export default { use, t, i18n };

@@ -1,4 +1,4 @@
-import { setLang } from '../index';
+import setLang from '../lang';
 
 const lang = {
     i: {
@@ -100,6 +100,6 @@ const lang = {
     }
 };
 
-setLang(lang.i.locale, lang);
+setLang(lang);
 
 export default lang;
