@@ -153,7 +153,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 const API = {
-    version: '2.6.0',
+    version: '2.7.0',
     locale: locale.use,
     i18n: locale.i18n,
     install,
