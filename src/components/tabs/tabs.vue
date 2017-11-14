@@ -239,8 +239,8 @@
                 if (!currentOffset) return;
 
                 let newOffset = currentOffset > containerWidth
-                ? currentOffset - containerWidth
-                : 0;
+                    ? currentOffset - containerWidth
+                    : 0;
 
                 this.setOffset(newOffset);
             },
@@ -251,16 +251,16 @@
                 if (navWidth - currentOffset <= containerWidth) return;
 
                 let newOffset = navWidth - currentOffset > containerWidth * 2
-                ? currentOffset + containerWidth
-                : (navWidth - containerWidth);
+                    ? currentOffset + containerWidth
+                    : (navWidth - containerWidth);
 
                 this.setOffset(newOffset);
             },
             getCurrentScrollOffset() {
                 const { navStyle } = this;
                 return navStyle.transform
-                ? Number(navStyle.transform.match(/translateX\(-(\d+(\.\d+)*)px\)/)[1])
-                : 0;
+                    ? Number(navStyle.transform.match(/translateX\(-(\d+(\.\d+)*)px\)/)[1])
+                    : 0;
             },
             setOffset(value) {
                 this.navStyle.transform = `translateX(-${value}px)`;
@@ -313,7 +313,7 @@
             },
             isInsideHiddenElement () {
                 let parentNode = this.$el.parentNode;
-                while(parentNode) {
+                while(parentNode && parentNode !== document.body) {
                     if (parentNode.style.display === 'none') {
                         return parentNode;
                     }
