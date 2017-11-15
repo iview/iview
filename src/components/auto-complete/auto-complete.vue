@@ -151,6 +151,7 @@
                 if (!this.clearable) return;
                 this.currentValue = '';
                 this.$refs.select.model = '';
+                this.$emit('on-clear');
             }
         }
     };
