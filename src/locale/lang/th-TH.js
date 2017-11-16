@@ -19,7 +19,7 @@ export default {
             endTime: 'สิ้นสุดเวลา',
             clear: 'ล้างข้อมูล',
             ok: 'ตกลง',
-            month: '',
+            month: 'เดือน',
             month1: 'มกราตม',
             month2: 'กุมภาพันธ์',
             month3: 'มีนาคม',
@@ -32,7 +32,7 @@ export default {
             month10: 'ตุลาคม',
             month11: 'พฤศจิกายน',
             month12: 'ธันวาคม',
-            year: '',
+            year: 'ปี',
             weekStartDay: '0',
             weeks: {
                 sun: 'อาทิตย์',
@@ -61,7 +61,7 @@ export default {
         transfer: {
             titles: {
                 source: 'แหล่งข้อมูล',
-                target: 'เป้าหมาบ'
+                target: 'เป้าหมาย'
             },
             filterPlaceholder: 'ค้นหาที่นี้',
             notFoundText: 'ค้นหาไม่พบ'
