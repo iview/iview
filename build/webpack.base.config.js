@@ -3,6 +3,8 @@
  */
 const path = require('path');
 const webpack = require('webpack');
+const package = require('../package.json');
+
 function resolve (dir) {
     return path.join(__dirname, '..', dir);
 }
@@ -66,6 +68,9 @@ module.exports = {
         }
     },
     plugins: [
-        new webpack.optimize.ModuleConcatenationPlugin()
+        new webpack.optimize.ModuleConcatenationPlugin(),
+        new webpack.DefinePlugin({
+            'process.env.VERSION': `'${package.version}'`
+        }),
     ]
 };
