@@ -14,6 +14,10 @@
     export default {
         name: 'Tag',
         components: { Icon },
+        model: {
+            prop: 'checked',
+            event: 'on-change'
+        },
         props: {
             closable: {
                 type: Boolean,
@@ -45,6 +49,11 @@
             return {
                 isChecked: this.checked
             };
+        },
+        watch: {
+            checked(val) {
+                if (this.checkable) this.isChecked = val;
+            }
         },
         computed: {
             classes () {
