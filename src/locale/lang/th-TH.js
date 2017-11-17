@@ -84,7 +84,7 @@ export default {
             next5: 'ถัดไป 5 หน้า',
             page: '/หน้า',
             goto: 'ไปยัง',
-            p: ''
+            p: 'หน้า'
         },
         rate: {
             star: 'ดาว',
