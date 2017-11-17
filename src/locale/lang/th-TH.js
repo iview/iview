@@ -1,5 +1,6 @@
 export default {
     i: {
+        locale: 'th-TH',
         select: {
             placeholder: 'ตัวเลือก',
             noMatch: 'ข้อมูลไม่ตรงกัน',
@@ -19,6 +20,7 @@ export default {
             endTime: 'สิ้นสุดเวลา',
             clear: 'ล้างข้อมูล',
             ok: 'ตกลง',
+            datePanelLabel: '[ดดดด] [ปปปป]',
             month: 'เดือน',
             month1: 'มกราตม',
             month2: 'กุมภาพันธ์',
