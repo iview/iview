@@ -20,7 +20,7 @@ export default {
             endTime: 'สิ้นสุดเวลา',
             clear: 'ล้างข้อมูล',
             ok: 'ตกลง',
-            datePanelLabel: '[ดดดด] [ปปปป]',
+            datePanelLabel: '[mmmmเดือน] [yyyyปี]',
             month: 'เดือน',
             month1: 'มกราตม',
             month2: 'กุมภาพันธ์',
