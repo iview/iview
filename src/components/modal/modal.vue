@@ -52,7 +52,7 @@
             },
             maskClosable: {
                 type: Boolean,
-                default: true
+                default: false      //true modify by zeroht
             },
             title: {
                 type: String
