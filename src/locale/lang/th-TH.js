@@ -1,4 +1,6 @@
-export default {
+import setLang from '../lang';
+
+const lang = {
     i: {
         locale: 'th-TH',
         select: {
@@ -81,7 +83,7 @@ export default {
             next: 'หน้าถัดไป',
             total: 'ทั้งหมด',
             item: 'ไอเทม',
-            items: 'หลายไอเทม',
+            items: 'ไอเทม',
             prev5: 'ก่อน 5 หน้า',
             next5: 'ถัดไป 5 หน้า',
             page: '/หน้า',
@@ -89,11 +91,15 @@ export default {
             p: 'หน้า'
         },
         rate: {
-            star: 'ดาว',
-            stars: 'หลายดาว'
+            star: 'ดวง',
+            stars: 'ดวง'
         },
         tree: {
             emptyText: 'ไม่พบข้อมูล'
         }
     }
 };
+
+setLang(lang);
+
+export default lang;
