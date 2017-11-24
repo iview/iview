@@ -1,9 +1,9 @@
 <template>
     <div v-transfer-dom :data-transfer="transfer">
         <transition :name="transitionNames[1]">
-            <div :class="maskClasses" v-show="visible" @click="mask"></div>
+            <div :class="maskClasses" :style="zIndexStyles" v-show="visible" @click="mask"></div>
         </transition>
-        <div :class="wrapClasses" @click="handleWrapClick">
+        <div :class="wrapClasses" :style="zIndexStyles" @click="handleWrapClick">
             <transition :name="transitionNames[0]" @after-leave="animationFinish">
                 <div :class="classes" :style="mainStyles" v-show="visible">
                     <div :class="[prefixCls + '-content']">
@@ -95,6 +95,9 @@
             transfer: {
                 type: Boolean,
                 default: true
+            },
+            zIndex: {
+                default: ""
             }
         },
         data () {
@@ -121,6 +124,11 @@
             },
             classes () {
                 return `${prefixCls}`;
+            },
+            zIndexStyles() {
+                // add by zeroht
+                const zIndex = parseInt(this.zIndex);
+                return zIndex ? {"z-index":zIndex} : {};
             },
             mainStyles () {
                 let style = {};
