@@ -256,18 +256,24 @@
             },
             change (event) {
                 let val = event.target.value.trim();
+                const isEmptyString = val.length === 0;
 
+                if (isEmptyString) {
+                    this.setValue(null);
+                    return;
+                }
+                
                 if (event.type == 'input' && val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
 
                 const {min, max} = this;
-                const isEmptyString = val.length === 0;
+               
                 val = Number(val);
 
                 if (event.type == 'change'){
                     if (val === this.currentValue && val > min && val < max) return; // already fired change for input event
                 }
 
-                if (!isNaN(val) && !isEmptyString) {
+                if (!isNaN(val)) {
                     this.currentValue = val;
 
                     if (event.type == 'input' && val < min) return; // prevent fire early in case user is typing a bigger number. Change will handle this otherwise.
