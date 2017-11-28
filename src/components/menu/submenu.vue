@@ -113,9 +113,11 @@
                 if (this.disabled) return;            
                 if (this.mode === 'horizontal') return;
                 const opened = this.opened;
-                if (this.accordion) {
-                    this.directparent.$children.forEach(item => {
+                if (this.accordion) {  
+                    this.parent.$children.forEach(item => {
+                        if(!this.directparent){
                         if (item.$options.name === 'Submenu') item.opened = false;
+                        }
                     });
                 }
                 this.opened = !opened;
