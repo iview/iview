@@ -158,38 +158,24 @@
 <!--</script>-->
 
 <template>
-    <div>
-        <Button type="primary" @click="modal1 = true">显示对话框</Button>
-        <Modal
-                v-model="modal1"
-                title="普通的Modal对话框标题"
-                @on-ok="ok"
-                @on-cancel="cancel">
-            <p>对话框内容</p>
-            <p>对话框内容</p>
-            <p>对话框内容</p>
-            <Tabs value="name1">
-                <TabPane label="标签一" name="name1">标签一的内容</TabPane>
-                <TabPane label="标签二" name="name2">标签二的内容</TabPane>
-                <TabPane label="标签三" name="name3">标签三的内容</TabPane>
-            </Tabs>
-        </Modal>
-    </div>
+    <Tabs type="card">
+        <TabPane v-for="tab in tabs" :key="tab" :label="'标签' + tab">标签{{ tab }}</TabPane>
+        <Button type="ghost" @click="handleTabsAdd" size="small" slot="extra">增加</Button>
+    </Tabs>
 </template>
 <script>
     export default {
         data () {
             return {
-                modal1: false
+                tabs: 2
             }
         },
         methods: {
-            ok () {
-                this.$Message.info('点击了确定');
-            },
-            cancel () {
-                this.$Message.info('点击了取消');
+            handleTabsAdd () {
+                this.tabs ++;
             }
         }
     }
 </script>
+
+

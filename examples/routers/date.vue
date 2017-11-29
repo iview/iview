@@ -1,43 +1,43 @@
-<template>
-    <div>
-        {{ value1 }}
-        <Date-picker v-model="value1" type="datetimerange" placeholder="选择日期" style="width: 200px" @on-change="hc"></Date-picker>
-        <Button @click="setDate">set date</Button>
-        <Button @click="getDate">get date</Button>
-        <!--<Date-picker v-model="value2" type="daterange" placeholder="选择日期" style="width: 200px"></Date-picker>-->
-        <!--<Date-picker transfer type="datetimerange" placeholder="选择日期" style="width: 200px" @on-change="changeDate"></Date-picker>-->
-    </div>
-</template>
-<script>
-    export default {
-        data () {
-            return {
-                value1: ['2014-10-10 10:00:01', '2017-10-10 10:00:00'],
-                value2: []
-            }
-        },
-        methods: {
-            changeDate(date){
-                console.log(date);
-            },
-            setDate () {
-                this.value1 = ['2016-10-10', '2017-10-10'];
-            },
-            getDate () {
-                const date = new Date(this.value1);
-                console.log(date.getMonth()+1)
-            },
-            hc (d) {
-                console.log(d);
-            }
-        }
-    }
-</script>
-<style>
-    body{
-        width: 100%;
-    }
-</style>
+<!--<template>-->
+    <!--<div>-->
+        <!--{{ value1 }}-->
+        <!--<Date-picker v-model="value1" type="datetimerange" placeholder="选择日期" style="width: 200px" @on-change="hc"></Date-picker>-->
+        <!--<Button @click="setDate">set date</Button>-->
+        <!--<Button @click="getDate">get date</Button>-->
+        <!--&lt;!&ndash;<Date-picker v-model="value2" type="daterange" placeholder="选择日期" style="width: 200px"></Date-picker>&ndash;&gt;-->
+        <!--&lt;!&ndash;<Date-picker transfer type="datetimerange" placeholder="选择日期" style="width: 200px" @on-change="changeDate"></Date-picker>&ndash;&gt;-->
+    <!--</div>-->
+<!--</template>-->
+<!--<script>-->
+    <!--export default {-->
+        <!--data () {-->
+            <!--return {-->
+                <!--value1: ['2014-10-10 10:00:01', '2017-10-10 10:00:00'],-->
+                <!--value2: []-->
+            <!--}-->
+        <!--},-->
+        <!--methods: {-->
+            <!--changeDate(date){-->
+                <!--console.log(date);-->
+            <!--},-->
+            <!--setDate () {-->
+                <!--this.value1 = ['2016-10-10', '2017-10-10'];-->
+            <!--},-->
+            <!--getDate () {-->
+                <!--const date = new Date(this.value1);-->
+                <!--console.log(date.getMonth()+1)-->
+            <!--},-->
+            <!--hc (d) {-->
+                <!--console.log(d);-->
+            <!--}-->
+        <!--}-->
+    <!--}-->
+<!--</script>-->
+<!--<style>-->
+    <!--body{-->
+        <!--width: 100%;-->
+    <!--}-->
+<!--</style>-->
 
 
 <!--<template>-->
@@ -189,3 +189,22 @@
 
 
 
+<template>
+    <div>
+        <DatePicker v-model="value" @on-change="handleChange" type="daterange" placeholder="Select date" style="width: 200px"></DatePicker>
+    </div>
+</template>
+<script>
+    export default {
+        data () {
+            return {
+                value: []
+            }
+        },
+        methods: {
+            handleChange (v) {
+                console.log(v);
+            }
+        }
+    }
+</script>

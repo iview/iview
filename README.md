@@ -43,6 +43,8 @@
 - [Alibaba](http://www.alibaba.com/)
 - [JD](http://www.jd.com/)
 - [DiDi](http://www.didichuxing.com/)
+- [Sina](http://www.sina.com.cn/)
+- [Lenovo](https://www.lenovo.com.cn/)
 
 > If your company or products use iView, welcome to click [here](https://github.com/iview/iview/issues/2143) to leave a message.
 

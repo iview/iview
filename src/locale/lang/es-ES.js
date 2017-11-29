@@ -1,4 +1,6 @@
-export default {
+import setLang from '../lang';
+
+const lang = {
     i: {
         locale: 'es-ES',
         select: {
@@ -37,13 +39,13 @@ export default {
             year: 'Año',
             weekStartDay: '1',
             weeks: {
-                sun: 'Domingo',
-                mon: 'Lunes',
-                tue: 'Martes',
-                wed: 'Miércoles',
-                thu: 'Jueves',
-                fri: 'Viernes',
-                sat: 'Sábado'
+                sun: 'Dom',
+                mon: 'Lun',
+                tue: 'Mar',
+                wed: 'Mié',
+                thu: 'Jue',
+                fri: 'Vie',
+                sat: 'Sáb'
             },
             months: {
                 m1: 'Ene',
@@ -97,3 +99,7 @@ export default {
         }
     }
 };
+
+setLang(lang);
+
+export default lang;

@@ -293,7 +293,9 @@
                 if (this.bodyHeight !== 0) {
                     let height = this.bodyHeight + this.scrollBarWidth - 1;
 
-                    if (this.width && this.width < this.tableWidth){
+                    // #2102 里，如果 Table 没有设置 width，而是集成父级的 width，固定列也应该不包含滚动条高度，所以这里直接计算表格宽度
+                    const tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
+                    if ((this.width && this.width < this.tableWidth) || tableWidth < this.tableWidth){
                         height = this.bodyHeight;
                     }
 //                    style.height = this.scrollBarWidth > 0 ? `${this.bodyHeight}px` : `${this.bodyHeight - 1}px`;

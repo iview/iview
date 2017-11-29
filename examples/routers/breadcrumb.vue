@@ -7,8 +7,8 @@
 <template>
 <div>
     <Breadcrumb separator="<b class='demo-breadcrumb-separator'>=></b>">
-        <Breadcrumb-item href="/">Home4</Breadcrumb-item>
-        <Breadcrumb-item href="/checkbox" replace>Components</Breadcrumb-item>
+        <Breadcrumb-item to="/">Home4</Breadcrumb-item>
+        <Breadcrumb-item :to="{name: 'user', params: { userId: 123 }}">Components</Breadcrumb-item>
         <Breadcrumb-item>Breadcrumb</Breadcrumb-item>
     </Breadcrumb>
     <Breadcrumb separator="">
@@ -18,7 +18,7 @@
                 <b style="color: #ff5500;">-></b>
             </template>
         </Breadcrumb-item>
-        <Breadcrumb-item href="/components/breadcrumb">
+        <Breadcrumb-item href="/components/page">
             <template>Breadcrumb</template>
             <template slot="separator">
                 <b style="color: #ff5500;">-></b>
