@@ -314,7 +314,7 @@
             isInsideHiddenElement () {
                 let parentNode = this.$el.parentNode;
                 while(parentNode && parentNode !== document.body) {
-                    if (parentNode.style.display === 'none') {
+                    if (parentNode.style && parentNode.style.display === 'none') {
                         return parentNode;
                     }
                     parentNode = parentNode.parentNode;
