@@ -1,8 +1,10 @@
 <template>
-    <div :class="wrapClasses">
+    <div :class="wrapClasses"
+         @mouseenter="handleInputMouseenter"
+         @mouseleave="handleInputMouseleave">
         <template v-if="type !== 'textarea'">
             <div :class="[prefixCls + '-group-prepend']" v-if="prepend" v-show="slotReady"><slot name="prepend"></slot></div>
-            <i class="ivu-icon" :class="['ivu-icon-' + icon, prefixCls + '-icon', prefixCls + '-icon-normal']" v-if="icon" @click="handleIconClick"></i>
+            <i class="ivu-icon" :class="['ivu-icon-' + iconType, prefixCls + '-icon', prefixCls + '-icon-normal']" v-if="iconType" @click="handleIconClick"></i>
             <transition name="fade">
                 <i class="ivu-icon ivu-icon-load-c ivu-load-loop" :class="[prefixCls + '-icon', prefixCls + '-icon-validate']" v-if="!icon"></i>
             </transition>
@@ -94,7 +96,10 @@
                 type: Boolean,
                 default: false
             },
-            icon: String,
+            icon: {
+                type:String,
+                default:""
+            },
             autosize: {
                 type: [Boolean, Object],
                 default: false
@@ -130,6 +135,11 @@
             },
             elementId: {
                 type: String
+            },
+            // add by zeroht
+            clearable: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -139,10 +149,16 @@
                 prepend: true,
                 append: true,
                 slotReady: false,
+                showClose: false,
                 textareaStyles: {}
             };
         },
         computed: {
+            iconType () {// add by zeroht
+                let icon = this.icon;
+                if (this.showClose) icon = 'ios-close';
+                return icon;
+            },
             wrapClasses () {
                 return [
                     `${prefixCls}-wrapper`,
@@ -189,7 +205,17 @@
                 this.$emit('on-keyup', event);
             },
             handleIconClick (event) {
+                if (this.showClose) {
+                    this.handleClear();
+                }
+
                 this.$emit('on-click', event);
+            },
+            handleClear () {
+                this.$emit('input', "");
+                this.setCurrentValue("");
+                this.$emit('on-change', "");
+                this.$emit('on-clear');
             },
             handleFocus (event) {
                 this.$emit('on-focus', event);
@@ -219,6 +245,13 @@
                 if (!findComponentUpward(this, ['DatePicker', 'TimePicker', 'Cascader', 'Search'])) {
                     this.dispatch('FormItem', 'on-form-change', value);
                 }
+
+                // add by zeroht
+                if (this.currentValue && this.clearable) {
+                    this.showClose = true;
+                } else {
+                    this.showClose = false;
+                }
             },
             resizeTextarea () {
                 const autosize = this.autosize;
@@ -244,6 +277,16 @@
                 } else {
                     this.$refs.input.blur();
                 }
+            },
+            // add by zeroht
+            handleInputMouseenter () {
+                if (this.readonly || this.disabled) return;
+                if (this.currentValue && this.clearable) {
+                    this.showClose = true;
+                }
+            },
+            handleInputMouseleave () {
+                this.showClose = false;
             }
         },
         watch: {
