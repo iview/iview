@@ -13,6 +13,7 @@ li + li { border-left: solid 1px #bbb; padding-left: 10px; margin-left: 10px; }
     <div class="container">
         <nav>
             <ul>
+                <li><router-link to="/layout">Layout</router-link></li>
                 <li><router-link to="/affix">Affix</router-link></li>
                 <li><router-link to="/grid">Grid</router-link></li>
                 <li><router-link to="/button">Button</router-link></li>
@@ -64,11 +65,11 @@ li + li { border-left: solid 1px #bbb; padding-left: 10px; margin-left: 10px; }
     </div>
 </template>
 <script>
-    module.exports = {
+    export default {
         data: function() {
             return {
 
-            }
+            };
         },
         mounted: function() {
 
@@ -79,5 +80,5 @@ li + li { border-left: solid 1px #bbb; padding-left: 10px; margin-left: 10px; }
         methods: {
 
         }
-    }
+    };
 </script>
