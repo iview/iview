@@ -232,6 +232,13 @@
                 this.$emit('input', value);
                 this.setCurrentValue(value);
                 this.$emit('on-change', event);
+
+                // add by zeroht
+                if (value && this.clearable) {
+                    this.showClose = true;
+                } else {
+                    this.showClose = false;
+                }
             },
             handleChange (event) {
                 this.$emit('on-input-change', event);
@@ -244,13 +251,6 @@
                 this.currentValue = value;
                 if (!findComponentUpward(this, ['DatePicker', 'TimePicker', 'Cascader', 'Search'])) {
                     this.dispatch('FormItem', 'on-form-change', value);
-                }
-
-                // add by zeroht
-                if (this.currentValue && this.clearable) {
-                    this.showClose = true;
-                } else {
-                    this.showClose = false;
                 }
             },
             resizeTextarea () {
