@@ -1,6 +1,6 @@
 <template>
     <transition :name="transitionName" @enter="handleEnter" @leave="handleLeave">
-        <div :class="classes" :style="styles">
+        <div :class="classes" :style="styles" @click="click">
             <template v-if="type === 'notice'">
                 <div :class="[baseClass + '-content']" ref="content" v-html="content"></div>
                 <a :class="[baseClass + '-close']" @click="close" v-if="closable">
@@ -38,7 +38,7 @@
             },
             styles: {
                 type: Object,
-                default: function() {
+                default: function () {
                     return {
                         right: '50%'
                     };
@@ -56,6 +56,9 @@
                 required: true
             },
             onClose: {
+                type: Function
+            },
+            onClick: {
                 type: Function
             },
             transitionName: {
@@ -92,10 +95,16 @@
                     this.closeTimer = null;
                 }
             },
-            close () {
+            close (e) {
+                if (e) {
+                    e.stopPropagation();
+                }
                 this.clearCloseTimer();
                 this.onClose();
                 this.$parent.close(this.name);
+            },
+            click () {
+                this.onClick(this.name);
             },
             handleEnter (el) {
                 if (this.type === 'message') {

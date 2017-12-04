@@ -11,6 +11,9 @@
         <Button @click="warning(true)">警告</Button>
         <Button @click="error(true)">错误</Button>
         <Button @click="destroy()">销毁</Button>
+        <p>单击事件</p>
+        <Button @click="infoClick(true)">消息</Button>
+        <Button @click="infoClickDestroy(true)">点完销毁</Button>
     </div>
 </template>
 <script>
@@ -42,6 +45,29 @@
             },
             destroy () {
                 this.$Notice.destroy();
+            },
+            infoClick (nodesc) {
+                this.$Notice.info({
+                    title: '这是通知标题',
+                    desc: nodesc ? '' : '点整个试试',
+                    onClick(){
+                        this.$Message.success({
+                            content: '你点击了'
+                        });
+                    }
+                });
+            },
+            infoClickDestroy(nodesc){
+                this.$Notice.info({
+                    title: '这是通知标题',
+                    desc: nodesc ? '' : '点整个试试',
+                    onClick(name){
+                        this.$Notice.close(name);
+                        this.$Message.success({
+                            content: '你点击了,name:' + name
+                        });
+                    }
+                });
             }
         }
     }
