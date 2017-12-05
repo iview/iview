@@ -24,7 +24,16 @@
             success () {
                 this.$Message.success({
                     content: '这是一条成功的提示',
-                    duration: 4
+                    duration: 0,
+                    render: h => {
+                        return h(
+                            'Button',
+                            {
+                                type: 'primary'
+                            },
+                            'this is button'
+                        );
+                    }
                 });
             },
             warning () {

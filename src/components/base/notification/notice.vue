@@ -1,23 +1,3 @@
-<template>
-    <transition :name="transitionName" @enter="handleEnter" @leave="handleLeave">
-        <div :class="classes" :style="styles">
-            <template v-if="type === 'notice'">
-                <div :class="[baseClass + '-content']" ref="content" v-html="content"></div>
-                <a :class="[baseClass + '-close']" @click="close" v-if="closable">
-                    <i class="ivu-icon ivu-icon-ios-close-empty"></i>
-                </a>
-            </template>
-            <template v-if="type === 'message'">
-                <div :class="[baseClass + '-content']" ref="content">
-                    <div :class="[baseClass + '-content-text']" v-html="content"></div>
-                    <a :class="[baseClass + '-close']" @click="close" v-if="closable">
-                        <i class="ivu-icon ivu-icon-ios-close-empty"></i>
-                    </a>
-                </div>
-            </template>
-        </div>
-    </transition>
-</template>
 <script>
     export default {
         props: {
@@ -33,8 +13,7 @@
                 type: String
             },
             content: {
-                type: String,
-                default: ''
+                type: Function
             },
             styles: {
                 type: Object,
@@ -60,7 +39,102 @@
             },
             transitionName: {
                 type: String
+            },
+            render: {
+                type: Function
             }
+        },
+        render (h) {
+            return h(
+                'transition',
+                {
+                    props: {
+                        name: this.transitionName
+                    },
+                    on: {
+                        enter: this.handleEnter,
+                        leave: this.handleLeave
+                    }
+                },[
+                    h(
+                        'div',
+                        {
+                            style: this.styles,
+                            class: this.classes
+                        },
+                        [this.type === 'notice' ? h(
+                            'div',
+                            {},
+                            [
+                                h(
+                                    'div',
+                                    {
+                                        class: `${this.baseClass}-content`,
+                                        ref: 'content'
+                                    },
+                                    [
+                                        this.content(h),
+                                        this.render(h)
+                                    ]
+                                ),
+                                [this.closable ? h(
+                                    'a',
+                                    {
+                                        class: `${this.baseClass}-close`,
+                                        on: {
+                                            click: this.close
+                                        }
+                                    },
+                                    h(
+                                        'i',
+                                        {
+                                            class: 'ivu-icon ivu-icon-ios-close-empty'
+                                        }
+                                    )
+                                ) : h()]
+                            ]
+                        ) : h(
+                            'div',
+                            {},
+                            [h(
+                                'div',
+                                {
+                                    class: `${this.baseClass}-content`,
+                                    ref: 'content'
+                                },
+                                [
+                                    h(
+                                        'div',
+                                        {
+                                            class: `${this.baseClass}-content-text`,
+                                            ref: 'content'
+                                        },
+                                        [
+                                            this.content(h),
+                                            this.render(h)
+                                        ]
+                                    ),
+                                    [this.closable ? h(
+                                        'a',
+                                        {
+                                            class: `${this.baseClass}-close`,
+                                            on: {
+                                                click: this.close
+                                            }
+                                        },
+                                        h(
+                                            'i',
+                                            {
+                                                class: 'ivu-icon ivu-icon-ios-close-empty'
+                                            }
+                                        )
+                                    ) : h()]
+                                ]
+                            )]
+                        )]
+                    )
+                ]
+            );
         },
         data () {
             return {
@@ -126,6 +200,7 @@
             if (this.prefixCls === 'ivu-notice') {
                 this.withDesc = this.$refs.content.querySelectorAll(`.${this.prefixCls}-desc`)[0].innerHTML !== '';
             }
+            
         },
         beforeDestroy () {
             this.clearCloseTimer();

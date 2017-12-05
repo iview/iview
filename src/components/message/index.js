@@ -1,4 +1,5 @@
 import Notification from '../base/notification';
+import htmlTem from '../base/notification/htmlTem.vue';
 
 const prefixCls = 'ivu-message';
 const iconPrefixCls = 'ivu-icon';
@@ -31,7 +32,7 @@ function getMessageInstance () {
     return messageInstance;
 }
 
-function notice (content = '', duration = defaults.duration, type, onClose = function () {}, closable = false) {
+function notice (content = '', duration = defaults.duration, render = function () {}, type, onClose = function () {}, closable = false) {
     const iconType = iconTypes[type];
 
     // if loading
@@ -39,17 +40,40 @@ function notice (content = '', duration = defaults.duration, type, onClose = fun
 
     let instance = getMessageInstance();
 
+    let con = h => {
+        return h(
+            'div',
+            {
+                class: [
+                    `${prefixCls}-custom-content`,
+                    `${prefixCls}-${type}`
+                ]
+            },
+            [
+                h('i', {
+                    class: [
+                        `${iconPrefixCls}`,
+                        `${iconPrefixCls}-${iconType}${loadCls}`
+                    ]
+                }),
+                // h('span', {}, [content]),
+                h(htmlTem, {
+                    props: {
+                        desc: content,
+                        type: 'message'
+                    }
+                })
+            ]
+        );
+    };
+
     instance.notice({
         name: `${prefixKey}${name}`,
         duration: duration,
         styles: {},
         transitionName: 'move-up',
-        content: `
-            <div class="${prefixCls}-custom-content ${prefixCls}-${type}">
-                <i class="${iconPrefixCls} ${iconPrefixCls}-${iconType}${loadCls}"></i>
-                <span>${content}</span>
-            </div>
-        `,
+        content: con,
+        render: render,
         onClose: onClose,
         closable: closable,
         type: 'message'
@@ -89,7 +113,7 @@ export default {
                 content: options
             };
         }
-        return notice(options.content, options.duration, type, options.onClose, options.closable);
+        return notice(options.content, options.duration, options.render, type, options.onClose, options.closable);
     },
     config (options) {
         if (options.top || options.top === 0) {

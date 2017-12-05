@@ -6,6 +6,7 @@
             :prefix-cls="prefixCls"
             :styles="notice.styles"
             :type="notice.type"
+            :render="notice.render"
             :content="notice.content"
             :duration="notice.duration"
             :closable="notice.closable"
@@ -43,7 +44,7 @@
                 }
             },
             content: {
-                type: String
+                type: Function
             },
             className: {
                 type: String
@@ -72,7 +73,7 @@
                     styles: {
                         right: '50%'
                     },
-                    content: '',
+                    content: function () {},
                     duration: 1.5,
                     closable: false,
                     name: name

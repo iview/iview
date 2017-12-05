@@ -2,7 +2,7 @@
     <div>
         <p>带描述信息</p>
         <Button @click="info(false)">消息</Button>
-        <Button @click="success(false)">成功</Button>
+        <Button @click="success">成功</Button>
         <Button @click="warning(false)">警告</Button>
         <Button @click="error(false)">错误</Button>
         <p>仅标题</p>
@@ -22,10 +22,20 @@
                     desc: nodesc ? '' : '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描述这里是通知描述'
                 });
             },
-            success (nodesc) {
+            success () {
                 this.$Notice.success({
                     title: '这是通知标题',
-                    desc: nodesc ? '' : '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描述这里是通知描述'
+                    duration: 0,
+                    // desc: '<b>sdf</b>sdfsdf<a>123123</a>',
+                    render: h => {
+                        return h(
+                            'Button',
+                            {
+                                type: 'primary'
+                            },
+                            'this is button'
+                        );
+                    }
                 });
             },
             warning (nodesc) {
