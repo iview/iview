@@ -369,8 +369,8 @@
                     if (!this.$refs.tbody) return;
                     this.$nextTick(() => {
                         let columnsWidth = {};
-                        let autoWidthIndex = -1;
-                        if (allWidth) autoWidthIndex = this.cloneColumns.findIndex(cell => !cell.width);//todo 这行可能有问题
+                        //let autoWidthIndex = -1;
+                        //if (allWidth) autoWidthIndex = this.cloneColumns.findIndex(cell => !cell.width);//todo 这行可能有问题
 
                         if (this.data.length) {
                             const $td = this.$refs.tbody.$el.querySelectorAll('tbody tr')[0].children;
@@ -378,7 +378,8 @@
                                 const column = this.cloneColumns[i];
 
                                 let width = parseInt(getStyle($td[i], 'width'));
-                                if (i === autoWidthIndex) {
+                                //if (i === autoWidthIndex) {
+                                if(!this.cloneColumns[i].width){
                                     width = parseInt(getStyle($td[i], 'width')) - 1;
                                 }
                                 if (column.width) width = column.width;

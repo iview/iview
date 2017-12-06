@@ -216,6 +216,7 @@
                 this.setCurrentValue("");
                 this.$emit('on-change', "");
                 this.$emit('on-clear');
+                this.showClose = false;
             },
             handleFocus (event) {
                 this.$emit('on-focus', event);
