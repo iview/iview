@@ -23,6 +23,7 @@
                     :style="inputStyle"
                     autocomplete="off"
                     spellcheck="false"
+                    @focus="handleFocus"
                     @blur="handleBlur"
                     @keydown="resetInputState"
                     @keydown.delete="handleInputDelete"
@@ -159,7 +160,8 @@
                 notFound: false,
                 slotChangeDuration: false,    // if slot change duration and in multiple, set true and after slot change, set false
                 model: this.value,
-                currentLabel: this.label
+                currentLabel: this.label,
+                isInputFocus:false
             };
         },
         computed: {
@@ -252,7 +254,7 @@
 
                 if (this.autoComplete && !options.length) status = false;
 
-                return this.visible && status;
+                return (this.visible || this.isInputFocus) && status;
             },
             notFoundShow () {
                 const options = this.$slots.default || [];
@@ -566,7 +568,11 @@
                     this.$refs.dropdown.$el.scrollTop += topOverflowDistance;
                 }
             },
+            handleFocus() {
+                this.isInputFocus = true;
+            },
             handleBlur () {
+                this.isInputFocus = false;
                 setTimeout(() => {
                     if (this.autoComplete) return;
                     const model = this.model;
