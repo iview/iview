@@ -296,7 +296,9 @@
                 this.visible = true;
             },
             handleBlur () {
-                this.visible = false;
+                setTimeout(() => {
+                    this.visible = false;
+                }, 300);
             },
             handleInputChange (event) {
                 const oldValue = this.visualValue;
@@ -395,12 +397,8 @@
                 if (this.showClose) {
                     this.handleClear();
                 } else if (!this.disabled) {
-                    // 修复this.visible = true时, 日历位置跳动错误的bug , add by zeroht
-                    if(this.visible){
-                        this.handleBlur();
-                    } else {
-                        this.handleFocus();
-                    }
+                    // 在部分布局中,input focus后点击 日历图标, 日历位置跳动错误的bug , add by zeroht
+                    this.visible = !this.visible;
                 }
             },
             handleClear () {
