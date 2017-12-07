@@ -70,7 +70,7 @@
         props: {
             type: {
                 validator (value) {
-                    return oneOf(value, ['text', 'textarea', 'password']);
+                    return oneOf(value, ['text', 'textarea', 'password', 'url', 'email', 'date']);
                 },
                 default: 'text'
             },
