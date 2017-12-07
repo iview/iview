@@ -116,5 +116,15 @@ export default {
         let instance = getNoticeInstance();
         noticeInstance = null;
         instance.destroy('ivu-notice');
+    },
+    isExist (name) {
+        if (name) {
+            name = name.toString();
+            if (noticeInstance) {
+                return noticeInstance.isExist(name);
+            }
+        } else {
+            return false;
+        }
     }
 };

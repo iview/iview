@@ -1,18 +1,18 @@
 <template>
     <div :class="classes" :style="styles">
         <Notice
-            v-for="notice in notices"
-            :key="notice.name"
-            :prefix-cls="prefixCls"
-            :styles="notice.styles"
-            :type="notice.type"
-            :content="notice.content"
-            :duration="notice.duration"
-            :closable="notice.closable"
-            :name="notice.name"
-            :transition-name="notice.transitionName"
-            :on-close="notice.onClose"
-            :on-click="notice.onClick">
+                v-for="notice in notices"
+                :key="notice.name"
+                :prefix-cls="prefixCls"
+                :styles="notice.styles"
+                :type="notice.type"
+                :content="notice.content"
+                :duration="notice.duration"
+                :closable="notice.closable"
+                :name="notice.name"
+                :transition-name="notice.transitionName"
+                :on-close="notice.onClose"
+                :on-click="notice.onClick">
         </Notice>
     </div>
 </template>
@@ -23,12 +23,12 @@
     let seed = 0;
     const now = Date.now();
 
-    function getUuid () {
+    function getUuid() {
         return 'ivuNotification_' + now + '_' + (seed++);
     }
 
     export default {
-        components: { Notice },
+        components: {Notice},
         props: {
             prefixCls: {
                 type: String,
@@ -92,6 +92,15 @@
             },
             closeAll () {
                 this.notices = [];
+            },
+            isExist (name) {
+                const notices = this.notices;
+                for (let i = 0; i < notices.length; i++) {
+                    if (notices[i].name === name) {
+                        return true;
+                    }
+                }
+                return false;
             }
         }
     };
