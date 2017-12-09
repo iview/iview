@@ -24,20 +24,15 @@ export default {
             } else if (this.columnsWidth[column._index]) {
                 width = this.columnsWidth[column._index].width;
             }
-            // when browser has scrollBar,set a width to resolve scroll position bug
-            if (this.columns.length === index + 1 && top && this.$parent.bodyHeight !== 0) {
-                width += this.$parent.scrollBarWidth;
-            }
+
             // when fixed type,reset first right fixed column's width
-            if (this.fixed === 'right') {
-                const firstFixedIndex = this.columns.findIndex((col) => col.fixed === 'right');
-                if (firstFixedIndex === index) width += this.$parent.scrollBarWidth;
-            }
-            
-            //add 2017-11-09 @zeroht 
-            if (width && column.minWidth && width < column.minWidth){
-                width = column.minWidth;
-            }
+            if (this.fixed === 'right' && index == 0 && this.$parent.bodyHeight !== 0) {
+                //const firstFixedIndex = this.columns.findIndex((col) => col.fixed === 'right');
+                //if (firstFixedIndex === index) width += this.$parent.scrollBarWidth;
+                width += this.$parent.scrollBarWidth;
+            }// when browser has scrollBar,set a width to resolve scroll position bug
+            else if (this.columns.length === index + 1 && top && this.$parent.bodyHeight !== 0) {
+                width += this.$parent.scrollBarWidth;}
             
             if (width === '0') width = '';
             return width;

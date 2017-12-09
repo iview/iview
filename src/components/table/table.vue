@@ -275,7 +275,11 @@
                 this.rightFixedColumns.forEach((col) => {
                     if (col.fixed && col.fixed === 'right') width += col._width;
                 });
-                width += this.scrollBarWidth;
+
+                if (this.height){
+                    width += this.scrollBarWidth;
+                }
+
                 style.width = `${width}px`;
                 return style;
             },
@@ -383,6 +387,10 @@
                                     width = parseInt(getStyle($td[i], 'width')) - 1;
                                 }
                                 if (column.width) width = column.width;
+
+                                if (column.minWidth && width < column.minWidth){
+                                    width = column.minWidth;
+                                }
 
                                 this.cloneColumns[i]._width = width;
 
