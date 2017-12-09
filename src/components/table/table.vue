@@ -358,8 +358,8 @@
             },
             handleResize () {
                 this.$nextTick(() => {
-                    const allWidth = !this.columns.some(cell => !cell.width);    // each column set a width
-                    /*
+                    /*const allWidth = !this.columns.some(cell => !cell.width);    // each column set a width
+
                     if (allWidth) {
                         this.tableWidth = this.columns.map(cell => cell.width).reduce((a, b) => a + b, 0);
                     } else {
