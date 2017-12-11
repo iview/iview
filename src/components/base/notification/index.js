@@ -30,7 +30,10 @@ Notification.newInstance = properties => {
             setTimeout(function() {
                 document.body.removeChild(document.getElementsByClassName(element)[0]);
             }, 500);
-        }
+        },
+        isExist (name) {
+            return notification.isExist(name);
+        },
     };
 };
 
