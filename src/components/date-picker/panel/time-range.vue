@@ -8,6 +8,7 @@
                 </div>
                 <time-spinner
                     ref="timeSpinner"
+                    :steps="steps"
                     :show-seconds="showSeconds"
                     :hours="hours"
                     :minutes="minutes"
@@ -26,6 +27,7 @@
                 </div>
                 <time-spinner
                     ref="timeSpinnerEnd"
+                    :steps="steps"
                     :show-seconds="showSeconds"
                     :hours="hoursEnd"
                     :minutes="minutesEnd"
@@ -60,6 +62,12 @@
         name: 'TimePicker',
         mixins: [ Mixin, Locale ],
         components: { TimeSpinner, Confirm },
+        props: {
+            steps: {
+                type: Array,
+                default: () => []
+            }
+        },
         data () {
             return {
                 prefixCls: prefixCls,
