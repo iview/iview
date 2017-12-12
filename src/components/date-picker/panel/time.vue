@@ -37,13 +37,17 @@
     const timePrefixCls = 'ivu-time-picker';
 
     export default {
-        name: 'TimePicker',
+        name: 'TimePickerPanel',
         mixins: [ Mixin, Locale ],
         components: { TimeSpinner, Confirm },
         props: {
             steps: {
                 type: Array,
                 default: () => []
+            },
+            format: {
+                type: String,
+                default: 'HH:mm:ss'
             }
         },
         data () {
@@ -53,7 +57,6 @@
                 date: initTimeDate(),
                 value: '',
                 showDate: false,
-                format: 'HH:mm:ss',
                 hours: '',
                 minutes: '',
                 seconds: '',

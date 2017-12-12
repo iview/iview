@@ -59,6 +59,7 @@
                 <time-picker
                     ref="timePicker"
                     show-date
+                    :format="format"
                     v-show="currentView === 'time'"
                     @on-pick="handleTimePick"
                     @on-pick-click="handlePickClick"></time-picker>
@@ -85,31 +86,55 @@
     import Mixin from './mixin';
     import Locale from '../../../mixins/locale';
 
+    import { oneOf } from '../../../utils/assist';
     import { initTimeDate, siblingMonth, formatDateLabels } from '../util';
 
     const prefixCls = 'ivu-picker-panel';
     const datePrefixCls = 'ivu-date-picker';
 
     export default {
-        name: 'DatePicker',
+        name: 'DatePickerPanel',
         mixins: [ Mixin, Locale ],
         components: { Icon, DateTable, YearTable, MonthTable, TimePicker, Confirm, datePanelLabel },
+        props: {
+            confirm: {
+                type: Boolean,
+                default: false
+            },
+            showTime: {
+                type: Boolean,
+                default: false
+            },
+            format: {
+                type: String,
+                default: 'yyyy-MM-dd'
+            },
+            value: {},
+            selectionMode: {
+                type: String,
+                validator (value) {
+                    return oneOf(value, ['year', 'month', 'date']);
+                },
+                default: 'date'
+            },
+            shortcuts: {
+                type: Array,
+                default: () => []
+            },
+            disabledDate: {
+                type: Function,
+                default: () => false
+            }
+        },
         data () {
             return {
                 prefixCls: prefixCls,
                 datePrefixCls: datePrefixCls,
-                shortcuts: [],
-                currentView: 'date',
+                currentView: this.selectionMode || 'date',
                 date: initTimeDate(),
-                value: '',
-                showTime: false,
-                selectionMode: 'day',
-                disabledDate: '',
                 year: null,
                 month: null,
-                confirm: false,
-                isTime: false,
-                format: 'yyyy-MM-dd'
+                isTime: false
             };
         },
         computed: {
@@ -151,8 +176,8 @@
             date (val) {
                 if (this.showTime) this.$refs.timePicker.date = val;
             },
-            format (val) {
-                if (this.showTime) this.$refs.timePicker.format = val;
+            selectionMode(){
+                this.currentView = this.selectionMode;
             },
             currentView (val) {
                 if (val === 'time') this.$refs.timePicker.updateScroll();
@@ -232,7 +257,7 @@
                 }
             },
             handleDatePick (value) {
-                if (this.selectionMode === 'day') {
+                if (this.selectionMode === 'date') {
                     this.$emit('on-pick', new Date(value.getTime()));
                     this.date = new Date(value);
                 }
@@ -253,7 +278,6 @@
                 // todo 这里可能有问题，并不能进入到这里，但不影响正常使用
                 this.$refs.timePicker.date = this.date;
                 this.$refs.timePicker.value = this.value;
-                this.$refs.timePicker.format = this.format;
                 this.$refs.timePicker.showDate = true;
             }
         }
