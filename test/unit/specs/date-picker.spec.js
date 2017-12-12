@@ -77,6 +77,7 @@ describe('DatePicker.vue', () => {
   });
 
   it('should change type progamatically', done => {
+
     vm = createVue({
       template: '<Date-picker :type="dateType"></Date-picker>',
       data() {
@@ -112,12 +113,12 @@ describe('DatePicker.vue', () => {
         })
         .then(() => {
           expect(picker.type).to.equal('date');
-          expect(picker.selectionMode).to.equal('day');
-
+          expect(picker.selectionMode).to.equal('date');
           done();
         });
     });
   });
+
 
   it('should fire `on-change` when reseting value', done => {
     const now = new Date();
@@ -141,7 +142,7 @@ describe('DatePicker.vue', () => {
       expect(displayField.value).to.equal(nowDate);
 
       picker.showClose = true; // to simulate mouseenter in the Input
-      picker.handleIconClick(); // reset the input value
+      picker.handleClear(); // reset the input value
       vm.$nextTick(() => {
         expect(onChangeCalled).to.equal(true);
         expect(displayField.value).to.equal('');
