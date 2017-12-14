@@ -215,6 +215,9 @@
                     this.rightCheckedKeys = this.rightData
                             .filter(data => selectedKeys.indexOf(data.key) > -1)
                             .map(data => data.key);
+                } else {
+                    this.leftCheckedKeys = [];
+                    this.rightCheckedKeys = [];
                 }
             },
             moveTo (direction) {
@@ -251,6 +254,9 @@
             },
             data () {
                 this.splitData(false);
+            },
+            selectedKeys () {
+                this.splitSelectedKey();
             }
         },
         mounted () {
