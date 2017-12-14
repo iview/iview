@@ -228,8 +228,8 @@
             },
 
             onScroll() {
-                if (this.isLoading) return;
                 const el = this.$refs.scrollContainer;
+                if (this.isLoading || !el) return;
                 const scrollDirection = Math.sign(this.lastScroll - el.scrollTop); // IE has no Math.sign, check that webpack polyfills this
                 const displacement = el.scrollHeight - el.clientHeight - el.scrollTop;
 
