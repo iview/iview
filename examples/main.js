@@ -13,6 +13,7 @@ Vue.use(iView, { locale });
 
 // 开启debug模式
 Vue.config.debug = true;
+window.Vue = Vue;
 
 // 路由配置
 const router = new VueRouter({
@@ -196,7 +197,12 @@ const router = new VueRouter({
         {
             path: '/scroll',
             component: require('./routers/scroll.vue')
+        },
+        {
+            path: '/input-tag',
+            component: require('./routers/input-tag.vue')
         }
+
     ]
 });
 

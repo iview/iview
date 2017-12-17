@@ -61,6 +61,10 @@
                         <Checkbox label="看电影"></Checkbox>
                     </Checkbox-group>
                 </Form-item>
+                <Form-item label="标签" prop="tags">
+                    <InputTag v-model="formValidate.tags" ></InputTag>
+                </Form-item>
+
                 <Form-item>
                     <Button type="primary" @click="handleSubmit('formValidate')" icon="ios-cloud-upload-outline">提交</Button>
                     <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px" icon="ios-reload">重置</Button>
@@ -185,13 +189,16 @@
                         <Radio label="female">女</Radio>
                     </Radio-group>
                 </Form-item>
-                <Form-item label="爱好" prop="interest" size="large">
-                    <Checkbox-group v-model="formValidate.interest">
+                <Form-item label="爱好" prop="interest" >
+                    <Checkbox-group v-model="formValidate.interest" size="large">
                         <Checkbox label="吃饭"></Checkbox>
                         <Checkbox label="睡觉"></Checkbox>
                         <Checkbox label="跑步"></Checkbox>
                         <Checkbox label="看电影"></Checkbox>
                     </Checkbox-group>
+                </Form-item>
+                <Form-item label="标签" prop="tags" >
+                    <InputTag v-model="formValidate.tags" size="large" ></InputTag>
                 </Form-item>
                 <Form-item>
                     <Button type="primary" @click="handleSubmit('formValidate')" size="large" icon="ios-cloud-upload-outline">提交</Button>
@@ -369,7 +376,8 @@
                     time: '',
                     desc: '',
                     cascader: [],
-                    inputnumber: 1
+                    inputnumber: 1,
+                    tags:[],
                 },
                 ruleValidate: {
                     name: [
@@ -387,6 +395,10 @@
                     interest: [
                         { required: true, type: 'array', min: 1, message: '至少选择一个爱好', trigger: 'change' },
                         { type: 'array', max: 2, message: '最多选择两个爱好', trigger: 'change' }
+                    ],
+                    tags: [
+                        { required: true, type: 'array', min: 2, message: '至少定义两个标签', trigger: 'change' },
+                        { type: 'array', max: 5, message: '最多定义五个标签', trigger: 'change' }
                     ],
                     date: [
                         { required: true, type: 'date', message: '请选择日期', trigger: 'change' }
