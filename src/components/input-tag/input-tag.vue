@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import { oneOf, findComponentUpward } from '../../utils/assist';
+    import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     const prefixCls = 'ivu-input-tag';
     /*eslint-disable*/
@@ -19,7 +19,7 @@
     /*eslint-enable*/
     const lcase = (c) => {
         return c.toLowerCase();
-    }
+    };
     const types = ['string', 'number'];
     export default {
         name: 'InputTag',
@@ -71,7 +71,7 @@
             return {
                 focused: false,
                 newTag: ''
-            }
+            };
         },
         computed: {
             tags() {
@@ -93,13 +93,13 @@
                 return [
                     `${prefixCls}-new-tag`,
                     `${prefixCls}-new-tag-${this.childSize}`
-                ]
+                ];
             },
             childSize() {
                 return this.size || 'default';
             },
             closable() {
-                return !this.readOnly && !this.disabled
+                return !this.readOnly && !this.disabled;
             },
             addTrigger() {
                 let addKeyboard = this.addKeyboard;
@@ -119,9 +119,9 @@
         methods: {
             focusNewTag() {
                 if (this.readOnly) {
-                    return
+                    return;
                 }
-                this.$el.querySelector('input').focus()
+                this.$el.querySelector('input').focus();
             },
             eventHasKeys(list, event) {
                 return ~list.indexOf(event.keyCode) ||
@@ -151,29 +151,29 @@
             },
             addNew(tag) {
                 if (tag && !~this.tags.indexOf(tag) && this.validateIfNeeded(tag)) {
-                    this.tags.push(tag)
-                    this.tagChange()
+                    this.tags.push(tag);
+                    this.tagChange();
                 }
-                this.newTag = ''
+                this.newTag = '';
             },
             validateIfNeeded(tagValue) {
                 if (this.validate === '' || this.validate === undefined) {
-                    return true
+                    return true;
                 } else if (Object.keys(validators).indexOf(this.validate) > -1) {
-                    return validators[this.validate].test(tagValue)
+                    return validators[this.validate].test(tagValue);
                 }
-                return true
+                return true;
             },
             remove(index) {
-                this.tags.splice(index, 1)
-                this.tagChange()
+                this.tags.splice(index, 1);
+                this.tagChange();
             },
             removeLastTag() {
                 if (this.newTag) {
-                    return
+                    return;
                 }
-                this.tags.pop()
-                this.tagChange()
+                this.tags.pop();
+                this.tagChange();
             },
             tagChange() {
                 const tags = JSON.parse(JSON.stringify(this.tags));
@@ -182,5 +182,5 @@
                 this.dispatch('FormItem', 'on-form-change', tags);
             }
         }
-    }
+    };
 </script>
