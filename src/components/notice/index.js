@@ -108,7 +108,8 @@ function notice (type, options) {
                     }, [
                         h(htmlTem, {
                             props: {
-                                desc: desc
+                                desc: desc,
+                                type: 'notice'
                             }
                         })
                     ])

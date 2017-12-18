@@ -64,7 +64,9 @@
                         },
                         [this.type === 'notice' ? h(
                             'div',
-                            {},
+                            {
+                                class: 'ivu-notice-desc'
+                            },
                             [
                                 h(
                                     'div',
@@ -77,7 +79,7 @@
                                         this.render(h)
                                     ]
                                 ),
-                                [this.closable ? h(
+                                this.closable ? h(
                                     'a',
                                     {
                                         class: `${this.baseClass}-close`,
@@ -91,7 +93,7 @@
                                             class: 'ivu-icon ivu-icon-ios-close-empty'
                                         }
                                     )
-                                ) : h()]
+                                ) : h()
                             ]
                         ) : h(
                             'div',
