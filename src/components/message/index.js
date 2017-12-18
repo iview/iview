@@ -56,7 +56,6 @@ function notice (content = '', duration = defaults.duration, render, type, onClo
                         `${iconPrefixCls}-${iconType}${loadCls}`
                     ]
                 }),
-                // h('span', {}, [content]),
                 render ? render(h) : h(htmlTem, {
                     props: {
                         desc: content,
@@ -73,7 +72,6 @@ function notice (content = '', duration = defaults.duration, render, type, onClo
         styles: {},
         transitionName: 'move-up',
         content: con,
-        // render: render,
         onClose: onClose,
         closable: closable,
         type: 'message'

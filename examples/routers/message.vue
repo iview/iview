@@ -11,13 +11,10 @@
     export default {
         methods: {
             info () {
-//                this.$Message.info('这是一条普通提示');
+                // this.$Message.info('这是一条普通提示');
                 this.$Message.success({
                     content: '这是一条普通提示',
                     duration: 0,
-                    onClose () {
-//                        console.log(123)
-                    },
                     closable: true
                 });
             },
@@ -47,10 +44,10 @@
             }
         },
         mounted () {
-//            this.$Message.config({
-//                top: 50,
-//                duration: 3
-//            });
+            this.$Message.config({
+                top: 50,
+                duration: 3
+            });
         }
-    }
+    };
 </script>

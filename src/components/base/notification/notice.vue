@@ -1,4 +1,35 @@
 <script>
+    const closeBtn = (h, vm) => {
+        return h(
+            'a',
+            {
+                class: `${vm.baseClass}-close`,
+                on: {
+                    click: vm.close
+                }
+            },
+            [h(
+                'i',
+                {
+                    class: 'ivu-icon ivu-icon-ios-close-empty'
+                }
+            )]
+        );
+    };
+
+    const contentRender = (h, vm, type) => {
+        return [h(
+            'div',
+            {
+                class: `${vm.baseClass}-${type}`,
+                ref: 'content'
+            },
+            [
+                vm.content(h)
+            ]
+        ), vm.closable ? closeBtn(h, vm) : h()];
+    };
+
     export default {
         props: {
             prefixCls: {
@@ -64,33 +95,7 @@
                             {
                                 class: 'ivu-notice-desc'
                             },
-                            [
-                                h(
-                                    'div',
-                                    {
-                                        class: `${this.baseClass}-content`,
-                                        ref: 'content'
-                                    },
-                                    [
-                                        this.content(h)
-                                    ]
-                                ),
-                                this.closable ? h(
-                                    'a',
-                                    {
-                                        class: `${this.baseClass}-close`,
-                                        on: {
-                                            click: this.close
-                                        }
-                                    },
-                                    h(
-                                        'i',
-                                        {
-                                            class: 'ivu-icon ivu-icon-ios-close-empty'
-                                        }
-                                    )
-                                ) : h()
-                            ]
+                            contentRender(h, this, 'content')
                         ) : h(
                             'div',
                             {},
@@ -100,33 +105,7 @@
                                     class: `${this.baseClass}-content`,
                                     ref: 'content'
                                 },
-                                h(
-                                    'div',
-                                    {
-                                        class: `${this.baseClass}-content-text`,
-                                        ref: 'content'
-                                    },
-                                    [
-                                        this.content(h)
-                                    ]
-                                ),
-                                [
-                                    this.closable ? h(
-                                        'a',
-                                        {
-                                            class: `${this.baseClass}-close`,
-                                            on: {
-                                                click: this.close
-                                            }
-                                        },
-                                        h(
-                                            'i',
-                                            {
-                                                class: 'ivu-icon ivu-icon-ios-close-empty'
-                                            }
-                                        )
-                                    ) : h()
-                                ]
+                                contentRender(h, this, 'content-text')
                             )]
                         )]
                     )
