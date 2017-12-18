@@ -29,10 +29,8 @@
             return {
                 media: mediaQuery,
                 matches: false,
-                on() {
-                },
-                off() {
-                },
+                on() {},
+                off() {},
             };
         };
         window.matchMedia = window.matchMedia || matchMediaPolyfill;
