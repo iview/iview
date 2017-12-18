@@ -43,9 +43,9 @@ function notice (type, options) {
 
     let content;
 
-    let render = options.render || function () {};
+    let render = options.render;
 
-    const with_desc = desc === '' ? '' : ` ${prefixCls}-with-desc`;
+    const with_desc = desc === '' ? (render ? ` ${prefixCls}-with-desc` : '') : ` ${prefixCls}-with-desc`;
 
     if (type == 'normal') {
         content = h => {
@@ -64,7 +64,7 @@ function notice (type, options) {
                     h('div', {
                         class: `${prefixCls}-desc`
                     }, [
-                        h(htmlTem, {
+                        render ? render(h) : h(htmlTem, {
                             props: {
                                 desc: desc,
                                 type: 'notice'
@@ -106,7 +106,7 @@ function notice (type, options) {
                     h('div', {
                         class: `${prefixCls}-desc`
                     }, [
-                        h(htmlTem, {
+                        render ? render(h) : h(htmlTem, {
                             props: {
                                 desc: desc,
                                 type: 'notice'
@@ -125,7 +125,6 @@ function notice (type, options) {
         transitionName: 'move-notice',
         content: content,
         onClose: onClose,
-        render: render,
         closable: true,
         type: 'notice'
     });

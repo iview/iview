@@ -39,9 +39,6 @@
             },
             transitionName: {
                 type: String
-            },
-            render: {
-                type: Function
             }
         },
         render (h) {
@@ -75,8 +72,7 @@
                                         ref: 'content'
                                     },
                                     [
-                                        this.content(h),
-                                        this.render(h)
+                                        this.content(h)
                                     ]
                                 ),
                                 this.closable ? h(
@@ -104,19 +100,18 @@
                                     class: `${this.baseClass}-content`,
                                     ref: 'content'
                                 },
+                                h(
+                                    'div',
+                                    {
+                                        class: `${this.baseClass}-content-text`,
+                                        ref: 'content'
+                                    },
+                                    [
+                                        this.content(h)
+                                    ]
+                                ),
                                 [
-                                    h(
-                                        'div',
-                                        {
-                                            class: `${this.baseClass}-content-text`,
-                                            ref: 'content'
-                                        },
-                                        [
-                                            this.content(h),
-                                            this.render(h)
-                                        ]
-                                    ),
-                                    [this.closable ? h(
+                                    this.closable ? h(
                                         'a',
                                         {
                                             class: `${this.baseClass}-close`,
@@ -130,7 +125,7 @@
                                                 class: 'ivu-icon ivu-icon-ios-close-empty'
                                             }
                                         )
-                                    ) : h()]
+                                    ) : h()
                                 ]
                             )]
                         )]

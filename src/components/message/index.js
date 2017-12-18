@@ -32,7 +32,7 @@ function getMessageInstance () {
     return messageInstance;
 }
 
-function notice (content = '', duration = defaults.duration, render = function () {}, type, onClose = function () {}, closable = false) {
+function notice (content = '', duration = defaults.duration, render, type, onClose = function () {}, closable = false) {
     const iconType = iconTypes[type];
 
     // if loading
@@ -57,7 +57,7 @@ function notice (content = '', duration = defaults.duration, render = function (
                     ]
                 }),
                 // h('span', {}, [content]),
-                h(htmlTem, {
+                render ? render(h) : h(htmlTem, {
                     props: {
                         desc: content,
                         type: 'message'
@@ -73,7 +73,7 @@ function notice (content = '', duration = defaults.duration, render = function (
         styles: {},
         transitionName: 'move-up',
         content: con,
-        render: render,
+        // render: render,
         onClose: onClose,
         closable: closable,
         type: 'message'
