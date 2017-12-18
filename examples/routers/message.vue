@@ -13,8 +13,8 @@
             info () {
 //                this.$Message.info('这是一条普通提示');
                 this.$Message.success({
-                    content: '这是一条普通提示2',
-                    duration: 500,
+                    content: '这是一条普通提示',
+                    duration: 0,
                     onClose () {
 //                        console.log(123)
                     },

@@ -197,7 +197,6 @@
             if (this.prefixCls === 'ivu-notice') {
                 this.withDesc = this.$refs.content.querySelectorAll(`.${this.prefixCls}-desc`)[0].innerHTML !== '';
             }
-            
         },
         beforeDestroy () {
             this.clearCloseTimer();
