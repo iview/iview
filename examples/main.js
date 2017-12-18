@@ -18,6 +18,10 @@ Vue.config.debug = true;
 const router = new VueRouter({
     routes: [
         {
+            path: '/layout',
+            component: require('./routers/layout.vue')
+        },
+        {
             path: '/affix',
             component: require('./routers/affix.vue')
         },
