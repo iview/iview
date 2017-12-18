@@ -196,6 +196,10 @@ const router = new VueRouter({
         {
             path: '/scroll',
             component: require('./routers/scroll.vue')
+        },
+        {
+            path: '/input-tag',
+            component: require('./routers/input-tag.vue')
         }
     ]
 });

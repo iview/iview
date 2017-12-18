@@ -1,0 +1,89 @@
+@input-tag-prefix-cls: ~"@{css-prefix}input-tag";
+
+.@{input-tag-prefix-cls} {
+    .input;
+    &-wrapper {
+        @radius-wrap: 0 @btn-border-radius @btn-border-radius 0;
+
+        margin: 0;
+        cursor: text;
+        padding: 2px @input-padding-horizontal;
+        // height: @input-height-base;
+        line-height: 25px;
+        vertical-align: middle;
+        border: 1px solid @border-color-base;
+        border-radius: @btn-border-radius;
+        overflow: hidden;
+
+    }
+
+
+    &-wrapper &-new-tag {
+        width: 80px;
+        border:0px;
+        box-shadow: none;
+        outline: 0;
+        line-height: 26px;
+        display: inline-block;
+        vertical-align: middle;
+        background-color: transparent;
+        .placeholder();
+        &-large{
+            height: 30px;
+            line-height: 30px;
+        }
+    }
+
+
+    &-read-only {
+        cursor: default;
+    }
+
+    &-wrapper:hover {
+        .hover();
+    }
+
+    &-focused {
+        .active();
+    }
+
+    &-disabled {
+        .disabled();
+        .@{tag-prefix-cls} {
+            cursor: not-allowed;
+        }
+        &-new-tag {
+            cursor: not-allowed;
+        }
+    }
+}
+
+
+.@{form-item-prefix-cls}-error {
+    .@{input-tag-prefix-cls} {
+        .input-error;
+        &-icon {
+            color: @error-color;
+        }
+    }
+
+    .@{transfer-prefix-cls} {
+        .@{input-tag-prefix-cls} {
+            .input;
+            &-icon {
+                color: @subsidiary-color;
+            }
+        }
+    }
+}
+
+.@{form-item-prefix-cls}-validating {
+    .@{input-tag-prefix-cls} {
+        &-icon-validate {
+            display: inline-block;
+        }
+        &-icon+.@{input-tag-prefix-cls} {
+            padding-right: 32px;
+        }
+    }
+}

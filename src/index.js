@@ -23,6 +23,7 @@ import Form from './components/form';
 import Icon from './components/icon';
 import Input from './components/input';
 import InputNumber from './components/input-number';
+import InputTag from './components/input-tag';
 import Scroll from './components/scroll';
 import LoadingBar from './components/loading-bar';
 import Menu from './components/menu';
@@ -80,6 +81,7 @@ const components = {
     Icon,
     Input,
     InputNumber,
+    InputTag,
     Scroll,
     LoadingBar,
     Menu,
