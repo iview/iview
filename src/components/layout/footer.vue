@@ -5,12 +5,6 @@
     const prefixCls = 'ivu-layout';
     export default {
         name: 'Footer',
-        props: {
-            className: {
-                type: String,
-                default: ''
-            }
-        },
         data () {
             return {
                 prefixCls: prefixCls
@@ -18,10 +12,7 @@
         },
         computed: {
             wrapClasses () {
-                return [
-                    `${prefixCls}-footer`,
-                    this.className
-                ];
+                return `${prefixCls}-footer`;
             }
         }
     };

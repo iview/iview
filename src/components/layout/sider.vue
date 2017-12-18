@@ -42,10 +42,6 @@
                 type: Boolean,
                 default: false
             },
-            className: {
-                type: String,
-                default: ''
-            },
             width: {
                 type: [Number, String],
                 default: 200
@@ -84,7 +80,6 @@
             wrapClasses () {
                 return [
                     `${prefixCls}`,
-                    this.className,
                     this.siderWidth ? '' : `${prefixCls}-zero-width`,
                     this.value ? `${prefixCls}-collapsed` : ''
                 ];

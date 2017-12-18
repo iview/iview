@@ -6,12 +6,6 @@
 
     export default {
         name: 'Layout',
-        props: {
-            className: {
-                type: String,
-                default: ''
-            }
-        },
         data () {
             return {
                 prefixCls: prefixCls,
@@ -22,7 +16,6 @@
             wrapClasses () {
                 return [
                     `${prefixCls}`,
-                    this.className,
                     {
                         [`${prefixCls}-has-sider`]: this.hasSider
                     }
