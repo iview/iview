@@ -19,7 +19,7 @@
 //                        console.log(123)
                     },
                     closable: true
-                })
+                });
             },
             success () {
                 this.$Message.success({
