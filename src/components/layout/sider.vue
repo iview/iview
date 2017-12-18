@@ -15,19 +15,9 @@
 </template>
 <script>
     import { on, off } from '../../utils/dom';
-    import { oneOf, dimensionMap } from '../../utils/assist';
+    import { oneOf, dimensionMap, setMatchMedia } from '../../utils/assist';
     const prefixCls = 'ivu-layout-sider';
-    if (typeof window !== 'undefined') {
-        const matchMediaPolyfill = mediaQuery => {
-            return {
-                media: mediaQuery,
-                matches: false,
-                on() {},
-                off() {},
-            };
-        };
-        window.matchMedia = window.matchMedia || matchMediaPolyfill;
-    }
+    setMatchMedia();
     export default {
         name: 'Sider',
         props: {

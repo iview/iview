@@ -286,3 +286,17 @@ export const dimensionMap = {
     lg: '1200px',
     xl: '1600px',
 };
+
+export function setMatchMedia () {
+    if (typeof window !== 'undefined') {
+        const matchMediaPolyfill = mediaQuery => {
+            return {
+                media: mediaQuery,
+                matches: false,
+                on() {},
+                off() {},
+            };
+        };
+        window.matchMedia = window.matchMedia || matchMediaPolyfill;
+    }
+}
