@@ -278,3 +278,11 @@ export function removeClass(el, cls) {
         el.className = trim(curClass);
     }
 }
+
+export const dimensionMap = {
+    xs: '480px',
+    sm: '768px',
+    md: '992px',
+    lg: '1200px',
+    xl: '1600px',
+};

@@ -15,15 +15,8 @@
 </template>
 <script>
     import { on, off } from '../../utils/dom';
-    import { oneOf } from '../../utils/assist';
+    import { oneOf, dimensionMap } from '../../utils/assist';
     const prefixCls = 'ivu-layout-sider';
-    const dimensionMap = {
-        xs: '480px',
-        sm: '768px',
-        md: '992px',
-        lg: '1200px',
-        xl: '1600px',
-    };
     if (typeof window !== 'undefined') {
         const matchMediaPolyfill = mediaQuery => {
             return {
