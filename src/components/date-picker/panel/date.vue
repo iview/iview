@@ -1,5 +1,5 @@
 <template>
-    <div :class="classes">
+    <div :class="classes" @mousedown.prevent>
         <div :class="[prefixCls + '-sidebar']" v-if="shortcuts.length">
             <div
                 :class="[prefixCls + '-shortcut']"
@@ -10,24 +10,21 @@
             <div :class="[datePrefixCls + '-header']" v-show="currentView !== 'time'">
                 <span
                     :class="iconBtnCls('prev', '-double')"
-                    @click="prevYear"><Icon type="ios-arrow-left"></Icon></span>
+                    @click="changeYear(-1)"><Icon type="ios-arrow-left"></Icon></span>
                 <span
                     :class="iconBtnCls('prev')"
-                    @click="prevMonth"
+                    @click="changeMonth(-1)"
                     v-show="currentView === 'date'"><Icon type="ios-arrow-left"></Icon></span>
-                <span
-                    :class="[datePrefixCls + '-header-label']"
-                    @click="showYearPicker">{{ yearLabel }}</span>
-                <span
-                    :class="[datePrefixCls + '-header-label']"
-                    @click="showMonthPicker"
-                    v-show="currentView === 'date'">{{ monthLabel }}</span>
+                <date-panel-label
+                    :date-panel-label="datePanelLabel"
+                    :current-view="currentView"
+                    :date-prefix-cls="datePrefixCls"/>
                 <span
                     :class="iconBtnCls('next', '-double')"
-                    @click="nextYear"><Icon type="ios-arrow-right"></Icon></span>
+                    @click="changeYear(+1)"><Icon type="ios-arrow-right"></Icon></span>
                 <span
                     :class="iconBtnCls('next')"
-                    @click="nextMonth"
+                    @click="changeMonth(+1)"
                     v-show="currentView === 'date'"><Icon type="ios-arrow-right"></Icon></span>
             </div>
             <div :class="[prefixCls + '-content']">
@@ -83,11 +80,12 @@
     import MonthTable from '../base/month-table.vue';
     import TimePicker from './time.vue';
     import Confirm from '../base/confirm.vue';
+    import datePanelLabel from './date-panel-label.vue';
 
     import Mixin from './mixin';
     import Locale from '../../../mixins/locale';
 
-    import { initTimeDate } from '../util';
+    import { initTimeDate, siblingMonth, formatDateLabels } from '../util';
 
     const prefixCls = 'ivu-picker-panel';
     const datePrefixCls = 'ivu-date-picker';
@@ -95,7 +93,7 @@
     export default {
         name: 'DatePicker',
         mixins: [ Mixin, Locale ],
-        components: { Icon, DateTable, YearTable, MonthTable, TimePicker, Confirm },
+        components: { Icon, DateTable, YearTable, MonthTable, TimePicker, Confirm, datePanelLabel },
         data () {
             return {
                 prefixCls: prefixCls,
@@ -123,19 +121,21 @@
                     }
                 ];
             },
-            yearLabel () {
-                const tYear = this.t('i.datepicker.year');
-                const year = this.year;
-                if (!year) return '';
-                if (this.currentView === 'year') {
-                    const startYear = Math.floor(year / 10) * 10;
-                    return `${startYear}${tYear} - ${startYear + 9}${tYear}`;
-                }
-                return `${year}${tYear}`;
-            },
-            monthLabel () {
-                const month = this.month + 1;
-                return this.t(`i.datepicker.month${month}`);
+            datePanelLabel () {
+                if (!this.year) return null; // not ready yet
+                const locale = this.t('i.locale');
+                const datePanelLabel = this.t('i.datepicker.datePanelLabel');
+                const date = new Date(this.year, this.month);
+                const { labels, separator } = formatDateLabels(locale, datePanelLabel, date);
+
+                const handler = type => {
+                    return () => (this.currentView = type);
+                };
+
+                return {
+                    separator: separator,
+                    labels: labels.map(obj => ((obj.handler = handler(obj.type)), obj))
+                };
             }
         },
         watch: {
@@ -144,8 +144,7 @@
                 newVal = new Date(newVal);
                 if (!isNaN(newVal)) {
                     this.date = newVal;
-                    this.year = newVal.getFullYear();
-                    this.month = newVal.getMonth();
+                    this.setMonthYear(newVal);
                 }
                 if (this.showTime) this.$refs.timePicker.value = newVal;
             },
@@ -163,6 +162,10 @@
             resetDate () {
                 this.date = new Date(this.date);
             },
+            setMonthYear(date){
+                this.month = date.getMonth();
+                this.year = date.getFullYear();
+            },
             handleClear () {
                 this.date = new Date();
                 this.$emit('on-pick', '');
@@ -178,48 +181,20 @@
                         this.currentView = 'date';
                     }
                 }
-
-                this.year = this.date.getFullYear();
-                this.month = this.date.getMonth();
+                this.setMonthYear(this.date);
                 if (reset) this.isTime = false;
             },
-            prevYear () {
+            changeYear(dir){
                 if (this.currentView === 'year') {
-                    this.$refs.yearTable.prevTenYear();
+                    this.$refs.yearTable[dir == 1 ? 'nextTenYear' : 'prevTenYear']();
                 } else {
-                    this.year--;
-                    this.date.setFullYear(this.year);
-                    this.resetDate();
+                    this.year+= dir;
+                    this.date = siblingMonth(this.date, dir * 12);
                 }
             },
-            nextYear () {
-                if (this.currentView === 'year') {
-                    this.$refs.yearTable.nextTenYear();
-                } else {
-                    this.year++;
-                    this.date.setFullYear(this.year);
-                    this.resetDate();
-                }
-            },
-            prevMonth () {
-                this.month--;
-                if (this.month < 0) {
-                    this.month = 11;
-                    this.year--;
-                }
-            },
-            nextMonth () {
-                this.month++;
-                if (this.month > 11) {
-                    this.month = 0;
-                    this.year++;
-                }
-            },
-            showYearPicker () {
-                this.currentView = 'year';
-            },
-            showMonthPicker () {
-                this.currentView = 'month';
+            changeMonth(dir){
+                this.date = siblingMonth(this.date, dir);
+                this.setMonthYear(this.date);
             },
             handleToggleTime () {
                 if (this.currentView === 'date') {
@@ -245,13 +220,11 @@
             },
             handleMonthPick (month) {
                 this.month = month;
-                const selectionMode = this.selectionMode;
-                if (selectionMode !== 'month') {
-                    this.date.setMonth(month);
+                this.date.setMonth(month);
+                if (this.selectionMode !== 'month') {
                     this.currentView = 'date';
                     this.resetDate();
                 } else {
-                    this.date.setMonth(month);
                     this.year && this.date.setFullYear(this.year);
                     this.resetDate();
                     const value = new Date(this.date.getFullYear(), month, 1);
@@ -261,12 +234,8 @@
             handleDatePick (value) {
                 if (this.selectionMode === 'day') {
                     this.$emit('on-pick', new Date(value.getTime()));
-                    this.date.setFullYear(value.getFullYear());
-                    this.date.setMonth(value.getMonth());
-                    this.date.setDate(value.getDate());
+                    this.date = new Date(value);
                 }
-
-                this.resetDate();
             },
             handleTimePick (date) {
                 this.handleDatePick(date);
@@ -278,8 +247,7 @@
             }
 
             if (this.date && !this.year) {
-                this.year = this.date.getFullYear();
-                this.month = this.date.getMonth();
+                this.setMonthYear(this.date);
             }
             if (this.showTime) {
                 // todo 这里可能有问题，并不能进入到这里，但不影响正常使用

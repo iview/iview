@@ -1,5 +1,5 @@
 <template>
-    <form :class="classes" @submit="formSubmit"><slot></slot></form>
+    <form :class="classes" :autocomplete="autocomplete"><slot></slot></form>
 </template>
 <script>
     // https://github.com/ElemeFE/element/blob/dev/packages/form/src/form.vue
@@ -32,6 +32,12 @@
             showMessage: {
                 type: Boolean,
                 default: true
+            },
+            autocomplete: {
+                validator (value) {
+                    return oneOf(value, ['on', 'off']);
+                },
+                default: 'off'
             }
         },
         data () {
@@ -57,16 +63,22 @@
                 });
             },
             validate(callback) {
-                let valid = true;
-                let count = 0;
-                this.fields.forEach(field => {
-                    field.validate('', errors => {
-                        if (errors) {
-                            valid = false;
-                        }
-                        if (typeof callback === 'function' && ++count === this.fields.length) {
-                            callback(valid);
-                        }
+                return new Promise(resolve => {
+                    let valid = true;
+                    let count = 0;
+                    this.fields.forEach(field => {
+                        field.validate('', errors => {
+                            if (errors) {
+                                valid = false;
+                            }
+                            if (++count === this.fields.length) {
+                                // all finish
+                                resolve(valid);
+                                if (typeof callback === 'function') {
+                                    callback(valid);
+                                }
+                            }
+                        });
                     });
                 });
             },
@@ -75,9 +87,6 @@
                 if (!field) { throw new Error('[iView warn]: must call validateField with valid prop string!'); }
 
                 field.validate('', cb);
-            },
-            formSubmit (event) {
-                event.preventDefault();
             }
         },
         watch: {

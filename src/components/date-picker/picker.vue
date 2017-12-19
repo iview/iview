@@ -3,14 +3,17 @@
         <div ref="reference" :class="[prefixCls + '-rel']">
             <slot>
                 <i-input
+                    :element-id="elementId"
                     :class="[prefixCls + '-editor']"
                     :readonly="!editable || readonly"
                     :disabled="disabled"
                     :size="size"
                     :placeholder="placeholder"
                     :value="visualValue"
+                    :name="name"
                     @on-input-change="handleInputChange"
                     @on-focus="handleFocus"
+                    @on-blur="handleBlur"
                     @on-click="handleIconClick"
                     @mouseenter.native="handleInputMouseenter"
                     @mouseleave.native="handleInputMouseleave"
@@ -178,7 +181,7 @@
             },
             size: {
                 validator (value) {
-                    return oneOf(value, ['small', 'large']);
+                    return oneOf(value, ['small', 'large', 'default']);
                 }
             },
             placeholder: {
@@ -197,6 +200,12 @@
             transfer: {
                 type: Boolean,
                 default: false
+            },
+            name: {
+                type: String
+            },
+            elementId: {
+                type: String
             }
         },
         data () {
@@ -286,6 +295,9 @@
                 if (this.readonly) return;
                 this.visible = true;
             },
+            handleBlur () {
+                this.visible = false;
+            },
             handleInputChange (event) {
                 const oldValue = this.visualValue;
                 const value = event.target.value;
@@ -354,6 +366,8 @@
                         } else {
                             correctValue = formatDate(parsedDate, format);
                         }
+                    } else if (!parsedDate) {
+                        correctValue = '';
                     } else {
                         correctValue = oldValue;
                     }
@@ -390,6 +404,10 @@
                 this.currentValue = '';
                 this.$emit('on-clear');
                 this.dispatch('FormItem', 'on-form-change', '');
+                // #2215，当初始设置了 value，直接点 clear，这时 this.picker 还没有加载
+                if (!this.picker) {
+                    this.emitChange('');
+                }
             },
             showPicker () {
                 if (!this.picker) {
@@ -474,6 +492,9 @@
                     if (this.picker) this.picker.resetView && this.picker.resetView(true);
                     this.$refs.drop.destroy();
                     if (this.open === null) this.$emit('on-open-change', false);
+                    // blur the input
+                    const input = this.$el.querySelector('input');
+                    if (input) input.blur();
                 }
             },
             internalValue(val) {
@@ -496,9 +517,11 @@
 
                     if (val && type === 'time' && !(val instanceof Date)) {
                         val = parser(val, this.format || DEFAULT_FORMATS[type]);
-                    } else if (val && type === 'timerange' && Array.isArray(val) && val.length === 2 && !(val[0] instanceof Date) && !(val[1] instanceof Date)) {
+                    } else if (val && type.match(/range$/) && Array.isArray(val) && val.filter(Boolean).length === 2 && !(val[0] instanceof Date) && !(val[1] instanceof Date)) {
                         val = val.join(RANGE_SEPARATOR);
                         val = parser(val, this.format || DEFAULT_FORMATS[type]);
+                    } else if (typeof val === 'string' && type.indexOf('time') !== 0 ){
+                        val = parser(val, this.format || DEFAULT_FORMATS[type]) || val;
                     }
 
                     this.internalValue = val;

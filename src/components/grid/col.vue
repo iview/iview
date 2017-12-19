@@ -4,6 +4,7 @@
     </div>
 </template>
 <script>
+    import { findComponentUpward } from '../../utils/assist';
     const prefixCls = 'ivu-col';
 
     export default {
@@ -70,7 +71,10 @@
         },
         methods: {
             updateGutter () {
-                this.$parent.updateGutter(this.$parent.gutter);
+                const Row = findComponentUpward(this, 'Row');
+                if (Row) {
+                    Row.updateGutter(Row.gutter);
+                }
             }
         },
         mounted () {

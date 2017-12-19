@@ -1,5 +1,8 @@
-export default {
+import setLang from '../lang';
+
+const lang = {
     i: {
+        locale: 'ko-KR',
         select: {
             placeholder: '선택',
             noMatch: '일치하는 데이터 없음',
@@ -19,6 +22,7 @@ export default {
             endTime: '종료 시간',
             clear: '삭제',
             ok: '예',
+            datePanelLabel: '[yyyy년] [m월]',
             month: '월',
             month1: '1월',
             month2: '2월',
@@ -33,6 +37,7 @@ export default {
             month11: '11월',
             month12: '12월',
             year: '년',
+            weekStartDay: '0',
             weeks: {
                 sun: '일',
                 mon: '월',
@@ -94,3 +99,7 @@ export default {
         }
     }
 };
+
+setLang(lang);
+
+export default lang;

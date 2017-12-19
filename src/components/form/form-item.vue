@@ -1,6 +1,6 @@
 <template>
     <div :class="classes">
-        <label :class="[prefixCls + '-label']" :style="labelStyles" v-if="label || $slots.label"><slot name="label">{{ label }}</slot></label>
+        <label :class="[prefixCls + '-label']" :for="labelFor" :style="labelStyles" v-if="label || $slots.label"><slot name="label">{{ label }}</slot></label>
         <div :class="[prefixCls + '-content']" :style="contentStyles">
             <slot></slot>
             <transition name="fade">
@@ -10,8 +10,6 @@
     </div>
 </template>
 <script>
-    // https://github.com/ElemeFE/element/blob/dev/packages/form/src/form-item.vue
-
     import AsyncValidator from 'async-validator';
     import Emitter from '../../mixins/emitter';
 
@@ -70,6 +68,9 @@
             showMessage: {
                 type: Boolean,
                 default: true
+            },
+            labelFor: {
+                type: String
             }
         },
         data () {
@@ -85,7 +86,7 @@
         watch: {
             error (val) {
                 this.validateMessage = val;
-                this.validateState = 'error';
+                this.validateState = val === '' ? '' : 'error';
             },
             validateStatus (val) {
                 this.validateState = val;

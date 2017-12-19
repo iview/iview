@@ -7,7 +7,13 @@
         </div>
         <div v-if="showElevator" :class="ElevatorClasses">
             {{ t('i.page.goto') }}
-            <input type="text" :value="_current" @keyup.enter="changePage">
+            <input
+              type="text"
+              :value="_current"
+              autocomplete="off"
+              spellcheck="false"
+              @keyup.enter="changePage"
+            >
             {{ t('i.page.p') }}
         </div>
     </div>

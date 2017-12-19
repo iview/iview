@@ -8,12 +8,16 @@
     width: 100%;
     top: 16px;
     left: 0;
+    pointer-events: none;
 
     &-notice {
-        width: auto;
-        vertical-align: middle;
-        position: absolute;
-        left: 50%;
+        padding: 8px;
+        text-align: center;
+        transition: height @animation-time @ease-in-out, padding @animation-time @ease-in-out;
+
+        &:first-child {
+          margin-top: -8px;
+        }
 
         &-close {
             position: absolute;
@@ -29,14 +33,14 @@
     }
 
     &-notice-content {
-        position: relative;
-        right: 50%;
+        display: inline-block;
+        pointer-events: all;
         padding: 8px 16px;
         //border: 1px solid @border-color-split;
         border-radius: @border-radius-small;
         box-shadow: @shadow-base;
         background: #fff;
-        display: block;
+        position: relative;
         &-text{
             display: inline-block;
         }

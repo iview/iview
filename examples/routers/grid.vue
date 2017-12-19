@@ -1,16 +1,26 @@
 <style>
-    .demo-col div{
-        background: #f50;
-    }
+    /*.ivu-col div{*/
+        /*background: rgba(0,153,229,.7);*/
+    /*}*/
 </style>
 <template>
     <div>
-        <Row :gutter="16">
-            <i-col class-name="demo-col" span="4" v-for="i in n" key="i">
-                <div>col-8</div>
-            </i-col>
+        <Row :gutter="64">
+            <Card>
+                <i-col span="6">
+                    <div>col-6</div>
+                </i-col>
+                <i-col span="6">
+                    <div>col-6</div>
+                </i-col>
+                <i-col span="6">
+                    <div>col-6</div>
+                </i-col>
+                <i-col span="6">
+                    <div>col-6</div>
+                </i-col>
+            </Card>
         </Row>
-        <Button @click="add">add</Button>
     </div>
 </template>
 <script>

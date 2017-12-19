@@ -1,4 +1,5 @@
 @select-dropdown-prefix-cls: ~"@{css-prefix}select-dropdown";
+@transfer-no-max-height: ~"@{css-prefix}transfer-no-max-height";
 
 .@{select-dropdown-prefix-cls} {
     width: inherit;
@@ -16,6 +17,9 @@
     z-index: @zindex-select;
     &-transfer{
         z-index: @zindex-transfer;
+    }
+    &.@{transfer-no-max-height} {
+        max-height: none;
     }
 }
 .@{modal-prefix-cls} {

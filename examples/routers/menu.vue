@@ -36,13 +36,15 @@
             <Radio label="dark"></Radio>
             <Radio label="primary"></Radio>
         </Radio-group>
+        <Input v-model="value4" icon="ios-clock-outline" placeholder="请输入..." style="width: 200px"></Input>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                theme1: 'light'
+                theme1: 'light',
+                value4: ''
             }
         }
     }

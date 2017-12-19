@@ -171,30 +171,26 @@
                 const times = ['hours', 'minutes', 'seconds'];
                 this.$nextTick(() => {
                     times.forEach(type => {
-                        this.$refs[type].scrollTop = 24 * this.getScrollIndex(type, this[type]);
+                        this.$refs[type].scrollTop = 24 * this[`${type}List`].findIndex(obj => obj.text == this[type]);
                     });
                 });
             },
             formatTime (text) {
                 return text < 10 ? '0' + text : text;
-            },
-            getItemIndex(type, val){
-                const item = this[`${type}List`].find(obj => obj.text == val);
-                return this[`${type}List`].indexOf(item);
             }
         },
         watch: {
             hours (val) {
                 if (!this.compiled) return;
-                this.scroll('hours', this.getItemIndex('hours', val));
+                this.scroll('hours', this.hoursList.findIndex(obj => obj.text == val));
             },
             minutes (val) {
                 if (!this.compiled) return;
-                this.scroll('minutes', this.getItemIndex('minutes', val));
+                this.scroll('minutes', this.minutesList.findIndex(obj => obj.text == val));
             },
             seconds (val) {
                 if (!this.compiled) return;
-                this.scroll('seconds', this.getItemIndex('seconds', val));
+                this.scroll('seconds', this.secondsList.findIndex(obj => obj.text == val));
             }
         },
         mounted () {

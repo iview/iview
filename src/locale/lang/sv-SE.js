@@ -1,5 +1,8 @@
-export default {
+import setLang from '../lang';
+
+const lang = {
     i: {
+        locale: 'sv-SE',
         select: {
             placeholder: 'Välj',
             noMatch: 'Ingen träff',
@@ -19,6 +22,7 @@ export default {
             endTime: 'Slut tid',
             clear: 'Rensa',
             ok: 'Ok',
+            datePanelLabel: '[mmmm] [yyyy]',
             month: 'Månad',
             month1: 'Januari',
             month2: 'Februari',
@@ -33,6 +37,7 @@ export default {
             month11: 'November',
             month12: 'December',
             year: 'År',
+            weekStartDay: '1',
             weeks: {
                 sun: 'Sön',
                 mon: 'Mån',
@@ -94,3 +99,7 @@ export default {
         }
     }
 };
+
+setLang(lang);
+
+export default lang;

@@ -18,6 +18,7 @@
                 <i-option v-for="item in options" :value="item.value" :key="item.value">{{ item.label }}</i-option>
             </i-select>
         </Modal>
+        <Button @click="showModelFunc">弹出</Button>
     </div>
 </template>
 <script>
@@ -123,6 +124,13 @@
                     item.loading = false;
                     callback();
                 }, 1000);
+            },
+            showModelFunc () {
+                this.$Modal.success({
+                    title: 'haha',
+                    content: 'lsisdfsdfsdfs',
+                    closable: false
+                });
             }
         }
     }
