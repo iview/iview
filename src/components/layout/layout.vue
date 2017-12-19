@@ -8,7 +8,6 @@
         name: 'Layout',
         data () {
             return {
-                prefixCls: prefixCls,
                 hasSider: false
             };
         },

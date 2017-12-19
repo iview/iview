@@ -5,11 +5,6 @@
     const prefixCls = 'ivu-layout';
     export default {
         name: 'Header',
-        data () {
-            return {
-                prefixCls: prefixCls
-            };
-        },
         computed: {
             wrapClasses () {
                 return `${prefixCls}-header`;
