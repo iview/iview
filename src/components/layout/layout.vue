@@ -24,7 +24,7 @@
         methods: {
             findSider () {
                 return this.$children.some(child => {
-                    return child.$options._componentTag === 'Sider'; 
+                    return child.$options.name === 'Sider'; 
                 });
             }
         },
