@@ -4,7 +4,6 @@
             <Sider 
                 v-model="isCollapsed"
                 collapsed-width="0" 
-                breakpoint="md" 
                 ref="side"
                 width="200">
                 <Menu width="auto" theme="dark" active-name="1">

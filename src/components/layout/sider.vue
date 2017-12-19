@@ -39,7 +39,7 @@
             },
             breakpoint: {
                 type: String,
-                default: '',
+                default: 'md',
                 validator (val) {
                     return oneOf(val, ['xs', 'sm', 'md', 'lg', 'xl']);
                 }
