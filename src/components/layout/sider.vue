@@ -56,7 +56,8 @@
         data () {
             return {
                 prefixCls: prefixCls,
-                mediaMatched: false
+                mediaMatched: false,
+                isCollapsed: false
             };
         },
         computed: {
@@ -64,13 +65,13 @@
                 return [
                     `${prefixCls}`,
                     this.siderWidth ? '' : `${prefixCls}-zero-width`,
-                    this.value ? `${prefixCls}-collapsed` : ''
+                    this.isCollapsed ? `${prefixCls}-collapsed` : ''
                 ];
             },
             triggerClasses () {
                 return [
                     `${prefixCls}-trigger`,
-                    this.value ? `${prefixCls}-trigger-collapsed` : '',
+                    this.isCollapsed ? `${prefixCls}-trigger-collapsed` : '',
                 ];
             },
             zeroWidthTriggerClasses () {
@@ -87,16 +88,17 @@
                 ];
             },
             siderWidth () {
-                return this.value ? (this.mediaMatched ? 0 : parseInt(this.collapsedWidth)) : parseInt(this.width);
+                return this.isCollapsed ? (this.mediaMatched ? 0 : parseInt(this.collapsedWidth)) : parseInt(this.width);
             },
             showZeroTrigger () {
-                return this.mediaMatched && !this.hideTrigger || (parseInt(this.collapsedWidth) === 0) && this.value && !this.hideTrigger;
+                return this.mediaMatched && !this.hideTrigger || (parseInt(this.collapsedWidth) === 0) && this.isCollapsed && !this.hideTrigger;
             }
         },
         methods: {
             toggleCollapse () {
-                this.$emit('input', !this.value);
-                this.$emit('on-collapse', !this.value);
+                this.isCollapsed = !this.isCollapsed;
+                this.$emit('input', !this.isCollapsed);
+                this.$emit('on-collapse', !this.isCollapsed);
             },
             matchMedia () {
                 let matchMedia;
@@ -105,7 +107,9 @@
                 }
                 let mediaMatched = this.mediaMatched;
                 this.mediaMatched = matchMedia(`(max-width: ${dimensionMap[this.breakpoint]})`).matches;
+                
                 if (this.mediaMatched !== mediaMatched) {
+                    this.isCollapsed = this.mediaMatched;
                     this.$emit('input', this.mediaMatched);
                     this.$emit('on-collapse', this.mediaMatched);
                 }
