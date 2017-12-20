@@ -10,7 +10,13 @@
         <div :class="[prefixCls + '-main']">
             <div :class="[prefixCls + '-title']">{{ title }}</div>
             <slot>
-                <div v-if="content" :class="[prefixCls + '-content']">{{ content }}</div>
+                <div v-if="content" :class="[prefixCls + '-content']">
+                  {{this.content}}
+                </div>
+                <div v-else :class="[prefixCls + '-content']">
+                  <!--自定义内容插槽-->
+                  <slot name="content" :text="content"></slot>
+                </div>
             </slot>
         </div>
     </div>
