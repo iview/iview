@@ -1,6 +1,7 @@
 <template>
     <div>
         <p>带描述信息</p>
+        <Button @click="normal(false)">普通</Button>
         <Button @click="info(false)">消息</Button>
         <Button @click="success(false)">成功</Button>
         <Button @click="warning(false)">警告</Button>
@@ -16,15 +17,30 @@
 <script>
     export default {
         methods: {
+            normal (nodesc) {
+                this.$Notice.open({
+                    title: 'google',
+                    duration: 0,
+                    desc: nodesc ? '' : '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描述这里是通知描述',
+                    render (h) {
+                        return h('span', {}, 'sdsdfsdf');
+                    }
+                });
+            },
             info (nodesc) {
                 this.$Notice.info({
-                    title: '这是通知标题',
-                    desc: nodesc ? '' : '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描述这里是通知描述'
+                    // title: '这是通知标题',
+                    duration: 0,
+                    desc: nodesc ? '' : '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描述这里是通知描述',
+                    render (h) {
+                        return h('span', {}, 'sdsdfsdf');
+                    }
                 });
             },
             success (nodesc) {
                 this.$Notice.success({
                     title: '这是通知标题',
+                    duration: 0,
                     desc: nodesc ? '' : '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描述这里是通知描述'
                 });
             },
