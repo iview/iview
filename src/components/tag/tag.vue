@@ -1,16 +1,17 @@
 <template>
     <transition name="fade">
-        <div :class="classes" @click.stop="check">
-            <span :class="dotClasses" v-if="showDot"></span><span :class="textClasses"><slot></slot></span><Icon v-if="closable" type="ios-close-empty" @click.native.stop="close"></Icon>
+        <div :class="classes" @click.stop="check" :style="wraperStyles">
+            <span :class="dotClasses" v-if="showDot" :style="bgColorStyle"></span>
+            <span :class="textClasses" :style="textColorStyle"><slot></slot></span>
+            <Icon v-if="closable" :class="iconClass" :color="lineColor" type="ios-close-empty" @click.native.stop="close"></Icon>
         </div>
     </transition>
 </template>
 <script>
     import Icon from '../icon';
     import { oneOf } from '../../utils/assist';
-
     const prefixCls = 'ivu-tag';
-
+    const initColorList = ['blue', 'green', 'red', 'yellow', 'default'];
     export default {
         name: 'Tag',
         components: { Icon },
@@ -28,9 +29,8 @@
                 default: true
             },
             color: {
-                validator (value) {
-                    return oneOf(value, ['blue', 'green', 'red', 'yellow', 'default']);
-                }
+                type: String,
+                default: 'default'
             },
             type: {
                 validator (value) {
@@ -58,14 +58,51 @@
                     }
                 ];
             },
+            wraperStyles () {
+                return oneOf(this.color, initColorList) ? {} : {background: this.defaultTypeColor, borderColor: this.lineColor, color: this.lineColor};
+            },
             textClasses () {
-                return `${prefixCls}-text`;
+                return [
+                    `${prefixCls}-text`,
+                    this.type === 'border' ? (oneOf(this.color, initColorList) ? `${prefixCls}-color-${this.color}` : '') : '',
+                    (this.type !== 'dot' && this.type !== 'border' && this.color !== 'default') ? `${prefixCls}-color-white` : ''
+                ];
             },
             dotClasses () {
                 return `${prefixCls}-dot-inner`;
             },
+            iconClass () {
+                if (this.type === 'dot') {
+                    return '';
+                } else if (this.type === 'border') {
+                    return `${prefixCls}-color-${this.color}`;
+                } else {
+                    return this.color !== undefined ? (this.color === 'default' ? '' : 'rgb(255, 255, 255)') : '';
+                }
+            },
             showDot () {
                 return !!this.type && this.type === 'dot';
+            },
+            lineColor () {
+                if (this.type === 'dot') {
+                    return '';
+                } else if (this.type === 'border') {
+                    return this.color !== undefined ? (oneOf(this.color, initColorList) ? '' : this.color) : '';
+                } else {
+                    return this.color !== undefined ? (this.color === 'default' ? '' : 'rgb(255, 255, 255)') : '';
+                }
+            },
+            dotColor () {
+                return this.color !== undefined ? (oneOf(this.color, initColorList) ? '' : this.color) : '';
+            },
+            textColorStyle () {
+                return oneOf(this.color, initColorList) ? {} : {color: this.lineColor};
+            },
+            bgColorStyle () {
+                return oneOf(this.color, initColorList) ? {} : {background: this.dotColor};
+            },
+            defaultTypeColor () {
+                return (this.type !== 'dot' && this.type !== 'border') ? (this.color !== undefined ? (oneOf(this.color, initColorList) ? '' : this.color) : '') : '';
             }
         },
         methods: {
