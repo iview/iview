@@ -25,7 +25,7 @@
             <div
                 :class="[prefixCls + '-tip']"
                 v-show="((!!localeNoDataText && (!data || data.length === 0)) || (!!localeNoFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
-                <table cellspacing="0" cellpadding="0" border="0">
+                <table cellspacing="0" cellpadding="0" border="0" :style="tableStyle">
                     <tbody>
                         <tr>
                             <td :style="{ 'height': bodyStyle.height }">
