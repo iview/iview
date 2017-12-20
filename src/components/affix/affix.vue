@@ -101,7 +101,7 @@
                     this.slotStyle = {
                         width: this.$refs.point.clientWidth + 'px',
                         height: this.$refs.point.clientHeight + 'px'
-                    }
+                    };
                     this.slot = true;
                     this.styles = {
                         top: `${this.offsetTop}px`,
