@@ -3,7 +3,7 @@
         <div :class="classes" @click.stop="check" :style="wraperStyles">
             <span :class="dotClasses" v-if="showDot" :style="bgColorStyle"></span>
             <span :class="textClasses" :style="textColorStyle"><slot></slot></span>
-            <Icon v-if="closable" type="ios-close-empty" :color="lineColor" @click.native.stop="close"></Icon>
+            <Icon v-if="closable" :class="iconClass" :color="lineColor" type="ios-close-empty" @click.native.stop="close"></Icon>
         </div>
     </transition>
 </template>
@@ -71,6 +71,15 @@
             dotClasses () {
                 return `${prefixCls}-dot-inner`;
             },
+            iconClass () {
+                if (this.type === 'dot') {
+                    return '';
+                } else if (this.type === 'border') {
+                    return `${prefixCls}-color-${this.color}`;
+                } else {
+                    return this.color !== undefined ? (this.color === 'default' ? '' : 'rgb(255, 255, 255)') : '';
+                }
+            },
             showDot () {
                 return !!this.type && this.type === 'dot';
             },
@@ -78,31 +87,22 @@
                 if (this.type === 'dot') {
                     return '';
                 } else if (this.type === 'border') {
-                    return this.color !== undefined ? this.transferColor(this.color) : '';
+                    return this.color !== undefined ? (oneOf(this.color, initColorList) ? '' : this.color) : '';
                 } else {
                     return this.color !== undefined ? (this.color === 'default' ? '' : 'rgb(255, 255, 255)') : '';
                 }
             },
-            borderColor () {
-                if (this.type === 'dot') {
-                    return '';
-                } else if (this.type === 'border') {
-                    return this.color !== undefined ? this.transferColor(this.color) : '';
-                } else {
-                    return '';
-                }
+            dotColor () {
+                return this.color !== undefined ? (oneOf(this.color, initColorList) ? '' : this.color) : '';
             },
             textColorStyle () {
                 return oneOf(this.color, initColorList) ? {} : {color: this.lineColor};
             },
-            mainColor () {
-                return this.color !== undefined ? this.transferColor(this.color) : '';
-            },
             bgColorStyle () {
-                return oneOf(this.color, initColorList) ? {} : {background: this.mainColor};
+                return oneOf(this.color, initColorList) ? {} : {background: this.dotColor};
             },
             defaultTypeColor () {
-                return (this.type !== 'dot' && this.type !== 'border') ? (this.color !== undefined ? this.transferColor(this.color) : '') : '';
+                return (this.type !== 'dot' && this.type !== 'border') ? (this.color !== undefined ? (oneOf(this.color, initColorList) ? '' : this.color) : '') : '';
             }
         },
         methods: {
@@ -121,19 +121,6 @@
                     this.$emit('on-change', checked);
                 } else {
                     this.$emit('on-change', checked, this.name);
-                }
-            },
-            transferColor (name) {
-                if (oneOf(name, initColorList)) {
-                    switch (name) {
-                        case 'red': return '#ed3f14';
-                        case 'green': return '#19be6b';
-                        case 'yellow': return '#ff9900';
-                        case 'blue': return '#2d8cf0';
-                        case 'default': return '';
-                    }
-                } else {
-                    return name;
                 }
             }
         }
