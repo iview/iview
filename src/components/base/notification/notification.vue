@@ -8,6 +8,8 @@
             :type="notice.type"
             :content="notice.content"
             :duration="notice.duration"
+            :render="notice.render"
+            :withIcon="notice.withIcon"
             :closable="notice.closable"
             :name="notice.name"
             :transition-name="notice.transitionName"

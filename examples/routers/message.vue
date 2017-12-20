@@ -13,12 +13,19 @@
             info () {
 //                this.$Message.info('这是一条普通提示');
                 this.$Message.success({
-                    content: '这是一条普通提示2',
+                    // content: '这是一条普通提示2',
                     duration: 500,
                     onClose () {
 //                        console.log(123)
                     },
-                    closable: true
+                    closable: true,
+                    render (h) {
+                        return h('Button',{
+                            props: {
+                                type: 'primary'
+                            }
+                        }, '这是render出来的');
+                    }
                 })
             },
             success () {
