@@ -1,11 +1,11 @@
 <template>
     <div 
         :class="wrapClasses" 
-        :style="{width: siderWidth + 'px', minWidth: siderWidth + 'px', maxWidth: siderWidth + 'px', flex: '0 0 ' + siderWidth + 'px'}">
+        :style="wrapStyles">
         <span v-show="showZeroTrigger" @click="toggleCollapse" :class="zeroWidthTriggerClasses">
             <i class="ivu-icon ivu-icon-navicon-round"></i>
         </span>
-        <div :class="`${prefixCls}-children`">
+        <div :class="childClasses">
             <slot></slot>
         </div>
         <div v-show="showBottomTrigger" :class="triggerClasses" @click="toggleCollapse" :style="{width: siderWidth + 'px'}">
@@ -72,11 +72,22 @@
                     this.isCollapsed ? `${prefixCls}-collapsed` : ''
                 ];
             },
+            wrapStyles () {
+                return {
+                    width: `${this.siderWidth}px`,
+                    minWidth: `${this.siderWidth}px`,
+                    maxWidth: `${this.siderWidth}px`,
+                    flex: `0 0 ${this.siderWidth}px`
+                };
+            },
             triggerClasses () {
                 return [
                     `${prefixCls}-trigger`,
                     this.isCollapsed ? `${prefixCls}-trigger-collapsed` : '',
                 ];
+            },
+            childClasses () {
+                return `${this.prefixCls}-children`;
             },
             zeroWidthTriggerClasses () {
                 return [
@@ -129,6 +140,9 @@
             on(window, 'resize', this.onWindowResize);
             this.matchMedia();
             this.$emit('input', this.defaultCollapsed);
+            if (this.defaultCollapsed) {
+                this.isCollapsed = true;
+            }
         },
         destroyed () {
             off(window, 'resize', this.onWindowResize);
