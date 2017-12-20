@@ -8,9 +8,11 @@
         <div :class="childClasses">
             <slot></slot>
         </div>
-        <div v-show="showBottomTrigger" :class="triggerClasses" @click="toggleCollapse" :style="{width: siderWidth + 'px'}">
-            <i :class="triggerIconClasses"></i>
-        </div>
+        <slot name="trigger">
+            <div v-show="showBottomTrigger" :class="triggerClasses" @click="toggleCollapse" :style="{width: siderWidth + 'px'}">
+                <i :class="triggerIconClasses"></i>
+            </div>
+        </slot>
     </div>
 </template>
 <script>
@@ -39,7 +41,6 @@
             },
             breakpoint: {
                 type: String,
-                default: 'md',
                 validator (val) {
                     return oneOf(val, ['xs', 'sm', 'md', 'lg', 'xl']);
                 }
@@ -145,11 +146,15 @@
                     this.isCollapsed = this.value;
                 }
             }
-            on(window, 'resize', this.onWindowResize);
-            this.matchMedia();
+            if (this.breakpoint !== undefined) {
+                on(window, 'resize', this.onWindowResize);
+                this.matchMedia();
+            }
         },
         destroyed () {
-            off(window, 'resize', this.onWindowResize);
+            if (this.breakpoint !== undefined) {
+                off(window, 'resize', this.onWindowResize);
+            }
         }
     };
 </script>

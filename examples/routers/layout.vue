@@ -4,6 +4,7 @@
             <Sider 
                 v-model="isCollapsed"
                 collapsed-width="0" 
+                hide-trigger
                 collapsible
                 ref="side"
                 width="200">
@@ -29,6 +30,7 @@
                         </MenuItem>
                     </MenuGroup>
                 </Menu>
+                <!-- <div slot="trigger"><Icon type="document-text"></Icon></div> -->
             </Sider>
             <Layout class-name="test-class">
                 <Header :style="{background: '#eee'}"><Button @click="toggleCollapse">菜单</Button></Header>
@@ -50,6 +52,11 @@ export default {
     methods: {
         toggleCollapse () {
             this.$refs.side.toggleCollapse();
+        }
+    },
+    watch: {
+        isCollapsed (val) {
+            // console.log(val)
         }
     }
 };
