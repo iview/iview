@@ -1,24 +1,35 @@
-<template>
-    <transition :name="transitionName" @enter="handleEnter" @leave="handleLeave">
-        <div :class="classes" :style="styles">
-            <template v-if="type === 'notice'">
-                <div :class="[baseClass + '-content']" ref="content" v-html="content"></div>
-                <a :class="[baseClass + '-close']" @click="close" v-if="closable">
-                    <i class="ivu-icon ivu-icon-ios-close-empty"></i>
-                </a>
-            </template>
-            <template v-if="type === 'message'">
-                <div :class="[baseClass + '-content']" ref="content">
-                    <div :class="[baseClass + '-content-text']" v-html="content"></div>
-                    <a :class="[baseClass + '-close']" @click="close" v-if="closable">
-                        <i class="ivu-icon ivu-icon-ios-close-empty"></i>
-                    </a>
-                </div>
-            </template>
-        </div>
-    </transition>
-</template>
 <script>
+    const closeBtn = (h, vm) => {
+        return h(
+            'a',
+            {
+                class: `${vm.baseClass}-close`,
+                on: {
+                    click: vm.close
+                }
+            },
+            [h(
+                'i',
+                {
+                    class: 'ivu-icon ivu-icon-ios-close-empty'
+                }
+            )]
+        );
+    };
+
+    const contentRender = (h, vm, type) => {
+        return [h(
+            'div',
+            {
+                class: `${vm.baseClass}-${type}`,
+                ref: 'content'
+            },
+            [
+                vm.content(h)
+            ]
+        ), vm.closable ? closeBtn(h, vm) : h()];
+    };
+
     export default {
         props: {
             prefixCls: {
@@ -33,8 +44,7 @@
                 type: String
             },
             content: {
-                type: String,
-                default: ''
+                type: Function
             },
             styles: {
                 type: Object,
@@ -61,6 +71,46 @@
             transitionName: {
                 type: String
             }
+        },
+        render (h) {
+            return h(
+                'transition',
+                {
+                    props: {
+                        name: this.transitionName
+                    },
+                    on: {
+                        enter: this.handleEnter,
+                        leave: this.handleLeave
+                    }
+                },[
+                    h(
+                        'div',
+                        {
+                            style: this.styles,
+                            class: this.classes
+                        },
+                        [this.type === 'notice' ? h(
+                            'div',
+                            {
+                                class: 'ivu-notice-desc'
+                            },
+                            contentRender(h, this, 'content')
+                        ) : h(
+                            'div',
+                            {},
+                            [h(
+                                'div',
+                                {
+                                    class: `${this.baseClass}-content`,
+                                    ref: 'content'
+                                },
+                                contentRender(h, this, 'content-text')
+                            )]
+                        )]
+                    )
+                ]
+            );
         },
         data () {
             return {

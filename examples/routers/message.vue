@@ -11,20 +11,26 @@
     export default {
         methods: {
             info () {
-//                this.$Message.info('这是一条普通提示');
+                // this.$Message.info('这是一条普通提示');
                 this.$Message.success({
-                    content: '这是一条普通提示2',
-                    duration: 500,
-                    onClose () {
-//                        console.log(123)
-                    },
+                    content: '这是一条普通提示',
+                    duration: 0,
                     closable: true
-                })
+                });
             },
             success () {
                 this.$Message.success({
                     content: '这是一条成功的提示',
-                    duration: 4
+                    duration: 0,
+                    render: h => {
+                        return h(
+                            'Button',
+                            {
+                                type: 'primary'
+                            },
+                            'this is button'
+                        );
+                    }
                 });
             },
             warning () {
@@ -38,10 +44,10 @@
             }
         },
         mounted () {
-//            this.$Message.config({
-//                top: 50,
-//                duration: 3
-//            });
+            this.$Message.config({
+                top: 50,
+                duration: 3
+            });
         }
-    }
+    };
 </script>

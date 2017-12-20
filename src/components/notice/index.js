@@ -1,4 +1,5 @@
 import Notification from '../base/notification';
+import htmlTem from '../base/notification/htmlTem.vue';
 
 const prefixCls = 'ivu-notice';
 const iconPrefixCls = 'ivu-icon';
@@ -42,26 +43,79 @@ function notice (type, options) {
 
     let content;
 
-    const with_desc = desc === '' ? '' : ` ${prefixCls}-with-desc`;
+    let render = options.render;
+
+    const with_desc = desc === '' ? (render ? ` ${prefixCls}-with-desc` : '') : ` ${prefixCls}-with-desc`;
 
     if (type == 'normal') {
-        content = `
-            <div class="${prefixCls}-custom-content ${prefixCls}-with-normal${with_desc}">
-                <div class="${prefixCls}-title">${title}</div>
-                <div class="${prefixCls}-desc">${desc}</div>
-            </div>
-        `;
+        content = h => {
+            return h(
+                'div',
+                {
+                    class: [
+                        `${prefixCls}-custom-content`,
+                        `${prefixCls}-with-normal${with_desc}`
+                    ]
+                },
+                [
+                    h('div',{
+                        class: `${prefixCls}-title`
+                    }, title),
+                    h('div', {
+                        class: `${prefixCls}-desc`
+                    }, [
+                        render ? render(h) : h(htmlTem, {
+                            props: {
+                                desc: desc,
+                                type: 'notice'
+                            }
+                        })
+                    ])
+                ]
+            );
+        };
     } else {
         const iconType = iconTypes[type];
-        content = `
-            <div class="${prefixCls}-custom-content ${prefixCls}-with-icon ${prefixCls}-with-${type}${with_desc}">
-                <span class="${prefixCls}-icon ${prefixCls}-icon-${type}">
-                    <i class="${iconPrefixCls} ${iconPrefixCls}-${iconType}"></i>
-                </span>
-                <div class="${prefixCls}-title">${title}</div>
-                <div class="${prefixCls}-desc">${desc}</div>
-            </div>
-        `;
+        content = h => {
+            return h(
+                'div',
+                {
+                    class: [
+                        `${prefixCls}-custom-content`,
+                        `${prefixCls}-with-icon`,
+                        `${prefixCls}-with-${type}${with_desc}`
+                    ]
+                },
+                [
+                    h('span',{
+                        class: [
+                            `${prefixCls}-icon`,
+                            `${prefixCls}-icon-${type}`
+                        ]
+                    },[
+                        h('i',{
+                            class: [
+                                `${iconPrefixCls}`,
+                                `${iconPrefixCls}-${iconType}`
+                            ]
+                        })
+                    ]),
+                    h('div',{
+                        class: `${prefixCls}-title`
+                    }, title),
+                    h('div', {
+                        class: `${prefixCls}-desc`
+                    }, [
+                        render ? render(h) : h(htmlTem, {
+                            props: {
+                                desc: desc,
+                                type: 'notice'
+                            }
+                        })
+                    ])
+                ]
+            );
+        };
     }
 
     instance.notice({
