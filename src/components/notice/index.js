@@ -76,6 +76,7 @@ function notice (type, options) {
         content: content,
         withIcon: withIcon,
         render: render,
+        hasTitle: !!title,
         onClose: onClose,
         closable: true,
         type: 'notice'

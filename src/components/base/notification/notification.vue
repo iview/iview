@@ -9,6 +9,7 @@
             :content="notice.content"
             :duration="notice.duration"
             :render="notice.render"
+            :has-title="notice.hasTitle"
             :withIcon="notice.withIcon"
             :closable="notice.closable"
             :name="notice.name"

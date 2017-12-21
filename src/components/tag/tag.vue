@@ -51,7 +51,7 @@
                 return [
                     `${prefixCls}`,
                     {
-                        [`${prefixCls}-${this.color}`]: !!this.color,
+                        [`${prefixCls}-${this.color}`]: !!this.color && oneOf(this.color, initColorList),
                         [`${prefixCls}-${this.type}`]: !!this.type,
                         [`${prefixCls}-closable`]: this.closable,
                         [`${prefixCls}-checked`]: this.isChecked
@@ -75,7 +75,7 @@
                 if (this.type === 'dot') {
                     return '';
                 } else if (this.type === 'border') {
-                    return `${prefixCls}-color-${this.color}`;
+                    return oneOf(this.color, initColorList) ? `${prefixCls}-color-${this.color}` : '';
                 } else {
                     return this.color !== undefined ? (this.color === 'default' ? '' : 'rgb(255, 255, 255)') : '';
                 }

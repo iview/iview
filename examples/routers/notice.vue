@@ -37,11 +37,18 @@
                     }
                 });
             },
-            success (nodesc) {
+            success () {
                 this.$Notice.success({
                     title: '这是通知标题',
-                    duration: 0,
-                    desc: nodesc ? '' : '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描述这里是通知描述'
+                    desc: '当你定义了render之后，这个描述会被覆盖',
+                    render: h => {
+                        return h('span', {}, [
+                            '这是',
+                            h('Button', {props: {type: 'text'}}, 'render'),
+                            '函数渲染的'
+                        ]);
+                    },
+                    duration: 0
                 });
             },
             warning (nodesc) {
