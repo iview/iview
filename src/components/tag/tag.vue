@@ -59,7 +59,7 @@
                 ];
             },
             wraperStyles () {
-                return oneOf(this.color, initColorList) ? {} : {background: this.isChecked ? this.defaultTypeColor : 'transparent', borderWidth: '1px', borderStyle: 'solid', borderColor: this.lineColor, color: this.lineColor};
+                return oneOf(this.color, initColorList) ? {} : {background: this.isChecked ? this.defaultTypeColor : 'transparent', borderWidth: '1px', borderStyle: 'solid', borderColor: ((this.type !== 'dot' && this.type !== 'border' && this.isChecked) ? this.borderColor : this.lineColor), color: this.lineColor};
             },
             textClasses () {
                 return [
@@ -91,6 +91,9 @@
                 } else {
                     return this.color !== undefined ? (this.color === 'default' ? '' : 'rgb(255, 255, 255)') : '';
                 }
+            },
+            borderColor () {
+                return this.color !== undefined ? (this.color === 'default' ? '' : this.color) : '';
             },
             dotColor () {
                 return this.color !== undefined ? (oneOf(this.color, initColorList) ? '' : this.color) : '';
