@@ -151,7 +151,7 @@
                 this.matchMedia();
             }
         },
-        destroyed () {
+        beforeDestroy () {
             if (this.breakpoint !== undefined) {
                 off(window, 'resize', this.onWindowResize);
             }
