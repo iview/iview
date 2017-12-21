@@ -8,9 +8,11 @@
         <div :class="childClasses">
             <slot></slot>
         </div>
-        <div v-show="showBottomTrigger" :class="triggerClasses" @click="toggleCollapse" :style="{width: siderWidth + 'px'}">
-            <i :class="triggerIconClasses"></i>
-        </div>
+        <slot name="trigger">
+            <div v-show="showBottomTrigger" :class="triggerClasses" @click="toggleCollapse" :style="{width: siderWidth + 'px'}">
+                <i :class="triggerIconClasses"></i>
+            </div>
+        </slot>
     </div>
 </template>
 <script>
@@ -39,7 +41,6 @@
             },
             breakpoint: {
                 type: String,
-                default: 'md',
                 validator (val) {
                     return oneOf(val, ['xs', 'sm', 'md', 'lg', 'xl']);
                 }
@@ -115,8 +116,8 @@
         methods: {
             toggleCollapse () {
                 this.isCollapsed = this.collapsible ? !this.isCollapsed : false;
-                this.$emit('input', !this.isCollapsed);
-                this.$emit('on-collapse', !this.isCollapsed);
+                this.$emit('input', this.isCollapsed);
+                this.$emit('on-collapse', this.isCollapsed);
             },
             matchMedia () {
                 let matchMedia;
@@ -137,15 +138,23 @@
             }
         },
         mounted () {
-            on(window, 'resize', this.onWindowResize);
-            this.matchMedia();
-            this.$emit('input', this.defaultCollapsed);
             if (this.defaultCollapsed) {
                 this.isCollapsed = true;
+                this.$emit('input', this.defaultCollapsed);
+            } else {
+                if (this.value !== undefined) {
+                    this.isCollapsed = this.value;
+                }
+            }
+            if (this.breakpoint !== undefined) {
+                on(window, 'resize', this.onWindowResize);
+                this.matchMedia();
             }
         },
-        destroyed () {
-            off(window, 'resize', this.onWindowResize);
+        beforeDestroy () {
+            if (this.breakpoint !== undefined) {
+                off(window, 'resize', this.onWindowResize);
+            }
         }
     };
 </script>
