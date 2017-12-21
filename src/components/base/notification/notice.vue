@@ -54,6 +54,7 @@
             render: {
                 type: Function
             },
+            hasTitle: Boolean,
             styles: {
                 type: Object,
                 default: function() {
@@ -111,7 +112,7 @@
             contentWithIcon () {
                 return [
                     this.withIcon ? `${this.prefixCls}-content-with-icon` : '',
-                    this.render && !this.title && this.withIcon ? `${this.prefixCls}-content-with-render-notitle` : ''
+                    !this.hasTitle && this.withIcon ? `${this.prefixCls}-content-with-render-notitle` : ''
                 ];
             },
             messageClasses () {
