@@ -59,13 +59,13 @@
                 ];
             },
             wraperStyles () {
-                return oneOf(this.color, initColorList) ? {} : {background: this.defaultTypeColor, borderColor: this.lineColor, color: this.lineColor};
+                return oneOf(this.color, initColorList) ? {} : {background: this.isChecked ? this.defaultTypeColor : 'transparent', borderWidth: '1px', borderStyle: 'solid', borderColor: this.lineColor, color: this.lineColor};
             },
             textClasses () {
                 return [
                     `${prefixCls}-text`,
                     this.type === 'border' ? (oneOf(this.color, initColorList) ? `${prefixCls}-color-${this.color}` : '') : '',
-                    (this.type !== 'dot' && this.type !== 'border' && this.color !== 'default') ? `${prefixCls}-color-white` : ''
+                    (this.type !== 'dot' && this.type !== 'border' && this.color !== 'default') ? (this.isChecked ? `${prefixCls}-color-white` : '') : ''
                 ];
             },
             dotClasses () {
@@ -96,7 +96,7 @@
                 return this.color !== undefined ? (oneOf(this.color, initColorList) ? '' : this.color) : '';
             },
             textColorStyle () {
-                return oneOf(this.color, initColorList) ? {} : {color: this.lineColor};
+                return oneOf(this.color, initColorList) ? {} : ((this.type !== 'dot' && this.type !== 'border') ? (this.isChecked ? {color: this.lineColor} : {}) : {color: this.lineColor});
             },
             bgColorStyle () {
                 return oneOf(this.color, initColorList) ? {} : {background: this.dotColor};
