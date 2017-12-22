@@ -5,7 +5,7 @@
             :min="min"
             :max="max"
             :step="step"
-            :value="currentValue"
+            :value="currentValue[0]"
             :disabled="disabled"
             @on-change="handleInputChange"></Input-number>
         <div :class="[prefixCls + '-wrap']" ref="slider" @click.self="sliderClick">
