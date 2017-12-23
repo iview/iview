@@ -473,6 +473,10 @@
                 return newDate;
             },
             onPick(date, visible = false) {
+
+                // create new Date objects so Vue's reactive trigger gets called
+                date = Array.isArray(date) ? date.map(d => new Date(d)) : new Date(date);
+
                 if (!this.isConfirm) this.visible = visible;
                 this.currentValue = date;
                 this.picker.value = date;
