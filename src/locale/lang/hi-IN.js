@@ -2,11 +2,11 @@ import setLang from '../lang';
 
 const lang = {
     i: {
-        locale: 'en-US',
+        locale: 'hi-IN',
         select: {
-            placeholder: 'Select',
-            noMatch: 'No matching data',
-            loading: 'Loading'
+            placeholder: 'कृपया चुने|',
+            noMatch: 'कोई आकड़ा उपलब्ध नहीं है|',
+            loading: 'लोड हो रहा है'
         },
         table: {
             noDataText: 'No Data',
