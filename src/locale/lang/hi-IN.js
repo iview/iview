@@ -79,20 +79,20 @@ const lang = {
             cancelText: 'निरस्त करना'
         },
         page: {
-            prev: 'Previous Page',
-            next: 'Next Page',
-            total: 'Total',
-            item: 'item',
-            items: 'items',
-            prev5: 'Previous 5 Pages',
-            next5: 'Next 5 Pages',
+            prev: 'पिछला पेज',
+            next: 'अगला पेज',
+            total: 'समस्त',
+            item: 'एक चीज',
+            items: 'अनेक चीज',
+            prev5: 'पिछला 5 पेज',
+            next5: 'अगला 5 पेज',
             page: '/page',
             goto: 'Goto',
             p: ''
         },
         rate: {
-            star: 'Star',
-            stars: 'Stars'
+            star: 'प्रसिद्ध',
+            stars: 'प्रसिद्ध'
         },
         tree: {
             emptyText: 'कोई आकड़ा उपलब्ध नहीं है'
