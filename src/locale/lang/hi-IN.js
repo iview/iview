@@ -21,7 +21,7 @@ const lang = {
             startTime: 'Start Time',
             endTime: 'End Time',
             clear: 'Clear',
-            ok: 'OK',
+            ok: 'ठीक',
             datePanelLabel: '[mmmm] [yyyy]',
             month: 'Month',
             month1: 'January',
@@ -71,11 +71,11 @@ const lang = {
             notFoundText: 'Not Found'
         },
         modal: {
-            okText: 'OK',
+            okText: 'ठीक',
             cancelText: 'Cancel'
         },
         poptip: {
-            okText: 'OK',
+            okText: 'ठीक',
             cancelText: 'Cancel'
         },
         page: {
