@@ -9,9 +9,9 @@ const lang = {
             loading: 'लोड हो रहा है'
         },
         table: {
-            noDataText: 'No Data',
-            noFilteredDataText: 'No filter data',
-            confirmFilter: 'Confirm',
+            noDataText: 'कोई आकड़ा उपलब्ध नहीं है',
+            noFilteredDataText: 'कोई आकड़ा उपलब्ध नहीं है',
+            confirmFilter: 'पुष्टि करें',
             resetFilter: 'Reset',
             clearFilter: 'All'
         },
@@ -68,7 +68,7 @@ const lang = {
                 target: 'Target'
             },
             filterPlaceholder: 'Search here',
-            notFoundText: 'Not Found'
+            notFoundText: 'कोई आकड़ा उपलब्ध नहीं है'
         },
         modal: {
             okText: 'ठीक',
@@ -95,7 +95,7 @@ const lang = {
             stars: 'Stars'
         },
         tree: {
-            emptyText: 'No Data'
+            emptyText: 'कोई आकड़ा उपलब्ध नहीं है'
         }
     }
 };
