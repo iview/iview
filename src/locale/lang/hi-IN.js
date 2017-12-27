@@ -64,19 +64,19 @@ const lang = {
         },
         transfer: {
             titles: {
-                source: 'Source',
-                target: 'Target'
+                source: 'स्रोत',
+                target: 'लक्ष्य'
             },
-            filterPlaceholder: 'Search here',
+            filterPlaceholder: 'यहां खोजें',
             notFoundText: 'कोई आकड़ा उपलब्ध नहीं है'
         },
         modal: {
             okText: 'ठीक',
-            cancelText: 'Cancel'
+            cancelText: 'निरस्त करना'
         },
         poptip: {
             okText: 'ठीक',
-            cancelText: 'Cancel'
+            cancelText: 'निरस्त करना'
         },
         page: {
             prev: 'Previous Page',
