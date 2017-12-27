@@ -87,7 +87,7 @@ const lang = {
             prev5: 'पिछला 5 पेज',
             next5: 'अगला 5 पेज',
             page: '/page',
-            goto: 'Goto',
+            goto: 'जाओ',
             p: ''
         },
         rate: {
