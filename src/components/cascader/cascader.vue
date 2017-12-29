@@ -219,7 +219,9 @@
                     }
                 }
                 getSelections(this.data);
-                selections = selections.filter(item => item.label.indexOf(this.query) > -1).map(item => {
+                selections = selections.filter(item => {
+                    return item.label ? item.label.indexOf(this.query) > -1 : false
+                }).map(item => {
                     item.display = item.display.replace(new RegExp(this.query, 'g'), `<span>${this.query}</span>`);
                     return item;
                 });
