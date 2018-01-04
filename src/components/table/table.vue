@@ -409,8 +409,8 @@
                 this.$emit('on-expand', JSON.parse(JSON.stringify(this.cloneData[_index])), status);
             },
             selectByIndex(indexs) {
-                for (const data of this.rebuildData) {
-                    indexs = indexs || [];
+                indexs = indexs || [];
+                for (const data of this.rebuildData) {                  
                     if (indexs.length > 0) {
                         if (indexs.filter(function(item) {
                                 return item == data._index
