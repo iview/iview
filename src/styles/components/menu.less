@@ -13,8 +13,8 @@
     z-index: @zindex-select;
 
     &-horizontal{
-        height: 60px;
-        line-height: 60px;
+        height: 51px;
+        line-height: 51px;
 
         &.@{menu-prefix-cls}-light{
             &:after{
@@ -47,10 +47,10 @@
     }
 
     &-light{
-        background: #fff;
+        background:transparent;
     }
     &-dark{
-        background: @menu-dark-title;
+        background:#323341;
     }
     &-primary{
         background: @primary-color;
@@ -66,10 +66,10 @@
         cursor: pointer;
         transition: all @transition-time @ease-in-out;
     }
+  
+    &-submenu-title > i,
+    &-submenu-title span > i，
     &-item > i{
-        margin-right: 6px;
-    }
-    &-submenu-title > i, &-submenu-title span > i{
         margin-right: 8px;
     }
 
@@ -85,13 +85,12 @@
     }
 
     &-light&-horizontal &-item, &-light&-horizontal &-submenu{
-        height: inherit;
+        height: 51px;
         line-height: inherit;
-        border-bottom: 2px solid transparent;
-        color: @text-color;
+        color: #ddd;
         &-active, &:hover{
-            color: @primary-color;
-            border-bottom: 2px solid @primary-color;
+            color: #fff;
+            background-color: #2e4884;
         }
     }
     &-light&-horizontal &-submenu .@{select-dropdown-prefix-cls}  &-submenu{
@@ -178,26 +177,30 @@
     &-vertical &-item,
     &-vertical &-submenu-title
     {
-        padding: 14px 24px;
+        padding: 14px 15px;
         position: relative;
         cursor: pointer;
         z-index: 1;
         transition: all @transition-time @ease-in-out;
+    }
 
-        &:hover{
-            background: @background-color-select-hover;
+    &-vertical &-submenu > & > &-submenu > &-submenu-title,
+    &-vertical &-submenu &-item{
+        // background-color: transparent;
+        padding-left: 30px;
+    }
+
+    &-vertical &-submenu > & > &-submenu  &-item
+    {    
+        padding:8px 0px 8px 55px;
+        background-color: #414a5e;
+        color:#d9d9d9;
+        &:hover,&-active,&-active:hover{
+            color: #fff;
+            background: #414a5e !important;
+            text-decoration: underline;
         }
     }
-         &-vertical &-submenu > & > &-submenu > &-submenu-title
-        {          
-            background-color: transparent;
-            padding-left: 30px;
-        }
-
-        &-vertical &-submenu > & > &-submenu  &-item
-        {     
-            padding-left: 43px;
-        }
 
     &-vertical &-submenu-title-icon{
         float: right;
@@ -207,13 +210,7 @@
     &-submenu-title-icon {
         transition: transform @transition-time @ease-in-out;
     }
-    &-opened > &-submenu-title > &-submenu-title-icon{
-        transform: rotate(180deg);
-    }
-
-    &-vertical &-submenu &-item{
-        padding-left: 30px;
-    }
+  
     &-vertical &-item-group{
         &-title{
             height: 48px;
@@ -236,7 +233,21 @@
             z-index: 2;
         }
     }
-
+    // 一级菜单
+    &-dark&-vertical >&-submenu> &-submenu-title{
+        border-bottom:1px solid #1e282c;
+        &:hover,&-active,&-active:hover{
+            color: #fff;
+            background: #2a2a35;
+        }
+    }
+    &-dark&-vertical >&-opened > &-submenu-title{
+        color: #fff;
+        background: #2a2a35 !important;
+    }
+    &-opened > &-submenu-title > &-submenu-title-icon{
+        transform: rotate(180deg);
+    }
     &-dark&-vertical &-item, &-dark&-vertical &-submenu-title{
         color: @menu-dark-subsidiary-color;
         &-active:not(.@{menu-prefix-cls}-submenu),
@@ -253,7 +264,27 @@
             border-right: 2px solid @primary-color;
         }
     }
+// 二级菜单
+    &-dark&-vertical> &-opened > &{
+        background-color: #363e4f;
+        border-bottom:1px solid #1e282c;
+    }
+    &-dark&-vertical> &-opened > & >&-submenu > &-submenu-title,
+    &-dark&-vertical> &-opened > & > &-opened > &-submenu-title{
+        &:hover,&-active,&-active:hover{
+            color: #fff !important;
+            background: #2c3341 !important;
+        }
+    }
+    &-dark&-vertical> &-opened > & > &-opened > &-submenu-title{
+        background: #2c3341 !important;
+        color: #fff !important;
+    }
+    &-dark&-vertical> &-item-active > & >&-submenu > &-submenu-title{
+        color:#b3b3b3;
+    }
     &-dark&-vertical &-submenu &-item{
+        i{margin-right: 8px;}
         &:hover{
             color: #fff;
             background: transparent !important;
@@ -261,19 +292,19 @@
         &-active,&-active:hover{
             border-right: none;
             color: #fff;
-            background: @primary-color !important;
+            background: #2c3341 !important;
         }
     }
     &-dark&-vertical &-item-active &-submenu-title{
         color: #fff;
     }
 
-    &-dark&-vertical &-opened{
-        background: @menu-dark-active-bg;
-        .@{menu-prefix-cls}-submenu-title{
-            background: @menu-dark-title;
-        }
-    }
+    // &-dark&-vertical &-opened{
+    //     background: @menu-dark-active-bg;
+    //     .@{menu-prefix-cls}-submenu-title{
+    //         background: @menu-dark-title;
+    //     }
+    // }
 }
 .select-item(@menu-prefix-cls, @menu-dropdown-item-prefix-cls);
 
