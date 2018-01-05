@@ -394,8 +394,10 @@
                 const status = !data._isChecked;
                 this.objData[_index]._isChecked = status;
                 const selection = this.getSelection();
-                this.$emit(status ? 'on-select' : 'on-select-cancel', selection, JSON.parse(JSON.stringify(this.data[_index])));
                 this.$emit('on-selection-change', selection);
+                this.$emit(status ? 'on-select' : 'on-select-cancel', selection, JSON.parse(JSON.stringify(this.data[_index])));
+                
+       
             },
             toggleExpand(_index) {
                 let data = {};

@@ -27763,8 +27763,8 @@ exports.default = {
             var status = !data._isChecked;
             this.objData[_index]._isChecked = status;
             var selection = this.getSelection();
-            this.$emit(status ? 'on-select' : 'on-select-cancel', selection, JSON.parse((0, _stringify2.default)(this.data[_index])));
             this.$emit('on-selection-change', selection);
+            this.$emit(status ? 'on-select' : 'on-select-cancel', selection, JSON.parse((0, _stringify2.default)(this.data[_index])));
         },
         toggleExpand: function toggleExpand(_index) {
             var data = {};
