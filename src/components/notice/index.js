@@ -45,7 +45,7 @@ function notice (type, options) {
 
     let withIcon;
 
-    const with_desc = (options.render && !title) ? '' : desc === '' ? '' : ` ${prefixCls}-with-desc`;
+    const with_desc = (options.render && !title) ? '' : (desc || options.render) ? ` ${prefixCls}-with-desc` : '';
 
     if (type == 'normal') {
         withIcon = false;
