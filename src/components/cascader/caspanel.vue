@@ -1,5 +1,5 @@
 <template>
-    <span>
+    <span v-if="!reverse">
         <ul v-if="data && data.length" :class="[prefixCls + '-menu']">
             <Casitem
                 v-for="item in data"
@@ -7,9 +7,25 @@
                 :prefix-cls="prefixCls"
                 :data="item"
                 :tmp-item="tmpItem"
+                :reverse="reverse"
                 @click.native.stop="handleClickItem(item)"
                 @mouseenter.native.stop="handleHoverItem(item)"></Casitem>
-        </ul><Caspanel v-if="sublist && sublist.length" :prefix-cls="prefixCls" :data="sublist" :disabled="disabled" :trigger="trigger" :change-on-select="changeOnSelect"></Caspanel>
+        </ul>
+        <Caspanel v-if="sublist && sublist.length" :reverse="reverse" :prefix-cls="prefixCls" :data="sublist" :disabled="disabled" :trigger="trigger" :change-on-select="changeOnSelect"></Caspanel>
+    </span>
+    <span v-else>
+        <Caspanel v-if="sublist && sublist.length" :reverse="reverse" :prefix-cls="prefixCls" :data="sublist" :disabled="disabled" :trigger="trigger" :change-on-select="changeOnSelect"></Caspanel>
+        <ul v-if="data && data.length" :class="[prefixCls + '-menu']">
+            <Casitem
+                    v-for="item in data"
+                    :key="getKey()"
+                    :prefix-cls="prefixCls"
+                    :data="item"
+                    :tmp-item="tmpItem"
+                    :reverse="reverse"
+                    @click.native.stop="handleClickItem(item)"
+                    @mouseenter.native.stop="handleHoverItem(item)"></Casitem>
+        </ul>
     </span>
 </template>
 <script>
@@ -24,6 +40,7 @@
         mixins: [ Emitter ],
         components: { Casitem },
         props: {
+            reverse:{type:Boolean,default: false},
             data: {
                 type: Array,
                 default () {
