@@ -22,10 +22,12 @@
         </div>
         <transition name="slide-up">
             <Drop
+                :reverse="reverse"
                 v-show="visible"
                 :class="{ [prefixCls + '-transfer']: transfer }"
                 ref="drop"
                 :data-transfer="transfer"
+                :placement="reverse ? 'bottom-end' : 'bottom-start'"
                 v-transfer-dom>
                 <div>
                     <Caspanel
@@ -34,6 +36,7 @@
                         :prefix-cls="prefixCls"
                         :data="data"
                         :disabled="disabled"
+                        :reverse="reverse"
                         :change-on-select="changeOnSelect"
                         :trigger="trigger"></Caspanel>
                     <div :class="[prefixCls + '-dropdown']" v-show="filterable && query !== '' && querySelections.length">
@@ -62,6 +65,7 @@
     import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     import Locale from '../../mixins/locale';
+    import { getStyle } from '../../utils/assist';
 
     const prefixCls = 'ivu-cascader';
     const selectPrefixCls = 'ivu-select';
@@ -72,6 +76,7 @@
         components: { iInput, Drop, Icon, Caspanel },
         directives: { clickoutside, TransferDom },
         props: {
+            reverse:{type:Boolean,default: false},
             data: {
                 type: Array,
                 default () {
@@ -219,9 +224,7 @@
                     }
                 }
                 getSelections(this.data);
-                selections = selections.filter(item => {
-                    return item.label ? item.label.indexOf(this.query) > -1 : false
-                }).map(item => {
+                selections = selections.filter(item => item.label.indexOf(this.query) > -1).map(item => {
                     item.display = item.display.replace(new RegExp(this.query, 'g'), `<span>${this.query}</span>`);
                     return item;
                 });
@@ -277,6 +280,9 @@
                 }
             },
             handleInput (event) {
+                const left = getStyle(this.$refs.drop.$el,'left')
+                const width = getStyle(this.$refs.drop.$el,'width')
+                console.log(left,width);
                 this.query = event.target.value;
             },
             handleSelectItem (index) {
@@ -392,6 +398,9 @@
                     }
                 }
             }
+        },
+        updated () {
+
         }
     };
 </script>
