@@ -191,14 +191,25 @@
 
 <template>
     <div>
-        <DatePicker v-model="value" @on-change="handleChange" type="daterange" placeholder="Select date" style="width: 200px"></DatePicker>
+        <DatePicker v-model="value" @on-change="handleChange" type="datetimerange" placeholder="Select date" style="width: 400px"></DatePicker>
+        <DatePicker v-model="value2" type="datetime" @on-change="handleChange" style="width: 200px"></DatePicker>
+        <TimePicker type="time" placeholder="Select time" style="width: 168px"></TimePicker>
+        {{ value }}
+        <br>
+        {{ value2 }}
+        <br><br>
+        <DatePicker type="year" v-model="value3" placeholder="Select year" style="width: 200px"></DatePicker>
+        <DatePicker type="month" v-model="value4" placeholder="Select month" style="width: 200px"></DatePicker>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                value: []
+                value: ['2018-03-05 10:00:00', '2018-05-15 10:01:00'],
+                value2: '2018-02-05 10:09:00',
+                value3: '1978',
+                value4: '1978-05'
             }
         },
         methods: {
