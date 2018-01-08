@@ -354,7 +354,10 @@
                         if (allWidth) autoWidthIndex = this.cloneColumns.findIndex(cell => !cell.width);//todo 这行可能有问题
 
                         if (this.data.length) {
-                            const $td = this.$refs.tbody.$el.querySelectorAll('tbody tr')[0].children;
+                            const $tr = this.$refs.tbody.$el.querySelectorAll('tbody tr');
+                            if ($tr.length === 0) return;
+                            const $td = $tr[0].children;
+
                             for (let i = 0; i < $td.length; i++) {    // can not use forEach in Firefox
                                 const column = this.cloneColumns[i];
 
