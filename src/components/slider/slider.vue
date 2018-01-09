@@ -170,11 +170,13 @@
                 return (val[1] - this.min) / (this.max - this.min) * 100;
             },
             barStyle () {
+
                 const style = {
-                    left: (this.currentValue[0] - this.min) / (this.max - this.min) * 100 + '%'
+                    width: (this.currentValue[0] - this.min) / (this.max - this.min) * 100 + '%'
                 };
 
                 if (this.range) {
+                    style.left = (this.currentValue[0] - this.min) / (this.max - this.min) * 100 + '%';
                     style.width = (this.currentValue[1] - this.currentValue[0]) / (this.max - this.min) * 100 + '%';
                 }
 
