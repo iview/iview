@@ -1,20 +1,13 @@
-import Vue from 'vue';
 import Picker from '../picker.vue';
-import TimePanel from '../panel/time.vue';
-import TimeRangePanel from '../panel/time-range.vue';
+import TimePickerPanel from '../panel/time.vue';
+import RangeTimePickerPanel from '../panel/time-range.vue';
 import Options from '../time-mixins';
-
-const getPanel = function (type) {
-    if (type === 'timerange') {
-        return TimeRangePanel;
-    }
-    return TimePanel;
-};
 
 import { oneOf } from '../../../utils/assist';
 
 export default {
     mixins: [Picker, Options],
+    components: { TimePickerPanel, RangeTimePickerPanel },
     props: {
         type: {
             validator (value) {
@@ -22,11 +15,13 @@ export default {
             },
             default: 'time'
         },
-        steps: {
-            type: Array,
-            default: () => []
-        },
         value: {}
+    },
+    computed: {
+        panel(){
+            const isRange =  this.type === 'timerange';
+            return isRange ? 'RangeTimePickerPanel' : 'TimePickerPanel';
+        }
     },
     created () {
         if (!this.currentValue) {
@@ -36,11 +31,5 @@ export default {
                 this.currentValue = '';
             }
         }
-        const Panel = Vue.extend(getPanel(this.type));
-        this.Panel = new Panel({
-            propsData: {
-                steps: this.steps
-            }
-        });
     }
 };

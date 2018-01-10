@@ -111,6 +111,7 @@
                 <time-picker
                     ref="timePicker"
                     v-show="isTime"
+                    :format="format"
                     @on-pick="handleTimePick"
                     @on-pick-click="handlePickClick"></time-picker>
             </div>
@@ -132,6 +133,8 @@
     import MonthTable from '../base/month-table.vue';
     import TimePicker from './time-range.vue';
     import Confirm from '../base/confirm.vue';
+
+    import { oneOf } from '../../../utils/assist';
     import { toDate, prevMonth, nextMonth, initTimeDate, formatDateLabels } from '../util';
     import datePanelLabel from './date-panel-label.vue';
 
@@ -142,32 +145,59 @@
     const datePrefixCls = 'ivu-date-picker';
 
     export default {
-        name: 'DatePicker',
+        name: 'RangeDatePickerPanel',
         mixins: [ Mixin, Locale ],
         components: { Icon, DateTable, YearTable, MonthTable, TimePicker, Confirm, datePanelLabel },
+        props: {
+            confirm: {
+                type: Boolean,
+                default: false
+            },
+            showTime: {
+                type: Boolean,
+                default: false
+            },
+            format: {
+                type: String,
+                default: 'yyyy-MM-dd'
+            },
+            value: {
+                type: Array,
+                default: () => [initTimeDate(), initTimeDate()]
+            },
+            selectionMode: {
+                type: String,
+                validator (value) {
+                    return oneOf(value, ['year', 'month', 'date', 'range']);
+                },
+                default: 'range'
+            },
+            shortcuts: {
+                type: Array,
+                default: () => []
+            },
+            disabledDate: {
+                type: Function,
+                default: () => false
+            }
+        },
         data () {
+            const date = this.value[0];
             return {
                 prefixCls: prefixCls,
                 datePrefixCls: datePrefixCls,
-                shortcuts: [],
-                date: initTimeDate(),
-                value: '',
+                date: date,
                 minDate: '',
                 maxDate: '',
-                confirm: false,
                 rangeState: {
                     endDate: null,
                     selecting: false
                 },
-                showTime: false,
-                disabledDate: '',
                 leftCurrentView: 'date',
                 rightCurrentView: 'date',
-                selectionMode: 'range',
-                leftTableYear: null,
-                rightTableYear: null,
-                isTime: false,
-                format: 'yyyy-MM-dd'
+                leftTableYear: date.getFullYear(),
+                rightTableYear: date.getFullYear(),
+                isTime: false
             };
         },
         computed: {
@@ -248,9 +278,6 @@
             },
             maxDate (val) {
                 if (this.showTime) this.$refs.timePicker.dateEnd = val;
-            },
-            format (val) {
-                if (this.showTime) this.$refs.timePicker.format = val;
             },
             isTime (val) {
                 if (val) this.$refs.timePicker.updateScroll();
@@ -406,7 +433,6 @@
                 this.$refs.timePicker.date = this.minDate;
                 this.$refs.timePicker.dateEnd = this.maxDate;
                 this.$refs.timePicker.value = this.value;
-                this.$refs.timePicker.format = this.format;
                 this.$refs.timePicker.showDate = true;
             }
         }

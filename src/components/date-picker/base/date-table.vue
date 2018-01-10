@@ -30,7 +30,7 @@
             year: {},
             month: {},
             selectionMode: {
-                default: 'day'
+                default: 'date'
             },
             disabledDate: {},
             minDate: {},

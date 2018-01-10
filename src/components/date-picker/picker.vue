@@ -29,18 +29,40 @@
                 ref="drop"
                 :data-transfer="transfer"
                 v-transfer-dom>
-                <div ref="picker"></div>
+                <div>
+                    <component
+                        :is="panel"
+                        :visible="visible"
+                        :showTime="type === 'datetime' || type === 'datetimerange'"
+                        :confirm="isConfirm"
+                        :selectionMode="selectionMode"
+                        :steps="steps"
+                        :format="format"
+                        :value="pickerDate"
+                        v-bind="picker"
+                        :disabledHours="disabledHours"
+                        :disabledMinutes="disabledMinutes"
+                        :disabledSeconds="disabledSeconds"
+                        :hideDisabledOptions="hideDisabledOptions"
+                        @on-pick="onPick"
+                        @on-pick-clear="handleClear"
+                        @on-pick-success="onPickSuccess"
+                        @on-pick-click="disableClickOutSide = true"
+                    ></component>
+                </div>
             </Drop>
         </transition>
     </div>
 </template>
 <script>
+
+
     import iInput from '../../components/input/input.vue';
     import Drop from '../../components/select/dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
-    import { formatDate, parseDate } from './util';
+    import { formatDate, parseDate, initTimeDate } from './util';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-date-picker';
@@ -206,14 +228,26 @@
             },
             elementId: {
                 type: String
+            },
+            steps: {
+                type: Array,
+                default: () => []
             }
         },
         data () {
+            const isTimePicker = this.type.indexOf('time') === 0;
+            const timePickerProps = isTimePicker ? {} : {
+                disabledHours: [],
+                disabledMinutes: [],
+                disabledSeconds: [],
+                hideDisabledOptions: false
+            };
             return {
+                ...timePickerProps,
                 prefixCls: prefixCls,
                 showClose: false,
                 visible: false,
-                picker: null,
+                picker: {showTime: true, ...this.options},
                 internalValue: '',
                 disableClickOutSide: false,    // fixed when click a date,trigger clickoutside to close picker
                 disableCloseUnderTransfer: false,  // transfer 模式下，点击Drop也会触发关闭
@@ -244,7 +278,7 @@
                     return 'year';
                 }
 
-                return 'day';
+                return 'date';
             },
             visualValue: {
                 get () {
@@ -258,7 +292,6 @@
 
                     return formatter(value, this.format || format);
                 },
-
                 set (value) {
                     if (value) {
                         const type = this.type;
@@ -274,6 +307,19 @@
                     }
                     if (this.picker) this.picker.value = value;
                 }
+            },
+            pickerDate(){
+                const isRange = this.type.includes('range');
+                if (isRange){
+                    const isArray = Array.isArray(this.internalValue);
+                    return (isArray ? this.internalValue : [this.internalValue]).map(date => date || initTimeDate());
+                } else {
+                    return this.internalValue || initTimeDate();
+                }
+
+            },
+            isConfirm(){
+                return this.confirm || this.type === 'datetime' || this.type === 'datetimerange';
             }
         },
         methods: {
@@ -400,60 +446,15 @@
             },
             handleClear () {
                 this.visible = false;
-                this.internalValue = '';
-                this.currentValue = '';
+                this.internalValue = this.type.includes('range') ? [null, null] : '';
+                this.currentValue = this.type.includes('range') ? [null, null] : '';
                 this.$emit('on-clear');
                 this.dispatch('FormItem', 'on-form-change', '');
-                // #2215，当初始设置了 value，直接点 clear，这时 this.picker 还没有加载
-                if (!this.picker) {
-                    this.emitChange('');
-                }
+                this.emitChange('');
             },
             showPicker () {
-                if (!this.picker) {
-                    let isConfirm = this.confirm;
-                    const type = this.type;
-
-                    this.picker = this.Panel.$mount(this.$refs.picker);
-                    if (type === 'datetime' || type === 'datetimerange') {
-                        isConfirm = true;
-                        this.picker.showTime = true;
-                    }
-                    this.picker.value = this.internalValue;
-                    this.picker.confirm = isConfirm;
-                    this.picker.selectionMode = this.selectionMode;
-                    if (this.format) this.picker.format = this.format;
-
-                    // TimePicker
-                    if (this.disabledHours) this.picker.disabledHours = this.disabledHours;
-                    if (this.disabledMinutes) this.picker.disabledMinutes = this.disabledMinutes;
-                    if (this.disabledSeconds) this.picker.disabledSeconds = this.disabledSeconds;
-                    if (this.hideDisabledOptions) this.picker.hideDisabledOptions = this.hideDisabledOptions;
-
-                    const options = this.options;
-                    for (const option in options) {
-                        this.picker[option] = options[option];
-                    }
-
-                    this.picker.$on('on-pick', (date, visible = false) => {
-                        if (!isConfirm) this.visible = visible;
-                        this.currentValue = date;
-                        this.picker.value = date;
-                        this.picker.resetView && this.picker.resetView();
-                        this.emitChange(date);
-                    });
-
-                    this.picker.$on('on-pick-clear', () => {
-                        this.handleClear();
-                    });
-                    this.picker.$on('on-pick-success', () => {
-                        this.visible = false;
-                        this.$emit('on-ok');
-                    });
-                    this.picker.$on('on-pick-click', () => this.disableClickOutSide = true);
-                }
                 if (this.internalValue instanceof Date) {
-                    this.picker.date = new Date(this.internalValue.getTime());
+                    this.picker.date = new Date(this.internalValue);
                 } else {
                     this.picker.value = this.internalValue;
                 }
@@ -480,7 +481,23 @@
                     newDate = [newDate.split(RANGE_SEPARATOR)[0], newDate.split(RANGE_SEPARATOR)[1]];
                 }
                 return newDate;
+            },
+            onPick(date, visible = false) {
+
+                // create new Date objects so Vue's reactive trigger gets called
+                date = Array.isArray(date) ? date.map(d => new Date(d)) : new Date(date);
+
+                if (!this.isConfirm) this.visible = visible;
+                this.currentValue = date;
+                this.picker.value = date;
+                this.picker.resetView && this.picker.resetView();
+                this.emitChange(date);
+            },
+            onPickSuccess(){
+                this.visible = false;
+                this.$emit('on-ok');
             }
+
         },
         watch: {
             visible (val) {
@@ -500,6 +517,8 @@
             internalValue(val) {
                 if (!val && this.picker && typeof this.picker.handleClear === 'function') {
                     this.picker.handleClear();
+                } else if (val && typeof val.getTime === 'function'){
+                    this.picker.date = this.internalValue;
                 }
 //                this.$emit('input', val);
             },
@@ -537,13 +556,9 @@
                 }
             }
         },
-        beforeDestroy () {
-            if (this.picker) {
-                this.picker.$destroy();
-            }
-        },
         mounted () {
             if (this.open !== null) this.visible = this.open;
+            window.picker = this;
         }
     };
 </script>

@@ -59,20 +59,23 @@
     const timePrefixCls = 'ivu-time-picker';
 
     export default {
-        name: 'TimePicker',
+        name: 'RangeTimePickerPanel',
         mixins: [ Mixin, Locale ],
         components: { TimeSpinner, Confirm },
         props: {
             steps: {
                 type: Array,
                 default: () => []
+            },
+            format: {
+                type: String,
+                default: 'HH:mm:ss'
             }
         },
         data () {
             return {
                 prefixCls: prefixCls,
                 timePrefixCls: timePrefixCls,
-                format: 'HH:mm:ss',
                 showDate: false,
                 date: initTimeDate(),
                 dateEnd: initTimeDate(),

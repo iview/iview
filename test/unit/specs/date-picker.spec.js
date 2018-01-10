@@ -26,7 +26,31 @@ describe('DatePicker.vue', () => {
     });
   });
 
-  it('should create a DatePicker component of type="datetimerange"', done => {
+  it('should create a DatePicker component and open the calendar with the given month', done => {
+      vm = createVue({
+          template: '<Date-Picker v-model="value"></Date-Picker>',
+          data() {
+              return {
+                  value: '2018-02-05'
+              };
+          }
+      });
+
+      const picker = vm.$children[0];
+      picker.showPicker();
+      vm.$nextTick(() => {
+          const dropdown = picker.$children[1];
+          const panel = dropdown.$children[0];
+
+          expect(panel.month).to.equal(picker.internalValue.getMonth());
+          expect(panel.year).to.equal(picker.internalValue.getFullYear());
+          expect(panel.date.getTime()).to.equal(picker.internalValue.getTime());
+
+          done();
+      });
+  });
+
+    it('should create a DatePicker component of type="datetimerange"', done => {
     vm = createVue(`
       <Date-Picker type="datetimerange"></Date-Picker>
     `);
@@ -77,6 +101,7 @@ describe('DatePicker.vue', () => {
   });
 
   it('should change type progamatically', done => {
+
     vm = createVue({
       template: '<Date-picker :type="dateType"></Date-picker>',
       data() {
@@ -112,12 +137,12 @@ describe('DatePicker.vue', () => {
         })
         .then(() => {
           expect(picker.type).to.equal('date');
-          expect(picker.selectionMode).to.equal('day');
-
+          expect(picker.selectionMode).to.equal('date');
           done();
         });
     });
   });
+
 
   it('should fire `on-change` when reseting value', done => {
     const now = new Date();
@@ -141,7 +166,7 @@ describe('DatePicker.vue', () => {
       expect(displayField.value).to.equal(nowDate);
 
       picker.showClose = true; // to simulate mouseenter in the Input
-      picker.handleIconClick(); // reset the input value
+      picker.handleClear(); // reset the input value
       vm.$nextTick(() => {
         expect(onChangeCalled).to.equal(true);
         expect(displayField.value).to.equal('');
