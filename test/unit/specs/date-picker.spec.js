@@ -26,7 +26,31 @@ describe('DatePicker.vue', () => {
     });
   });
 
-  it('should create a DatePicker component of type="datetimerange"', done => {
+  it('should create a DatePicker component and open the calendar with the given month', done => {
+      vm = createVue({
+          template: '<Date-Picker v-model="value"></Date-Picker>',
+          data() {
+              return {
+                  value: '2018-02-05'
+              };
+          }
+      });
+
+      const picker = vm.$children[0];
+      picker.showPicker();
+      vm.$nextTick(() => {
+          const dropdown = picker.$children[1];
+          const panel = dropdown.$children[0];
+
+          expect(panel.month).to.equal(picker.internalValue.getMonth());
+          expect(panel.year).to.equal(picker.internalValue.getFullYear());
+          expect(panel.date.getTime()).to.equal(picker.internalValue.getTime());
+
+          done();
+      });
+  });
+
+    it('should create a DatePicker component of type="datetimerange"', done => {
     vm = createVue(`
       <Date-Picker type="datetimerange"></Date-Picker>
     `);
