@@ -163,6 +163,7 @@
             },
             value: {
                 type: Array,
+                default: () => [initTimeDate(), initTimeDate()]
             },
             selectionMode: {
                 type: String,
@@ -181,7 +182,7 @@
             }
         },
         data () {
-            const date = initTimeDate();
+            const date = this.value[0];
             return {
                 prefixCls: prefixCls,
                 datePrefixCls: datePrefixCls,

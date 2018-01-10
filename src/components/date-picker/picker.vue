@@ -38,6 +38,7 @@
                         :selectionMode="selectionMode"
                         :steps="steps"
                         :format="format"
+                        :value="pickerDate"
                         v-bind="picker"
                         :disabledHours="disabledHours"
                         :disabledMinutes="disabledMinutes"
@@ -61,7 +62,7 @@
     import clickoutside from '../../directives/clickoutside';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
-    import { formatDate, parseDate } from './util';
+    import { formatDate, parseDate, initTimeDate } from './util';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-date-picker';
@@ -291,7 +292,6 @@
 
                     return formatter(value, this.format || format);
                 },
-
                 set (value) {
                     if (value) {
                         const type = this.type;
@@ -307,6 +307,16 @@
                     }
                     if (this.picker) this.picker.value = value;
                 }
+            },
+            pickerDate(){
+                const isRange = this.type.includes('range');
+                if (isRange){
+                    const isArray = Array.isArray(this.internalValue);
+                    return (isArray ? this.internalValue : [this.internalValue]).map(date => date || initTimeDate());
+                } else {
+                    return this.internalValue || initTimeDate();
+                }
+
             },
             isConfirm(){
                 return this.confirm || this.type === 'datetime' || this.type === 'datetimerange';
@@ -444,7 +454,7 @@
             },
             showPicker () {
                 if (this.internalValue instanceof Date) {
-                    this.picker.date = new Date(this.internalValue.getTime());
+                    this.picker.date = new Date(this.internalValue);
                 } else {
                     this.picker.value = this.internalValue;
                 }
@@ -507,6 +517,8 @@
             internalValue(val) {
                 if (!val && this.picker && typeof this.picker.handleClear === 'function') {
                     this.picker.handleClear();
+                } else if (val && typeof val.getTime === 'function'){
+                    this.picker.date = this.internalValue;
                 }
 //                this.$emit('input', val);
             },

@@ -109,7 +109,10 @@
                 type: String,
                 default: 'yyyy-MM-dd'
             },
-            value: {},
+            value: {
+                type: Date,
+                default: () => initTimeDate()
+            },
             selectionMode: {
                 type: String,
                 validator (value) {
@@ -131,7 +134,7 @@
                 prefixCls: prefixCls,
                 datePrefixCls: datePrefixCls,
                 currentView: this.selectionMode || 'date',
-                date: initTimeDate(),
+                date: this.value,
                 year: null,
                 month: null,
                 isTime: false
