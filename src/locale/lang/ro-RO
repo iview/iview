@@ -16,8 +16,8 @@ const lang = {
             clearFilter: 'Tot'
         },
         datepicker: {
-            selectDate: 'Selectați data',
-            selectTime: 'Selectați timpul',
+            selectDate: 'Selectează data',
+            selectTime: 'Selectează timpul',
             startTime: 'Ora inițială',
             endTime: 'Ora finală',
             clear: 'Anulează',
