@@ -4,7 +4,7 @@ const lang = {
     i: {
         locale: 'ro-RO',
         select: {
-            placeholder: 'Selectați',
+            placeholder: 'Selectează',
             noMatch: 'Niciun rezultat',
             loading: 'Încărcare'
         },
