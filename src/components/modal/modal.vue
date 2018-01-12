@@ -7,7 +7,7 @@
             <transition :name="transitionNames[0]" @after-leave="animationFinish">
                 <div :class="classes" :style="mainStyles" v-show="visible">
                     <div :class="[prefixCls + '-content']">
-                        <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
+                        <a :class="[prefixCls + '-close']" v-if="closable" @click="closeX">
                             <slot name="close">
                                 <Icon type="ios-close-empty"></Icon>
                             </slot>
@@ -47,6 +47,10 @@
                 default: false
             },
             closable: {
+                type: Boolean,
+                default: true
+            },
+            esc2x: {
                 type: Boolean,
                 default: true
             },
@@ -179,10 +183,15 @@
                 }
                 this.$emit('on-ok');
             },
+            closeX () {
+                this.visible = false;
+                this.$emit('input', false);
+                this.$emit('on-closeX');
+            },
             EscClose (e) {
                 if (this.visible && this.closable) {
                     if (e.keyCode === 27) {
-                        this.close();
+                        this.esc2x ? this.closeX() : this.cancel();
                     }
                 }
             },
