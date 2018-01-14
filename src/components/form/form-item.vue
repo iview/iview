@@ -181,8 +181,8 @@
                 this.validateDisabled = false;
             },
             resetValedate(){
-              this.validateState = '';
-              this.validateMessage = '';
+                this.validateState = '';
+                this.validateMessage = '';
             },
             resetField () {
                 this.validateState = '';

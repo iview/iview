@@ -63,9 +63,9 @@
                 });
             },
             resetValedates(){
-              this.fields.forEach(field => {
-                  field.resetValedate();
-              });
+                this.fields.forEach(field => {
+                    field.resetValedate();
+                });
             },
             validate(callback) {
                 return new Promise(resolve => {
@@ -93,24 +93,24 @@
 
                 field.validate('', cb);
             },
-            validateFields(props){
-              if(!Array.isArray(props){
-                if(typeof props === 'string'){
-                  props = [props]
-                }else{
-                  throw new Error('[iView warn]: props must be string or array of strings');
+            validateFields(props) {
+                if (!Array.isArray(props)) {
+                    if(typeof props === 'string'){
+                        props = [props];
+                    }else{
+                        throw new Error('[iView warn]: props must be string or array of strings');
+                    }
                 }
-              })
-              return new Promise((resolve, reject) => {
-                const fields = this.fields.filter(field => props.indexOf(field.prop) != -1);
-                if (!fields) { throw new Error('[iView warn]: no validateFields matched'); }
-                fields.forEach((field) => {
-                  field.validate('', (error) => {
-                    if(error)reject(error)
-                  })
-                })
-                resolve('')
-              })
+                return new Promise((resolve, reject) => {
+                    const fields = this.fields.filter(field => props.indexOf(field.prop) != -1);
+                    if (!fields) { throw new Error('[iView warn]: no validateFields matched'); }
+                    fields.forEach((field) => {
+                        field.validate('', (error) => {
+                            if(error)reject(error);
+                        });
+                    });
+                    resolve('');
+                });
             }
         },
         watch: {
