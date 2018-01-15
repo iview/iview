@@ -30,6 +30,16 @@
                         </template>
                         <Menu-item name="3-3-3-1">四级1</Menu-item>
                         <Menu-item name="3-3-3-2">四级2</Menu-item>
+                        <MenuGroup title="Menu-Group">
+                            <MenuItem name="3-3-3-3-1">
+                                <Icon type="document-text"></Icon>
+                                Group-item1
+                            </MenuItem>
+                            <MenuItem name="3-3-3-3-2">
+                                <Icon type="chatbubbles"></Icon>
+                                Group-item2
+                            </MenuItem>
+                        </MenuGroup>
                     </Submenu>
                 </Submenu>
             </Submenu>
