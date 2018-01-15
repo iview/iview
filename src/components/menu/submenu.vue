@@ -1,6 +1,6 @@
 <template>
     <li :class="classes" @mouseenter="handleMouseenter" @mouseleave="handleMouseleave">
-        <div :class="[prefixCls + '-submenu-title']" ref="reference" @click="handleClick" :style="titleStyle">
+        <div :class="[prefixCls + '-submenu-title']" ref="reference" @click.stop="handleClick" :style="titleStyle">
             <slot name="title"></slot>
             <Icon type="ios-arrow-down" :class="[prefixCls + '-submenu-title-icon']"></Icon>
         </div>
@@ -112,7 +112,7 @@
                 if (this.mode === 'horizontal') return;
                 const opened = this.opened;
                 if (this.accordion) {
-                    this.parent.$children.forEach(item => {
+                    this.$parent.$children.forEach(item => {
                         if (item.$options.name === 'Submenu') item.opened = false;
                     });
                 }

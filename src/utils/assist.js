@@ -228,6 +228,16 @@ export function findComponentsUpward (context, componentName) {
     }
 }
 
+// Find brothers components
+export function findBrothersComponents (context, componentName) {
+    let res = context.$parent.$children.filter(item => {
+        return item.$options.name === componentName;
+    });
+    let index = res.indexOf(context);
+    res.splice(index, 1);
+    return res;
+}
+
 /* istanbul ignore next */
 const trim = function(string) {
     return (string || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '');
