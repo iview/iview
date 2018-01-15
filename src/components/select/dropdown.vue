@@ -61,8 +61,10 @@
                 if (this.popper) {
                     this.resetTransformOrigin(this.popper);
                     setTimeout(() => {
-                        this.popper.destroy();
-                        this.popper = null;
+                        if (this.popper) {
+                            this.popper.destroy();
+                            this.popper = null;
+                        }
                     }, 300);
                 }
             },
