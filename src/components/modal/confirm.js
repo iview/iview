@@ -25,6 +25,11 @@ Modal.newInstance = properties => {
             scrollable: false,
             closable: false
         }),
+        mounted () {
+            let m = this.$children[0];
+            m.$on('on-closeX', this.closeX);
+            m.$on('on-cancel', this.cancel);
+        },
         render (h) {
             let footerVNodes = [];
             if (this.showCancel) {
@@ -82,7 +87,8 @@ Modal.newInstance = properties => {
                 props: Object.assign({}, _props, {
                     width: this.width,
                     scrollable: this.scrollable,
-                    closable: this.closable
+                    closable: this.closable,
+                    esc2x: this.esc2x
                 }),
                 domProps: {
                     value: this.visible
@@ -165,6 +171,12 @@ Modal.newInstance = properties => {
                 }
                 this.onOk();
             },
+            closeX () {
+                this.$children[0].visible = false;
+                this.buttonLoading = false;
+                this.onCloseX();
+                this.remove();
+            },
             remove () {
                 setTimeout(() => {
                     this.destroy();
@@ -177,6 +189,7 @@ Modal.newInstance = properties => {
             },
             onOk () {},
             onCancel () {},
+            onCloseX () {},
             onRemove () {}
         }
     });
@@ -187,77 +200,89 @@ Modal.newInstance = properties => {
 
     return {
         show (props) {
-            modal.$parent.showCancel = props.showCancel;
-            modal.$parent.iconType = props.icon;
+            let m = modal.$parent;
+            m.showCancel = props.showCancel;
+            m.iconType = props.icon;
 
             switch (props.icon) {
                 case 'info':
-                    modal.$parent.iconName = 'information-circled';
+                    m.iconName = 'information-circled';
                     break;
                 case 'success':
-                    modal.$parent.iconName = 'checkmark-circled';
+                    m.iconName = 'checkmark-circled';
                     break;
                 case 'warning':
-                    modal.$parent.iconName = 'android-alert';
+                    m.iconName = 'android-alert';
                     break;
                 case 'error':
-                    modal.$parent.iconName = 'close-circled';
+                    m.iconName = 'close-circled';
                     break;
                 case 'confirm':
-                    modal.$parent.iconName = 'help-circled';
+                    m.iconName = 'help-circled';
                     break;
             }
 
             if ('width' in props) {
-                modal.$parent.width = props.width;
+                m.width = props.width;
             }
 
             if ('closable' in props) {
-                modal.$parent.closable = props.closable;
+                m.closable = props.closable;
             }
 
             if ('title' in props) {
-                modal.$parent.title = props.title;
+                m.title = props.title;
             }
 
             if ('content' in props) {
-                modal.$parent.body = props.content;
+                m.body = props.content;
             }
 
             if ('okText' in props) {
-                modal.$parent.okText = props.okText;
+                m.okText = props.okText;
             }
 
             if ('cancelText' in props) {
-                modal.$parent.cancelText = props.cancelText;
+                m.cancelText = props.cancelText;
+            }
+
+            if ('esc2x' in props) {
+                m.esc2x = props.esc2x;
             }
 
             if ('onCancel' in props) {
-                modal.$parent.onCancel = props.onCancel;
+                m.onCancel = props.onCancel;
             }
 
             if ('onOk' in props) {
-                modal.$parent.onOk = props.onOk;
+                m.onOk = props.onOk;
+            }
+
+            if ('onCloseX' in props) {
+                m.onCloseX = props.onCloseX;
+            } else {
+                m.onCloseX = props.onCancel;
             }
 
             // async for ok
             if ('loading' in props) {
-                modal.$parent.loading = props.loading;
+                m.loading = props.loading;
             }
 
             if ('scrollable' in props) {
-                modal.$parent.scrollable = props.scrollable;
+                m.scrollable = props.scrollable;
             }
 
             // notice when component destroy
-            modal.$parent.onRemove = props.onRemove;
+            m.onRemove = props.onRemove;
 
             modal.visible = true;
         },
         remove () {
+            let m = modal.$parent;
             modal.visible = false;
-            modal.$parent.buttonLoading = false;
-            modal.$parent.remove();
+            m.buttonLoading = false;
+            m.remove();
         },
         component: modal
     };

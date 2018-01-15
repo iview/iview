@@ -4,6 +4,7 @@
         <Button @click="instance('success')">Success</Button>
         <Button @click="instance('warning')">Warning</Button>
         <Button @click="instance('error')">Error</Button>
+        <Button @click="instance('confirm')">Confirm</Button>
     </div>
 </template>
 <script>
@@ -38,8 +39,25 @@
                             content: content
                         });
                         break;
+                    case 'confirm':
+                        this.$Modal.confirm({
+                            title: title,
+                            content: content,
+                            closable: true,
+                            esc2x: false,   //default true
+                            onCloseX() {
+                                alert('click X button');
+                            },
+                            onCancel() {
+                                alert('click cancel button');
+                            },
+                            onOk() {
+                                alert('click ok button');
+                            }
+                        });
+                        break;
                 }
             }
         }
-    }
+    };
 </script>
