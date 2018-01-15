@@ -1,8 +1,9 @@
 <template>
-    <li :class="classes" @click.stop="handleClick"><slot></slot></li>
+    <li :class="classes" @click.stop="handleClick" :style="itemStyle"><slot></slot></li>
 </template>
 <script>
     import Emitter from '../../mixins/emitter';
+    import { findComponentUpward, findComponentsUpward } from '../../utils/assist';
     const prefixCls = 'ivu-menu';
 
     export default {
@@ -33,18 +34,24 @@
                         [`${prefixCls}-item-disabled`]: this.disabled
                     }
                 ];
+            },
+            parentSubmenuNum () {
+                return findComponentsUpward(this, 'Submenu').length;
+            },
+            itemStyle () {
+                return this.hasParentSubmenu ? {
+                    paddingLeft: 43 + (this.parentSubmenuNum - 1) * 24 + 'px'
+                } : {};
+            },
+            hasParentSubmenu () {
+                return findComponentUpward(this, 'Submenu');
             }
         },
         methods: {
             handleClick () {
                 if (this.disabled) return;
 
-                let parent = this.$parent;
-                let name = parent.$options.name;
-                while (parent && (!name || name !== 'Submenu')) {
-                    parent = parent.$parent;
-                    if (parent) name = parent.$options.name;
-                }
+                let parent = findComponentUpward(this, 'Submenu');
 
                 if (parent) {
                     this.dispatch('Submenu', 'on-menu-item-select', this.name);
@@ -57,7 +64,7 @@
             this.$on('on-update-active-name', (name) => {
                 if (this.name === name) {
                     this.active = true;
-                    this.dispatch('Submenu', 'on-update-active-name', true);
+                    this.dispatch('Submenu', 'on-update-active-name', name);
                 } else {
                     this.active = false;
                 }

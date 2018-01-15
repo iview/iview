@@ -217,6 +217,17 @@ export function findComponentsDownward (context, componentName) {
     }, []);
 }
 
+// Find components upward
+export function findComponentsUpward (context, componentName) {
+    let parents = [];
+    if (context.$parent) {
+        if (context.$parent.$options.name === componentName) parents.push(context.$parent);
+        return parents.concat(findComponentsUpward(context.$parent, componentName));
+    } else {
+        return [];
+    }
+}
+
 /* istanbul ignore next */
 const trim = function(string) {
     return (string || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '');
