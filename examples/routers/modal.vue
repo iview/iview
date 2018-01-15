@@ -4,10 +4,25 @@
         <Button @click="instance('success')">Success</Button>
         <Button @click="instance('warning')">Warning</Button>
         <Button @click="instance('error')">Error</Button>
+        <Button type="primary" @click="modal1 = true">Dragable dialog box</Button>
+        <Modal
+            v-model="modal1"
+            title="Common Modal dialog box title"
+            @on-ok="modal1 = false"
+            @on-cancel="modal1 = false">
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+        </Modal>
     </div>
 </template>
 <script>
     export default {
+        data() {
+            return {
+                modal1: false
+            }
+        },
         methods: {
             instance (type) {
                 const title = 'Title';

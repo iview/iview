@@ -3,16 +3,16 @@
         <transition :name="transitionNames[1]">
             <div :class="maskClasses" v-show="visible" @click="mask"></div>
         </transition>
-        <div :class="wrapClasses" @click="handleWrapClick">
+        <div :class="wrapClasses" @click="handleWrapClick" @mousemove="onDrag" @mouseup.prevent.stop="drag = false; opacity = 1;">
             <transition :name="transitionNames[0]" @after-leave="animationFinish">
                 <div :class="classes" :style="mainStyles" v-show="visible">
-                    <div :class="[prefixCls + '-content']">
+                    <div :class="[prefixCls + '-content']" :style="posStyles">
                         <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
                             <slot name="close">
                                 <Icon type="ios-close-empty"></Icon>
                             </slot>
                         </a>
-                        <div :class="[prefixCls + '-header']" v-if="showHead"><slot name="header"><div :class="[prefixCls + '-header-inner']">{{ title }}</div></slot></div>
+                        <div :class="[prefixCls + '-header']" v-if="showHead" @mousedown.prevent.stop="onMouseDown"><slot name="header"><div :class="[prefixCls + '-header-inner']">{{ title }}</div></slot></div>
                         <div :class="[prefixCls + '-body']"><slot></slot></div>
                         <div :class="[prefixCls + '-footer']" v-if="!footerHide">
                             <slot name="footer">
@@ -103,7 +103,13 @@
                 wrapShow: false,
                 showHead: true,
                 buttonLoading: false,
-                visible: this.value
+                visible: this.value,
+                top: 100,
+                left: 0,
+                last_top: 0,
+                last_left: 0,
+                drag: false,
+                opacity: 1,
             };
         },
         computed: {
@@ -117,7 +123,12 @@
                 ];
             },
             maskClasses () {
-                return `${prefixCls}-mask`;
+                return [
+                    `${prefixCls}-mask`, 
+                    {
+                        'active': this.drag
+                    }
+                ];
             },
             classes () {
                 return `${prefixCls}`;
@@ -127,14 +138,23 @@
 
                 const width = parseInt(this.width);
                 const styleWidth = {
-                    width: width <= 100 ? `${width}%` : `${width}px`
+                    width: width <= 100 ? `${width}%` : `${width}px`,
                 };
 
                 const customStyle = this.styles ? this.styles : {};
 
-                Object.assign(style, styleWidth, customStyle);
+                Object.assign(style, styleWidth, customStyle, {
+                    opacity: this.opacity,
+                    margin: this.left ? undefined : 'auto',
+                });
 
                 return style;
+            },
+            posStyles() {
+                return {
+                    top: `${this.top}px`,
+                    left: `${this.left}px`,
+                };
             },
             localeOkText () {
                 if (this.okText === undefined) {
@@ -152,6 +172,17 @@
             }
         },
         methods: {
+            onDrag (event) {
+                if (!this.drag) return true;
+                this.left = event.clientX - this.last_left;
+                this.top = event.clientY - this.last_top;
+            },
+            onMouseDown (event) {
+                this.drag = true;
+                this.last_left = event.offsetX + 16;
+                this.last_top = event.offsetY + 16;
+                this.opacity = .8;
+            },
             close () {
                 this.visible = false;
                 this.$emit('input', false);

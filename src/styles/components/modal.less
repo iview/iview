@@ -3,10 +3,8 @@
 
 .@{modal-prefix-cls} {
     width: auto;
-    margin: 0 auto;
     position: relative;
     outline: none;
-    top: 100px;
 
     &-hidden {
         display: none !important;
@@ -22,6 +20,7 @@
         z-index: @zindex-modal;
         -webkit-overflow-scrolling: touch;
         outline: 0;
+        overflow: hidden;
     }
 
     &-wrap * {
@@ -31,6 +30,9 @@
 
     &-mask {
         .mask;
+    }
+    &-mask.active {
+        background-color: rgba(55, 55, 55, 0.5);
     }
 
     &-content {
@@ -42,7 +44,12 @@
     }
 
     &-header {
+        cursor: pointer;
         .content-header;
+    }
+
+    &-header &-header-inner {
+        cursor: default;
     }
 
     &-close {
