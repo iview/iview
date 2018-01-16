@@ -1,14 +1,6 @@
-import Vue from 'vue';
 import Picker from '../picker.vue';
-import DatePanel from '../panel/date.vue';
-import DateRangePanel from '../panel/date-range.vue';
-
-const getPanel = function (type) {
-    if (type === 'daterange' || type === 'datetimerange') {
-        return DateRangePanel;
-    }
-    return DatePanel;
-};
+import DatePickerPanel from '../panel/Date/date.vue';
+import RangeDatePickerPanel from '../panel/Date/date-range.vue';
 
 import { oneOf } from '../../../utils/assist';
 
@@ -21,19 +13,18 @@ export default {
             },
             default: 'date'
         },
-        value: {}
     },
-    watch: {
-        type(value){
-            const typeMap = {
-                year: 'year',
-                month: 'month',
-                date: 'day'
-            };
-            const validType = oneOf(value, Object.keys(typeMap));
-            if (validType) this.Panel.selectionMode = typeMap[value];
+    components: { DatePickerPanel, RangeDatePickerPanel },
+    computed: {
+        panel(){
+            const isRange =  this.type === 'daterange' || this.type === 'datetimerange';
+            return isRange ? 'RangeDatePickerPanel' : 'DatePickerPanel';
+        },
+        ownPickerProps(){
+            return {};
         }
     },
+/*
     created () {
         if (!this.currentValue) {
             if (this.type === 'daterange' || this.type === 'datetimerange') {
@@ -42,8 +33,6 @@ export default {
                 this.currentValue = '';
             }
         }
-
-        const panel = getPanel(this.type);
-        this.Panel = new Vue(panel);
     }
+*/
 };
