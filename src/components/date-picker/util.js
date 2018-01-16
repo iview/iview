@@ -14,6 +14,18 @@ export const toDate = function(date) {
     return _date;
 };
 
+export const clearHours = function (time) {
+    const cloneDate = new Date(time);
+    cloneDate.setHours(0, 0, 0, 0);
+    return cloneDate.getTime();
+};
+
+export const isInRange = (time, a, b) => {
+    if (!a || !b) return false;
+    const [start, end] = [a, b].sort();
+    return time >= start && time <= end;
+};
+
 export const formatDate = function(date, format) {
     date = toDate(date);
     if (!date) return '';
