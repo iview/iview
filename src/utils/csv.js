@@ -4,7 +4,7 @@
 */
 
 const newLine = '\r\n';
-const appendLine = (content, row, { separator, quoted }) => {
+const appendLine = (content, row, {separator, quoted}) => {
     const line = row.map(data => {
         if (!quoted) return data;
         // quote data

@@ -5,7 +5,7 @@ Notification.newInstance = properties => {
     const _props = properties || {};
 
     const Instance = new Vue({
-        render (h) {
+        render(h) {
             return h(Notification, {
                 props: _props
             });
@@ -17,16 +17,16 @@ Notification.newInstance = properties => {
     const notification = Instance.$children[0];
 
     return {
-        notice (noticeProps) {
+        notice(noticeProps) {
             notification.add(noticeProps);
         },
-        remove (name) {
+        remove(name) {
             notification.close(name);
         },
         component: notification,
-        destroy (element) {
+        destroy(element) {
             notification.closeAll();
-            setTimeout(function() {
+            setTimeout(function () {
                 document.body.removeChild(document.getElementsByClassName(element)[0]);
             }, 500);
         }

@@ -3,24 +3,24 @@ const datePrefixCls = 'ivu-date-picker';
 
 export default {
     methods: {
-        iconBtnCls (direction, type = '') {
+        iconBtnCls(direction, type = '') {
             return [
                 `${prefixCls}-icon-btn`,
                 `${datePrefixCls}-${direction}-btn`,
                 `${datePrefixCls}-${direction}-btn-arrow${type}`,
             ];
         },
-        handleShortcutClick (shortcut) {
+        handleShortcutClick(shortcut) {
             if (shortcut.value) this.$emit('on-pick', shortcut.value());
             if (shortcut.onClick) shortcut.onClick(this);
         },
-        handlePickClear () {
+        handlePickClear() {
             this.$emit('on-pick-clear');
         },
-        handlePickSuccess () {
+        handlePickSuccess() {
             this.$emit('on-pick-success');
         },
-        handlePickClick () {
+        handlePickClick() {
             this.$emit('on-pick-click');
         }
     }

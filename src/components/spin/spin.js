@@ -5,10 +5,8 @@ Spin.newInstance = properties => {
     const _props = properties || {};
 
     const Instance = new Vue({
-        data: Object.assign({}, _props, {
-
-        }),
-        render (h) {
+        data: Object.assign({}, _props, {}),
+        render(h) {
             let vnode = '';
             if (this.render) {
                 vnode = h(Spin, {
@@ -37,12 +35,12 @@ Spin.newInstance = properties => {
     const spin = Instance.$children[0];
 
     return {
-        show () {
+        show() {
             spin.visible = true;
         },
-        remove (cb) {
+        remove(cb) {
             spin.visible = false;
-            setTimeout(function() {
+            setTimeout(function () {
                 spin.$parent.$destroy();
                 document.body.removeChild(document.getElementsByClassName('ivu-spin-fullscreen')[0]);
                 cb();

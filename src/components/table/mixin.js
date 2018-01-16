@@ -1,6 +1,6 @@
 export default {
     methods: {
-        alignCls (column, row = {}) {
+        alignCls(column, row = {}) {
             let cellClassName = '';
             if (row.cellClassName && column.key && row.cellClassName[column.key]) {
                 cellClassName = row.cellClassName[column.key];
@@ -14,10 +14,10 @@ export default {
                 }
             ];
         },
-        isPopperShow (column) {
+        isPopperShow(column) {
             return column.filters && ((!this.fixed && !column.fixed) || (this.fixed === 'left' && column.fixed === 'left') || (this.fixed === 'right' && column.fixed === 'right'));
         },
-        setCellWidth (column, index, top) {
+        setCellWidth(column, index, top) {
             let width = '';
             if (column.width) {
                 width = column.width;

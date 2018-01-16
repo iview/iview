@@ -6,7 +6,7 @@ LoadingBar.newInstance = properties => {
 
     const Instance = new Vue({
         data: _props,
-        render (h) {
+        render(h) {
             return h(LoadingBar, {
                 props: _props
             });
@@ -18,7 +18,7 @@ LoadingBar.newInstance = properties => {
     const loading_bar = Instance.$children[0];
 
     return {
-        update (options) {
+        update(options) {
             if ('percent' in options) {
                 loading_bar.percent = options.percent;
             }
@@ -30,7 +30,7 @@ LoadingBar.newInstance = properties => {
             }
         },
         component: loading_bar,
-        destroy () {
+        destroy() {
             document.body.removeChild(document.getElementsByClassName('ivu-loading-bar')[0]);
         }
     };

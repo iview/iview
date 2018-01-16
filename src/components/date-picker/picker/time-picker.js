@@ -11,13 +11,13 @@ const getPanel = function (type) {
     return TimePanel;
 };
 
-import { oneOf } from '../../../utils/assist';
+import {oneOf} from '../../../utils/assist';
 
 export default {
     mixins: [Picker, Options],
     props: {
         type: {
-            validator (value) {
+            validator(value) {
                 return oneOf(value, ['time', 'timerange']);
             },
             default: 'time'
@@ -28,10 +28,10 @@ export default {
         },
         value: {}
     },
-    created () {
+    created() {
         if (!this.currentValue) {
             if (this.type === 'timerange') {
-                this.currentValue = ['',''];
+                this.currentValue = ['', ''];
             } else {
                 this.currentValue = '';
             }

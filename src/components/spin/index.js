@@ -2,7 +2,7 @@ import Spin from './spin.js';
 
 let spinInstance;
 
-function getSpinInstance (render = undefined) {
+function getSpinInstance(render = undefined) {
     spinInstance = spinInstance || Spin.newInstance({
         render: render
     });
@@ -10,9 +10,9 @@ function getSpinInstance (render = undefined) {
     return spinInstance;
 }
 
-function loading (options) {
+function loading(options) {
     const render = ('render' in options) ? options.render : undefined;
-    let instance  = getSpinInstance(render);
+    let instance = getSpinInstance(render);
 
     instance.show(options);
 }

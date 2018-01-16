@@ -10,13 +10,13 @@ const getPanel = function (type) {
     return DatePanel;
 };
 
-import { oneOf } from '../../../utils/assist';
+import {oneOf} from '../../../utils/assist';
 
 export default {
     mixins: [Picker],
     props: {
         type: {
-            validator (value) {
+            validator(value) {
                 return oneOf(value, ['year', 'month', 'date', 'daterange', 'datetime', 'datetimerange']);
             },
             default: 'date'
@@ -24,7 +24,7 @@ export default {
         value: {}
     },
     watch: {
-        type(value){
+        type(value) {
             const typeMap = {
                 year: 'year',
                 month: 'month',
@@ -34,10 +34,10 @@ export default {
             if (validType) this.Panel.selectionMode = typeMap[value];
         }
     },
-    created () {
+    created() {
         if (!this.currentValue) {
             if (this.type === 'daterange' || this.type === 'datetimerange') {
-                this.currentValue = ['',''];
+                this.currentValue = ['', ''];
             } else {
                 this.currentValue = '';
             }
