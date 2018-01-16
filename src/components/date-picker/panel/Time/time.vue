@@ -7,9 +7,9 @@
                     ref="timeSpinner"
                     :show-seconds="showSeconds"
                     :steps="steps"
-                    :hours="hours"
-                    :minutes="minutes"
-                    :seconds="seconds"
+                    :hours="date.getHours()"
+                    :minutes="date.getMinutes()"
+                    :seconds="date.getSeconds()"
                     :disabled-hours="disabledHours"
                     :disabled-minutes="disabledMinutes"
                     :disabled-seconds="disabledSeconds"
@@ -25,42 +25,45 @@
     </div>
 </template>
 <script>
-    import TimeSpinner from '../base/time-spinner.vue';
-    import Confirm from '../base/confirm.vue';
+    import TimeSpinner from '../../base/time-spinner.vue';
+    import Confirm from '../../base/confirm.vue';
+    import Options from '../../time-mixins';
 
-    import Mixin from './mixin';
-    import Locale from '../../../mixins/locale';
 
-    import { initTimeDate } from '../util';
+    import Mixin from '../panel-mixin';
+    import Locale from '../../../../mixins/locale';
+
+    import { initTimeDate } from '../../util';
 
     const prefixCls = 'ivu-picker-panel';
     const timePrefixCls = 'ivu-time-picker';
 
+    const capitalize = (str) => str[0].toUpperCase() + str.slice(1);
+
     export default {
-        name: 'TimePicker',
-        mixins: [ Mixin, Locale ],
+        name: 'TimePickerPanel',
+        mixins: [ Mixin, Locale, Options ],
         components: { TimeSpinner, Confirm },
         props: {
             steps: {
                 type: Array,
                 default: () => []
-            }
+            },
+            format: {
+                type: String,
+                default: 'HH:mm:ss'
+            },
+            value: {
+                type: Array,
+                required: true
+            },
         },
         data () {
             return {
                 prefixCls: prefixCls,
                 timePrefixCls: timePrefixCls,
-                date: initTimeDate(),
-                value: '',
+                date: this.value[0] || initTimeDate(),
                 showDate: false,
-                format: 'HH:mm:ss',
-                hours: '',
-                minutes: '',
-                seconds: '',
-                disabledHours: [],
-                disabledMinutes: [],
-                disabledSeconds: [],
-                hideDisabledOptions: false,
                 confirm: false
             };
         },
@@ -68,7 +71,7 @@
             showSeconds () {
                 return (this.format || '').indexOf('ss') !== -1;
             },
-            visibleDate () {
+            visibleDate () { // TODO
                 const date = this.date;
                 const month = date.getMonth() + 1;
                 const tYear = this.t('i.datepicker.year');
@@ -77,44 +80,22 @@
             }
         },
         watch: {
-            value (newVal) {
-                if (!newVal) return;
+            value (dates) {
+                let newVal = dates[0] || initTimeDate();
                 newVal = new Date(newVal);
-                if (!isNaN(newVal)) {
-                    this.date = newVal;
-                    this.handleChange({
-                        hours: newVal.getHours(),
-                        minutes: newVal.getMinutes(),
-                        seconds: newVal.getSeconds()
-                    }, false);
-                }
+                this.date = newVal;
             }
         },
         methods: {
-            handleClear() {
-                this.date = initTimeDate();
-                this.hours = '';
-                this.minutes = '';
-                this.seconds = '';
-            },
             handleChange (date, emit = true) {
-                if (date.hours !== undefined) {
-                    this.date.setHours(date.hours);
-                    this.hours = this.date.getHours();
-                }
-                if (date.minutes !== undefined) {
-                    this.date.setMinutes(date.minutes);
-                    this.minutes = this.date.getMinutes();
-                }
-                if (date.seconds !== undefined) {
-                    this.date.setSeconds(date.seconds);
-                    this.seconds = this.date.getSeconds();
-                }
-                if (emit) this.$emit('on-pick', this.date, true);
+
+                const newDate = new Date(this.date);
+                Object.keys(date).forEach(
+                    type => newDate[`set${capitalize(type)}`](date[type])
+                );
+
+                if (emit) this.$emit('on-pick', newDate, true);
             },
-            updateScroll () {
-                this.$refs.timeSpinner.updateScroll();
-            }
         },
         mounted () {
             if (this.$parent && this.$parent.$options.name === 'DatePicker') this.showDate = true;
