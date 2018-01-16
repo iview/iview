@@ -2,8 +2,10 @@
  * https://github.com/freeze-component/vue-popper
  * */
 import Vue from 'vue';
+
 const isServer = Vue.prototype.$isServer;
-const Popper = isServer ? function() {} : require('popper.js');  // eslint-disable-line
+const Popper = isServer ? function () {
+} : require('popper.js');  // eslint-disable-line
 
 export default {
     props: {
@@ -27,7 +29,7 @@ export default {
         transition: String,
         options: {
             type: Object,
-            default () {
+            default() {
                 return {
                     gpuAcceleration: false,
                     boundariesElement: 'body'    // todo 暂时注释，发现在 vue 2 里方向暂时可以自动识别了，待验证(还是有问题的)
@@ -39,7 +41,7 @@ export default {
         //     default: false
         // }
     },
-    data () {
+    data() {
         return {
             visible: this.value
         };

@@ -2,19 +2,19 @@ export default {
     props: {
         disabledHours: {
             type: Array,
-            default () {
+            default() {
                 return [];
             }
         },
         disabledMinutes: {
             type: Array,
-            default () {
+            default() {
                 return [];
             }
         },
         disabledSeconds: {
             type: Array,
-            default () {
+            default() {
                 return [];
             }
         },

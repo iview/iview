@@ -145,7 +145,7 @@ const iview = {
     iTable: Table
 };
 
-const install = function(Vue, opts = {}) {
+const install = function (Vue, opts = {}) {
     if (install.installed) return;
     locale.use(opts.locale);
     locale.i18n(opts.i18n);

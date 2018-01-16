@@ -1,8 +1,9 @@
 // used for Modal & $Spin
-import { getScrollBarSize } from '../../utils/assist';
+import {getScrollBarSize} from '../../utils/assist';
+
 export default {
     methods: {
-        checkScrollBar () {
+        checkScrollBar() {
             let fullWindowWidth = window.innerWidth;
             if (!fullWindowWidth) { // workaround for missing window.innerWidth in IE8
                 const documentElementRect = document.documentElement.getBoundingClientRect();
@@ -13,15 +14,15 @@ export default {
                 this.scrollBarWidth = getScrollBarSize();
             }
         },
-        setScrollBar () {
+        setScrollBar() {
             if (this.bodyIsOverflowing && this.scrollBarWidth !== undefined) {
                 document.body.style.paddingRight = `${this.scrollBarWidth}px`;
             }
         },
-        resetScrollBar () {
+        resetScrollBar() {
             document.body.style.paddingRight = '';
         },
-        addScrollEffect () {
+        addScrollEffect() {
             this.checkScrollBar();
             this.setScrollBar();
             document.body.style.overflow = 'hidden';

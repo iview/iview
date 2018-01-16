@@ -20,7 +20,7 @@ const iconTypes = {
     'loading': 'load-c'
 };
 
-function getMessageInstance () {
+function getMessageInstance() {
     messageInstance = messageInstance || Notification.newInstance({
         prefixCls: prefixCls,
         styles: {
@@ -31,7 +31,9 @@ function getMessageInstance () {
     return messageInstance;
 }
 
-function notice (content = '', duration = defaults.duration, type, onClose = function () {}, closable = false, render = function () {}) {
+function notice(content = '', duration = defaults.duration, type, onClose = function () {
+}, closable = false, render = function () {
+}) {
     const iconType = iconTypes[type];
 
     // if loading
@@ -69,22 +71,22 @@ function notice (content = '', duration = defaults.duration, type, onClose = fun
 export default {
     name: 'Message',
 
-    info (options) {
+    info(options) {
         return this.message('info', options);
     },
-    success (options) {
+    success(options) {
         return this.message('success', options);
     },
-    warning (options) {
+    warning(options) {
         return this.message('warning', options);
     },
-    error (options) {
+    error(options) {
         return this.message('error', options);
     },
-    loading (options) {
+    loading(options) {
         return this.message('loading', options);
     },
-    message(type, options){
+    message(type, options) {
         if (typeof options === 'string') {
             options = {
                 content: options
@@ -92,7 +94,7 @@ export default {
         }
         return notice(options.content, options.duration, type, options.onClose, options.closable, options.render);
     },
-    config (options) {
+    config(options) {
         if (options.top || options.top === 0) {
             defaults.top = options.top;
         }
@@ -100,7 +102,7 @@ export default {
             defaults.duration = options.duration;
         }
     },
-    destroy () {
+    destroy() {
         let instance = getMessageInstance();
         messageInstance = null;
         instance.destroy('ivu-message');

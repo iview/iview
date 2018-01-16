@@ -1,6 +1,6 @@
 // Thanks to https://github.com/ElemeFE/element/blob/dev/src/transitions/collapse-transition.js
 
-import { addClass, removeClass } from '../../utils/assist';
+import {addClass, removeClass} from '../../utils/assist';
 
 const Transition = {
     beforeEnter(el) {
@@ -69,7 +69,7 @@ const Transition = {
 export default {
     name: 'CollapseTransition',
     functional: true,
-    render(h, { children }) {
+    render(h, {children}) {
         const data = {
             on: Transition
         };
