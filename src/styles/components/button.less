@@ -4,6 +4,11 @@
     .btn;
     .btn-default;
 
+    &.@{btn-prefix-cls}-focused {
+        box-shadow: 0 0 2px @link-hover-color, 0 0 2px @link-hover-color, 0 0 2px @link-hover-color, 0 0 2px @link-hover-color;
+        z-index: 1;
+    }
+
     &-long{
         width: 100%;
     }
