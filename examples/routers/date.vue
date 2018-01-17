@@ -167,11 +167,16 @@
             <br>
             <Date-picker type="date" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 200px"></Date-picker> | Single date, format MM-dd HH:mm
             <br>
+            <Date-picker type="datetime" :start-date="minDate" v-model="singleDate" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single datetime, date object, start date
+            <br>
+
         </div>
         <div style="width: 50%; float: right;">
             <Date-picker type="datetimerange" :value="dateRange" placeholder="选择日期和时间" style="width: 300px"></Date-picker> | DateTimeRange, date objects
             <br>
             <Date-picker type="daterange" placeholder="选择日期和时间" style="width: 300px"></Date-picker> | Range, no dates
+            <br>
+            <Date-picker type="daterange" split-panels placeholder="选择日期和时间" style="width: 300px"></Date-picker> | Range, no dates, split panels
             <br>
             <Date-picker type="datetimerange" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 300px"></Date-picker> | DateTimeRange, format yyyy-MM-dd HH:mm
         </div>
@@ -183,10 +188,14 @@
 <script>
     export default {
         data(){
+            const now = new Date().getTime();
+            const oneMonth = 2592e6;
             return {
                 dateString: '2018-01-03 20:52:59',
                 singleDate: new Date(1978, 4, 10),
-                dateRange: [new Date(2010, 0, 1), new Date()]
+                dateRange: [new Date(2010, 4, 1), new Date()],
+                minDate: new Date(2010, 4, 1),
+                maxDate: new Date(now + oneMonth)
             }
         }
     }
