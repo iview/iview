@@ -21,9 +21,11 @@
                         :current-view="currentView"
                         :date-prefix-cls="datePrefixCls"></date-panel-label>
                     <span
+                        v-if="splitPanels"
                         :class="iconBtnCls('next', '-double')"
                         @click="nextYear('left')"><Icon type="ios-arrow-right"></Icon></span>
                     <span
+                        v-if="splitPanels"
                         :class="iconBtnCls('next')"
                         @click="nextMonth('left')"
                         v-show="currentView === 'date'"><Icon type="ios-arrow-right"></Icon></span>
@@ -45,9 +47,11 @@
             <div :class="[prefixCls + '-content', prefixCls + '-content-right']" v-show="!isTime">
                 <div :class="[datePrefixCls + '-header']" v-show="currentView !== 'time'">
                     <span
+                        v-if="splitPanels"
                         :class="iconBtnCls('prev', '-double')"
                         @click="prevYear('right')"><Icon type="ios-arrow-left"></Icon></span>
                     <span
+                        v-if="splitPanels"
                         :class="iconBtnCls('prev')"
                         @click="prevMonth('right')"
                         v-show="currentView === 'date'"><Icon type="ios-arrow-left"></Icon></span>
@@ -125,7 +129,11 @@
         mixins: [ Mixin, Locale, DateMixin ],
         components: { Icon, DateTable, YearTable, MonthTable, TimePicker, Confirm, datePanelLabel },
         props: {
-            // in the mixin
+            // more props in the mixin
+            splitPanels: {
+                type: Boolean,
+                default: false
+            },
         },
         data(){
             const [minDate, maxDate] = this.value.map(date => date || initTimeDate());

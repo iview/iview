@@ -40,6 +40,7 @@
                         :format="format"
                         :value="internalValue"
                         :start-date="startDate"
+                        :split-panels="splitPanels"
 
                         v-bind="ownPickerProps"
 
@@ -202,6 +203,10 @@
                 default: null
             },
             multiple: {
+                type: Boolean,
+                default: false
+            },
+            splitPanels: {
                 type: Boolean,
                 default: false
             },
