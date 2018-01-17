@@ -129,14 +129,16 @@
         },
         data(){
             const [minDate, maxDate] = this.value.map(date => date || initTimeDate());
+            const leftPanelDate = this.startDate ? this.startDate : minDate;
+
             return {
                 prefixCls: prefixCls,
                 datePrefixCls: datePrefixCls,
                 dates: this.value,
                 rangeState: {from: this.value[0], to: this.value[1], selecting: minDate && !maxDate},
                 currentView: this.selectionMode || 'range',
-                leftPanelDate: minDate,
-                rightPanelDate: new Date(minDate.getFullYear(), minDate.getMonth() + 1, minDate.getDate())
+                leftPanelDate: leftPanelDate,
+                rightPanelDate: new Date(leftPanelDate.getFullYear(), leftPanelDate.getMonth() + 1, leftPanelDate.getDate())
             };
         },
         computed: {

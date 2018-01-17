@@ -39,6 +39,7 @@
                         :steps="steps"
                         :format="format"
                         :value="internalValue"
+                        :start-date="startDate"
 
                         v-bind="ownPickerProps"
 
@@ -203,6 +204,9 @@
             multiple: {
                 type: Boolean,
                 default: false
+            },
+            startDate: {
+                type: Date
             },
             size: {
                 validator (value) {

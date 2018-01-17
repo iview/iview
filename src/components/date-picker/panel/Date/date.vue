@@ -97,7 +97,7 @@
                 datePrefixCls: datePrefixCls,
                 currentView: this.selectionMode || 'date',
                 dates: dates,
-                panelDate: dates[0] || new Date()
+                panelDate: this.startDate || dates[0] || new Date()
             };
         },
         computed: {

@@ -35,6 +35,9 @@ export default {
         value: {
             type: Array,
             default: () => [initTimeDate(), initTimeDate()]
+        },
+        startDate: {
+            type: Date
         }
     },
     computed: {
