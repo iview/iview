@@ -53,7 +53,7 @@
   },
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",
-    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^6.4.1",
     "babel-plugin-transform-runtime": "^6.12.0",
