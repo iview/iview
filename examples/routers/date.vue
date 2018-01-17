@@ -165,6 +165,8 @@
             <br>
             <Date-picker type="date" multiple style="width: 200px"></Date-picker> | Single date, multiple
             <br>
+            <Date-picker type="date" multiple style="width: 200px" show-week-numbers></Date-picker> | Single date, multiple, show week numbers
+            <br>
             <Date-picker type="date" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 200px"></Date-picker> | Single date, format MM-dd HH:mm
             <br>
             <Date-picker type="datetime" :start-date="minDate" v-model="singleDate" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single datetime, date object, start date

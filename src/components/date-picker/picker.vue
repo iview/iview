@@ -17,7 +17,9 @@
                     @on-click="handleIconClick"
                     @mouseenter.native="handleInputMouseenter"
                     @mouseleave.native="handleInputMouseleave"
-                    :icon="iconType"></i-input>
+
+                    :icon="iconType"
+                ></i-input>
             </slot>
         </div>
         <transition :name="transition">
@@ -41,6 +43,7 @@
                         :value="internalValue"
                         :start-date="startDate"
                         :split-panels="splitPanels"
+                        :show-week-numbers="showWeekNumbers"
 
                         v-bind="ownPickerProps"
 
@@ -207,6 +210,10 @@
                 default: false
             },
             splitPanels: {
+                type: Boolean,
+                default: false
+            },
+            showWeekNumbers: {
                 type: Boolean,
                 default: false
             },
@@ -423,8 +430,7 @@
             onPickSuccess(){
                 this.visible = false;
                 this.$emit('on-ok');
-            }
-
+            },
         },
         watch: {
             visible (state) {

@@ -36,6 +36,10 @@ export default {
             type: Array,
             default: () => [initTimeDate(), initTimeDate()]
         },
+        showWeekNumbers: {
+            type: Boolean,
+            default: false
+        },
         startDate: {
             type: Date
         }

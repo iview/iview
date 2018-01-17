@@ -33,6 +33,7 @@
                     ref="pickerTable"
                     v-if="currentView !== 'time'"
                     :table-date="panelDate"
+                    :show-week-numbers="showWeekNumbers"
                     :value="dates"
                     :selection-mode="selectionMode"
                     :disabled-date="disabledDate"

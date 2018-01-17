@@ -7,18 +7,19 @@
         </div>
         <span
                 :class="getCellCls(cell)"
-                v-for="cell in readCells"
+                v-for="(cell, i) in readCells"
+                :key="String(cell.date) + i"
                 @click="handleClick(cell)"
                 @mouseenter="handleMouseMove(cell)"
         >
-            <em>{{ cell.text }}</em>
+            <em>{{ cell.desc }}</em>
         </span>
     </div>
 </template>
 <script>
-    import { getFirstDayOfMonth, getDayCountOfMonth, clearHours, isInRange } from '../util';
-    import { deepCopy } from '../../../utils/assist';
+    import { clearHours, isInRange } from '../util';
     import Locale from '../../../mixins/locale';
+    import jsCalendar from 'js-calendar';
 
     import mixin from './mixin';
     import prefixCls from './prefixCls';
@@ -29,16 +30,25 @@
 
         props: {
             /* more props in mixin */
+            showWeekNumbers: {
+                type: Boolean,
+                default: false
+            },
         },
         data () {
+            const weekStartDay = Number(this.t('i.datepicker.weekStartDay'));
             return {
                 prefixCls: prefixCls,
+                calendar: new jsCalendar.Generator({onlyDays: !this.showWeekNumbers, weekStart: weekStartDay})
             };
         },
         computed: {
             classes () {
                 return [
-                    `${prefixCls}`
+                    `${prefixCls}`,
+                    {
+                        [`${prefixCls}-show-week-numbers`]: this.showWeekNumbers
+                    }
                 ];
             },
             headerDays () {
@@ -47,76 +57,32 @@
                     return this.t('i.datepicker.weeks.' + item);
                 });
                 const weekDays = translatedDays.splice(weekStartDay, 7 - weekStartDay).concat(translatedDays.splice(0, weekStartDay));
-                return weekDays;
+                return this.showWeekNumbers ? [''].concat(weekDays) : weekDays;
             },
             readCells () {
                 const tableYear = this.tableDate.getFullYear();
                 const tableMonth = this.tableDate.getMonth();
-                const date = new Date(tableYear, tableMonth, 1);
-                const weekStartDay = Number(this.t('i.datepicker.weekStartDay'));
-                const day = (getFirstDayOfMonth(date) || 7) - weekStartDay; // day of first day
                 const today = clearHours(new Date());    // timestamp of today
                 const selectedDays = this.dates.filter(Boolean).map(clearHours);    // timestamp of selected days
                 const [minDay, maxDay] = this.dates.map(clearHours);
                 const rangeStart = this.rangeState.from && clearHours(this.rangeState.from);
                 const rangeEnd = this.rangeState.to && clearHours(this.rangeState.to);
 
-                const dateCountOfMonth = getDayCountOfMonth(date.getFullYear(), date.getMonth());
-                const dateCountOfLastMonth = getDayCountOfMonth(date.getFullYear(), (date.getMonth() === 0 ? 11 : date.getMonth() - 1));
+                const isRange = this.selectionMode === 'range';
+                const disabledTestFn = typeof this.disabledDate === 'function' && this.disabledDate;
 
-                const disabledDate = this.disabledDate;
-
-                let cells = [];
-                const cell_tmpl = {
-                    text: '',
-                    type: '',
-                    date: null,
-                    selected: false,
-                    disabled: false,
-                    range: false,
-                    start: false,
-                    end: false
-                };
-                if (day !== 7) {
-                    for (let i = 0; i < day; i++) {
-                        const cell = deepCopy(cell_tmpl);
-                        cell.type = 'prev-month';
-                        cell.text = dateCountOfLastMonth - (day - 1) + i;
-                        cell.date = new Date(tableYear, tableMonth - 1, cell.text);
-                        const time = clearHours(cell.date);
-                        cell.disabled = typeof disabledDate === 'function' && disabledDate(new Date(time));
-                        cells.push(cell);
-                    }
-                }
-
-                for (let i = 1; i <= dateCountOfMonth; i++) {
-                    const cell = deepCopy(cell_tmpl);
-                    cell.text = i;
-                    cell.date = new Date(tableYear, tableMonth, cell.text);
-                    const time = clearHours(cell.date);
-                    cell.type = time === today ? 'today' : 'normal';
-                    cell.selected = selectedDays.includes(time);
-                    cell.disabled = typeof disabledDate === 'function' && disabledDate(new Date(time));
-                    if (this.selectionMode === 'range'){
-                        cell.range = isInRange(time, rangeStart, rangeEnd);
-                        cell.start = time === minDay;
-                        cell.end = time === maxDay;
-                    }
-                    cells.push(cell);
-                }
-
-                const nextMonthCount = 42 - cells.length;
-                for (let i = 1; i <= nextMonthCount; i++) {
-                    const cell = deepCopy(cell_tmpl);
-                    cell.type = 'next-month';
-                    cell.text = i;
-                    cell.date = new Date(tableYear, tableMonth + 1, cell.text);
-                    const time = clearHours(cell.date);
-                    cell.disabled = typeof disabledDate === 'function' && disabledDate(new Date(time));
-                    cells.push(cell);
-                }
-
-                return cells;
+                return this.calendar(tableYear, tableMonth, (cell) => {
+                    const time = cell.date && clearHours(cell.date);
+                    return {
+                        ...cell,
+                        type: time === today ? 'today' : cell.type,
+                        selected: selectedDays.includes(time),
+                        disabled: (cell.date && disabledTestFn) && disabledTestFn(new Date(time)),
+                        range: isRange && isInRange(time, rangeStart, rangeEnd),
+                        start: isRange && time === minDay,
+                        end: isRange && time === maxDay
+                    };
+                }).cells.slice(8);
             }
         },
         methods: {
@@ -127,8 +93,9 @@
                         [`${prefixCls}-cell-selected`]: cell.selected || cell.start || cell.end,
                         [`${prefixCls}-cell-disabled`]: cell.disabled,
                         [`${prefixCls}-cell-today`]: cell.type === 'today',
-                        [`${prefixCls}-cell-prev-month`]: cell.type === 'prev-month',
-                        [`${prefixCls}-cell-next-month`]: cell.type === 'next-month',
+                        [`${prefixCls}-cell-prev-month`]: cell.type === 'prevMonth',
+                        [`${prefixCls}-cell-next-month`]: cell.type === 'nextMonth',
+                        [`${prefixCls}-cell-week-label`]: cell.type === 'weekLabel',
                         [`${prefixCls}-cell-range`]: cell.range && !cell.start && !cell.end
                     }
                 ];
