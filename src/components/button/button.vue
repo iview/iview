@@ -1,5 +1,11 @@
 <template>
-    <button :type="htmlType" :class="classes" :disabled="disabled" @click="handleClick">
+    <button
+        :type="htmlType"
+        :class="classes"
+        :disabled="disabled"
+        @blur="handleBlur"
+        @click="handleClick"
+        @focus="handleFocus">
         <Icon class="ivu-load-loop" type="load-c" v-if="loading"></Icon>
         <Icon :type="icon" v-if="icon && !loading"></Icon>
         <span v-if="showSlot" ref="slot"><slot></slot></span>
@@ -46,6 +52,7 @@
         },
         data () {
             return {
+                isFocused: false,
                 showSlot: true
             };
         },
@@ -59,15 +66,22 @@
                         [`${prefixCls}-${this.shape}`]: !!this.shape,
                         [`${prefixCls}-${this.size}`]: !!this.size,
                         [`${prefixCls}-loading`]: this.loading != null && this.loading,
-                        [`${prefixCls}-icon-only`]: !this.showSlot && (!!this.icon || this.loading)
+                        [`${prefixCls}-icon-only`]: !this.showSlot && (!!this.icon || this.loading),
+                        [`${prefixCls}-focused`]: this.isFocused
                     }
                 ];
             }
         },
         methods: {
+            handleBlur () {
+                this.isFocused = false;
+            },
             handleClick (event) {
                 this.$emit('click', event);
-            }
+            },
+            handleFocus () {
+                this.isFocused = true;
+            },
         },
         mounted () {
             this.showSlot = this.$slots.default !== undefined;
