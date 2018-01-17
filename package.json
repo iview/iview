@@ -41,7 +41,6 @@
   },
   "dependencies": {
     "async-validator": "^1.8.2",
-    "core-js": "^2.5.3",
     "deepmerge": "^1.5.2",
     "element-resize-detector": "^1.1.12",
     "lodash.throttle": "^4.1.1",
