@@ -186,6 +186,7 @@
     &.active {
         .button-color(shade(@primary-color, 5%); white; shade(@primary-color, 5%));
     }
+    .active-btn-color(@primary-color);
 }
 
 // Primary
@@ -198,6 +199,7 @@
     &.active {
         color: @btn-primary-color;
     }
+    .active-btn-color(@primary-color);
 }
 
 // Ghost
@@ -213,6 +215,7 @@
     &.active {
         .button-color(shade(@primary-color, 5%); @btn-ghost-bg; shade(@primary-color, 5%));
     }
+    .active-btn-color(@primary-color);
 }
 
 // Dashed
@@ -229,6 +232,7 @@
     &.active {
         .button-color(shade(@primary-color, 5%); @btn-ghost-bg; shade(@primary-color, 5%));
     }
+    .active-btn-color(@primary-color);
 }
 
 // Text
@@ -257,9 +261,19 @@
     &.active {
         .button-color(shade(@primary-color, 5%); @btn-ghost-bg; transparent);
     }
+    .active-btn-color(@primary-color);
 }
 
 // Color
+// for tabindex
+.active-btn-color(@color) {
+    transition: all @transition-time @ease-in-out;
+    &.@{btn-prefix-cls}-focused {
+
+        box-shadow: 0 0 0 2px fade(@color, 20%);
+        z-index: 1;
+    }
+}
 .btn-color(@color) {
     .button-variant(@btn-primary-color; @color; @color);
 
@@ -269,6 +283,8 @@
     &.active {
         color: @btn-primary-color;
     }
+
+    .active-btn-color(@color);
 }
 
 // Circle for Icon
