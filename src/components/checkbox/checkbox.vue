@@ -8,22 +8,26 @@
             <input
                 v-if="group"
                 type="checkbox"
-                 tabindex="-1"
+                tabindex="-1"
                 :class="inputClasses"
                 :disabled="disabled"
                 :value="label"
                 v-model="model"
                 :name="name"
-                @change="change">
+                @change="change"
+                @focus="$el.focus()"
+            >
             <input
                 v-if="!group"
                 type="checkbox"
-                 tabindex="-1"
+                tabindex="-1"
                 :class="inputClasses"
                 :disabled="disabled"
                 :checked="currentValue"
                 :name="name"
-                @change="change">
+                @change="change"
+                @focus="$el.focus()"
+            >
         </span>
         <slot><span v-if="showSlot">{{ label }}</span></slot>
     </label>
@@ -120,7 +124,6 @@
         },
         methods: {
             change (event) {
-                console.log(event);
                 if (this.disabled) {
                     return false;
                 }
