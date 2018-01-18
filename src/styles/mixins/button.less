@@ -135,7 +135,7 @@
     .button-size(@btn-padding-base; @btn-font-size; @btn-border-radius);
     //transform: translate3d(0, 0, 0);
     //transition: all @transition-time linear;
-    transition: color @transition-time linear, background-color @transition-time linear, border @transition-time linear;
+    transition: color @transition-time linear, background-color @transition-time linear, border @transition-time linear, box-shadow @transition-time linear;
 
     > .@{css-prefix-iconfont} {
         line-height: 1;
@@ -267,9 +267,7 @@
 // Color
 // for tabindex
 .active-btn-color(@color) {
-    transition: all @transition-time @ease-in-out;
-    &.@{btn-prefix-cls}-focused {
-
+    &:focus {
         box-shadow: 0 0 0 2px fade(@color, 20%);
         z-index: 1;
     }
