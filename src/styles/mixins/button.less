@@ -153,7 +153,7 @@
 
     &:not([disabled]):active {
         outline: 0;
-        transition: none;
+        // transition: none;  // 如果不注释此行，那么active会和focus同时触发，此时focus的开始动画transition会无效
     }
 
     &.disabled,
