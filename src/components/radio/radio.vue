@@ -1,9 +1,10 @@
 <template>
-    <label :class="wrapClasses">
+    <label :class="wrapClasses" :tabindex="disabled ? -1 : 0">
         <span :class="radioClasses">
             <span :class="innerClasses"></span>
             <input
                 type="radio"
+                tabindex="-1"
                 :class="inputClasses"
                 :disabled="disabled"
                 :checked="currentValue"
