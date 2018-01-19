@@ -21,18 +21,7 @@ export default {
             return isRange ? 'RangeDatePickerPanel' : 'DatePickerPanel';
         },
         ownPickerProps(){
-            return {};
+            return this.options;
         }
     },
-/*
-    created () {
-        if (!this.currentValue) {
-            if (this.type === 'daterange' || this.type === 'datetimerange') {
-                this.currentValue = ['',''];
-            } else {
-                this.currentValue = '';
-            }
-        }
-    }
-*/
 };

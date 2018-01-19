@@ -3,6 +3,7 @@
         <div ref="reference" :class="[prefixCls + '-rel']">
             <slot>
                 <i-input
+                    :key="forceInputRerender"
                     :element-id="elementId"
                     :class="[prefixCls + '-editor']"
                     :readonly="!editable || readonly"
@@ -264,6 +265,10 @@
                         return val === '' || val === null || !isNaN(date.getTime());
                     }
                 }
+            },
+            options: {
+                type: Object,
+                default: () => ({})
             }
         },
         data(){
@@ -274,7 +279,8 @@
                 internalValue: this.parseDate(this.value),
                 disableClickOutSide: false,    // fixed when click a date,trigger clickoutside to close picker
                 disableCloseUnderTransfer: false,  // transfer 模式下，点击Drop也会触发关闭,
-                selectionMode: this.onSelectionModeChange(this.type)
+                selectionMode: this.onSelectionModeChange(this.type),
+                forceInputRerender: 1
             };
         },
         computed: {
@@ -287,7 +293,6 @@
                     return (isRange || this.multiple) ? val : val[0];
                 }
             },
-
             opened () {
                 return this.open === null ? this.visible : this.open;
             },
@@ -341,12 +346,21 @@
                 this.visible = false;
             },
             handleInputChange (event) {
+                const isArrayValue = this.type.includes('range') || this.multiple;
                 const oldValue = this.visualValue;
                 const newValue = event.target.value;
+                const newDate = this.parseDate(newValue);
+                const disabledDateFn =
+                    this.options &&
+                    typeof this.options.disabledDate === 'function' &&
+                    this.options.disabledDate;
+                const valueToTest = isArrayValue ? newDate : newDate[0];
 
-                if (newValue !== oldValue) {
+                if (newValue !== oldValue && !disabledDateFn(valueToTest)) {
                     this.emitChange();
-                    this.internalValue = this.parseDate(newValue);
+                    this.internalValue = newDate;
+                } else {
+                    this.forceInputRerender++;
                 }
             },
             handleInputMouseenter () {
@@ -393,7 +407,7 @@
 
                 if (val && type === 'time' && !(val instanceof Date)) {
                     val = parser(val, this.format || DEFAULT_FORMATS[type]);
-                } else if (type.match(/range$/)) {
+                } else if (isRange) {
                     if (!val){
                         val = [null, null];
                     } else {
@@ -403,8 +417,7 @@
                 } else if (typeof val === 'string' && type.indexOf('time') !== 0){
                     val = parser(val, this.format || DEFAULT_FORMATS[type]) || val;
                 }
-
-                return isRange ? val : [val];
+                return (isRange || this.multiple) ? val : [val];
             },
             formatDate(value){
                 const {formatter} = (
