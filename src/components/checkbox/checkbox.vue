@@ -120,7 +120,6 @@
         },
         methods: {
             change (event) {
-                console.log(event);
                 if (this.disabled) {
                     return false;
                 }
