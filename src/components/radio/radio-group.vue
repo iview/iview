@@ -1,5 +1,11 @@
 <template>
-    <div :class="classes">
+    <div
+        :class="classes" tabindex="0"
+        @keydown.left="onLeft"
+        @keydown.right="onRight"
+        @keydown.up="onUp"
+        @keydown.down="onDown"
+        @keydown.tab="onTab">
         <slot></slot>
     </div>
 </template>
@@ -35,7 +41,8 @@
         data () {
             return {
                 currentValue: this.value,
-                childrens: []
+                childrens: [],
+                preventDefaultTab: true
             };
         },
         computed: {
@@ -72,7 +79,52 @@
                 this.$emit('input', data.value);
                 this.$emit('on-change', data.value);
                 this.dispatch('FormItem', 'on-form-change', data.value);
-            }
+            },
+            findRadio(value) {
+                return this.childrens && this.childrens.length ? this.childrens.find((child) => child.value === value) : undefined;
+            },
+            findIndexRadio(value) {
+                return this.childrens && this.childrens.length ? this.childrens.findIndex((child) => child.value === value) : -1;
+            },
+            includesRadio(value) {
+                return this.childrens && this.childrens.length ? this.childrens.includes((child) => child.value === value) : false;
+            },
+            nextRadio() {
+              if (this.includesRadio(this.currentValue)) {
+                console.log('get next');
+              } else {
+                return this.childrens && this.childrens.length ? this.childrens[0] : undefined;
+              }
+            },
+            onLeft() {
+                console.log('left', this.currentValue);
+            },
+            onRight() {
+                console.log('right', this.currentValue);
+            },
+            onUp() {
+                console.log('up', this.currentValue);
+            },
+            onDown() {
+                console.log('down', this.currentValue);
+            },
+            onTab(event) {
+                if (!this.preventDefaultTab) {
+                    return;
+                }
+
+                event.preventDefault();
+                this.preventDefaultTab = false;
+                this.currentValue = this.nextRadio();
+                if (this.currentValue) {
+                    this.change({
+                        value: this.currentValue.label
+                    });
+                }
+
+                console.log('tab', this);
+
+            },
         },
         watch: {
             value () {

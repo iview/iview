@@ -1,8 +1,7 @@
 <template>
     <label
         :class="wrapClasses"
-        :tabindex="disabled ? -1 : 0"
-        @keyup.space="change">
+        :tabindex="disabled || group ? -1 : 0">
         <span :class="radioClasses">
             <span :class="innerClasses"></span>
             <input

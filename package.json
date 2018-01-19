@@ -48,7 +48,7 @@
     "tinycolor2": "^1.4.1"
   },
   "peerDependencies": {
-    "vue": "^2.5.2"
+    "vue": "^2.5.13"
   },
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",
