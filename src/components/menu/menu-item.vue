@@ -3,12 +3,13 @@
 </template>
 <script>
     import Emitter from '../../mixins/emitter';
-    import { findComponentUpward, findComponentsUpward } from '../../utils/assist';
+    import { findComponentUpward } from '../../utils/assist';
     const prefixCls = 'ivu-menu';
+    import mixin from './mixin';
 
     export default {
         name: 'MenuItem',
-        mixins: [ Emitter ],
+        mixins: [ Emitter, mixin ],
         props: {
             name: {
                 type: [String, Number],
@@ -34,9 +35,6 @@
                         [`${prefixCls}-item-disabled`]: this.disabled
                     }
                 ];
-            },
-            parentSubmenuNum () {
-                return findComponentsUpward(this, 'Submenu').length;
             },
             itemStyle () {
                 return this.hasParentSubmenu ? {

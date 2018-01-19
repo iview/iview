@@ -21,14 +21,15 @@
     import Drop from '../select/dropdown.vue';
     import Icon from '../icon/icon.vue';
     import CollapseTransition from '../base/collapse-transition';
-    import { getStyle, findComponentUpward, findComponentsUpward, findComponentsDownward } from '../../utils/assist';
+    import { getStyle, findComponentUpward, findComponentsDownward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
+    import mixin from './mixin';
 
     const prefixCls = 'ivu-menu';
 
     export default {
         name: 'Submenu',
-        mixins: [ Emitter ],
+        mixins: [ Emitter, mixin ],
         components: { Icon, Drop, CollapseTransition },
         props: {
             name: {
@@ -76,9 +77,6 @@
             },
             hasParentSubmenu () {
                 return findComponentUpward(this, 'Submenu');
-            },
-            parentSubmenuNum () {
-                return findComponentsUpward(this, 'Submenu').length;
             },
             titleStyle () {
                 return this.hasParentSubmenu ? {
