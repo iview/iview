@@ -145,7 +145,11 @@
         },
         methods: {
             changeYear(dir){
-                this.panelDate = siblingMonth(this.panelDate, dir * 12);
+                if (this.selectionMode === 'year'){
+                    this.panelDate = new Date(this.panelDate.getFullYear() + dir * 10, 0, 1);
+                } else {
+                    this.panelDate = siblingMonth(this.panelDate, dir * 12);
+                }
             },
             changeMonth(dir){
                 this.panelDate = siblingMonth(this.panelDate, dir);

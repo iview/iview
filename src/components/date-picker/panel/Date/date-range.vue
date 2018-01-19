@@ -218,30 +218,44 @@
                     labels: labels.map(obj => ((obj.handler = handler(obj.type)), obj))
                 };
             },
-            prevYear (direction) {
-                this.changePanelDate(direction, 'FullYear', -1);
+            prevYear (panel) {
+                console.log(this)
+                const increment = this.currentView === 'year' ? -10 : -1;
+                this.changePanelDate(panel, 'FullYear', increment);
             },
-            nextYear (direction) {
-                this.changePanelDate(direction, 'FullYear', 1);
+            nextYear (panel) {
+                const increment = this.currentView === 'year' ? 10 : 1;
+                this.changePanelDate(panel, 'FullYear', increment);
             },
-            prevMonth(direction){
-                this.changePanelDate(direction, 'Month', -1);
+            prevMonth(panel){
+                this.changePanelDate(panel, 'Month', -1);
             },
-            nextMonth(direction){
-                this.changePanelDate(direction, 'Month', 1);
+            nextMonth(panel){
+                this.changePanelDate(panel, 'Month', 1);
             },
             changePanelDate(panel, type, increment){
                 const current = new Date(this[`${panel}PanelDate`]);
                 current[`set${type}`](current[`get${type}`]() + increment);
                 this[`${panel}PanelDate`] = current;
 
-                // change other panels if they overlap
-                const otherPanel = panel === 'left' ? 'right' : 'left';
-                if (panel === 'left' && this.leftPanelDate >= this.rightPanelDate){
-                    this.changePanelDate(otherPanel, type, 1);
-                }
-                if (panel === 'right' && this.rightPanelDate <= this.leftPanelDate){
-                    this.changePanelDate(otherPanel, type, -1);
+
+                if (this.splitPanels){
+                    // change other panel if dates overlap
+                    const otherPanel = panel === 'left' ? 'right' : 'left';
+                    if (panel === 'left' && this.leftPanelDate >= this.rightPanelDate){
+                        this.changePanelDate(otherPanel, type, 1);
+                    }
+                    if (panel === 'right' && this.rightPanelDate <= this.leftPanelDate){
+                        this.changePanelDate(otherPanel, type, -1);
+                    }
+                } else {
+                    // keep the panels together
+                    const otherPanel = panel === 'left' ? 'right' : 'left';
+                    const otherCurrent = new Date(this[`${otherPanel}PanelDate`]);
+                    otherCurrent[`set${type}`](otherCurrent[`get${type}`]() + increment);
+                    if (current[`get${type}`]() !== otherCurrent[`get${type}`]()){
+                        this[`${otherPanel}PanelDate`] = otherCurrent;
+                    }
                 }
             },
             showYearPicker () {
