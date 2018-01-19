@@ -61,7 +61,7 @@
 
                 if (this.childrens) {
                     this.childrens.forEach(child => {
-                        child.currentValue = value == child.label;
+                        child.currentValue = value === child.label;
                         child.group = true;
                     });
                 }

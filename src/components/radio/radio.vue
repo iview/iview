@@ -13,6 +13,7 @@
                 :checked="currentValue"
                 :name="name"
                 @change="change"
+                @focus="$el.focus()"
             >
         </span><slot>{{ label }}</slot>
     </label>
