@@ -32,6 +32,7 @@
     &:focus {
         & .@{radio-inner-prefix-cls} {
             box-shadow: 0 0 0 2px fade(@primary-color, 20%);
+            z-index: 1;
         }
     }
 }
@@ -183,7 +184,7 @@ span.@{radio-prefix-cls} + * {
         transition: all @transition-time ease-in-out;
         cursor: pointer;
         border: 1px solid @border-color-base;
-        border-left: 0;
+        //border-left: 0;
         background: #fff;
 
         > span {
@@ -227,6 +228,7 @@ span.@{radio-prefix-cls} + * {
 
         &:focus {
             box-shadow: 0 0 0 2px fade(@primary-color, 20%);
+            z-index: 1;
         }
 
         .@{radio-prefix-cls}-inner,
@@ -240,7 +242,7 @@ span.@{radio-prefix-cls} + * {
             background: #fff;
             border-color: @primary-color;
             color: @primary-color;
-            box-shadow: -1px 0 0 0 @primary-color;
+            //box-shadow: -1px 0 0 0 @primary-color;
 
             &:first-child {
                 border-color: @primary-color;
@@ -249,7 +251,7 @@ span.@{radio-prefix-cls} + * {
 
             &:hover {
                 border-color: tint(@primary-color, 20%);
-                box-shadow: -1px 0 0 0 tint(@primary-color, 20%);
+                //box-shadow: -1px 0 0 0 tint(@primary-color, 20%);
                 color: tint(@primary-color, 20%);
             }
 
@@ -259,7 +261,7 @@ span.@{radio-prefix-cls} + * {
 
             &:active {
                 border-color: shade(@primary-color, 5%);
-                box-shadow: -1px 0 0 0 shade(@primary-color, 5%);
+                //box-shadow: -1px 0 0 0 shade(@primary-color, 5%);
                 color: shade(@primary-color, 5%);
             }
         }
