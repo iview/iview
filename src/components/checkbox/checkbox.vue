@@ -2,7 +2,7 @@
     <label 
         :class="wrapClasses" 
         @keydown.space.prevent="$el.click()"
-        tabindex="0">
+        :tabindex="disabled ? -1 : 0">
         <span :class="checkboxClasses">
             <span :class="innerClasses"></span>
             <input
