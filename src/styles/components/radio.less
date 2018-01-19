@@ -16,7 +16,7 @@
     }
 }
 
-// 普通状态
+// 普通状态 - Normal state
 .@{radio-prefix-cls}-wrapper {
     font-size: @font-size-small;
     vertical-align: middle;
@@ -27,6 +27,12 @@
     cursor: pointer;
     &-disabled{
         cursor: @cursor-disabled;
+    }
+    outline: 0;
+    &:focus {
+        & .@{radio-inner-prefix-cls} {
+            box-shadow: 0 0 0 2px fade(@primary-color, 20%);
+        }
     }
 }
 
@@ -110,7 +116,7 @@
     }
 }
 
-// 选中状态
+// 选中状态 - Selected state
 .@{radio-prefix-cls}-checked {
     .@{radio-inner-prefix-cls} {
         border-color: @primary-color;
@@ -156,7 +162,7 @@ span.@{radio-prefix-cls} + * {
     margin-right: 2px;
 }
 
-// 按钮样式
+// 按钮样式 - Button style
 .@{radio-group-button-prefix-cls} {
     font-size: 0;
     -webkit-text-size-adjust:none;
@@ -214,6 +220,13 @@ span.@{radio-prefix-cls} + * {
         &:hover {
             position: relative;
             color: @primary-color;
+            & .@{radio-prefix-cls} {
+                background-color: black;
+            }
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 2px fade(@primary-color, 20%);
         }
 
         .@{radio-prefix-cls}-inner,
@@ -238,6 +251,10 @@ span.@{radio-prefix-cls} + * {
                 border-color: tint(@primary-color, 20%);
                 box-shadow: -1px 0 0 0 tint(@primary-color, 20%);
                 color: tint(@primary-color, 20%);
+            }
+
+            &:focus {
+                box-shadow: 0 0 0 2px fade(@primary-color, 20%)!important;
             }
 
             &:active {
@@ -291,3 +308,4 @@ span.@{radio-prefix-cls} + * {
         border-radius: 0 @btn-border-radius-small @btn-border-radius-small 0;
     }
 }
+

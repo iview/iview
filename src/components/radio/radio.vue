@@ -1,14 +1,19 @@
 <template>
-    <label :class="wrapClasses">
+    <label
+        :class="wrapClasses"
+        :tabindex="disabled ? -1 : 0"
+        @keyup.space="change">
         <span :class="radioClasses">
             <span :class="innerClasses"></span>
             <input
                 type="radio"
+                tabindex="-1"
                 :class="inputClasses"
                 :disabled="disabled"
                 :checked="currentValue"
                 :name="name"
-                @change="change">
+                @change="change"
+            >
         </span><slot>{{ label }}</slot>
     </label>
 </template>
