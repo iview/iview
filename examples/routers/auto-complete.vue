@@ -1,6 +1,6 @@
 <template>
     <div style="margin: 100px;width: 200px;">
-        <AutoComplete transfer v-model="value" icon="ios-search" :data="data" @on-search="handleSearch" @on-change="hc" :filter-method="fm">
+        <AutoComplete placement="top" transfer v-model="value" icon="ios-search" :data="data" @on-search="handleSearch" @on-change="hc" :filter-method="fm">
             <!--<Option v-for="item in data" :value="item" :label="item" :key="item">-->
                 <!--<span style="color: red">{{ item }}</span>-->
             <!--</Option>-->
