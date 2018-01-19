@@ -236,6 +236,14 @@
         font-size: @font-size-small;
         display: inline-block;
         margin-right: 8px;
+        outline: 0;
+        &:focus,
+        &:active {
+            & .@{checkbox-prefix-cls}-inner {
+                box-shadow: 0 0 0 2px fade(@primary-color, 20%);
+            }
+        }
+
         &-disabled{
             cursor: @cursor-disabled;
         }

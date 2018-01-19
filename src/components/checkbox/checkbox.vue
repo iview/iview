@@ -1,10 +1,14 @@
 <template>
-    <label :class="wrapClasses">
+    <label 
+        :class="wrapClasses" 
+        @keydown.space.prevent="$el.click()"
+        tabindex="0">
         <span :class="checkboxClasses">
             <span :class="innerClasses"></span>
             <input
                 v-if="group"
                 type="checkbox"
+                 tabindex="-1"
                 :class="inputClasses"
                 :disabled="disabled"
                 :value="label"
@@ -14,6 +18,7 @@
             <input
                 v-if="!group"
                 type="checkbox"
+                 tabindex="-1"
                 :class="inputClasses"
                 :disabled="disabled"
                 :checked="currentValue"
