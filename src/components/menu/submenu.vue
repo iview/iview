@@ -75,9 +75,6 @@
                 if (this.dropWidth) style.minWidth = `${this.dropWidth}px`;
                 return style;
             },
-            hasParentSubmenu () {
-                return findComponentUpward(this, 'Submenu');
-            },
             titleStyle () {
                 return this.hasParentSubmenu ? {
                     paddingLeft: 43 + (this.parentSubmenuNum - 1) * 24 + 'px'

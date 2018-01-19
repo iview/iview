@@ -40,9 +40,6 @@
                 return this.hasParentSubmenu ? {
                     paddingLeft: 43 + (this.parentSubmenuNum - 1) * 24 + 'px'
                 } : {};
-            },
-            hasParentSubmenu () {
-                return findComponentUpward(this, 'Submenu');
             }
         },
         methods: {
