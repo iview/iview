@@ -67,111 +67,10 @@
     import clickoutside from '../../directives/clickoutside';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
-    import { formatDate, parseDate } from './util';
+    import { DEFAULT_FORMATS, TYPE_VALUE_RESOLVER_MAP } from './util';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-date-picker';
-
-    const DEFAULT_FORMATS = {
-        date: 'yyyy-MM-dd',
-        month: 'yyyy-MM',
-        year: 'yyyy',
-        datetime: 'yyyy-MM-dd HH:mm:ss',
-        time: 'HH:mm:ss',
-        timerange: 'HH:mm:ss',
-        daterange: 'yyyy-MM-dd',
-        datetimerange: 'yyyy-MM-dd HH:mm:ss'
-    };
-
-    const RANGE_SEPARATOR = ' - ';
-
-    const DATE_FORMATTER = function(value, format) {
-        return formatDate(value, format);
-    };
-    const DATE_PARSER = function(text, format) {
-        return parseDate(text, format);
-    };
-    const RANGE_FORMATTER = function(value, format) {
-        if (Array.isArray(value) && value.length === 2) {
-            const start = value[0];
-            const end = value[1];
-
-            if (start && end) {
-                return formatDate(start, format) + RANGE_SEPARATOR + formatDate(end, format);
-            }
-        }
-        return '';
-    };
-    const RANGE_PARSER = function(text, format) {
-        const array = text.split(RANGE_SEPARATOR);
-        if (array.length === 2) {
-            const range1 = array[0];
-            const range2 = array[1];
-
-            return [parseDate(range1, format), parseDate(range2, format)];
-        }
-        return [];
-    };
-
-    const TYPE_VALUE_RESOLVER_MAP = {
-        default: {
-            formatter(value) {
-                if (!value) return '';
-                return '' + value;
-            },
-            parser(text) {
-                if (text === undefined || text === '') return null;
-                return text;
-            }
-        },
-        date: {
-            formatter: DATE_FORMATTER,
-            parser: DATE_PARSER
-        },
-        datetime: {
-            formatter: DATE_FORMATTER,
-            parser: DATE_PARSER
-        },
-        daterange: {
-            formatter: RANGE_FORMATTER,
-            parser: RANGE_PARSER
-        },
-        datetimerange: {
-            formatter: RANGE_FORMATTER,
-            parser: RANGE_PARSER
-        },
-        timerange: {
-            formatter: RANGE_FORMATTER,
-            parser: RANGE_PARSER
-        },
-        time: {
-            formatter: DATE_FORMATTER,
-            parser: DATE_PARSER
-        },
-        month: {
-            formatter: DATE_FORMATTER,
-            parser: DATE_PARSER
-        },
-        year: {
-            formatter: DATE_FORMATTER,
-            parser: DATE_PARSER
-        },
-        number: {
-            formatter(value) {
-                if (!value) return '';
-                return '' + value;
-            },
-            parser(text) {
-                let result = Number(text);
-
-                if (!isNaN(text)) {
-                    return result;
-                } else {
-                    return null;
-                }
-            }
-        }
-    };
 
     export default {
         name: 'CalendarPicker',
@@ -307,11 +206,7 @@
                 return bottomPlaced ? 'slide-up' : 'slide-down';
             },
             visualValue() {
-                const value = this.internalValue;
-                if (!value) return;
-
-                if (this.multiple) return value.map(date => this.formatDate(date)).join(', ');
-                return this.formatDate(value);
+                return this.formatDate(this.internalValue);
             },
             isConfirm(){
                 return this.confirm || this.type === 'datetime' || this.type === 'datetimerange' || this.multiple;
@@ -355,8 +250,9 @@
                     typeof this.options.disabledDate === 'function' &&
                     this.options.disabledDate;
                 const valueToTest = isArrayValue ? newDate : newDate[0];
+                const isDisabled = disabledDateFn && disabledDateFn(valueToTest)
 
-                if (newValue !== oldValue && !disabledDateFn(valueToTest)) {
+                if (newValue !== oldValue && !isDisabled) {
                     this.emitChange();
                     this.internalValue = newDate;
                 } else {
@@ -404,9 +300,13 @@
                     TYPE_VALUE_RESOLVER_MAP[type] ||
                     TYPE_VALUE_RESOLVER_MAP['default']
                 ).parser;
+                const format = this.format || DEFAULT_FORMATS[type];
+                const multipleParser = TYPE_VALUE_RESOLVER_MAP['multiple'].parser;
 
                 if (val && type === 'time' && !(val instanceof Date)) {
-                    val = parser(val, this.format || DEFAULT_FORMATS[type]);
+                    val = parser(val, format);
+                } else if (this.multiple && val) {
+                    val = multipleParser(val, format);
                 } else if (isRange) {
                     if (!val){
                         val = [null, null];
@@ -415,17 +315,24 @@
                         val = val.map(date => isNaN(date.getTime()) ? null : date); // check if parse passed
                     }
                 } else if (typeof val === 'string' && type.indexOf('time') !== 0){
-                    val = parser(val, this.format || DEFAULT_FORMATS[type]) || val;
+                    val = parser(val, format) || val;
                 }
-                return (isRange || this.multiple) ? val : [val];
+
+                return (isRange || this.multiple) ? (val || []) : [val];
             },
             formatDate(value){
-                const {formatter} = (
-                    TYPE_VALUE_RESOLVER_MAP[this.type] ||
-                    TYPE_VALUE_RESOLVER_MAP['default']
-                );
                 const format = DEFAULT_FORMATS[this.type];
-                return formatter(value, this.format || format);
+
+                if (this.multiple) {
+                    const formatter = TYPE_VALUE_RESOLVER_MAP.multiple.formatter;
+                    return formatter(value, this.format || format);
+                } else {
+                    const {formatter} = (
+                        TYPE_VALUE_RESOLVER_MAP[this.type] ||
+                        TYPE_VALUE_RESOLVER_MAP['default']
+                    );
+                    return formatter(value, this.format || format);
+                }
             },
             onPick(dates, visible = false) {
 
