@@ -265,8 +265,12 @@
         },
         computed: {
             publicValue(){
-                const isRange = this.type.includes('range');
-                return isRange ? this.formatDate(this.internalValue) : this.formatDate(this.internalValue[0]);
+                if (this.multiple){
+                    return this.internalValue.map(date => this.formatDate(date));
+                } else {
+                    const isRange = this.type.includes('range');
+                    return isRange ? this.formatDate(this.internalValue) : this.formatDate(this.internalValue[0]);
+                }
             },
 
             opened () {
@@ -284,8 +288,10 @@
             },
             visualValue() {
                 const value = this.internalValue;
-
                 if (!value) return;
+
+                if (this.multiple) return value.map(date => this.formatDate(date)).join(', ');
+
                 const formatter = (
                     TYPE_VALUE_RESOLVER_MAP[this.type] ||
                     TYPE_VALUE_RESOLVER_MAP['default']
@@ -294,7 +300,7 @@
                 return formatter(value, this.format || format);
             },
             isConfirm(){
-                return this.confirm || this.type === 'datetime' || this.type === 'datetimerange';
+                return this.confirm || this.type === 'datetime' || this.type === 'datetimerange' || this.multiple;
             }
         },
         methods: {
@@ -393,8 +399,10 @@
             },
             onPick(dates, visible = false) {
 
-                if (this.type === 'multiple'){
-                    this.internalValue = [...this.internalValue, dates]; // TODO: filter multiple date duplicates
+                if (this.multiple){
+                    const allDates = [...this.internalValue, dates].filter(Boolean);
+                    const timeStamps = allDates.map(date => date.getTime()).filter((ts, i, arr) => arr.indexOf(ts) === i); // filter away duplicates
+                    this.internalValue = timeStamps.map(ts => new Date(ts));
                 } else {
                     this.internalValue = Array.isArray(dates) ? dates : [dates];
                 }
