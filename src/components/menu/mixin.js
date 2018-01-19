@@ -1,4 +1,4 @@
-import { hasParentSubmenu, findComponentUpward, findComponentsUpward } from '../../utils/assist';
+import { findComponentUpward, findComponentsUpward } from '../../utils/assist';
 export default {
     computed: {
         hasParentSubmenu () {
@@ -8,4 +8,4 @@ export default {
             return findComponentsUpward(this, 'Submenu').length;
         }
     }
-}
+};
