@@ -135,9 +135,6 @@
                 },
                 default: 'bottom-start'
             },
-            options: {
-                type: Object
-            },
             transfer: {
                 type: Boolean,
                 default: false
@@ -250,7 +247,7 @@
                     typeof this.options.disabledDate === 'function' &&
                     this.options.disabledDate;
                 const valueToTest = isArrayValue ? newDate : newDate[0];
-                const isDisabled = disabledDateFn && disabledDateFn(valueToTest)
+                const isDisabled = disabledDateFn && disabledDateFn(valueToTest);
 
                 if (newValue !== oldValue && !isDisabled) {
                     this.emitChange();
@@ -375,10 +372,16 @@
             publicValue(now, before){
                 const newValue = JSON.stringify(now);
                 const oldValue = JSON.stringify(before);
-                if (newValue !== oldValue) this.$emit('input', now); // to update v-model
+                const shouldEmitInput = newValue !== oldValue || typeof now !== typeof before;
+                if (shouldEmitInput) this.$emit('input', now); // to update v-model
             },
         },
         mounted () {
+            const initialValue = this.value;
+            const parsedValue = this.publicValue;
+            if (typeof initialValue !== typeof parsedValue || JSON.stringify(initialValue) !== JSON.stringify(parsedValue)){
+                this.$emit('input', this.publicValue); // to update v-model
+            }
             if (this.open !== null) this.visible = this.open;
         }
     };
