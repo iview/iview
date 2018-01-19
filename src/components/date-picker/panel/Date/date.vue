@@ -151,9 +151,9 @@
                 this.panelDate = siblingMonth(this.panelDate, dir);
             },
             handlePick (value) {
-                const {selectionMode} = this;
-                if (selectionMode === 'year') value = new Date(value, 0, 1);
-                else if (selectionMode === 'month') value = new Date(this.panelDate.getFullYear(), value, 1);
+                const {selectionMode, panelDate} = this;
+                if (selectionMode === 'year') value = new Date(value.getFullYear(), 0, 1);
+                else if (selectionMode === 'month') value = new Date(panelDate.getFullYear(), value.getMonth(), 1);
                 else value = new Date(value);
 
                 this.$emit('on-pick', value);
