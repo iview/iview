@@ -3,11 +3,16 @@
 @radio-inner-prefix-cls: ~"@{radio-prefix-cls}-inner";
 @radio-group-button-prefix-cls: ~"@{radio-group-prefix-cls}-button";
 
+.@{radio-prefix-cls}-focus {
+    box-shadow: 0 0 0 2px fade(@primary-color, 20%);
+    z-index: 1;
+}
+
 .@{radio-group-prefix-cls} {
     display: inline-block;
     font-size: @font-size-small;
     vertical-align: middle;
-    //outline: 0;
+    //outline: none;
     &-vertical{
         .@{radio-prefix-cls}-wrapper {
             display: block;
@@ -29,20 +34,14 @@
     &-disabled{
         cursor: @cursor-disabled;
     }
-    outline: 0;
-    &:focus {
-        & .@{radio-inner-prefix-cls} {
-            box-shadow: 0 0 0 2px fade(@primary-color, 20%);
-            z-index: 1;
-        }
-    }
+    //outline: none;
 }
 
 .@{radio-prefix-cls} {
     display: inline-block;
     margin-right: 4px;
     white-space: nowrap;
-    outline: none;
+    //outline: none;
     position: relative;
     line-height: 1;
     vertical-align: middle;
@@ -227,11 +226,6 @@ span.@{radio-prefix-cls} + * {
             }
         }
 
-        &:focus {
-            box-shadow: 0 0 0 2px fade(@primary-color, 20%);
-            z-index: 1;
-        }
-
         .@{radio-prefix-cls}-inner,
         input {
             opacity: 0;
@@ -247,17 +241,13 @@ span.@{radio-prefix-cls} + * {
 
             &:first-child {
                 border-color: @primary-color;
-                box-shadow: none!important;
+                //box-shadow: none!important;
             }
 
             &:hover {
                 border-color: tint(@primary-color, 20%);
                 //box-shadow: -1px 0 0 0 tint(@primary-color, 20%);
                 color: tint(@primary-color, 20%);
-            }
-
-            &:focus {
-                box-shadow: 0 0 0 2px fade(@primary-color, 20%)!important;
             }
 
             &:active {

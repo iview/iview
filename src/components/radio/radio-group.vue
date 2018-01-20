@@ -1,11 +1,5 @@
 <template>
-    <div
-        :class="classes" tabindex="0"
-        @keydown.left="onLeft"
-        @keydown.right="onRight"
-        @keydown.up="onUp"
-        @keydown.down="onDown"
-        @keydown.tab="onTab">
+    <div :class="classes" :name="name">
         <slot></slot>
     </div>
 </template>
@@ -14,6 +8,10 @@
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-radio-group';
+
+    let seed = 0;
+    const now = Date.now();
+    const getUuid = () => `ivuRadioGroup_${now}_${seed++}`;
 
     export default {
         name: 'RadioGroup',
@@ -36,13 +34,16 @@
             vertical: {
                 type: Boolean,
                 default: false
+            },
+            name: {
+                type: String,
+                default: getUuid
             }
         },
         data () {
             return {
                 currentValue: this.value,
-                childrens: [],
-                preventDefaultTab: true
+                childrens: []
             };
         },
         computed: {
@@ -63,12 +64,10 @@
         },
         methods: {
             updateValue () {
-                const value = this.value;
                 this.childrens = findComponentsDownward(this, 'Radio');
-
                 if (this.childrens) {
                     this.childrens.forEach(child => {
-                        child.currentValue = value === child.label;
+                        child.currentValue = this.value === child.label;
                         child.group = true;
                     });
                 }
@@ -79,55 +78,11 @@
                 this.$emit('input', data.value);
                 this.$emit('on-change', data.value);
                 this.dispatch('FormItem', 'on-form-change', data.value);
-            },
-            findRadio(value) {
-                return this.childrens && this.childrens.length ? this.childrens.find((child) => child.value === value) : undefined;
-            },
-            findIndexRadio(value) {
-                return this.childrens && this.childrens.length ? this.childrens.findIndex((child) => child.value === value) : -1;
-            },
-            includesRadio(value) {
-                return this.childrens && this.childrens.length ? this.childrens.includes((child) => child.value === value) : false;
-            },
-            nextRadio() {
-              if (this.includesRadio(this.currentValue)) {
-                console.log('get next');
-              } else {
-                return this.childrens && this.childrens.length ? this.childrens[0] : undefined;
-              }
-            },
-            onLeft() {
-                console.log('left', this.currentValue);
-            },
-            onRight() {
-                console.log('right', this.currentValue);
-            },
-            onUp() {
-                console.log('up', this.currentValue);
-            },
-            onDown() {
-                console.log('down', this.currentValue);
-            },
-            onTab(event) {
-                if (!this.preventDefaultTab) {
-                    return;
-                }
-
-                event.preventDefault();
-                this.preventDefaultTab = false;
-                this.currentValue = this.nextRadio();
-                if (this.currentValue) {
-                    this.change({
-                        value: this.currentValue.label
-                    });
-                }
-
-                console.log('tab', this);
-
-            },
+            }
         },
         watch: {
             value () {
+                this.currentValue = this.value;
                 this.updateValue();
             }
         }
