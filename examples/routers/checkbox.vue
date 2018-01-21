@@ -37,7 +37,7 @@
                 tags: [],
                 testValue1: null,
                 testValue2: null
-            }
+            };
         },
         mounted () {
             setTimeout(() => {
@@ -51,8 +51,8 @@
                     {
                         label: '西瓜'
                     }
-                ]
+                ];
             }, 1000);
         }
-    }
+    };
 </script>

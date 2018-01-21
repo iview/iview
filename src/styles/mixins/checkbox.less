@@ -1,13 +1,18 @@
 .checkboxFn(@checkbox-prefix-cls: ~"@{css-prefix}checkbox") {
     @checkbox-inner-prefix-cls: ~"@{checkbox-prefix-cls}-inner";
 
+    .@{checkbox-prefix-cls}-focus {
+        box-shadow: 0 0 0 2px fade(@primary-color, 20%);
+        z-index: 1;
+    }
+
     // 普通状态
     .@{checkbox-prefix-cls} {
         display: inline-block;
         vertical-align: middle;
         white-space: nowrap;
         cursor: pointer;
-        outline: none;
+        //outline: none;
         line-height: 1;
         position: relative;
 
@@ -236,13 +241,7 @@
         font-size: @font-size-small;
         display: inline-block;
         margin-right: 8px;
-        outline: 0;
-        &:focus,
-        &:active {
-            & .@{checkbox-prefix-cls}-inner {
-                box-shadow: 0 0 0 2px fade(@primary-color, 20%);
-            }
-        }
+        //outline: none;
 
         &-disabled{
             cursor: @cursor-disabled;
