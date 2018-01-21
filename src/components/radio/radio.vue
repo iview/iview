@@ -1,7 +1,7 @@
 <template>
-    <label :class="wrapClasses" ref="label">
+    <label :class="wrapClasses">
         <span :class="radioClasses">
-            <span :class="innerClasses" ref="inner"></span>
+            <span :class="innerClasses"></span>
             <input
                 type="radio"
                 :class="inputClasses"
