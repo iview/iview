@@ -1,7 +1,7 @@
 <template>
     <label :class="wrapClasses">
         <span :class="checkboxClasses">
-            <span :class="innerClasses" ref="inner"></span>
+            <span :class="innerClasses"></span>
             <input
                 v-if="group"
                 type="checkbox"
