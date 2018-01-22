@@ -1,4 +1,6 @@
 
+import {clearHours} from '../util';
+
 export default {
     props: {
         tableDate: {
@@ -36,7 +38,7 @@ export default {
     methods: {
         handleClick (cell) {
             if (cell.disabled) return;
-            const newDate = cell.date;
+            const newDate = new Date(clearHours(cell.date));
 
             this.$emit('on-pick', newDate);
             this.$emit('on-pick-click');

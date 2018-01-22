@@ -219,7 +219,6 @@
                 };
             },
             prevYear (panel) {
-                console.log(this)
                 const increment = this.currentView === 'year' ? -10 : -1;
                 this.changePanelDate(panel, 'FullYear', increment);
             },

@@ -82,7 +82,7 @@
                         start: isRange && time === minDay,
                         end: isRange && time === maxDay
                     };
-                }).cells.slice(8);
+                }).cells;
             }
         },
         methods: {

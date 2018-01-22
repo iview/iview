@@ -132,7 +132,7 @@
 
                 // set dateStart
                 Object.keys(start).forEach(type => {
-                    dateStart[`set${capitalize(type)}`](start[type])
+                    dateStart[`set${capitalize(type)}`](start[type]);
                 });
 
                 // set dateEnd
