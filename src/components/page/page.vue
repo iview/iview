@@ -10,6 +10,8 @@
             <input
                 type="text"
                 :value="currentPage"
+                autocomplete="off"
+                spellcheck="false"
                 @keydown="keyDown"
                 @keyup="keyUp"
                 @change="keyUp">
@@ -135,6 +137,12 @@
             };
         },
         watch: {
+            total (val) {
+                let maxPage = Math.ceil(val / this.currentPageSize);
+                if (maxPage < this.currentPage && maxPage > 0) {
+                    this.currentPage = maxPage;
+                }
+            },
             current (val) {
                 this.currentPage = val;
             },
@@ -208,6 +216,7 @@
             changePage (page) {
                 if (this.currentPage != page) {
                     this.currentPage = page;
+                    this.$emit('update:current', page);
                     this.$emit('on-change', page);
                 }
             },
@@ -251,7 +260,7 @@
             },
             keyDown (e) {
                 const key = e.keyCode;
-                const condition = (key >= 48 && key <= 57) || (key >= 96 && key <= 105) || key == 8 || key == 37 || key == 39;
+                const condition = (key >= 48 && key <= 57) || (key >= 96 && key <= 105) || key === 8 || key === 37 || key === 39;
 
                 if (!condition) {
                     e.preventDefault();
@@ -265,12 +274,12 @@
                     this.prev();
                 } else if (key === 40) {
                     this.next();
-                } else if (key == 13) {
+                } else if (key === 13) {
                     let page = 1;
 
                     if (val > this.allPages) {
                         page = this.allPages;
-                    } else if (val <= 0) {
+                    } else if (val <= 0 || !val) {
                         page = 1;
                     } else {
                         page = val;

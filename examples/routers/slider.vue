@@ -1,20 +1,40 @@
 <template>
     <div style="margin: 0 400px;">
-        <Slider v-model="value" range></Slider>
-        <Button @click="change">change</Button>
+        <Slider v-model="valueSingle" @on-change="updateSingleDisplayValue"></Slider>
+        <Button @click="randomSingle">change</Button> {{singleDisplayValue}}
+
+        <Slider v-model="valueRange" range @on-change="updateRangeDisplayValue"></Slider>
+        <Button @click="randomRange">change</Button> {{rangeDisplayValue}}
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                value: [20, 50]
-            }
+                valueSingle: 10,
+                valueRange: [20, 50],
+                singleDisplayValue: 10,
+                rangeDisplayValue: [20, 50]
+            };
         },
         methods: {
-            change () {
-                this.value = [30, 80];
+            updateSingleDisplayValue (val){
+                console.log('updateSingleDisplayValue', val);
+                this.singleDisplayValue = val;
+            },
+            updateRangeDisplayValue (val){
+                console.log('updateRangeDisplayValue', val);
+                this.rangeDisplayValue = val.join(' - ');
+            },
+            randomSingle () {
+                this.valueSingle = this.random(0, 100);
+            },
+            randomRange () {
+                this.valueRange = [this.random(0, 50), this.random(50, 100)];
+            },
+            random (min, max){
+                return Math.round(Math.random() * (max - min)) + min;
             }
         }
-    }
+    };
 </script>

@@ -3,29 +3,33 @@
         <div :class="handlerClasses">
             <a
                 @click="up"
-                @mouse.down="preventDefault"
+                @mousedown="preventDefault"
                 :class="upClasses">
                 <span :class="innerUpClasses" @click="preventDefault"></span>
             </a>
             <a
                 @click="down"
-                @mouse.down="preventDefault"
+                @mousedown="preventDefault"
                 :class="downClasses">
                 <span :class="innerDownClasses" @click="preventDefault"></span>
             </a>
         </div>
         <div :class="inputWrapClasses">
             <input
+                :id="elementId"
                 :class="inputClasses"
                 :disabled="disabled"
                 autocomplete="off"
+                spellcheck="false"
                 :autofocus="autofocus"
                 @focus="focus"
                 @blur="blur"
                 @keydown.stop="keyDown"
+                @input="change"
                 @change="change"
+                :readonly="readonly || !editable"
                 :name="name"
-                :value="currentValue">
+                :value="precisionValue">
         </div>
     </div>
 </template>
@@ -36,9 +40,6 @@
     const prefixCls = 'ivu-input-number';
     const iconPrefixCls = 'ivu-icon';
 
-    function isValueNumber (value) {
-        return (/(^-?[0-9]+\.{1}\d+$)|(^-?[1-9][0-9]*$)|(^-?0{1}$)/).test(value + '');
-    }
     function addNum (num1, num2) {
         let sq1, sq2, m;
         try {
@@ -60,7 +61,7 @@
 //            return (num1 * m + num2 * m) / m;
 //        }
         m = Math.pow(10, Math.max(sq1, sq2));
-        return (num1 * m + num2 * m) / m;
+        return (Math.round(num1 * m) + Math.round(num2 * m)) / m;
     }
 
     export default {
@@ -85,7 +86,7 @@
             },
             size: {
                 validator (value) {
-                    return oneOf(value, ['small', 'large']);
+                    return oneOf(value, ['small', 'large', 'default']);
                 }
             },
             disabled: {
@@ -96,7 +97,21 @@
                 type: Boolean,
                 default: false
             },
+            readonly: {
+                type: Boolean,
+                default: false
+            },
+            editable: {
+                type: Boolean,
+                default: true
+            },
             name: {
+                type: String
+            },
+            precision: {
+                type: Number
+            },
+            elementId: {
                 type: String
             }
         },
@@ -151,6 +166,10 @@
             },
             inputClasses () {
                 return `${prefixCls}-input`;
+            },
+            precisionValue () {
+                // can not display 1.0
+                return this.precision ? this.currentValue.toFixed(this.precision) : this.currentValue;
             }
         },
         methods: {
@@ -172,7 +191,7 @@
                 this.changeStep('down', e);
             },
             changeStep (type, e) {
-                if (this.disabled) {
+                if (this.disabled || this.readonly) {
                     return false;
                 }
 
@@ -208,6 +227,9 @@
                 this.setValue(val);
             },
             setValue (val) {
+                // 如果 step 是小数，且没有设置 precision，是有问题的
+                if (!isNaN(this.precision)) val = Number(Number(val).toFixed(this.precision));
+
                 this.$nextTick(() => {
                     this.currentValue = val;
                     this.$emit('input', val);
@@ -217,9 +239,11 @@
             },
             focus () {
                 this.focused = true;
+                this.$emit('on-focus');
             },
             blur () {
                 this.focused = false;
+                this.$emit('on-blur');
             },
             keyDown (e) {
                 if (e.keyCode === 38) {
@@ -233,13 +257,20 @@
             change (event) {
                 let val = event.target.value.trim();
 
-                const max = this.max;
-                const min = this.min;
+                if (event.type == 'input' && val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
 
-                if (isValueNumber(val)) {
-                    val = Number(val);
+                const {min, max} = this;
+                const isEmptyString = val.length === 0;
+                val = Number(val);
+
+                if (event.type == 'change'){
+                    if (val === this.currentValue && val > min && val < max) return; // already fired change for input event
+                }
+
+                if (!isNaN(val) && !isEmptyString) {
                     this.currentValue = val;
 
+                    if (event.type == 'input' && val < min) return; // prevent fire early in case user is typing a bigger number. Change will handle this otherwise.
                     if (val > max) {
                         this.setValue(max);
                     } else if (val < min) {
@@ -252,8 +283,8 @@
                 }
             },
             changeVal (val) {
-                if (isValueNumber(val) || val === 0) {
-                    val = Number(val);
+                val = Number(val);
+                if (!isNaN(val)) {
                     const step = this.step;
 
                     this.upDisabled = val + step > this.max;
@@ -273,6 +304,12 @@
             },
             currentValue (val) {
                 this.changeVal(val);
+            },
+            min () {
+                this.changeVal(this.currentValue);
+            },
+            max () {
+                this.changeVal(this.currentValue);
             }
         }
     };

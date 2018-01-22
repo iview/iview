@@ -1,8 +1,10 @@
 <template>
     <div :class="classes" v-clickoutside="handleClose">
         <div :class="[prefixCls + '-rel']" @click="toggleOpen" ref="reference">
+            <input type="hidden" :name="name" :value="currentValue">
             <slot>
                 <i-input
+                    :element-id="elementId"
                     ref="input"
                     :readonly="!filterable"
                     :disabled="disabled"
@@ -127,6 +129,12 @@
             transfer: {
                 type: Boolean,
                 default: false
+            },
+            name: {
+                type: String
+            },
+            elementId: {
+                type: String
             }
         },
         data () {
@@ -211,7 +219,9 @@
                     }
                 }
                 getSelections(this.data);
-                selections = selections.filter(item => item.label.indexOf(this.query) > -1).map(item => {
+                selections = selections.filter(item => {
+                    return item.label ? item.label.indexOf(this.query) > -1 : false;
+                }).map(item => {
                     item.display = item.display.replace(new RegExp(this.query, 'g'), `<span>${this.query}</span>`);
                     return item;
                 });

@@ -1,7 +1,7 @@
-var path = require('path');
-var webpack = require('webpack');
-var merge = require('webpack-merge');
-var webpackBaseConfig = require('./webpack.base.config.js');
+const path = require('path');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const webpackBaseConfig = require('./webpack.base.config.js');
 
 process.env.NODE_ENV = 'production';
 

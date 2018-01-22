@@ -4,7 +4,7 @@
     </div>
 </template>
 <script>
-    import { oneOf } from '../../utils/assist';
+    import { oneOf, findComponentsDownward } from '../../utils/assist';
 
     const prefixCls = 'ivu-row';
 
@@ -58,11 +58,14 @@
         },
         methods: {
             updateGutter (val) {
-                this.$children.forEach((child) => {
-                    if (val !== 0) {
-                        child.gutter = val;
-                    }
-                });
+                const Cols = findComponentsDownward(this, 'iCol');
+                if (Cols.length) {
+                    Cols.forEach((child) => {
+                        if (val !== 0) {
+                            child.gutter = val;
+                        }
+                    });
+                }
             }
         },
         watch: {

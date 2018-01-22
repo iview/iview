@@ -1,14 +1,5 @@
 <template>
-    <div style="width: 400px;">
-        <Row>
-            <i-col span="12">
-                <Cascader transfer v-model="value3" :data="data" filterable></Cascader>
-            </i-col>
-            <i-col span="12">
-                <Cascader v-model="value3" :data="data" filterable></Cascader>
-            </i-col>
-        </Row>
-    </div>
+    <Cascader v-model="value3" :data="data" filterable @on-change="hc"></Cascader>
 </template>
 <script>
     export default {
@@ -62,6 +53,11 @@
                     ],
                 }],
                 value3: []
+            }
+        },
+        methods: {
+            hc (a,b) {
+                console.log(a,b)
             }
         }
     }
