@@ -92,6 +92,9 @@
 
                 if (items.length) {
                     items.forEach(item => {
+                        if (this.accordion) {
+                            item.opened = false;
+                        }
                         if (this.openNames.indexOf(item.name) > -1) item.opened = true;
                     });
                 }
