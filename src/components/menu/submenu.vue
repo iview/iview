@@ -46,8 +46,7 @@
                 prefixCls: prefixCls,
                 active: false,
                 opened: false,
-                dropWidth: parseFloat(getStyle(this.$el, 'width')),
-                parent: findComponentUpward(this, 'Menu')
+                dropWidth: parseFloat(getStyle(this.$el, 'width'))
             };
         },
         computed: {
@@ -63,11 +62,8 @@
                     }
                 ];
             },
-            mode () {
-                return this.parent.mode;
-            },
             accordion () {
-                return this.parent.accordion;
+                return this.menu.accordion;
             },
             dropStyle () {
                 let style = {};
@@ -76,7 +72,7 @@
                 return style;
             },
             titleStyle () {
-                return this.hasParentSubmenu ? {
+                return this.hasParentSubmenu && this.mode !== 'horizontal' ? {
                     paddingLeft: 43 + (this.parentSubmenuNum - 1) * 24 + 'px'
                 } : {};
             }
@@ -88,7 +84,7 @@
 
                 clearTimeout(this.timeout);
                 this.timeout = setTimeout(() => {
-                    this.parent.updateOpenKeys(this.name);
+                    this.menu.updateOpenKeys(this.name);
                     this.opened = true;
                 }, 250);
             },
@@ -98,7 +94,7 @@
 
                 clearTimeout(this.timeout);
                 this.timeout = setTimeout(() => {
-                    this.parent.updateOpenKeys(this.name);
+                    this.menu.updateOpenKeys(this.name);
                     this.opened = false;
                 }, 150);
             },
@@ -112,7 +108,7 @@
                     });
                 }
                 this.opened = !opened;
-                this.parent.updateOpenKeys(this.name);
+                this.menu.updateOpenKeys(this.name);
             }
         },
         watch: {

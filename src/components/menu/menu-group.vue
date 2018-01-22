@@ -5,11 +5,12 @@
     </li>
 </template>
 <script>
-    import { findComponentUpward, findComponentsUpward } from '../../utils/assist';
+    import mixin from './mixin';
     const prefixCls = 'ivu-menu';
 
     export default {
         name: 'MenuGroup',
+        mixins: [ mixin ],
         props: {
             title: {
                 type: String,
@@ -22,14 +23,8 @@
             };
         },
         computed: {
-            parentSubmenuNum () {
-                return findComponentsUpward(this, 'Submenu').length;
-            },
-            hasParentSubmenu () {
-                return findComponentUpward(this, 'Submenu');
-            },
             groupStyle () {
-                return this.hasParentSubmenu ? {
+                return this.hasParentSubmenu && this.mode !== 'horizontal' ? {
                     paddingLeft: 43 + (this.parentSubmenuNum - 1) * 28 + 'px'
                 } : {};
             }

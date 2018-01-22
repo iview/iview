@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Menu :theme="theme1" active-name="1" accordion @on-select="handleSelect" @on-open-change="handleOpen" :open-names="openArr">
+        <Menu :theme="theme1"  active-name="1" accordion @on-select="handleSelect" @on-open-change="handleOpen" :open-names="openArr">
             <Menu-item name="1">
                 <Icon type="ios-paper"></Icon>
                 一级1
