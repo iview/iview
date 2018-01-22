@@ -1,6 +1,6 @@
 <template>
     <li :class="classes" @mouseenter="handleMouseenter" @mouseleave="handleMouseleave">
-        <div :class="[prefixCls + '-submenu-title']" ref="reference" @click="handleClick">
+        <div :class="[prefixCls + '-submenu-title']" ref="reference" @click.stop="handleClick" :style="titleStyle">
             <slot name="title"></slot>
             <Icon type="ios-arrow-down" :class="[prefixCls + '-submenu-title-icon']"></Icon>
         </div>
@@ -21,14 +21,15 @@
     import Drop from '../select/dropdown.vue';
     import Icon from '../icon/icon.vue';
     import CollapseTransition from '../base/collapse-transition';
-    import { getStyle, findComponentUpward } from '../../utils/assist';
+    import { getStyle, findComponentUpward, findComponentsDownward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
+    import mixin from './mixin';
 
     const prefixCls = 'ivu-menu';
 
     export default {
         name: 'Submenu',
-        mixins: [ Emitter ],
+        mixins: [ Emitter, mixin ],
         components: { Icon, Drop, CollapseTransition },
         props: {
             name: {
@@ -54,9 +55,11 @@
                 return [
                     `${prefixCls}-submenu`,
                     {
-                        [`${prefixCls}-item-active`]: this.active,
+                        [`${prefixCls}-item-active`]: this.active && !this.hasParentSubmenu,
                         [`${prefixCls}-opened`]: this.opened,
-                        [`${prefixCls}-submenu-disabled`]: this.disabled
+                        [`${prefixCls}-submenu-disabled`]: this.disabled,
+                        [`${prefixCls}-submenu-has-parent-submenu`]: this.hasParentSubmenu,
+                        [`${prefixCls}-child-item-active`]: this.active
                     }
                 ];
             },
@@ -71,6 +74,11 @@
 
                 if (this.dropWidth) style.minWidth = `${this.dropWidth}px`;
                 return style;
+            },
+            titleStyle () {
+                return this.hasParentSubmenu ? {
+                    paddingLeft: 43 + (this.parentSubmenuNum - 1) * 24 + 'px'
+                } : {};
             }
         },
         methods: {
@@ -99,7 +107,7 @@
                 if (this.mode === 'horizontal') return;
                 const opened = this.opened;
                 if (this.accordion) {
-                    this.parent.$children.forEach(item => {
+                    this.$parent.$children.forEach(item => {
                         if (item.$options.name === 'Submenu') item.opened = false;
                     });
                 }
@@ -131,6 +139,10 @@
                 return true;
             });
             this.$on('on-update-active-name', (status) => {
+                if (findComponentUpward(this, 'Submenu')) this.dispatch('Submenu', 'on-update-active-name', status);
+                if (findComponentsDownward(this, 'Submenu')) findComponentsDownward(this, 'Submenu').forEach(item => {
+                    item.active = false;
+                });
                 this.active = status;
             });
         }
