@@ -5,7 +5,6 @@
     </li>
 </template>
 <script>
-    import { findComponentUpward, findComponentsUpward } from '../../utils/assist';
     import mixin from './mixin';
     const prefixCls = 'ivu-menu';
 
