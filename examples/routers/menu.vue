@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Menu :theme="theme1" active-name="1" accordion @on-select="handleSelect" @on-open-change="handleOpen" :open-names="openArr">
+        <Menu :theme="theme1" mode="horizontal"  active-name="1" accordion @on-select="handleSelect" @on-open-change="handleOpen" :open-names="openArr">
             <Menu-item name="1">
                 <Icon type="ios-paper"></Icon>
                 一级1
@@ -16,7 +16,17 @@
                 </template>
                 <Menu-item name="3-1">二级1</Menu-item>
                 <Menu-item name="3-2">二级2</Menu-item>
-                <Submenu name="3-3">
+                <MenuGroup title="Menu-Group">
+                    <MenuItem name="3-3-3-3-1">
+                        <Icon type="document-text"></Icon>
+                        Group-item1
+                    </MenuItem>
+                    <MenuItem name="3-3-3-3-2">
+                        <Icon type="chatbubbles"></Icon>
+                        Group-item2
+                    </MenuItem>
+                </MenuGroup>
+                <!-- <Submenu name="3-3">
                     <template slot="title">
                         <Icon type="stats-bars"></Icon>
                         二级3
@@ -57,7 +67,7 @@
                     </template>
                     <Menu-item name="3-4-1">三级1</Menu-item>
                     <Menu-item name="3-4-2">三级2</Menu-item>
-                </Submenu>
+                </Submenu> -->
             </Submenu>
             <Menu-item name="4">
                 <Icon type="settings"></Icon>
