@@ -237,7 +237,8 @@
 
 // Text
 .btn-text() {
-    .button-variant(@btn-ghost-color, @btn-ghost-bg, transparent);
+    // cjc-custom
+    .button-variant(tint(@primary-color, 20%), @btn-ghost-bg, transparent);
 
     // for disabled
     &.disabled,
@@ -261,7 +262,8 @@
     &.active {
         .button-color(shade(@primary-color, 5%); @btn-ghost-bg; transparent);
     }
-    .active-btn-color(@primary-color);
+    // .active-btn-color(@primary-color);
+    box-shadow: 0 0 0 !important;
 }
 
 // Color

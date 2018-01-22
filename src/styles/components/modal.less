@@ -50,7 +50,8 @@
     }
 
     &-body {
-        padding: 16px;
+        // cjc-custom
+        // padding: 16px;
         font-size: 12px;
         line-height: 1.5;
     }
@@ -82,9 +83,18 @@
     padding: 0 4px;
     &-head {
 
+        // cjc-custom
+        text-align: center;
+        border-bottom: 1px solid @border-color-split;
+        padding: 8px 0;
+
         &-title {
             display: inline-block;
-            font-size: @font-size-base;
+
+            // cjc-custom
+            font-size: @font-size-lager;
+
+            // font-size: @font-size-base;
             color: @title-color;
             font-weight: 700;
         }
@@ -92,8 +102,13 @@
 
     &-body{
         margin-top: 6px;
-        padding-left: 48px;
-        padding-top: 18px;
+        // cjc-custom 
+        padding: 0 18px;
+        text-align: center;
+
+        // cjc-custom 注释
+        // padding-left: 48px;
+        // padding-top: 18px;
         font-size: @font-size-small;
         color: @text-color;
         position: relative;
@@ -104,10 +119,11 @@
         }
 
         &-icon {
-            font-size: 36px;
-            position: absolute;
-            top: 0;
-            left: 0;
+            font-size: 42px;
+            // cjc-custom 注释
+            // position: absolute;
+            // top: 0;
+            // left: 0;
 
             &-info {
                 color: @primary-color;
@@ -128,8 +144,15 @@
     }
 
     &-footer{
-        margin-top: 40px;
-        text-align: right;
+        
+        // cjc-custom
+        margin-top: 10px;
+        padding: 10px 18px;
+        border-top: 1px solid @border-color-split;
+        
+        // cjc-custom 注释
+        // margin-top: 40px;
+        // text-align: right;
 
         button + button {
             margin-left: 8px;

@@ -40,8 +40,9 @@ Modal.newInstance = properties => {
             }
             footerVNodes.push(h(Button, {
                 props: {
-                    type: 'primary',
+                    type: 'text',
                     size: 'large',
+                    long: true,
                     loading: this.buttonLoading
                 },
                 on: {
@@ -195,13 +196,13 @@ Modal.newInstance = properties => {
                     modal.$parent.iconName = 'information-circled';
                     break;
                 case 'success':
-                    modal.$parent.iconName = 'checkmark-circled';
+                    modal.$parent.iconName = 'emichenggong';
                     break;
                 case 'warning':
                     modal.$parent.iconName = 'android-alert';
                     break;
                 case 'error':
-                    modal.$parent.iconName = 'close-circled';
+                    modal.$parent.iconName = 'tishi';
                     break;
                 case 'confirm':
                     modal.$parent.iconName = 'help-circled';
