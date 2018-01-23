@@ -36,13 +36,17 @@
                     }
                     this.hidden = !hasVisibleOption;
                 });
+            },
+            onQueryChange () {
+                this.queryChange();
+                return true;
             }
         },
         mounted () {
-            this.$on('on-query-change', () => {
-                this.queryChange();
-                return true;
-            });
+            this.$on('on-query-change', this.onQueryChange);
+        },
+        beforeDestroy () {
+            this.$off('on-query-change', this.onQueryChange);
         }
     };
 </script>

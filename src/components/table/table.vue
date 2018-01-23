@@ -738,6 +738,12 @@
                 const data = Csv(columns, datas, params, noHeader);
                 if (params.callback) params.callback(data);
                 else ExportCsv.download(params.filename, data);
+            },
+            onVisibleChange (val) {
+                if (val) {
+                    this.handleResize();
+                    this.fixedHeader();
+                }
             }
         },
         created () {
@@ -755,16 +761,12 @@
             this.observer = elementResizeDetectorMaker();
             this.observer.listenTo(this.$el, this.handleResize);
 
-            this.$on('on-visible-change', (val) => {
-                if (val) {
-                    this.handleResize();
-                    this.fixedHeader();
-                }
-            });
+            this.$on('on-visible-change', this.onVisibleChange);
         },
         beforeDestroy () {
             off(window, 'resize', this.handleResize);
             this.observer.removeListener(this.$el, this.handleResize);
+            this.$off('on-visible-change', this.onVisibleChange);
         },
         watch: {
             data: {

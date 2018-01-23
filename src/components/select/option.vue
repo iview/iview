@@ -85,9 +85,9 @@
             if (Select) this.autoComplete = Select.autoComplete;
         },
         beforeDestroy () {
-            this.dispatch('iSelect', 'remove');
             this.$off('on-select-close', this.onSelectClose);
             this.$off('on-query-change',this.onQueryChange);
+            this.dispatch('iSelect', 'remove');
         }
     };
 </script>

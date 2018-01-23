@@ -164,6 +164,9 @@
                 this.updateTreeDown(node, {checked, indeterminate: false}); // reset `indeterminate` when going down
 
                 this.$emit('on-check-change', this.getCheckedNodes());
+            },
+            toggleExpand (node) {
+                this.$emit('on-toggle-expand', node);
             }
         },
         created(){
@@ -173,7 +176,12 @@
         mounted () {
             this.$on('on-check', this.handleCheck);
             this.$on('on-selected', this.handleSelect);
-            this.$on('toggle-expand', node => this.$emit('on-toggle-expand', node));
+            this.$on('toggle-expand', this.toggleExpand);
+        },
+        beforeDestroy () {
+            this.$off('on-check', this.handleCheck);
+            this.$off('on-selected', this.handleSelect);
+            this.$off('toggle-expand', this.toggleExpand);
         }
     };
 </script>

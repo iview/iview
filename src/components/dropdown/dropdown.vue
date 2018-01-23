@@ -130,14 +130,12 @@
                 } else {
                     return false;
                 }
-            }
-        },
-        mounted () {
-            this.$on('on-click', (key) => {
+            },
+            onClick (key) {
                 const $parent = this.hasParent();
                 if ($parent) $parent.$emit('on-click', key);
-            });
-            this.$on('on-hover-click', () => {
+            },
+            onHoverClick () {
                 const $parent = this.hasParent();
                 if ($parent) {
                     this.$nextTick(() => {
@@ -151,15 +149,25 @@
                         this.currentVisible = false;
                     });
                 }
-            });
-            this.$on('on-haschild-click', () => {
+            },
+            onHaschildClick () {
                 this.$nextTick(() => {
                     if (this.trigger === 'custom') return false;
                     this.currentVisible = true;
                 });
                 const $parent = this.hasParent();
                 if ($parent) $parent.$emit('on-haschild-click');
-            });
+            }
+        },
+        mounted () {
+            this.$on('on-click', this.onClick);
+            this.$on('on-hover-click', this.onHoverClick);
+            this.$on('on-haschild-click', this.onHaschildClick);
+        },
+        beforeDestroy () {
+            this.$off('on-click', this.onClick);
+            this.$off('on-hover-click', this.onHoverClick);
+            this.$off('on-haschild-click', this.onHaschildClick);
         }
     };
 </script>

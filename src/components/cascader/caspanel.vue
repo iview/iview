@@ -124,10 +124,8 @@
             },
             getKey () {
                 return key++;
-            }
-        },
-        mounted () {
-            this.$on('on-find-selected', (params) => {
+            },
+            onFindSelected(params){
                 const val = params.value;
                 let value = [...val];
                 for (let i = 0; i < value.length; i++) {
@@ -144,9 +142,8 @@
                         }
                     }
                 }
-            });
-            // deep for #1553
-            this.$on('on-clear', (deep = false) => {
+            },
+            onClear(deep = false){
                 this.sublist = [];
                 this.tmpItem = {};
                 if (deep) {
@@ -155,7 +152,16 @@
                         Caspanel.$emit('on-clear', true);
                     }
                 }
-            });
+            }
+        },
+        mounted () {
+            this.$on('on-find-selected', this.onFindSelected);
+            // deep for #1553
+            this.$on('on-clear',this.onClear);
+        },
+        beforeDestroy(){
+            this.$off('on-find-selected', this.onFindSelected);
+            this.$off('on-clear',this.onClear);
         }
     };
 </script>
