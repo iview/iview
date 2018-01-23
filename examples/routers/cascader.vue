@@ -1,17 +1,35 @@
 <template>
-    <div style="width: 200px;margin: 100px;">
-        <Cascader :data="data" v-model="value1" trigger="hover"></Cascader>
+    <div style="margin: 100px;width: 300px;">
+        <Cascader v-model="value" :data="data" change-on-select></Cascader>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                value1: [],
-                data: [{
+                value: ['beijing', 'gugong'],
+                data: []
+            }
+        },
+        mounted () {
+            setTimeout(() => {
+                this.data = [{
                     value: 'beijing',
                     label: '北京',
-                    children: []
+                    children: [
+                        {
+                            value: 'gugong',
+                            label: '故宫'
+                        },
+                        {
+                            value: 'tiantan',
+                            label: '天坛'
+                        },
+                        {
+                            value: 'wangfujing',
+                            label: '王府井'
+                        }
+                    ]
                 }, {
                     value: 'jiangsu',
                     label: '江苏',
@@ -41,8 +59,8 @@
                             ]
                         }
                     ],
-                }]
-            }
+                }];
+            }, 100)
         }
     }
 </script>

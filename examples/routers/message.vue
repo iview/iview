@@ -18,7 +18,14 @@
                     onClose () {
 //                        console.log(123)
                     },
-                    closable: true
+                    closable: true,
+                    render (h) {
+                        return h('Button',{
+                            props: {
+                                type: 'primary'
+                            }
+                        }, '这是render出来的');
+                    }
                 })
             },
             success () {

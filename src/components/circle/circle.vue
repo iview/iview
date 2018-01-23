@@ -15,7 +15,7 @@
     const prefixCls = 'ivu-chart-circle';
 
     export default {
-        name: 'Circle',
+        name: 'iCircle',
         props: {
             percent: {
                 type: Number,

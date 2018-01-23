@@ -7,6 +7,7 @@
         :clearable="clearable"
         :placeholder="placeholder"
         :size="size"
+        :placement="placement"
         filterable
         remote
         auto-complete
@@ -79,6 +80,12 @@
             filterMethod: {
                 type: [Function, Boolean],
                 default: false
+            },
+            placement: {
+                validator (value) {
+                    return oneOf(value, ['top', 'bottom']);
+                },
+                default: 'bottom'
             },
             transfer: {
                 type: Boolean,

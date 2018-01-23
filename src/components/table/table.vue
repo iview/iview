@@ -293,7 +293,9 @@
                 if (this.bodyHeight !== 0) {
                     let height = this.bodyHeight + this.scrollBarWidth - 1;
 
-                    if (this.width && this.width < this.tableWidth){
+                    // #2102 里，如果 Table 没有设置 width，而是集成父级的 width，固定列也应该不包含滚动条高度，所以这里直接计算表格宽度
+                    const tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
+                    if ((this.width && this.width < this.tableWidth) || tableWidth < this.tableWidth){
                         height = this.bodyHeight;
                     }
 //                    style.height = this.scrollBarWidth > 0 ? `${this.bodyHeight}px` : `${this.bodyHeight - 1}px`;
@@ -352,7 +354,10 @@
                         if (allWidth) autoWidthIndex = this.cloneColumns.findIndex(cell => !cell.width);//todo 这行可能有问题
 
                         if (this.data.length) {
-                            const $td = this.$refs.tbody.$el.querySelectorAll('tbody tr')[0].children;
+                            const $tr = this.$refs.tbody.$el.querySelectorAll('tbody tr');
+                            if ($tr.length === 0) return;
+                            const $td = $tr[0].children;
+
                             for (let i = 0; i < $td.length; i++) {    // can not use forEach in Firefox
                                 const column = this.cloneColumns[i];
 
@@ -517,7 +522,8 @@
                 });
                 return data;
             },
-            handleSort (index, type) {
+            handleSort (_index, type) {
+                const index = this.GetOriginalIndex(_index);
                 this.cloneColumns.forEach((col) => col._sortType = 'normal');
 
                 const key = this.cloneColumns[index].key;
@@ -577,11 +583,23 @@
                 this.cloneColumns[index]._filterVisible = false;
                 this.$emit('on-filter-change', column);
             },
-            handleFilterSelect (index, value) {
+            /**
+             * #2832
+             * 应该区分当前表头的 column 是左固定还是右固定
+             * 否则执行到 $parent 时，方法的 index 与 cloneColumns 的 index 是不对应的
+             * 左固定和右固定，要区分对待
+             * 所以，此方法用来获取正确的 index
+             * */
+            GetOriginalIndex (_index) {
+                return this.cloneColumns.findIndex(item => item._index === _index);
+            },
+            handleFilterSelect (_index, value) {
+                const index = this.GetOriginalIndex(_index);
                 this.cloneColumns[index]._filterChecked = [value];
                 this.handleFilter(index);
             },
-            handleFilterReset (index) {
+            handleFilterReset (_index) {
+                const index = this.GetOriginalIndex(_index);
                 this.cloneColumns[index]._isFiltered = false;
                 this.cloneColumns[index]._filterVisible = false;
                 this.cloneColumns[index]._filterChecked = [];

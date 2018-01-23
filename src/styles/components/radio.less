@@ -3,10 +3,16 @@
 @radio-inner-prefix-cls: ~"@{radio-prefix-cls}-inner";
 @radio-group-button-prefix-cls: ~"@{radio-group-prefix-cls}-button";
 
+.@{radio-prefix-cls}-focus {
+    box-shadow: 0 0 0 2px fade(@primary-color, 20%);
+    z-index: 1;
+}
+
 .@{radio-group-prefix-cls} {
     display: inline-block;
     font-size: @font-size-small;
     vertical-align: middle;
+    //outline: none;
     &-vertical{
         .@{radio-prefix-cls}-wrapper {
             display: block;
@@ -16,7 +22,7 @@
     }
 }
 
-// 普通状态
+// 普通状态 - Normal state
 .@{radio-prefix-cls}-wrapper {
     font-size: @font-size-small;
     vertical-align: middle;
@@ -28,13 +34,14 @@
     &-disabled{
         cursor: @cursor-disabled;
     }
+    //outline: none;
 }
 
 .@{radio-prefix-cls} {
     display: inline-block;
     margin-right: 4px;
     white-space: nowrap;
-    outline: none;
+    //outline: none;
     position: relative;
     line-height: 1;
     vertical-align: middle;
@@ -110,7 +117,7 @@
     }
 }
 
-// 选中状态
+// 选中状态 - Selected state
 .@{radio-prefix-cls}-checked {
     .@{radio-inner-prefix-cls} {
         border-color: @primary-color;
@@ -156,7 +163,7 @@ span.@{radio-prefix-cls} + * {
     margin-right: 2px;
 }
 
-// 按钮样式
+// 按钮样式 - Button style
 .@{radio-group-button-prefix-cls} {
     font-size: 0;
     -webkit-text-size-adjust:none;
@@ -171,7 +178,7 @@ span.@{radio-prefix-cls} + * {
         height: @btn-circle-size;
         line-height: @btn-circle-size - 2px;
         margin: 0;
-        padding: 0 16px;
+        padding: 0 16px - 1px;
         font-size: @font-size-small;
         color: @btn-default-color;
         transition: all @transition-time ease-in-out;
@@ -179,26 +186,37 @@ span.@{radio-prefix-cls} + * {
         border: 1px solid @border-color-base;
         border-left: 0;
         background: #fff;
+        position: relative;
 
         > span {
             margin-left: 0;
         }
 
-        &:before {
+        &:before, &:after {
             content: '';
+            display: block;
             position: absolute;
             width: 1px;
             height: 100%;
             left: -1px;
+            top: 0;
             background: @border-color-base;
-            visibility: hidden;
+            //visibility: hidden;
             transition: all @transition-time ease-in-out;
+        }
+
+        &:after{
+            height: @btn-circle-size + 4px;
+            left: -1px;
+            top: -3px;
+            background: fade(@primary-color, 20%);
+            opacity: 0;
         }
 
         &:first-child {
             border-radius: @btn-border-radius 0 0 @btn-border-radius;
             border-left: 1px solid @border-color-base;
-            &:before {
+            &:before, &:after {
                 display: none;
             }
         }
@@ -214,6 +232,9 @@ span.@{radio-prefix-cls} + * {
         &:hover {
             position: relative;
             color: @primary-color;
+            & .@{radio-prefix-cls} {
+                background-color: black;
+            }
         }
 
         .@{radio-prefix-cls}-inner,
@@ -228,21 +249,41 @@ span.@{radio-prefix-cls} + * {
             border-color: @primary-color;
             color: @primary-color;
             box-shadow: -1px 0 0 0 @primary-color;
+            z-index: 1;
+
+            &:before{
+                background: @primary-color;
+                opacity: 0.1;
+            }
+
+            &.@{radio-prefix-cls}-focus{
+                box-shadow: -1px 0 0 0 @primary-color, 0 0 0 2px fade(@primary-color, 20%);
+                transition: all @transition-time ease-in-out;
+                &:after{
+                    left: -3px;
+                    top: -3px;
+                    opacity: 1;
+                    background: fade(@primary-color, 20%);
+                }
+                &:first-child{
+                    box-shadow: 0 0 0 2px fade(@primary-color, 20%);
+                }
+            }
 
             &:first-child {
                 border-color: @primary-color;
-                box-shadow: none!important;
+                box-shadow: none;
             }
 
             &:hover {
                 border-color: tint(@primary-color, 20%);
-                box-shadow: -1px 0 0 0 tint(@primary-color, 20%);
+                //box-shadow: -1px 0 0 0 tint(@primary-color, 20%);
                 color: tint(@primary-color, 20%);
             }
 
             &:active {
                 border-color: shade(@primary-color, 5%);
-                box-shadow: -1px 0 0 0 shade(@primary-color, 5%);
+                //box-shadow: -1px 0 0 0 shade(@primary-color, 5%);
                 color: shade(@primary-color, 5%);
             }
         }
@@ -277,6 +318,9 @@ span.@{radio-prefix-cls} + * {
     height: @btn-circle-size-large;
     line-height: @btn-circle-size-large - 2px;
     font-size: @font-size-base;
+    &:after{
+        height: @btn-circle-size-large + 4px;
+    }
 }
 
 .@{radio-group-button-prefix-cls}.@{radio-group-prefix-cls}-small .@{radio-prefix-cls}-wrapper{
@@ -284,6 +328,11 @@ span.@{radio-prefix-cls} + * {
     line-height: @btn-circle-size-small - 2px;
     padding: 0 12px;
     font-size: @font-size-small;
+
+    &:after{
+        height: @btn-circle-size-small + 4px;
+    }
+
     &:first-child {
         border-radius: @btn-border-radius-small 0 0 @btn-border-radius-small;
     }
@@ -291,3 +340,4 @@ span.@{radio-prefix-cls} + * {
         border-radius: 0 @btn-border-radius-small @btn-border-radius-small 0;
     }
 }
+
