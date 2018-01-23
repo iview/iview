@@ -67,23 +67,27 @@
             // 在使用函数防抖后，设置 key 后，不更新组件了，导致SearchLabel 不更新 #1865
             updateSearchLabel () {
                 this.searchLabel = this.$el.textContent;
+            },
+            onSelectClose(){
+                this.isFocus = false;
+            },
+            onQueryChange(val){
+                this.queryChange(val);
             }
         },
         mounted () {
             this.updateSearchLabel();
             this.dispatch('iSelect', 'append');
-            this.$on('on-select-close', () => {
-                this.isFocus = false;
-            });
-            this.$on('on-query-change', (val) => {
-                this.queryChange(val);
-            });
+            this.$on('on-select-close', this.onSelectClose);
+            this.$on('on-query-change',this.onQueryChange);
 
             const Select = findComponentUpward(this, 'iSelect');
             if (Select) this.autoComplete = Select.autoComplete;
         },
         beforeDestroy () {
             this.dispatch('iSelect', 'remove');
+            this.$off('on-select-close', this.onSelectClose);
+            this.$off('on-query-change',this.onQueryChange);
         }
     };
 </script>
