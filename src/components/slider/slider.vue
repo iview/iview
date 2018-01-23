@@ -272,8 +272,7 @@
                 }
             },
 
-
-            sliderClick: function (event) {
+            sliderClick (event) {
                 if (this.disabled) return;
                 const currentX = this.getPointerX(event);
                 const sliderOffsetLeft = this.$refs.slider.getBoundingClientRect().left;
@@ -290,6 +289,23 @@
                 this.$emit('on-change', exportValue);
                 this.dispatch('FormItem', 'on-form-change', exportValue);
             },
+        },
+        mounted () {
+            // #2852
+            this.$on('on-visible-change', (val) => {
+                if (val && this.showTip === 'always') {
+                    this.$refs.minTooltip.doDestroy();
+                    if (this.range) {
+                        this.$refs.maxTooltip.doDestroy();
+                    }
+                    this.$nextTick(() => {
+                        this.$refs.minTooltip.updatePopper();
+                        if (this.range) {
+                            this.$refs.maxTooltip.updatePopper();
+                        }
+                    });
+                }
+            });
         }
     };
 </script>
