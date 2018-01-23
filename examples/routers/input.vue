@@ -1,15 +1,20 @@
 <template>
-    <div style="width: 300px">
-        <Input v-model="value7" type="textarea" :autosize="true" placeholder="Enter something..."></Input>
-        <Input v-model="value8" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."></Input>
+    <div>
+        {{ value1 }}
+        <Input v-model="value1" clearable icon="ios-clock-outline" size="large" placeholder="large size"></Input>
+        <br>
+        <Input v-model="value2" clearable placeholder="default size"></Input>
+        <br>
+        <Input v-model="value3" clearable size="small" placeholder="small size"></Input>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                value7: '',
-                value8: ''
+                value1: '',
+                value2: '',
+                value3: ''
             }
         }
     }
