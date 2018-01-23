@@ -1,0 +1,78 @@
+icon: '&#xe62a;'
+tags:
+  en:
+    - form
+    - group
+  zh-CN:
+    - 表单
+    - 分组
+extra:
+  en: '`Group` is a special component for wrapping form elements'
+  zh-CN: >
+    `Group`是一个特殊的表单`wrapper`组件，主要用于将表单分组，单个表单元素也算一组。常见的表单组件都`必须`作为`Group`的子组件。
+    属于`Group`子组件的有：Cell, XInput, XTextarea, XSwitch, Calendar, XNumber, Radio, XAddress, Datetime, Selector
+props:
+  title:
+    type: String
+    default: ''
+    en: group title
+    zh-CN: 分组标题
+  title-color:
+    type: String
+    default: ''
+    en: group title's color
+    zh-CN: 分组标题文字颜色
+  label-width:
+    type: String
+    default: ''
+    en: common label width for child components
+    zh-CN: 为子元素设定统一label宽度
+  label-align:
+    type: String
+    default: ''
+    en: common label text-align for child components
+    zh-CN: 为子元素设定统一对齐方式
+  label-margin-right:
+    type: String
+    default: ''
+    en: common margin right value for child components
+    zh-CN: 为子元素设定统一的右边margin
+  gutter:
+    type: String
+    default: ''
+    en: set the marginTop value when there is no title
+    zh-CN: 设定group的上边距，只能用于没有标题时
+slots:
+  default:
+    en: content body for child components
+    zh-CN: 子组件插槽
+  title:
+    version: v2.5.1
+    en: title slot
+    zh-CN: 标题插槽
+changes:
+  v2.5.4:
+    en:
+      - '[enhance] XSwitch：labelAlign support justify #1707'
+    zh-CN:
+      - '[enhance] XSwitch的labelAlign 支持 justify #1707'
+  v2.5.3:
+    en:
+      - '[enhance] prop:labelAlign support justify #1574'
+    zh-CN:
+      - '[enhance] labelAlign 支持 justify #1574'
+  v2.5.1:
+    en:
+      - '[feature] Add slot:title #1650'
+    zh-CN:
+      - '[feature] 添加 slot:title #1650'
+  v2.3.2:
+    en:
+      - '[feature] prop:gutter could be a number'
+    zh-CN:
+      - '[feature] gutter 属性允许为数字类型'
+  v2.1.1-rc.2:
+    en:
+      - '[feature] Support title margin-top variable'
+    zh-CN:
+      - '[feature] 支持 margin-top 等 less 变量'

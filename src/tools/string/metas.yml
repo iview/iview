@@ -1,0 +1,6 @@
+changes:
+  v2.3.6:
+    en:
+      - '[enhance] trim is now alias to stringTrim'
+    zh-CN:
+      - '[enhance] 可以直接引用 trim 代替原来的 stringTrim'

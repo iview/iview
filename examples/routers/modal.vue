@@ -6,7 +6,7 @@
         <Button @click="instance('error')">Error</Button>
         <Modal
             v-model="modal1"
-            :closable="false"
+            :closable="true"
             title="123213"
             >
             <p>Content of dialog</p>

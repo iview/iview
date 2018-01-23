@@ -42,9 +42,8 @@
     }
 
     &-header {
+        padding: 14px 16px;
         .content-header;
-        text-align: center;
-        font-size: @font-size-lager;
     }
 
     &-close {
@@ -53,32 +52,19 @@
 
     &-body {
         // cjc-custom
-        // padding: 16px;
+        padding: 16px;
         font-size: 12px;
         line-height: 1.5;
     }
 
     &-footer {
         border-top: 1px solid @border-color-split;
-        padding: 5px;
+        padding: 12px 18px;
         text-align: right;
-        button:first-child {
-            color: @text-color;
-        }
-        button {
-            width: 48%;
-        }
         button + button {
             margin-left: 8px;
             margin-bottom: 0;
         }
-    }
-    &-line {
-        display: inline-block;
-        height: 36px;
-        width: 1px;
-        vertical-align: middle;
-        background: #e9eaec;
     }
 }
 

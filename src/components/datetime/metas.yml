@@ -1,0 +1,338 @@
+icon: '&#xe60a;'
+extra: |
+  <p class="tip">
+  需要在`Group`组件里使用
+  </p>
+
+
+  该组件支持以`plugin`形式调用：
+
+  ```
+  // 以 plugin 形式使用时，请在入口处引入：
+  import { DatetimePlugin } from 'vux'
+  Vue.use(DatetimePlugin)
+
+  // 组件内使用
+  this.$vux.datetime.show({
+    value: '', // 其他参数同 props
+    onHide () {
+      const _this = this
+    },
+    onShow () {
+      const _this = this
+    }
+  })
+
+  this.$vux.datetime.hide()
+  ```
+
+tags:
+  en:
+    - date
+    - datetime
+    - form
+  zh-CN:
+    - 日期
+    - 选择
+    - 表单
+props:
+  format:
+    type: String
+    default: 'YYYY-MM-DD'
+    en: date format. Special characters are not supported, for example, YYYY-MM-DD HH:mm:ss
+    zh-CN: 时间格式，不支持特殊字符，只能类似 YYYY-MM-DD HH:mm:ss 这样的格式
+  title:
+    type: String
+    default: ''
+    en: cell title
+    zh-CN: 标题
+  value:
+    type: String
+    default: ''
+    en: form's value, use `v-model` for binding
+    zh-CN: 表单值，`v-model`绑定
+  inline-desc:
+    type: String
+    default: ''
+    en: description of the cell
+    zh-CN: 描述字符
+  placeholder:
+    type: String
+    default: ''
+    en: placeholder, works when value is empty
+    zh-CN: 提示文字，当`value`为空时显示
+  min-year:
+    type: Number
+    default: ''
+    en: min-year of the form
+    zh-CN: 可选择的最小年份
+  max-year:
+    type: Number
+    default: ''
+    en: max-year of the form
+    zh-CN: 可选择的最大年份
+  min-hour:
+    type: Number
+    default: 0
+    en: min hour
+    zh-CN: 限定小时最小值
+  max-hour:
+    type: Number
+    default: 23
+    en: max hour
+    zh-CN: 限定小时最大值
+  confirm-text:
+    type: String
+    default: ok(确认)
+    en: confirm button's text
+    zh-CN: 确认按钮文字
+  cancel-text:
+    type: String
+    default: cancel(取消)
+    en: cancel button's text
+    zh-CN: 取消按钮文字
+  clear-text:
+    type: String
+    default: ''
+    en: custom button's text which shows in the middle of the header
+    zh-CN: 显示在中间的自定义按钮的文字
+  year-row:
+    type: String
+    default: '{value}'
+    en: render template for the year column
+    zh-CN: 年份的渲染模板
+  month-row:
+    type: String
+    default: '{value}'
+    en: render template for the month column
+    zh-CN: 月份的渲染模板
+  day-row:
+    type: String
+    default: '{value}'
+    en: render template for the day column
+    zh-CN: 日期的渲染模板
+  hour-row:
+    type: String
+    default: '{value}'
+    en: render template for the hour column
+    zh-CN: 小时的渲染模板
+  minute-row:
+    type: String
+    default: '{value}'
+    en: render template for the minute column
+    zh-CN: 分钟的渲染模板
+  start-date:
+    type: String
+    en: 'start date, must be YYYY-MM-DD. Please use `min-hour` and `max-hour` to limit the range of hours'
+    zh-CN: '限定最小日期，格式必须为 YYYY-MM-DD，注意该限制只能限定到日期，不能限定到小时分钟。小时限定请使用`min-hour`和`max-hour`'
+  end-date:
+    type: String
+    en: 'end date, must be YYYY-MM-DD. Please use `min-hour` and `max-hour` to limit the range of hours'
+    zh-CN: 限定最大日期，格式必须为 YYYY-MM-DD，注意该限制只能限定到日期，不能限定到小时分钟
+  required:
+    type: Boolean
+    default: false
+    en: if required
+    zh-CN: 是否必填
+  display-format:
+    version: v2.1.1-rc.11
+    type: Function
+    en: used to format display value
+    zh-CN: 自定义显示值
+  readonly:
+    version: v2.3.6
+    en: readonly mode, show like a cell
+    zh-CN: 只读模式，显示类似于 cell
+  show:
+    version: v2.3.7
+    type: Boolean
+    en: control visibility of datetime, require vue^2.3
+    zh-CN: 控制显示，要求 vue^2.3
+  minute-list:
+    version: v2.3.7
+    type: Array
+    en: specify minute list, for instance ['00', '15', '30', '45']
+    zh-CN: 定义分钟列表，比如 ['00', '15', '30', '45']
+  hour-list:
+    version: v2.3.7
+    type: Array
+    en: specify hour list, for instance ['09', '10', '11', '12']
+    zh-CN: 定义小时列表，比如 ['09', '10', '11', '12']
+  default-selected-value:
+    version: v2.4.1
+    en: set default selected value, works only when value is empty
+    zh-CN: 设置默认选中日期，当前 value 为空时有效
+  compute-hours-function:
+    version: v2.5.5
+    type: Function
+    en: 'dynamically set hours list, params `(value, isToday, generateRange)`'
+    zh-CN: '动态设置小时列表，参数为 `(value, isToday, generateRange)`'
+  compute-days-function:
+    version: v2.6.1
+    type: Function
+    en: 'dynamically set days list, params `({year, month, min, max}, generateRange)`'
+    zh-CN: '动态设置日期列表，参数为 `({year, month, min, max}, generateRange)`'
+slots:
+  default:
+    en: trigger element content
+    zh-CN: 触发元素内容
+  title:
+    version: v2.3.6
+    en: title slot
+    zh-CN: title slot
+events:
+  on-change:
+    params: '`(value)`'
+    en: $emits when value changes, `(newVal)`
+    zh-CN: 表单值变化时触发, 参数 `(newVal)`
+  on-clear:
+    en: $emits when click the button in the middle of the header
+    zh-CN: 点击显示在中间的自定义按钮时触发
+  on-show:
+    en: fires when datetime shows
+    zh-CN: 弹窗显示时触发
+  on-hide:
+    params: '`(type)`, type is one of [cancel, confirm]'
+    version: v2.7.4
+    en: fires when datetime hides
+    zh-CN: 弹窗关闭时触发
+  on-cancel:
+    version: v2.7.4
+    en: fires when cancel button is clicked or mask is clicked
+    zh-CN: 点击取消按钮或者遮罩时触发，等同于事件 on-hide(cancel)
+  on-confirm:
+    version: v2.7.4
+    en: fires when confirm button is clicked
+    zh-CN: 点击确定按钮时触发，等同于事件 on-hide(confirm)
+changes:
+  v2.7.8:
+    en:
+      - '[fix] fix `on-hide` event trigger twice #2379'
+      - '[fix] fix cannot set `show` to `true` initially'
+    zh-CN:
+      - '[fix] 修复 `on-hide` 事件触发两次的问题 #2379'
+      - '[fix] 修复初始化时 `show` 值为 `true` 无效的问题'
+  2.7.6:
+    en:
+      - '[fix] column value use number type, fix binding value is not equal to datetimepicker value #2296'
+    zh-CN:
+      - '[fix] 列的值使用number类型，修正绑定值与datetimepicker值不相等 #2296'
+  v2.7.4:
+    en:
+      - '[feature] add event:on-confirm event:on-cancel #2221'
+    zh-CN:
+      - '[feature] 支持事件 on-confirm on-cancel #2221'
+  v2.7.2:
+    en:
+      - '[enhance] set default start-date if end-date is specified but start-date is not #2158'
+    zh-CN:
+      - '[enhance] 当指定结束日期但未指定开始日期时使用默认年第一天作为开始日期 #2158'
+  v2.7.1:
+    en:
+      - '[fix] fix less variables do not work in plugin usage #2152'
+    zh-CN:
+      - '[fix] 修复插件使用时 less 变量不生效问题 #2152'
+  v2.7.0:
+    en:
+      - '[fix] fix ssr i18n bug'
+      - '[fix] fix datetime still shows when prop:readonly is true #2079'
+    zh-CN:
+      - '[fix] 修复服务端渲染多语言 bug'
+      - '[fix] 修复 readonly 为 true 时点击还会显示弹窗的问题 #2079'
+  v2.6.1:
+    en:
+      - '[feature] support prop:compute-days-function for dynamically setting days #1992'
+    zh-CN:
+      - '[feature] 支持属性 compute-days-function 用以动态设置日期 #1992 '
+  v2.6.0:
+    en:
+      - '[fix] fix i18n for cancel_text confirm_text'
+    zh-CN:
+      - '[fix] 修复取消文字、确认文字国际化显示问题'
+  v2.5.11:
+    en:
+      - '[fix] fix :show.syc="false" do no work #1918'
+      - '[fix] fix prop:compute-hours-function not working when month is changed'
+    zh-CN:
+      - '[fix] 修复 :show.sync 设为 false 无效 #1918'
+      - '[fix] 修复特定情况下月份变化不会触发小时重新渲染的问题'
+  v2.5.10:
+    en:
+      - '[feature] support @cell-value-color #1874'
+    zh-CN:
+      - '[feature] 值文字颜色受控于 @cell-value-color #1874'
+  v2.5.9:
+    en:
+      - '[fix] fix error when format is YYYY #1861'
+    zh-CN:
+      - '[fix] 修复格式为 YYYY 时的报错 #1861'
+  v2.5.5:
+    en:
+      - '[feature] support prop:compute-hours-function #1749'
+      - '[enhance] better mask transition'
+    zh-CN:
+      - '[feature] 支持动态设置小时列表 #1749'
+      - '[enhance] 更加流畅的遮罩层动画'
+  v2.4.1:
+    en:
+      - '[fix] Re-render when readonly is changed #1593'
+      - '[feature] Support prop:default-selected-value #1576'
+    zh-CN:
+      - '[fix] readonly 值变化时重新渲染 #1593'
+      - '[feature] 支持通过 prop:default-selected-value 设置默认选中日期 #1576'
+  v2.4.0:
+    en:
+      - '[enhance] use the same popup header style as popup-picker'
+    zh-CN:
+      - '[enhance] 统一弹窗头部样式，和 popup-picker 一致'
+  v2.3.7:
+    en:
+      - '[feature] Add prop:show to control visibility #1538'
+      - '[fix] Fix range error with format YYYY-MM #1358'
+      - '[feature] Add prop:hourList prop:minuteList'
+      - '[fix] startDate year should overwrite minYear #1358'
+    zh-CN:
+      - '[feature] 可以使用 :show.sync 来控制控件显示 #1358'
+      - '[fix] 修复格式为 YYYY-MM 时的日期范围错误 #1528'
+      - '[feature] 支持通过 prop:hourList prop:minuteList 自定义小时和分钟列表'
+      - '[fix] 开始日期年份应该覆盖最小年份(minYear) #1358'
+  v2.3.6:
+    en:
+      - '[feature] Add slot:title'
+      - '[feature] Add prop:readonly'
+      - '[fix] Fix a bug caused by scroller #1406'
+    zh-CN:
+      - '[feature] 添加 slot:title'
+      - '[feature] 添加 prop:readonly'
+      - '[fix] 修复 scroller 支持数字类型引入的 bug #1406'
+  v2.3.4:
+    en:
+      - '[fix] do not trigger on-change on first-value-setting'
+    zh-CN:
+      - '[fix] 初始化时不触发 on-change 事件'
+  v2.2.1-rc.8:
+    en:
+      - '[enhance] now changing prop:format will trigger re-rendering'
+    zh-CN:
+      - '[enhance] 修改 prop:format 会触发重新渲染'
+  v2.2.0:
+    en:
+      - '[fix] render picker on nextTick #1180'
+    zh-CN:
+      - '[fix] 在 nextTick 回调渲染 picker 避免赋值报错 #1180'
+  v2.1.1-rc.11:
+    en:
+      - '[feature] Support prop:display-format #1086 @greedying'
+    zh-CN:
+      - '[feature] 支持格式化显示 prop:display-format #1086 @greedying'
+  v2.1.1-rc.7:
+    en:
+      - '[enhance] Support PC mouse drag  #1039 @michael829'
+    zh-CN:
+      - '[enhance] 支持 PC 上鼠标选择 #1039 @michael829'
+  v2.1.0:
+    zh-CN:
+      - '[fix] 修复`label`宽度没有受限于`group`设置'
+  v2.1.0-rc.46:
+    zh-CN:
+      - '[feature] 支持配置`取消`和`确定`的文字颜色 #715 @greedying'

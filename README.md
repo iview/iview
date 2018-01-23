@@ -10,5 +10,7 @@
 ```
 
     1.字体库更新，以及modal框修改
+    2.pullRefresh组件添加
+    3.vux的popup, popup-picker及相关组件添加
 ```
 [MIT](http://opensource.org/licenses/MIT)

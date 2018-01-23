@@ -1,0 +1,155 @@
+icon: '&#xe65c;'
+tags:
+  en:
+    - preview
+    - swipephoto
+    - image
+  zh-CN:
+    - 预览
+    - 图片
+extra:
+  en: |
+  
+    example for list:
+
+    ``` js
+    [{
+      src: 'https://placekitten.com/800/400',
+      w: 600,
+      h: 400
+    },
+    {
+      src: 'https://placekitten.com/1200/900',
+      msrc: 'https://placekitten.com/120/90', // 缩略图
+      w: 1200,
+      h: 900
+    }]
+    ```
+    
+    <p class="warning">before v2.4.0, `w` and `h` should be specified.</p>
+
+    Prevewing an image by index:
+
+    ``` js
+    this.$refs.previewer.show(index)
+    ```
+
+  zh-CN: |
+
+    list的数据示例如图：
+
+    ``` js
+    [{
+      src: 'https://placekitten.com/800/400',
+      w: 600,
+      h: 400
+    },
+    {
+      src: 'https://placekitten.com/1200/900',
+      w: 1200,
+      h: 900
+    }]
+    ```
+
+    <p class="warning">注意在 v2.4.0 之前 w 和 h 都必须填写</p>
+
+    显示特定index的图片，使用`ref`:
+
+    ``` js
+    this.$refs.previewer.show(index)
+    ```
+
+    <p class="warn">注意，当你自定义添加按钮时，需要在 photoswipe 选项设置 clickable 元素，否则点击将没有响应</p>
+
+    
+    ``` html
+    <previewer ref="previewer" :list="previewerList" :options="options">
+      <template slot="button-after">
+        <span class="previewer-delete-icon-box">
+          <img src="../assets/previewer_delete_icon.png" width="22" height="22" class="previewer-delete-icon" @click.prevent.stop="removeImg">
+        </span>
+      </template>
+    </previewer>
+    ```
+
+
+    ``` js
+    options: {
+      isClickableElement: function (el) {
+        return /previewer-delete-icon/.test(el.className)
+      }
+    }
+    ```
+props:
+  list: 
+    type: Array
+    en: images list
+    zh-CN: 图片列表
+  options:
+    type: 'Object'
+    en: options for `photoswipe`
+    zh-CN: '`photoswipe`的设置'
+events:
+  on-close:
+    version: v2.2.1-rc.4
+    en: emits after closing
+    zh-CN: 关闭时触发
+methods:
+  goTo:
+    version: v2.5.10
+    params: '(index)'
+    en: go to specified image
+    zh-CN: 跳转到特定图片
+  prev:
+    version: v2.5.10
+    en: go to previous image
+    zh-CN: 跳转到上一张
+  v2.6.4:
+    version: v2.5.10
+    en: go to next image
+    zh-CN: 跳转到下一张
+  getCurrentIndex:
+    version: v2.6.3
+    en: get current index
+    zh-CN: 获取当前图片索引
+slots:
+  button-after:
+    version: v2.6.3
+    en: slot after control button list
+    zh-CN: 操作按钮之后，可以添加自定义图标
+  button-before:
+    version: v2.6.3
+    en: slot before control button list
+    zh-CN: 操作按钮之前，可以添加自定义图标
+changes:
+  v2.6.4:
+    en:
+      - '[feature] automatically update view if one slide is deleted'
+    zh-CN:
+      - '[feature] 方便删除操作，绑定数据减少一张时自动更新示图，有更多图片时切换到下一张，没有时将自动关闭预览'
+  v2.6.3:
+    en:
+      - '[fix] fix method name starts with _ will get vue(2.4.4) warning #2001'
+      - '[feature] add method:getCurrentIndex'
+      - '[feature] add slot:button-before slot:button-after'
+    zh-CN:
+      - '[fix] 修复组件函数名字以下划线开头将会被 Vue(2.4.4) 警告的问题 #2001'
+      - '[feature] 添加 getCurrentIndex 方法'
+      - '[feature] 添加 slot:button-before 和 slot:button-after'
+  v2.5.10:
+    en:
+      - '[enhance] Support method:goTo  #1888'
+    zh-CN:
+      - '[enhance] 支持 goTo 方法 #1888'
+  v2.4.0:
+    en:
+      - '[enhance] Use src as msrc by default'
+      - '[enhance] No more force setting width and height #1426'
+    zh-CN:
+      - '[enhance] 使用图片作为缩略图，防止先显示黑色区域'
+      - '[enhance] 不再强制要求设置宽高 #1426'
+  v2.2.1-rc.4:
+    en:
+      - '[enhance] Increase the closing event #1245'
+    zh-CN:
+      - '[enhance] 增加关闭事件 #1245'

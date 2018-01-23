@@ -1,0 +1,4 @@
+changes:
+  v2.1.0-rc.48:
+    zh-CN:
+      - '[feature] 添加`throttle`工具'

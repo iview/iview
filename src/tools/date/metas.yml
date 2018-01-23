@@ -1,0 +1,13 @@
+changes:
+  v2.3.2:
+    en:
+      - '[enhance] return empty string when no date is specified'
+    zh-CN:
+      - '[enhance] 无时间参数时返回字符串'
+  v2.1.1-rc.9:
+    en:
+      - '[feature] Add dateRange tool function'
+      - '[feature] format support string-type of date'
+    zh-CN:
+      - '[feature] 添加日期范围生成函数'
+      - '[feature] format 函数支持字符串参数'

@@ -86,6 +86,10 @@ const router = new VueRouter({
             component: require('./routers/popupPicker.vue')
         },
         {
+            path: '/previewer',
+            component: require('./routers/previewer.vue')
+        },
+        {
             path: '/collapse',
             component: require('./routers/collapse.vue')
         },

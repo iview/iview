@@ -54,8 +54,12 @@ import {Select, Option, OptionGroup} from './components/select';
 import locale from './locale/index';
 
 // vux
+import popup from './components/popup'
 import popupPicker from './components/popup-picker'
-
+import previewer from './components/previewer'
+import datetime from './components/datetime'
+// custom
+import pullRefresh from './components/pullRefresh'
 const components = {
     Affix,
     Alert,
@@ -129,10 +133,17 @@ const components = {
 
 const vux = {
     popupPicker: popupPicker,
+    popup,
+    previewer,
+    datetime
+}
+const custom = {
+    pullRefresh: pullRefresh,
 }
 const iview = {
     ...components,
     ...vux,
+    ...custom,
     iButton: Button,
     iCircle: Circle,
     iCol: Col,
