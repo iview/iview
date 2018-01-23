@@ -258,8 +258,9 @@
             updateResult (result) {
                 this.tmpSelected = result;
             },
-            updateSelected (init = false) {
-                if (!this.changeOnSelect || init) {
+            updateSelected (init = false, changeOnSelectDataChange = false) {
+                // #2793 changeOnSelectDataChange used for changeOnSelect when data changed and set value
+                if (!this.changeOnSelect || init || changeOnSelectDataChange) {
                     this.broadcast('Caspanel', 'on-find-selected', {
                         value: this.currentValue
                     });
@@ -386,7 +387,7 @@
                     if (validDataStr !== this.validDataStr) {
                         this.validDataStr = validDataStr;
                         if (!this.isLoadedChildren) {
-                            this.$nextTick(() => this.updateSelected());
+                            this.$nextTick(() => this.updateSelected(false, this.changeOnSelect));
                         }
                         this.isLoadedChildren = false;
                     }
