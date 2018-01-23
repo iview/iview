@@ -1,0 +1,7 @@
+intro:
+  en: it is the child component of cell, you cannot use it alone
+  zh-CN: cell的子组件，不能单独使用
+slots:
+  default:
+    en: text content
+    zh-CN: 文字内容

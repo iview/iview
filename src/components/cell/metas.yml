@@ -1,0 +1,160 @@
+icon: '&#xe62a;'
+extra:
+  zh-CN: >
+    ```html
+      <group>
+        <cell title="title" value="value"></cell>
+      </group>
+    ```
+
+    <p class="tip">cell只能在`Group`中使用</p>
+tags:
+  en:
+    - cell
+    - form
+  zh-CN:
+    - 表单
+    - 列表
+props:
+  title:
+    type: String
+    default: ''
+    en: label text on the left
+    zh-CN: 左边标题文字
+  value:
+    type: String
+    default: ''
+    en: right text
+    zh-CN: 右侧文字，复杂的样式布局请使用slot
+  inline-desc:
+    type: String
+    default: ''
+    en: the text below title
+    zh-CN: 标题下面文字，一般为说明文字
+  link:
+    type: String, Object
+    en: redirect link. Can be http(s) protocol; can also be vue-router format
+    zh-CN: 点击链接，可以为http(s)协议，也可以是 vue-router 支持的地址形式
+  is-link:
+    type: Boolean
+    default: false
+    en: if this is a link; if true, there will be an arrow on the right
+    zh-CN: 是否为链接，如果是，右侧将会出现指引点击的右箭头
+  primary:
+    type: String
+    default: 'title'
+    en: "main content area, can be in ['title', 'content']"
+    zh-CN: "可选值为 ['title', 'content']，对应的div会加上weui_cell_primary类名实现内容宽度自适应"
+  is-loading:
+    version: v2.2.0
+    type: Boolean
+    default: false
+    en: if show loading icon, good for asynchronous loading
+    zh-CN: 是否显示加载图标，适用于异步加载数据的场景
+  value-align:
+    version: v2.2.0
+    default: left
+    en: value's text-align，one of left, right. prop:primary will be set to content if value-align value is right
+    zh-CN: 文字值对齐方式，可选值为 left right。当设为 right 时，primary 值将会设为 content
+  border-intent:
+    version: v2.2.1-rc.1
+    type: Boolean
+    default: true
+    en: if set border intent on the left side
+    zh-CN: 是否显示边框与左边的间隙
+  arrow-direction:
+    version: v2.2.1-rc.1
+    type: String
+    en: arrow direction, one of up, down
+    zh-CN: 右侧箭头方向，可选有 up down
+  disabled:
+    version: v2.2.2
+    type: Boolean
+    en: set disabled style for label and arrow (if is-link is true)
+    zh-CN: 对 label 和箭头(如果使用 is-link )显示不可操作样式
+  align-items:
+    version: v2.6.4
+    type: String
+    default: center
+    en: align-items value
+    zh-CN: align-items 样式值
+slots:
+  default:
+    en: "right area, you can use default slot instead of prop:value so you can use complicated layout"
+    zh-CN: 右侧内容，相比于value的优点是可以用复杂的样式或者调用组件
+  value:
+    en: "[deprecated] the same as default slot"
+    zh-CN: "[废弃] 同默认slot"
+  icon:
+    en: icon area before title
+    zh-CN: 标题左侧的图像位置
+  after-title:
+    en: after title
+    zh-CN: 标题右侧位置
+  child:
+    en: the child element of the cell, you can add an element with absolute position
+    zh-CN: cell的直接子元素，因此可以添加一个相对于cell绝对定位的元素
+  inline-desc:
+    version: v2.2.1-rc.6
+    en: inline-desc slot, the same function as prop:inline-desc but can use html
+    zh-CN: inline-desc 内容，和 prop:inline-desc 功能一样，但是可以使用 html
+  title:
+    version: v2.3.3
+    en: title slot
+    zh-CN: title 插槽，方便自定义样式
+changes:
+  v2.7.0:
+    en:
+      - '[fix] fix ssr rendering issue'
+    zh-CN:
+      - '[fix] 修复 ssr 渲染问题'
+  v2.6.4:
+    en:
+      - '[feature] support prop:align-items'
+    zh-CN:
+      - '[feature] 支持属性 align-items'
+  v2.3.6:
+    en:
+      - '[feature] Support arrow less variables'
+    zh-CN:
+      - '[feature] 支持多个箭头样式变量'
+  v2.3.3:
+    en:
+      - '[feature] Support slot:title'
+    zh-CN:
+      - '[feature] 支持 slot:title'
+  v2.2.2:
+    en:
+      - '[feature] Support prop:disabled'
+    zh-CN:
+      - '[feature] 支持 prop:disabled 显示禁用样式'
+  v2.2.1-rc.6:
+    en:
+      - '[feature] Support slot:inline-desc'
+    zh-CN:
+      - '[feature] 支持 slot:inline-desc'
+  v2.2.1-rc.1:
+    en:
+      - '[feature] Support prop:border-intent'
+      - '[feature] Support prop:arrow-direction'
+    zh-CN:
+      - '[feature] 支持 prop:border-intent, 用以不显示边框与左边间隙'
+      - '[feature] 支持 prop:arrow-direction, 用以在折叠场景下动态更改方向'
+  v2.2.0:
+    en:
+      - '[feature] Support prop:is-loading'
+    zh-CN:
+      - '[feature] 支持 prop:is-loading 显示加载图标，适用于异步加载数据的场景'
+  v2.1.1-rc.13:
+    en:
+      - '[fix] Support Group label styles #1110'
+    zh-CN:
+      - '[fix] 修复 label 宽度不受控于 Group #1110'
+  v2.1.1-rc.3:
+    en:
+      - '[feature] Add font-size variable #990 @wg5945'
+    zh-CN:
+      - '[feature] 支持字体变量 #990 @wg5945'
+  v2.1.0-rc.47:
+    zh-CN:
+      - '[enhance] 修复内容多时的箭头位置 #715 @greedying '

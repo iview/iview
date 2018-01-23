@@ -4,10 +4,43 @@
         <Button @click="instance('success')">Success</Button>
         <Button @click="instance('warning')">Warning</Button>
         <Button @click="instance('error')">Error</Button>
+        <Modal
+            v-model="modal1"
+            :closable="false"
+            title="123213"
+            >
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <!-- <div slot="footer">
+                <Button type="error" size="large" long :loading="modal_loading" @click="del">Delete</Button>
+            </div> -->
+        </Modal>
+        <Button @click="modal1 = true">Error</Button>
     </div>
 </template>
 <script>
     export default {
+        data() {
+            return {
+                modal1: false
+            }
+        },
         methods: {
             instance (type) {
                 const title = 'Title';

@@ -51,6 +51,9 @@
     "vue": "^2.5.2"
   },
   "devDependencies": {
+    "array-filter": "^1.0.0",
+    "array-find": "^1.0.0",
+    "array-map": "0.0.0",
     "autoprefixer-loader": "^2.0.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",

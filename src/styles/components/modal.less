@@ -43,6 +43,8 @@
 
     &-header {
         .content-header;
+        text-align: center;
+        font-size: @font-size-lager;
     }
 
     &-close {
@@ -58,12 +60,25 @@
 
     &-footer {
         border-top: 1px solid @border-color-split;
-        padding: 12px 18px 12px 18px;
+        padding: 5px;
         text-align: right;
+        button:first-child {
+            color: @text-color;
+        }
+        button {
+            width: 48%;
+        }
         button + button {
             margin-left: 8px;
             margin-bottom: 0;
         }
+    }
+    &-line {
+        display: inline-block;
+        height: 36px;
+        width: 1px;
+        vertical-align: middle;
+        background: #e9eaec;
     }
 }
 

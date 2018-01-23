@@ -225,9 +225,9 @@
                 return this.open === null ? this.visible : this.open;
             },
             iconType () {
-                let icon = 'ios-calendar-outline';
-                if (this.type === 'time' || this.type === 'timerange') icon = 'ios-clock-outline';
-                if (this.showClose) icon = 'ios-close';
+                let icon = 'calendar';
+                if (this.type === 'time' || this.type === 'timerange') icon = 'shijian1';
+                if (this.showClose) icon = 'jiaochacross78';
                 return icon;
             },
             transition () {

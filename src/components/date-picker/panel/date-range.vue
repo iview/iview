@@ -11,11 +11,11 @@
                 <div :class="[datePrefixCls + '-header']" v-show="leftCurrentView !== 'time'">
                     <span
                         :class="iconBtnCls('prev', '-double')"
-                        @click="prevYear('left')"><Icon type="ios-arrow-left"></Icon></span>
+                        @click="prevYear('left')"><Icon type="shuangjiantouzuo"></Icon></span>
                     <span
                         :class="iconBtnCls('prev')"
                         @click="prevMonth"
-                        v-show="leftCurrentView === 'date'"><Icon type="ios-arrow-left"></Icon></span>
+                        v-show="leftCurrentView === 'date'"><Icon type="arrowleft"></Icon></span>
                     <date-panel-label
                         :date-panel-label="leftDatePanelLabel"
                         :current-view="leftCurrentView"
@@ -23,7 +23,7 @@
                     <span
                         :class="iconBtnCls('next', '-double')"
                         @click="nextYear('left')"
-                        v-show="leftCurrentView === 'year' || leftCurrentView === 'month'"><Icon type="ios-arrow-right"></Icon></span>
+                        v-show="leftCurrentView === 'year' || leftCurrentView === 'month'"><Icon type="shuangjiantouyou"></Icon></span>
                 </div>
                 <date-table
                     v-show="leftCurrentView === 'date'"
@@ -62,18 +62,18 @@
                      <span
                          :class="iconBtnCls('prev', '-double')"
                          @click="prevYear('right')"
-                         v-show="rightCurrentView === 'year' || rightCurrentView === 'month'"><Icon type="ios-arrow-left"></Icon></span>
+                         v-show="rightCurrentView === 'year' || rightCurrentView === 'month'"><Icon type="shuangjiantouzuo"></Icon></span>
                     <date-panel-label
                         :date-panel-label="rightDatePanelLabel"
                         :current-view="rightCurrentView"
                         :date-prefix-cls="datePrefixCls"/>
                     <span
                         :class="iconBtnCls('next', '-double')"
-                        @click="nextYear('right')"><Icon type="ios-arrow-right"></Icon></span>
+                        @click="nextYear('right')"><Icon type="shuangjiantouyou"></Icon></span>
                     <span
                         :class="iconBtnCls('next')"
                         @click="nextMonth"
-                        v-show="rightCurrentView === 'date'"><Icon type="ios-arrow-right"></Icon></span>
+                        v-show="rightCurrentView === 'date'"><Icon type="arrowright"></Icon></span>
                 </div>
                 <date-table
                     v-show="rightCurrentView === 'date'"

@@ -1,0 +1,157 @@
+icon: '&#xe61e;'
+tags:
+  en:
+    - popup
+    - dialog
+  zh-CN:
+    - 弹窗
+props:
+  value:
+    type: Boolean
+    en: visibility of popup, use `v-model` for binding
+    zh-CN: 是否关闭，使用`v-model`绑定
+  height:
+    type: String
+    default: 'auto'
+    en: popup height, works when position is top or bottom
+    zh-CN: 高度，设置`100%`为整屏高度。当 position 为 top 或者 bottom 时有效。
+  hide-on-blur:
+    type: Boolean
+    default: true
+    en: if closing popup when mask being clicked
+    zh-CN: 点击遮罩时是否自动关闭
+  is-transparent:
+    version: v2.1.1-rc.9
+    type: Boolean
+    default: false
+    en: if using transparent background
+    zh-CN: 是否为透明背景
+  width:
+    version: v2.2.1-rc.6
+    type: String
+    default: auto
+    en: if you want to set 100% width, you should use this prop. only works when position is left or right
+    zh-CN: 设置 100% 宽度必须使用该属性。在 position 为 left 或者 right 时有效。
+  position:
+    version: v2.2.1-rc.6
+    type: String
+    default: bottom
+    en: popup position, shoule be one of ['left', 'right', 'top', 'bottom']
+    zh-CN: 位置，可取值 ['left', 'right', 'top', 'bottom']
+  show-mask:
+    version: v2.2.1-rc.6
+    type: Boolean
+    default: true
+    en: whether show mask
+    zh-CN: 是否显示遮罩
+  popup-style:
+    version: v2.5.2
+    type: Object
+    en: popup style
+    zh-CN: 弹窗样式，可以用于强制指定 z-index
+  hide-on-deactivated:
+    version: v2.5.5
+    type: Boolean
+    default: true
+    en: whether hide popup on deactived event when using keep-alive
+    zh-CN: 是否在 deactived 事件触发时自动关闭，避免在路由切换时依然显示弹窗
+events:
+  on-hide:
+    en: emits when then popup is closed
+    zh-CN: 关闭时触发
+  on-show:
+    en: emits when the popup shows
+    zh-CN: 显示时触发
+  on-first-show:
+    en: emits at the first time the popup shows
+    zh-CN: 第一次显示时触发，可以在该事件回调里初始化数据或者界面
+slots:
+  default:
+    en: content body
+    zh-CN: 弹窗主体内容
+changes:
+  v2.5.12:
+    en:
+      - '[fix] clean vux-modal-open on beforeDestroy and deactivated #1921'
+    zh-CN:
+      - '[fix] 在 beforeDestroy 和 deactivated 事件中清除设置于 body 上的 vux-modal-open 类名 #1921'
+  v2.5.11:
+    en:
+      - '[fix] add vux-modal-open only when global config:$layout is VIEW_BOX #1893'
+    zh-CN:
+      - '[fix] 仅在全局配置 $layout = VIEW_BOX 时用 fixed body 的形式阻止页面滚动 #1893'
+  v2.5.10:
+    en:
+      - '[fix] Fix class helper typo issue #1893'
+    zh-CN:
+      - '[fix] 修复 class 工具函数拼写错误 #1893'
+  v2.5.9:
+    en:
+      - '[fix] Fix layout errors when body not set 100% width #1867'
+    zh-CN:
+      - '[feature] 修复当body没有设置100%宽度时出现的布局错乱问题 #1867'
+  v2.5.5:
+    en:
+      - '[feature] Auto hide popup on deactived #1774'
+    zh-CN:
+      - '[feature] 在 deactived 事件触发时自动关闭，避免在路由切换时依然显示弹窗，可以使用 prop:hide-on-deactivated 进行禁用 #1774'
+  v2.5.2:
+    en:
+      - '[feature] Add prop:popup-style #1656'
+    zh-CN:
+      - '[feature] 支持弹窗样式设置 prop:popup-style #1656'
+  v2.3.7:
+    en:
+      - '[fix] Fix missing mask when initial value is true #1555'
+    zh-CN:
+      - '[fix] 修复默认值为 true 时遮罩没有显示的问题 #1555'
+  v2.3.3:
+    en:
+      - '[enhance] Set max-height:100% by default'
+      - '[feature] Support prop:max-height'
+      - '[fix] disable mask scrolling on mobile #1475 @xiaobinhong1'
+    zh-CN:
+      - '[enhance] 默认 max-height 设为 100%，避免不设置高度时内容过长无法滚动'
+      - '[feature] 支持 prop:max-height'
+      - '[fix] 禁止遮罩层在手机上滚动 #1475 @xiaobinhong1'
+  v2.2.2:
+    en:
+      - '[fix] Fix mask closing issue in some situation. #1312'
+    zh-CN:
+      - '[fix] 修复在某些情况下遮罩被错误关闭的问题 #1312'
+  v2.2.1-rc.6:
+    en:
+      - '[fix] Fix popup classname get lost'
+      - '[feature] Support prop:show-mask'
+      - '[feature] Support prop:position'
+      - '[feature] Support prop:width'
+    zh-CN:
+      - '[fix] 修复 popup 类名丢失问题'
+      - '[feature] 支持 prop:show-mask 隐藏遮罩'
+      - '[feature] 支持 prop:position 设定位置'
+      - '[feature] 支持 prop:width 设定左右位置时的宽度'
+  v2.1.1-rc.11:
+    en:
+      - '[fix] Fix wrong overflowScrolling when mask is disabled'
+    zh-CN:
+      - '[fix] 修复遮罩禁用点击时错误设置 overflowScrolling 的问题'
+  v2.1.1-rc.9:
+    en:
+      - '[enhance] Better mask transition'
+      - '[feature] Support tranparent background'
+      - '[feature] Support less variable: @popup-background-color'
+    zh-CN:
+      - '[enhance] 更流畅的遮罩层动画'
+      - '[feature] 支持透明背景'
+      - '[feature] 支持背影颜色变量 @popup-background-color'
+  v2.1.1-rc.6:
+    en:
+      - '[fix] Fix wrong setting of overflow-scrolling when using multi popup on Safari #1015 @think2011'
+    zh-CN:
+      - '[fix] 修复 Safari 上关闭第二个popup导致的问题 #1015 @think2011'
+  v2.1.1-rc.1:
+    en:
+      - '[fix] Fix overflow-scrolling setting in safari #311 @linhaobin'
+    zh-CN:
+      - '[fix] 修复 `overflow-scrolling` 设置逻辑遗漏问题 #311 @linhaobin'
+    

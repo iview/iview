@@ -4,7 +4,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import App from './app.vue';
-import iView from '../src/index';
+import iView from '../src';
 // import locale from '../src/locale/lang/en-US';
 import locale from '../src/locale/lang/zh-CN';
 
@@ -80,6 +80,10 @@ const router = new VueRouter({
         {
             path: '/progress',
             component: require('./routers/progress.vue')
+        },
+        {
+            path: '/popupPicker',
+            component: require('./routers/popupPicker.vue')
         },
         {
             path: '/collapse',

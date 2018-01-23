@@ -1,0 +1,58 @@
+@import './weui/base/mixin/setOnepx.less';
+
+.setLine(@c: #C7C7C7) {
+  content: " ";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 200%;
+  height: 1px;
+  border: 1px solid @c;
+  color: @c;
+  height: 200%;
+  transform-origin: left top;
+  transform: scale(0.5);
+}
+
+.vux-1px, .vux-1px-t, .vux-1px-b, .vux-1px-tb, .vux-1px-l, .vux-1px-r {
+  position: relative;
+}
+
+.vux-1px {
+  &:before {
+    .setLine();
+  }
+}
+
+.vux-1px-t {
+  &:before {
+    .setTopLine();
+  }
+}
+
+.vux-1px-b {
+  &:after {
+    .setBottomLine();
+  }
+}
+
+.vux-1px-tb {
+  &:before {
+    .setTopLine();
+  }
+  &:after {
+    .setBottomLine();
+  }
+}
+
+.vux-1px-l {
+  &:before {
+    .setLeftLine();
+  }
+}
+
+.vux-1px-r {
+  &:after {
+    .setRightLine();
+  }
+}

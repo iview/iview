@@ -4,7 +4,7 @@
         {{ current }}
         <Button type="primary" @click="subject">- 1</Button>
         <Button type="primary" @click="change">Change</Button>
-        <Page :current="2" :total="50" simple></Page>
+        <Page :current="2" :total="500" simple></Page>
     </div>
 </template>
 <script>
@@ -12,7 +12,7 @@
         data () {
             return {
                 current: 1,
-                total: 21
+                total: 500
             }
         },
         methods: {

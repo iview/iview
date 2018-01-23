@@ -9,15 +9,16 @@
                     <div :class="[prefixCls + '-content']">
                         <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
                             <slot name="close">
-                                <Icon type="ios-close-empty"></Icon>
+                                <Icon type="close"></Icon>
                             </slot>
                         </a>
                         <div :class="[prefixCls + '-header']" v-if="showHead"><slot name="header"><div :class="[prefixCls + '-header-inner']">{{ title }}</div></slot></div>
                         <div :class="[prefixCls + '-body']"><slot></slot></div>
                         <div :class="[prefixCls + '-footer']" v-if="!footerHide">
                             <slot name="footer">
-                                <i-button type="text" size="large" @click.native="cancel">{{ localeCancelText }}</i-button>
-                                <i-button type="primary" size="large" :loading="buttonLoading" @click.native="ok">{{ localeOkText }}</i-button>
+                                <i-button type="text" style size="large" @click.native="cancel">{{ localeCancelText }}</i-button>
+                                <div :class="[prefixCls + '-line']"></div>
+                                <i-button type="text" size="large" :loading="buttonLoading" @click.native="ok">{{ localeOkText }}</i-button>
                             </slot>
                         </div>
                     </div>
@@ -35,7 +36,6 @@
     import ScrollbarMixins from './mixins-scrollbar';
 
     const prefixCls = 'ivu-modal';
-
     export default {
         name: 'Modal',
         mixins: [ Locale, Emitter, ScrollbarMixins ],

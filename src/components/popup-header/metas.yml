@@ -1,0 +1,38 @@
+icon: '&#xe654;'
+props:
+  left-text:
+    version: v2.5.2
+    en: left text
+    zh-CN: 左侧文字
+  right-text:
+    version: v2.5.2
+    en: right text
+    zh-CN: 右侧文字
+  title:
+    version: v2.5.2
+    en: title
+    zh-CN: 标题
+  show-bottom-border:
+    version: v2.5.2
+    en: whether show bottom border
+    zh-CN: 是否显示底部边框
+events:
+  on-click-left:
+    version: v2.5.2
+    en: emits when left text is clicked
+    zh-CN: 左侧文字点击时触发
+  on-click-right:
+    version: v2.5.2
+    en: emits when right text is clicked
+    zh-CN: 右侧文字点击时触发
+changes:
+  v2.5.9:
+    en:
+      - '[fix] fix wrong slot name'
+    zh-CN:
+      - '[fix] 修复错误的 slot 名字'
+  v2.5.2:
+    en:
+      - '[feature] new component'
+    zh-CN:
+      - '[feature] 新组件 popup-header, 配合 popup 使用统一头部样式'

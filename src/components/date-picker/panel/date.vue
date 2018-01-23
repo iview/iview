@@ -10,22 +10,22 @@
             <div :class="[datePrefixCls + '-header']" v-show="currentView !== 'time'">
                 <span
                     :class="iconBtnCls('prev', '-double')"
-                    @click="changeYear(-1)"><Icon type="ios-arrow-left"></Icon></span>
+                    @click="changeYear(-1)"><Icon type="shuangjiantouzuo"></Icon></span>
                 <span
                     :class="iconBtnCls('prev')"
                     @click="changeMonth(-1)"
-                    v-show="currentView === 'date'"><Icon type="ios-arrow-left"></Icon></span>
+                    v-show="currentView === 'date'"><Icon type="arrowleft"></Icon></span>
                 <date-panel-label
                     :date-panel-label="datePanelLabel"
                     :current-view="currentView"
                     :date-prefix-cls="datePrefixCls"/>
                 <span
                     :class="iconBtnCls('next', '-double')"
-                    @click="changeYear(+1)"><Icon type="ios-arrow-right"></Icon></span>
+                    @click="changeYear(+1)"><Icon type="shuangjiantouyou"></Icon></span>
                 <span
                     :class="iconBtnCls('next')"
                     @click="changeMonth(+1)"
-                    v-show="currentView === 'date'"><Icon type="ios-arrow-right"></Icon></span>
+                    v-show="currentView === 'date'"><Icon type="arrowright"></Icon></span>
             </div>
             <div :class="[prefixCls + '-content']">
                 <date-table

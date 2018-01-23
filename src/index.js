@@ -1,3 +1,4 @@
+// iview
 import Affix from './components/affix';
 import Alert from './components/alert';
 import AutoComplete from './components/auto-complete';
@@ -51,6 +52,9 @@ import Upload from './components/upload';
 import {Row, Col} from './components/grid';
 import {Select, Option, OptionGroup} from './components/select';
 import locale from './locale/index';
+
+// vux
+import popupPicker from './components/popup-picker'
 
 const components = {
     Affix,
@@ -123,8 +127,12 @@ const components = {
     Upload
 };
 
+const vux = {
+    popupPicker: popupPicker,
+}
 const iview = {
     ...components,
+    ...vux,
     iButton: Button,
     iCircle: Circle,
     iCol: Col,

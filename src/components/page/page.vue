@@ -4,7 +4,8 @@
             :title="t('i.page.prev')"
             :class="prevClasses"
             @click="prev">
-            <a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a>
+            <!-- <a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a> -->
+            <a><Icon type="arrowleft"></Icon></a>
         </li>
         <div :class="simplePagerClasses" :title="currentPage + '/' + allPages">
             <input
@@ -22,7 +23,8 @@
             :title="t('i.page.next')"
             :class="nextClasses"
             @click="next">
-            <a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a>
+            <!-- <a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a> -->
+            <a><Icon type="arrowright"></Icon></a>
         </li>
     </ul>
     <ul :class="wrapClasses" :style="styles" v-else>
@@ -33,22 +35,24 @@
             :title="t('i.page.prev')"
             :class="prevClasses"
             @click="prev">
-            <a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a>
+            <!-- <a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a> -->
+            <a><Icon type="arrowleft"></Icon></a>
         </li>
         <li title="1" :class="firstPageClasses" @click="changePage(1)"><a>1</a></li>
-        <li :title="t('i.page.prev5')" v-if="currentPage - 3 > 1" :class="[prefixCls + '-item-jump-prev']" @click="fastPrev"><a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a></li>
+        <li :title="t('i.page.prev5')" v-if="currentPage - 3 > 1" :class="[prefixCls + '-item-jump-prev']" @click="fastPrev"><a><Icon size="10" type="arrowleft"></Icon></a></li>
         <li :title="currentPage - 2" v-if="currentPage - 2 > 1" :class="[prefixCls + '-item']" @click="changePage(currentPage - 2)"><a>{{ currentPage - 2 }}</a></li>
         <li :title="currentPage - 1" v-if="currentPage - 1 > 1" :class="[prefixCls + '-item']" @click="changePage(currentPage - 1)"><a>{{ currentPage - 1 }}</a></li>
         <li :title="currentPage" v-if="currentPage != 1 && currentPage != allPages" :class="[prefixCls + '-item',prefixCls + '-item-active']"><a>{{ currentPage }}</a></li>
         <li :title="currentPage + 1" v-if="currentPage + 1 < allPages" :class="[prefixCls + '-item']" @click="changePage(currentPage + 1)"><a>{{ currentPage + 1 }}</a></li>
         <li :title="currentPage + 2" v-if="currentPage + 2 < allPages" :class="[prefixCls + '-item']" @click="changePage(currentPage + 2)"><a>{{ currentPage + 2 }}</a></li>
-        <li :title="t('i.page.next5')" v-if="currentPage + 3 < allPages" :class="[prefixCls + '-item-jump-next']" @click="fastNext"><a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a></li>
+        <li :title="t('i.page.next5')" v-if="currentPage + 3 < allPages" :class="[prefixCls + '-item-jump-next']" @click="fastNext"><a><Icon size="10" type="arrowright"></Icon></a></li>
         <li :title="allPages" v-if="allPages > 1" :class="lastPageClasses" @click="changePage(allPages)"><a>{{ allPages }}</a></li>
         <li
             :title="t('i.page.next')"
             :class="nextClasses"
             @click="next">
-            <a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a>
+            <!-- <a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a> -->
+            <a><Icon type="arrowright"></Icon></a>
         </li>
         <Options
             :show-sizer="showSizer"

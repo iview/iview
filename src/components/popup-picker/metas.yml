@@ -1,0 +1,196 @@
+icon: '&#xe626;'
+tags:
+  en:
+    - popup
+    - picker
+    - form
+  zh-CN:
+    - 表单
+    - 选择
+    - 弹窗
+extra:
+  en: |
+    <p class="tip">
+      other props are the same as `Picker`
+    </p>
+  zh-CN: |
+    <p class="tip">
+      其他选项与`picker`一致
+    </p>
+props:
+  value:
+    type: Array
+    en: picker value, use `v-model` for binding
+    zh-CN: '表单值，使用`v-model绑定`'
+  title:
+    en: label text
+    zh-CN: 标题
+  cancel-text:
+    en: popup cancel text
+    zh-CN: 弹窗的取消文字
+  confirm-text:
+    en: popup confirm text
+    zh-CN: 弹窗的确认文字
+  placeholder:
+    en: placeholder
+    zh-CN: 提示文字
+  show-name:
+    type: Boolean
+    default: false
+    en: if show names instead of keys
+    zh-CN: 是否显示文字值而不是key
+  inline-desc:
+    en: description text below label
+    zh-CN: Cell的描述文字
+  show:
+    type: Boolean
+    en: popup show (supports the .sync modifier next)
+    zh-CN: 显示 (支持.sync修饰 next)
+  value-text-align:
+    type: String
+    version: v2.1.0-rc.3
+    default: right
+    en: value's text align
+    zh-CN: 'value 对齐方式(text-align)'
+  display-format:
+    type: Function
+    version: v2.1.1-rc.7
+    en: 'used to format display text on cell, param: (currentValue)'
+    zh-CN: 自定义在cell上的显示格式，参数为当前 value，使用该属性时，show-name 属性将失效
+  popup-style:
+    version: v2.5.2
+    type: Object
+    en: popup style
+    zh-CN: 弹窗样式，可以用于强制指定 z-index
+  popup-title:
+    version: v2.7.0
+    type: String
+    en: popup title
+    zh-CN: 弹窗标题
+slots:
+  title:
+    version: v2.3.7
+    en: title slot, use scope.labelClass and scope.labelStyle to inherit label styles
+    zh-CN: 标题插槽，使用 scope.labelClass 和 scope.labelStyle 继承原有样式(实现样式受控于 group label 设置)
+events:
+  on-change:
+    params: '`(value)`'
+    en: emits when value is changed
+    zh-CN: 值变化时触发
+  on-show:
+    en: emits when popup shows
+    zh-CN: 弹窗出现时触发
+  on-hide:
+    params: '`(closeType)` true表示confirm(选择确认), false表示其他情况的关闭'
+    en: emits when popup is closed
+    zh-CN: 弹窗关闭时触发
+  on-shadow-change:
+    version: v2.5.6
+    params: '`(Array ids, Array names)`'
+    en: emits when picker value is changed
+    zh-CN: picker 值变化时触发，即滑动 picker 时触发
+changes:
+  v2.7.7:
+    en:
+      - '[fix] remove the first top line #2371'
+    zh-CN:
+      - '[fix] 去除第一个子元素的上边线 #2371'
+  v2.7.0:
+    en:
+      - '[feature] add prop:popup-title(use component:popup-header) #1866'
+    zh-CN:
+      - '[feature] 增加属性 popup-title(使用 popup-header 组件) #1866'
+  v2.5.10:
+    en:
+      - '[feature] support @cell-value-color #1874'
+    zh-CN:
+      - '[feature] 值文字颜色受控于 @cell-value-color #1874'
+  v2.5.8:
+    en:
+      - '[fix] prevent background scrolling when popup is show #1830'
+    zh-CN:
+      - '[fix] popup显示时阻止背景滚动 #1830'
+  v2.5.7:
+    en:
+      - '[fix] Fix render issue after changing value #1793'
+    zh-CN:
+      - '[fix] 修复修改值后第二次打开默认选中项渲染不正确的问题 #1793'
+  v2.5.6:
+    en:
+      - '[feature] Support event:on-shadow-change #1778'
+    zh-CN:
+      - '[feature] 支持在滑动 picker 时触发事件 on-shadow-change #1778'
+  v2.5.3:
+    en:
+      - '[fix] Fix label style being overwrite after importing x-textarea #1696'
+    zh-CN:
+      - '[fix] 修复在 x-textarea 后引入 popup-picker label 宽度被覆盖 #1696'
+  v2.5.2:
+    en:
+      - '[feature] Add prop:popup-style #1656'
+    zh-CN:
+      - '[feature] 支持弹窗样式设置 prop:popup-style #1656'
+  v2.4.1:
+    en:
+      - '[fix] popup-picker-header add touchmove.prevent event #1596'
+    zh-CN:
+      - '[fix] popup-picker头部区域屏蔽滑动事件 #1596'
+  v2.3.8:
+    en:
+      - '[fix] Fix placeholder missing on iOS9 and iOS8 #1293'
+    zh-CN:
+      - '[fix] 修复 iOS 低版本下 placeholder 无法显示的问题 #1293'
+  v2.3.7:
+    en:
+      - '[feature] Add slot:title'
+    zh-CN:
+      - '[feature] 添加 slot:title'
+  v2.2.1-rc.7:
+    en:
+      - '[fix] Fix popup-picker filter issue on v2.2.1-rc.6'
+    zh-CN:
+      - '[fix] 修复 popup-picker 上个版本转换值的问题'
+  v2.2.1-rc.6:
+    en:
+      - '[enhance] Add param names for display-format'
+    zh-CN:
+      - '[enhance] display-format 支持 names 作为第二个参数'
+  v2.2.1-rc.1:
+    en:
+      - '[fix] Fix wrong closeType #1209'
+    zh-CN:
+      - '[fix] 修复错误的弹窗关闭类型 #1209'
+  v2.1.1-rc.13:
+    en:
+      - '[enhance] Use gray for cancel text color'
+    zh-CN:
+      - '[enhance] 取消文字使用灰色'
+  v2.1.1-rc.11:
+    en:
+      - '[enhance] Fix mask render slowly in Safari. #1083 @sixiakun'
+      - '[enhance] Enable transfer-dom by default'
+    zh-CN:
+      - '[enhance] 修复 Safari 下遮罩层渲染慢的问题 #1083 @sixiakun'
+      - '[enhance] 默认开启 transfer-dom，解决非 Safari 也会出现的 z-index 问题'
+  v2.1.1-rc.8:
+    en:
+      - '[enhance] Update header style and add less variables'
+    zh-CN:
+      - '[enhance] 更新头部样式并新增 less 变量'
+  v2.1.1-rc.7:
+    en:
+      - '[enhance] Support PC mouse drag  #1039 @michael829'
+      - '[enhance] Support prop:display-format'
+    zh-CN:
+      - '[enhance] 支持 PC 上鼠标选择 #1039 @michael829'
+      - '[enhance] 支持根据值自定义显示格式'
+  v2.1.1-rc.1:
+    en:
+      - '[fix] Fix labelMarginRight #977 @wg5945'
+    zh-CN:
+      - '[fix] 修复 label 未正确设置 labelMarginRight #977 @wg5945'
+  v2.1.0-rc.50:
+    en:
+      - '[fix] Fix no on-change emits #934 @howyhuang'
+    zh-CN:
+      - '[fix] 修复`on-change`事件没有触发 #934 @howyhuang'

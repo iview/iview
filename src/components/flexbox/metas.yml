@@ -1,0 +1,53 @@
+icon: '&#xe61f;'
+items:
+  - flexbox
+  - flexbox-item
+tags:
+  en:
+    - flex
+    - flexbox
+  zh-CN:
+    - 布局
+    - 栅格
+flexbox:
+  props:
+    gutter:
+      type: Number
+      default: 8
+      en: gap size (px)
+      zh-CN: 间隙像素大小（px）
+    orient:
+      type: String
+      default: horizontal
+      en: "can be in ['horizontal', 'vertical']"
+      zh-CN: "排布方向，可选['horizontal', 'vertical']"
+    justify:
+      en: '`justify-content` in `flex`'
+      zh-CN: '`flex`的`justify-content`属性'
+    align:
+      en: '`align-items` in `flex`'
+      zh-CN: '`flex`的`align-items`属性'
+    wrap:
+      en: '`flex-wrap` in `flex`'
+      zh-CN: '`flex`的`flex-wrap`属性'
+    direction:
+      en: '`flex-direction` in `flex`'
+      zh-CN: '`flex`的`flex-direction`属性'
+  slots:
+    default:
+      en: 'content slot for `flexbox-item`'
+      zh-CN: '`flexbox-item`的内容插槽'
+flexbox-item:
+  props:
+    span:
+      type: Number
+      en: occupied width. If not set, all flexbox-item will get the same width.
+      zh-CN: 占用宽度，如果不设置，所有flexbox-item将平分
+    order:
+      type: String
+      en: '`order` in `flex`'
+      zh-CN: '`flex`的`order`属性'
+  slots:
+    default:
+      en: content slot
+      zh-CN: '内容插槽'
