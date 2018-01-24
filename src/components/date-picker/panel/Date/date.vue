@@ -37,7 +37,7 @@
                     :value="dates"
                     :selection-mode="selectionMode"
                     :disabled-date="disabledDate"
-                    @on-pick="handlePick"
+                    @on-pick="panelPickerHandlers"
                     @on-pick-click="handlePickClick"
                 ></component>
             </div>
@@ -92,11 +92,14 @@
             // in the mixin
         },
         data () {
-            const dates = this.value.slice().sort();
+            const {selectionMode, value} = this;
+
+            const dates = value.slice().sort();
             return {
                 prefixCls: prefixCls,
                 datePrefixCls: datePrefixCls,
-                currentView: this.selectionMode || 'date',
+                currentView: selectionMode || 'date',
+                pickerTable: this.getTableType(selectionMode),
                 dates: dates,
                 panelDate: this.startDate || dates[0] || new Date()
             };
@@ -110,8 +113,8 @@
                     }
                 ];
             },
-            pickerTable(){
-                return this.currentView.match(/^time/) ? 'time-picker' : `${this.currentView}-table`;
+            panelPickerHandlers(){
+                return this.pickerTable === `${this.currentView}-table` ? this.handlePick : this.handlePreSelection
             },
             datePanelLabel () {
                 const locale = this.t('i.locale');
@@ -120,7 +123,7 @@
                 const { labels, separator } = formatDateLabels(locale, datePanelLabel, date);
 
                 const handler = type => {
-                    return () => (this.currentView = type);
+                    return () => this.pickerTable = this.getTableType(type);
                 };
 
                 return {
@@ -139,8 +142,9 @@
             selectionMode(){
                 this.currentView = this.selectionMode;
             },
-            currentView (val) {
-                this.$emit('on-selection-mode-change', val);
+            currentView (currentView) {
+                this.$emit('on-selection-mode-change', currentView);
+                this.pickertable = this.getTableType(currentView);
             }
         },
         methods: {
@@ -151,16 +155,29 @@
                     this.panelDate = siblingMonth(this.panelDate, dir * 12);
                 }
             },
+            getTableType(currentView){
+                return currentView.match(/^time/) ? 'time-picker' : `${currentView}-table`;
+            },
             changeMonth(dir){
                 this.panelDate = siblingMonth(this.panelDate, dir);
             },
+            handlePreSelection(value){
+                this.panelDate = value;
+                this.pickerTable = this.getTableType(this.currentView);
+            },
             handlePick (value) {
-                const {selectionMode, panelDate} = this;
+                const {selectionMode, panelDate, pickerType} = this;
                 if (selectionMode === 'year') value = new Date(value.getFullYear(), 0, 1);
                 else if (selectionMode === 'month') value = new Date(panelDate.getFullYear(), value.getMonth(), 1);
                 else value = new Date(value);
 
-                this.$emit('on-pick', value);
+                if (pickerType === selectionMode){
+                    this.$emit('on-pick', value);
+                } else {
+                    this.selectionMode
+                }
+
+
             },
         },
     };

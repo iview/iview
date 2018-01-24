@@ -45,6 +45,7 @@
                         :start-date="startDate"
                         :split-panels="splitPanels"
                         :show-week-numbers="showWeekNumbers"
+                        :picker-type="type"
 
                         v-bind="ownPickerProps"
 

@@ -42,6 +42,10 @@ export default {
         },
         startDate: {
             type: Date
+        },
+        pickerType: {
+            type: String,
+            require: true
         }
     },
     computed: {

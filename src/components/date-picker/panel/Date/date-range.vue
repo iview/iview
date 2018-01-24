@@ -31,7 +31,7 @@
                         v-show="currentView === 'date'"><Icon type="ios-arrow-right"></Icon></span>
                 </div>
                 <component
-                    :is="pickerTable"
+                    :is="leftPickerTable"
                     ref="leftYearTable"
                     v-if="currentView !== 'time'"
                     :table-date="leftPanelDate"
@@ -41,7 +41,7 @@
                     :show-week-numbers="showWeekNumbers"
                     :value="dates"
                     @on-change-range="handleChangeRange"
-                    @on-pick="handleRangePick"
+                    @on-pick="panelPickerHandlers.left"
                     @on-pick-click="handlePickClick"
                 ></component>
             </div>
@@ -69,7 +69,7 @@
                         v-show="currentView === 'date'"><Icon type="ios-arrow-right"></Icon></span>
                 </div>
                 <component
-                    :is="pickerTable"
+                    :is="rightPickerTable"
                     ref="rightYearTable"
                     v-if="currentView !== 'time'"
                     :table-date="rightPanelDate"
@@ -79,7 +79,7 @@
                     :show-week-numbers="showWeekNumbers"
                     :value="dates"
                     @on-change-range="handleChangeRange"
-                    @on-pick="handleRangePick"
+                    @on-pick="panelPickerHandlers.right"
                     @on-pick-click="handlePickClick"></component>
             </div>
             <div :class="[prefixCls + '-content']" v-show="isTime">
@@ -147,6 +147,8 @@
                 dates: this.value,
                 rangeState: {from: this.value[0], to: this.value[1], selecting: minDate && !maxDate},
                 currentView: this.selectionMode || 'range',
+                leftPickerTable: `${this.selectionMode}-table`,
+                rightPickerTable: `${this.selectionMode}-table`,
                 leftPanelDate: leftPanelDate,
                 rightPanelDate: new Date(leftPanelDate.getFullYear(), leftPanelDate.getMonth() + 1, leftPanelDate.getDate())
             };
@@ -161,9 +163,6 @@
                     }
                 ];
             },
-            pickerTable(){
-                return `${this.currentView}-table`;
-            },
             leftDatePanelLabel(){
                 return this.panelLabelConfig('left');
             },
@@ -172,6 +171,13 @@
             },
             timeDisabled(){
                 return !(this.dates[0] && this.dates[1]);
+            },
+            panelPickerHandlers(){
+                const tableType = `${this.currentView}-table`;
+                return {
+                    left: this.leftPickerTable === tableType ? this.handleRangePick : this.handlePreSelection.bind(this, 'left'),
+                    right: this.leftPickerTable === tableType ? this.handleRangePick : this.handlePreSelection.bind(this, 'right'),
+                }
             }
         },
         watch: {
@@ -189,6 +195,9 @@
                 const leftMonth = this.leftPanelDate.getMonth();
                 const rightMonth = this.rightPanelDate.getMonth();
                 const isSameYear = this.leftPanelDate.getFullYear() === this.rightPanelDate.getFullYear();
+
+                this.leftPickerTable = `${currentView}-table`;
+                this.rightPickerTable = `${currentView}-table`;
 
                 if (currentView === 'date' && isSameYear && leftMonth === rightMonth){
                     this.changePanelDate('right', 'Month', 1);
@@ -257,11 +266,15 @@
                     }
                 }
             },
-            showYearPicker () {
-                this.currentView = 'year';
+            showYearPicker (panel) {
+                this[`${panel}PickerTable`] = 'year-table';
             },
-            showMonthPicker () {
-                this.currentView = 'month';
+            showMonthPicker (panel) {
+                this[`${panel}PickerTable`] = 'month-table';
+            },
+            handlePreSelection(panel, value){
+                this[`${panel}PanelDate`] = value;
+                this[`${panel}PickerTable`] = `${this.currentView}-table`;
             },
             handleRangePick (val) {
                 if (this.rangeState.selecting || this.currentView === 'time'){
