@@ -139,17 +139,21 @@
             value (newVal) {
                 this.dates = newVal;
                 if (JSON.stringify(newVal) === '[null]') this.panelDate = this.startDate || new Date();
-
-                // reset stuff
-                this.currentView = this.selectionMode;
-                this.pickerTable = this.getTableType(this.currentView);
             },
             currentView (currentView) {
                 this.$emit('on-selection-mode-change', currentView);
                 this.pickertable = this.getTableType(currentView);
+            },
+            selectionMode(type){
+                this.currentView = type;
+                this.pickerTable = this.getTableType(type);
             }
         },
         methods: {
+            reset(){
+                this.currentView = this.selectionMode;
+                this.pickerTable = this.getTableType(this.currentView);
+            },
             changeYear(dir){
                 if (this.selectionMode === 'year'){
                     this.panelDate = new Date(this.panelDate.getFullYear() + dir * 10, 0, 1);

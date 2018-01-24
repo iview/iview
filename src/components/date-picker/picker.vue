@@ -35,6 +35,7 @@
                 <div>
                     <component
                         :is="panel"
+                        ref="pickerPanel"
                         :visible="visible"
                         :showTime="type === 'datetime' || type === 'datetimerange'"
                         :confirm="isConfirm"
@@ -212,10 +213,9 @@
         },
         methods: {
             onSelectionModeChange(type){
-
                 if (type.match(/^date/)) type = 'date';
-                this.selectionMode = type;
-                return type;
+                this.selectionMode = oneOf(type, ['year', 'month', 'date', 'time']) && type;
+                return this.selectionMode;
             },
             // 开启 transfer 时，点击 Drop 即会关闭，这里不让其关闭
             handleTransferClick () {
@@ -237,7 +237,12 @@
             },
             handleBlur () {
                 this.visible = false;
+                this.onSelectionModeChange(this.type);
                 this.internalValue = this.internalValue.slice(); // trigger panel watchers to reset views
+                this.reset();
+            },
+            reset(){
+                this.$refs.pickerPanel.reset && this.$refs.pickerPanel.reset();
             },
             handleInputChange (event) {
                 const isArrayValue = this.type.includes('range') || this.multiple;
@@ -280,6 +285,7 @@
                 this.$emit('on-clear');
                 this.dispatch('FormItem', 'on-form-change', '');
                 this.emitChange();
+                this.reset();
 
                 setTimeout(
                     () => this.onSelectionModeChange(this.type),
@@ -354,6 +360,7 @@
             onPickSuccess(){
                 this.visible = false;
                 this.$emit('on-ok');
+                this.reset();
             },
         },
         watch: {

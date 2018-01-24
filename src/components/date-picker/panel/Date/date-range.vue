@@ -198,12 +198,6 @@
                 this.leftPanelDate = leftPanelDate;
                 const rightPanelDate = new Date(leftPanelDate.getFullYear(), leftPanelDate.getMonth() + 1, leftPanelDate.getDate());
                 this.rightPanelDate = this.splitPanels ? new Date(Math.max(this.dates[1], rightPanelDate)) : rightPanelDate;
-
-                // reset stuff
-                this.currentView = this.selectionMode || 'range';
-                this.leftPickerTable = `${this.currentView}-table`;
-                this.rightPickerTable = `${this.currentView}-table`;
-
             },
             currentView(currentView){
                 const leftMonth = this.leftPanelDate.getMonth();
@@ -225,6 +219,11 @@
             }
         },
         methods: {
+            reset(){
+                this.currentView = this.selectionMode;
+                this.leftPickerTable = `${this.currentView}-table`;
+                this.rightPickerTable = `${this.currentView}-table`;
+            },
             panelLabelConfig (direction) {
                 const locale = this.t('i.locale');
                 const datePanelLabel = this.t('i.datepicker.datePanelLabel');
