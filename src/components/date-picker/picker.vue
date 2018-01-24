@@ -310,8 +310,12 @@
                     if (!val){
                         val = [null, null];
                     } else {
-                        val = val.map(date => new Date(date)); // try to parse
-                        val = val.map(date => isNaN(date.getTime()) ? null : date); // check if parse passed
+                        if (typeof val === 'string') {
+                            val = parser(val, format);
+                        } else {
+                            val = val.map(date => new Date(date)); // try to parse
+                            val = val.map(date => isNaN(date.getTime()) ? null : date); // check if parse passed
+                        }
                     }
                 } else if (typeof val === 'string' && type.indexOf('time') !== 0){
                     val = parser(val, format) || val;
