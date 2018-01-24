@@ -184,10 +184,16 @@
             value(newVal) {
                 const minDate = newVal[0] ? toDate(newVal[0]) : null;
                 const maxDate = newVal[1] ? toDate(newVal[1]) : null;
-                this.dates = [minDate, maxDate];
+                this.dates = [minDate, maxDate].sort();
+                if (JSON.stringify(this.dates) === '[null,null]') {
+                    const leftPanelDate = this.startDate || new Date();
+                    this.leftPanelDate = leftPanelDate,
+                    this.rightPanelDate = new Date(leftPanelDate.getFullYear(), leftPanelDate.getMonth() + 1, leftPanelDate.getDate());
+                }
+
                 this.rangeState = {
-                    from: minDate,
-                    to: maxDate,
+                    from: this.dates[0],
+                    to: this.dates[1],
                     selecting: false
                 };
             },

@@ -138,6 +138,7 @@
         watch: {
             value (newVal) {
                 this.dates = newVal;
+                if (JSON.stringify(newVal) === '[null]') this.panelDate = this.startDate || new Date();
             },
             selectionMode(){
                 this.currentView = this.selectionMode;
