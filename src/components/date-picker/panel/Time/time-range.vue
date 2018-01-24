@@ -102,7 +102,7 @@
                 ];
             },
             showSeconds () {
-                return (this.format || '').indexOf('ss') !== -1;
+                return !(this.format || '').match(/mm$/);
             },
             leftDatePanelLabel () {
                 return this.panelLabelConfig(this.date);

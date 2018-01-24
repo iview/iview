@@ -69,7 +69,7 @@
         },
         computed: {
             showSeconds () {
-                return (this.format || '').indexOf('ss') !== -1;
+                return !(this.format || '').match(/mm$/);
             },
             visibleDate () { // TODO
                 const date = this.date;
