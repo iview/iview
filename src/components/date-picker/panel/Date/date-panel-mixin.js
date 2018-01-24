@@ -55,7 +55,7 @@ export default {
     },
     methods: {
         handleToggleTime(){
-            this.currentView = this.currentView === 'time' ? this.selectionMode : 'time';
+            this.currentView = this.currentView === 'time' ? 'date' : 'time';
         },
     }
 };
