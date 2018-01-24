@@ -187,7 +187,7 @@
                     return this.internalValue.slice();
                 } else {
                     const isRange = this.type.includes('range');
-                    const val = this.internalValue.map(date => date instanceof Date ? new Date(date) : date);
+                    const val = this.internalValue.map(date => date instanceof Date ? new Date(date) : (date || ''));
                     return (isRange || this.multiple) ? val : val[0];
                 }
             },
