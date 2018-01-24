@@ -168,18 +168,12 @@
                 this.pickerTable = this.getTableType(this.currentView);
             },
             handlePick (value) {
-                const {selectionMode, panelDate, pickerType} = this;
+                const {selectionMode, panelDate} = this;
                 if (selectionMode === 'year') value = new Date(value.getFullYear(), 0, 1);
                 else if (selectionMode === 'month') value = new Date(panelDate.getFullYear(), value.getMonth(), 1);
                 else value = new Date(value);
 
-                if (pickerType === selectionMode){
-                    this.$emit('on-pick', value);
-                } else {
-                    this.selectionMode
-                }
-
-
+                this.$emit('on-pick', value);
             },
         },
     };

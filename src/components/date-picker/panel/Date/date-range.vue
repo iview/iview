@@ -221,7 +221,6 @@
                 }
             },
             selectionMode(type){
-                console.log('Selection type change!', type);
                 this.currentView = type || 'range';
             }
         },
