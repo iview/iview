@@ -237,6 +237,7 @@
             },
             handleBlur () {
                 this.visible = false;
+                this.internalValue = this.internalValue.slice(); // trigger panel watchers to reset views
             },
             handleInputChange (event) {
                 const isArrayValue = this.type.includes('range') || this.multiple;

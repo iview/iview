@@ -185,25 +185,30 @@
                 const minDate = newVal[0] ? toDate(newVal[0]) : null;
                 const maxDate = newVal[1] ? toDate(newVal[1]) : null;
                 this.dates = [minDate, maxDate].sort();
-                if (JSON.stringify(this.dates) === '[null,null]') {
-                    const leftPanelDate = this.startDate || new Date();
-                    this.leftPanelDate = leftPanelDate,
-                    this.rightPanelDate = new Date(leftPanelDate.getFullYear(), leftPanelDate.getMonth() + 1, leftPanelDate.getDate());
-                }
 
                 this.rangeState = {
                     from: this.dates[0],
                     to: this.dates[1],
                     selecting: false
                 };
+
+
+                // set panels positioning
+                const leftPanelDate = this.startDate || this.dates[0] || new Date();
+                this.leftPanelDate = leftPanelDate;
+                const rightPanelDate = new Date(leftPanelDate.getFullYear(), leftPanelDate.getMonth() + 1, leftPanelDate.getDate());
+                this.rightPanelDate = this.splitPanels ? new Date(Math.max(this.dates[1], rightPanelDate)) : rightPanelDate;
+
+                // reset stuff
+                this.currentView = this.selectionMode || 'range';
+                this.leftPickerTable = `${this.currentView}-table`;
+                this.rightPickerTable = `${this.currentView}-table`;
+
             },
             currentView(currentView){
                 const leftMonth = this.leftPanelDate.getMonth();
                 const rightMonth = this.rightPanelDate.getMonth();
                 const isSameYear = this.leftPanelDate.getFullYear() === this.rightPanelDate.getFullYear();
-
-                this.leftPickerTable = `${currentView}-table`;
-                this.rightPickerTable = `${currentView}-table`;
 
                 if (currentView === 'date' && isSameYear && leftMonth === rightMonth){
                     this.changePanelDate('right', 'Month', 1);
@@ -214,6 +219,10 @@
                 if (currentView === 'year' && isSameYear){
                     this.changePanelDate('right', 'FullYear', 10);
                 }
+            },
+            selectionMode(type){
+                console.log('Selection type change!', type);
+                this.currentView = type || 'range';
             }
         },
         methods: {

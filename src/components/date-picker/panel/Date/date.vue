@@ -139,9 +139,10 @@
             value (newVal) {
                 this.dates = newVal;
                 if (JSON.stringify(newVal) === '[null]') this.panelDate = this.startDate || new Date();
-            },
-            selectionMode(){
+
+                // reset stuff
                 this.currentView = this.selectionMode;
+                this.pickerTable = this.getTableType(this.currentView);
             },
             currentView (currentView) {
                 this.$emit('on-selection-mode-change', currentView);
