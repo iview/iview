@@ -255,8 +255,9 @@
                     this.options.disabledDate;
                 const valueToTest = isArrayValue ? newDate : newDate[0];
                 const isDisabled = disabledDateFn && disabledDateFn(valueToTest);
+                const isValidDate = newDate.reduce((valid, date) => valid && date instanceof Date, true);
 
-                if (newValue !== oldValue && !isDisabled) {
+                if (newValue !== oldValue && !isDisabled && isValidDate) {
                     this.emitChange();
                     this.internalValue = newDate;
                 } else {
@@ -324,7 +325,7 @@
                         }
                     }
                 } else if (typeof val === 'string' && type.indexOf('time') !== 0){
-                    val = parser(val, format) || val;
+                    val = parser(val, format) || null;
                 }
 
                 return (isRange || this.multiple) ? (val || []) : [val];
@@ -344,7 +345,6 @@
                 }
             },
             onPick(dates, visible = false) {
-
                 if (this.multiple){
                     const allDates = [...this.internalValue, dates].filter(Boolean);
                     const timeStamps = allDates.map(date => date.getTime()).filter((ts, i, arr) => arr.indexOf(ts) === i); // filter away duplicates
