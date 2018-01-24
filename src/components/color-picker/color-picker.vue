@@ -24,10 +24,10 @@
                 v-transfer-dom>
                 <div :class="[prefixCls + '-picker']">
                     <div :class="[prefixCls + '-picker-wrapper']">
-                        <div v-if="saturation" :class="[prefixCls + '-picker-panel']">
+                        <div :class="[prefixCls + '-picker-panel']">
                             <Saturation v-model="saturationColors" @change="childChange"></Saturation>
                         </div>
-                        <div :class="[prefixCls + '-picker-hue-slider']">
+                        <div v-if="hue" :class="[prefixCls + '-picker-hue-slider']">
                             <Hue v-model="saturationColors" @change="childChange"></Hue>
                         </div>
                         <div v-if="alpha" :class="[prefixCls + '-picker-alpha-slider']">
@@ -130,7 +130,7 @@
             value: {
                 type: String
             },
-            saturation: {
+            hue: {
                 type: Boolean,
                 default: true
             },
