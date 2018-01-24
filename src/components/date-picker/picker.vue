@@ -287,7 +287,7 @@
                 );
             },
             emitChange () {
-                this.$emit('on-change', this.publicValue);
+                this.$emit('on-change', this.visualValue, this.publicValue);
                 this.$nextTick(() => {
                     this.dispatch('FormItem', 'on-form-change', this.publicValue);
                 });
