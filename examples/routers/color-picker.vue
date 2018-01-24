@@ -12,7 +12,7 @@
         <Button @click="setColor">set color</Button>
 
         <br><br><br><br>
-        <ColorPicker v-model="color7" :saturation="false"></ColorPicker>
+        <ColorPicker v-model="color7" :hue="false"></ColorPicker>
     </div>
 </template>
 <script>
