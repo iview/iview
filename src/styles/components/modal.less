@@ -2,11 +2,11 @@
 @confirm-prefix-cls: ~"@{css-prefix}modal-confirm";
 
 .@{modal-prefix-cls} {
+    height: 100%;
     width: auto;
     margin: 0 auto;
     position: relative;
     outline: none;
-    top: 100px;
 
     &-hidden {
         display: none !important;
@@ -34,7 +34,13 @@
     }
 
     &-content {
+        display: flex;
+        flex-direction: column;
         position: relative;
+        top: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        max-height: 80%;
         background-color: #fff;
         border: 0;
         border-radius: @border-radius-base;
@@ -50,6 +56,8 @@
     }
 
     &-body {
+        flex: 1;
+        overflow-y: auto;
         padding: 16px;
         font-size: 12px;
         line-height: 1.5;

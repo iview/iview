@@ -5,8 +5,8 @@
         </transition>
         <div :class="wrapClasses" @click="handleWrapClick">
             <transition :name="transitionNames[0]" @after-leave="animationFinish">
-                <div :class="classes" :style="mainStyles" v-show="visible">
-                    <div :class="[prefixCls + '-content']">
+                <div :class="classes" v-show="visible">
+                    <div :class="[prefixCls + '-content']" :style="mainStyles">
                         <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
                             <slot name="close">
                                 <Icon type="ios-close-empty"></Icon>
