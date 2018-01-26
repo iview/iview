@@ -178,6 +178,12 @@
                 :loading="loading2">
             <Option v-for="(option, index) in options2" :value="option.value" :key="index">{{option.label}}</Option>
         </Select>
+        <Select v-model="model13" placeholder="请选择" style="width: 180px">
+            <Option value="1">123213123213</Option>
+            <Option value="1">123213123213</Option>
+            <Option value="1">123213123213</Option>
+            <Option value="1">123213123213</Option>
+        </Select>
     </div>
 </template>
 <script>

@@ -65,7 +65,7 @@ Modal.newInstance = properties => {
                     }
                 }, [
                     h('div', {
-                        class: this.iconTypeCls
+                        class: this.iconTypeCls,
                     }, [
                         h('i', {
                             class: this.iconNameCls
