@@ -1,0 +1,6 @@
+changes:
+  next:
+    zh-CN:
+      - '[fix] 插件 options 参数作为toast的默认参数'
+    en:
+      - '[fix] plugin options is used as toast default options'

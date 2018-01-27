@@ -8,7 +8,10 @@
 
 ## License
 ```
-
+    v0.0.5
+    1.modal插件调用弹窗样式更改
+    2.vux的几个插件弹窗集成
+    v 0.0.4
     1.字体库更新，以及modal框修改
     2.pullRefresh组件添加
     3.vux的popup, popup-picker,previewer,datetime及相关组件添加

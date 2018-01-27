@@ -1,0 +1,6 @@
+changes:
+  v2.6.4: 
+    en:
+      - '[feature] new plugin for closing all dialogs #2025'
+    zh-CN:
+      - '[feature] 新插件，用于在路由切换时自动关闭所有 plugin 形式打开的弹窗，包括 alert confirm toast loading datetime #2025'

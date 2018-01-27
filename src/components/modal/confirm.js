@@ -28,28 +28,54 @@ Modal.newInstance = properties => {
         render (h) {
             let footerVNodes = [];
             if (this.showCancel) {
+                console.log(footerVNodes)
                 footerVNodes.push(h(Button, {
                     props: {
                         type: 'text',
                         size: 'large'
                     },
+                    style: {
+                        width: '48%'
+                    },
                     on: {
                         click: this.cancel
                     }
                 }, this.localeCancelText));
+                footerVNodes.push(h('div', {
+                    style: {
+                        display: 'inline-block',
+                        width: '1px',
+                        background: '#d3d3d3',
+                        height: '36px',
+                        verticalAlign: 'middle'
+                    }
+                }))
+                footerVNodes.push(h(Button, {
+                    props: {
+                        type: 'text',
+                        size: 'large',
+                        loading: this.buttonLoading
+                    },
+                    style: {
+                        width: '48%'
+                    },
+                    on: {
+                        click: this.ok
+                    }
+                }, this.localeOkText));
+            } else {
+                footerVNodes.push(h(Button, {
+                    props: {
+                        type: 'text',
+                        size: 'large',
+                        long: true,
+                        loading: this.buttonLoading
+                    },
+                    on: {
+                        click: this.ok
+                    }
+                }, this.localeOkText));
             }
-            footerVNodes.push(h(Button, {
-                props: {
-                    type: 'text',
-                    size: 'large',
-                    long: true,
-                    loading: this.buttonLoading
-                },
-                on: {
-                    click: this.ok
-                }
-            }, this.localeOkText));
-
             // render content
             let body_render;
             if (this.render) {
@@ -99,20 +125,20 @@ Modal.newInstance = properties => {
                         class: prefixCls
                     }
                 }, [
-                    h('div', {
-                        attrs: {
-                            class: `${prefixCls}-head`
-                        }
-                    }, [
-                        h('div', {
-                            attrs: {
-                                class: `${prefixCls}-head-title`
-                            },
-                            domProps: {
-                                innerHTML: this.title
-                            }
-                        })
-                    ]),
+                    // h('div', {
+                    //     attrs: {
+                    //         class: `${prefixCls}-head`
+                    //     }
+                    // }, [
+                    //     h('div', {
+                    //         attrs: {
+                    //             class: `${prefixCls}-head-title`
+                    //         },
+                    //         domProps: {
+                    //             innerHTML: this.title
+                    //         }
+                    //     })
+                    // ]),
                     body_render,
                     h('div', {
                         attrs: {
@@ -205,7 +231,7 @@ Modal.newInstance = properties => {
                     modal.$parent.iconName = 'tishi';
                     break;
                 case 'confirm':
-                    modal.$parent.iconName = 'help-circled';
+                    modal.$parent.iconName = 'tishi';
                     break;
             }
 

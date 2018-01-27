@@ -1,0 +1,194 @@
+icon: '&#xe608;'
+tags:
+  en:
+    - dialog
+    - message
+    - confirm
+  zh-CN:
+    - 弹窗
+    - 消息提示
+    - 确认
+extra: |
+
+  <p class="tip">
+   建议参照例子使用 `v-transfer-dom` 将弹窗插入 `body` 节点下，避免组件非 body 子节点导致的各种问题。
+  </p>
+
+
+  该组件支持以`plugin`形式调用：
+
+  <p class="warning">
+  以插件形式调用时，和`template`中使用不同，属性名请使用`小驼峰式`，比如`confirmText`而不是`confirm-text`。
+  </p>
+
+  ``` js
+  import  { ConfirmPlugin } from 'vux'
+  Vue.use(ConfirmPlugin)
+  ```
+
+  ``` js
+  // 显示
+  const _this = this // 需要注意 onCancel 和 onConfirm 的 this 指向
+  this.$vux.confirm.show({
+    // 组件除show外的属性
+    onCancel () {
+      console.log(this) // 非当前 vm
+      console.log(_this) // 当前 vm
+    },
+    onConfirm () {}
+  })
+  // 隐藏
+  this.$vux.confirm.hide()
+  // prompt形式调用
+  this.$vux.confirm.prompt('placeholder', {
+    onCancel () {}
+    onConfirm () {}
+  })
+  // 设置输入值
+  this.$vux.confirm.setInputValue('value') // 注意需要在 onShow 事件中执行
+  ```
+props:
+  show:
+    type: Boolean
+    default: false
+    en: visibility of the component
+    zh-CN: 是否显示，使用`v-model`绑定
+  show-input:
+    version: v2.5.0
+    type: Boolean
+    default: false
+    en: whether show input or not. If true, slot will not work
+    zh-CN: 是否显示输入框，如果为true，slot会失效
+  placeholder:
+    version: v2.5.0
+    type: String
+    default: ''
+    en: placeholder of prompt, valid when show-input is true
+    zh-CN: 输入框的提示（仅在showInput为true的情况下有效）
+  theme:
+    type: String
+    default: ios
+    en: dialog's style, can be ios or android
+    zh-CN: 弹窗风格，可以是ios或android
+    enum:
+      - ios
+      - android
+  hide-on-blur:
+    type: Boolean
+    default: false
+    en: if closing dialog when clicking on mask
+    zh-CN: 是否在点击遮罩时自动关闭弹窗
+  title:
+    en: dialog title
+    zh-CN: 弹窗标题
+  content:
+    type: String
+    en: dialog content, can use html. Invalid when using slot
+    zh-CN: 弹窗内容，作为slot默认内容，可以是html片段，如果使用slot该字段会失效
+  confirm-text:
+    default: 确认(confirm)
+    en: text of confirm button
+    zh-CN: 确认按钮的显示文字
+  cancel-text:
+    default: 取消(cancel)
+    en: text of cancel button
+    zh-CN: 取消按钮的显示文字
+  mask-transition:
+    default: 'vux-fade'
+    en: mask's transition
+    zh-CN: 遮罩动画
+  dialog-transition:
+    default: 'vux-dialog'
+    en: dialog's transition
+    zh-CN: 弹窗动画
+  close-on-confirm:
+    version: v2.5.0
+    type: Boolean
+    default: true
+    en: whether close automatically when confirm button is clicked
+    zh-CN: 是否在点击确认按钮时自动关闭
+  input-attrs:
+    version: v2.5.7
+    type: Object
+    en: input attributes
+    zh-CN: input 属性
+  mask-z-index:
+    version: v2.6.4
+    type: Number, String
+    default: 1000
+    en: zIndex of mask
+    zh-CN: 遮罩层 z-index 值
+slots:
+  default:
+    en: body content of the dialog
+    zh-CN: 弹窗主体内容
+events:
+  on-cancel:
+    en: triggers when the cancel button is clicked
+    zh-CN: 点击取消按钮时触发
+  on-confirm:
+    params: '(value)'
+    en: triggers when the confirm button is clicked
+    zh-CN: 点击确定按钮时触发, 参数为prompt中输入的值
+  on-show:
+    en: triggers when the dialog shows
+    zh-CN: 弹窗出现时触发
+  on-hide:
+    en: triggers when the dialog hides
+    zh-CN: 弹窗隐藏时触发
+methods:
+  v2.6.4:
+    en:
+      - '[feature] support prop:mask-z-index'
+    zh-CN:
+      - '[feature] 支持属性 mask-z-index 设置遮罩 z-index'
+  setInputValue:
+    version: v2.5.5
+    params: '(value)'
+    en: set input value when show-input is true
+    zh-CN: 设置输入值，当 show-input 为 true 时有效
+changes:
+  v2.7.3:
+    en:
+      - '[fix] fix hard to get focus on input(thanks to @Sapphire2k)'
+    zh-CN:
+      - '[fix] 修复输入框难以获取 focus 的问题（感谢 @Sapphire2k）'
+  v2.6.5:
+    en:
+      - '[enhance] fix click events trigger twice when clicking fast #2048'
+    zh-CN:
+      - '[enhance] 修复快速点击按钮时触发多次的问题 #2048'
+  v2.6.4:
+    en:
+      - '[feature] support prop:mask-z-index'
+    zh-CN:
+      - '[feature] 支持属性 mask-z-index 设置遮罩 z-index'
+  v2.5.8:
+    en:
+      - '[feature] Support method:setInputValue for plugin #1846'
+    zh-CN:
+      - '[feature] 插件支持 setInputValue 方法 #1846'
+  v2.5.7:
+    en:
+      - '[feature] Support prop:input-attrs #1799'
+    zh-CN:
+      - '[feature] 支持 prop:input-attrs 设置额外属性 #1799'
+  v2.5.5:
+    en:
+      - '[feature] Add method:setInputValue #1746'
+    zh-CN:
+      - '[feature] 支持方法 setInputValue 设置输入值 #1746'
+  v2.5.0:
+    en:
+      - '[feature] Support prop:close-on-confirm'
+      - '[feature] Support prop:show-input'
+    zh-CN:
+      - '[feature] 支持 prop:close-on-confirm'
+      - '[feature] 支持 prop:show-input'
+  v2.1.1-rc.11:
+    en:
+      - '[fix] Fix plugin value and event watchers'
+      - '[fix] Reset prop data when used as plugin'
+    zh-CN:
+      - '[fix] 修复插件代码里的值和事件监听器'
+      - '[fix] 以插件方式显示时强制重置数据'

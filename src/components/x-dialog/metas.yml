@@ -1,0 +1,182 @@
+icon: '&#xe608;'
+tags:
+  en:
+    - dialog
+  zh-CN:
+    - 弹窗
+extra:
+  en: |
+
+    <p class="warning">
+    if you use `XDialog` inside `ViewBox` or use `overflowScrolling:touch`，please should import `directive:transfer-dom` to fix `z-index` invalid issue。
+    <br>
+    <br>
+    otherwise, you don't need to use `v-transfer-dom`.
+    </p>
+
+    ``` js
+    import { TransferDomDirective as TransferDom } from 'vux'
+
+    export default {
+      directives: {
+        TransferDom
+      }
+    }
+
+    ```
+
+    ``` html
+    <div v-transfer-dom>
+      <x-dialog></x-dialog>
+    </div>
+    ```
+
+  zh-CN: |
+    <p class="warning">
+    如果当前组件所在位置某一父级使用了 `ViewBox` 组件或者直接使用了 Safari 的 `overflowScrolling:touch`，请引入指令 `transfer-dom` 以解决其带来的 `z-index` 失效问题。
+    <br>
+    <br>
+    如果你没有使用，那么不需要参照 demo 加上`v-transfer-dom`
+    </p>
+
+    ``` js
+    import { TransferDomDirective as TransferDom } from 'vux'
+
+    export default {
+      directives: {
+        TransferDom
+      }
+    }
+    ```
+
+    ``` html
+    <div v-transfer-dom>
+      <x-dialog></x-dialog>
+    </div>
+    ```
+    <p class="warning">
+    `scroll` 属性已经在 v2.5.12 废弃，因为它并没有实现阻止 body 滚动。
+    <br>
+    如果你是 `100%` 布局，按照下面配置布局可以实现阻止滚动。
+    </p>
+
+    ``` js
+    import { ConfigPlugin } from 'vux'
+
+    Vue.use(ConfigPlugin, {
+      $layout: 'VIEW_BOX'
+    })
+    ```
+
+props:
+  show:
+    type: Boolean
+    default: false
+    en: 'visibility of the dialog, supports the .sync modifier'
+    zh-CN: '弹窗是否可见，使用 `v-model` 绑定，在 v2.5.3 之后版本支持.sync修饰符'
+  mask-transition:
+    default: vux-mask
+    en: transition of mask
+    zh-CN: 遮罩层动画
+  dialog-transition:
+    default: vux-dialog
+    en: transition of dialog body
+    zh-CN: 弹窗动画
+  hide-on-blur:
+    type: Boolean
+    default: false
+    en: if closing dialog when clicking on mask
+    zh-CN: 是否在点击遮罩时自动关闭弹窗
+  scroll:
+    type: Boolean
+    deprecated: true
+    default: true
+    en: '[deprecated]if body content can scroll when scrolling on dialog'
+    zh-CN: '【废弃】是否在弹窗上滚动时 body 内容也滚动'
+  dialog-style:
+    version: v2.2.2
+    type: Object
+    en: set dialog styles, you can use it for overwritting default width and background style
+    zh-CN: 设置内部弹窗样式，覆盖原有的宽度、背景颜色等样式
+  mask-z-index:
+    version: v2.6.4
+    type: Number, String
+    default: 1000
+    en: zIndex of mask
+    zh-CN: 遮罩层 z-index 值
+events:
+  on-show:
+    en: emits when opening dialog
+    zh-CN: 弹窗可见时触发
+  on-hide:
+    en: emits when closing dialog
+    zh-CN: 弹窗关闭时触发
+slots:
+  default:
+    en: main content of the dialog
+    zh-CN: 弹窗的主体内容
+changes:
+  v2.7.4:
+    en:
+      - '[fix] fix position:absolute issue #2220'
+    zh-CN:
+      - '[fix] 修复定位为 absolute 导致的定位问题 #2220'
+  v2.7.1:
+    en:
+      - '[fix] fix prevent-body-scroll.css not found (less-loader issue) #2118'
+    zh-CN:
+      - '[fix] 修复 prevent-body-scroll.css 无法找到问题(less-loader) #2118'
+  v2.7.0:
+    en:
+      - '[feature] add event:on-click-mask #2102'
+    zh-CN:
+      - '[feature] 添加事件 on-click-mask #2102'
+  v2.6.4:
+    en:
+      - '[feature] support prop:mask-z-index'
+    zh-CN:
+      - '[feature] 支持属性 mask-z-index 设置遮罩 z-index'
+  v2.6.0:
+    en:
+      - '[fix] fix body still scrolls when scrolling on dialog'
+    zh-CN:
+      - '[fix] 修复弹窗滑动时 body 区域依然会滚动的问题'
+  v2.5.12:
+    en:
+      - '[change] prop:scroll is deprecated #1858 #1877'
+    zh-CN:
+      - '[change] 属性 scroll 已经废弃，仅对配置为 100% 布局的情况实现阻止滚动 #1858 #1877'
+  v2.5.3:
+    en:
+      - '[feature] Add prop:show, supports the .sync modifier'
+    zh-CN:
+      - '[feature] 新增 prop:show 并且支持.sync修饰符'
+  v2.2.2:
+    en:
+      - '[feature] Support prop:dialog-style #1282'
+    zh-CN:
+      - '[feature] 支持 prop:dialog-style 覆写原有弹窗容器样式 #1282'
+  v2.1.1-rc.14:
+    en:
+      - '[fix] Fix cannot set value to true initially #1138'
+    zh-CN:
+      - '[fix] 修复初始化时 value 值为 true 无效的问题 #1138'
+  v2.1.1-rc.11:
+    en:
+      - '[enhance] Better mask transition and dialog transition'
+      - '[enhance] Add transfer-dom demo'
+      - '[enhance] Clean unused code'
+    zh-CN:
+      - '[enhance] 更流畅的遮罩动画和弹窗动画'
+      - '[enhance] 添加 dom 转移到 body 下的 demo'
+      - '[enhance] 移除无用代码'
+  v2.1.1-rc.2:
+    en:
+      - '[fix] fix button text color variables'
+    zh-CN:
+      - '[fix] 修复按钮文字颜色变量'
+  v2.1.0:
+    en:
+      - '[fix] fix `transition` binding'
+    zh-CN:
+      - '[fix] 修复`transition`绑定'

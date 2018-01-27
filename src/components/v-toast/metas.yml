@@ -1,0 +1,149 @@
+icon: '&#xe625;'
+tags:
+  en:
+    - toast
+    - tip
+    - dialog
+  zh-CN:
+    - 弹窗
+    - 提示
+extra: |
+ 该组件支持以`plugin`形式调用：
+
+ <p class="warning">
+  以插件形式调用时，和`template`中使用不同，属性名请使用`小驼峰式`，比如`isShowMask`而不是`is-show-mask`。
+  </p>
+
+ ``` js
+ import  { ToastPlugin } from 'vux'
+ Vue.use(ToastPlugin)
+
+ // 或者umd方式
+ // 引入构建的js文件
+ Vue.use(vuxToastPlugin)
+
+ // 默认参数
+ Vue.use(ToastPlugin, {position: 'top'})
+ ```
+
+ ``` js
+ // 显示
+ this.$vux.toast.show({
+  text: 'Loading'
+ })
+
+ // 显示文字
+ this.$vux.toast.text('hello', 'top')
+
+ // 隐藏
+ this.$vux.toast.hide()
+ ```
+
+props:
+  value:
+    type: Boolean
+    default: false
+    en: if showing toast, use v-model for binding
+    zh-CN: 是否显示, 使用 v-model 绑定
+  time:
+    type: Number
+    default: 2000
+    en: show time
+    zh-CN: 显示时间
+  type:
+    type: String
+    default: success
+    en: toast type, success, warn, cancel, text
+    zh-CN: 类型，可选值 success, warn, cancel, text
+  width:
+    type: String
+    default: 7.6em
+    en: toast's width
+    zh-CN: 宽度
+  is-show-mask:
+    type: Boolean
+    default: false
+    en: if showing mask, users cannot operate other elements on the page
+    zh-CN: 是否显示遮罩，如果显示，用户将不能点击页面上其他元素
+  text:
+    type: String
+    default: ''
+    en: content of the toast, text or html, the same function as default slot
+    zh-CN: 提示内容，支持 html，和默认slot同样功能
+  position:
+    version: v2.1.1-rc.4
+    type: String
+    default: 'default'
+    en: 'toast position, available values: default, top, middle, bottom'
+    zh-CN: 显示位置，可选值 default, top, middle, bottom
+slots:
+  default:
+    en: default slot, the content of the toast
+    zh-CN: 默认slot, 提示内容
+events:
+  on-show:
+    en: emits when toast shows
+    zh-CN: 提示弹出时触发
+  on-hide:
+    en: emits when toast hides
+    zh-CN: 提示隐藏时触发
+changes:
+  v2.7.7:
+    en:
+      - '[fix] plugin options is used as toast default options'
+    zh-CN:
+      - '[fix] 插件 options 参数作为toast的默认参数'
+  v2.6.3:
+    en:
+      - '[fix] fix no padding when using slot and type === text'
+    zh-CN:
+      - '[fix] 修复 type 为 text 时使用 slot 缺失 padding 样式的问题'
+  v2.5.8:
+    en:
+      - "[fix] Toast's zIndex should be higher than XDialog's #1820"
+    zh-CN:
+      - '[fix] zIndex 值应该比 XDialog 大 #1820'
+  v2.3.1:
+    en:
+      - '[feature] Add text method for plugin'
+    zh-CN:
+      - '[feature] 为插件添加 text 方法方便调用'
+  v2.1.1-rc.13:
+    en:
+      - '[fix] fix After the call is not set webkitOverflowScrolling for touch'
+    zh-CN:
+      - '[fix] 修复 调用后没有设置webkitOverflowScrolling为touch'
+  v2.1.1-rc.10:
+    en:
+      - '[fix] Fix warn icon style'
+    zh-CN:
+      - '[fix] 修复警告图标样式'
+  v2.1.1-rc.9:
+    en:
+      - '[enhance] Reset props every time plugin.show is called #870 @jsonviewer'
+    zh-CN:
+      - '[enhance] 插件调用时每次都重置为默认参数 #870 @jsonviewer'
+  v2.1.1-rc.6:
+    en:
+      - '[fix] fix forbidden style being overwritten #1016 @LaiXuechao'
+    zh-CN:
+      - '[fix] 修复禁止样式被覆盖 #1016 @LaiXuechao'
+  v2.1.1-rc.4:
+    en:
+      - '[feature] Support position setting. #973 @ LaiXuechao'
+    zh-CN:
+      - '[feature] 支持显示位置设置 #973 @LaiXuechao'
+  v2.1.1-rc.2:
+    en:
+      - '[feature] Add more less variables'
+    zh-CN:
+      - '[feature] 支持更多 less 变量'
+  v2.0.0:
+    en:
+      - '[change] use `v-model` instead of `:show.sync`'
+      - '[change] do not show mask by default'
+      - '[feature] add prop:isShowMask'
+    zh-CN:
+      - '[change] 使用 `v-model` 而不是`:show.sync`进行显示属性绑定'
+      - '[change] 默认不显示遮罩'
+      - '[feature] 添加 isShowMask 属性'

@@ -1,0 +1,6 @@
+changes:
+  v2.5.4: 
+    en:
+      - '[feature] new plugin for managing events'
+    zh-CN:
+      - '[feature] 新插件，用于 vux 组件全局事件管理'

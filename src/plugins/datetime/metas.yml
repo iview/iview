@@ -1,0 +1,16 @@
+changes:
+  v2.5.12:
+    en:
+      - '[fix] Fix datetime show multiple times #1927'
+    zh-CN:
+      - '[fix] 修复多次调用重复显示的问题 #1927'
+  v2.5.1:
+    en:
+      - '[fix] Fix style missing #1659'
+    zh-CN:
+      - '[fix] 修复插件形式使用时缺失样式导致报错问题 #1659'
+  v2.3.8:
+    zh-CN:
+      - '[feature] 是的，Datetime 可以作为插件直接调用了'
+    en:
+      - '[feature] new plugin'

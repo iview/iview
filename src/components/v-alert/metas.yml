@@ -1,0 +1,193 @@
+icon: '&#xe603;'
+extra:
+  zh-CN: |
+
+    该组件支持以`plugin`形式调用：
+
+    <p class="warning">
+    以插件形式调用时，和`template`中使用不同，属性名请使用`小驼峰式`，比如`buttonText`而不是`button-text`。
+    <br>
+    <br>
+    在 `ViewBox` 或者 `overflow-scrolling:touch` 的容器中使用时，请使用 `prop:transfer-dom` 来解决其引起的 `z-index` 失效问题。详细参考 demo。
+    </p>
+
+    ``` js
+    import  { AlertPlugin } from 'vux'
+    Vue.use(AlertPlugin)
+
+    // 或者umd方式
+    // 引入构建的js文件
+    Vue.use(vuxAlertPlugin)
+    ```
+
+    ``` js
+    // 显示
+    this.$vux.alert.show({
+      title: 'Vux is Cool',
+      content: 'Do you agree?',
+      onShow () {
+        console.log('Plugin: I\'m showing')
+      },
+      onHide () {
+        console.log('Plugin: I\'m hiding')
+      }
+    })
+    // 隐藏
+    this.$vux.alert.hide()
+    ```
+
+    <p class="tip">
+    如果你想实现在`vue-router`的`beforeEach`或者`afterEach`的 hook 里关闭，可以使用 `Vue.$vux.alert.hide()`
+    </p>
+  
+    <br>
+    <p class="tip">
+    该组件在 v2.7.2 以上支持单独调用，方法和插件使用一致。
+    </p>
+
+    ```
+    import { AlertModule } from 'vux'
+    ```
+
+
+  en: |
+
+    This component can be imported as plugin:
+
+    <p class="warning">
+    When importing it as plugin, the usage is different from it in `template`. Please use  `little camel-case`  such as `buttonText` instead of `button-text`.
+    </p>
+
+    ``` js
+    import  { AlertPlugin } from 'vux'
+    Vue.use(AlertPlugin)
+
+    // or the way of umd
+    // import built js file
+    Vue.use(vuxAlertPlugin)
+    ```
+
+    ``` js
+    // show
+    this.$vux.alert.show({
+      title: 'Vux is Cool',
+      content: 'Do you agree?',
+      onShow () {
+        console.log('Plugin: I\'m showing')
+      },
+      onHide () {
+        console.log('Plugin: I\'m hiding')
+      }
+    })
+    // hide
+    this.$vux.alert.hide()
+    ```
+
+
+tags:
+  en:
+    - alert
+    - dialog
+    - message
+  zh-CN:
+    - 警告
+    - 提示
+    - 弹窗
+extends:
+  - Dialog
+when:
+  -
+    - en: Show some information that user should pay attention to and should be closed only after user has clicked the close button
+    - zh-CN: 显示一个用户必须注意到并且必须点击按钮确认才能关闭的信息
+props:
+  value:
+    type: Boolean
+    default: false
+    en: visibility of the component, use v-model for binding
+    zh-CN: 是否显示, 使用 v-model 绑定变量
+  title:
+    type: String
+    default: ''
+    en: title
+    zh-CN: 弹窗标题
+  content:
+    version: v2.2.0
+    type: String
+    default: ''
+    en: alert content, and will be replaced if using slot:default
+    zh-CN: 提示内容，作为 slot:default 的默认内容，如果使用 slot:default, 将会失效
+  button-text:
+    type: String
+    default: ok(确定)
+    en: button text
+    zh-CN: 按钮文字
+  hide-on-blur:
+    type: Boolean
+    default: false
+    en: if closing dialog when clicking on mask
+    zh-CN: 是否在点击遮罩时自动关闭弹窗
+  mask-transition:
+    type: String
+    default: vux-fade
+    en: mask transition
+    zh-CN: 遮罩动画
+  dialog-transition:
+    type: String
+    default: vux-dialog
+    en: dialog transition
+    zh-CN: 弹窗主体动画
+  mask-z-index:
+    version: v2.6.4
+    type: Number, String
+    default: 1000
+    en: zIndex of mask
+    zh-CN: 遮罩层 z-index 值
+slots:
+  default:
+    en: dialog content
+    zh-CN: 提示内容
+events:
+  on-show:
+    en: emits when dialog shows
+    zh-CN: 弹窗显示时触发
+  on-hide:
+    en: emits when dialog is closed
+    zh-CN: 弹窗关闭时触发
+changes:
+  v2.7.2:
+    en:
+      - "[feature] now we can use Alert as a module (import { AlertModule } from 'vux') #2173"
+    zh-CN:
+      - "[feature] 支持作为模块直接调用 (import { AlertModule } from 'vux') #2173"
+  v2.6.4:
+    en:
+      - '[feature] support prop:mask-z-index'
+    zh-CN:
+      - '[feature] 支持属性 mask-z-index 设置遮罩 z-index'
+  v2.5.5:
+    en:
+      - '[feature] Support hideOnBlur #1742'
+    zh-CN:
+      - '[feature] 支持 hideOnBlur #1742'
+  v2.2.0:
+    en:
+      - '[feature] Add prop:content'
+    zh-CN:
+      - '[feature] 添加属性 prop:content'
+  v2.1.1-rc.11:
+    en:
+      - '[enhance] Reset props data when used as plugin'
+    zh-CN:
+      - '[enhance] 作为插件使用时，每次都重置属性值'
+  v2.1.1-rc.9:
+    en:
+      - '[fix] Fix onHide callback issue #1023 @jsonviewer'
+    zh-CN:
+      - '[fix] 修正 onHide 回调被错误调用 #1023 @jsonviewer'
+  v2.0.0:
+    en:
+      - '[change] use `v-model` instead of `:show.sync`'
+      - '[todo] fix animation'
+    zh-CN:
+      - '[change] 使用 `v-model` 而不是`:show.sync`进行显示属性绑定'
+      - '[todo] 修复动画'

@@ -1,0 +1,8 @@
+changes:
+  next:
+    zh-CN:
+      - '[fix] 默认插件 options 参数置为空对象，避免调用出错'
+      - '[enhance] 默认插件 options参数添加delay参数'
+    en:
+      - '[fix] set default plugin options to empty object'
+      - '[enhance] set default plugin options parameter add delay'

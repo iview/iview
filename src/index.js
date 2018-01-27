@@ -58,6 +58,9 @@ import popup from './components/popup'
 import popupPicker from './components/popup-picker'
 import previewer from './components/previewer'
 import datetime from './components/datetime'
+import AlertPlugin from './plugins/alert/index.js'
+import confirmPlugin from './plugins/confirm/index.js'
+import toastPlugin from './plugins/toast/index.js'
 // custom
 import pullRefresh from './components/pullRefresh'
 const components = {
@@ -135,7 +138,10 @@ const vux = {
     popupPicker: popupPicker,
     popup,
     previewer,
-    datetime
+    datetime,
+    AlertPlugin,
+    confirmPlugin,
+    toastPlugin
 }
 const custom = {
     pullRefresh: pullRefresh,
@@ -188,7 +194,9 @@ const API = {
     install,
     Circle,
     Switch,
-    ...components
+    ...components,
+    ...vux,
+    ...custom,
 };
 
 API.lang = (code) => {

@@ -1,0 +1,33 @@
+.vux-fade-enter-active,.vux-fade-leave-active {
+  opacity: 1;
+  transition: opacity linear 0.2s;
+}
+
+.vux-fade-enter, .vux-fade-leave-to {
+  opacity: 0;
+}
+
+.vux-dialog-enter-active, .vux-dialog-leave-active {
+  opacity: 1;
+  transition-duration: 400ms;
+  transform: translate(-50%, -50%) scale(1)!important;
+  transition-property: transform, opacity!important;
+}
+.vux-dialog-leave-active {
+  transition-duration: 300ms;
+}
+.vux-dialog-enter {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1.185)!important;
+}
+.vux-dialog-leave-active {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.85)!important;
+}
+
+.vux-mask-enter, .vux-mask-leave-active {
+  opacity: 0;
+}
+.vux-mask-leave-active, .vux-mask-enter-active {
+  transition: opacity 300ms;
+}
