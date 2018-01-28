@@ -212,6 +212,18 @@ const router = new VueRouter({
         {
             path: '/scroll',
             component: require('./routers/scroll.vue')
+        },
+        {
+            path: '/cjcNav',
+            component: require('./routers/cjcNav.vue')
+        },
+        {
+            path: '/fixButton',
+            component: require('./routers/fixButton.vue')
+        },
+        {
+            path: '/pullRefrsh',
+            component: require('./routers/pullRefrsh.vue')
         }
     ]
 });

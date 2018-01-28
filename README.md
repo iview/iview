@@ -1,8 +1,4 @@
-<p align="center">
-    <a href="https://www.iviewui.com">
-        <img width="200" src="https://file.iviewui.com/logo.svg">
-    </a>
-</p>
+
 
 # 集成iview的组件与VUX组件还有一些自己开发的组件
 

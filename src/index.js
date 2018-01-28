@@ -54,15 +54,17 @@ import {Select, Option, OptionGroup} from './components/select';
 import locale from './locale/index';
 
 // vux
-import popup from './components/popup'
-import popupPicker from './components/popup-picker'
-import previewer from './components/previewer'
-import datetime from './components/datetime'
+import popup from './components/v-popup'
+import popupPicker from './components/v-popup-picker'
+import previewer from './components/v-previewer'
+import datetime from './components/v-datetime'
 import AlertPlugin from './plugins/alert/index.js'
 import confirmPlugin from './plugins/confirm/index.js'
 import toastPlugin from './plugins/toast/index.js'
 // custom
-import pullRefresh from './components/pullRefresh'
+import pullRefresh from './components/c-pullRefresh'
+import fixButton from './components/c-fixButton'
+import cjcNav from './components/c-nav'
 const components = {
     Affix,
     Alert,
@@ -144,7 +146,9 @@ const vux = {
     toastPlugin
 }
 const custom = {
-    pullRefresh: pullRefresh,
+    pullRefresh,
+    fixButton,
+    cjcNav
 }
 const iview = {
     ...components,

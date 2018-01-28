@@ -1,13 +1,13 @@
 <template>
     <div class="pullrefesh" >
         <div class='loading' ref="Downrefresh" v-show="downRefresh">
-            <Icon type="load-c" size=16 class="demo-spin-icon-load"></Icon>
+            <Icon type="refresh1" size=16 class="demo-spin-icon-load"></Icon>
             <div style="font-size:12px;">松开刷新</div>
         </div>
         <div class="pullRefresh" ref="pullRefresh">
             <slot></slot>
             <div class="loadingData" v-show="dataLoding">
-                <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
+                <Icon type="refresh1" size=18 class="demo-spin-icon-load"></Icon>
                 <div>loading</div>
             </div>
             <div class="withoutData" v-if="dataLoaded">
@@ -103,7 +103,7 @@ export default {
     z-index: 2;
     // background-color: #fff;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
     transition: all .1s linear;
     -webkit-overflow-scrolling: touch;
     .withoutData {
@@ -134,7 +134,7 @@ export default {
 .pullrefesh {
     height: 100%;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
     .loading {
         position: absolute;
         text-align: center;

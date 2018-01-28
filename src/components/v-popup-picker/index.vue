@@ -52,8 +52,8 @@
 <script>
 import Picker from '../picker'
 import Cell from '../cell'
-import Popup from '../popup'
-import PopupHeader from '../popup-header'
+import Popup from '../v-popup'
+import PopupHeader from '../v-popup-header'
 import InlineDesc from '../inline-desc'
 import { Flexbox, FlexboxItem } from '../flexbox'
 import array2string from '../../filters/array2String'
