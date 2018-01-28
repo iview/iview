@@ -35,7 +35,8 @@ Modal.newInstance = properties => {
                         size: 'large'
                     },
                     style: {
-                        width: '48%'
+                        width: '48%',
+                        color: '#c6c6c6'
                     },
                     on: {
                         click: this.cancel
