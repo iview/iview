@@ -4,6 +4,8 @@
 
 ## License
 ```
+    v0.0.6
+    1.加入几个自定义组件fixbutton,nav,pullRefrensh
     v0.0.5
     1.modal插件调用弹窗样式更改
     2.vux的几个插件弹窗集成
