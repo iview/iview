@@ -6,6 +6,7 @@
         </template>
         <template v-if="renderType === 'html'"><span v-html="row[column.key]"></span></template>
         <template v-if="renderType === 'normal'"><span>{{row[column.key]}}</span></template>
+        <template v-if="renderType === 'translator'"><span>{{translator()}}</span></template>
         <template v-if="renderType === 'expand' && !row._disableExpand">
             <div :class="expandCls" @click="toggleExpand">
                 <Icon type="ios-arrow-right"></Icon>
@@ -77,6 +78,10 @@
             },
             handleClick () {
                 // 放置 Checkbox 冒泡
+            },
+            translator () {
+                const f = this.column.translator;
+                return f(this.row, this.index)
             }
         },
         created () {
@@ -90,6 +95,8 @@
                 this.renderType = 'expand';
             } else if (this.column.render) {
                 this.renderType = 'render';
+            } else if (this.column.translator) {
+                this.renderType = 'translator';
             } else {
                 this.renderType = 'normal';
             }

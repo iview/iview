@@ -803,9 +803,12 @@
                 columns2: [
                     {
                         title: 'Name',
-                        key: 'name',
+//                        key: 'name',
                         width: 100,
-//                        fixed: 'left'
+//                        fixed: 'left',
+                        translator: (row, index) => {
+                            return '$' + row.name;
+                        }
                     },
                     {
                         title: 'Age',
