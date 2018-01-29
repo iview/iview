@@ -11,7 +11,7 @@
                             <span v-if="!column.renderHeader">{{ column.title || '' }}</span>
                             <render-header v-else :render="column.renderHeader" :column="column" :index="index"></render-header>
                         </template>
-                        <template v-else-if="column.type === 'selection'"><Checkbox :value="isSelectAll" @on-change="selectAll"></Checkbox></template>
+                        <template v-else-if="column.type === 'selection'"><Checkbox :value="isSelectAll" :disabled="!data.length" @on-change="selectAll"></Checkbox></template>
                         <template v-else>
                             <span v-if="!column.renderHeader" @click="handleSortByHead(index)">{{ column.title || '#' }}</span>
                             <render-header v-else :render="column.renderHeader" :column="column" :index="index"></render-header>
@@ -23,30 +23,30 @@
                                 v-if="isPopperShow(column)"
                                 v-model="column._filterVisible"
                                 placement="bottom"
-                                @on-popper-hide="handleFilterHide(index)">
+                                @on-popper-hide="handleFilterHide(column._index)">
                                 <span :class="[prefixCls + '-filter']">
                                     <i class="ivu-icon ivu-icon-funnel" :class="{on: column._isFiltered}"></i>
                                 </span>
                                 <div slot="content" :class="[prefixCls + '-filter-list']" v-if="column._filterMultiple">
                                     <div :class="[prefixCls + '-filter-list-item']">
                                         <checkbox-group v-model="column._filterChecked">
-                                            <checkbox v-for="item in column.filters" :key="column._columnKey" :label="item.value">{{ item.label }}</checkbox>
+                                            <checkbox v-for="(item, index) in column.filters" :key="index" :label="item.value">{{ item.label }}</checkbox>
                                         </checkbox-group>
                                     </div>
                                     <div :class="[prefixCls + '-filter-footer']">
-                                        <i-button type="text" size="small" :disabled="!column._filterChecked.length" @click.native="handleFilter(index)">{{ t('i.table.confirmFilter') }}</i-button>
-                                        <i-button type="text" size="small" @click.native="handleReset(index)">{{ t('i.table.resetFilter') }}</i-button>
+                                        <i-button type="text" size="small" :disabled="!column._filterChecked.length" @click.native="handleFilter(column._index)">{{ t('i.table.confirmFilter') }}</i-button>
+                                        <i-button type="text" size="small" @click.native="handleReset(column._index)">{{ t('i.table.resetFilter') }}</i-button>
                                     </div>
                                 </div>
                                 <div slot="content" :class="[prefixCls + '-filter-list']" v-else>
                                     <ul :class="[prefixCls + '-filter-list-single']">
                                         <li
                                             :class="itemAllClasses(column)"
-                                            @click="handleReset(index)">{{ t('i.table.clearFilter') }}</li>
+                                            @click="handleReset(column._index)">{{ t('i.table.clearFilter') }}</li>
                                         <li
                                             :class="itemClasses(column, item)"
                                             v-for="item in column.filters"
-                                            @click="handleSelect(index, item.value)">{{ item.label }}</li>
+                                            @click="handleSelect(column._index, item.value)">{{ item.label }}</li>
                                     </ul>
                                 </div>
                             </Poptip>
@@ -133,10 +133,13 @@
                 this.$parent.selectAll(status);
             },
             handleSort (index, type) {
-                if (this.columns[index]._sortType === type) {
+                const column = this.columns[index];
+                const _index = column._index;
+
+                if (column._sortType === type) {
                     type = 'normal';
                 }
-                this.$parent.handleSort(index, type);
+                this.$parent.handleSort(_index, type);
             },
             handleSortByHead (index) {
                 const column = this.columns[index];

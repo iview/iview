@@ -31,7 +31,7 @@ function getMessageInstance () {
     return messageInstance;
 }
 
-function notice (content = '', duration = defaults.duration, type, onClose = function () {}, closable = false) {
+function notice (content = '', duration = defaults.duration, type, onClose = function () {}, closable = false, render = function () {}) {
     const iconType = iconTypes[type];
 
     // if loading
@@ -50,6 +50,7 @@ function notice (content = '', duration = defaults.duration, type, onClose = fun
                 <span>${content}</span>
             </div>
         `,
+        render: render,
         onClose: onClose,
         closable: closable,
         type: 'message'
@@ -89,7 +90,7 @@ export default {
                 content: options
             };
         }
-        return notice(options.content, options.duration, type, options.onClose, options.closable);
+        return notice(options.content, options.duration, type, options.onClose, options.closable, options.render);
     },
     config (options) {
         if (options.top || options.top === 0) {

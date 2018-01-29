@@ -10,6 +10,9 @@
         <color-picker v-model="color" placement="bottom-start" size="small"></color-picker>
         <Date-picker type="date" placeholder="选择日期" size="small" style="width: 200px"></Date-picker>
         <Button @click="setColor">set color</Button>
+
+        <br><br><br><br>
+        <ColorPicker v-model="color7" :hue="false"></ColorPicker>
     </div>
 </template>
 <script>
@@ -18,7 +21,8 @@
         data () {
             return {
                 color: 'rgba(12,34,255,.85)',
-                color2: ''
+                color2: '',
+                color7: '#19be6b'
             };
         },
         computed: {},

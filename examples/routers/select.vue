@@ -167,50 +167,105 @@
     <!--}-->
 <!--</script>-->
 
+<!--<template>-->
+    <!--<div style="width: 300px">-->
+        <!--<Select-->
+                <!--v-model="model14"-->
+                <!--multiple-->
+                <!--filterable-->
+                <!--remote-->
+                <!--:remote-method="remoteMethod2"-->
+                <!--:loading="loading2">-->
+            <!--<Option v-for="(option, index) in options2" :value="option.value" :key="index">{{option.label}}</Option>-->
+        <!--</Select>-->
+    <!--</div>-->
+<!--</template>-->
+<!--<script>-->
+    <!--export default {-->
+        <!--data () {-->
+            <!--return {-->
+                <!--model13: '',-->
+                <!--loading1: false,-->
+                <!--options1: [],-->
+                <!--model14: [],-->
+                <!--loading2: false,-->
+                <!--options2: [],-->
+                <!--list: ['a', 'b', 'c']-->
+            <!--}-->
+        <!--},-->
+        <!--methods: {-->
+            <!--remoteMethod2 (query) {-->
+                <!--if (query !== '') {-->
+                    <!--this.loading2 = true;-->
+                    <!--setTimeout(() => {-->
+                        <!--this.loading2 = false;-->
+                        <!--const list = this.list.map(item => {-->
+                            <!--return {-->
+                                <!--value: item,-->
+                                <!--label: item-->
+                            <!--};-->
+                        <!--});-->
+                        <!--this.options2 = list.filter(item => item.label.toLowerCase().indexOf(query.toLowerCase()) > -1);-->
+                    <!--}, 200);-->
+                <!--} else {-->
+                    <!--this.options2 = [];-->
+                <!--}-->
+            <!--}-->
+        <!--}-->
+    <!--}-->
+<!--</script>-->
+
+
 <template>
-    <div style="width: 300px">
-        <Select
-                v-model="model14"
-                multiple
-                filterable
-                remote
-                :remote-method="remoteMethod2"
-                :loading="loading2">
-            <Option v-for="(option, index) in options2" :value="option.value" :key="index">{{option.label}}</Option>
+    <Row>
+        <Col span="12" style="padding-right:10px">
+        <Select v-model="model11" disabled filterable>
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
-    </div>
+        </Col>
+        <Col span="12">
+        <!--<Select v-model="model12" filterable multiple>-->
+            <!--<Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>-->
+        <!--</Select>-->
+            <Input v-model="model13" disabled="" />
+        </Col>
+    </Row>
 </template>
 <script>
     export default {
         data () {
             return {
-                model13: '',
-                loading1: false,
-                options1: [],
-                model14: [],
-                loading2: false,
-                options2: [],
-                list: ['a', 'b', 'c']
-            }
-        },
-        methods: {
-            remoteMethod2 (query) {
-                if (query !== '') {
-                    this.loading2 = true;
-                    setTimeout(() => {
-                        this.loading2 = false;
-                        const list = this.list.map(item => {
-                            return {
-                                value: item,
-                                label: item
-                            };
-                        });
-                        this.options2 = list.filter(item => item.label.toLowerCase().indexOf(query.toLowerCase()) > -1);
-                    }, 200);
-                } else {
-                    this.options2 = [];
-                }
+                cityList: [
+                    {
+                        value: 'New York',
+                        label: 'New York'
+                    },
+                    {
+                        value: 'London',
+                        label: 'London'
+                    },
+                    {
+                        value: 'Sydney',
+                        label: 'Sydney'
+                    },
+                    {
+                        value: 'Ottawa',
+                        label: 'Ottawa'
+                    },
+                    {
+                        value: 'Paris',
+                        label: 'Paris'
+                    },
+                    {
+                        value: 'Canberra',
+                        label: 'Canberra'
+                    }
+                ],
+                model11: 'New York',
+                model12: [],
+                model13: 'New York'
             }
         }
     }
 </script>
+

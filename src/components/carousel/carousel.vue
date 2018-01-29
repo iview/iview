@@ -308,6 +308,7 @@
             },
             value (val) {
                 this.currentIndex = val;
+                this.trackIndex = val;
             }
         },
         mounted () {

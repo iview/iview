@@ -219,7 +219,9 @@
                     }
                 }
                 getSelections(this.data);
-                selections = selections.filter(item => item.label.indexOf(this.query) > -1).map(item => {
+                selections = selections.filter(item => {
+                    return item.label ? item.label.indexOf(this.query) > -1 : false;
+                }).map(item => {
                     item.display = item.display.replace(new RegExp(this.query, 'g'), `<span>${this.query}</span>`);
                     return item;
                 });
@@ -256,8 +258,9 @@
             updateResult (result) {
                 this.tmpSelected = result;
             },
-            updateSelected (init = false) {
-                if (!this.changeOnSelect || init) {
+            updateSelected (init = false, changeOnSelectDataChange = false) {
+                // #2793 changeOnSelectDataChange used for changeOnSelect when data changed and set value
+                if (!this.changeOnSelect || init || changeOnSelectDataChange) {
                     this.broadcast('Caspanel', 'on-find-selected', {
                         value: this.currentValue
                     });
@@ -384,7 +387,7 @@
                     if (validDataStr !== this.validDataStr) {
                         this.validDataStr = validDataStr;
                         if (!this.isLoadedChildren) {
-                            this.$nextTick(() => this.updateSelected());
+                            this.$nextTick(() => this.updateSelected(false, this.changeOnSelect));
                         }
                         this.isLoadedChildren = false;
                     }

@@ -1,32 +1,67 @@
 <template>
     <div>
-        <Menu mode="horizontal" :theme="theme1" active-name="1">
+        <Menu :theme="theme1"  active-name="1" accordion @on-select="handleSelect" @on-open-change="handleOpen" :open-names="openArr">
             <Menu-item name="1">
                 <Icon type="ios-paper"></Icon>
-                内容管理
+                一级1
             </Menu-item>
             <Menu-item name="2">
                 <Icon type="ios-people"></Icon>
-                用户管理
+                一级2
             </Menu-item>
             <Submenu name="3">
                 <template slot="title">
-                    <Icon type="stats-bars"></Icon>
-                    统计分析
+                    <Icon type="ios-people"></Icon>
+                    一级3
                 </template>
-                <Menu-group title="使用">
-                    <Menu-item name="3-1">新增和启动</Menu-item>
-                    <Menu-item name="3-2">活跃分析</Menu-item>
-                    <Menu-item name="3-3">时段分析</Menu-item>
-                </Menu-group>
-                <Menu-group title="留存">
-                    <Menu-item name="3-4">用户留存</Menu-item>
-                    <Menu-item name="3-5">流失用户</Menu-item>
-                </Menu-group>
+                <Menu-item name="3-1">二级1</Menu-item>
+                <Menu-item name="3-2">二级2</Menu-item>
+                <Submenu name="3-3">
+                    <template slot="title">
+                        <Icon type="stats-bars"></Icon>
+                        二级3
+                    </template>
+                    <Menu-item name="3-3-1">三级1</Menu-item>
+                    <Menu-item name="3-3-2">三级2</Menu-item>
+                    <Submenu name="3-3-3">
+                        <template slot="title">
+                            <Icon type="stats-bars"></Icon>
+                            三级3
+                        </template>
+                        <Menu-item name="3-3-3-1">四级1</Menu-item>
+                        <Menu-item name="3-3-3-2">四级2</Menu-item>
+                        <MenuGroup title="Menu-Group">
+                            <MenuItem name="3-3-3-3-1">
+                                <Icon type="document-text"></Icon>
+                                Group-item1
+                            </MenuItem>
+                            <MenuItem name="3-3-3-3-2">
+                                <Icon type="chatbubbles"></Icon>
+                                Group-item2
+                            </MenuItem>
+                        </MenuGroup>
+                    </Submenu>
+                    <Submenu name="3-3-4">
+                        <template slot="title">
+                            <Icon type="stats-bars"></Icon>
+                            三级4
+                        </template>
+                        <Menu-item name="3-3-4-1">四级1</Menu-item>
+                        <Menu-item name="3-3-4-2">四级2</Menu-item>
+                    </Submenu>
+                </Submenu>
+                <Submenu name="3-4">
+                    <template slot="title">
+                        <Icon type="stats-bars"></Icon>
+                        二级4
+                    </template>
+                    <Menu-item name="3-4-1">三级1</Menu-item>
+                    <Menu-item name="3-4-2">三级2</Menu-item>
+                </Submenu>
             </Submenu>
             <Menu-item name="4">
                 <Icon type="settings"></Icon>
-                综合设置
+                一级4
             </Menu-item>
         </Menu>
         <br>
@@ -43,9 +78,20 @@
     export default {
         data () {
             return {
-                theme1: 'light',
-                value4: ''
+                theme1: 'dark',
+                value4: '',
+                openArr: ['3', '3-3', '3-3-3']
+            };
+        },
+        methods: {
+            handleSelect (name) {
+                // console.log(name);
+                return name;
+            },
+            handleOpen (openArr) {
+                // console.log(openArr);
+                return openArr;
             }
         }
-    }
+    };
 </script>

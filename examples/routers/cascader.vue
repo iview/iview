@@ -1,11 +1,19 @@
 <template>
-    <Cascader v-model="value3" :data="data" filterable @on-change="hc"></Cascader>
+    <div style="margin: 100px;width: 300px;">
+        <Cascader v-model="value" :data="data" change-on-select></Cascader>
+    </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                data: [{
+                value: ['beijing', 'gugong'],
+                data: []
+            }
+        },
+        mounted () {
+            setTimeout(() => {
+                this.data = [{
                     value: 'beijing',
                     label: '北京',
                     children: [
@@ -51,14 +59,8 @@
                             ]
                         }
                     ],
-                }],
-                value3: []
-            }
-        },
-        methods: {
-            hc (a,b) {
-                console.log(a,b)
-            }
+                }];
+            }, 100)
         }
     }
 </script>

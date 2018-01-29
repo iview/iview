@@ -14,6 +14,22 @@
         <Tag closable color="red" checkable>标签三</Tag>
         <Tag closable color="yellow" checkable>标签四</Tag>
         <br><br>
+        <Tag color="blue" checkable>标签一</Tag>
+        <Tag color="green" checkable>标签二</Tag>
+        <Tag color="red" checkable>标签三</Tag>
+        <Tag color="yellow" checkable>标签四</Tag>
+        <br><br>
+        <Tag closable color="#EF6AFF" checkable>标签一</Tag>
+        <Tag color="#EF6AFF" checkable>标签一</Tag>
+        <Tag type="border" closable color="#EF6AFF" checkable>标签二</Tag>
+        <Tag type="dot" closable color="#EF6AFF" checkable>标签三</Tag>
+        <Tag closable color="default" checkable>标签四</Tag>
+        <br><br>
+        <Tag closable color="#EF6AFF">标签一</Tag>
+        <Tag type="border" closable color="#EF6AFF">标签二</Tag>
+        <Tag type="dot" closable color="#EF6AFF">标签三</Tag>
+        <Tag closable color="default">标签四</Tag>
+        <br><br>
         <Tag type="border" closable color="blue" checkable>标签一</Tag>
         <Tag type="border" closable color="green">标签二</Tag>
         <Tag type="border" closable color="red">标签三</Tag>

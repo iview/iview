@@ -14,7 +14,7 @@
                 size="small">全选</Checkbox>
         <div>
             <Checkbox size="large" true-value="true" false-value="false" v-model="testValue1">Apple</Checkbox>
-            <Checkbox true-value="true" false-value="false" v-model="testValue1">Apple</Checkbox>
+            <Checkbox true-value="true" false-value="false" v-model="testValue1" disabled>Apple</Checkbox>
             <Checkbox size="small" true-value="true" false-value="false" v-model="testValue1">Apple</Checkbox>
             {{ testValue1 }}
         </div>
@@ -37,7 +37,7 @@
                 tags: [],
                 testValue1: null,
                 testValue2: null
-            }
+            };
         },
         mounted () {
             setTimeout(() => {
@@ -51,8 +51,8 @@
                     {
                         label: '西瓜'
                     }
-                ]
+                ];
             }, 1000);
         }
-    }
+    };
 </script>

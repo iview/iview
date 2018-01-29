@@ -43,12 +43,12 @@
         data () {
             return {
                 single: true,
-                phone: 'apple',
+                phone: '',
                 button2: '北京',
-            }
+            };
         },
         methods: {
 
         }
-    }
+    };
 </script>

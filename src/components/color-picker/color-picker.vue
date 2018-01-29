@@ -27,7 +27,7 @@
                         <div :class="[prefixCls + '-picker-panel']">
                             <Saturation v-model="saturationColors" @change="childChange"></Saturation>
                         </div>
-                        <div :class="[prefixCls + '-picker-hue-slider']">
+                        <div v-if="hue" :class="[prefixCls + '-picker-hue-slider']">
                             <Hue v-model="saturationColors" @change="childChange"></Hue>
                         </div>
                         <div v-if="alpha" :class="[prefixCls + '-picker-alpha-slider']">
@@ -129,6 +129,10 @@
         props: {
             value: {
                 type: String
+            },
+            hue: {
+                type: Boolean,
+                default: true
             },
             alpha: {
                 type: Boolean,

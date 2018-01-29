@@ -33,6 +33,7 @@ function notice (type, options) {
     const desc = options.desc || '';
     const noticeKey = options.name || `${prefixKey}${name}`;
     const onClose = options.onClose || function () {};
+    const render = options.render;
     // todo const btn = options.btn || null;
     const duration = (options.duration === 0) ? 0 : options.duration || defaultDuration;
 
@@ -42,9 +43,12 @@ function notice (type, options) {
 
     let content;
 
-    const with_desc = desc === '' ? '' : ` ${prefixCls}-with-desc`;
+    let withIcon;
+
+    const with_desc = (options.render && !title) ? '' : (desc || options.render) ? ` ${prefixCls}-with-desc` : '';
 
     if (type == 'normal') {
+        withIcon = false;
         content = `
             <div class="${prefixCls}-custom-content ${prefixCls}-with-normal${with_desc}">
                 <div class="${prefixCls}-title">${title}</div>
@@ -53,6 +57,7 @@ function notice (type, options) {
         `;
     } else {
         const iconType = iconTypes[type];
+        withIcon = true;
         content = `
             <div class="${prefixCls}-custom-content ${prefixCls}-with-icon ${prefixCls}-with-${type}${with_desc}">
                 <span class="${prefixCls}-icon ${prefixCls}-icon-${type}">
@@ -63,13 +68,15 @@ function notice (type, options) {
             </div>
         `;
     }
-
     instance.notice({
         name: noticeKey.toString(),
         duration: duration,
         styles: {},
         transitionName: 'move-notice',
         content: content,
+        withIcon: withIcon,
+        render: render,
+        hasTitle: !!title,
         onClose: onClose,
         closable: true,
         type: 'notice'
