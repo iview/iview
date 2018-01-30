@@ -110,7 +110,6 @@
                 startX: 0,
                 currentX: 0,
                 startPos: 0,
-                newPos: null,
                 oldValue: val
             };
         },
@@ -162,30 +161,30 @@
             },
             minPosition () {
                 const val = this.currentValue;
-                return (val[0] - this.min) / (this.max - this.min) * 100;
+                return (val[0] - this.min) / this.valueRange * 100;
             },
             maxPosition: function () {
                 const val = this.currentValue;
 
-                return (val[1] - this.min) / (this.max - this.min) * 100;
+                return (val[1] - this.min) / this.valueRange * 100;
             },
             barStyle () {
 
                 const style = {
-                    width: (this.currentValue[0] - this.min) / (this.max - this.min) * 100 + '%'
+                    width: (this.currentValue[0] - this.min) / this.valueRange * 100 + '%'
                 };
 
                 if (this.range) {
-                    style.left = (this.currentValue[0] - this.min) / (this.max - this.min) * 100 + '%';
-                    style.width = (this.currentValue[1] - this.currentValue[0]) / (this.max - this.min) * 100 + '%';
+                    style.left = (this.currentValue[0] - this.min) / this.valueRange * 100 + '%';
+                    style.width = (this.currentValue[1] - this.currentValue[0]) / this.valueRange * 100 + '%';
                 }
 
                 return style;
             },
             stops () {
-                let stopCount = (this.max - this.min) / this.step;
+                let stopCount = this.valueRange / this.step;
                 let result = [];
-                let stepWidth = 100 * this.step / (this.max - this.min);
+                let stepWidth = 100 * this.step / this.valueRange;
                 for (let i = 1; i < stopCount; i++) {
                     result.push(i * stepWidth);
                 }
@@ -196,6 +195,9 @@
             },
             tipDisabled () {
                 return this.tipFormat(this.currentValue[0]) === null || this.showTip === 'never';
+            },
+            valueRange(){
+                return this.max - this.min;
             }
         },
         methods: {
@@ -203,11 +205,11 @@
                 return e.type.indexOf('touch') !== -1 ? e.touches[0].clientX : e.clientX;
             },
             checkLimits ([min, max]) {
-                min = Math.max(0, min);
-                min = Math.min(100, min);
+                min = Math.max(this.min, min);
+                min = Math.min(this.max, min);
 
-                max = Math.max(0, min, max);
-                max = Math.min(100, max);
+                max = Math.max(this.min, min, max);
+                max = Math.min(this.max, max);
                 return [min, max];
             },
             onPointerDown (event, type) {
@@ -224,22 +226,20 @@
             onPointerDragStart (event) {
                 this.dragging = false;
                 this.startX = this.getPointerX(event);
-                this.startPos = parseInt(this[`${this.pointerDown}Position`], 10);
+                this.startPos = (this[`${this.pointerDown}Position`] * this.valueRange / 100) + this.min;
             },
             onPointerDrag (event) {
                 this.dragging = true;
                 this.$refs[`${this.pointerDown}Tooltip`].visible = true;
                 this.currentX = this.getPointerX(event);
+                const diff = (this.currentX - this.startX) / this.sliderWidth * this.valueRange;
 
-                const diff = (this.currentX - this.startX) / this.sliderWidth * 100;
-                this.newPos = this.startPos + diff;
-                this.changeButtonPosition(this.newPos);
+                this.changeButtonPosition(this.startPos + diff);
             },
             onPointerDragEnd () {
                 if (this.dragging) {
                     this.dragging = false;
                     this.$refs[`${this.pointerDown}Tooltip`].visible = false;
-                    this.changeButtonPosition(this.newPos);
                 }
 
                 this.pointerDown = '';
@@ -249,17 +249,14 @@
                 off(window, 'touchend', this.onPointerDragEnd);
             },
             changeButtonPosition (newPos, forceType) {
-
                 const type = forceType || this.pointerDown;
                 const index = type === 'min' ? 0 : 1;
                 if (type === 'min') newPos = this.checkLimits([newPos, this.maxPosition])[0];
                 else newPos = this.checkLimits([this.minPosition, newPos])[1];
 
-                const lengthPerStep = 100 / ((this.max - this.min) / this.step);
-                const steps = Math.round(newPos / lengthPerStep);
-
+                const modulus = newPos % this.step;
                 const value = this.currentValue;
-                value[index] = Math.round(steps * lengthPerStep * (this.max - this.min) * 0.01 + this.min);
+                value[index] = newPos - modulus;
                 this.currentValue = [...value];
 
                 if (!this.dragging) {
@@ -276,7 +273,7 @@
                 if (this.disabled) return;
                 const currentX = this.getPointerX(event);
                 const sliderOffsetLeft = this.$refs.slider.getBoundingClientRect().left;
-                const newPos = (currentX - sliderOffsetLeft) / this.sliderWidth * 100;
+                let newPos = ((currentX - sliderOffsetLeft) / this.sliderWidth * this.valueRange) + this.min;
 
                 if (!this.range || newPos <= this.minPosition) this.changeButtonPosition(newPos, 'min');
                 else if (newPos >= this.maxPosition) this.changeButtonPosition(newPos, 'max');
