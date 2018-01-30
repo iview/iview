@@ -254,11 +254,9 @@
                 if (type === 'min') newPos = this.checkLimits([newPos, this.maxPosition])[0];
                 else newPos = this.checkLimits([this.minPosition, newPos])[1];
 
-                const lengthPerStep = this.valueRange / 100 * this.step;
-                const steps = Math.round(newPos / lengthPerStep);
-
+                const modulus = newPos % this.step;
                 const value = this.currentValue;
-                value[index] = Math.round(steps * lengthPerStep);
+                value[index] = newPos - modulus;
                 this.currentValue = [...value];
 
                 if (!this.dragging) {
