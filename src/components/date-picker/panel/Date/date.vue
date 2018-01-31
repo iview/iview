@@ -12,17 +12,19 @@
                     :class="iconBtnCls('prev', '-double')"
                     @click="changeYear(-1)"><Icon type="ios-arrow-left"></Icon></span>
                 <span
+                    v-if="pickerTable === 'date-table'"
                     :class="iconBtnCls('prev')"
                     @click="changeMonth(-1)"
                     v-show="currentView === 'date'"><Icon type="ios-arrow-left"></Icon></span>
                 <date-panel-label
                     :date-panel-label="datePanelLabel"
-                    :current-view="currentView"
+                    :current-view="pickerTable.split('-').shift()"
                     :date-prefix-cls="datePrefixCls"></date-panel-label>
                 <span
                     :class="iconBtnCls('next', '-double')"
                     @click="changeYear(+1)"><Icon type="ios-arrow-right"></Icon></span>
                 <span
+                    v-if="pickerTable === 'date-table'"
                     :class="iconBtnCls('next')"
                     @click="changeMonth(+1)"
                     v-show="currentView === 'date'"><Icon type="ios-arrow-right"></Icon></span>
@@ -155,7 +157,7 @@
                 this.pickerTable = this.getTableType(this.currentView);
             },
             changeYear(dir){
-                if (this.selectionMode === 'year'){
+                if (this.selectionMode === 'year' || this.pickerTable === 'year-table'){
                     this.panelDate = new Date(this.panelDate.getFullYear() + dir * 10, 0, 1);
                 } else {
                     this.panelDate = siblingMonth(this.panelDate, dir * 12);
@@ -169,7 +171,9 @@
             },
             handlePreSelection(value){
                 this.panelDate = value;
-                this.pickerTable = this.getTableType(this.currentView);
+                if (this.pickerTable === 'year-table') this.pickerTable = 'month-table';
+                else this.pickerTable = this.getTableType(this.currentView);
+
             },
             handlePick (value) {
                 const {selectionMode, panelDate} = this;

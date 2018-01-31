@@ -13,15 +13,16 @@
                         :class="iconBtnCls('prev', '-double')"
                         @click="prevYear('left')"><Icon type="ios-arrow-left"></Icon></span>
                     <span
+                        v-if="splitPanels || leftPickerTable === 'date-table'"
                         :class="iconBtnCls('prev')"
                         @click="prevMonth('left')"
                         v-show="currentView === 'date'"><Icon type="ios-arrow-left"></Icon></span>
                     <date-panel-label
                         :date-panel-label="leftDatePanelLabel"
-                        :current-view="currentView"
+                        :current-view="leftDatePanelView"
                         :date-prefix-cls="datePrefixCls"></date-panel-label>
                     <span
-                        v-if="splitPanels"
+                        v-if="splitPanels || leftPickerTable !== 'date-table'"
                         :class="iconBtnCls('next', '-double')"
                         @click="nextYear('left')"><Icon type="ios-arrow-right"></Icon></span>
                     <span
@@ -48,7 +49,7 @@
             <div :class="[prefixCls + '-content', prefixCls + '-content-right']" v-show="!isTime">
                 <div :class="[datePrefixCls + '-header']" v-show="currentView !== 'time'">
                     <span
-                        v-if="splitPanels"
+                        v-if="splitPanels || rightPickerTable !== 'date-table'"
                         :class="iconBtnCls('prev', '-double')"
                         @click="prevYear('right')"><Icon type="ios-arrow-left"></Icon></span>
                     <span
@@ -58,12 +59,13 @@
                         v-show="currentView === 'date'"><Icon type="ios-arrow-left"></Icon></span>
                     <date-panel-label
                         :date-panel-label="rightDatePanelLabel"
-                        :current-view="currentView"
+                        :current-view="rightDatePanelView"
                         :date-prefix-cls="datePrefixCls"></date-panel-label>
                     <span
                         :class="iconBtnCls('next', '-double')"
                         @click="nextYear('right')"><Icon type="ios-arrow-right"></Icon></span>
                     <span
+                        v-if="splitPanels || rightPickerTable === 'date-table'"
                         :class="iconBtnCls('next')"
                         @click="nextMonth('right')"
                         v-show="currentView === 'date'"><Icon type="ios-arrow-right"></Icon></span>
@@ -168,6 +170,12 @@
             },
             rightDatePanelLabel(){
                 return this.panelLabelConfig('right');
+            },
+            leftDatePanelView(){
+                return this.leftPickerTable.split('-').shift();
+            },
+            rightDatePanelView(){
+                return this.rightPickerTable.split('-').shift();
             },
             timeDisabled(){
                 return !(this.dates[0] && this.dates[1]);
@@ -287,7 +295,16 @@
             },
             handlePreSelection(panel, value){
                 this[`${panel}PanelDate`] = value;
-                this[`${panel}PickerTable`] = `${this.currentView}-table`;
+                const currentViewType = this[`${panel}PickerTable`];
+                if (currentViewType === 'year-table') this[`${panel}PickerTable`] = 'month-table';
+                else this[`${panel}PickerTable`] = `${this.currentView}-table`;
+
+                if (!this.splitPanels){
+                    const otherPanel = panel === 'left' ? 'right' : 'left';
+                    const type = currentViewType === 'year-table' ? 'FullYear' : 'Month';
+                    this[`${otherPanel}PanelDate`] = value;
+                    this.changePanelDate(otherPanel, type, 1);
+                }
             },
             handleRangePick (val) {
                 if (this.rangeState.selecting || this.currentView === 'time'){
