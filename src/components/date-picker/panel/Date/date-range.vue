@@ -127,6 +127,10 @@
     const prefixCls = 'ivu-picker-panel';
     const datePrefixCls = 'ivu-date-picker';
 
+    const dateSorter = (a, b) => {
+        if (!a || !b) return 0;
+        return a.getTime() - b.getTime();
+    };
 
     export default {
         name: 'RangeDatePickerPanel',
@@ -185,14 +189,14 @@
                 return {
                     left: this.leftPickerTable === tableType ? this.handleRangePick : this.handlePreSelection.bind(this, 'left'),
                     right: this.leftPickerTable === tableType ? this.handleRangePick : this.handlePreSelection.bind(this, 'right'),
-                }
+                };
             }
         },
         watch: {
             value(newVal) {
                 const minDate = newVal[0] ? toDate(newVal[0]) : null;
                 const maxDate = newVal[1] ? toDate(newVal[1]) : null;
-                this.dates = [minDate, maxDate].sort();
+                this.dates = [minDate, maxDate].sort(dateSorter);
 
                 this.rangeState = {
                     from: this.dates[0],
@@ -308,7 +312,7 @@
             },
             handleRangePick (val) {
                 if (this.rangeState.selecting || this.currentView === 'time'){
-                    const [minDate, maxDate] = [this.rangeState.from, val].sort((a, b) => a - b);
+                    const [minDate, maxDate] = [this.rangeState.from, val].sort(dateSorter);
                     this.dates = [minDate, maxDate];
                     if (this.currentView === 'time'){
                         this.dates = val;
