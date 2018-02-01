@@ -269,6 +269,7 @@
 
                 if (event.type == 'input') {
                     if (this.empty) {
+                        // set value to min if invalid keyboard interupts
                         this.currentValue = this.min;
                         this.setValue(this.min);
                     }
