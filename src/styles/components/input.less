@@ -29,6 +29,16 @@
         display: none;
     }
 
+    &-icon-clear{
+        display: none;
+    }
+
+    &-wrapper:hover{
+        .@{input-prefix-cls}-icon-clear{
+            display: inline-block;
+        }
+    }
+
     &-icon-normal + &{
         padding-right: 32px;
     }

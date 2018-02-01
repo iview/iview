@@ -404,6 +404,10 @@
                 this.currentValue = '';
                 this.$emit('on-clear');
                 this.dispatch('FormItem', 'on-form-change', '');
+                // #2215，当初始设置了 value，直接点 clear，这时 this.picker 还没有加载
+                if (!this.picker) {
+                    this.emitChange('');
+                }
             },
             showPicker () {
                 if (!this.picker) {

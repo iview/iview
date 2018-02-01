@@ -149,6 +149,11 @@
         position: relative;
         cursor: pointer;
         .placeholder();
+
+        &[disabled]{
+            cursor: @cursor-disabled;
+            color: #ccc;
+        }
     }
 
     &-single &-input{

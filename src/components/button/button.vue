@@ -1,5 +1,9 @@
 <template>
-    <button :type="htmlType" :class="classes" :disabled="disabled" @click="handleClick">
+    <button
+        :type="htmlType"
+        :class="classes"
+        :disabled="disabled"
+        @click="handleClick">
         <Icon class="ivu-load-loop" type="load-c" v-if="loading"></Icon>
         <Icon :type="icon" v-if="icon && !loading"></Icon>
         <span v-if="showSlot" ref="slot"><slot></slot></span>

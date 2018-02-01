@@ -7,9 +7,12 @@
                 :class="inputClasses"
                 :disabled="disabled"
                 :checked="currentValue"
-                :name="name"
-                @change="change">
-        </span><slot>{{ label }}</slot>
+                :name="groupName"
+                @change="change"
+                @focus="onFocus"
+                @blur="onBlur">
+        </span>
+        <slot>{{ label }}</slot>
     </label>
 </template>
 <script>
@@ -54,7 +57,10 @@
             return {
                 currentValue: this.value,
                 group: false,
-                parent: findComponentUpward(this, 'RadioGroup')
+                groupName: this.name,
+                parent: findComponentUpward(this, 'RadioGroup'),
+                focusWrapper: false,
+                focusInner: false
             };
         },
         computed: {
@@ -65,7 +71,8 @@
                         [`${prefixCls}-group-item`]: this.group,
                         [`${prefixCls}-wrapper-checked`]: this.currentValue,
                         [`${prefixCls}-wrapper-disabled`]: this.disabled,
-                        [`${prefixCls}-${this.size}`]: !!this.size
+                        [`${prefixCls}-${this.size}`]: !!this.size,
+                        [`${prefixCls}-focus`]: this.focusWrapper
                     }
                 ];
             },
@@ -79,18 +86,35 @@
                 ];
             },
             innerClasses () {
-                return `${prefixCls}-inner`;
+                return [
+                    `${prefixCls}-inner`,
+                    {
+                        [`${prefixCls}-focus`]: this.focusInner
+                    }
+                ];
             },
             inputClasses () {
                 return `${prefixCls}-input`;
             }
         },
         mounted () {
-            if (this.parent) this.group = true;
-            if (!this.group) {
-                this.updateValue();
-            } else {
+            if (this.parent) {
+                this.group = true;
+                if (this.name && this.name !== this.parent.name) {
+                    /* eslint-disable no-console */
+                    if (console.warn) {
+                        console.warn('[iview] Name does not match Radio Group name.');
+                    }
+                    /* eslint-enable no-console */
+                } else {
+                    this.groupName = this.parent.name; 
+                }
+            }
+
+            if (this.group) {
                 this.parent.updateValue();
+            } else {
+                this.updateValue();
             }
         },
         methods: {
@@ -102,30 +126,43 @@
                 const checked = event.target.checked;
                 this.currentValue = checked;
 
-                let value = checked ? this.trueValue : this.falseValue;
+                const value = checked ? this.trueValue : this.falseValue;
                 this.$emit('input', value);
 
-                if (this.group && this.label !== undefined) {
-                    this.parent.change({
-                        value: this.label,
-                        checked: this.value
-                    });
-                }
-                if (!this.group) {
+                if (this.group) {
+                    if (this.label !== undefined) {
+                        this.parent.change({
+                            value: this.label,
+                            checked: this.value
+                        });
+                    }
+                } else {
                     this.$emit('on-change', value);
                     this.dispatch('FormItem', 'on-form-change', value);
                 }
             },
             updateValue () {
                 this.currentValue = this.value === this.trueValue;
+            },
+            onBlur () {
+                this.focusWrapper = false;
+                this.focusInner = false;
+            },
+            onFocus () {
+                if (this.group && this.parent.type === 'button') {
+                    this.focusWrapper = true;
+                } else {
+                    this.focusInner = true;
+                }
             }
         },
         watch: {
             value (val) {
-                if (val !== this.trueValue && val !== this.falseValue) {
+                if (val === this.trueValue || val === this.falseValue) {
+                    this.updateValue();
+                } else {
                     throw 'Value should be trueValue or falseValue.';
                 }
-                this.updateValue();
             }
         }
     };

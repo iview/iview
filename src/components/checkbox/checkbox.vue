@@ -10,15 +10,19 @@
                 :value="label"
                 v-model="model"
                 :name="name"
-                @change="change">
+                @change="change"
+                @focus="onFocus"
+                @blur="onBlur">
             <input
-                v-if="!group"
+                v-else
                 type="checkbox"
                 :class="inputClasses"
                 :disabled="disabled"
                 :checked="currentValue"
                 :name="name"
-                @change="change">
+                @change="change"
+                @focus="onFocus"
+                @blur="onBlur">
         </span>
         <slot><span v-if="showSlot">{{ label }}</span></slot>
     </label>
@@ -71,7 +75,8 @@
                 currentValue: this.value,
                 group: false,
                 showSlot: true,
-                parent: findComponentUpward(this, 'CheckboxGroup')
+                parent: findComponentUpward(this, 'CheckboxGroup'),
+                focusInner: false
             };
         },
         computed: {
@@ -97,7 +102,12 @@
                 ];
             },
             innerClasses () {
-                return `${prefixCls}-inner`;
+                return [
+                    `${prefixCls}-inner`,
+                    {
+                        [`${prefixCls}-focus`]: this.focusInner
+                    }
+                ];
             },
             inputClasses () {
                 return `${prefixCls}-input`;
@@ -105,12 +115,15 @@
         },
         mounted () {
             this.parent = findComponentUpward(this, 'CheckboxGroup');
-            if (this.parent) this.group = true;
-            if (!this.group) {
+            if (this.parent) {
+                this.group = true;
+            }
+
+            if (this.group) {
+                this.parent.updateModel(true);
+            } else {
                 this.updateModel();
                 this.showSlot = this.$slots.default !== undefined;
-            } else {
-                this.parent.updateModel(true);
             }
         },
         methods: {
@@ -122,7 +135,7 @@
                 const checked = event.target.checked;
                 this.currentValue = checked;
 
-                let value = checked ? this.trueValue : this.falseValue;
+                const value = checked ? this.trueValue : this.falseValue;
                 this.$emit('input', value);
 
                 if (this.group) {
@@ -134,14 +147,21 @@
             },
             updateModel () {
                 this.currentValue = this.value === this.trueValue;
+            },
+            onBlur () {
+                this.focusInner = false;
+            },
+            onFocus () {
+                this.focusInner = true;
             }
         },
         watch: {
             value (val) {
-                if (val !== this.trueValue && val !== this.falseValue) {
+                if (val === this.trueValue || val === this.falseValue) {
+                    this.updateModel();
+                } else {
                     throw 'Value should be trueValue or falseValue.';
                 }
-                this.updateModel();
             }
         }
     };

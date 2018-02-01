@@ -111,6 +111,7 @@
                 if (item.disabled) return;
                 const index = this.checkedKeys.indexOf(item.key);
                 index > -1 ? this.checkedKeys.splice(index, 1) : this.checkedKeys.push(item.key);
+                this.$parent.handleCheckedKeys();
             },
             updateFilteredData () {
                 this.showItems = this.data;

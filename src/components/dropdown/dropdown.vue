@@ -1,7 +1,7 @@
 <template>
     <div
         :class="[prefixCls]"
-        v-clickoutside="handleClose"
+        v-clickoutside="onClickoutside"
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave">
         <div :class="[prefixCls + '-rel']" ref="reference" @click="handleClick"><slot></slot></div>
@@ -110,6 +110,10 @@
                         this.currentVisible = false;
                     }, 150);
                 }
+            },
+            onClickoutside (e) {
+                this.handleClose();
+                if (this.currentVisible) this.$emit('on-clickoutside', e);
             },
             handleClose () {
                 if (this.trigger === 'custom') return false;

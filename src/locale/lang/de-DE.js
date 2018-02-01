@@ -1,4 +1,6 @@
-export default {
+import setLang from '../lang';
+
+const lang = {
     i: {
         locale: 'de-DE',
         select: {
@@ -97,3 +99,7 @@ export default {
         }
     }
 };
+
+setLang(lang);
+
+export default lang;

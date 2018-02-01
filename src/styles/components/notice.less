@@ -11,10 +11,17 @@
     position: fixed;
     z-index: @zindex-notification;
 
+    &-content-with-icon{
+        margin-left: 51px;
+    }
+    &-with-desc&-with-icon &-title{
+        margin-left: 51px;
+    }
+
     &-notice {
         margin-bottom: @notice-margin-bottom;
         padding: @notice-padding;
-        //border: 1px solid @border-color-split;
+        // border: 1px solid @border-color-split;
         border-radius: @border-radius-small;
         box-shadow: @shadow-base;
         background: #fff;
@@ -34,6 +41,12 @@
             }
         }
 
+        &-content-with-render{
+            .ivu-notice-desc{
+                display: none;
+            }
+        }
+
         &-with-desc{
             .@{notice-prefix-cls}-notice-close{
                 top: 11px;
@@ -41,8 +54,13 @@
         }
     }
 
+    &-content-with-render-notitle{
+        margin-left: 26px;
+    }
+
     &-title {
         font-size: @font-size-base;
+        line-height: @font-size-base + 3;  //fixed the bug that the bottom of some letters were hidden just like 'g'
         color: @title-color;
         padding-right: 10px;
         overflow: hidden;
@@ -52,9 +70,6 @@
     &-with-desc &-title{
         font-weight: bold;
         margin-bottom: 8px;
-    }
-    &-with-desc&-with-icon &-title{
-        margin-left: 51px;
     }
 
     &-desc {

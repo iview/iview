@@ -14,7 +14,7 @@
     const prefixCls = 'ivu-switch';
 
     export default {
-        name: 'Switch',
+        name: 'iSwitch',
         mixins: [ Emitter ],
         props: {
             value: {

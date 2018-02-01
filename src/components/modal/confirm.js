@@ -22,7 +22,8 @@ Modal.newInstance = properties => {
             showCancel: false,
             loading: false,
             buttonLoading: false,
-            scrollable: false
+            scrollable: false,
+            closable: false
         }),
         render (h) {
             let footerVNodes = [];
@@ -80,7 +81,8 @@ Modal.newInstance = properties => {
             return h(Modal, {
                 props: Object.assign({}, _props, {
                     width: this.width,
-                    scrollable: this.scrollable
+                    scrollable: this.scrollable,
+                    closable: this.closable
                 }),
                 domProps: {
                     value: this.visible
@@ -208,6 +210,10 @@ Modal.newInstance = properties => {
 
             if ('width' in props) {
                 modal.$parent.width = props.width;
+            }
+
+            if ('closable' in props) {
+                modal.$parent.closable = props.closable;
             }
 
             if ('title' in props) {

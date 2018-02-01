@@ -229,6 +229,7 @@
                     }
                 }
                 this.broadcast('Table', 'on-visible-change', val);
+                this.broadcast('Slider', 'on-visible-change', val);  // #2852
                 this.$emit('on-visible-change', val);
             },
             loading (val) {
