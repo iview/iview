@@ -93,6 +93,10 @@
                 type: Boolean,
                 default: false
             },
+            empty: {
+                type: Boolean,
+                default: false
+            },
             autofocus: {
                 type: Boolean,
                 default: false
@@ -169,7 +173,13 @@
             },
             precisionValue () {
                 // can not display 1.0
-                return this.precision ? this.currentValue.toFixed(this.precision) : this.currentValue;
+                if (this.precision) {
+                    if (this.empty && isNaN(this.currentValue)) {
+                        return undefined;
+                    }
+                    return this.currentValue.toFixed(this.precision);
+                }
+                return this.currentValue;
             }
         },
         methods: {
@@ -199,7 +209,7 @@
                 let val = Number(this.currentValue);
                 const step = Number(this.step);
                 if (isNaN(val)) {
-                    return false;
+                    val = this.min;
                 }
 
                 // input a number, and key up or down
@@ -257,10 +267,22 @@
             change (event) {
                 let val = event.target.value.trim();
 
-                if (event.type == 'input' && val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
+                if (event.type == 'input') {
+                    if (this.empty) {
+                        this.currentValue = this.min;
+                        this.setValue(this.min);
+                    }
+                    if (val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
+                }
 
                 const {min, max} = this;
                 const isEmptyString = val.length === 0;
+                // If empty value is allowed, set currentValue NaN
+                if (isEmptyString && this.empty) {
+                    this.currentValue = NaN;
+                    this.setValue(NaN);
+                    return;
+                }
                 val = Number(val);
 
                 if (event.type == 'change'){
@@ -284,15 +306,14 @@
             },
             changeVal (val) {
                 val = Number(val);
-                if (!isNaN(val)) {
-                    const step = this.step;
-
-                    this.upDisabled = val + step > this.max;
-                    this.downDisabled = val - step < this.min;
-                } else {
+                if (!this.empty && isNaN(val)) {
                     this.upDisabled = true;
                     this.downDisabled = true;
+                    return;
                 }
+                const step = this.step;
+                this.upDisabled = val + step > this.max;
+                this.downDisabled = val - step < this.min;
             }
         },
         mounted () {
