@@ -244,7 +244,9 @@
             blur () {
                 this.focused = false;
                 this.$emit('on-blur');
-                this.precision ? this.currentValue.toFixed(this.precision) : this.currentValue;
+                if( this.precision){
+                     this.currentValue= this.currentValue.toFixed(this.precision)
+                }
             },
             keyDown (e) {
                 if (e.keyCode === 38) {
