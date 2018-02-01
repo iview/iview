@@ -169,7 +169,7 @@
             },
             precisionValue () {
                 // can not display 1.0
-                return this.precision ? this.currentValue.toFixed(this.precision) : this.currentValue;
+                return this.currentValue;
             }
         },
         methods: {
@@ -244,6 +244,7 @@
             blur () {
                 this.focused = false;
                 this.$emit('on-blur');
+                this.precision ? this.currentValue.toFixed(this.precision) : this.currentValue;
             },
             keyDown (e) {
                 if (e.keyCode === 38) {
