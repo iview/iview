@@ -160,11 +160,17 @@
                         // check if its empty values
                         if (isEmptyArray(val)) return true;
 
+                        // check if is time format
+                        if (val[0].match(/^[\d:]+$/) && val[1].match(/^[\d:]+$/)) return true;
+
                         // check if its valid value
                         const [start, end] = val.map(v => new Date(v));
                         return !isNaN(start.getTime()) && !isNaN(end.getTime());
                     } else {
-                        if (typeof val === 'string') val = val.trim();
+                        if (typeof val === 'string') {
+                            val = val.trim();
+                            if (val.match(/^[\d:]+$/)) return true; // time format
+                        }
                         const date = new Date(val);
                         return val === '' || val === null || !isNaN(date.getTime());
                     }
@@ -176,10 +182,10 @@
             }
         },
         data(){
-
             const isRange = this.type.includes('range');
             const emptyArray = isRange ? [null, null] : [null];
-            const initialValue = isEmptyArray(this.value || []) ? emptyArray : this.parseDate(this.value);
+            const initialValue = isEmptyArray((isRange ? this.value : [this.value]) || []) ? emptyArray : this.parseDate(this.value);
+
             return {
                 prefixCls: prefixCls,
                 showClose: false,
@@ -328,6 +334,8 @@
                         val = [null, null];
                     } else {
                         if (typeof val === 'string') {
+                            val = parser(val, format);
+                        } else if (type === 'timerange') {
                             val = parser(val, format);
                         } else {
                             val = val.map(date => new Date(date)); // try to parse

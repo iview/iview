@@ -167,7 +167,7 @@ const RANGE_FORMATTER = function(value, format) {
     return '';
 };
 const RANGE_PARSER = function(text, format) {
-    const array = text.split(RANGE_SEPARATOR);
+    const array = Array.isArray(text) ? text : text.split(RANGE_SEPARATOR);
     if (array.length === 2) {
         const range1 = array[0];
         const range2 = array[1];
