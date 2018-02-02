@@ -240,6 +240,7 @@
                 if (this.dragging) {
                     this.dragging = false;
                     this.$refs[`${this.pointerDown}Tooltip`].visible = false;
+                    this.handleValueChange();
                 }
 
                 this.pointerDown = '';
@@ -258,26 +259,33 @@
                 const value = this.currentValue;
                 value[index] = newPos - modulus;
                 this.currentValue = [...value];
-
-                if (!this.dragging) {
-                    if (this.currentValue[index] !== this.oldValue[index]) {
-                        const exportValue = this.range ? this.currentValue : this.currentValue[0];
-                        this.$emit('on-change', exportValue);
-                        this.dispatch('FormItem', 'on-form-change', exportValue);
-                        this.oldValue[index] = this.currentValue[index];
-                    }
+            },
+            handleValueChange(forceType) {
+                const type = forceType || this.pointerDown;
+                const index = type === 'min' ? 0 : 1;
+                if (this.currentValue[index] !== this.oldValue[index]) {
+                    const exportValue = this.range ? this.currentValue : this.currentValue[0];
+                    this.$emit('on-change', exportValue);
+                    this.dispatch('FormItem', 'on-form-change', exportValue);
+                    this.oldValue[index] = this.currentValue[index];
                 }
             },
-
             sliderClick (event) {
                 if (this.disabled) return;
                 const currentX = this.getPointerX(event);
                 const sliderOffsetLeft = this.$refs.slider.getBoundingClientRect().left;
                 let newPos = ((currentX - sliderOffsetLeft) / this.sliderWidth * this.valueRange) + this.min;
+                let forceType;
 
-                if (!this.range || newPos <= this.minPosition) this.changeButtonPosition(newPos, 'min');
-                else if (newPos >= this.maxPosition) this.changeButtonPosition(newPos, 'max');
-                else this.changeButtonPosition(newPos, ((newPos - this.firstPosition) <= (this.secondPosition - newPos)) ? 'min' : 'max');
+                if (!this.range || newPos <= this.minPosition) {
+                    forceType = 'min';
+                } else if (newPos >= this.maxPosition) {
+                    forceType = 'max';
+                } else {
+                    forceType = ((newPos - this.firstPosition) <= (this.secondPosition - newPos)) ? 'min' : 'max';
+                }
+                this.changeButtonPosition(newPos, forceType);
+                this.handleValueChange(forceType);
             },
 
             handleInputChange (val) {
