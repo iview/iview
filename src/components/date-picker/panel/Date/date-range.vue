@@ -312,11 +312,11 @@
             },
             handleRangePick (val) {
                 if (this.rangeState.selecting || this.currentView === 'time'){
-                    const [minDate, maxDate] = [this.rangeState.from, val].sort(dateSorter);
-                    this.dates = [minDate, maxDate];
                     if (this.currentView === 'time'){
                         this.dates = val;
                     } else {
+                        const [minDate, maxDate] = [this.rangeState.from, val].sort(dateSorter);
+                        this.dates = [minDate, maxDate];
                         this.rangeState = {
                             from: minDate,
                             to: maxDate,
