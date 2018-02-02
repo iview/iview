@@ -82,7 +82,7 @@
                         start: isRange && time === minDay,
                         end: isRange && time === maxDay
                     };
-                }).cells;
+                }).cells.slice(this.showWeekNumbers ? 8 : 0);
             }
         },
         methods: {
