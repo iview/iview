@@ -154,27 +154,7 @@
                 default: () => []
             },
             value: {
-                type: [Date, String, Array],
-                validator(val){
-                    if (Array.isArray(val)){
-                        // check if its empty values
-                        if (isEmptyArray(val)) return true;
-
-                        // check if is time format
-                        if (val[0].match(/^[\d:]+$/) && val[1].match(/^[\d:]+$/)) return true;
-
-                        // check if its valid value
-                        const [start, end] = val.map(v => new Date(v));
-                        return !isNaN(start.getTime()) && !isNaN(end.getTime());
-                    } else {
-                        if (typeof val === 'string') {
-                            val = val.trim();
-                            if (val.match(/^[\d:]+$/)) return true; // time format
-                        }
-                        const date = new Date(val);
-                        return val === '' || val === null || !isNaN(date.getTime());
-                    }
-                }
+                type: [Date, String, Array]
             },
             options: {
                 type: Object,
