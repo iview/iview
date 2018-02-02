@@ -20,7 +20,7 @@ describe('DatePicker.vue', () => {
         return !prevMonth && !nextMonth;
       });
       const today = new Date();
-      const daysInCurrentMonth = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+      const daysInCurrentMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
       expect(daysInCurrentMonth).to.equal(calendarCells.length);
       done();
     });
