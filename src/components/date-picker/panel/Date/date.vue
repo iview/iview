@@ -116,7 +116,7 @@
                 ];
             },
             panelPickerHandlers(){
-                return this.pickerTable === `${this.currentView}-table` ? this.handlePick : this.handlePreSelection
+                return this.pickerTable === `${this.currentView}-table` ? this.handlePick : this.handlePreSelection;
             },
             datePanelLabel () {
                 const locale = this.t('i.locale');
@@ -140,7 +140,7 @@
         watch: {
             value (newVal) {
                 this.dates = newVal;
-                if (JSON.stringify(newVal) === '[null]') this.panelDate = this.startDate || new Date();
+                this.panelDate = this.startDate || this.dates[0] || new Date();
             },
             currentView (currentView) {
                 this.$emit('on-selection-mode-change', currentView);
