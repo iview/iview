@@ -74,6 +74,8 @@
 
     const prefixCls = 'ivu-date-picker';
 
+    const isEmptyArray = val => val.reduce((isEmpty, str) => isEmpty && !str || (typeof str === 'string' && str.trim() === ''), true);
+
     export default {
         name: 'CalendarPicker',
         mixins: [ Emitter ],
@@ -155,6 +157,10 @@
                 type: [Date, String, Array],
                 validator(val){
                     if (Array.isArray(val)){
+                        // check if its empty values
+                        if (isEmptyArray(val)) return true;
+
+                        // check if its valid value
                         const [start, end] = val.map(v => new Date(v));
                         return !isNaN(start.getTime()) && !isNaN(end.getTime());
                     } else {
@@ -170,11 +176,15 @@
             }
         },
         data(){
+
+            const isRange = this.type.includes('range');
+            const emptyArray = isRange ? [null, null] : [null];
+            const initialValue = isEmptyArray(this.value || []) ? emptyArray : this.parseDate(this.value);
             return {
                 prefixCls: prefixCls,
                 showClose: false,
                 visible: false,
-                internalValue: this.parseDate(this.value),
+                internalValue: initialValue,
                 disableClickOutSide: false,    // fixed when click a date,trigger clickoutside to close picker
                 disableCloseUnderTransfer: false,  // transfer 模式下，点击Drop也会触发关闭,
                 selectionMode: this.onSelectionModeChange(this.type),
