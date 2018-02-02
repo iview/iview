@@ -261,15 +261,13 @@
                 this.currentValue = [...value];
             },
             handleValueChange(forceType) {
-                if (!this.dragging) {
-                    const type = forceType || this.pointerDown;
-                    const index = type === 'min' ? 0 : 1;
-                    if (this.currentValue[index] !== this.oldValue[index]) {
-                        const exportValue = this.range ? this.currentValue : this.currentValue[0];
-                        this.$emit('on-change', exportValue);
-                        this.dispatch('FormItem', 'on-form-change', exportValue);
-                        this.oldValue[index] = this.currentValue[index];
-                    }
+                const type = forceType || this.pointerDown;
+                const index = type === 'min' ? 0 : 1;
+                if (this.currentValue[index] !== this.oldValue[index]) {
+                    const exportValue = this.range ? this.currentValue : this.currentValue[0];
+                    this.$emit('on-change', exportValue);
+                    this.dispatch('FormItem', 'on-form-change', exportValue);
+                    this.oldValue[index] = this.currentValue[index];
                 }
             },
             sliderClick (event) {
