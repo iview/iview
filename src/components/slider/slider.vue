@@ -240,6 +240,7 @@
                 if (this.dragging) {
                     this.dragging = false;
                     this.$refs[`${this.pointerDown}Tooltip`].visible = false;
+                    this.emitChange();
                 }
 
                 this.pointerDown = '';
@@ -261,12 +262,16 @@
 
                 if (!this.dragging) {
                     if (this.currentValue[index] !== this.oldValue[index]) {
-                        const exportValue = this.range ? this.currentValue : this.currentValue[0];
-                        this.$emit('on-change', exportValue);
-                        this.dispatch('FormItem', 'on-form-change', exportValue);
+                        this.emitChange();
                         this.oldValue[index] = this.currentValue[index];
                     }
                 }
+            },
+
+            emitChange(){
+                const exportValue = this.range ? this.currentValue : this.currentValue[0];
+                this.$emit('on-change', exportValue);
+                this.dispatch('FormItem', 'on-form-change', exportValue);
             },
 
             sliderClick (event) {
