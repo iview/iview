@@ -13,7 +13,7 @@
                         :class="iconBtnCls('prev', '-double')"
                         @click="prevYear('left')"><Icon type="ios-arrow-left"></Icon></span>
                     <span
-                        v-if="splitPanels || leftPickerTable === 'date-table'"
+                        v-if="leftPickerTable === 'date-table'"
                         :class="iconBtnCls('prev')"
                         @click="prevMonth('left')"
                         v-show="currentView === 'date'"><Icon type="ios-arrow-left"></Icon></span>
@@ -26,7 +26,7 @@
                         :class="iconBtnCls('next', '-double')"
                         @click="nextYear('left')"><Icon type="ios-arrow-right"></Icon></span>
                     <span
-                        v-if="splitPanels"
+                        v-if="splitPanels && leftPickerTable === 'date-table'"
                         :class="iconBtnCls('next')"
                         @click="nextMonth('left')"
                         v-show="currentView === 'date'"><Icon type="ios-arrow-right"></Icon></span>
@@ -53,7 +53,7 @@
                         :class="iconBtnCls('prev', '-double')"
                         @click="prevYear('right')"><Icon type="ios-arrow-left"></Icon></span>
                     <span
-                        v-if="splitPanels"
+                        v-if="splitPanels && rightPickerTable === 'date-table'"
                         :class="iconBtnCls('prev')"
                         @click="prevMonth('right')"
                         v-show="currentView === 'date'"><Icon type="ios-arrow-left"></Icon></span>
@@ -65,7 +65,7 @@
                         :class="iconBtnCls('next', '-double')"
                         @click="nextYear('right')"><Icon type="ios-arrow-right"></Icon></span>
                     <span
-                        v-if="splitPanels || rightPickerTable === 'date-table'"
+                        v-if="rightPickerTable === 'date-table'"
                         :class="iconBtnCls('next')"
                         @click="nextMonth('right')"
                         v-show="currentView === 'date'"><Icon type="ios-arrow-right"></Icon></span>
