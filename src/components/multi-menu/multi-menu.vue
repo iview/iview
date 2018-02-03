@@ -18,7 +18,7 @@ let getObject = (list, obj) => {
         }
     }
     return ans;
-}
+};
 export default {
     name: 'MultiMenu',
     props: {
@@ -55,7 +55,6 @@ export default {
         },
         getTemplate(h, data) {
             let child = [];
-            let contentCnt = 0;
             if (data.icon) {
                 child.push(h('Icon', {
                     props: {
@@ -65,7 +64,7 @@ export default {
             }
             child.push(data.title ? data.title : '');
             return h('template', {
-                slot: "title"
+                slot: 'title'
             }, child, child.length - 1);
         },
         getMenuGroup(h, data) {
@@ -85,12 +84,12 @@ export default {
             }, child);
         },
         getSubMenu(h, data) {
-            let props = getObject(['name'], data)
+            let props = getObject(['name'], data);
             let child = [];
             if (data.icon || data.title) {
                 child.push(this.getTemplate(h, data));
             }
-            child.push(...this.getChildren(h, data.children))
+            child.push(...this.getChildren(h, data.children));
             return h('SubMenu', {
                 props: props,
             }, child);
@@ -116,5 +115,5 @@ export default {
         let ans = this.getMenu(h, this.data);
         return ans;
     },
-}
+};
 </script>
