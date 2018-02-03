@@ -120,6 +120,8 @@
                 focused: false,
                 upDisabled: false,
                 downDisabled: false,
+                //新增一个参数 是否允许 补位小数点 
+                isAddPrecision true,
                 currentValue: this.value
             };
         },
@@ -169,7 +171,7 @@
             },
             precisionValue () {
                 // can not display 1.0
-                return this.currentValue;
+                return this.precision && this.isAddPrecision? this.currentValue.toFixed(this.precision) : this.currentValue;
             }
         },
         methods: {
@@ -243,10 +245,9 @@
             },
             blur () {
                 this.focused = false;
+                ／／blur时允许
+                this.isAddPrecision= true;
                 this.$emit('on-blur');
-                if( this.precision){
-                     this.currentValue= this.currentValue.toFixed(this.precision)
-                }
             },
             keyDown (e) {
                 if (e.keyCode === 38) {
@@ -259,7 +260,8 @@
             },
             change (event) {
                 let val = event.target.value.trim();
-
+                //change 时不允许补位
+                this.isAddPrecision= false;
                 if (event.type == 'input' && val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
 
                 const {min, max} = this;
