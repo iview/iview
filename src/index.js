@@ -26,6 +26,7 @@ import Scroll from './components/scroll';
 import Layout from './components/layout';
 import LoadingBar from './components/loading-bar';
 import Menu from './components/menu';
+import MultiMenu from './components/multi-menu';
 import Message from './components/message';
 import Modal from './components/modal';
 import Notice from './components/notice';
@@ -92,6 +93,7 @@ const components = {
     Menu,
     MenuGroup: Menu.Group,
     MenuItem: Menu.Item,
+    MultiMenu,
     Message,
     Modal,
     Notice,
