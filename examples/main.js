@@ -135,6 +135,10 @@ const router = new VueRouter({
             component: (resolve) => require(['./routers/menu.vue'], resolve)
         },
         {
+            path: '/multi-menu',
+            component: (resolve) => require(['./routers/multi-menu.vue'], resolve)
+        },
+        {
             path: '/spin',
             component: (resolve) => require(['./routers/spin.vue'], resolve)
         },
