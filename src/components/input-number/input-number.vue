@@ -111,6 +111,9 @@
             precision: {
                 type: Number
             },
+            multiple: {
+                type: Number
+            },
             elementId: {
                 type: String
             }
@@ -227,6 +230,10 @@
                 this.setValue(val);
             },
             setValue (val) {
+
+                //如果设置了倍数，val是multiple整倍数中最接近输入值且小于输入值的数
+                if (!isNaN(this.multiple)) val = Number(Number(val) - (Number(val) % Number(this.multiple)));
+
                 // 如果 step 是小数，且没有设置 precision，是有问题的
                 if (!isNaN(this.precision)) val = Number(Number(val).toFixed(this.precision));
 
