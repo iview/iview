@@ -23,10 +23,10 @@ export default {
         },
         ownPickerProps(){
             return {
-                ...this.disabledHours,
-                ...this.disabledMinutes,
-                ...this.disabledSeconds,
-                ...this.hideDisabledOptions,
+                disabledHours: this.disabledHours,
+                disabledMinutes: this.disabledMinutes,
+                disabledSeconds: this.disabledSeconds,
+                hideDisabledOptions: this.hideDisabledOptions
             };
         }
     },
