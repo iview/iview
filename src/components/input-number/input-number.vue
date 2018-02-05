@@ -273,7 +273,7 @@
                 if (event.type == 'input') {
                     if (this.empty) {
                         // If input is cleared out, set currentValue NaN
-                        if (isEmptyString && !isNaN(this.currentValue)) {
+                        if (isEmptyString) {
                             this.currentValue = NaN;
                             this.setValue(NaN);
                             return;
