@@ -172,11 +172,11 @@
                 return `${prefixCls}-input`;
             },
             precisionValue () {
+                if (this.empty && isNaN(this.currentValue)) {
+                    return undefined;
+                }
                 // can not display 1.0
                 if (this.precision) {
-                    if (this.empty && isNaN(this.currentValue)) {
-                        return undefined;
-                    }
                     return this.currentValue.toFixed(this.precision);
                 }
                 return this.currentValue;
@@ -307,10 +307,13 @@
             },
             changeVal (val) {
                 val = Number(val);
-                if (!this.empty && isNaN(val)) {
-                    this.upDisabled = true;
-                    this.downDisabled = true;
-                    return;
+                if (isNaN(val)) {
+                    if (!this.empty) {
+                        this.upDisabled = true;
+                        this.downDisabled = true;
+                        return;
+                    }
+                    val = this.min;
                 }
                 const step = this.step;
                 this.upDisabled = val + step > this.max;
