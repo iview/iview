@@ -28,15 +28,15 @@
         props: {
             hours: {
                 type: [Number, String],
-                default: 0
+                default: NaN
             },
             minutes: {
                 type: [Number, String],
-                default: 0
+                default: NaN
             },
             seconds: {
                 type: [Number, String],
-                default: 0
+                default: NaN
             },
             showSeconds: {
                 type: Boolean,

@@ -10,9 +10,9 @@
                     ref="timeSpinner"
                     :steps="steps"
                     :show-seconds="showSeconds"
-                    :hours="dateStart.getHours()"
-                    :minutes="dateStart.getMinutes()"
-                    :seconds="dateStart.getSeconds()"
+                    :hours="value[0] && dateStart.getHours()"
+                    :minutes="value[0] && dateStart.getMinutes()"
+                    :seconds="value[0] && dateStart.getSeconds()"
                     :disabled-hours="disabledHours"
                     :disabled-minutes="disabledMinutes"
                     :disabled-seconds="disabledSeconds"
@@ -29,9 +29,9 @@
                     ref="timeSpinnerEnd"
                     :steps="steps"
                     :show-seconds="showSeconds"
-                    :hours="dateEnd.getHours()"
-                    :minutes="dateEnd.getMinutes()"
-                    :seconds="dateEnd.getSeconds()"
+                    :hours="value[1] && dateEnd.getHours()"
+                    :minutes="value[1] && dateEnd.getMinutes()"
+                    :seconds="value[1] && dateEnd.getSeconds()"
                     :disabled-hours="disabledHours"
                     :disabled-minutes="disabledMinutes"
                     :disabled-seconds="disabledSeconds"
@@ -87,8 +87,7 @@
                 timePrefixCls: timePrefixCls,
                 showDate: false,
                 dateStart: dateStart || initTimeDate(),
-                dateEnd: dateEnd || initTimeDate(),
-                confirm: false
+                dateEnd: dateEnd || initTimeDate()
             };
         },
         computed: {

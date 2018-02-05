@@ -5,10 +5,6 @@ import {initTimeDate } from '../../util';
 
 export default {
     props: {
-        confirm: {
-            type: Boolean,
-            default: false
-        },
         showTime: {
             type: Boolean,
             default: false

@@ -7,9 +7,9 @@
                     ref="timeSpinner"
                     :show-seconds="showSeconds"
                     :steps="steps"
-                    :hours="date.getHours()"
-                    :minutes="date.getMinutes()"
-                    :seconds="date.getSeconds()"
+                    :hours="value[0] && date.getHours()"
+                    :minutes="value[0] && date.getMinutes()"
+                    :seconds="value[0] && date.getSeconds()"
                     :disabled-hours="disabledHours"
                     :disabled-minutes="disabledMinutes"
                     :disabled-seconds="disabledSeconds"
@@ -63,8 +63,7 @@
                 prefixCls: prefixCls,
                 timePrefixCls: timePrefixCls,
                 date: this.value[0] || initTimeDate(),
-                showDate: false,
-                confirm: false
+                showDate: false
             };
         },
         computed: {
