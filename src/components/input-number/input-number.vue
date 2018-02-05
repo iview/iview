@@ -176,10 +176,7 @@
                     return undefined;
                 }
                 // can not display 1.0
-                if (this.precision) {
-                    return this.currentValue.toFixed(this.precision);
-                }
-                return this.currentValue;
+                return this.precision ? this.currentValue.toFixed(this.precision) : this.currentValue;
             }
         },
         methods: {
