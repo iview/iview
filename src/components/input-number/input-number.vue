@@ -267,23 +267,24 @@
             change (event) {
                 let val = event.target.value.trim();
 
+                const {min, max} = this;
+                const isEmptyString = val.length === 0;
+
                 if (event.type == 'input') {
                     if (this.empty) {
                         // set value to min if invalid keyboard interupts
                         this.currentValue = this.min;
                         this.setValue(this.min);
+                        // If input is cleared out, set currentValue NaN
+                        if (isEmptyString && !isNaN(this.currentValue)) {
+                            this.currentValue = NaN;
+                            this.setValue(NaN);
+                            return;
+                        }
                     }
                     if (val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
                 }
 
-                const {min, max} = this;
-                const isEmptyString = val.length === 0;
-                // If empty value is allowed, set currentValue NaN
-                if (isEmptyString && this.empty) {
-                    this.currentValue = NaN;
-                    this.setValue(NaN);
-                    return;
-                }
                 val = Number(val);
 
                 if (event.type == 'change'){
