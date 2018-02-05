@@ -271,16 +271,13 @@
                 const isEmptyString = val.length === 0;
 
                 if (event.type == 'input') {
-                    if (this.empty) {
+                    this.currentValue = this.min;
+                    this.setValue(this.currentValue);
+                    if (isEmptyString) {
                         // If input is cleared out, set currentValue NaN
-                        if (isEmptyString) {
-                            this.currentValue = NaN;
-                            this.setValue(NaN);
-                            return;
-                        }
-                        // set value to min if invalid keyboard interupts
-                        this.currentValue = this.min;
-                        this.setValue(this.min);
+                        this.currentValue = NaN;
+                        this.setValue(this.currentValue);
+                        return;
                     }
                     if (val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
                 }
