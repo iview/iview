@@ -194,7 +194,6 @@
             }
         },
         mounted () {
-            this.updateScroll();
             this.$nextTick(() => this.compiled = true);
         }
     };

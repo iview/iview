@@ -230,12 +230,15 @@
             handleFocus () {
                 if (this.readonly) return;
                 this.visible = true;
+                this.$refs.pickerPanel.onToggleVisibility(true);
             },
             handleBlur () {
                 this.visible = false;
                 this.onSelectionModeChange(this.type);
                 this.internalValue = this.internalValue.slice(); // trigger panel watchers to reset views
                 this.reset();
+                this.$refs.pickerPanel.onToggleVisibility(false);
+
             },
             reset(){
                 this.$refs.pickerPanel.reset && this.$refs.pickerPanel.reset();

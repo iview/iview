@@ -41,6 +41,9 @@ export default {
         handleConfirm(visible) {
             this.$emit('on-pick', this.dates, visible);
         },
-
+        onToggleVisibility(open){
+            const timeSpinner = this.$refs.timeSpinner;
+            if (open && timeSpinner) timeSpinner.updateScroll();
+        }
     }
 };
