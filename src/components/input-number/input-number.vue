@@ -308,17 +308,17 @@
             },
             changeVal (val) {
                 val = Number(val);
-                if (isNaN(val)) {
+                if (!isNaN(val)) {
+                    const step = this.step;
+                    this.upDisabled = val + step > this.max;
+                    this.downDisabled = val - step < this.min;
+                } else {
                     if (!this.empty) {
                         this.upDisabled = true;
                         this.downDisabled = true;
                         return;
                     }
-                    val = this.min;
                 }
-                const step = this.step;
-                this.upDisabled = val + step > this.max;
-                this.downDisabled = val - step < this.min;
             }
         },
         mounted () {
