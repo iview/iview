@@ -432,6 +432,7 @@
                 for (let i in this.objData) {
                     if (parseInt(i) === _index) {
                         data = this.objData[i];
+                        break;
                     }
                 }
                 const status = !data._isChecked;
@@ -448,6 +449,7 @@
                 for (let i in this.objData) {
                     if (parseInt(i) === _index) {
                         data = this.objData[i];
+                        break;
                     }
                 }
                 const status = !data._isExpanded;
