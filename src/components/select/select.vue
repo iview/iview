@@ -724,7 +724,8 @@
         watch: {
             value (val) {
                 this.model = val;
-                if (val === '') this.query = '';
+                // #982
+                if (val === '' || val === null) this.query = '';
             },
             label (val) {
                 this.currentLabel = val;
