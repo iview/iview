@@ -48,8 +48,9 @@ export default {
             this.$emit('on-pick', this.dates, visible);
         },
         onToggleVisibility(open){
-            const timeSpinner = this.$refs.timeSpinner;
+            const {timeSpinner, timeSpinnerEnd} = this.$refs;
             if (open && timeSpinner) timeSpinner.updateScroll();
+            if (open && timeSpinnerEnd) timeSpinnerEnd.updateScroll();
         }
     }
 };
