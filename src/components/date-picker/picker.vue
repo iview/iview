@@ -206,6 +206,10 @@
             },
             elementId: {
                 type: String
+            },
+            icon: {
+                type: String,
+                default: ''
             }
         },
         data () {
@@ -225,10 +229,11 @@
                 return this.open === null ? this.visible : this.open;
             },
             iconType () {
-                let icon = 'ios-calendar-outline';
-                if (this.type === 'time' || this.type === 'timerange') icon = 'ios-clock-outline';
-                if (this.showClose) icon = 'ios-close';
-                return icon;
+                let iconType = 'ios-calendar-outline';
+                if (this.type === 'time' || this.type === 'timerange') iconType = 'ios-clock-outline';
+                if (this.icon !== '' && this.showClose === false) iconType = this.icon;
+                if (this.showClose) iconType = 'ios-close';
+                return iconType;
             },
             transition () {
                 if (this.placement === 'bottom-start' || this.placement === 'bottom' || this.placement === 'bottom-end') {
