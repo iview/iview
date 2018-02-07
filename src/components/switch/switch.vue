@@ -1,5 +1,10 @@
 <template>
-    <span :class="wrapClasses" @click="toggle">
+    <span
+        tabindex="0"
+        :class="wrapClasses"
+        @click="toggle"
+        @keydown.space="toggle"
+    >
         <input type="hidden" :name="name" :value="currentValue">
         <span :class="innerClasses">
             <slot name="open" v-if="currentValue === trueValue"></slot>
