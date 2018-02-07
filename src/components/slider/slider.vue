@@ -5,11 +5,11 @@
             :min="min"
             :max="max"
             :step="step"
-            :value="currentValue[0]"
+            :value="exportValue[0]"
             :disabled="disabled"
             @on-change="handleInputChange"></Input-number>
         <div :class="[prefixCls + '-wrap']" ref="slider" @click.self="sliderClick">
-            <input type="hidden" :name="name" :value="currentValue">
+            <input type="hidden" :name="name" :value="exportValue">
             <template v-if="showStops">
                 <div :class="[prefixCls + '-stop']" v-for="item in stops" :style="{ 'left': item + '%' }" @click.self="sliderClick"></div>
             </template>
@@ -19,7 +19,7 @@
                 :style="{left: minPosition + '%'}"
                 @touchstart="onPointerDown($event, 'min')"
                 @mousedown="onPointerDown($event, 'min')">
-                <Tooltip :controlled="pointerDown === 'min'" placement="top" :content="tipFormat(currentValue[0])"
+                <Tooltip :controlled="pointerDown === 'min'" placement="top" :content="tipFormat(exportValue[0])"
                          :disabled="tipDisabled" :always="showTip === 'always'" ref="minTooltip">
                     <div :class="minButtonClasses"></div>
                 </Tooltip>
@@ -29,7 +29,7 @@
                  :style="{left: maxPosition + '%'}"
                  @touchstart="onPointerDown($event, 'max')"
                  @mousedown="onPointerDown($event, 'max')">
-                <Tooltip :controlled="pointerDown === 'max'" placement="top" :content="tipFormat(currentValue[1])"
+                <Tooltip :controlled="pointerDown === 'max'" placement="top" :content="tipFormat(exportValue[1])"
                          :disabled="tipDisabled" :always="showTip === 'always'" ref="maxTooltip">
                     <div :class="maxButtonClasses"></div>
                 </Tooltip>
@@ -120,16 +120,16 @@
                     this.currentValue = val;
                 }
             },
-            currentValue (val) {
+            exportValue (values) {
                 this.$nextTick(() => {
                     this.$refs.minTooltip.updatePopper();
                     if (this.range) {
                         this.$refs.maxTooltip.updatePopper();
                     }
                 });
-                const exportValue = this.range ? val : val[0];
-                this.$emit('input', exportValue);
-                this.$emit('on-input', exportValue);
+                const value = this.range ? values : values[0];
+                this.$emit('input', value);
+                this.$emit('on-input', value);
             }
         },
         computed: {
@@ -158,6 +158,10 @@
                         [`${prefixCls}-button-dragging`]: this.pointerDown === 'max'
                     }
                 ];
+            },
+            exportValue(){
+                const decimalCases = (String(this.step).split('.')[1] || '').length;
+                return this.currentValue.map(nr => Number(nr.toFixed(decimalCases)));
             },
             minPosition () {
                 const val = this.currentValue;
@@ -269,9 +273,9 @@
             },
 
             emitChange(){
-                const exportValue = this.range ? this.currentValue : this.currentValue[0];
-                this.$emit('on-change', exportValue);
-                this.dispatch('FormItem', 'on-form-change', exportValue);
+                const value = this.range ? this.exportValue : this.exportValue[0];
+                this.$emit('on-change', value);
+                this.dispatch('FormItem', 'on-form-change', value);
             },
 
             sliderClick (event) {
@@ -287,9 +291,7 @@
 
             handleInputChange (val) {
                 this.currentValue = [val, this.currentValue[1]];
-                const exportValue = this.range ? this.currentValue : this.currentValue[0];
-                this.$emit('on-change', exportValue);
-                this.dispatch('FormItem', 'on-form-change', exportValue);
+                this.emitChange();
             },
         },
         mounted () {
