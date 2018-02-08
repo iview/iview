@@ -40,7 +40,7 @@
                     :disabled-date="disabledDate"
                     :range-state="rangeState"
                     :show-week-numbers="showWeekNumbers"
-                    :value="dates"
+                    :value="preSelecting.left ? [dates[0]] : dates"
                     @on-change-range="handleChangeRange"
                     @on-pick="panelPickerHandlers.left"
                     @on-pick-click="handlePickClick"
@@ -79,7 +79,7 @@
                     :range-state="rangeState"
                     :disabled-date="disabledDate"
                     :show-week-numbers="showWeekNumbers"
-                    :value="dates"
+                    :value="preSelecting.right ? [dates[dates.length - 1]] : dates"
                     @on-change-range="handleChangeRange"
                     @on-pick="panelPickerHandlers.right"
                     @on-pick-click="handlePickClick"></component>
@@ -184,11 +184,18 @@
             timeDisabled(){
                 return !(this.dates[0] && this.dates[1]);
             },
-            panelPickerHandlers(){
+            preSelecting(){
                 const tableType = `${this.currentView}-table`;
+
                 return {
-                    left: this.leftPickerTable === tableType ? this.handleRangePick : this.handlePreSelection.bind(this, 'left'),
-                    right: this.leftPickerTable === tableType ? this.handleRangePick : this.handlePreSelection.bind(this, 'right'),
+                    left: this.leftPickerTable !== tableType,
+                    right: this.rightPickerTable !== tableType,
+                };
+            },
+            panelPickerHandlers(){
+                return {
+                    left: this.preSelecting.left ? this.handlePreSelection.bind(this, 'left') : this.handleRangePick,
+                    right: this.preSelecting.right ? this.handlePreSelection.bind(this, 'right') : this.handleRangePick,
                 };
             }
         },
