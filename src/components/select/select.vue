@@ -667,23 +667,8 @@
                         this.selectedMultiple = [];
                     }
                 }
-            }
-        },
-        mounted () {
-            this.modelToQuery();
-            // 处理 remote 初始值
-            this.updateLabel();
-            this.$nextTick(() => {
-                this.broadcastQuery('');
-            });
-
-            this.updateOptions();
-            document.addEventListener('keydown', this.handleKeydown);
-
-            this.$on('append', this.debouncedAppendRemove());
-            this.$on('remove', this.debouncedAppendRemove());
-
-            this.$on('on-select-selected', (value) => {
+            },
+            onSelectSelected (value) {
                 if (this.model === value) {
                     if (this.autoComplete) this.$emit('on-change', value);
                     this.hideMenu();
@@ -716,10 +701,30 @@
                         }
                     }
                 }
+            }
+        },
+        mounted () {
+            this.modelToQuery();
+            // 处理 remote 初始值
+            this.updateLabel();
+            this.$nextTick(() => {
+                this.broadcastQuery('');
             });
+
+            this.updateOptions();
+            document.addEventListener('keydown', this.handleKeydown);
+
+            this.$on('append', this.debouncedAppendRemove());
+            this.$on('remove', this.debouncedAppendRemove());
+
+            this.$on('on-select-selected', this.onSelectSelected);
         },
         beforeDestroy () {
             document.removeEventListener('keydown', this.handleKeydown);
+            this.$off('append', this.debouncedAppendRemove());
+            this.$off('remove', this.debouncedAppendRemove());
+
+            this.$off('on-select-selected', this.onSelectSelected);
         },
         watch: {
             value (val) {

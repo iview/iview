@@ -87,6 +87,14 @@
                 if (!field) { throw new Error('[iView warn]: must call validateField with valid prop string!'); }
 
                 field.validate('', cb);
+            },
+            onFormItemAdd (field) {
+                if (field) this.fields.push(field);
+                return false;
+            },
+            onFormItemRemove (field){
+                if (field.prop) this.fields.splice(this.fields.indexOf(field), 1);
+                return false;
             }
         },
         watch: {
@@ -95,14 +103,12 @@
             }
         },
         created () {
-            this.$on('on-form-item-add', (field) => {
-                if (field) this.fields.push(field);
-                return false;
-            });
-            this.$on('on-form-item-remove', (field) => {
-                if (field.prop) this.fields.splice(this.fields.indexOf(field), 1);
-                return false;
-            });
+            this.$on('on-form-item-add', this.onFormItemAdd);
+            this.$on('on-form-item-remove', this.onFormItemRemove);
+        },
+        beforeDestroy () {
+            this.$off('on-form-item-add', this.onFormItemAdd);
+            this.$off('on-form-item-remove', this.onFormItemRemove);
         }
     };
 </script>

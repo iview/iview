@@ -122,8 +122,12 @@
         },
         mounted () {
             this.updateSteps();
-            this.$on('append', this.debouncedAppendRemove());
-            this.$on('remove', this.debouncedAppendRemove());
+            this.$on('append', this.debouncedAppendRemove);
+            this.$on('remove', this.debouncedAppendRemove);
+        },        
+        beforeDestroy () {
+            this.$off('append', this.debouncedAppendRemove);
+            this.$off('remove', this.debouncedAppendRemove);
         },
         watch: {
             current () {

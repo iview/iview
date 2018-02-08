@@ -80,6 +80,8 @@
             this.$on('on-destroy-popper', this.destroy);
         },
         beforeDestroy () {
+            this.$off('on-update-popper', this.update);
+            this.$off('on-destroy-popper', this.destroy);
             if (this.popper) {
                 this.popper.destroy();
             }

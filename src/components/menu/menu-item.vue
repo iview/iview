@@ -40,6 +40,14 @@
                 return this.hasParentSubmenu && this.mode !== 'horizontal' ? {
                     paddingLeft: 43 + (this.parentSubmenuNum - 1) * 24 + 'px'
                 } : {};
+            },
+            onUpdateActiveName (name) {
+                if (this.name === name) {
+                    this.active = true;
+                    this.dispatch('Submenu', 'on-update-active-name', name);
+                } else {
+                    this.active = false;
+                }
             }
         },
         methods: {
@@ -56,14 +64,10 @@
             }
         },
         mounted () {
-            this.$on('on-update-active-name', (name) => {
-                if (this.name === name) {
-                    this.active = true;
-                    this.dispatch('Submenu', 'on-update-active-name', name);
-                } else {
-                    this.active = false;
-                }
-            });
+            this.$on('on-update-active-name', this.onUpdateActiveName);
+        },
+        beforeDestroy () {
+            this.$off('on-update-active-name', this.onUpdateActiveName);
         }
     };
 </script>

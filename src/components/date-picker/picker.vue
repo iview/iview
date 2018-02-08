@@ -409,6 +409,20 @@
                     this.emitChange('');
                 }
             },
+            onPick(date, visible = false) {
+                if (!isConfirm) this.visible = visible;
+                this.currentValue = date;
+                this.picker.value = date;
+                this.picker.resetView && this.picker.resetView();
+                this.emitChange(date);
+            },
+            onPickSuccess() {
+                this.visible = false;
+                this.$emit('on-ok');
+            },
+            onPickClick() {
+                this.disableClickOutSide = true;
+            },
             showPicker () {
                 if (!this.picker) {
                     let isConfirm = this.confirm;
@@ -435,22 +449,11 @@
                         this.picker[option] = options[option];
                     }
 
-                    this.picker.$on('on-pick', (date, visible = false) => {
-                        if (!isConfirm) this.visible = visible;
-                        this.currentValue = date;
-                        this.picker.value = date;
-                        this.picker.resetView && this.picker.resetView();
-                        this.emitChange(date);
-                    });
+                    this.picker.$on('on-pick', this.onPick);
 
-                    this.picker.$on('on-pick-clear', () => {
-                        this.handleClear();
-                    });
-                    this.picker.$on('on-pick-success', () => {
-                        this.visible = false;
-                        this.$emit('on-ok');
-                    });
-                    this.picker.$on('on-pick-click', () => this.disableClickOutSide = true);
+                    this.picker.$on('on-pick-clear',this.handleClear);
+                    this.picker.$on('on-pick-success', this.onPickSuccess);
+                    this.picker.$on('on-pick-click', this.onPickClick);
                 }
                 if (this.internalValue instanceof Date) {
                     this.picker.date = new Date(this.internalValue.getTime());
@@ -539,6 +542,10 @@
         },
         beforeDestroy () {
             if (this.picker) {
+                this.picker.$off('on-pick', this.onPick);
+                this.picker.$off('on-pick-clear',this.handleClear);
+                this.picker.$off('on-pick-success', this.onPickSuccess);
+                this.picker.$off('on-pick-click', this.onPickClick);
                 this.picker.$destroy();
             }
         },

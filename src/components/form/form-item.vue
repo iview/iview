@@ -243,6 +243,10 @@
             }
         },
         beforeDestroy () {
+            if (this.prop) {
+                this.$off('on-form-blur', this.onFieldBlur);
+                this.$off('on-form-change', this.onFieldChange);
+            }
             this.dispatch('iForm', 'on-form-item-remove', this);
         }
     };

@@ -314,11 +314,8 @@
                 }
 
                 return data.map(item => deleteData(item));
-            }
-        },
-        created () {
-            this.validDataStr = JSON.stringify(this.getValidData(this.data));
-            this.$on('on-result-change', (params) => {
+            },
+            onResultChange(params) {
                 // lastValue: is click the final val
                 // fromInit: is this emit from update value
                 const lastValue = params.lastValue;
@@ -343,10 +340,17 @@
                 if (lastValue && !fromInit) {
                     this.handleClose();
                 }
-            });
+            }
+        },
+        created () {
+            this.validDataStr = JSON.stringify(this.getValidData(this.data));
+            this.$on('on-result-change', this.onResultChange);
         },
         mounted () {
             this.updateSelected(true);
+        },
+        beforeDestroy(){
+            this.$off('on-result-change', this.onResultChange);
         },
         watch: {
             visible (val) {

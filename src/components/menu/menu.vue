@@ -102,15 +102,19 @@
                         if (this.openNames.indexOf(item.name) > -1) item.opened = true;
                     });
                 }
+            },
+            onMenuItemSelect (name) {
+                this.currentActiveName = name;
+                this.$emit('on-select', name);
             }
         },
         mounted () {
             this.updateActiveName();
             this.updateOpened();
-            this.$on('on-menu-item-select', (name) => {
-                this.currentActiveName = name;
-                this.$emit('on-select', name);
-            });
+            this.$on('on-menu-item-select', this.onMenuItemSelect);
+        },
+        beforeDestroy () {
+            this.$off('on-menu-item-select', this.onMenuItemSelect);
         },
         watch: {
             openNames () {
