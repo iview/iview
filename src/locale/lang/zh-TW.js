@@ -5,11 +5,11 @@ const lang = {
         locale: 'zh-TW',
         select: {
             placeholder: '請選擇',
-            noMatch: '無匹配數據',
+            noMatch: '無匹配資料',
             loading: '加載中'
         },
         table: {
-            noDataText: '暫無數據',
+            noDataText: '暫無資料',
             noFilteredDataText: '暫無篩選結果',
             confirmFilter: '篩選',
             resetFilter: '重置',
@@ -64,10 +64,10 @@ const lang = {
         },
         transfer: {
             titles: {
-                source: '源列表',
-                target: '目的列表'
+                source: '來源列表',
+                target: '目標列表'
             },
-            filterPlaceholder: '請輸入搜索內容',
+            filterPlaceholder: '請輸入搜尋內容',
             notFoundText: '列表爲空'
         },
         modal: {
@@ -79,8 +79,8 @@ const lang = {
             cancelText: '取消'
         },
         page: {
-            prev: '上壹頁',
-            next: '下壹頁',
+            prev: '上一頁',
+            next: '下一頁',
             total: '共',
             item: '條',
             items: '條',
@@ -95,7 +95,7 @@ const lang = {
             stars: '星'
         },
         tree: {
-            emptyText: '暫無數據'
+            emptyText: '暫無資料'
         }
     }
 };
