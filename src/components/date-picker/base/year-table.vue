@@ -11,7 +11,7 @@
     </div>
 </template>
 <script>
-    import { clearHours, isInRange } from '../util';
+    import { clearHours } from '../util';
     import { deepCopy } from '../../../utils/assist';
     import mixin from './mixin';
     import prefixCls from './prefixCls';
@@ -38,17 +38,13 @@
                     disabled: false
                 };
 
-                const rangeStart = this.rangeState.from && clearHours(new Date(this.rangeState.from.getFullYear(), 0, 1));
-                const rangeEnd = this.rangeState.to && clearHours(new Date(this.rangeState.to.getFullYear(), 0, 1));
                 const selectedDays = this.dates.filter(Boolean).map(date => clearHours(new Date(date.getFullYear(), 0, 1)));
-
 
                 for (let i = 0; i < 10; i++) {
                     const cell = deepCopy(cell_tmpl);
                     cell.date = new Date(this.startYear + i, 0, 1);
                     cell.disabled = typeof this.disabledDate === 'function' && this.disabledDate(cell.date) && this.selectionMode === 'year';
                     const time = clearHours(cell.date);
-                    cell.range = isInRange(time, rangeStart, rangeEnd);
                     cell.selected = selectedDays.includes(time);
                     cells.push(cell);
                 }
