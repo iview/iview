@@ -73,14 +73,15 @@
 
                 return this.calendar(tableYear, tableMonth, (cell) => {
                     const time = cell.date && clearHours(cell.date);
+                    const dateIsInCurrentMonth = cell.date && tableMonth === cell.date.getMonth();
                     return {
                         ...cell,
                         type: time === today ? 'today' : cell.type,
-                        selected: selectedDays.includes(time),
+                        selected: dateIsInCurrentMonth && selectedDays.includes(time),
                         disabled: (cell.date && disabledTestFn) && disabledTestFn(new Date(time)),
-                        range: isRange && isInRange(time, rangeStart, rangeEnd),
-                        start: isRange && time === minDay,
-                        end: isRange && time === maxDay
+                        range: dateIsInCurrentMonth && isRange && isInRange(time, rangeStart, rangeEnd),
+                        start: dateIsInCurrentMonth && isRange && time === minDay,
+                        end: dateIsInCurrentMonth && isRange && time === maxDay
                     };
                 }).cells.slice(this.showWeekNumbers ? 8 : 0);
             }
