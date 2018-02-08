@@ -373,6 +373,7 @@
                     const input = this.$el.querySelector('input');
                     if (input) input.blur();
                 }
+                this.$refs.drop.update();
                 this.$emit('on-open-change', state);
             },
             value(val) {
