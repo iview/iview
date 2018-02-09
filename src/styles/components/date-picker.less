@@ -2,6 +2,7 @@
 @picker-prefix-cls: ~"@{css-prefix}picker";
 
 @date-picker-cells-width: 196px;
+@date-picker-cells-width-with-weeknumbers: 226px;
 
 .@{date-picker-prefix-cls} {
     //position: relative;
@@ -64,14 +65,16 @@
                     }
                 }
             }
-            span&-disabled,span&-disabled:hover{
+            span&-week-label,span&-week-label:hover,span&-disabled,span&-disabled:hover{
                 cursor: @cursor-disabled;
-                background: @btn-disable-bg;
                 color: @btn-disable-color;
                 em{
                     color: inherit;
                     background: inherit;
                 }
+            }
+            span&-disabled,span&-disabled:hover{
+                background: @btn-disable-bg;
             }
             &-today{
                 em {
@@ -132,6 +135,10 @@
         }
     }
 
+    &-cells-show-week-numbers {
+        width: @date-picker-cells-width-with-weeknumbers;
+    }
+
     &-cells-year,&-cells-month{
         margin-top: 14px;
         span{
@@ -190,7 +197,12 @@
                 float: left;
             }
         }
+        .@{picker-prefix-cls}-cells-show-week-numbers {
+            min-width: (@date-picker-cells-width-with-weeknumbers + 20) * 2;
+        }
+
     }
+
     &-transfer{
         z-index: @zindex-transfer;
         max-height: none;

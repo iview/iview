@@ -3,6 +3,7 @@
         <div ref="reference" :class="[prefixCls + '-rel']">
             <slot>
                 <i-input
+                    :key="forceInputRerender"
                     :element-id="elementId"
                     :class="[prefixCls + '-editor']"
                     :readonly="!editable || readonly"
@@ -17,7 +18,9 @@
                     @on-click="handleIconClick"
                     @mouseenter.native="handleInputMouseenter"
                     @mouseleave.native="handleInputMouseleave"
-                    :icon="iconType"></i-input>
+
+                    :icon="iconType"
+                ></i-input>
             </slot>
         </div>
         <transition :name="transition">
@@ -29,122 +32,49 @@
                 ref="drop"
                 :data-transfer="transfer"
                 v-transfer-dom>
-                <div ref="picker"></div>
+                <div>
+                    <component
+                        :is="panel"
+                        ref="pickerPanel"
+                        :visible="visible"
+                        :showTime="type === 'datetime' || type === 'datetimerange'"
+                        :confirm="isConfirm"
+                        :selectionMode="selectionMode"
+                        :steps="steps"
+                        :format="format"
+                        :value="internalValue"
+                        :start-date="startDate"
+                        :split-panels="splitPanels"
+                        :show-week-numbers="showWeekNumbers"
+                        :picker-type="type"
+
+                        v-bind="ownPickerProps"
+
+                        @on-pick="onPick"
+                        @on-pick-clear="handleClear"
+                        @on-pick-success="onPickSuccess"
+                        @on-pick-click="disableClickOutSide = true"
+                        @on-selection-mode-change="onSelectionModeChange"
+                    ></component>
+                </div>
             </Drop>
         </transition>
     </div>
 </template>
 <script>
+
+
     import iInput from '../../components/input/input.vue';
     import Drop from '../../components/select/dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
-    import { formatDate, parseDate } from './util';
+    import { DEFAULT_FORMATS, TYPE_VALUE_RESOLVER_MAP } from './util';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-date-picker';
 
-    const DEFAULT_FORMATS = {
-        date: 'yyyy-MM-dd',
-        month: 'yyyy-MM',
-        year: 'yyyy',
-        datetime: 'yyyy-MM-dd HH:mm:ss',
-        time: 'HH:mm:ss',
-        timerange: 'HH:mm:ss',
-        daterange: 'yyyy-MM-dd',
-        datetimerange: 'yyyy-MM-dd HH:mm:ss'
-    };
-
-    const RANGE_SEPARATOR = ' - ';
-
-    const DATE_FORMATTER = function(value, format) {
-        return formatDate(value, format);
-    };
-    const DATE_PARSER = function(text, format) {
-        return parseDate(text, format);
-    };
-    const RANGE_FORMATTER = function(value, format) {
-        if (Array.isArray(value) && value.length === 2) {
-            const start = value[0];
-            const end = value[1];
-
-            if (start && end) {
-                return formatDate(start, format) + RANGE_SEPARATOR + formatDate(end, format);
-            }
-        }
-        return '';
-    };
-    const RANGE_PARSER = function(text, format) {
-        const array = text.split(RANGE_SEPARATOR);
-        if (array.length === 2) {
-            const range1 = array[0];
-            const range2 = array[1];
-
-            return [parseDate(range1, format), parseDate(range2, format)];
-        }
-        return [];
-    };
-
-    const TYPE_VALUE_RESOLVER_MAP = {
-        default: {
-            formatter(value) {
-                if (!value) return '';
-                return '' + value;
-            },
-            parser(text) {
-                if (text === undefined || text === '') return null;
-                return text;
-            }
-        },
-        date: {
-            formatter: DATE_FORMATTER,
-            parser: DATE_PARSER
-        },
-        datetime: {
-            formatter: DATE_FORMATTER,
-            parser: DATE_PARSER
-        },
-        daterange: {
-            formatter: RANGE_FORMATTER,
-            parser: RANGE_PARSER
-        },
-        datetimerange: {
-            formatter: RANGE_FORMATTER,
-            parser: RANGE_PARSER
-        },
-        timerange: {
-            formatter: RANGE_FORMATTER,
-            parser: RANGE_PARSER
-        },
-        time: {
-            formatter: DATE_FORMATTER,
-            parser: DATE_PARSER
-        },
-        month: {
-            formatter: DATE_FORMATTER,
-            parser: DATE_PARSER
-        },
-        year: {
-            formatter: DATE_FORMATTER,
-            parser: DATE_PARSER
-        },
-        number: {
-            formatter(value) {
-                if (!value) return '';
-                return '' + value;
-            },
-            parser(text) {
-                let result = Number(text);
-
-                if (!isNaN(text)) {
-                    return result;
-                } else {
-                    return null;
-                }
-            }
-        }
-    };
+    const isEmptyArray = val => val.reduce((isEmpty, str) => isEmpty && !str || (typeof str === 'string' && str.trim() === ''), true);
 
     export default {
         name: 'CalendarPicker',
@@ -179,6 +109,21 @@
                 type: Boolean,
                 default: null
             },
+            multiple: {
+                type: Boolean,
+                default: false
+            },
+            splitPanels: {
+                type: Boolean,
+                default: false
+            },
+            showWeekNumbers: {
+                type: Boolean,
+                default: false
+            },
+            startDate: {
+                type: Date
+            },
             size: {
                 validator (value) {
                     return oneOf(value, ['small', 'large', 'default']);
@@ -194,9 +139,6 @@
                 },
                 default: 'bottom-start'
             },
-            options: {
-                type: Object
-            },
             transfer: {
                 type: Boolean,
                 default: false
@@ -206,21 +148,45 @@
             },
             elementId: {
                 type: String
+            },
+            steps: {
+                type: Array,
+                default: () => []
+            },
+            value: {
+                type: [Date, String, Array]
+            },
+            options: {
+                type: Object,
+                default: () => ({})
             }
         },
-        data () {
+        data(){
+            const isRange = this.type.includes('range');
+            const emptyArray = isRange ? [null, null] : [null];
+            const initialValue = isEmptyArray((isRange ? this.value : [this.value]) || []) ? emptyArray : this.parseDate(this.value);
+
             return {
                 prefixCls: prefixCls,
                 showClose: false,
                 visible: false,
-                picker: null,
-                internalValue: '',
+                internalValue: initialValue,
                 disableClickOutSide: false,    // fixed when click a date,trigger clickoutside to close picker
-                disableCloseUnderTransfer: false,  // transfer 模式下，点击Drop也会触发关闭
-                currentValue: this.value
+                disableCloseUnderTransfer: false,  // transfer 模式下，点击Drop也会触发关闭,
+                selectionMode: this.onSelectionModeChange(this.type),
+                forceInputRerender: 1
             };
         },
         computed: {
+            publicValue(){
+                if (this.multiple){
+                    return this.internalValue.slice();
+                } else {
+                    const isRange = this.type.includes('range');
+                    const val = this.internalValue.map(date => date instanceof Date ? new Date(date) : (date || ''));
+                    return (isRange || this.multiple) ? val : val[0];
+                }
+            },
             opened () {
                 return this.open === null ? this.visible : this.open;
             },
@@ -231,52 +197,22 @@
                 return icon;
             },
             transition () {
-                if (this.placement === 'bottom-start' || this.placement === 'bottom' || this.placement === 'bottom-end') {
-                    return 'slide-up';
-                } else {
-                    return 'slide-down';
-                }
+                const bottomPlaced = this.placement.match(/^bottom/);
+                return bottomPlaced ? 'slide-up' : 'slide-down';
             },
-            selectionMode() {
-                if (this.type === 'month') {
-                    return 'month';
-                } else if (this.type === 'year') {
-                    return 'year';
-                }
-
-                return 'day';
+            visualValue() {
+                return this.formatDate(this.internalValue);
             },
-            visualValue: {
-                get () {
-                    const value = this.internalValue;
-                    if (!value) return;
-                    const formatter = (
-                        TYPE_VALUE_RESOLVER_MAP[this.type] ||
-                        TYPE_VALUE_RESOLVER_MAP['default']
-                    ).formatter;
-                    const format = DEFAULT_FORMATS[this.type];
-
-                    return formatter(value, this.format || format);
-                },
-
-                set (value) {
-                    if (value) {
-                        const type = this.type;
-                        const parser = (
-                            TYPE_VALUE_RESOLVER_MAP[type] ||
-                            TYPE_VALUE_RESOLVER_MAP['default']
-                        ).parser;
-                        const parsedValue = parser(value, this.format || DEFAULT_FORMATS[type]);
-                        if (parsedValue) {
-                            if (this.picker) this.picker.value = parsedValue;
-                        }
-                        return;
-                    }
-                    if (this.picker) this.picker.value = value;
-                }
+            isConfirm(){
+                return this.confirm || this.type === 'datetime' || this.type === 'datetimerange' || this.multiple;
             }
         },
         methods: {
+            onSelectionModeChange(type){
+                if (type.match(/^date/)) type = 'date';
+                this.selectionMode = oneOf(type, ['year', 'month', 'date', 'time']) && type;
+                return this.selectionMode;
+            },
             // 开启 transfer 时，点击 Drop 即会关闭，这里不让其关闭
             handleTransferClick () {
                 if (this.transfer) this.disableCloseUnderTransfer = true;
@@ -287,100 +223,45 @@
                     return false;
                 }
                 if (this.open !== null) return;
-//                if (!this.disableClickOutSide) this.visible = false;
+
                 this.visible = false;
                 this.disableClickOutSide = false;
             },
             handleFocus () {
                 if (this.readonly) return;
                 this.visible = true;
+                this.$refs.pickerPanel.onToggleVisibility(true);
             },
             handleBlur () {
                 this.visible = false;
+                this.onSelectionModeChange(this.type);
+                this.internalValue = this.internalValue.slice(); // trigger panel watchers to reset views
+                this.reset();
+                this.$refs.pickerPanel.onToggleVisibility(false);
+
+            },
+            reset(){
+                this.$refs.pickerPanel.reset && this.$refs.pickerPanel.reset();
             },
             handleInputChange (event) {
+                const isArrayValue = this.type.includes('range') || this.multiple;
                 const oldValue = this.visualValue;
-                const value = event.target.value;
+                const newValue = event.target.value;
+                const newDate = this.parseDate(newValue);
+                const disabledDateFn =
+                    this.options &&
+                    typeof this.options.disabledDate === 'function' &&
+                    this.options.disabledDate;
+                const valueToTest = isArrayValue ? newDate : newDate[0];
+                const isDisabled = disabledDateFn && disabledDateFn(valueToTest);
+                const isValidDate = newDate.reduce((valid, date) => valid && date instanceof Date, true);
 
-                let correctValue = '';
-                let correctDate = '';
-                const type = this.type;
-                const format = this.format || DEFAULT_FORMATS[type];
-
-                if (type === 'daterange' || type === 'timerange' || type === 'datetimerange') {
-                    const parser = (
-                        TYPE_VALUE_RESOLVER_MAP[type] ||
-                        TYPE_VALUE_RESOLVER_MAP['default']
-                    ).parser;
-
-                    const formatter = (
-                        TYPE_VALUE_RESOLVER_MAP[type] ||
-                        TYPE_VALUE_RESOLVER_MAP['default']
-                    ).formatter;
-
-                    const parsedValue = parser(value, format);
-
-                    if (parsedValue[0] instanceof Date && parsedValue[1] instanceof Date) {
-                        if (parsedValue[0].getTime() > parsedValue[1].getTime()) {
-                            correctValue = oldValue;
-                        } else {
-                            correctValue = formatter(parsedValue, format);
-                        }
-                        // todo 判断disabledDate
-                    } else {
-                        correctValue = oldValue;
-                    }
-
-                    correctDate = parser(correctValue, format);
-                } else if (type === 'time') {
-                    const parsedDate = parseDate(value, format);
-
-                    if (parsedDate instanceof Date) {
-                        if (this.disabledHours.length || this.disabledMinutes.length || this.disabledSeconds.length) {
-                            const hours = parsedDate.getHours();
-                            const minutes = parsedDate.getMinutes();
-                            const seconds = parsedDate.getSeconds();
-
-                            if ((this.disabledHours.length && this.disabledHours.indexOf(hours) > -1) ||
-                                (this.disabledMinutes.length && this.disabledMinutes.indexOf(minutes) > -1) ||
-                                (this.disabledSeconds.length && this.disabledSeconds.indexOf(seconds) > -1)) {
-                                correctValue = oldValue;
-                            } else {
-                                correctValue = formatDate(parsedDate, format);
-                            }
-                        } else {
-                            correctValue = formatDate(parsedDate, format);
-                        }
-                    } else {
-                        correctValue = oldValue;
-                    }
-
-                    correctDate = parseDate(correctValue, format);
+                if (newValue !== oldValue && !isDisabled && isValidDate) {
+                    this.emitChange();
+                    this.internalValue = newDate;
                 } else {
-                    const parsedDate = parseDate(value, format);
-
-                    if (parsedDate instanceof Date) {
-                        const options = this.options || false;
-                        if (options && options.disabledDate && typeof options.disabledDate === 'function' && options.disabledDate(new Date(parsedDate))) {
-                            correctValue = oldValue;
-                        } else {
-                            correctValue = formatDate(parsedDate, format);
-                        }
-                    } else if (!parsedDate) {
-                        correctValue = '';
-                    } else {
-                        correctValue = oldValue;
-                    }
-
-                    correctDate = parseDate(correctValue, format);
+                    this.forceInputRerender++;
                 }
-
-                this.visualValue = correctValue;
-                event.target.value = correctValue;
-                this.internalValue = correctDate;
-                this.currentValue = correctDate;
-
-                if (correctValue !== oldValue) this.emitChange(correctDate);
             },
             handleInputMouseenter () {
                 if (this.readonly || this.disabled) return;
@@ -400,149 +281,124 @@
             },
             handleClear () {
                 this.visible = false;
-                this.internalValue = '';
-                this.currentValue = '';
+                this.internalValue = this.internalValue.map(() => null);
                 this.$emit('on-clear');
                 this.dispatch('FormItem', 'on-form-change', '');
-                // #2215，当初始设置了 value，直接点 clear，这时 this.picker 还没有加载
-                if (!this.picker) {
-                    this.emitChange('');
-                }
+                this.emitChange();
+                this.reset();
+
+                setTimeout(
+                    () => this.onSelectionModeChange(this.type),
+                    500 // delay to improve dropdown close visual effect
+                );
             },
-            showPicker () {
-                if (!this.picker) {
-                    let isConfirm = this.confirm;
-                    const type = this.type;
-
-                    this.picker = this.Panel.$mount(this.$refs.picker);
-                    if (type === 'datetime' || type === 'datetimerange') {
-                        isConfirm = true;
-                        this.picker.showTime = true;
-                    }
-                    this.picker.value = this.internalValue;
-                    this.picker.confirm = isConfirm;
-                    this.picker.selectionMode = this.selectionMode;
-                    if (this.format) this.picker.format = this.format;
-
-                    // TimePicker
-                    if (this.disabledHours) this.picker.disabledHours = this.disabledHours;
-                    if (this.disabledMinutes) this.picker.disabledMinutes = this.disabledMinutes;
-                    if (this.disabledSeconds) this.picker.disabledSeconds = this.disabledSeconds;
-                    if (this.hideDisabledOptions) this.picker.hideDisabledOptions = this.hideDisabledOptions;
-
-                    const options = this.options;
-                    for (const option in options) {
-                        this.picker[option] = options[option];
-                    }
-
-                    this.picker.$on('on-pick', (date, visible = false) => {
-                        if (!isConfirm) this.visible = visible;
-                        this.currentValue = date;
-                        this.picker.value = date;
-                        this.picker.resetView && this.picker.resetView();
-                        this.emitChange(date);
-                    });
-
-                    this.picker.$on('on-pick-clear', () => {
-                        this.handleClear();
-                    });
-                    this.picker.$on('on-pick-success', () => {
-                        this.visible = false;
-                        this.$emit('on-ok');
-                    });
-                    this.picker.$on('on-pick-click', () => this.disableClickOutSide = true);
-                }
-                if (this.internalValue instanceof Date) {
-                    this.picker.date = new Date(this.internalValue.getTime());
-                } else {
-                    this.picker.value = this.internalValue;
-                }
-                this.picker.resetView && this.picker.resetView();
-            },
-            emitChange (date) {
-                const newDate = this.formattingDate(date);
-
-                this.$emit('on-change', newDate);
+            emitChange () {
+                this.$emit('on-change', this.visualValue, this.publicValue);
                 this.$nextTick(() => {
-                    this.dispatch('FormItem', 'on-form-change', newDate);
+                    this.dispatch('FormItem', 'on-form-change', this.publicValue);
                 });
             },
-            formattingDate (date) {
+            parseDate(val) {
+                const isRange = this.type.includes('range');
                 const type = this.type;
-                const format = this.format || DEFAULT_FORMATS[type];
-                const formatter = (
+                const parser = (
                     TYPE_VALUE_RESOLVER_MAP[type] ||
                     TYPE_VALUE_RESOLVER_MAP['default']
-                ).formatter;
+                ).parser;
+                const format = this.format || DEFAULT_FORMATS[type];
+                const multipleParser = TYPE_VALUE_RESOLVER_MAP['multiple'].parser;
 
-                let newDate = formatter(date, format);
-                if (type === 'daterange' || type === 'timerange' || type === 'datetimerange') {
-                    newDate = [newDate.split(RANGE_SEPARATOR)[0], newDate.split(RANGE_SEPARATOR)[1]];
+                if (val && type === 'time' && !(val instanceof Date)) {
+                    val = parser(val, format);
+                } else if (this.multiple && val) {
+                    val = multipleParser(val, format);
+                } else if (isRange) {
+                    if (!val){
+                        val = [null, null];
+                    } else {
+                        if (typeof val === 'string') {
+                            val = parser(val, format);
+                        } else if (type === 'timerange') {
+                            val = parser(val, format);
+                        } else {
+                            val = val.map(date => new Date(date)); // try to parse
+                            val = val.map(date => isNaN(date.getTime()) ? null : date); // check if parse passed
+                        }
+                    }
+                } else if (typeof val === 'string' && type.indexOf('time') !== 0){
+                    val = parser(val, format) || null;
                 }
-                return newDate;
-            }
+
+                return (isRange || this.multiple) ? (val || []) : [val];
+            },
+            formatDate(value){
+                const format = DEFAULT_FORMATS[this.type];
+
+                if (this.multiple) {
+                    const formatter = TYPE_VALUE_RESOLVER_MAP.multiple.formatter;
+                    return formatter(value, this.format || format);
+                } else {
+                    const {formatter} = (
+                        TYPE_VALUE_RESOLVER_MAP[this.type] ||
+                        TYPE_VALUE_RESOLVER_MAP['default']
+                    );
+                    return formatter(value, this.format || format);
+                }
+            },
+            onPick(dates, visible = false) {
+                if (this.multiple){
+                    const pickedTimeStamp = dates.getTime();
+                    const indexOfPickedDate = this.internalValue.findIndex(date => date && date.getTime() === pickedTimeStamp);
+                    const allDates = [...this.internalValue, dates].filter(Boolean);
+                    const timeStamps = allDates.map(date => date.getTime()).filter((ts, i, arr) => arr.indexOf(ts) === i && i !== indexOfPickedDate); // filter away duplicates
+                    this.internalValue = timeStamps.map(ts => new Date(ts));
+                } else {
+                    this.internalValue = Array.isArray(dates) ? dates : [dates];
+                }
+
+                if (!this.isConfirm) this.onSelectionModeChange(this.type); // reset the selectionMode
+                if (!this.isConfirm) this.visible = visible;
+                this.emitChange();
+            },
+            onPickSuccess(){
+                this.visible = false;
+                this.$emit('on-ok');
+                this.reset();
+            },
         },
         watch: {
-            visible (val) {
-                if (val) {
-                    this.showPicker();
-                    this.$refs.drop.update();
-                    if (this.open === null) this.$emit('on-open-change', true);
-                } else {
-                    if (this.picker) this.picker.resetView && this.picker.resetView(true);
+            visible (state) {
+                if (state === false){
                     this.$refs.drop.destroy();
-                    if (this.open === null) this.$emit('on-open-change', false);
-                    // blur the input
                     const input = this.$el.querySelector('input');
                     if (input) input.blur();
                 }
+                this.$refs.drop.update();
+                this.$emit('on-open-change', state);
             },
-            internalValue(val) {
-                if (!val && this.picker && typeof this.picker.handleClear === 'function') {
-                    this.picker.handleClear();
-                }
-//                this.$emit('input', val);
-            },
-            value (val) {
-                this.currentValue = val;
-            },
-            currentValue: {
-                immediate: true,
-                handler (val) {
-                    const type = this.type;
-                    const parser = (
-                        TYPE_VALUE_RESOLVER_MAP[type] ||
-                        TYPE_VALUE_RESOLVER_MAP['default']
-                    ).parser;
+            value(val) {
+                this.internalValue = this.parseDate(val);
 
-                    if (val && type === 'time' && !(val instanceof Date)) {
-                        val = parser(val, this.format || DEFAULT_FORMATS[type]);
-                    } else if (val && type.match(/range$/) && Array.isArray(val) && val.filter(Boolean).length === 2 && !(val[0] instanceof Date) && !(val[1] instanceof Date)) {
-                        val = val.join(RANGE_SEPARATOR);
-                        val = parser(val, this.format || DEFAULT_FORMATS[type]);
-                    } else if (typeof val === 'string' && type.indexOf('time') !== 0 ){
-                        val = parser(val, this.format || DEFAULT_FORMATS[type]) || val;
-                    }
-
-                    this.internalValue = val;
-                    this.$emit('input', val);
-                }
             },
             open (val) {
-                if (val === true) {
-                    this.visible = val;
-                    this.$emit('on-open-change', true);
-                } else if (val === false) {
-                    this.$emit('on-open-change', false);
-                }
-            }
-        },
-        beforeDestroy () {
-            if (this.picker) {
-                this.picker.$destroy();
-            }
+                this.visible = val === true;
+            },
+            type(type){
+                this.onSelectionModeChange(type);
+            },
+            publicValue(now, before){
+                const newValue = JSON.stringify(now);
+                const oldValue = JSON.stringify(before);
+                const shouldEmitInput = newValue !== oldValue || typeof now !== typeof before;
+                if (shouldEmitInput) this.$emit('input', now); // to update v-model
+            },
         },
         mounted () {
+            const initialValue = this.value;
+            const parsedValue = this.publicValue;
+            if (typeof initialValue !== typeof parsedValue || JSON.stringify(initialValue) !== JSON.stringify(parsedValue)){
+                this.$emit('input', this.publicValue); // to update v-model
+            }
             if (this.open !== null) this.visible = this.open;
         }
     };

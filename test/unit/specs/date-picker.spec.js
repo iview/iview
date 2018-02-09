@@ -11,7 +11,7 @@ describe('DatePicker.vue', () => {
       <Date-Picker></Date-Picker>
     `);
     const picker = vm.$children[0];
-    picker.showPicker();
+    picker.$el.querySelector('input.ivu-input').focus();
     vm.$nextTick(() => {
       const calendarBody = vm.$el.querySelector('.ivu-picker-panel-body .ivu-date-picker-cells:first-of-type');
       const calendarCells = [...calendarBody.querySelectorAll('.ivu-date-picker-cells-cell')].filter(el => {
@@ -32,7 +32,7 @@ describe('DatePicker.vue', () => {
     `);
     const picker = vm.$children[0];
     expect(picker.$children.length).to.equal(2);
-    expect(Array.isArray(picker.currentValue)).to.equal(true);
+    expect(Array.isArray(picker.internalValue)).to.equal(true);
     done();
   });
 
@@ -61,9 +61,16 @@ describe('DatePicker.vue', () => {
           dayFive.setHours(0, 0, 0, 0);
 
           // check pickers internal value
-          const [startInternalValue, endInternalValue] = picker.currentValue; // Date Objects
+          const [startInternalValue, endInternalValue] = picker.internalValue; // Date Objects
           expect(Math.abs(dayOne - startInternalValue)).to.equal(0);
           expect(Math.abs(dayFive - endInternalValue)).to.equal(0);
+
+          /*
+                    const [startInternalValue, endInternalValue] = picker.internalValue; // Date Objects
+          expect(dateToString(dayOne)).to.equal(dateToString(startInternalValue));
+          expect(dateToString(dayFive)).to.equal(dateToString(endInternalValue));
+
+           */
 
           // check pickers display value
           const [startDisplayValue, endDisplayValue] = displayField.value.split(' - ').map(stringToDate); // Date Objects
@@ -77,6 +84,7 @@ describe('DatePicker.vue', () => {
   });
 
   it('should change type progamatically', done => {
+    // https://jsfiddle.net/hq7cLz83/
     vm = createVue({
       template: '<Date-picker :type="dateType"></Date-picker>',
       data() {
@@ -94,9 +102,9 @@ describe('DatePicker.vue', () => {
       const monthPanel = panel.querySelector('.ivu-date-picker-cells-month');
       const yearPanel = panel.querySelector('.ivu-date-picker-cells-year');
 
-      expect(dayPanel.style.display).to.equal('none');
+      expect(dayPanel).to.equal(null);
       expect(monthPanel.style.display).to.equal('');
-      expect(yearPanel.style.display).to.equal('none');
+      expect(yearPanel).to.equal(null);
 
       expect(picker.type).to.equal('month');
       expect(picker.selectionMode).to.equal('month');
@@ -104,6 +112,11 @@ describe('DatePicker.vue', () => {
       vm.dateType = 'year';
       promissedTick(picker)
         .then(() => {
+          const yearPanel = panel.querySelector('.ivu-date-picker-cells-year');
+          const monthPanel = panel.querySelector('.ivu-date-picker-cells-month');
+          expect(yearPanel.style.display).to.equal('');
+          expect(monthPanel).to.equal(null);
+
           expect(picker.type).to.equal('year');
           expect(picker.selectionMode).to.equal('year');
 
@@ -112,10 +125,10 @@ describe('DatePicker.vue', () => {
         })
         .then(() => {
           expect(picker.type).to.equal('date');
-          expect(picker.selectionMode).to.equal('day');
+          expect(picker.selectionMode).to.equal('date');
 
           done();
-        });
+        }).catch(err => console.log(err));
     });
   });
 
@@ -170,7 +183,7 @@ describe('DatePicker.vue', () => {
         clickableCells[firstDayInMonthIndex + 4].firstElementChild.click();
         vm.$nextTick(() => {
           // cache first values
-          const [startInternalValue, endInternalValue] = picker.currentValue; // Date Objects
+          const [startInternalValue, endInternalValue] = picker.internalValue; // Date Objects
           const [startDisplayValue, endDisplayValue] = displayField.value.split(' - ').map(stringToDate); // Date Objects
 
           // clear picker
@@ -183,7 +196,7 @@ describe('DatePicker.vue', () => {
 
             vm.$nextTick(() => {
               expect(picker.visible).to.equal(true);
-              expect(JSON.stringify(picker.currentValue)).to.equal('[null,null]');
+              expect(JSON.stringify(picker.internalValue)).to.equal('[null,null]');
               expect(displayField.value).to.equal('');
 
               clickableCells[firstDayInMonthIndex].firstElementChild.click();
@@ -191,8 +204,8 @@ describe('DatePicker.vue', () => {
                 clickableCells[firstDayInMonthIndex + 4].firstElementChild.click();
                 vm.$nextTick(() => {
                   // recheck internal values
-                  expect(Math.abs(picker.currentValue[0] - startInternalValue)).to.equal(0);
-                  expect(Math.abs(picker.currentValue[1] - endInternalValue)).to.equal(0);
+                  expect(Math.abs(picker.internalValue[0] - startInternalValue)).to.equal(0);
+                  expect(Math.abs(picker.internalValue[1] - endInternalValue)).to.equal(0);
                   // recheck display value
                   const [_startDisplayValue, _endDisplayValue] = displayField.value.split(' - ').map(stringToDate); // Date Objects
                   expect(Math.abs(_startDisplayValue - startDisplayValue)).to.equal(0);

@@ -1,20 +1,13 @@
-import Vue from 'vue';
 import Picker from '../picker.vue';
-import TimePanel from '../panel/time.vue';
-import TimeRangePanel from '../panel/time-range.vue';
+import TimePickerPanel from '../panel/Time/time.vue';
+import RangeTimePickerPanel from '../panel/Time/time-range.vue';
 import Options from '../time-mixins';
-
-const getPanel = function (type) {
-    if (type === 'timerange') {
-        return TimeRangePanel;
-    }
-    return TimePanel;
-};
 
 import { oneOf } from '../../../utils/assist';
 
 export default {
     mixins: [Picker, Options],
+    components: { TimePickerPanel, RangeTimePickerPanel },
     props: {
         type: {
             validator (value) {
@@ -22,25 +15,19 @@ export default {
             },
             default: 'time'
         },
-        steps: {
-            type: Array,
-            default: () => []
-        },
-        value: {}
     },
-    created () {
-        if (!this.currentValue) {
-            if (this.type === 'timerange') {
-                this.currentValue = ['',''];
-            } else {
-                this.currentValue = '';
-            }
+    computed: {
+        panel(){
+            const isRange =  this.type === 'timerange';
+            return isRange ? 'RangeTimePickerPanel' : 'TimePickerPanel';
+        },
+        ownPickerProps(){
+            return {
+                disabledHours: this.disabledHours,
+                disabledMinutes: this.disabledMinutes,
+                disabledSeconds: this.disabledSeconds,
+                hideDisabledOptions: this.hideDisabledOptions
+            };
         }
-        const Panel = Vue.extend(getPanel(this.type));
-        this.Panel = new Panel({
-            propsData: {
-                steps: this.steps
-            }
-        });
-    }
+    },
 };
