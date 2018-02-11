@@ -163,6 +163,8 @@ const RANGE_FORMATTER = function(value, format) {
         if (start && end) {
             return formatDate(start, format) + RANGE_SEPARATOR + formatDate(end, format);
         }
+    } else if (!Array.isArray(value) && value instanceof Date){
+        return formatDate(value, format);
     }
     return '';
 };
