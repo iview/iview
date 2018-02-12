@@ -38,6 +38,30 @@
         };
     }
 
+    function getRuleByPath(obj, path) {
+        let tempObj = obj;
+        if (path.indexOf(':') !== -1) {
+            path = path.replace(/:/, '.');
+        }
+        path = path.replace(/\[(\w+)\]/g, '.$1');
+        path = path.replace(/^\./, '');
+        let keyArr = path.split('.');
+        let i = 0;
+        for (let len = 0; i < keyArr.length; i++) {
+            let key = keyArr[i];
+            if (!i && key in tempObj) {
+                // the first Level
+                tempObj = tempObj[key];
+            } else if (i && tempObj.fields && key in tempObj.fields) {
+                // second Level or more
+                tempObj = tempObj.fields[key];
+            } else {
+                throw new Error('[iView warn]: please transfer a valid prop path to form item!');
+            }
+        }
+        return tempObj;
+    }
+
     export default {
         name: 'FormItem',
         mixins: [ Emitter ],
@@ -146,7 +170,7 @@
                 let formRules = this.form.rules;
                 const selfRules = this.rules;
 
-                formRules = formRules ? formRules[this.prop] : [];
+                formRules = formRules ? getRuleByPath(formRules, this.prop) : [];
 
                 return [].concat(selfRules || formRules || []);
             },
