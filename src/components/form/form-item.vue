@@ -46,8 +46,7 @@
         path = path.replace(/\[(\w+)\]/g, '.$1');
         path = path.replace(/^\./, '');
         let keyArr = path.split('.');
-        let i = 0;
-        for (let len = 0; i < keyArr.length; i++) {
+        for (let i = 0; i < keyArr.length; i++) {
             let key = keyArr[i];
             if (!i && key in tempObj) {
                 // the first Level
