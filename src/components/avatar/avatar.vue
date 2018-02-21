@@ -38,6 +38,7 @@
             return {
                 prefixCls: prefixCls,
                 scale: 1,
+                childrenWidth: 0,
                 isSlotShow: false
             };
         },
@@ -62,7 +63,7 @@
                         transform: `scale(${this.scale})`,
                         position: 'absolute',
                         display: 'inline-block',
-                        left: `calc(50% - ${Math.round(this.$refs.children.offsetWidth / 2)}px)`
+                        left: `calc(50% - ${Math.round(this.childrenWidth / 2)}px)`
                     };
                 }
                 return style;
@@ -72,11 +73,12 @@
             setScale () {
                 this.isSlotShow = !this.src && !this.icon;
                 if (this.$refs.children) {
-                    const childrenWidth = this.$refs.children.offsetWidth;
+                    // set children width again to make slot centered
+                    this.childrenWidth = this.$refs.children.offsetWidth;
                     const avatarWidth = this.$el.getBoundingClientRect().width;
                     // add 4px gap for each side to get better performance
-                    if (avatarWidth - 8 < childrenWidth) {
-                        this.scale = (avatarWidth - 8) / childrenWidth;
+                    if (avatarWidth - 8 < this.childrenWidth) {
+                        this.scale = (avatarWidth - 8) / this.childrenWidth;
                     } else {
                         this.scale = 1;
                     }
