@@ -1,4 +1,4 @@
-import { createVue, destroyVM, stringToDate, dateToString, promissedTick } from '../util';
+import { createVue, destroyVM, stringToDate, dateToString, dateToTimeString, promissedTick } from '../util';
 
 describe('DatePicker.vue', () => {
   let vm;
@@ -23,6 +23,79 @@ describe('DatePicker.vue', () => {
       const daysInCurrentMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
       expect(daysInCurrentMonth).to.equal(calendarCells.length);
       done();
+    });
+  });
+
+  it('should pass correct arguments to on-change event', done => {
+    const now = new Date();
+    const nowDate = dateToString(now);
+    const nowTime = dateToTimeString(now);
+    const nextHour = dateToTimeString(now.getTime() + 36e5);
+    const nextWeek = new Date(now.getTime() + 6048e5);
+
+    let dateValue, dateRangeValue, timeValue, timeRangeValue;
+    vm = createVue({
+      template: `
+        <div>
+          <date-picker type="date" @on-change="onChangeDate"></date-picker>
+          <date-picker type="daterange" @on-change="onChangeDateRange"></date-picker>
+          <time-picker type="time" @on-change="onChangeTime"></time-picker>
+          <time-picker type="timerange" @on-change="onChangeTimeRange"></time-picker>
+        </div>
+      `,
+      methods: {
+        onChangeDate(val) {
+          dateValue = val;
+        },
+        onChangeDateRange(val) {
+          dateRangeValue = val;
+        },
+        onChangeTime(val) {
+          timeValue = val;
+        },
+        onChangeTimeRange(val) {
+          timeRangeValue = val;
+        },
+      }
+    }, true);
+
+    vm.$nextTick(() => {
+      const [datePicker, dateRangePicker, timePicker, timeRangePicker] = vm.$children;
+
+      datePicker.handleInputChange({target: {value: nowDate}});
+      dateRangePicker.handleInputChange({target: {value: [
+          nowDate,
+          dateToString(nextWeek)
+        ].join(' - ')
+      }});
+
+      timePicker.handleInputChange({target: {value: nowTime}});
+      const timeRangeString = [
+          nowTime,
+          nextHour
+      ].join(' - ');
+      timeRangePicker.handleInputChange({target: {
+        value: timeRangeString
+      }});
+
+      vm.$nextTick(() => {
+        // DATE
+        expect(dateValue instanceof Date).to.equal(true);
+        expect(dateToString(dateValue)).to.equal(nowDate);
+        // DATERANGE
+        expect(Array.isArray(dateRangeValue)).to.equal(true);
+        expect(dateToString(dateRangeValue[0])).to.equal(nowDate);
+        expect(dateToString(dateRangeValue[1])).to.equal(dateToString(nextWeek));
+        // TIME
+        expect(typeof timeValue).to.equal('string');
+        expect(timeValue).to.equal(nowTime);
+        // TIMERANGE
+        expect(Array.isArray(timeRangeValue)).to.equal(true);
+        expect(timeRangeValue[0]).to.equal(nowTime);
+        expect(timeRangeValue[1]).to.equal(nextHour);
+
+        done();
+      });
     });
   });
 
@@ -134,7 +207,7 @@ describe('DatePicker.vue', () => {
 
   it('should fire `on-change` when reseting value', done => {
     const now = new Date();
-    const nowDate = [now.getFullYear(), now.getMonth() + 1, now.getDate()].map(nr => (nr > 9 ? nr : '0' + nr)).join('-');
+    const nowDate = dateToString(now);
     let onChangeCalled = false;
     vm = createVue({
       template: '<date-picker :value="date" type="date" @on-change="onChange"></date-picker>',

@@ -183,7 +183,9 @@
                     return this.internalValue.slice();
                 } else {
                     const isRange = this.type.includes('range');
-                    const val = this.internalValue.map(date => date instanceof Date ? new Date(date) : (date || ''));
+                    let val = this.internalValue.map(date => date instanceof Date ? new Date(date) : (date || ''));
+
+                    if (this.type.match(/^time/)) val = val.map(this.formatDate);
                     return (isRange || this.multiple) ? val : val[0];
                 }
             },
@@ -293,8 +295,8 @@
                 );
             },
             emitChange () {
-                this.$emit('on-change', this.visualValue, this.publicValue);
                 this.$nextTick(() => {
+                    this.$emit('on-change', this.publicValue);
                     this.dispatch('FormItem', 'on-form-change', this.publicValue);
                 });
             },
