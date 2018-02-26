@@ -41,6 +41,8 @@
                     <div
                         :class="minButtonClasses"
                         tabindex="0"
+                        @focus="handleFocus('min')"
+                        @blur="handleBlur('min')"
                         @keydown.left="onKeyLeft($event, 'min')"
                         @keydown.down="onKeyLeft($event, 'min')"
                         @keydown.right="onKeyRight($event, 'min')"
@@ -64,6 +66,8 @@
                     <div
                         :class="maxButtonClasses"
                         tabindex="0"
+                        @focus="handleFocus('max')"
+                        @blur="handleBlur('max')"
                         @keydown.left="onKeyLeft($event, 'max')"
                         @keydown.down="onKeyLeft($event, 'max')"
                         @keydown.right="onKeyRight($event, 'max')"
@@ -257,28 +261,28 @@
                 return [min, max];
             },
             getCurrentValue (event, type) {
-              if (this.disabled) {
-                return;
-              }
+                if (this.disabled) {
+                    return;
+                }
 
-              const index = this.valueIndex[type];
-              if (typeof index === 'undefined') {
-                return;
-              }
+                const index = this.valueIndex[type];
+                if (typeof index === 'undefined') {
+                    return;
+                }
 
-              return this.currentValue[index];
+                return this.currentValue[index];
             },
             onKeyLeft (event, type) {
-              const value = this.getCurrentValue(event, type);
-              if (Number.isFinite(value)) {
-                this.changeButtonPosition(value - this.step, type);
-              }
+                const value = this.getCurrentValue(event, type);
+                if (Number.isFinite(value)) {
+                    this.changeButtonPosition(value - this.step, type);
+                }
             },
             onKeyRight (event, type) {
-              const value = this.getCurrentValue(event, type);
-              if (Number.isFinite(value)) {
-                this.changeButtonPosition(value + this.step, type);
-              }
+                const value = this.getCurrentValue(event, type);
+                if (Number.isFinite(value)) {
+                    this.changeButtonPosition(value + this.step, type);
+                }
             },
             onPointerDown (event, type) {
                 if (this.disabled) return;
@@ -357,6 +361,14 @@
                 this.currentValue = [val, this.currentValue[1]];
                 this.emitChange();
             },
+
+            handleFocus (type) {
+                this.$refs[`${type}Tooltip`].handleShowPopper();
+            },
+
+            handleBlur (type) {
+                this.$refs[`${type}Tooltip`].handleClosePopper();
+            }
         },
         mounted () {
             // #2852
