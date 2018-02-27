@@ -37,7 +37,7 @@ export default {
     },
     methods: {
         handleClick (cell) {
-            if (cell.disabled) return;
+            if (cell.disabled || cell.type === 'weekLabel') return;
             const newDate = new Date(clearHours(cell.date));
 
             this.$emit('on-pick', newDate);
