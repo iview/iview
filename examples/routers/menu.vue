@@ -1,37 +1,68 @@
 <template>
     <div>
-        <Menu mode="horizontal" :theme="theme1" @on-select="s">
-            <Row type="flex" justify="center" align="middle">
-                <i-col span="12">
-                    <Menu-item name="1">
-                        <Icon type="ios-paper"></Icon>
-                        内容管理
-                    </Menu-item>
-                    <Menu-item name="2">
-                        <Icon type="ios-people"></Icon>
-                        用户管理
-                    </Menu-item>
-                    <Submenu name="3">
+        <Menu :theme="theme1"  active-name="1" accordion @on-select="handleSelect" @on-open-change="handleOpen" :open-names="openArr">
+            <Menu-item name="1">
+                <Icon type="ios-paper"></Icon>
+                一级1
+            </Menu-item>
+            <Menu-item name="2">
+                <Icon type="ios-people"></Icon>
+                一级2
+            </Menu-item>
+            <Submenu name="3">
+                <template slot="title">
+                    <Icon type="ios-people"></Icon>
+                    一级3
+                </template>
+                <Menu-item name="3-1">二级1</Menu-item>
+                <Menu-item name="3-2">二级2</Menu-item>
+                <Submenu name="3-3">
+                    <template slot="title">
+                        <Icon type="stats-bars"></Icon>
+                        二级3
+                    </template>
+                    <Menu-item name="3-3-1">三级1</Menu-item>
+                    <Menu-item name="3-3-2">三级2</Menu-item>
+                    <Submenu name="3-3-3">
                         <template slot="title">
                             <Icon type="stats-bars"></Icon>
-                            统计分析
+                            三级3
                         </template>
-                        <Menu-group title="使用">
-                            <Menu-item name="3-1">新增和启动</Menu-item>
-                            <Menu-item name="3-2">活跃分析</Menu-item>
-                            <Menu-item name="3-3">时段分析</Menu-item>
-                        </Menu-group>
-                        <Menu-group title="留存">
-                            <Menu-item name="3-4">用户留存</Menu-item>
-                            <Menu-item name="3-5">流失用户</Menu-item>
-                        </Menu-group>
+                        <Menu-item name="3-3-3-1">四级1</Menu-item>
+                        <Menu-item name="3-3-3-2">四级2</Menu-item>
+                        <MenuGroup title="Menu-Group">
+                            <MenuItem name="3-3-3-3-1">
+                                <Icon type="document-text"></Icon>
+                                Group-item1
+                            </MenuItem>
+                            <MenuItem name="3-3-3-3-2">
+                                <Icon type="chatbubbles"></Icon>
+                                Group-item2
+                            </MenuItem>
+                        </MenuGroup>
                     </Submenu>
-                    <Menu-item name="4">
-                        <Icon type="settings"></Icon>
-                        综合设置
-                    </Menu-item>
-                </i-col>
-            </Row>
+                    <Submenu name="3-3-4">
+                        <template slot="title">
+                            <Icon type="stats-bars"></Icon>
+                            三级4
+                        </template>
+                        <Menu-item name="3-3-4-1">四级1</Menu-item>
+                        <Menu-item name="3-3-4-2">四级2</Menu-item>
+                    </Submenu>
+                </Submenu>
+                <Submenu name="3-4">
+                    <template slot="title">
+                        <Icon type="stats-bars"></Icon>
+                        二级4
+                    </template>
+                    <Menu-item name="3-4-1">三级1</Menu-item>
+                    <Menu-item name="3-4-2">三级2</Menu-item>
+                </Submenu>
+            </Submenu>
+            <Menu-item name="4">
+                <Icon type="settings"></Icon>
+                一级4
+            </Menu-item>
         </Menu>
         <br>
         <p>切换主题</p>
@@ -40,155 +71,27 @@
             <Radio label="dark"></Radio>
             <Radio label="primary"></Radio>
         </Radio-group>
+        <Input v-model="value4" icon="ios-clock-outline" placeholder="请输入..." style="width: 200px"></Input>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                theme1: 'light'
-            }
+                theme1: 'dark',
+                value4: '',
+                openArr: ['3', '3-3', '3-3-3']
+            };
         },
         methods: {
-            s (s) {
-                console.log(s)
+            handleSelect (name) {
+                // console.log(name);
+                return name;
+            },
+            handleOpen (openArr) {
+                // console.log(openArr);
+                return openArr;
             }
         }
-    }
+    };
 </script>
-
-
-<!--<template>-->
-    <!--<div>-->
-        <!--<Row>-->
-            <!--<i-col span="8">-->
-                <!--<Menu :theme="theme2" @on-select="s">-->
-                    <!--<Submenu name="1">-->
-                        <!--<template slot="title">-->
-                            <!--<Icon type="ios-paper"></Icon>-->
-                            <!--内容管理-->
-                        <!--</template>-->
-                        <!--<Menu-item name="1-1">文章管理</Menu-item>-->
-                        <!--<Menu-item name="1-2">评论管理</Menu-item>-->
-                        <!--<Menu-item name="1-3">举报管理</Menu-item>-->
-                    <!--</Submenu>-->
-                    <!--<Submenu name="2">-->
-                        <!--<template slot="title">-->
-                            <!--<Icon type="ios-people"></Icon>-->
-                            <!--用户管理-->
-                        <!--</template>-->
-                        <!--<Menu-item name="2-1">新增用户</Menu-item>-->
-                        <!--<Menu-item name="2-2">活跃用户</Menu-item>-->
-                    <!--</Submenu>-->
-                    <!--<Submenu name="3">-->
-                        <!--<template slot="title">-->
-                            <!--<Icon type="stats-bars"></Icon>-->
-                            <!--统计分析-->
-                        <!--</template>-->
-                        <!--<Menu-group title="使用">-->
-                            <!--<Menu-item name="3-1">新增和启动</Menu-item>-->
-                            <!--<Menu-item name="3-2">活跃分析</Menu-item>-->
-                            <!--<Menu-item name="3-3">时段分析</Menu-item>-->
-                        <!--</Menu-group>-->
-                        <!--<Menu-group title="留存">-->
-                            <!--<Menu-item name="3-4">用户留存</Menu-item>-->
-                            <!--<Menu-item name="3-5">流失用户</Menu-item>-->
-                        <!--</Menu-group>-->
-                    <!--</Submenu>-->
-                <!--</Menu>-->
-            <!--</i-col>-->
-            <!--<i-col span="8">-->
-                <!--<Menu :theme="theme2" active-name="1-2" :open-names="['1']" @on-select="s">-->
-                    <!--<Submenu name="1">-->
-                        <!--<template slot="title">-->
-                            <!--<Icon type="ios-paper"></Icon>-->
-                            <!--内容管理-->
-                        <!--</template>-->
-                        <!--<Menu-item name="1-1">文章管理</Menu-item>-->
-                        <!--<Menu-item name="1-2">评论管理</Menu-item>-->
-                        <!--<Menu-item name="1-3">举报管理</Menu-item>-->
-                    <!--</Submenu>-->
-                    <!--<Submenu name="2">-->
-                        <!--<template slot="title">-->
-                            <!--<Icon type="ios-people"></Icon>-->
-                            <!--用户管理-->
-                        <!--</template>-->
-                        <!--<Menu-item name="2-1">新增用户</Menu-item>-->
-                        <!--<Menu-item name="2-2">活跃用户</Menu-item>-->
-                    <!--</Submenu>-->
-                    <!--<Submenu name="3">-->
-                        <!--<template slot="title">-->
-                            <!--<Icon type="stats-bars"></Icon>-->
-                            <!--统计分析-->
-                        <!--</template>-->
-                        <!--<Menu-group title="使用">-->
-                            <!--<Menu-item name="3-1">新增和启动</Menu-item>-->
-                            <!--<Menu-item name="3-2">活跃分析</Menu-item>-->
-                            <!--<Menu-item name="3-3">时段分析</Menu-item>-->
-                        <!--</Menu-group>-->
-                        <!--<Menu-group title="留存">-->
-                            <!--<Menu-item name="3-4">用户留存</Menu-item>-->
-                            <!--<Menu-item name="3-5">流失用户</Menu-item>-->
-                        <!--</Menu-group>-->
-                    <!--</Submenu>-->
-                <!--</Menu>-->
-            <!--</i-col>-->
-            <!--<i-col span="8">-->
-                <!--<Menu :theme="theme2" :open-names="['1']" accordion @on-select="s">-->
-                    <!--<Submenu name="1">-->
-                        <!--<template slot="title">-->
-                            <!--<Icon type="ios-paper"></Icon>-->
-                            <!--内容管理-->
-                        <!--</template>-->
-                        <!--<Menu-item name="1-1">文章管理</Menu-item>-->
-                        <!--<Menu-item name="1-2">评论管理</Menu-item>-->
-                        <!--<Menu-item name="1-3">举报管理</Menu-item>-->
-                    <!--</Submenu>-->
-                    <!--<Submenu name="2">-->
-                        <!--<template slot="title">-->
-                            <!--<Icon type="ios-people"></Icon>-->
-                            <!--用户管理-->
-                        <!--</template>-->
-                        <!--<Menu-item name="2-1">新增用户</Menu-item>-->
-                        <!--<Menu-item name="2-2">活跃用户</Menu-item>-->
-                    <!--</Submenu>-->
-                    <!--<Submenu name="3">-->
-                        <!--<template slot="title">-->
-                            <!--<Icon type="stats-bars"></Icon>-->
-                            <!--统计分析-->
-                        <!--</template>-->
-                        <!--<Menu-group title="使用">-->
-                            <!--<Menu-item name="3-1">新增和启动</Menu-item>-->
-                            <!--<Menu-item name="3-2">活跃分析</Menu-item>-->
-                            <!--<Menu-item name="3-3">时段分析</Menu-item>-->
-                        <!--</Menu-group>-->
-                        <!--<Menu-group title="留存">-->
-                            <!--<Menu-item name="3-4">用户留存</Menu-item>-->
-                            <!--<Menu-item name="3-5">流失用户</Menu-item>-->
-                        <!--</Menu-group>-->
-                    <!--</Submenu>-->
-                <!--</Menu>-->
-            <!--</i-col>-->
-        <!--</Row>-->
-        <!--<br>-->
-        <!--<p>切换主题</p>-->
-        <!--<Radio-group v-model="theme2">-->
-            <!--<Radio label="light"></Radio>-->
-            <!--<Radio label="dark"></Radio>-->
-        <!--</Radio-group>-->
-    <!--</div>-->
-<!--</template>-->
-<!--<script>-->
-    <!--export default {-->
-        <!--data () {-->
-            <!--return {-->
-                <!--theme2: 'light'-->
-            <!--}-->
-        <!--},-->
-        <!--methods: {-->
-            <!--s (s) {-->
-                <!--console.log(s);-->
-            <!--}-->
-        <!--}-->
-    <!--}-->
-<!--</script>-->

@@ -2,13 +2,13 @@
  * 本地预览
  */
 
-var path = require('path');
-var webpack = require('webpack');
-// var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var merge = require('webpack-merge');
-var webpackBaseConfig = require('./webpack.base.config.js');
-var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
+const path = require('path');
+const webpack = require('webpack');
+// const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const merge = require('webpack-merge');
+const webpackBaseConfig = require('./webpack.base.config.js');
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 
 
 module.exports = merge(webpackBaseConfig, {
@@ -27,7 +27,8 @@ module.exports = merge(webpackBaseConfig, {
     resolve: {
         alias: {
             iview: '../../src/index',
-            vue: 'vue/dist/vue.js'
+            vue: 'vue/dist/vue.esm.js'
+            // vue: 'vue/dist/vue.runtime.js'
         }
     },
     plugins: [

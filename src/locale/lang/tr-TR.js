@@ -1,8 +1,12 @@
-export default {
+import setLang from '../lang';
+
+const lang = {
     i: {
+        locale: 'tr-TR',
         select: {
             placeholder: 'Seç',
-            noMatch: 'Eşleşen veri yok'
+            noMatch: 'Eşleşen veri yok',
+            loading: 'yükleme'
         },
         table: {
             noDataText: 'Veri Yok',
@@ -18,6 +22,7 @@ export default {
             endTime: 'Bitişe',
             clear: 'Temizle',
             ok: 'Tamam',
+            datePanelLabel: '[mmmm] [yyyy]',
             month: '',
             month1: 'Ocak',
             month2: 'Şubat',
@@ -32,6 +37,7 @@ export default {
             month11: 'Kasım',
             month12: 'Aralık',
             year: '',
+            weekStartDay: '0',
             weeks: {
                 sun: 'Paz',
                 mon: 'Pzt',
@@ -93,3 +99,7 @@ export default {
         }
     }
 };
+
+setLang(lang);
+
+export default lang;

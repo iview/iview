@@ -1,5 +1,9 @@
 <template>
-    <li :class="classes">{{ data.label }}<i v-if="data.children && data.children.length" class="ivu-icon ivu-icon-ios-arrow-right"></i></li>
+    <li :class="classes">
+        {{ data.label }}
+        <i v-if="showArrow" class="ivu-icon ivu-icon-ios-arrow-right"></i>
+        <i v-if="showLoading" class="ivu-icon ivu-icon-load-c ivu-load-loop"></i>
+    </li>
 </template>
 <script>
     export default {
@@ -18,6 +22,12 @@
                         [`${this.prefixCls}-menu-item-disabled`]: this.data.disabled
                     }
                 ];
+            },
+            showArrow () {
+                return (this.data.children && this.data.children.length) || ('loading' in this.data && !this.data.loading);
+            },
+            showLoading () {
+                return 'loading' in this.data && this.data.loading;
             }
         }
     };

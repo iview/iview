@@ -43,6 +43,10 @@
             strokeWidth: {
                 type: Number,
                 default: 10
+            },
+            vertical: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -68,7 +72,10 @@
                 return type;
             },
             bgStyle () {
-                return {
+                return this.vertical ? {
+                    height: `${this.percent}%`,
+                    width: `${this.strokeWidth}px`
+                } : {
                     width: `${this.percent}%`,
                     height: `${this.strokeWidth}px`
                 };
@@ -78,7 +85,8 @@
                     `${prefixCls}`,
                     `${prefixCls}-${this.currentStatus}`,
                     {
-                        [`${prefixCls}-show-info`]: !this.hideInfo
+                        [`${prefixCls}-show-info`]: !this.hideInfo,
+                        [`${prefixCls}-vertical`]: this.vertical
 
                     }
                 ];

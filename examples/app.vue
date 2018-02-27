@@ -6,13 +6,14 @@ nav { margin-bottom: 40px; }
 ul { display: flex; flex-wrap: wrap; }
 li { display: inline-block; }
 li + li { border-left: solid 1px #bbb; padding-left: 10px; margin-left: 10px; }
-.container{ padding: 10px 40px; }
+.container{ padding: 10px 40px 0; }
 .v-link-active { color: #bbb; }
 </style>
 <template>
     <div class="container">
         <nav>
             <ul>
+                <li><router-link to="/layout">Layout</router-link></li>
                 <li><router-link to="/affix">Affix</router-link></li>
                 <li><router-link to="/grid">Grid</router-link></li>
                 <li><router-link to="/button">Button</router-link></li>
@@ -54,6 +55,10 @@ li + li { border-left: solid 1px #bbb; padding-left: 10px; margin-left: 10px; }
                 <li><router-link to="/modal">Modal</router-link></li>
                 <li><router-link to="/message">Message</router-link></li>
                 <li><router-link to="/notice">Notice</router-link></li>
+                <li><router-link to="/avatar">Avatar</router-link></li>
+                <li><router-link to="/color-picker">ColorPicker</router-link></li>
+                <li><router-link to="/auto-complete">AutoComplete</router-link></li>
+                <li><router-link to="/scroll">Scroll</router-link></li>
             </ul>
         </nav>
         <router-view></router-view>

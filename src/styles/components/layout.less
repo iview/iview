@@ -1,0 +1,113 @@
+@layout-prefix-cls: ~"@{css-prefix}layout";
+
+.@{layout-prefix-cls} {
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+    background: @layout-body-background;
+    
+    &&-has-sider {
+        flex-direction: row;
+        > .@{layout-prefix-cls},
+        > .@{layout-prefix-cls}-content {
+          overflow-x: hidden;
+        }
+    }
+
+    &-header,
+    &-footer {
+        flex: 0 0 auto;
+    }
+
+    &-header {
+        background: @layout-header-background;
+        padding: @layout-header-padding;
+        height: @layout-header-height;
+        line-height: @layout-header-height;
+    }
+
+    &-sider {
+        transition: all .2s @ease-in-out;
+        position: relative;
+        background: @layout-sider-background;
+
+        min-width: 0;
+
+        &-children {
+            height: 100%;
+            padding-top: 0.1px;
+            margin-top: -0.1px;
+        }
+
+        &-has-trigger {
+            padding-bottom: @layout-trigger-height;
+        }
+
+        &-trigger {
+            position: fixed;
+            bottom: 0;
+            text-align: center;
+            cursor: pointer;
+            height: @layout-trigger-height;
+            line-height: @layout-trigger-height;
+            color: @layout-trigger-color;
+            background: @layout-sider-background;
+            z-index: 1000;
+            transition: all .2s @ease-in-out;
+            .ivu-icon {
+                font-size: 16px;
+            }
+            >* {
+                transition: all .2s;
+            }
+            &-collapsed {
+                .@{layout-prefix-cls}-sider-trigger-icon {
+                    transform: rotateZ(180deg);
+                }
+            }
+        }
+
+        &-zero-width {
+            & > * {
+                overflow: hidden;
+            }
+
+            &-trigger {
+                position: absolute;
+                top: @layout-header-height;
+                right: -@layout-zero-trigger-width;
+                text-align: center;
+                width: @layout-zero-trigger-width;
+                height: @layout-zero-trigger-height;
+                line-height: @layout-zero-trigger-height;
+                background: @layout-sider-background;
+                color: #fff;
+                font-size: @layout-zero-trigger-width / 2;
+                border-radius: 0 @border-radius-base @border-radius-base 0;
+                cursor: pointer;
+                transition: background .3s ease;
+        
+                &:hover {
+                  background: tint(@layout-sider-background, 10%);
+                }
+
+                &&-left {
+                    right: 0;
+                    left: -@layout-zero-trigger-width;
+                    border-radius: @border-radius-base 0 0 @border-radius-base;
+                }
+            }
+        }
+    }
+
+    &-footer {
+        background: @layout-footer-background;
+        padding: @layout-footer-padding;
+        color: @text-color;
+        font-size: @font-size-base;
+    }
+
+    &-content {
+        flex: auto;
+    }
+}

@@ -1,30 +1,44 @@
 <template>
     <div>
-        <Button type="primary" @click="modal1 = true">显示对话框</Button>
-        <Modal
-                v-model="modal1"
-                title="普通的Modal对话框标题"
-                @on-ok="ok"
-                @on-cancel="cancel">
-            <p>对话框内容</p>
-            <p>对话框内容</p>
-            <p>对话框内容</p>
-        </Modal>
+        <Button @click="instance('info')">Info</Button>
+        <Button @click="instance('success')">Success</Button>
+        <Button @click="instance('warning')">Warning</Button>
+        <Button @click="instance('error')">Error</Button>
     </div>
 </template>
 <script>
     export default {
-        data () {
-            return {
-                modal1: false
-            }
-        },
         methods: {
-            ok () {
-                this.$Message.info('点击了确定');
-            },
-            cancel () {
-                this.$Message.info('点击了取消');
+            instance (type) {
+                const title = 'Title';
+                const content = '<p>Content of dialog</p><p>Content of dialog</p>';
+                switch (type) {
+                    case 'info':
+                        this.$Modal.info({
+                            title: title,
+                            content: content,
+                            closable: true
+                        });
+                        break;
+                    case 'success':
+                        this.$Modal.success({
+                            title: title,
+                            content: content
+                        });
+                        break;
+                    case 'warning':
+                        this.$Modal.warning({
+                            title: title,
+                            content: content
+                        });
+                        break;
+                    case 'error':
+                        this.$Modal.error({
+                            title: title,
+                            content: content
+                        });
+                        break;
+                }
             }
         }
     }

@@ -25,7 +25,7 @@ export default {
                 width = this.columnsWidth[column._index].width;
             }
             // when browser has scrollBar,set a width to resolve scroll position bug
-            if (this.columns.length === index + 1 && top && this.$parent.bodyHeight !== 0) {
+            if (width && this.columns.length === index + 1 && top && this.$parent.bodyHeight !== 0) {
                 width += this.$parent.scrollBarWidth;
             }
             // when fixed type,reset first right fixed column's width
@@ -33,6 +33,7 @@ export default {
                 const firstFixedIndex = this.columns.findIndex((col) => col.fixed === 'right');
                 if (firstFixedIndex === index) width += this.$parent.scrollBarWidth;
             }
+            if (width === '0') width = '';
             return width;
         }
     }

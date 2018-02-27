@@ -1,18 +1,19 @@
 <template>
-    <div
-        :class="[prefixCls]"
-        v-clickoutside="handleClose">
+    <div :class="[prefixCls]" v-clickoutside="handleClose">
         <div ref="reference" :class="[prefixCls + '-rel']">
             <slot>
                 <i-input
+                    :element-id="elementId"
                     :class="[prefixCls + '-editor']"
                     :readonly="!editable || readonly"
                     :disabled="disabled"
                     :size="size"
                     :placeholder="placeholder"
                     :value="visualValue"
+                    :name="name"
                     @on-input-change="handleInputChange"
                     @on-focus="handleFocus"
+                    @on-blur="handleBlur"
                     @on-click="handleIconClick"
                     @mouseenter.native="handleInputMouseenter"
                     @mouseleave.native="handleInputMouseleave"
@@ -20,17 +21,24 @@
             </slot>
         </div>
         <transition :name="transition">
-            <Drop v-show="opened" :placement="placement" ref="drop">
+            <Drop
+                @click.native="handleTransferClick"
+                v-show="opened"
+                :class="{ [prefixCls + '-transfer']: transfer }"
+                :placement="placement"
+                ref="drop"
+                :data-transfer="transfer"
+                v-transfer-dom>
                 <div ref="picker"></div>
             </Drop>
         </transition>
     </div>
 </template>
 <script>
-    import Vue from 'vue';
     import iInput from '../../components/input/input.vue';
     import Drop from '../../components/select/dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
+    import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
     import { formatDate, parseDate } from './util';
     import Emitter from '../../mixins/emitter';
@@ -142,7 +150,7 @@
         name: 'CalendarPicker',
         mixins: [ Emitter ],
         components: { iInput, Drop },
-        directives: { clickoutside },
+        directives: { clickoutside, TransferDom },
         props: {
             format: {
                 type: String
@@ -173,7 +181,7 @@
             },
             size: {
                 validator (value) {
-                    return oneOf(value, ['small', 'large']);
+                    return oneOf(value, ['small', 'large', 'default']);
                 }
             },
             placeholder: {
@@ -188,6 +196,16 @@
             },
             options: {
                 type: Object
+            },
+            transfer: {
+                type: Boolean,
+                default: false
+            },
+            name: {
+                type: String
+            },
+            elementId: {
+                type: String
             }
         },
         data () {
@@ -198,6 +216,7 @@
                 picker: null,
                 internalValue: '',
                 disableClickOutSide: false,    // fixed when click a date,trigger clickoutside to close picker
+                disableCloseUnderTransfer: false,  // transfer 模式下，点击Drop也会触发关闭
                 currentValue: this.value
             };
         },
@@ -258,7 +277,15 @@
             }
         },
         methods: {
+            // 开启 transfer 时，点击 Drop 即会关闭，这里不让其关闭
+            handleTransferClick () {
+                if (this.transfer) this.disableCloseUnderTransfer = true;
+            },
             handleClose () {
+                if (this.disableCloseUnderTransfer) {
+                    this.disableCloseUnderTransfer = false;
+                    return false;
+                }
                 if (this.open !== null) return;
 //                if (!this.disableClickOutSide) this.visible = false;
                 this.visible = false;
@@ -267,6 +294,9 @@
             handleFocus () {
                 if (this.readonly) return;
                 this.visible = true;
+            },
+            handleBlur () {
+                this.visible = false;
             },
             handleInputChange (event) {
                 const oldValue = this.visualValue;
@@ -336,6 +366,8 @@
                         } else {
                             correctValue = formatDate(parsedDate, format);
                         }
+                    } else if (!parsedDate) {
+                        correctValue = '';
                     } else {
                         correctValue = oldValue;
                     }
@@ -362,7 +394,7 @@
             handleIconClick () {
                 if (this.showClose) {
                     this.handleClear();
-                } else {
+                } else if (!this.disabled) {
                     this.handleFocus();
                 }
             },
@@ -372,13 +404,17 @@
                 this.currentValue = '';
                 this.$emit('on-clear');
                 this.dispatch('FormItem', 'on-form-change', '');
+                // #2215，当初始设置了 value，直接点 clear，这时 this.picker 还没有加载
+                if (!this.picker) {
+                    this.emitChange('');
+                }
             },
             showPicker () {
                 if (!this.picker) {
                     let isConfirm = this.confirm;
                     const type = this.type;
 
-                    this.picker = new Vue(this.panel).$mount(this.$refs.picker);
+                    this.picker = this.Panel.$mount(this.$refs.picker);
                     if (type === 'datetime' || type === 'datetimerange') {
                         isConfirm = true;
                         this.picker.showTime = true;
@@ -440,7 +476,7 @@
                 ).formatter;
 
                 let newDate = formatter(date, format);
-                if (type === 'daterange' || type === 'timerange') {
+                if (type === 'daterange' || type === 'timerange' || type === 'datetimerange') {
                     newDate = [newDate.split(RANGE_SEPARATOR)[0], newDate.split(RANGE_SEPARATOR)[1]];
                 }
                 return newDate;
@@ -456,6 +492,9 @@
                     if (this.picker) this.picker.resetView && this.picker.resetView(true);
                     this.$refs.drop.destroy();
                     if (this.open === null) this.$emit('on-open-change', false);
+                    // blur the input
+                    const input = this.$el.querySelector('input');
+                    if (input) input.blur();
                 }
             },
             internalValue(val) {
@@ -478,9 +517,11 @@
 
                     if (val && type === 'time' && !(val instanceof Date)) {
                         val = parser(val, this.format || DEFAULT_FORMATS[type]);
-                    } else if (val && type === 'timerange' && Array.isArray(val) && val.length === 2 && !(val[0] instanceof Date) && !(val[1] instanceof Date)) {
+                    } else if (val && type.match(/range$/) && Array.isArray(val) && val.filter(Boolean).length === 2 && !(val[0] instanceof Date) && !(val[1] instanceof Date)) {
                         val = val.join(RANGE_SEPARATOR);
                         val = parser(val, this.format || DEFAULT_FORMATS[type]);
+                    } else if (typeof val === 'string' && type.indexOf('time') !== 0 ){
+                        val = parser(val, this.format || DEFAULT_FORMATS[type]) || val;
                     }
 
                     this.internalValue = val;

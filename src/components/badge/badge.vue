@@ -53,7 +53,7 @@
 
                 if (this.dot) {
                     status = true;
-                    if (this.count) {
+                    if (this.count !== null) {
                         if (parseInt(this.count) === 0) {
                             status = false;
                         }
@@ -61,17 +61,9 @@
                 }
 
                 return status;
-            }
-        },
-        data () {
-            return {
-                alone: false
-            };
-        },
-        mounted () {
-            const child_length = this.$refs.badge.children.length;
-            if (child_length === 1) {
-                this.alone = true;
+            },
+            alone () {
+                return this.$slots.default === undefined;
             }
         }
     };

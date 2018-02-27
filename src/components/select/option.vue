@@ -3,6 +3,7 @@
 </template>
 <script>
     import Emitter from '../../mixins/emitter';
+    import { findComponentUpward } from '../../utils/assist';
 
     const prefixCls = 'ivu-select-item';
 
@@ -29,7 +30,8 @@
                 index: 0,    // for up and down to focus
                 isFocus: false,
                 hidden: false,    // for search
-                searchLabel: ''    // the value is slot,only for search
+                searchLabel: '',    // the value is slot,only for search
+                autoComplete: false
             };
         },
         computed: {
@@ -38,7 +40,7 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-disabled`]: this.disabled,
-                        [`${prefixCls}-selected`]: this.selected,
+                        [`${prefixCls}-selected`]: this.selected && !this.autoComplete,
                         [`${prefixCls}-focus`]: this.isFocus
                     }
                 ];
@@ -61,20 +63,31 @@
             queryChange (val) {
                 const parsedQuery = val.replace(/(\^|\(|\)|\[|\]|\$|\*|\+|\.|\?|\\|\{|\}|\|)/g, '\\$1');
                 this.hidden = !new RegExp(parsedQuery, 'i').test(this.searchLabel);
+            },
+            // 在使用函数防抖后，设置 key 后，不更新组件了，导致SearchLabel 不更新 #1865
+            updateSearchLabel () {
+                this.searchLabel = this.$el.textContent;
+            },
+            onSelectClose(){
+                this.isFocus = false;
+            },
+            onQueryChange(val){
+                this.queryChange(val);
             }
         },
         mounted () {
-            this.searchLabel = this.$el.innerHTML;
+            this.updateSearchLabel();
             this.dispatch('iSelect', 'append');
-            this.$on('on-select-close', () => {
-                this.isFocus = false;
-            });
-            this.$on('on-query-change', (val) => {
-                this.queryChange(val);
-            });
+            this.$on('on-select-close', this.onSelectClose);
+            this.$on('on-query-change',this.onQueryChange);
+
+            const Select = findComponentUpward(this, 'iSelect');
+            if (Select) this.autoComplete = Select.autoComplete;
         },
         beforeDestroy () {
             this.dispatch('iSelect', 'remove');
+            this.$off('on-select-close', this.onSelectClose);
+            this.$off('on-query-change',this.onQueryChange);
         }
     };
 </script>

@@ -7,6 +7,9 @@
         width: 100%;
         position: relative;
         vertical-align: middle;
+
+        // #2149 & #2219
+        line-height: normal
     }
     &-icon {
         width: 32px;
@@ -24,6 +27,16 @@
     }
     &-icon-validate{
         display: none;
+    }
+
+    &-icon-clear{
+        display: none;
+    }
+
+    &-wrapper:hover{
+        .@{input-prefix-cls}-icon-clear{
+            display: inline-block;
+        }
     }
 
     &-icon-normal + &{
@@ -45,9 +58,9 @@
         height: @input-height-small;
         line-height: @input-height-small;
 
-        + .@{input-prefix-cls} {
-            padding-right: 24px;
-        }
+        //+ .@{input-prefix-cls} {
+        //    padding-right: 24px;
+        //}
     }
 }
 

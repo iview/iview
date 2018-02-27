@@ -1,0 +1,67 @@
+@scroll-prefix-cls: ~"@{css-prefix}scroll";
+
+.@{scroll-prefix-cls} {
+	&-wrapper {
+		width: auto;
+		margin: 0 auto;
+		position: relative;
+		outline: none;
+	}
+
+	&-container {
+		overflow-y: scroll;
+	}
+
+	&-content {
+		opacity: 1;
+		transition: opacity 0.5s;
+	}
+
+	&-content-loading {
+		opacity: 0.5;
+	}
+
+	&-loader {
+		text-align: center;
+		padding: 0;
+		transition: padding 0.5s;
+	}
+}
+
+.@{scroll-prefix-cls}-loader-wrapper {
+	padding: 5px 0;
+	height: 0;
+	background-color: inherit;
+	transform: scale(0);
+	transition: opacity .3s, transform .5s, height .5s;
+
+	&-active {
+		height: 40px;
+		transform: scale(1);
+	}
+
+	@keyframes ani-demo-spin {
+		from {
+			transform: rotate(0deg);
+		}
+		50% {
+			transform: rotate(180deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	.@{scroll-prefix-cls}-spinner {
+		position: relative;
+	}
+
+	.@{scroll-prefix-cls}-spinner-icon {
+		animation: ani-demo-spin 1s linear infinite;
+	}
+}
+
+@media (max-width: 768px) {
+	.@{scroll-prefix-cls} {
+	}
+}

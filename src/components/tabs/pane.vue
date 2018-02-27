@@ -11,7 +11,7 @@
                 type: String
             },
             label: {
-                type: String,
+                type: [String, Function],
                 default: ''
             },
             icon: {
@@ -54,6 +54,9 @@
             }
         },
         mounted () {
+            this.updateNav();
+        },
+        destroyed () {
             this.updateNav();
         }
     };

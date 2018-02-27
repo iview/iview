@@ -1,108 +1,74 @@
 <template>
     <div>
-        <Table :height="height" border :columns="columns1" :data="data2"></Table>
-        <Button @click="height=800">change height</Button>
+        <Table border ref="selection" :columns="columns4" :data="data1"></Table>
+        <Button @click="handleSetData">Set Data</Button>
+        <Button @click="handleClearData">Clear Data</Button>
+        <Button @click="handleSelectAll(true)">Set all selected</Button>
+        <Button @click="handleSelectAll(false)">Cancel all selected</Button>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                height: 200,
-                columns1: [
+                columns4: [
                     {
-                        title: '姓名',
+                        type: 'selection',
+                        width: 60,
+                        align: 'center'
+                    },
+                    {
+                        title: 'Name',
                         key: 'name'
                     },
                     {
-                        title: '年龄',
-                        key: 'age',
-                        filters:[
-                            {
-                                label: '小学',
-                                value: '小学'
-                            },
-                            {
-                                label: '中学',
-                                value: '大学'
-                            },
-                            {
-                                label: '中学',
-                                value: '中学'
-                            }
-                        ],
-                        filterRemote:function(value,key,column){
-                            var that = this;
-                            this.$Notice.open({title:`正在远程过滤${key}`,desc:value,duration:3,onClose:function(){
-                                that.remoteFilter(value,key,column)
-                            }})
-                            
-                        }
+                        title: 'Age',
+                        key: 'age'
                     },
                     {
-                        title: '地址',
+                        title: 'Address',
                         key: 'address'
                     }
                 ],
-                data2: [
-                    {
-                        name: '王小明',
-                        age: 18,
-                        address: '北京市朝阳区芍药居'
-                    },
-                    {
-                        name: '张小刚',
-                        age: 25,
-                        address: '北京市海淀区西二旗'
-                    },
-                    {
-                        name: '李小红',
-                        age: 30,
-                        address: '上海市浦东新区世纪大道'
-                    },
-                    {
-                        name: '周小伟',
-                        age: 26,
-                        address: '深圳市南山区深南大道'
-                    },
-                    {
-                        name: '王小明',
-                        age: 18,
-                        address: '北京市朝阳区芍药居'
-                    },
-                    {
-                        name: '张小刚',
-                        age: 25,
-                        address: '北京市海淀区西二旗'
-                    },
-                    {
-                        name: '李小红',
-                        age: 30,
-                        address: '上海市浦东新区世纪大道'
-                    },
-                    {
-                        name: '周小伟',
-                        age: 26,
-                        address: '深圳市南山区深南大道'
-                    }
+                data1: [
+
                 ]
             }
-
         },
-        methods:{
-            remoteFilter:function(val,age,column){
+        methods: {
+            handleSelectAll (status) {
+                this.$refs.selection.selectAll(status);
+            },
+            handleSetData () {
                 this.data1 = [
-                       {
-                        name: '模拟1',
+                    {
+                        name: 'John Brown',
                         age: 18,
-                        address: '北京市朝阳区芍药居'
+                        address: 'New York No. 1 Lake Park',
+                        date: '2016-10-03'
                     },
                     {
-                        name: '模拟2',
-                        age: 25,
-                        address: '北京市海淀区西二旗'
+                        name: 'Jim Green',
+                        age: 24,
+                        address: 'London No. 1 Lake Park',
+                        date: '2016-10-01'
                     },
-                ]
+                    {
+                        name: 'Joe Black',
+                        age: 30,
+                        address: 'Sydney No. 1 Lake Park',
+                        date: '2016-10-02'
+                    },
+                    {
+                        name: 'Jon Snow',
+                        age: 26,
+                        address: 'Ottawa No. 2 Lake Park',
+                        date: '2016-10-04'
+                    }
+                ];
+            },
+            handleClearData () {
+                this.data1 = [];
             }
         }
     }

@@ -1,13 +1,14 @@
 <template>
-    <div :class="classes">
+    <div :class="classes" @mousedown.prevent>
         <div :class="[prefixCls + '-body']">
             <div :class="[prefixCls + '-content', prefixCls + '-content-left']">
                 <div :class="[timePrefixCls + '-header']">
-                    <template v-if="showDate">{{ visibleDate }}</template>
+                    <template v-if="showDate">{{ leftDatePanelLabel }}</template>
                     <template v-else>{{ t('i.datepicker.startTime') }}</template>
                 </div>
                 <time-spinner
                     ref="timeSpinner"
+                    :steps="steps"
                     :show-seconds="showSeconds"
                     :hours="hours"
                     :minutes="minutes"
@@ -21,11 +22,12 @@
             </div>
             <div :class="[prefixCls + '-content', prefixCls + '-content-right']">
                 <div :class="[timePrefixCls + '-header']">
-                    <template v-if="showDate">{{ visibleDateEnd }}</template>
+                    <template v-if="showDate">{{ rightDatePanelLabel }}</template>
                     <template v-else>{{ t('i.datepicker.endTime') }}</template>
                 </div>
                 <time-spinner
                     ref="timeSpinnerEnd"
+                    :steps="steps"
                     :show-seconds="showSeconds"
                     :hours="hoursEnd"
                     :minutes="minutesEnd"
@@ -51,7 +53,7 @@
     import Mixin from './mixin';
     import Locale from '../../../mixins/locale';
 
-    import { initTimeDate, toDate, formatDate } from '../util';
+    import { initTimeDate, toDate, formatDate, formatDateLabels } from '../util';
 
     const prefixCls = 'ivu-picker-panel';
     const timePrefixCls = 'ivu-time-picker';
@@ -60,6 +62,12 @@
         name: 'TimePicker',
         mixins: [ Mixin, Locale ],
         components: { TimeSpinner, Confirm },
+        props: {
+            steps: {
+                type: Array,
+                default: () => []
+            }
+        },
         data () {
             return {
                 prefixCls: prefixCls,
@@ -95,19 +103,11 @@
             showSeconds () {
                 return (this.format || '').indexOf('ss') !== -1;
             },
-            visibleDate () {
-                const date = this.date || initTimeDate();
-                const tYear = this.t('i.datepicker.year');
-                const month = date.getMonth() + 1;
-                const tMonth = this.t(`i.datepicker.month${month}`);
-                return `${date.getFullYear()}${tYear} ${tMonth}`;
+            leftDatePanelLabel () {
+                return this.panelLabelConfig(this.date);
             },
-            visibleDateEnd () {
-                const date = this.dateEnd || initTimeDate();
-                const tYear = this.t('i.datepicker.year');
-                const month = date.getMonth() + 1;
-                const tMonth = this.t(`i.datepicker.month${month}`);
-                return `${date.getFullYear()}${tYear} ${tMonth}`;
+            rightDatePanelLabel () {
+                return this.panelLabelConfig(this.dateEnd);
             }
         },
         watch: {
@@ -136,6 +136,12 @@
             }
         },
         methods: {
+            panelLabelConfig (date) {
+                const locale = this.t('i.locale');
+                const datePanelLabel = this.t('i.datepicker.datePanelLabel');
+                const { labels, separator } = formatDateLabels(locale, datePanelLabel, date || initTimeDate());
+                return [labels[0].label, separator, labels[1].label].join('');
+            },
             handleClear() {
                 this.date = initTimeDate();
                 this.dateEnd = initTimeDate();

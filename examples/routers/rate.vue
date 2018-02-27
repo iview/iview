@@ -1,25 +1,24 @@
 <template>
     <div>
-        <Rate v-model="v1" allow-half show-text disabled>
-            <span style="color: #f5a623">{{ v1 }}</span>
-        </Rate>
-        {{ v1 }}
-        <div @click="v1 = 3">change v1</div>
+        <Rate v-model="value"></Rate>
+        <Rate allow-half v-model="valueHalf"></Rate>
+        <!--<Rate show-text v-model="valueText"></Rate>-->
+        <!--<Rate show-text allow-half v-model="valueCustomText">-->
+            <!--<span style="color: #f5a623">{{ valueCustomText }}</span>-->
+        <!--</Rate>-->
+        <!--<Rate disabled  allow-half v-model="valueDisabled"></Rate>-->
     </div>
 </template>
 <script>
     export default {
-        props: {},
         data () {
             return {
-                v1: 2
-            };
-        },
-        computed: {},
-        methods: {
-            changeValue (val) {
-                console.log(val);
+                value: 0,
+                valueHalf: 2.5,
+                valueText: 3,
+                valueCustomText: 4.0,
+                valueDisabled: 2.4
             }
         }
-    };
+    }
 </script>

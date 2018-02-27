@@ -1,13 +1,19 @@
 <template>
     <div v-if="showSizer || showElevator" :class="optsClasses">
         <div v-if="showSizer" :class="sizerClasses">
-            <i-select v-model="currentPageSize" :size="size" @on-change="changeSize">
+            <i-select v-model="currentPageSize" :size="size" :placement="placement" @on-change="changeSize">
                 <i-option v-for="item in pageSizeOpts" :key="item" :value="item" style="text-align:center;">{{ item }} {{ t('i.page.page') }}</i-option>
             </i-select>
         </div>
         <div v-if="showElevator" :class="ElevatorClasses">
             {{ t('i.page.goto') }}
-            <input type="text" :value="_current" @keyup.enter="changePage">
+            <input
+              type="text"
+              :value="_current"
+              autocomplete="off"
+              spellcheck="false"
+              @keyup.enter="changePage"
+            >
             {{ t('i.page.p') }}
         </div>
     </div>
@@ -35,7 +41,8 @@
             _current: Number,
             pageSize: Number,
             allPages: Number,
-            isSmall: Boolean
+            isSmall: Boolean,
+            placement: String
         },
         data () {
             return {

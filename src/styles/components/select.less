@@ -149,6 +149,11 @@
         position: relative;
         cursor: pointer;
         .placeholder();
+
+        &[disabled]{
+            cursor: @cursor-disabled;
+            color: #ccc;
+        }
     }
 
     &-single &-input{
@@ -161,7 +166,8 @@
     }
 
     &-small &-input{
-        height: @input-height-small;
+        height: @input-height-small - 2px;
+        line-height: @input-height-small - 2px;
     }
 
     &-multiple &-input{
@@ -171,6 +177,13 @@
     }
 
     &-not-found{
+        text-align: center;
+        color: @btn-disable-color;
+        li:not([class^=ivu-]){
+            margin-bottom: 0;
+        }
+    }
+    &-loading{
         text-align: center;
         color: @btn-disable-color;
     }

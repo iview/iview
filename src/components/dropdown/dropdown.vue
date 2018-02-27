@@ -1,25 +1,34 @@
 <template>
     <div
         :class="[prefixCls]"
-        v-clickoutside="handleClose"
+        v-clickoutside="onClickoutside"
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave">
         <div :class="[prefixCls + '-rel']" ref="reference" @click="handleClick"><slot></slot></div>
         <transition :name="transition">
-            <Drop v-show="currentVisible" :placement="placement" ref="drop"><slot name="list"></slot></Drop>
+            <Drop
+                :class="dropdownCls"
+                v-show="currentVisible"
+                :placement="placement"
+                ref="drop"
+                @mouseenter.native="handleMouseenter"
+                @mouseleave.native="handleMouseleave"
+                :data-transfer="transfer"
+                v-transfer-dom><slot name="list"></slot></Drop>
         </transition>
     </div>
 </template>
 <script>
     import Drop from '../select/dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
-    import { oneOf } from '../../utils/assist';
+    import TransferDom from '../../directives/transfer-dom';
+    import { oneOf, findComponentUpward } from '../../utils/assist';
 
     const prefixCls = 'ivu-dropdown';
 
     export default {
         name: 'Dropdown',
-        directives: { clickoutside },
+        directives: { clickoutside, TransferDom },
         components: { Drop },
         props: {
             trigger: {
@@ -37,11 +46,20 @@
             visible: {
                 type: Boolean,
                 default: false
+            },
+            transfer: {
+                type: Boolean,
+                default: false
             }
         },
         computed: {
             transition () {
                 return ['bottom-start', 'bottom', 'bottom-end'].indexOf(this.placement) > -1 ? 'slide-up' : 'fade';
+            },
+            dropdownCls () {
+                return {
+                    [prefixCls + '-transfer']: this.transfer
+                };
             }
         },
         data () {
@@ -76,7 +94,7 @@
                 if (this.trigger !== 'hover') {
                     return false;
                 }
-                clearTimeout(this.timeout);
+                if (this.timeout) clearTimeout(this.timeout);
                 this.timeout = setTimeout(() => {
                     this.currentVisible = true;
                 }, 250);
@@ -86,10 +104,16 @@
                 if (this.trigger !== 'hover') {
                     return false;
                 }
-                clearTimeout(this.timeout);
-                this.timeout = setTimeout(() => {
-                    this.currentVisible = false;
-                }, 150);
+                if (this.timeout) {
+                    clearTimeout(this.timeout);
+                    this.timeout = setTimeout(() => {
+                        this.currentVisible = false;
+                    }, 150);
+                }
+            },
+            onClickoutside (e) {
+                this.handleClose();
+                if (this.currentVisible) this.$emit('on-clickoutside', e);
             },
             handleClose () {
                 if (this.trigger === 'custom') return false;
@@ -99,8 +123,9 @@
                 this.currentVisible = false;
             },
             hasParent () {
-                const $parent = this.$parent.$parent.$parent;
-                if ($parent && $parent.$options.name === 'Dropdown') {
+//                const $parent = this.$parent.$parent.$parent;
+                const $parent = findComponentUpward(this, 'Dropdown');
+                if ($parent) {
                     return $parent;
                 } else {
                     return false;

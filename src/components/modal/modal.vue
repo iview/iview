@@ -1,10 +1,10 @@
 <template>
-    <div v-transfer-dom>
+    <div v-transfer-dom :data-transfer="transfer">
         <transition :name="transitionNames[1]">
             <div :class="maskClasses" v-show="visible" @click="mask"></div>
         </transition>
         <div :class="wrapClasses" @click="handleWrapClick">
-            <transition :name="transitionNames[0]">
+            <transition :name="transitionNames[0]" @after-leave="animationFinish">
                 <div :class="classes" :style="mainStyles" v-show="visible">
                     <div :class="[prefixCls + '-content']">
                         <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
@@ -30,15 +30,15 @@
     import Icon from '../icon';
     import iButton from '../button/button.vue';
     import TransferDom from '../../directives/transfer-dom';
-    import { getScrollBarSize } from '../../utils/assist';
     import Locale from '../../mixins/locale';
     import Emitter from '../../mixins/emitter';
+    import ScrollbarMixins from './mixins-scrollbar';
 
     const prefixCls = 'ivu-modal';
 
     export default {
         name: 'Modal',
-        mixins: [ Locale, Emitter ],
+        mixins: [ Locale, Emitter, ScrollbarMixins ],
         components: { Icon, iButton },
         directives: { TransferDom },
         props: {
@@ -91,6 +91,10 @@
                 default () {
                     return ['ease', 'fade'];
                 }
+            },
+            transfer: {
+                type: Boolean,
+                default: true
             }
         },
         data () {
@@ -121,8 +125,9 @@
             mainStyles () {
                 let style = {};
 
+                const width = parseInt(this.width);
                 const styleWidth = {
-                    width: `${this.width}px`
+                    width: width <= 100 ? `${width}%` : `${width}px`
                 };
 
                 const customStyle = this.styles ? this.styles : {};
@@ -181,33 +186,8 @@
                     }
                 }
             },
-            checkScrollBar () {
-                let fullWindowWidth = window.innerWidth;
-                if (!fullWindowWidth) { // workaround for missing window.innerWidth in IE8
-                    const documentElementRect = document.documentElement.getBoundingClientRect();
-                    fullWindowWidth = documentElementRect.right - Math.abs(documentElementRect.left);
-                }
-                this.bodyIsOverflowing = document.body.clientWidth < fullWindowWidth;
-                if (this.bodyIsOverflowing) {
-                    this.scrollBarWidth = getScrollBarSize();
-                }
-            },
-            setScrollBar () {
-                if (this.bodyIsOverflowing && this.scrollBarWidth !== undefined) {
-                    document.body.style.paddingRight = `${this.scrollBarWidth}px`;
-                }
-            },
-            resetScrollBar () {
-                document.body.style.paddingRight = '';
-            },
-            addScrollEffect () {
-                this.checkScrollBar();
-                this.setScrollBar();
-                document.body.style.overflow = 'hidden';
-            },
-            removeScrollEffect() {
-                document.body.style.overflow = '';
-                this.resetScrollBar();
+            animationFinish() {
+                this.$emit('on-hidden');
             }
         },
         mounted () {
@@ -249,6 +229,8 @@
                     }
                 }
                 this.broadcast('Table', 'on-visible-change', val);
+                this.broadcast('Slider', 'on-visible-change', val);  // #2852
+                this.$emit('on-visible-change', val);
             },
             loading (val) {
                 if (!val) {
@@ -260,6 +242,11 @@
                     this.addScrollEffect();
                 } else {
                     this.removeScrollEffect();
+                }
+            },
+            title (val) {
+                if (this.$slots.header === undefined) {
+                    this.showHead = !!val;
                 }
             }
         }

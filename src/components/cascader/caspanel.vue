@@ -3,7 +3,7 @@
         <ul v-if="data && data.length" :class="[prefixCls + '-menu']">
             <Casitem
                 v-for="item in data"
-                :key="item"
+                :key="getKey()"
                 :prefix-cls="prefixCls"
                 :data="item"
                 :tmp-item="tmpItem"
@@ -15,6 +15,9 @@
 <script>
     import Casitem from './casitem.vue';
     import Emitter from '../../mixins/emitter';
+    import { findComponentUpward, findComponentDownward } from '../../utils/assist';
+
+    let key = 1;
 
     export default {
         name: 'Caspanel',
@@ -46,32 +49,53 @@
         },
         methods: {
             handleClickItem (item) {
-                if (this.trigger !== 'click' && item.children) return;
-                this.handleTriggerItem(item);
+                if (this.trigger !== 'click' && item.children && item.children.length) return;  // #1922
+                this.handleTriggerItem(item, false, true);
             },
             handleHoverItem (item) {
-                if (this.trigger !== 'hover' || !item.children) return;
-                this.handleTriggerItem(item);
+                if (this.trigger !== 'hover' || !item.children || !item.children.length) return;  // #1922
+                this.handleTriggerItem(item, false, true);
             },
-            handleTriggerItem (item, fromInit = false) {
+            handleTriggerItem (item, fromInit = false, fromUser = false) {
                 if (item.disabled) return;
+
+                if (item.loading !== undefined && !item.children.length) {
+                    const cascader = findComponentUpward(this, 'Cascader');
+                    if (cascader && cascader.loadData) {
+                        cascader.loadData(item, () => {
+                            // todo
+                            if (fromUser) {
+                                cascader.isLoadedChildren = true;
+                            }
+                            if (item.children.length) {
+                                this.handleTriggerItem(item);
+                            }
+                        });
+                        return;
+                    }
+                }
 
                 // return value back recursion  // 向上递归，设置临时选中值（并非真实选中）
                 const backItem = this.getBaseItem(item);
                 this.tmpItem = backItem;
                 this.emitUpdate([backItem]);
-
                 if (item.children && item.children.length){
                     this.sublist = item.children;
-//                    this.$dispatch('on-result-change', false, this.changeOnSelect, fromInit);
                     this.dispatch('Cascader', 'on-result-change', {
                         lastValue: false,
                         changeOnSelect: this.changeOnSelect,
                         fromInit: fromInit
                     });
+
+                    // #1553
+                    if (this.changeOnSelect) {
+                        const Caspanel = findComponentDownward(this, 'Caspanel');
+                        if (Caspanel) {
+                            Caspanel.$emit('on-clear', true);
+                        }
+                    }
                 } else {
                     this.sublist = [];
-//                    this.$dispatch('on-result-change', true, this.changeOnSelect, fromInit);
                     this.dispatch('Cascader', 'on-result-change', {
                         lastValue: true,
                         changeOnSelect: this.changeOnSelect,
@@ -97,6 +121,9 @@
                 } else {
                     this.$parent.$parent.updateResult(result);
                 }
+            },
+            getKey () {
+                return key++;
             }
         },
         mounted () {
@@ -118,9 +145,16 @@
                     }
                 }
             });
-            this.$on('on-clear', () => {
+            // deep for #1553
+            this.$on('on-clear', (deep = false) => {
                 this.sublist = [];
                 this.tmpItem = {};
+                if (deep) {
+                    const Caspanel = findComponentDownward(this, 'Caspanel');
+                    if (Caspanel) {
+                        Caspanel.$emit('on-clear', true);
+                    }
+                }
             });
         }
     };

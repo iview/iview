@@ -10,6 +10,7 @@
     color: @text-color;
     font-size: @font-size-base;
     position: relative;
+    z-index: @zindex-select;
 
     &-horizontal{
         height: 60px;
@@ -49,7 +50,7 @@
         background: #fff;
     }
     &-dark{
-        background: @title-color;
+        background: @menu-dark-title;
     }
     &-primary{
         background: @primary-color;
@@ -95,7 +96,7 @@
     }
 
     &-dark&-horizontal &-item, &-dark&-horizontal &-submenu{
-        color: @subsidiary-color;
+        color: @menu-dark-subsidiary-color;
         &-active, &:hover{
             color: #fff;
         }
@@ -159,13 +160,18 @@
     &-submenu-title-icon {
         transition: transform @transition-time @ease-in-out;
     }
-    &-opened &-submenu-title-icon{
+    &-opened > * > &-submenu-title-icon{
         transform: rotate(180deg);
     }
 
-    &-vertical &-submenu &-item{
-        padding-left: 43px;
-    }
+    &-vertical &-submenu{
+        &-nested{
+            padding-left: 20px;
+        }
+        .@{menu-prefix-cls}-item{
+            padding-left: 43px;
+        }
+    } 
     &-vertical &-item-group{
         &-title{
             height: 48px;
@@ -176,7 +182,7 @@
     }
     &-dark&-vertical &-item-group{
         &-title{
-            color: @text-color;
+            color: @menu-dark-group-title-color;
         }
     }
 
@@ -190,7 +196,7 @@
     }
 
     &-dark&-vertical &-item, &-dark&-vertical &-submenu-title{
-        color: @subsidiary-color;
+        color: @menu-dark-subsidiary-color;
         &-active:not(.@{menu-prefix-cls}-submenu),
         &-active:not(.@{menu-prefix-cls}-submenu):hover
         {
@@ -198,7 +204,7 @@
         }
         &:hover{
             color: #fff;
-            background: @title-color;
+            background: @menu-dark-title;
         }
         &-active:not(.@{menu-prefix-cls}-submenu){
             color: @primary-color;
@@ -216,14 +222,23 @@
             background: @primary-color !important;
         }
     }
-    &-dark&-vertical &-item-active &-submenu-title{
+    // &-dark&-vertical &-item-active &-submenu-title{
+    //     color: #fff;
+    // }
+    &-dark&-vertical &-child-item-active > &-submenu-title{
         color: #fff;
     }
 
     &-dark&-vertical &-opened{
         background: @menu-dark-active-bg;
         .@{menu-prefix-cls}-submenu-title{
-            background: @title-color;
+            background: @menu-dark-title;
+        }
+
+        .@{menu-prefix-cls}-submenu-has-parent-submenu{
+            .@{menu-prefix-cls}-submenu-title{
+                background: transparent;
+            }
         }
     }
 }
