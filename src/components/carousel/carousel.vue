@@ -27,7 +27,7 @@
 <script>
     import Icon from '../icon/icon.vue';
     import { getStyle, oneOf } from '../../utils/assist';
-    import { on, off } from '../../utils/dom';
+    import { on, off, supports3D } from '../../utils/dom';
 
     const prefixCls = 'ivu-carousel';
 
@@ -115,14 +115,14 @@
             trackStyles () {
                 return {
                     width: `${this.trackWidth}px`,
-                    transform: `translate3d(${-this.trackOffset}px, 0px, 0px)`,
+                    transform: supports3D ? `translate3d(${-this.trackOffset}px, 0px, 0px)` : `translateX(${-this.trackOffset}px)`,
                     transition: `transform 500ms ${this.easing}`
                 };
             },
             copyTrackStyles () {
                 return {
                     width: `${this.trackWidth}px`,
-                    transform: `translate3d(${-this.trackCopyOffset}px, 0px, 0px)`,
+                    transform: supports3D ? `translate3d(${-this.trackCopyOffset}px, 0px, 0px)` : `translateX(${-this.trackCopyOffset}px)`,
                     transition: `transform 500ms ${this.easing}`,
                     position: 'absolute',
                     top: 0
