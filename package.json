@@ -1,6 +1,6 @@
 {
   "name": "iview",
-  "version": "2.9.1",
+  "version": "2.9.2",
   "title": "iView",
   "description": "A high quality  UI components Library with Vue.js",
   "homepage": "http://www.iviewui.com",
@@ -43,8 +43,10 @@
     "async-validator": "^1.8.2",
     "deepmerge": "^1.5.2",
     "element-resize-detector": "^1.1.13",
+    "js-calendar": "^1.2.3",
     "lodash.throttle": "^4.1.1",
     "popper.js": "^0.6.4",
+    "regexp.escape": "^1.0.2",
     "tinycolor2": "^1.4.1"
   },
   "peerDependencies": {

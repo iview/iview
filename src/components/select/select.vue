@@ -570,6 +570,7 @@
             },
             resetScrollTop () {
                 const index = this.focusIndex - 1;
+                if (!this.optionInstances.length) return;
                 let bottomOverflowDistance = this.optionInstances[index].$el.getBoundingClientRect().bottom - this.$refs.dropdown.$el.getBoundingClientRect().bottom;
                 let topOverflowDistance = this.optionInstances[index].$el.getBoundingClientRect().top - this.$refs.dropdown.$el.getBoundingClientRect().top;
 
@@ -738,7 +739,8 @@
         watch: {
             value (val) {
                 this.model = val;
-                if (val === '') this.query = '';
+                // #982
+                if (val === '' || val === null) this.query = '';
             },
             label (val) {
                 this.currentLabel = val;

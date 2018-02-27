@@ -5,23 +5,49 @@
             :min="min"
             :max="max"
             :step="step"
-            :value="currentValue[0]"
+            :value="exportValue[0]"
             :disabled="disabled"
             @on-change="handleInputChange"></Input-number>
-        <div :class="[prefixCls + '-wrap']" ref="slider" @click.self="sliderClick">
-            <input type="hidden" :name="name" :value="currentValue">
+        <div
+            :class="[prefixCls + '-wrap']"
+            ref="slider" @click.self="sliderClick"
+        >
+            <input type="hidden" :name="name" :value="exportValue">
             <template v-if="showStops">
-                <div :class="[prefixCls + '-stop']" v-for="item in stops" :style="{ 'left': item + '%' }" @click.self="sliderClick"></div>
+                <div
+                    :class="[prefixCls + '-stop']"
+                    v-for="item in stops"
+                    :style="{ 'left': item + '%' }"
+                    @click.self="sliderClick"
+                ></div>
             </template>
-            <div :class="[prefixCls + '-bar']" :style="barStyle" @click.self="sliderClick"></div>
+            <div
+                :class="[prefixCls + '-bar']"
+                :style="barStyle"
+                @click.self="sliderClick"></div>
             <div
                 :class="[prefixCls + '-button-wrap']"
                 :style="{left: minPosition + '%'}"
                 @touchstart="onPointerDown($event, 'min')"
                 @mousedown="onPointerDown($event, 'min')">
-                <Tooltip :controlled="pointerDown === 'min'" placement="top" :content="tipFormat(currentValue[0])"
-                         :disabled="tipDisabled" :always="showTip === 'always'" ref="minTooltip">
-                    <div :class="minButtonClasses"></div>
+                <Tooltip
+                    :controlled="pointerDown === 'min'"
+                    placement="top"
+                    :content="tipFormat(exportValue[0])"
+                    :disabled="tipDisabled"
+                    :always="showTip === 'always'"
+                    ref="minTooltip"
+                >
+                    <div
+                        :class="minButtonClasses"
+                        tabindex="0"
+                        @focus="handleFocus('min')"
+                        @blur="handleBlur('min')"
+                        @keydown.left="onKeyLeft($event, 'min')"
+                        @keydown.down="onKeyLeft($event, 'min')"
+                        @keydown.right="onKeyRight($event, 'min')"
+                        @keydown.up="onKeyRight($event, 'min')"
+                    ></div>
                 </Tooltip>
             </div>
             <div v-if="range"
@@ -29,9 +55,24 @@
                  :style="{left: maxPosition + '%'}"
                  @touchstart="onPointerDown($event, 'max')"
                  @mousedown="onPointerDown($event, 'max')">
-                <Tooltip :controlled="pointerDown === 'max'" placement="top" :content="tipFormat(currentValue[1])"
-                         :disabled="tipDisabled" :always="showTip === 'always'" ref="maxTooltip">
-                    <div :class="maxButtonClasses"></div>
+                <Tooltip
+                    :controlled="pointerDown === 'max'"
+                    placement="top"
+                    :content="tipFormat(exportValue[1])"
+                    :disabled="tipDisabled"
+                    :always="showTip === 'always'"
+                    ref="maxTooltip"
+                >
+                    <div
+                        :class="maxButtonClasses"
+                        tabindex="0"
+                        @focus="handleFocus('max')"
+                        @blur="handleBlur('max')"
+                        @keydown.left="onKeyLeft($event, 'max')"
+                        @keydown.down="onKeyLeft($event, 'max')"
+                        @keydown.right="onKeyRight($event, 'max')"
+                        @keydown.up="onKeyRight($event, 'max')"
+                    ></div>
                 </Tooltip>
             </div>
         </div>
@@ -110,7 +151,11 @@
                 startX: 0,
                 currentX: 0,
                 startPos: 0,
-                oldValue: val
+                oldValue: val,
+                valueIndex: {
+                    min: 0,
+                    max: 1,
+                },
             };
         },
         watch: {
@@ -120,16 +165,16 @@
                     this.currentValue = val;
                 }
             },
-            currentValue (val) {
+            exportValue (values) {
                 this.$nextTick(() => {
                     this.$refs.minTooltip.updatePopper();
                     if (this.range) {
                         this.$refs.maxTooltip.updatePopper();
                     }
                 });
-                const exportValue = this.range ? val : val[0];
-                this.$emit('input', exportValue);
-                this.$emit('on-input', exportValue);
+                const value = this.range ? values : values[0];
+                this.$emit('input', value);
+                this.$emit('on-input', value);
             }
         },
         computed: {
@@ -159,6 +204,10 @@
                     }
                 ];
             },
+            exportValue(){
+                const decimalCases = (String(this.step).split('.')[1] || '').length;
+                return this.currentValue.map(nr => Number(nr.toFixed(decimalCases)));
+            },
             minPosition () {
                 const val = this.currentValue;
                 return (val[0] - this.min) / this.valueRange * 100;
@@ -169,7 +218,6 @@
                 return (val[1] - this.min) / this.valueRange * 100;
             },
             barStyle () {
-
                 const style = {
                     width: (this.currentValue[0] - this.min) / this.valueRange * 100 + '%'
                 };
@@ -212,6 +260,30 @@
                 max = Math.min(this.max, max);
                 return [min, max];
             },
+            getCurrentValue (event, type) {
+                if (this.disabled) {
+                    return;
+                }
+
+                const index = this.valueIndex[type];
+                if (typeof index === 'undefined') {
+                    return;
+                }
+
+                return this.currentValue[index];
+            },
+            onKeyLeft (event, type) {
+                const value = this.getCurrentValue(event, type);
+                if (Number.isFinite(value)) {
+                    this.changeButtonPosition(value - this.step, type);
+                }
+            },
+            onKeyRight (event, type) {
+                const value = this.getCurrentValue(event, type);
+                if (Number.isFinite(value)) {
+                    this.changeButtonPosition(value + this.step, type);
+                }
+            },
             onPointerDown (event, type) {
                 if (this.disabled) return;
                 event.preventDefault();
@@ -240,6 +312,7 @@
                 if (this.dragging) {
                     this.dragging = false;
                     this.$refs[`${this.pointerDown}Tooltip`].visible = false;
+                    this.emitChange();
                 }
 
                 this.pointerDown = '';
@@ -261,12 +334,16 @@
 
                 if (!this.dragging) {
                     if (this.currentValue[index] !== this.oldValue[index]) {
-                        const exportValue = this.range ? this.currentValue : this.currentValue[0];
-                        this.$emit('on-change', exportValue);
-                        this.dispatch('FormItem', 'on-form-change', exportValue);
+                        this.emitChange();
                         this.oldValue[index] = this.currentValue[index];
                     }
                 }
+            },
+
+            emitChange(){
+                const value = this.range ? this.exportValue : this.exportValue[0];
+                this.$emit('on-change', value);
+                this.dispatch('FormItem', 'on-form-change', value);
             },
 
             sliderClick (event) {
@@ -282,10 +359,16 @@
 
             handleInputChange (val) {
                 this.currentValue = [val, this.currentValue[1]];
-                const exportValue = this.range ? this.currentValue : this.currentValue[0];
-                this.$emit('on-change', exportValue);
-                this.dispatch('FormItem', 'on-form-change', exportValue);
+                this.emitChange();
             },
+
+            handleFocus (type) {
+                this.$refs[`${type}Tooltip`].handleShowPopper();
+            },
+
+            handleBlur (type) {
+                this.$refs[`${type}Tooltip`].handleClosePopper();
+            }
         },
         mounted () {
             // #2852

@@ -1,4 +1,4 @@
-import { createVue, destroyVM, stringToDate, dateToString, promissedTick } from '../util';
+import { createVue, destroyVM, stringToDate, dateToString, dateToTimeString, promissedTick } from '../util';
 
 describe('DatePicker.vue', () => {
   let vm;
@@ -11,7 +11,7 @@ describe('DatePicker.vue', () => {
       <Date-Picker></Date-Picker>
     `);
     const picker = vm.$children[0];
-    picker.showPicker();
+    picker.$el.querySelector('input.ivu-input').focus();
     vm.$nextTick(() => {
       const calendarBody = vm.$el.querySelector('.ivu-picker-panel-body .ivu-date-picker-cells:first-of-type');
       const calendarCells = [...calendarBody.querySelectorAll('.ivu-date-picker-cells-cell')].filter(el => {
@@ -26,13 +26,86 @@ describe('DatePicker.vue', () => {
     });
   });
 
+  it('should pass correct arguments to on-change event', done => {
+    const now = new Date();
+    const nowDate = dateToString(now);
+    const nowTime = dateToTimeString(now);
+    const nextHour = dateToTimeString(now.getTime() + 36e5);
+    const nextWeek = new Date(now.getTime() + 6048e5);
+
+    let dateValue, dateRangeValue, timeValue, timeRangeValue;
+    vm = createVue({
+      template: `
+        <div>
+          <date-picker type="date" @on-change="onChangeDate"></date-picker>
+          <date-picker type="daterange" @on-change="onChangeDateRange"></date-picker>
+          <time-picker type="time" @on-change="onChangeTime"></time-picker>
+          <time-picker type="timerange" @on-change="onChangeTimeRange"></time-picker>
+        </div>
+      `,
+      methods: {
+        onChangeDate(val) {
+          dateValue = val;
+        },
+        onChangeDateRange(val) {
+          dateRangeValue = val;
+        },
+        onChangeTime(val) {
+          timeValue = val;
+        },
+        onChangeTimeRange(val) {
+          timeRangeValue = val;
+        },
+      }
+    }, true);
+
+    vm.$nextTick(() => {
+      const [datePicker, dateRangePicker, timePicker, timeRangePicker] = vm.$children;
+
+      datePicker.handleInputChange({target: {value: nowDate}});
+      dateRangePicker.handleInputChange({target: {value: [
+          nowDate,
+          dateToString(nextWeek)
+        ].join(' - ')
+      }});
+
+      timePicker.handleInputChange({target: {value: nowTime}});
+      const timeRangeString = [
+          nowTime,
+          nextHour
+      ].join(' - ');
+      timeRangePicker.handleInputChange({target: {
+        value: timeRangeString
+      }});
+
+      vm.$nextTick(() => {
+        // DATE
+        expect(dateValue instanceof Date).to.equal(true);
+        expect(dateToString(dateValue)).to.equal(nowDate);
+        // DATERANGE
+        expect(Array.isArray(dateRangeValue)).to.equal(true);
+        expect(dateToString(dateRangeValue[0])).to.equal(nowDate);
+        expect(dateToString(dateRangeValue[1])).to.equal(dateToString(nextWeek));
+        // TIME
+        expect(typeof timeValue).to.equal('string');
+        expect(timeValue).to.equal(nowTime);
+        // TIMERANGE
+        expect(Array.isArray(timeRangeValue)).to.equal(true);
+        expect(timeRangeValue[0]).to.equal(nowTime);
+        expect(timeRangeValue[1]).to.equal(nextHour);
+
+        done();
+      });
+    });
+  });
+
   it('should create a DatePicker component of type="datetimerange"', done => {
     vm = createVue(`
       <Date-Picker type="datetimerange"></Date-Picker>
     `);
     const picker = vm.$children[0];
     expect(picker.$children.length).to.equal(2);
-    expect(Array.isArray(picker.currentValue)).to.equal(true);
+    expect(Array.isArray(picker.internalValue)).to.equal(true);
     done();
   });
 
@@ -61,9 +134,16 @@ describe('DatePicker.vue', () => {
           dayFive.setHours(0, 0, 0, 0);
 
           // check pickers internal value
-          const [startInternalValue, endInternalValue] = picker.currentValue; // Date Objects
+          const [startInternalValue, endInternalValue] = picker.internalValue; // Date Objects
           expect(Math.abs(dayOne - startInternalValue)).to.equal(0);
           expect(Math.abs(dayFive - endInternalValue)).to.equal(0);
+
+          /*
+                    const [startInternalValue, endInternalValue] = picker.internalValue; // Date Objects
+          expect(dateToString(dayOne)).to.equal(dateToString(startInternalValue));
+          expect(dateToString(dayFive)).to.equal(dateToString(endInternalValue));
+
+           */
 
           // check pickers display value
           const [startDisplayValue, endDisplayValue] = displayField.value.split(' - ').map(stringToDate); // Date Objects
@@ -77,6 +157,7 @@ describe('DatePicker.vue', () => {
   });
 
   it('should change type progamatically', done => {
+    // https://jsfiddle.net/hq7cLz83/
     vm = createVue({
       template: '<Date-picker :type="dateType"></Date-picker>',
       data() {
@@ -94,9 +175,9 @@ describe('DatePicker.vue', () => {
       const monthPanel = panel.querySelector('.ivu-date-picker-cells-month');
       const yearPanel = panel.querySelector('.ivu-date-picker-cells-year');
 
-      expect(dayPanel.style.display).to.equal('none');
+      expect(dayPanel).to.equal(null);
       expect(monthPanel.style.display).to.equal('');
-      expect(yearPanel.style.display).to.equal('none');
+      expect(yearPanel).to.equal(null);
 
       expect(picker.type).to.equal('month');
       expect(picker.selectionMode).to.equal('month');
@@ -104,6 +185,11 @@ describe('DatePicker.vue', () => {
       vm.dateType = 'year';
       promissedTick(picker)
         .then(() => {
+          const yearPanel = panel.querySelector('.ivu-date-picker-cells-year');
+          const monthPanel = panel.querySelector('.ivu-date-picker-cells-month');
+          expect(yearPanel.style.display).to.equal('');
+          expect(monthPanel).to.equal(null);
+
           expect(picker.type).to.equal('year');
           expect(picker.selectionMode).to.equal('year');
 
@@ -112,16 +198,16 @@ describe('DatePicker.vue', () => {
         })
         .then(() => {
           expect(picker.type).to.equal('date');
-          expect(picker.selectionMode).to.equal('day');
+          expect(picker.selectionMode).to.equal('date');
 
           done();
-        });
+        }).catch(err => console.log(err));
     });
   });
 
   it('should fire `on-change` when reseting value', done => {
     const now = new Date();
-    const nowDate = [now.getFullYear(), now.getMonth() + 1, now.getDate()].map(nr => (nr > 9 ? nr : '0' + nr)).join('-');
+    const nowDate = dateToString(now);
     let onChangeCalled = false;
     vm = createVue({
       template: '<date-picker :value="date" type="date" @on-change="onChange"></date-picker>',
@@ -170,7 +256,7 @@ describe('DatePicker.vue', () => {
         clickableCells[firstDayInMonthIndex + 4].firstElementChild.click();
         vm.$nextTick(() => {
           // cache first values
-          const [startInternalValue, endInternalValue] = picker.currentValue; // Date Objects
+          const [startInternalValue, endInternalValue] = picker.internalValue; // Date Objects
           const [startDisplayValue, endDisplayValue] = displayField.value.split(' - ').map(stringToDate); // Date Objects
 
           // clear picker
@@ -183,7 +269,7 @@ describe('DatePicker.vue', () => {
 
             vm.$nextTick(() => {
               expect(picker.visible).to.equal(true);
-              expect(JSON.stringify(picker.currentValue)).to.equal('[null,null]');
+              expect(JSON.stringify(picker.internalValue)).to.equal('[null,null]');
               expect(displayField.value).to.equal('');
 
               clickableCells[firstDayInMonthIndex].firstElementChild.click();
@@ -191,8 +277,8 @@ describe('DatePicker.vue', () => {
                 clickableCells[firstDayInMonthIndex + 4].firstElementChild.click();
                 vm.$nextTick(() => {
                   // recheck internal values
-                  expect(Math.abs(picker.currentValue[0] - startInternalValue)).to.equal(0);
-                  expect(Math.abs(picker.currentValue[1] - endInternalValue)).to.equal(0);
+                  expect(Math.abs(picker.internalValue[0] - startInternalValue)).to.equal(0);
+                  expect(Math.abs(picker.internalValue[1] - endInternalValue)).to.equal(0);
                   // recheck display value
                   const [_startDisplayValue, _endDisplayValue] = displayField.value.split(' - ').map(stringToDate); // Date Objects
                   expect(Math.abs(_startDisplayValue - startDisplayValue)).to.equal(0);

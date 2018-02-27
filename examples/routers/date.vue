@@ -1,43 +1,45 @@
-<!--<template>-->
-    <!--<div>-->
-        <!--{{ value1 }}-->
-        <!--<Date-picker v-model="value1" type="datetimerange" placeholder="选择日期" style="width: 200px" @on-change="hc"></Date-picker>-->
-        <!--<Button @click="setDate">set date</Button>-->
-        <!--<Button @click="getDate">get date</Button>-->
-        <!--&lt;!&ndash;<Date-picker v-model="value2" type="daterange" placeholder="选择日期" style="width: 200px"></Date-picker>&ndash;&gt;-->
-        <!--&lt;!&ndash;<Date-picker transfer type="datetimerange" placeholder="选择日期" style="width: 200px" @on-change="changeDate"></Date-picker>&ndash;&gt;-->
-    <!--</div>-->
-<!--</template>-->
-<!--<script>-->
-    <!--export default {-->
-        <!--data () {-->
-            <!--return {-->
-                <!--value1: ['2014-10-10 10:00:01', '2017-10-10 10:00:00'],-->
-                <!--value2: []-->
-            <!--}-->
-        <!--},-->
-        <!--methods: {-->
-            <!--changeDate(date){-->
-                <!--console.log(date);-->
-            <!--},-->
-            <!--setDate () {-->
-                <!--this.value1 = ['2016-10-10', '2017-10-10'];-->
-            <!--},-->
-            <!--getDate () {-->
-                <!--const date = new Date(this.value1);-->
-                <!--console.log(date.getMonth()+1)-->
-            <!--},-->
-            <!--hc (d) {-->
-                <!--console.log(d);-->
-            <!--}-->
-        <!--}-->
-    <!--}-->
-<!--</script>-->
-<!--<style>-->
-    <!--body{-->
-        <!--width: 100%;-->
-    <!--}-->
-<!--</style>-->
+<!--
+<template>
+    <div>
+        {{ value1 }}
+        <Date-picker v-model="value1" type="datetimerange" placeholder="选择日期" style="width: 200px" @on-change="hc"></Date-picker>
+        <Button @click="setDate">set date</Button>
+        <Button @click="getDate">get date</Button>
+        &lt;!&ndash;<Date-picker v-model="value2" type="daterange" placeholder="选择日期" style="width: 200px"></Date-picker>&ndash;&gt;
+        &lt;!&ndash;<Date-picker transfer type="datetimerange" placeholder="选择日期" style="width: 200px" @on-change="changeDate"></Date-picker>&ndash;&gt;
+    </div>
+</template>
+<script>
+    export default {
+        data () {
+            return {
+                value1: ['2014-10-10 10:00:01', '2017-10-10 10:00:00'],
+                value2: []
+            }
+        },
+        methods: {
+            changeDate(date){
+                console.log(date);
+            },
+            setDate () {
+                this.value1 = ['2016-10-10', '2017-10-10'];
+            },
+            getDate () {
+                const date = new Date(this.value1);
+                console.log(date.getMonth()+1)
+            },
+            hc (d) {
+                console.log(d);
+            }
+        }
+    }
+</script>
+<style>
+    body{
+        width: 100%;
+    }
+</style>
+-->
 
 
 <!--<template>-->
@@ -148,22 +150,58 @@
 <!--</script>-->
 
 
-<!--<template>-->
-    <!--<div>-->
-        <!--<Date-picker type="datetime" placeholder="选择日期和时间" style="width: 200px"></Date-picker>-->
-        <!--<br>-->
-        <!--<Date-picker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 200px"></Date-picker>-->
-        <!--<br>-->
-        <!--<Date-picker type="datetimerange" placeholder="选择日期和时间" style="width: 300px"></Date-picker>-->
-        <!--<br>-->
-        <!--<Date-picker type="datetimerange" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 300px"></Date-picker>-->
-    <!--</div>-->
-<!--</template>-->
-<!--<script>-->
-    <!--export default {-->
+<template>
+    <div>
+        <div style="width: 50%; float: left;">
+            <Date-picker type="date" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single date, no date
+            <br>
+            <Date-picker type="datetime" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single datetime, no date
+            <br>
+            <Date-picker type="datetime" v-model="dateString" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single datetime, string date
+            <br>
+            <Date-picker type="datetime" v-model="singleDate" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single datetime, date object
+            <br>
+            <Date-picker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 200px"></Date-picker> | Single datetime, format yyyy-MM-dd HH:mm
+            <br>
+            <Date-picker type="date" multiple style="width: 200px"></Date-picker> | Single date, multiple
+            <br>
+            <Date-picker type="date" multiple style="width: 200px" show-week-numbers></Date-picker> | Single date, multiple, show week numbers
+            <br>
+            <Date-picker type="date" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 200px"></Date-picker> | Single date, format MM-dd HH:mm
+            <br>
+            <Date-picker type="datetime" :start-date="minDate" v-model="singleDate" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single datetime, date object, start date
+            <br>
 
-    <!--}-->
-<!--</script>-->
+        </div>
+        <div style="width: 50%; float: right;">
+            <Date-picker type="datetimerange" :value="dateRange" placeholder="选择日期和时间" style="width: 300px"></Date-picker> | DateTimeRange, date objects
+            <br>
+            <Date-picker type="daterange" placeholder="选择日期和时间" style="width: 300px"></Date-picker> | Range, no dates
+            <br>
+            <Date-picker type="daterange" split-panels placeholder="选择日期和时间" style="width: 300px"></Date-picker> | Range, no dates, split panels
+            <br>
+            <Date-picker type="datetimerange" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 300px"></Date-picker> | DateTimeRange, format yyyy-MM-dd HH:mm
+        </div>
+        <div style="width: 50%; float: right;">
+            <TimePicker type="timerange" placeholder="Select time" style="width: 168px"></TimePicker>
+        </div>
+    </div>
+</template>
+<script>
+    export default {
+        data(){
+            const now = new Date().getTime();
+            const oneMonth = 2592e6;
+            return {
+                dateString: '2018-01-03 20:52:59',
+                singleDate: new Date(1978, 4, 10),
+                dateRange: [new Date(2010, 4, 1), new Date()],
+                minDate: new Date(2010, 4, 1),
+                maxDate: new Date(now + oneMonth)
+            }
+        }
+    }
+</script>
 
 
 <!--<template>-->
@@ -189,33 +227,22 @@
 
 
 
-<template>
-    <div>
-        <DatePicker v-model="value" @on-change="handleChange" type="datetimerange" placeholder="Select date" style="width: 400px"></DatePicker>
-        <DatePicker v-model="value2" type="datetime" @on-change="handleChange" style="width: 200px"></DatePicker>
-        <TimePicker type="time" placeholder="Select time" style="width: 168px"></TimePicker>
-        {{ value }}
-        <br>
-        {{ value2 }}
-        <br><br>
-        <DatePicker type="year" v-model="value3" placeholder="Select year" style="width: 200px"></DatePicker>
-        <DatePicker type="month" v-model="value4" placeholder="Select month" style="width: 200px"></DatePicker>
-    </div>
-</template>
-<script>
-    export default {
-        data () {
-            return {
-                value: ['2018-03-05 10:00:00', '2018-05-15 10:01:00'],
-                value2: '2018-02-05 10:09:00',
-                value3: '1978',
-                value4: '1978-05'
-            }
-        },
-        methods: {
-            handleChange (v) {
-                console.log(v);
-            }
-        }
-    }
-</script>
+<!--<template>-->
+    <!--<div>-->
+        <!--<DatePicker v-model="value" @on-change="handleChange" type="daterange" placeholder="Select date" style="width: 200px"></DatePicker>-->
+    <!--</div>-->
+<!--</template>-->
+<!--<script>-->
+    <!--export default {-->
+        <!--data () {-->
+            <!--return {-->
+                <!--value: []-->
+            <!--}-->
+        <!--},-->
+        <!--methods: {-->
+            <!--handleChange (v) {-->
+                <!--console.log(v);-->
+            <!--}-->
+        <!--}-->
+    <!--}-->
+<!--</script>-->

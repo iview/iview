@@ -14,6 +14,8 @@ const createElm = function() {
   return elm;
 };
 
+const pad = (nr) => nr < 10 ? '0' + nr : nr;
+
 /**
  * 回收 vm
  * @param  {Object} vm
@@ -72,8 +74,18 @@ exports.stringToDate = function(str) {
  * @param {Date}
  */
 exports.dateToString = function(d) {
-  return [d.getFullYear(), d.getMonth() + 1, d.getDate()].map(nr => nr > 9 ? nr : '0' + nr).join('-');
+  return [d.getFullYear(), d.getMonth() + 1, d.getDate()].map(pad).join('-');
 };
+
+/**
+ * Transform Date to HH:MM:SS string
+ * @param {Date}
+ */
+exports.dateToTimeString = function(d){
+  const date = new Date(d);
+  return [date.getHours(), date.getMinutes(), date.getSeconds()].map(pad).join(':');
+
+}
 
 /**
  * 触发一个事件
