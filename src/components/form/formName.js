@@ -1,1 +1,1 @@
-export default 'IForm';
+export default 'iForm';

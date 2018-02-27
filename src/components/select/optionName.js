@@ -1,1 +1,1 @@
-export default 'IOption';
+export default 'iOption';

@@ -1,1 +1,1 @@
-export default 'ISelect';
+export default 'iSelect';
