@@ -34,3 +34,23 @@ export const off = (function() {
         };
     }
 })();
+
+/* determing translate3d support */
+export const supports3D = (function() {
+    if (document.body && document.body.style.perspective !== undefined) {
+        return true;
+    }
+    var _tempDiv = document.createElement("div"),
+        style = _tempDiv.style,
+        a = ["Webkit","Moz","O","Ms","ms"],
+        i = a.length;
+    if (_tempDiv.style.perspective !== undefined) {
+        return true;
+    }
+    while (--i > -1) {
+        if (style[a[i] + "Perspective"] !== undefined) {
+            return true;
+        }
+    }
+    return false;
+}());
