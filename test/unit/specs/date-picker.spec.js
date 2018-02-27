@@ -80,12 +80,13 @@ describe('DatePicker.vue', () => {
 
       vm.$nextTick(() => {
         // DATE
-        expect(dateValue instanceof Date).to.equal(true);
-        expect(dateToString(dateValue)).to.equal(nowDate);
+        expect(typeof dateValue).to.equal('string');
+        expect(dateValue).to.equal(nowDate);
         // DATERANGE
         expect(Array.isArray(dateRangeValue)).to.equal(true);
-        expect(dateToString(dateRangeValue[0])).to.equal(nowDate);
-        expect(dateToString(dateRangeValue[1])).to.equal(dateToString(nextWeek));
+        expect(dateRangeValue[0]).to.equal(nowDate);
+        expect(dateRangeValue[1]).to.equal(dateToString(nextWeek));
+
         // TIME
         expect(typeof timeValue).to.equal('string');
         expect(timeValue).to.equal(nowTime);
@@ -339,7 +340,7 @@ describe('DatePicker.vue', () => {
       expect(value2[1] instanceof Date).to.equal(true);
       expect(value2.map(dateToString).join('|')).to.equal([new Date(), new Date()].map(dateToString).join('|'));
 
-      expect(dateToString(vm.value3)).to.equal('2017-10-10');
+      expect(dateToString(value3)).to.equal('2017-10-10');
 
       expect(value4[0] instanceof Date).to.equal(true);
       expect(value4[1] instanceof Date).to.equal(true);
