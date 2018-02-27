@@ -203,6 +203,14 @@
 
     }
 
+    &-with-week-numbers{
+        .@{picker-prefix-cls}-panel{
+            &-body{
+                min-width: (@date-picker-cells-width-with-weeknumbers + 20) * 2;
+            }
+        }
+    }
+
     &-transfer{
         z-index: @zindex-transfer;
         max-height: none;

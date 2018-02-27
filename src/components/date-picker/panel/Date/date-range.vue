@@ -165,7 +165,8 @@
                     `${prefixCls}-body-wrapper`,
                     `${datePrefixCls}-with-range`,
                     {
-                        [`${prefixCls}-with-sidebar`]: this.shortcuts.length
+                        [`${prefixCls}-with-sidebar`]: this.shortcuts.length,
+                        [`${datePrefixCls}-with-week-numbers`]: this.showWeekNumbers
                     }
                 ];
             },

@@ -248,14 +248,16 @@
 <!--</script>-->
 
 <template>
-    <Row>
-        <Col span="12">
+    <div style="width: 500px;margin: 100px;">
+        <Row>
+            <Col span="12">
             <DatePicker type="date" show-week-numbers placeholder="Select date" style="width: 200px"></DatePicker>
-        </Col>
-        <Col span="12">
+            </Col>
+            <Col span="12">
             <DatePicker type="daterange" show-week-numbers placement="bottom-end" placeholder="Select date" style="width: 200px"></DatePicker>
-        </Col>
-    </Row>
+            </Col>
+        </Row>
+    </div>
 </template>
 <script>
     export default {
