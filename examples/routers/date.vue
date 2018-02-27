@@ -150,58 +150,58 @@
 <!--</script>-->
 
 
-<template>
-    <div>
-        <div style="width: 50%; float: left;">
-            <Date-picker type="date" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single date, no date
-            <br>
-            <Date-picker type="datetime" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single datetime, no date
-            <br>
-            <Date-picker type="datetime" v-model="dateString" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single datetime, string date
-            <br>
-            <Date-picker type="datetime" v-model="singleDate" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single datetime, date object
-            <br>
-            <Date-picker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 200px"></Date-picker> | Single datetime, format yyyy-MM-dd HH:mm
-            <br>
-            <Date-picker type="date" multiple style="width: 200px"></Date-picker> | Single date, multiple
-            <br>
-            <Date-picker type="date" multiple style="width: 200px" show-week-numbers></Date-picker> | Single date, multiple, show week numbers
-            <br>
-            <Date-picker type="date" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 200px"></Date-picker> | Single date, format MM-dd HH:mm
-            <br>
-            <Date-picker type="datetime" :start-date="minDate" v-model="singleDate" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single datetime, date object, start date
-            <br>
+<!--<template>-->
+    <!--<div>-->
+        <!--<div style="width: 50%; float: left;">-->
+            <!--<Date-picker type="date" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single date, no date-->
+            <!--<br>-->
+            <!--<Date-picker type="datetime" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single datetime, no date-->
+            <!--<br>-->
+            <!--<Date-picker type="datetime" v-model="dateString" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single datetime, string date-->
+            <!--<br>-->
+            <!--<Date-picker type="datetime" v-model="singleDate" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single datetime, date object-->
+            <!--<br>-->
+            <!--<Date-picker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 200px"></Date-picker> | Single datetime, format yyyy-MM-dd HH:mm-->
+            <!--<br>-->
+            <!--<Date-picker type="date" multiple style="width: 200px"></Date-picker> | Single date, multiple-->
+            <!--<br>-->
+            <!--<Date-picker type="date" multiple style="width: 200px" show-week-numbers></Date-picker> | Single date, multiple, show week numbers-->
+            <!--<br>-->
+            <!--<Date-picker type="date" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 200px"></Date-picker> | Single date, format MM-dd HH:mm-->
+            <!--<br>-->
+            <!--<Date-picker type="datetime" :start-date="minDate" v-model="singleDate" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single datetime, date object, start date-->
+            <!--<br>-->
 
-        </div>
-        <div style="width: 50%; float: right;">
-            <Date-picker type="datetimerange" :value="dateRange" placeholder="选择日期和时间" style="width: 300px"></Date-picker> | DateTimeRange, date objects
-            <br>
-            <Date-picker type="daterange" placeholder="选择日期和时间" style="width: 300px"></Date-picker> | Range, no dates
-            <br>
-            <Date-picker type="daterange" split-panels placeholder="选择日期和时间" style="width: 300px"></Date-picker> | Range, no dates, split panels
-            <br>
-            <Date-picker type="datetimerange" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 300px"></Date-picker> | DateTimeRange, format yyyy-MM-dd HH:mm
-        </div>
-        <div style="width: 50%; float: right;">
-            <TimePicker type="timerange" placeholder="Select time" style="width: 168px"></TimePicker>
-        </div>
-    </div>
-</template>
-<script>
-    export default {
-        data(){
-            const now = new Date().getTime();
-            const oneMonth = 2592e6;
-            return {
-                dateString: '2018-01-03 20:52:59',
-                singleDate: new Date(1978, 4, 10),
-                dateRange: [new Date(2010, 4, 1), new Date()],
-                minDate: new Date(2010, 4, 1),
-                maxDate: new Date(now + oneMonth)
-            }
-        }
-    }
-</script>
+        <!--</div>-->
+        <!--<div style="width: 50%; float: right;">-->
+            <!--<Date-picker type="datetimerange" :value="dateRange" placeholder="选择日期和时间" style="width: 300px"></Date-picker> | DateTimeRange, date objects-->
+            <!--<br>-->
+            <!--<Date-picker type="daterange" placeholder="选择日期和时间" style="width: 300px"></Date-picker> | Range, no dates-->
+            <!--<br>-->
+            <!--<Date-picker type="daterange" split-panels placeholder="选择日期和时间" style="width: 300px"></Date-picker> | Range, no dates, split panels-->
+            <!--<br>-->
+            <!--<Date-picker type="datetimerange" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 300px"></Date-picker> | DateTimeRange, format yyyy-MM-dd HH:mm-->
+        <!--</div>-->
+        <!--<div style="width: 50%; float: right;">-->
+            <!--<TimePicker type="timerange" placeholder="Select time" style="width: 168px"></TimePicker>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</template>-->
+<!--<script>-->
+    <!--export default {-->
+        <!--data(){-->
+            <!--const now = new Date().getTime();-->
+            <!--const oneMonth = 2592e6;-->
+            <!--return {-->
+                <!--dateString: '2018-01-03 20:52:59',-->
+                <!--singleDate: new Date(1978, 4, 10),-->
+                <!--dateRange: [new Date(2010, 4, 1), new Date()],-->
+                <!--minDate: new Date(2010, 4, 1),-->
+                <!--maxDate: new Date(now + oneMonth)-->
+            <!--}-->
+        <!--}-->
+    <!--}-->
+<!--</script>-->
 
 
 <!--<template>-->
@@ -246,3 +246,19 @@
         <!--}-->
     <!--}-->
 <!--</script>-->
+
+<template>
+    <Row>
+        <Col span="12">
+            <DatePicker type="date" show-week-numbers placeholder="Select date" style="width: 200px"></DatePicker>
+        </Col>
+        <Col span="12">
+            <DatePicker type="daterange" show-week-numbers placement="bottom-end" placeholder="Select date" style="width: 200px"></DatePicker>
+        </Col>
+    </Row>
+</template>
+<script>
+    export default {
+
+    }
+</script>
