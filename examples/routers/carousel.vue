@@ -1,21 +1,23 @@
 <template>
     <div>
-        <Carousel v-model="v1" dots="inside" trigger="hover" autoplay loop radius-dot easing="fade">
+        <Carousel v-model="v1" dots="outside" @on-change="hc" :autoplay="false">
             <Carousel-item>
-                <div class="demo-carousel">1</div>
+                <div class="demo-case-img">
+                    <img src="https://file.iviewui.com/dist/84b3cded4163febf9dae090e76129322.png">
+                </div>
             </Carousel-item>
             <Carousel-item>
-                <div class="demo-carousel">2</div>
+                <div class="demo-case-img">
+                    <img src="https://file.iviewui.com/dist/84b3cded4163febf9dae090e76129322.png">
+                </div>
             </Carousel-item>
             <Carousel-item>
-                <div class="demo-carousel">3</div>
-            </Carousel-item>
-            <Carousel-item>
-                <div class="demo-carousel">4</div>
+                <div class="demo-case-img">
+                    <img src="https://file.iviewui.com/dist/84b3cded4163febf9dae090e76129322.png">
+                </div>
             </Carousel-item>
         </Carousel>
-        {{ v1 }}
-        <div @click="v1 = 0">change v1</div>
+        <Button @click="v1 = 2">change</Button>
     </div>
 </template>
 <script>
@@ -23,25 +25,20 @@
         data () {
             return {
                 v1: 0
-            };
+            }
         },
         methods: {
-            push () {
-                this.pushItem.push('test');
-            },
-            slideChange (from, to) {
-                this.log.push(`From ${from} To ${to}`);
+            hc (...args) {
+                console.log(args);
             }
         }
     }
 </script>
-<style>
-    .demo-carousel{
-        height: 200px;
-        line-height: 200px;
-        text-align: center;
-        color: #fff;
-        font-size: 20px;
-        background: #506b9e;
+<style lang="less">
+    .demo-case-img {
+        img{
+            width: 500px;
+        }
     }
 </style>
+

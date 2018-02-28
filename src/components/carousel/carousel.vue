@@ -243,8 +243,8 @@
                     this.updateTrackPos(this.hideTrackPos);
                 }
                 // 获取当前展示图片的索引值
-                let index =  this.showCopyTrack ? this.copyTrackIndex : this.trackIndex;
-                index += offset;
+                const oldIndex = this.showCopyTrack ? this.copyTrackIndex : this.trackIndex;
+                let index = oldIndex + offset;
                 while (index < 0) index += slidesLen;
                 if (((offset > 0 && index === slidesLen) || (offset < 0 && index === slidesLen - 1)) && this.loop) {
                     // 极限值（左滑：当前索引为总图片张数， 右滑：当前索引为总图片张数 - 1）切换轨道
@@ -255,7 +255,9 @@
                     if (!this.loop) index = index % this.slides.length;
                     this.updateTrackIndex(index);
                 }
-                this.$emit('input', index === this.slides.length ? 0 : index);
+                this.currentIndex = index === this.slides.length ? 0 : index;
+                this.$emit('on-change', oldIndex, this.currentIndex);
+                this.$emit('input', this.currentIndex);
             },
             arrowEvent (offset) {
                 this.setAutoplay();
@@ -293,9 +295,6 @@
             },
             autoplaySpeed () {
                 this.setAutoplay();
-            },
-            currentIndex (val, oldVal) {
-                this.$emit('on-change', oldVal, val);
             },
             trackIndex () {
                 this.updateOffset();
