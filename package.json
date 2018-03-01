@@ -47,7 +47,8 @@
     "lodash.throttle": "^4.1.1",
     "popper.js": "^0.6.4",
     "regexp.escape": "^1.0.2",
-    "tinycolor2": "^1.4.1"
+    "tinycolor2": "^1.4.1",
+    "v-click-outside-x": "^2.0.0"
   },
   "peerDependencies": {
     "vue": "^2.5.2"
