@@ -48,6 +48,8 @@
                         :show-week-numbers="showWeekNumbers"
                         :picker-type="type"
 
+                        :time-picker-options="timePickerOptions"
+
                         v-bind="ownPickerProps"
 
                         @on-pick="onPick"
@@ -112,6 +114,10 @@
             multiple: {
                 type: Boolean,
                 default: false
+            },
+            timePickerOptions: {
+                default: () => ({}),
+                type: Object,
             },
             splitPanels: {
                 type: Boolean,
