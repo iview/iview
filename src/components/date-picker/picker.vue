@@ -198,6 +198,7 @@
             publicStringValue(){
                 const {formatDate, publicVModelValue, type} = this;
                 if (type.match(/^time/)) return publicVModelValue;
+                if (this.multiple) return formatDate(publicVModelValue);
                 return Array.isArray(publicVModelValue) ? publicVModelValue.map(formatDate) : formatDate(publicVModelValue);
             },
             opened () {
