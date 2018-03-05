@@ -129,11 +129,15 @@
         //    border-radius: 0;
         //}
     }
-    &-with-prepend .@{inputClass} {
+    &-with-prepend .@{inputClass},
+    &-with-prepend&-small .@{inputClass}
+    {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }
-    &-with-append .@{inputClass} {
+    &-with-append .@{inputClass},
+    &-with-append&-small .@{inputClass}
+    {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
     }
