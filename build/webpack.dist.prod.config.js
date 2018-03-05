@@ -7,6 +7,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 process.env.NODE_ENV = 'production';
 
 module.exports = merge(webpackBaseConfig, {
+    devtool: 'source-map',
     entry: {
         main: './src/index.js'
     },
@@ -32,9 +33,8 @@ module.exports = merge(webpackBaseConfig, {
             'process.env.NODE_ENV': '"production"'
         }),
         new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
+            parallel: true,
+            sourceMap: true,
         }),
         new CompressionPlugin({
             asset: '[path].gz[query]',

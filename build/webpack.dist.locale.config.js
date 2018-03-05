@@ -4,6 +4,7 @@ const entry = require('./locale');
 process.env.NODE_ENV = 'production';
 
 module.exports = {
+    devtool: 'source-map',
     entry,
     module: {
         rules: [
@@ -37,9 +38,8 @@ module.exports = {
             }
         }),
         new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
+            parallel: true,
+            sourceMap: true,
         })
     ]
 };

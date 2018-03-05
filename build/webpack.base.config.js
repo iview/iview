@@ -3,7 +3,7 @@
  */
 const path = require('path');
 const webpack = require('webpack');
-const package = require('../package.json');
+const pkg = require('../package.json');
 
 function resolve (dir) {
     return path.join(__dirname, '..', dir);
@@ -20,44 +20,119 @@ module.exports = {
                 loader: 'vue-loader',
                 options: {
                     loaders: {
-                        css: 'vue-style-loader!css-loader',
-                        less: 'vue-style-loader!css-loader!less-loader'
+                        css: [
+                            'vue-style-loader',
+                            {
+                                loader: 'css-loader',
+                                options: {
+                                    sourceMap: true,
+                                },
+                            },
+                        ],
+                        less: [
+                            'vue-style-loader',
+                            {
+                                loader: 'css-loader',
+                                options: {
+                                    sourceMap: true,
+                                },
+                            },
+                            {
+                                loader: 'less-loader',
+                                options: {
+                                    sourceMap: true,
+                                },
+                            },
+                        ],
                     },
                     postLoaders: {
-                        html: 'babel-loader'
-                    }
+                        html: 'babel-loader?sourceMap'
+                    },
+                    sourceMap: true,
                 }
             },
             {
                 test: /\.js$/,
-                loader: 'babel-loader', exclude: /node_modules/
+                loader: 'babel-loader',
+                options: {
+                    sourceMap: true,
+                },
+                exclude: /node_modules/,
             },
             {
                 test: /\.css$/,
-                use: [
-                    'style-loader',
-                    'css-loader',
-                    'autoprefixer-loader'
+                loaders: [
+                    {
+                        loader: 'style-loader',
+                        options: {
+                            sourceMap: true,
+                        },
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: true,
+                        },
+                    },
+                    {
+                        loader: '\'autoprefixer-loader\'',
+                    },
                 ]
             },
             {
                 test: /\.less$/,
-                use: [
-                    'style-loader',
-                    'css-loader',
-                    'less-loader'
+                loaders: [
+                    {
+                        loader: 'style-loader',
+                        options: {
+                            sourceMap: true,
+                        },
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: true,
+                        },
+                    },
+                    {
+                        loader: 'less-loader',
+                        options: {
+                            sourceMap: true,
+                        },
+                    },
                 ]
             },
             {
                 test: /\.scss$/,
-                use: [
-                    'style-loader',
-                    'css-loader',
-                    'sass-loader?sourceMap'
+                loaders: [
+                    {
+                        loader: 'style-loader',
+                        options: {
+                            sourceMap: true,
+                        },
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: true,
+                        },
+                    },
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            sourceMap: true,
+                        },
+                    },
                 ]
             },
-            { test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/, loader: 'url-loader?limit=8192'},
-            { test: /\.(html|tpl)$/, loader: 'html-loader' }
+            {
+                test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
+                loader: 'url-loader?limit=8192'
+            },
+            {
+                test: /\.(html|tpl)$/,
+                loader: 'html-loader'
+            }
         ]
     },
     resolve: {
@@ -70,7 +145,7 @@ module.exports = {
     plugins: [
         new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.DefinePlugin({
-            'process.env.VERSION': `'${package.version}'`
+            'process.env.VERSION': `'${pkg.version}'`
         }),
     ]
 };
