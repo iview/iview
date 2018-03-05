@@ -68,7 +68,8 @@
             }
         },
         methods: {
-            toggle () {
+            toggle (event) {
+                event.preventDefault();
                 if (this.disabled) {
                     return false;
                 }
