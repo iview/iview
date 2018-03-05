@@ -50,6 +50,7 @@
                     :value="dates"
                     :format="format"
                     :time-disabled="timeDisabled"
+                    v-bind="timePickerOptions"
                     @on-pick="handlePick"
                     @on-pick-click="handlePickClick"
                     @on-pick-clear="handlePickClear"

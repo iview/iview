@@ -32,6 +32,10 @@ export default {
             type: Array,
             default: () => [initTimeDate(), initTimeDate()]
         },
+        timePickerOptions: {
+            default: () => ({}),
+            type: Object,
+        },
         showWeekNumbers: {
             type: Boolean,
             default: false

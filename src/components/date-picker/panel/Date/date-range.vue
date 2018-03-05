@@ -91,6 +91,7 @@
                     :value="dates"
                     :format="format"
                     :time-disabled="timeDisabled"
+                    v-bind="timePickerOptions"
                     @on-pick="handleRangePick"
                     @on-pick-click="handlePickClick"
                     @on-pick-clear="handlePickClear"
