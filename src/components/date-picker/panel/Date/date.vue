@@ -92,7 +92,11 @@
         mixins: [ Mixin, Locale, DateMixin ],
         components: { Icon, DateTable, YearTable, MonthTable, TimePicker, Confirm, datePanelLabel },
         props: {
-            // in the mixin
+            // more props in the mixin
+            multiple: {
+                type: Boolean,
+                default: false
+            }
         },
         data () {
             const {selectionMode, value} = this;
@@ -141,7 +145,7 @@
         watch: {
             value (newVal) {
                 this.dates = newVal;
-                this.panelDate = this.startDate || this.dates[0] || new Date();
+                this.panelDate = this.startDate || (this.multiple ? this.dates[this.dates.length - 1] : this.dates[0]) || new Date();
             },
             currentView (currentView) {
                 this.$emit('on-selection-mode-change', currentView);

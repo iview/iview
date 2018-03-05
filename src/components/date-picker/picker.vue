@@ -47,6 +47,7 @@
                         :split-panels="splitPanels"
                         :show-week-numbers="showWeekNumbers"
                         :picker-type="type"
+                        :multiple="multiple"
 
                         :time-picker-options="timePickerOptions"
 
