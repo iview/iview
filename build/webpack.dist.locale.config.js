@@ -11,6 +11,9 @@ module.exports = {
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
+                options: {
+                    sourceMap: true,
+                },
                 exclude: /node_modules/
             }
         ]
