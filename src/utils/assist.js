@@ -321,5 +321,3 @@ export function setMatchMedia () {
         window.matchMedia = window.matchMedia || matchMediaPolyfill;
     }
 }
-
-export const kebabJoin = (...args) => args.map(arg => `${arg}`).join('-');
