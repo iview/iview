@@ -22,6 +22,7 @@
                 autocomplete="off"
                 spellcheck="false"
                 :autofocus="autofocus"
+                :canDelete="canDelete"
                 @focus="focus"
                 @blur="blur"
                 @keydown.stop="keyDown"
@@ -94,6 +95,10 @@
                 default: false
             },
             autofocus: {
+                type: Boolean,
+                default: false
+            },
+            canDelete: {
                 type: Boolean,
                 default: false
             },
@@ -257,6 +262,12 @@
             change (event) {
                 let val = event.target.value.trim();
 
+                // delete键删除至null，不留默认数字
+                if (this.canDelete && val === '') {
+                    this.setValue(null);
+                    return;
+                }
+                
                 if (event.type == 'input' && val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
 
                 const {min, max} = this;
