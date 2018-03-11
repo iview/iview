@@ -46,7 +46,7 @@ module.exports = {
                         ],
                     },
                     postLoaders: {
-                        html: 'babel-loader?sourceMap'
+                        html: 'babel-loader',
                     },
                     sourceMap: true,
                 }
@@ -54,10 +54,12 @@ module.exports = {
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
-                options: {
-                    sourceMap: true,
-                },
                 exclude: /node_modules/,
+            },
+            {
+                test: /\.js$/,
+                loader: 'source-map-loader',
+                enforce: 'pre',
             },
             {
                 test: /\.css$/,

@@ -41,12 +41,15 @@
   },
   "dependencies": {
     "async-validator": "^1.8.2",
+    "caboodle-x": "^1.4.0",
     "deepmerge": "^2.1.0",
     "element-resize-detector": "^1.1.14",
     "js-calendar": "^1.2.3",
+    "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
     "popper.js": "^0.6.4",
-    "tinycolor2": "^1.4.1"
+    "tinycolor2": "^1.4.1",
+    "v-click-outside-x": "^2.4.0"
   },
   "peerDependencies": {
     "vue": "^2.5.2"
@@ -97,7 +100,9 @@
     "mocha": "^5.0.4",
     "sinon": "^4.4.2",
     "sinon-chai": "^3.0.0",
+    "source-map-loader": "^0.2.3",
     "style-loader": "^0.20.2",
+    "uglifyjs-webpack-plugin": "^1.2.3",
     "url-loader": "^1.0.1",
     "vue": "^2.5.13",
     "vue-hot-reload-api": "^2.3.0",
@@ -107,6 +112,7 @@
     "vue-style-loader": "^4.0.2",
     "vue-template-compiler": "^2.5.13",
     "webpack": "^3.11.0",
+    "webpack-bundle-analyzer": "^2.11.1",
     "webpack-dev-server": "^2.11.1",
     "webpack-merge": "^3.0.0"
   },

@@ -1,0 +1,12 @@
+export const ALT = 'Alt';
+export const ARROWLEFT = 'ArrowLeft';
+export const ARROWRIGHT = 'ArrowRight';
+export const BACKSPACE = 'Backspace';
+export const CAPSLOCK = 'CapsLock';
+export const CONTROL = 'Control';
+export const DELETE = 'Delete';
+export const ENTER = 'Enter';
+export const ESCAPE = 'Escape';
+export const META = 'Meta';
+export const SHIFT = 'Shift';
+export const TAB = 'Tab';

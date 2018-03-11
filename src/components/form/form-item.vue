@@ -12,6 +12,8 @@
 <script>
     import AsyncValidator from 'async-validator';
     import Emitter from '../../mixins/emitter';
+    import FORMITEM_NAME from './formItemName';
+    import FORM_NAME from './formName';
 
     const prefixCls = 'ivu-form-item';
 
@@ -39,7 +41,7 @@
     }
 
     export default {
-        name: 'FormItem',
+        name: FORMITEM_NAME,
         mixins: [ Emitter ],
         props: {
             label: {
@@ -105,7 +107,7 @@
             },
             form() {
                 let parent = this.$parent;
-                while (parent.$options.name !== 'iForm') {
+                while (parent.$options.name !== FORM_NAME) {
                     parent = parent.$parent;
                 }
                 return parent;
@@ -222,7 +224,7 @@
         },
         mounted () {
             if (this.prop) {
-                this.dispatch('iForm', 'on-form-item-add', this);
+                this.dispatch(FORM_NAME, 'on-form-item-add', this);
 
                 Object.defineProperty(this, 'initialValue', {
                     value: this.fieldValue
@@ -243,7 +245,7 @@
             }
         },
         beforeDestroy () {
-            this.dispatch('iForm', 'on-form-item-remove', this);
+            this.dispatch(FORM_NAME, 'on-form-item-remove', this);
         }
     };
 </script>

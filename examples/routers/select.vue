@@ -491,6 +491,19 @@
                 </i-select>
             </i-col>
         </row>
+        <br>
+        <div>
+            {{ model15 }}
+            <i-select
+                v-model="model15"
+                filterable
+                remote
+                :remote-method="remoteMethod3"
+                :loading="loading3">
+                <Option v-for="(option, index) in options3" :value="option.value" :key="index">{{option.label}}</Option>
+            </i-select>
+            <Button @click="model15 = ''">clear</Button>
+        </div>
     </div>
 </template>
 
@@ -622,6 +635,9 @@
                     'Wisconsin',
                     'Wyoming',
                 ],
+                model15: '',
+                loading3: false,
+                options3: [],
             };
         },
 
@@ -662,6 +678,24 @@
                     }, 200);
                 } else {
                     this.options2 = [];
+                }
+            },
+            remoteMethod3 (query) {
+                if (query !== '') {
+                    this.loading3 = true;
+
+                    setTimeout(() => {
+                        this.loading3 = false;
+                        const list = this.list.map(item => {
+                            return {
+                                value: item,
+                                label: item
+                            };
+                        });
+                        this.options3 = list.filter(item => item.label.toLowerCase().indexOf(query.toLowerCase()) > -1);
+                    }, 200);
+                } else {
+                    this.options3 = [];
                 }
             },
         },
