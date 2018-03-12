@@ -55,6 +55,7 @@
             :page-size="currentPageSize"
             :page-size-opts="pageSizeOpts"
             :placement="placement"
+            :transfer="transfer"
             :show-elevator="showElevator"
             :_current.once="currentPage"
             :current="currentPage"
@@ -100,6 +101,10 @@
                     return oneOf(value, ['top', 'bottom']);
                 },
                 default: 'bottom'
+            },
+            transfer: {
+                type: Boolean,
+                default: false
             },
             size: {
                 validator (value) {
