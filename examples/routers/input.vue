@@ -24,6 +24,22 @@
             </Select>
             <Button slot="append" icon="ios-search"></Button>
         </Input>
+        <br>
+        <Input v-model="value13" size="large">
+        <Select v-model="select3" slot="prepend" style="width: 80px">
+            <Option value="day">Day</Option>
+            <Option value="month">Month</Option>
+        </Select>
+        <Button slot="append" icon="ios-search"></Button>
+        </Input>
+        <br>
+        <Input v-model="value13" size="default">
+        <Select v-model="select3" slot="prepend" style="width: 80px">
+            <Option value="day">Day</Option>
+            <Option value="month">Month</Option>
+        </Select>
+        <Button slot="append" icon="ios-search"></Button>
+        </Input>
     </div>
 </template>
 <script>
