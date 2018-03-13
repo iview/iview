@@ -4,11 +4,12 @@
 <script>
     // https://github.com/ElemeFE/element/blob/dev/packages/form/src/form.vue
     import { oneOf } from '../../utils/assist';
+    import FORM_NAME from './formName';
 
     const prefixCls = 'ivu-form';
 
     export default {
-        name: 'iForm',
+        name: FORM_NAME,
         props: {
             model: {
                 type: Object

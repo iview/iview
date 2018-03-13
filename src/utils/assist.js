@@ -1,5 +1,7 @@
 import Vue from 'vue';
+
 const isServer = Vue.prototype.$isServer;
+
 // 判断参数是否是其中之一
 export function oneOf (value, validList) {
     for (let i = 0; i < validList.length; i++) {
@@ -321,3 +323,5 @@ export function setMatchMedia () {
         window.matchMedia = window.matchMedia || matchMediaPolyfill;
     }
 }
+
+export const composeIViewMessage = message => `[iview] ${message}`;

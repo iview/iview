@@ -11,6 +11,7 @@
     font-size: @font-size-base;
     //position: relative;
     line-height: normal;
+    outline: 0;
 
     &-selection {
         display: block;
@@ -44,6 +45,12 @@
 
     &-arrow {
         .inner-arrow();
+    }
+
+    &-focused{
+        .@{select-prefix-cls}-selection{
+            .active();
+        }
     }
 
     &-visible{

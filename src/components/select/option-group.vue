@@ -1,48 +1,93 @@
 <template>
-    <li :class="[prefixCls + '-wrap']" v-show="!hidden">
-        <div :class="[prefixCls + '-title']">{{ label }}</div>
+    <li
+        v-show="!hidden"
+        :class="wrapperClasses"
+    >
+        <div :class="titleClasses">{{label}}</div>
         <ul>
-            <li :class="[prefixCls]" ref="options"><slot></slot></li>
+            <li
+                :class="optionClasses"
+                ref="options"
+            >
+                <slot></slot>
+            </li>
         </ul>
     </li>
 </template>
+
 <script>
-    const prefixCls = 'ivu-select-group';
+    import OPTIONGROUP_NAME from './optionGroupName';
+    import PREFIXCLS from './prefixCls';
+    import {
+        EMPTY_STRING,
+        GROUP,
+        ITEM,
+        NONE,
+        TITLE,
+        WRAP,
+    } from '@/utils/constants';
+    import kebabJoin from 'caboodle-x/kebabJoin';
+    import {
+        EVENT_ON_QUERY_CHANGE,
+    } from '@/utils/eventNames';
+
+    const prefixCls = kebabJoin(PREFIXCLS, GROUP);
 
     export default {
-        name: 'OptionGroup',
+        name: OPTIONGROUP_NAME,
+
         props: {
             label: {
+                default: EMPTY_STRING,
                 type: String,
-                default: ''
-            }
+            },
         },
-        data () {
+
+        data(){
             return {
-                prefixCls: prefixCls,
-                hidden: false    // for search
+                hidden: false, // for search
             };
         },
+
+        computed: {
+            optionClasses(){
+                return [
+                    prefixCls,
+                ];
+            },
+
+            optionSelector(){
+                return `.${kebabJoin(PREFIXCLS, ITEM)}`;
+            },
+
+            titleClasses(){
+                return [
+                    kebabJoin(prefixCls, TITLE),
+                ];
+            },
+
+            wrapperClasses(){
+                return [
+                    kebabJoin(prefixCls, WRAP),
+                ];
+            },
+        },
+
+        mounted(){
+            this.$on(EVENT_ON_QUERY_CHANGE, () => {
+                this.queryChange();
+            });
+        },
+
         methods: {
-            queryChange () {
+            queryChange(){
                 this.$nextTick(() => {
-                    const options = this.$refs.options.querySelectorAll('.ivu-select-item');
-                    let hasVisibleOption = false;
-                    for (let i = 0; i < options.length; i++) {
-                        if (options[i].style.display !== 'none') {
-                            hasVisibleOption = true;
-                            break;
-                        }
-                    }
+                    const options = [...this.$refs.options.querySelectorAll(this.optionSelector)];
+                    const hasVisibleOption = options.find(option => option.style.display !== NONE);
+
                     this.hidden = !hasVisibleOption;
                 });
-            }
+            },
         },
-        mounted () {
-            this.$on('on-query-change', () => {
-                this.queryChange();
-                return true;
-            });
-        }
     };
 </script>

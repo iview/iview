@@ -1,88 +1,175 @@
 <template>
-    <div class="ivu-select-dropdown" :class="className" :style="styles"><slot></slot></div>
+    <div
+        :class="dropdownClasses"
+        :style="styles"
+    >
+        <slot></slot>
+    </div>
 </template>
+
 <script>
     import Vue from 'vue';
+    import Popper from 'popper.js';
+    import Emitter from '@/mixins/emitter';
+    import SELECT_NAME from './selectName';
+    import DROPDOWN_NAME from './dropdownName';
+    import PREFIXCLS from './prefixCls';
+    import {getPlacement} from './utils';
+    import {
+        BODY,
+        BOTTOM,
+        CENTER,
+        DROPDOWN,
+        START,
+        WIDTH,
+    } from '@/utils/constants';
+    import {getStyle} from '@/utils/assist';
+    import defaultToOneOf from 'caboodle-x/defaultToOneOf';
+    import defineValidatorProperties from 'caboodle-x/defineValidatorProperties';
+    import isObjectType from 'caboodle-x/isObjectType';
+    import isStringType from 'caboodle-x/isStringType';
+    import kebabJoin from 'caboodle-x/kebabJoin';
+    import parseDecimal from 'caboodle-x/parseDecimal';
+    import {
+        EVENT_ON_DESTROY_POPPER,
+        EVENT_ON_DESTROYED_POPPER,
+        EVENT_ON_UPDATE_POPPER,
+        EVENT_ON_UPDATED_POPPER,
+    } from '@/utils/eventNames';
+    import {
+        PLACEMENT_LIST,
+    } from '@/utils/enums';
+
     const isServer = Vue.prototype.$isServer;
-    import { getStyle } from '../../utils/assist';
-    const Popper = isServer ? function() {} : require('popper.js');  // eslint-disable-line
+    const prefixCls = kebabJoin(PREFIXCLS, DROPDOWN);
 
     export default {
-        name: 'Drop',
+        name: DROPDOWN_NAME,
+
+        mixins: [Emitter],
+
         props: {
-            placement: {
-                type: String,
-                default: 'bottom-start'
-            },
             className: {
-                type: String
-            }
+                default: undefined,
+                type: String,
+                validate: isStringType,
+            },
+            placement: {
+                default: undefined,
+                type: String,
+                validate: isStringType,
+            },
         },
-        data () {
-            return {
-                popper: null,
-                width: ''
-            };
+
+        data(){
+            return defineValidatorProperties({}, {
+                popper: {
+                    validator: isObjectType,
+                    value: null,
+                },
+                width: {
+                    validator: Number.isSafeInteger,
+                    value: 0,
+                },
+            });
         },
+
         computed: {
-            styles () {
-                let style = {};
-                if (this.width) style.width = `${this.width}px`;
-                return style;
-            }
+            dropdownClasses(){
+                return [
+                    prefixCls,
+                    {
+                        [this.className]: !!this.className && this.className.trim(),
+                    },
+                ];
+            },
+
+            styles(){
+                if (this.width) {
+                    return {
+                        width: `${this.width}px`,
+                    };
+                }
+
+                return {};
+            },
         },
+
+        created(){
+            this.$on(EVENT_ON_UPDATE_POPPER, this.update);
+            this.$on(EVENT_ON_DESTROY_POPPER, this.destroy);
+        },
+
+        beforeDestroy(){
+            this.destroyPopper();
+        },
+
         methods: {
-            update () {
-                if (isServer) return;
-                if (this.popper) {
-                    this.$nextTick(() => {
-                        this.popper.update();
-                    });
+            destroy(){
+                if (isServer) {
+                    this.onDestroyed();
+                } else if (this.popper) {
+                    this.resetTransformOrigin(this.popper);
+                    this.destroyPopper();
+                }
+            },
+
+            destroyPopper(){
+                this.onDestroyed(this.popper && this.popper.destroy());
+                this.popper = null;
+            },
+
+            onDestroyed(state){
+                this.dispatch(SELECT_NAME, EVENT_ON_DESTROYED_POPPER, !!state);
+            },
+
+            onUpdated(state){
+                this.dispatch(SELECT_NAME, EVENT_ON_UPDATED_POPPER, !!state);
+            },
+
+            resetTransformOrigin({_popper}){
+                const placement = _popper.getAttribute('x-placement').split('-').shift();
+
+                _popper.style.transformOrigin = `${CENTER} ${getPlacement(placement)}`;
+            },
+
+            update(){
+                if (isServer) {
+                    this.onUpdated();
                 } else {
-                    this.$nextTick(() => {
+                    if (this.popper) {
+                        this.popper.update();
+                        this.onUpdated(true);
+                    } else {
+                        const placement = defaultToOneOf(this.placement, PLACEMENT_LIST, BOTTOM);
+
                         this.popper = new Popper(this.$parent.$refs.reference, this.$el, {
-                            gpuAcceleration: false,
-                            placement: this.placement,
+                            boundariesElement: BODY,
                             boundariesPadding: 0,
                             forceAbsolute: true,
-                            boundariesElement: 'body'
+                            gpuAcceleration: false,
+                            onCreate(data){
+                                return this.resetTransformOrigin(data);
+                            },
+                            placement: kebabJoin(placement, START),
                         });
-                        this.popper.onCreate(popper => {
-                            this.resetTransformOrigin(popper);
-                        });
-                    });
-                }
-                // set a height for parent is Modal and Select's width is 100%
-                if (this.$parent.$options.name === 'iSelect') {
-                    this.width = parseInt(getStyle(this.$parent.$el, 'width'));
+
+                        this.onUpdated(true);
+                    }
+
+                    // set a height for parent is Modal and Select's width is 100%
+                    const {
+                        $el,
+                        $options,
+                    } = this.$parent;
+
+                    if ($options.name === SELECT_NAME) {
+                        const width = getStyle($el, WIDTH);
+
+                        this.width = parseDecimal(width);
+                    }
                 }
             },
-            destroy () {
-                if (this.popper) {
-                    this.resetTransformOrigin(this.popper);
-                    setTimeout(() => {
-                        if (this.popper) {
-                            this.popper.destroy();
-                            this.popper = null;
-                        }
-                    }, 300);
-                }
-            },
-            resetTransformOrigin(popper) {
-                let placementMap = {top: 'bottom', bottom: 'top'};
-                let placement = popper._popper.getAttribute('x-placement').split('-')[0];
-                let origin = placementMap[placement];
-                popper._popper.style.transformOrigin = `center ${ origin }`;
-            }
         },
-        created () {
-            this.$on('on-update-popper', this.update);
-            this.$on('on-destroy-popper', this.destroy);
-        },
-        beforeDestroy () {
-            if (this.popper) {
-                this.popper.destroy();
-            }
-        }
     };
 </script>

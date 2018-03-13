@@ -2,7 +2,11 @@ const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const webpackBaseConfig = require('./webpack.base.config.js');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const {
+    BundleAnalyzerPlugin,
+} = require('webpack-bundle-analyzer');
 
 process.env.NODE_ENV = 'production';
 
@@ -32,7 +36,7 @@ module.exports = merge(webpackBaseConfig, {
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': '"production"'
         }),
-        new webpack.optimize.UglifyJsPlugin({
+        new UglifyJsPlugin({
             parallel: true,
             sourceMap: true,
         }),
@@ -42,6 +46,7 @@ module.exports = merge(webpackBaseConfig, {
             test: /\.(js|css)$/,
             threshold: 10240,
             minRatio: 0.8
-        })
+        }),
+        // new BundleAnalyzerPlugin(),
     ]
 });

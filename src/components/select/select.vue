@@ -1,740 +1,589 @@
 <template>
-    <div :class="classes" v-clickoutside="handleClose">
+    <div
+        v-click-outside.capture="onClickOutside"
+        :class="wrapperClasses"
+        @keydown.esc="onEscape"
+        @keydown.down="onDown"
+        @keydown.up="onUp"
+        @keydown.enter="onEnter"
+    >
         <div
-            :class="selectionCls"
             ref="reference"
-            @click="toggleMenu">
+            :class="selectionClasses"
+            :tabindex="selectionTabindex"
+            @click="toggleMenu"
+            @keydown.up="selectionOnUpDown"
+            @keydown.down="selectionOnUpDown"
+            @keydown.tab="selectionOnTab"
+            @keydown.delete="selectionOnDelete"
+            @blur="selectionSetFocus"
+            @focus="selectionSetFocus"
+        >
             <slot name="input">
-                <input type="hidden" :name="name" :value="model">
-                <div class="ivu-tag ivu-tag-checked" v-for="(item, index) in selectedMultiple">
-                    <span class="ivu-tag-text">{{ item.label }}</span>
-                    <Icon type="ios-close-empty" @click.native.stop="removeTag(index)"></Icon>
-                </div>
-                <span :class="[prefixCls + '-placeholder']" v-show="showPlaceholder && !filterable">{{ localePlaceholder }}</span>
-                <span :class="[prefixCls + '-selected-value']" v-show="!showPlaceholder && !multiple && !filterable">{{ selectedSingle }}</span>
                 <input
-                    :id="elementId"
-                    type="text"
+                    :name="name"
+                    :value="model"
+                    type="hidden"
+                >
+                <div
+                    v-for="(item, index) in selectedMultiple"
+                    :key="JSON.stringify(item)"
+                    class="ivu-tag ivu-tag-checked"
+                >
+                    <span class="ivu-tag-text">{{item.label}}</span>
+                    <Icon
+                        type="ios-close-empty"
+                        @click.native.stop="removeTag(index)"
+                    ></Icon>
+                </div>
+                <span
+                    v-show="isPlaceholderVisible"
+                    :class="placeholderClasses"
+                >{{localePlaceholder}}</span>
+                <span
+                    v-show="isSelectedValueVisible"
+                    :class="selectedValueClasses"
+                >{{selectedSingle}}</span>
+                <input
                     v-if="filterable"
+                    ref="input"
                     v-model="query"
-                    :disabled="disabled"
-                    :class="[prefixCls + '-input']"
-                    :placeholder="showPlaceholder ? localePlaceholder : ''"
-                    :style="inputStyle"
                     autocomplete="off"
                     spellcheck="false"
-                    @blur="handleBlur"
-                    @keydown="resetInputState"
-                    @keydown.delete="handleInputDelete"
-                    ref="input">
-                <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSingleSelect"></Icon>
-                <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']" v-if="!remote"></Icon>
+                    :id="elementId"
+                    :disabled="disabled"
+                    :class="inputClasses"
+                    :placeholder="placeholderText"
+                    :style="inputStyle"
+                    @blur="inputOnBlur"
+                    @click="getPosition"
+                    @focus="inputOnFocus"
+                    @keyup="resetInputState"
+                    @keydown.delete.stop="inputOnDelete"
+                    @keydown.down="selectionOnUpDown"
+                    @keydown.up="selectionOnUpDown"
+                >
+                <Icon
+                    v-show="isCloseIconVisible"
+                    type="ios-close"
+                    :class="arrowIconClasses"
+                    @click.native.stop="clearSingleSelect"
+                ></Icon>
+                <Icon
+                    v-if="!remote"
+                    type="arrow-down-b"
+                    ref="arrow"
+                    :class="arrowIconClasses"
+                ></Icon>
             </slot>
         </div>
         <transition :name="transitionName">
             <Drop
-                :class="dropdownCls"
-                v-show="dropVisible"
-                :placement="placement"
+                v-show="visible"
+                v-transfer-dom
                 ref="dropdown"
+                :class="dropdownClasses"
+                :placement="placement"
                 :data-transfer="transfer"
-                v-transfer-dom>
-                <ul v-show="notFoundShow" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
-                <ul v-show="(!notFound && !remote) || (remote && !loading && !notFound)" :class="[prefixCls + '-dropdown-list']"><slot></slot></ul>
-                <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
+            >
+                <ul
+                    v-show="isNotFoundVisible"
+                    :class="notFoundClasses"
+                >
+                    <li>{{localeNotFoundText}}</li>
+                </ul>
+                <ul
+                    v-show="isDropdownListVisible"
+                    :class="dropdownListClasses"
+                >
+                    <slot></slot>
+                </ul>
+                <ul
+                    v-show="isLoadingVisible"
+                    :class="loadingClasses"
+                >
+                    {{localeLoadingText}}
+                </ul>
             </Drop>
         </transition>
     </div>
 </template>
+
 <script>
-    import Icon from '../icon';
+    import SELECT_NAME from './selectName';
+    import DROPDOWN_NAME from './dropdownName';
+    import FORMITEM_NAME from '@/components/form/formItemName';
+    import OPTION_NAME from './optionName';
+    import OPTIONGROUP_NAME from './optionGroupName';
+    import PREFIXCLS from './prefixCls';
+    import Icon from '@/components/icon';
     import Drop from './dropdown.vue';
-    import clickoutside from '../../directives/clickoutside';
-    import TransferDom from '../../directives/transfer-dom';
-    import { oneOf, findComponentDownward } from '../../utils/assist';
-    import Emitter from '../../mixins/emitter';
-    import Locale from '../../mixins/locale';
-    import { debounce } from './utils';
+    import debounce from 'lodash.debounce';
+    import vClickOutside from 'v-click-outside-x/index';
+    import TransferDom from '@/directives/transfer-dom';
+    import {
+        composeIViewMessage,
+        findComponentDownward,
+        getStyle,
+    } from '@/utils/assist';
+    import Emitter from '@/mixins/emitter';
+    import Locale from '@/mixins/locale';
+    import {
+        AUTO,
+        ARROW,
+        BOTTOM,
+        CLEAR,
+        COMPLETE,
+        DISABLED,
+        DOWN,
+        DROPDOWN,
+        EMPTY_STRING,
+        FOCUS,
+        FOCUSED,
+        FOUND,
+        INDEX,
+        INPUT,
+        IVU,
+        LAST,
+        LIST,
+        LOADING,
+        PLACEHOLDER,
+        SLIDE,
+        MULTIPLE,
+        NEXT,
+        NOT,
+        PREV,
+        SELECTED,
+        SELECTION,
+        SHOW,
+        SINGLE,
+        TRANSFER,
+        UP,
+        VALUE,
+        VISIBLE,
+    } from '@/utils/constants';
+    /*
+    import {
+        ARROWUP,
+        ARROWDOWN,
+    } from '@/utils/kbEventKeys';
+    */
+    import {
+        // IGNORE_KEY_LIST,
+        PLACEMENT_LIST,
+        SMALL_LARGE_DEFAULT_LIST,
+        STRING_NUMBER_ARRAY_LIST,
+    } from '@/utils/enums';
+    import {
+        EVENT_APPEND,
+        EVENT_ON_CHANGE,
+        EVENT_ON_DESTROY_POPPER,
+        EVENT_ON_DESTROYED_POPPER,
+        EVENT_ON_FORM_CHANGE,
+        EVENT_ON_QUERY_CHANGE,
+        EVENT_ON_SELECT_CLOSE,
+        EVENT_ON_SELECT_SELECTED,
+        EVENT_ON_UPDATE_POPPER,
+        EVENT_ON_UPDATED_POPPER,
+        EVENT_REMOVE,
+    } from '@/utils/eventNames';
+    import defineValidatorProperties from 'caboodle-x/defineValidatorProperties';
+    import isBooleanType from 'caboodle-x/isBooleanType';
+    import isFunctionType from 'caboodle-x/isFunctionType';
+    import isNil from 'caboodle-x/isNil';
+    import isNull from 'caboodle-x/isNull';
+    import isOneOf from 'caboodle-x/isOneOf';
+    import isPopulatedString from 'caboodle-x/isPopulatedString';
+    import isSearchIndex from 'caboodle-x/isSearchIndex';
+    import isStringType from 'caboodle-x/isStringType';
+    import isUniq from 'caboodle-x/isUniq';
+    import isValidHtmlId from 'caboodle-x/isValidHtmlId';
+    import isWholeNumber from 'caboodle-x/isWholeNumber';
+    import kebabJoin from 'caboodle-x/kebabJoin';
+    import noop from 'caboodle-x/noop';
+    import parseDecimal from 'caboodle-x/parseDecimal';
+    import {
+        isUniqOptions,
+        isValidValue,
+    } from './utils';
 
-    const prefixCls = 'ivu-select';
+    const INPUT_LENGTH = 20;
+    const prefixCls = PREFIXCLS;
+    const ISFOCUS = 'isFocus';
 
-    export default {
-        name: 'iSelect',
-        mixins: [ Emitter, Locale ],
-        components: { Icon, Drop },
-        directives: { clickoutside, TransferDom },
+    const component = {
+        name: SELECT_NAME,
+
+        components: {Icon, Drop},
+
+        directives: {clickOutside: vClickOutside.directive, TransferDom},
+
+        mixins: [Emitter, Locale],
+
         props: {
-            value: {
-                type: [String, Number, Array],
-                default: ''
-            },
-            // 使用时，也得设置 value 才行
-            label: {
-                type: [String, Number, Array],
-                default: ''
-            },
-            multiple: {
-                type: Boolean,
-                default: false
-            },
-            disabled: {
-                type: Boolean,
-                default: false
-            },
-            clearable: {
-                type: Boolean,
-                default: false
-            },
-            placeholder: {
-                type: String
-            },
-            filterable: {
-                type: Boolean,
-                default: false
-            },
-            filterMethod: {
-                type: Function
-            },
-            remote: {
-                type: Boolean,
-                default: false
-            },
-            remoteMethod: {
-                type: Function
-            },
-            loading: {
-                type: Boolean,
-                default: false
-            },
-            loadingText: {
-                type: String
-            },
-            size: {
-                validator (value) {
-                    return oneOf(value, ['small', 'large', 'default']);
-                }
-            },
-            labelInValue: {
-                type: Boolean,
-                default: false
-            },
-            notFoundText: {
-                type: String
-            },
-            placement: {
-                validator (value) {
-                    return oneOf(value, ['top', 'bottom']);
-                },
-                default: 'bottom'
-            },
-            transfer: {
-                type: Boolean,
-                default: false
-            },
             // Use for AutoComplete
             autoComplete: {
+                default: false,
                 type: Boolean,
-                default: false
+                validator: isBooleanType,
             },
-            name: {
-                type: String
+            clearable: {
+                default: false,
+                type: Boolean,
+                validator: isBooleanType,
+            },
+            disabled: {
+                default: false,
+                type: Boolean,
+                validator: isBooleanType,
             },
             elementId: {
-                type: String
-            }
+                default: undefined,
+                type: String,
+                validator: isValidHtmlId,
+            },
+            filterable: {
+                default: false,
+                type: Boolean,
+                validator: isBooleanType,
+            },
+            filterMethod: {
+                default: undefined,
+                type: Function,
+                validator: isFunctionType,
+            },
+            // 使用时，也得设置 value 才行
+            // Use, you have to set the value of the line
+            label: {
+                default: undefined,
+                type: STRING_NUMBER_ARRAY_LIST,
+                validator: isValidValue,
+            },
+            loading: {
+                default: false,
+                type: Boolean,
+                validator: isBooleanType,
+            },
+            loadingText: {
+                default: undefined,
+                type: String,
+                validator: isStringType,
+            },
+            multiple: {
+                default: false,
+                type: Boolean,
+                validator: isBooleanType,
+            },
+            name: {
+                default: undefined,
+                type: String,
+                validator: isPopulatedString,
+            },
+            notFoundText: {
+                default: undefined,
+                type: String,
+                validator: isStringType,
+            },
+            placeholder: {
+                default: undefined,
+                type: String,
+                validator: isStringType,
+            },
+            placement: {
+                default: BOTTOM,
+                type: String,
+                validator(value){
+                    return isOneOf(value, PLACEMENT_LIST);
+                },
+            },
+            remoteMethod: {
+                default: undefined,
+                type: Function,
+                validator: isFunctionType,
+            },
+            size: {
+                default: undefined,
+                type: String,
+                validator(value){
+                    return isOneOf(value, SMALL_LARGE_DEFAULT_LIST);
+                },
+            },
+            transfer: {
+                default: false,
+                type: Boolean,
+                validator: isBooleanType,
+            },
+            value: {
+                default: undefined,
+                type: STRING_NUMBER_ARRAY_LIST,
+                validator: isValidValue,
+            },
         },
-        data () {
-            return {
-                prefixCls: prefixCls,
-                visible: false,
-                options: [],
-                optionInstances: [],
-                selectedSingle: '',    // label
-                selectedMultiple: [],
-                focusIndex: 0,
-                query: '',
-                lastQuery: '',
-                selectToChangeQuery: false,    // when select an option, set this first and set query, because query is watching, it will emit event
-                inputLength: 20,
-                notFound: false,
-                slotChangeDuration: false,    // if slot change duration and in multiple, set true and after slot change, set false
-                model: this.value,
-                currentLabel: this.label
-            };
+
+        data(){
+            const remote = !!this.remoteMethod;
+
+            return defineValidatorProperties({}, {
+                currentLabel: {
+                    nilable: isNil(component.props.label.default),
+                    validator: isValidValue,
+                    value: this.label,
+                },
+                focused: {
+                    validator: isBooleanType,
+                    value: false,
+                },
+                focusIndex: {
+                    validator: isWholeNumber,
+                    value: 0,
+                },
+                inputLength: {
+                    validator: isWholeNumber,
+                    value: INPUT_LENGTH,
+                },
+                model: {
+                    nilable: isNil(component.props.value.default),
+                    validator: isValidValue,
+                    value: this.value,
+                },
+                notFound: {
+                    validator: isBooleanType,
+                    value: false,
+                },
+                options: {
+                    validator: Array.isArray,
+                    value: [],
+                },
+                optionInstances: {
+                    validator: Array.isArray,
+                    value: [],
+                },
+                query: {
+                    validator: isStringType,
+                    value: EMPTY_STRING,
+                },
+                remote: {
+                    validator: isBooleanType,
+                    value: remote,
+                },
+                remoteMethodDebounced: {
+                    validator: isFunctionType,
+                    value: remote ? debounce(this.remoteMethod, 500) : noop,
+                },
+                selectToChangeQuery: {
+                    validator: isBooleanType,
+                    value: false,
+                },
+                selectedSingle: {
+                    validator: isStringType,
+                    value: EMPTY_STRING,
+                },
+                selectionStart: {
+                    validator: isSearchIndex,
+                    value: -1,
+                },
+                selectedMultiple: {
+                    validator: Array.isArray,
+                    value: [],
+                },
+                slotChangeDuration: {
+                    validator: isBooleanType,
+                    value: false,
+                },
+                visible: {
+                    validator: isBooleanType,
+                    value: false,
+                },
+            });
         },
+
         computed: {
-            classes () {
+            arrowIconClasses(){
                 return [
-                    `${prefixCls}`,
-                    {
-                        [`${prefixCls}-visible`]: this.visible,
-                        [`${prefixCls}-disabled`]: this.disabled,
-                        [`${prefixCls}-multiple`]: this.multiple,
-                        [`${prefixCls}-single`]: !this.multiple,
-                        [`${prefixCls}-show-clear`]: this.showCloseIcon,
-                        [`${prefixCls}-${this.size}`]: !!this.size
-                    }
+                    kebabJoin(prefixCls, ARROW),
                 ];
             },
-            dropdownCls () {
-                return {
-                    [prefixCls + '-dropdown-transfer']: this.transfer,
-                    [prefixCls + '-multiple']: this.multiple && this.transfer,
-                    ['ivu-auto-complete']: this.autoComplete,
-                };
-            },
-            selectionCls () {
-                return {
-                    [`${prefixCls}-selection`]: !this.autoComplete
-                };
-            },
-            showPlaceholder () {
-                let status = false;
 
-                if ((typeof this.model) === 'string') {
-                    if (this.model === '') {
-                        status = true;
-                    }
-                } else if (Array.isArray(this.model)) {
-                    if (!this.model.length) {
-                        status = true;
-                    }
-                } else if( this.model === null){
-                    status = true;
+            dropdownClasses(){
+                return {
+                    [kebabJoin(IVU, AUTO, COMPLETE)]: this.autoComplete,
+                    [kebabJoin(prefixCls, DROPDOWN, TRANSFER)]: this.transfer,
+                    [kebabJoin(prefixCls, MULTIPLE)]: this.multiple && this.transfer,
+                };
+            },
+
+            dropdownListClasses(){
+                return [
+                    kebabJoin(prefixCls, DROPDOWN, LIST),
+                ];
+            },
+
+            inputClasses(){
+                return [
+                    kebabJoin(prefixCls, INPUT),
+                ];
+            },
+
+            inputStyle(){
+                if (this.multiple) {
+                    return {
+                        width: this.showPlaceholder ? '100%' : `${this.inputLength}px`,
+                    };
                 }
 
-                return status;
+                return {};
             },
-            showCloseIcon () {
+
+            isCloseIconVisible(){
                 return !this.multiple && this.clearable && !this.showPlaceholder;
             },
-            inputStyle () {
-                let style = {};
 
-                if (this.multiple) {
-                    if (this.showPlaceholder) {
-                        style.width = '100%';
-                    } else {
-                        style.width = `${this.inputLength}px`;
-                    }
-                }
-
-                return style;
-            },
-            localePlaceholder () {
-                if (this.placeholder === undefined) {
-                    return this.t('i.select.placeholder');
-                } else {
-                    return this.placeholder;
-                }
-            },
-            localeNotFoundText () {
-                if (this.notFoundText === undefined) {
-                    return this.t('i.select.noMatch');
-                } else {
-                    return this.notFoundText;
-                }
-            },
-            localeLoadingText () {
-                if (this.loadingText === undefined) {
-                    return this.t('i.select.loading');
-                } else {
-                    return this.loadingText;
-                }
-            },
-            transitionName () {
-                return this.placement === 'bottom' ? 'slide-up' : 'slide-down';
-            },
-            dropVisible () {
-                let status = true;
-                const options = this.$slots.default || [];
-                if (!this.loading && this.remote && this.query === '' && !options.length) status = false;
-
-                if (this.autoComplete && !options.length) status = false;
-
-                return this.visible && status;
-            },
-            notFoundShow () {
-                const options = this.$slots.default || [];
-                return (this.notFound && !this.remote) || (this.remote && !this.loading && !options.length);
-            }
-        },
-        methods: {
-            toggleMenu () {
-                if (this.disabled || this.autoComplete) {
-                    return false;
-                }
-                this.visible = !this.visible;
-            },
-            hideMenu () {
-                this.visible = false;
-                this.focusIndex = 0;
-                this.broadcast('iOption', 'on-select-close');
-            },
-            // find option component
-            findChild (cb) {
-                const find = function (child) {
-                    const name = child.$options.componentName;
-
-                    if (name) {
-                        cb(child);
-                    } else if (child.$children.length) {
-                        child.$children.forEach((innerChild) => {
-                            find(innerChild, cb);
-                        });
-                    }
-                };
-
-                if (this.optionInstances.length) {
-                    this.optionInstances.forEach((child) => {
-                        find(child);
-                    });
-                } else {
-                    this.$children.forEach((child) => {
-                        find(child);
-                    });
-                }
-            },
-            updateOptions (slot = false) {
-                let options = [];
-                let index = 1;
-
-                this.findChild((child) => {
-                    options.push({
-                        value: child.value,
-                        label: (child.label === undefined) ? child.$el.textContent : child.label
-                    });
-                    child.index = index++;
-
-                    this.optionInstances.push(child);
-                });
-
-                this.options = options;
-
-                if (!this.remote) {
-                    this.updateSingleSelected(true, slot);
-                    this.updateMultipleSelected(true, slot);
-                }
-            },
-            updateSingleSelected (init = false, slot = false) {
-                const type = typeof this.model;
-
-                if (type === 'string' || type === 'number') {
-                    let findModel = false;
-
-                    for (let i = 0; i < this.options.length; i++) {
-                        if (this.model === this.options[i].value) {
-                            this.selectedSingle = this.options[i].label;
-                            findModel = true;
-                            break;
-                        }
-                    }
-
-                    if (slot && !findModel) {
-                        this.model = '';
-                        this.query = '';
-                    }
-                }
-
-                this.toggleSingleSelected(this.model, init);
-            },
-            clearSingleSelect () {
-                if (this.showCloseIcon) {
-                    this.findChild((child) => {
-                        child.selected = false;
-                    });
-                    this.model = '';
-
-                    if (this.filterable) {
-                        this.query = '';
-                    }
-                }
-            },
-            updateMultipleSelected (init = false, slot = false) {
-                if (this.multiple && Array.isArray(this.model)) {
-                    let selected = this.remote ? this.selectedMultiple : [];
-
-                    for (let i = 0; i < this.model.length; i++) {
-                        const model = this.model[i];
-
-                        for (let j = 0; j < this.options.length; j++) {
-                            const option = this.options[j];
-
-                            if (model === option.value) {
-                                selected.push({
-                                    value: option.value,
-                                    label: option.label
-                                });
-                            }
-                        }
-                    }
-
-                    const selectedArray = [];
-                    const selectedObject = {};
-
-                    selected.forEach(item => {
-                        if (!selectedObject[item.value]) {
-                            selectedArray.push(item);
-                            selectedObject[item.value] = 1;
-                        }
-                    });
-
-                    // #2066
-                    this.selectedMultiple = this.remote ? this.model.length ? selectedArray : [] : selected;
-
-                    if (slot) {
-                        let selectedModel = [];
-
-                        for (let i = 0; i < selected.length; i++) {
-                            selectedModel.push(selected[i].value);
-                        }
-
-                        // if slot change and remove a selected option, emit user
-                        if (this.model.length === selectedModel.length) {
-                            this.slotChangeDuration = true;
-                        }
-
-                        this.model = selectedModel;
-                    }
-                }
-                this.toggleMultipleSelected(this.model, init);
-            },
-            removeTag (index) {
-                if (this.disabled) {
+            isDropdownListVisible(){
+                if (this.notFound) {
                     return false;
                 }
 
-                if (this.remote) {
-                    const tag = this.model[index];
-                    this.selectedMultiple = this.selectedMultiple.filter(item => item.value !== tag);
-                }
-
-                this.model.splice(index, 1);
-
-                if (this.filterable && this.visible) {
-                    this.$refs.input.focus();
-                }
-
-                this.broadcast('Drop', 'on-update-popper');
+                return this.remote ? !this.loading : true;
             },
-            // to select option for single
-            toggleSingleSelected (value, init = false) {
-                if (!this.multiple) {
-                    let label = '';
 
-                    this.findChild((child) => {
-                        if (child.value === value) {
-                            child.selected = true;
-                            label = (child.label === undefined) ? child.$el.innerHTML : child.label;
-                        } else {
-                            child.selected = false;
-                        }
-                    });
-
-                    this.hideMenu();
-
-                    if (!init) {
-                        if (this.labelInValue) {
-                            this.$emit('on-change', {
-                                value: value,
-                                label: label
-                            });
-                            this.dispatch('FormItem', 'on-form-change', {
-                                value: value,
-                                label: label
-                            });
-                        } else {
-                            this.$emit('on-change', value);
-                            this.dispatch('FormItem', 'on-form-change', value);
-                        }
-                    }
-                }
-            },
-            // to select option for multiple
-            toggleMultipleSelected (value, init = false) {
-                if (this.multiple) {
-                    let hybridValue = [];
-                    for (let i = 0; i < value.length; i++) {
-                        hybridValue.push({
-                            value: value[i]
-                        });
-                    }
-
-                    this.findChild((child) => {
-                        const index = value.indexOf(child.value);
-
-                        if (index >= 0) {
-                            child.selected = true;
-                            hybridValue[index].label = (child.label === undefined) ? child.$el.innerHTML : child.label;
-                        } else {
-                            child.selected = false;
-                        }
-                    });
-
-                    if (!init) {
-                        if (this.labelInValue) {
-                            this.$emit('on-change', hybridValue);
-                            this.dispatch('FormItem', 'on-form-change', hybridValue);
-                        } else {
-                            this.$emit('on-change', value);
-                            this.dispatch('FormItem', 'on-form-change', value);
-                        }
-                    }
-                }
-            },
-            handleClose () {
-                this.hideMenu();
-            },
-            handleKeydown (e) {
-                if (this.visible) {
-                    const keyCode = e.keyCode;
-                    // Esc slide-up
-                    if (keyCode === 27) {
-                        e.preventDefault();
-                        this.hideMenu();
-                    }
-                    // next
-                    if (keyCode === 40) {
-                        e.preventDefault();
-                        this.navigateOptions('next');
-                    }
-                    // prev
-                    if (keyCode === 38) {
-                        e.preventDefault();
-                        this.navigateOptions('prev');
-                    }
-                    // enter
-                    if (keyCode === 13) {
-                        e.preventDefault();
-
-                        this.findChild((child) => {
-                            if (child.isFocus) {
-                                child.select();
-                            }
-                        });
-                    }
-                }
-            },
-            navigateOptions (direction) {
-                if (direction === 'next') {
-                    const next = this.focusIndex + 1;
-                    this.focusIndex = (this.focusIndex === this.options.length) ? 1 : next;
-                } else if (direction === 'prev') {
-                    const prev = this.focusIndex - 1;
-                    this.focusIndex = (this.focusIndex <= 1) ? this.options.length : prev;
+            isLoadingVisible(){
+                if (this.loading) {
+                    this.showMenu();
                 }
 
-                let child_status = {
-                    disabled: false,
-                    hidden: false
+                return this.loading;
+            },
+
+            isNotFoundVisible(){
+                if (this.query === EMPTY_STRING) {
+                    return false;
+                }
+
+                const isVisible = this.remote ? !this.loading && this.getOptions().length < 1 : this.notFound;
+
+                if (isVisible) {
+                    this.showMenu();
+                }
+
+                return isVisible;
+            },
+
+            isPlaceholderVisible(){
+                return this.showPlaceholder && !this.filterable;
+            },
+
+            isSelectedValueVisible(){
+                return !this.showPlaceholder && !this.multiple && !this.filterable;
+            },
+
+            loadingClasses(){
+                return [
+                    kebabJoin(prefixCls, LOADING),
+                ];
+            },
+
+            localeLoadingText(){
+                return this.getTextOrTranslate(this.loadingText, 'i.select.loading');
+            },
+
+            localeNotFoundText(){
+                return this.getTextOrTranslate(this.notFoundText, 'i.select.noMatch');
+            },
+
+            localePlaceholder(){
+                return this.getTextOrTranslate(this.placeholder, 'i.select.placeholder');
+            },
+
+            notFoundClasses(){
+                return [
+                    kebabJoin(prefixCls, NOT, FOUND),
+                ];
+            },
+
+            placeholderClasses(){
+                return [
+                    kebabJoin(prefixCls, PLACEHOLDER),
+                ];
+            },
+
+            placeholderText(){
+                return this.showPlaceholder ? this.localePlaceholder : EMPTY_STRING;
+            },
+
+            selectedValueClasses(){
+                return [
+                    kebabJoin(prefixCls, SELECTED, VALUE),
+                ];
+            },
+
+            selectionClasses(){
+                return {
+                    [kebabJoin(prefixCls, SELECTION)]: !this.autoComplete,
                 };
+            },
 
-                let find_deep = false;    // can next find allowed
+            showPlaceholder(){
+                return this.model.length < 1;
+            },
 
-                this.findChild((child) => {
-                    if (child.index === this.focusIndex) {
-                        child_status.disabled = child.disabled;
-                        child_status.hidden = child.hidden;
+            selectionTabindex(){
+                return this.disabled || this.filterable ? -1 : 0;
+            },
 
-                        if (!child.disabled && !child.hidden) {
-                            child.isFocus = true;
-                        }
-                    } else {
-                        child.isFocus = false;
-                    }
+            transitionName(){
+                return kebabJoin(SLIDE, this.placement === BOTTOM ? UP : DOWN);
+            },
 
-                    if (!child.hidden && !child.disabled) {
-                        find_deep = true;
-                    }
-                });
-
-                this.resetScrollTop();
-
-                if ((child_status.disabled || child_status.hidden) && find_deep) {
-                    this.navigateOptions(direction);
-                }
+            wrapperClasses(){
+                return [
+                    prefixCls,
+                    {
+                        [kebabJoin(prefixCls, DISABLED)]: this.disabled,
+                        [kebabJoin(prefixCls, FOCUSED)]: !this.visible && this.focused,
+                        [kebabJoin(prefixCls, MULTIPLE)]: this.multiple,
+                        [kebabJoin(prefixCls, SINGLE)]: !this.multiple,
+                        [kebabJoin(prefixCls, SHOW, CLEAR)]: this.isCloseIconVisible,
+                        [kebabJoin(prefixCls, this.size)]: !!this.size,
+                        [kebabJoin(prefixCls, VISIBLE)]: this.visible,
+                    },
+                ];
             },
-            resetScrollTop () {
-                const index = this.focusIndex - 1;
-                if (!this.optionInstances.length) return;
-                let bottomOverflowDistance = this.optionInstances[index].$el.getBoundingClientRect().bottom - this.$refs.dropdown.$el.getBoundingClientRect().bottom;
-                let topOverflowDistance = this.optionInstances[index].$el.getBoundingClientRect().top - this.$refs.dropdown.$el.getBoundingClientRect().top;
-
-                if (bottomOverflowDistance > 0) {
-                    this.$refs.dropdown.$el.scrollTop += bottomOverflowDistance;
-                }
-                if (topOverflowDistance < 0) {
-                    this.$refs.dropdown.$el.scrollTop += topOverflowDistance;
-                }
-            },
-            handleBlur () {
-                setTimeout(() => {
-                    if (this.autoComplete) return;
-                    const model = this.model;
-
-                    if (this.multiple) {
-                        this.query = '';
-                    } else {
-                        if (model !== '') {
-                            this.findChild((child) => {
-                                if (child.value === model) {
-                                    this.query = child.label === undefined ? child.searchLabel : child.label;
-                                }
-                            });
-                            // 如果删除了搜索词，下拉列表也清空了，所以强制调用一次remoteMethod
-                            if (this.remote && this.query !== this.lastQuery) {
-                                this.$nextTick(() => {
-                                    this.query = this.lastQuery;
-                                });
-                            }
-                        } else {
-                            this.query = '';
-                        }
-                    }
-                }, 300);
-            },
-            resetInputState () {
-                this.inputLength = this.$refs.input.value.length * 12 + 20;
-            },
-            handleInputDelete () {
-                if (this.multiple && this.model.length && this.query === '') {
-                    this.removeTag(this.model.length - 1);
-                }
-            },
-            // use when slot changed
-            slotChange () {
-                this.options = [];
-                this.optionInstances = [];
-            },
-            setQuery (query) {
-                if (!this.filterable) return;
-                this.query = query;
-            },
-            modelToQuery() {
-                if (!this.multiple && this.filterable && this.model !== undefined) {
-                    this.findChild((child) => {
-                        if (this.model === child.value) {
-                            if (child.label) {
-                                this.query = child.label;
-                            } else if (child.searchLabel) {
-                                this.query = child.searchLabel;
-                            } else {
-                                this.query = child.value;
-                            }
-                        }
-                    });
-                }
-            },
-            broadcastQuery (val) {
-                if (findComponentDownward(this, 'OptionGroup')) {
-                    this.broadcast('OptionGroup', 'on-query-change', val);
-                    this.broadcast('iOption', 'on-query-change', val);
-                } else {
-                    this.broadcast('iOption', 'on-query-change', val);
-                }
-            },
-            debouncedAppendRemove(){
-                return debounce(function(){
-                    if (!this.remote) {
-                        this.modelToQuery();
-                        this.$nextTick(() => this.broadcastQuery(''));
-                    } else {
-                        this.findChild((child) => {
-                            child.updateSearchLabel();   // #1865
-                            child.selected = this.multiple ? this.model.indexOf(child.value) > -1 : this.model === child.value;
-                        });
-                    }
-                    this.slotChange();
-                    this.updateOptions(true);
-                });
-            },
-            // 处理 remote 初始值
-            updateLabel () {
-                if (this.remote) {
-                    if (!this.multiple && this.model !== '') {
-                        this.selectToChangeQuery = true;
-                        if (this.currentLabel === '') this.currentLabel = this.model;
-                        this.lastQuery = this.currentLabel;
-                        this.query = this.currentLabel;
-                    } else if (this.multiple && this.model.length) {
-                        if (this.currentLabel.length !== this.model.length) this.currentLabel = this.model;
-                        this.selectedMultiple = this.model.map((item, index) => {
-                            return {
-                                value: item,
-                                label: this.currentLabel[index]
-                            };
-                        });
-                    } else if (this.multiple && !this.model.length) {
-                        this.selectedMultiple = [];
-                    }
-                }
-            }
         },
-        mounted () {
-            this.modelToQuery();
-            // 处理 remote 初始值
-            this.updateLabel();
-            this.$nextTick(() => {
-                this.broadcastQuery('');
-            });
 
-            this.updateOptions();
-            document.addEventListener('keydown', this.handleKeydown);
-
-            this.$on('append', this.debouncedAppendRemove());
-            this.$on('remove', this.debouncedAppendRemove());
-
-            this.$on('on-select-selected', (value) => {
-                if (this.model === value) {
-                    if (this.autoComplete) this.$emit('on-change', value);
-                    this.hideMenu();
-                } else {
-                    if (this.multiple) {
-                        const index = this.model.indexOf(value);
-                        if (index >= 0) {
-                            this.removeTag(index);
-                        } else {
-                            this.model.push(value);
-                            this.broadcast('Drop', 'on-update-popper');
-                        }
-
-                        if (this.filterable) {
-                            // remote&filterable&multiple时，一次点多项，不应该设置true，因为无法置为false，下次的搜索会失效
-                            if (this.query !== '') this.selectToChangeQuery = true;
-                            this.query = '';
-                            this.$refs.input.focus();
-                        }
-                    } else {
-                        this.model = value;
-
-                        if (this.filterable) {
-                            this.findChild((child) => {
-                                if (child.value === value) {
-                                    if (this.query !== '') this.selectToChangeQuery = true;
-                                    this.lastQuery = this.query = child.label === undefined ? child.searchLabel : child.label;
-                                }
-                            });
-                        }
-                    }
-                }
-            });
-        },
-        beforeDestroy () {
-            document.removeEventListener('keydown', this.handleKeydown);
-        },
         watch: {
-            value (val) {
-                this.model = val;
-                // #982
-                if (val === '' || val === null) this.query = '';
+            focused(val){
+                if (!val) {
+                    if (this.filterable) {
+                        this.selectionStart = -1;
+
+                        if (this.multiple || this.model === EMPTY_STRING) {
+                            this.query = EMPTY_STRING;
+                        } else {
+                            this.query = this.model;
+                        }
+
+                        // #566 reset options visible
+                        this.$nextTick(() => this.broadcastQuery(EMPTY_STRING));
+                    }
+
+                    /*
+                      if (this.remote) {
+                          this.remoteMethodDebounced(EMPTY_STRING);
+                      }
+                      */
+                }
             },
-            label (val) {
+
+            label(val){
                 this.currentLabel = val;
                 this.updateLabel();
             },
-            model () {
-                this.$emit('input', this.model);
+
+            model(){
+                this.validateModel();
+                this.$emit(INPUT, this.model);
                 this.modelToQuery();
+
                 if (this.multiple) {
                     if (this.slotChangeDuration) {
                         this.slotChangeDuration = false;
@@ -744,74 +593,796 @@
                 } else {
                     this.updateSingleSelected();
                 }
+
                 // #957
                 if (!this.visible && this.filterable) {
-                    this.$nextTick(() => {
-                        this.broadcastQuery('');
-                    });
+                    this.$nextTick(() => this.broadcastQuery(EMPTY_STRING));
                 }
             },
-            visible (val) {
-                if (val) {
-                    if (this.filterable) {
-                        if (this.multiple) {
-                            this.$refs.input.focus();
-                        } else {
-                            if (!this.autoComplete) this.$refs.input.select();
-                        }
-                        if (this.remote) {
-                            this.findChild(child => {
-                                child.selected = this.multiple ? this.model.indexOf(child.value) > -1 : this.model === child.value;
-                            });
-                            // remote下，设置了默认值，第一次打开时，搜索一次
-                            const options = this.$slots.default || [];
-                            if (this.query !== '' && !options.length) {
-                                this.remoteMethod(this.query);
-                            }
-                        }
-                    }
-                    this.broadcast('Drop', 'on-update-popper');
-                } else {
-                    if (this.filterable) {
-                        if (!this.autoComplete) this.$refs.input.blur();
-                        // #566 reset options visible
-                        setTimeout(() => {
-                            this.broadcastQuery('');
-                        }, 300);
-                    }
-                    this.broadcast('Drop', 'on-destroy-popper');
+
+            options(){
+                if (!isUniqOptions(this.options)) {
+                    // eslint-disable-next-line no-console
+                    console.warn(composeIViewMessage('i-options are not unique, this may cause problems.'));
                 }
             },
-            query (val) {
-                if (this.remote && this.remoteMethod) {
+
+            query(val){
+                if (this.remote) {
                     if (!this.selectToChangeQuery) {
-                        this.$emit('on-query-change', val);
-                        this.remoteMethod(val);
+                        this.$emit(EVENT_ON_QUERY_CHANGE, val);
+                        this.remoteMethodDebounced(val);
                     }
+
                     this.focusIndex = 0;
-                    this.findChild(child => {
-                        child.isFocus = false;
-                    });
+                    this.findChild(child => this.setProperty(child, ISFOCUS, false));
                 } else {
                     if (!this.selectToChangeQuery) {
-                        this.$emit('on-query-change', val);
+                        this.$emit(EVENT_ON_QUERY_CHANGE, val);
                     }
+
                     this.broadcastQuery(val);
 
-                    let is_hidden = true;
-
                     this.$nextTick(() => {
+                        let isHidden = true;
+
                         this.findChild((child) => {
                             if (!child.hidden) {
-                                is_hidden = false;
+                                isHidden = false;
                             }
                         });
-                        this.notFound = is_hidden;
+
+                        this.notFound = isHidden;
                     });
                 }
+
                 this.selectToChangeQuery = false;
-                this.broadcast('Drop', 'on-update-popper');
-            }
-        }
+                this.broadcast(DROPDOWN_NAME, EVENT_ON_UPDATE_POPPER);
+            },
+
+            value(val){
+                this.model = val;
+
+                // #982 or is null?
+                if (val === EMPTY_STRING || isNull(val)) {
+                    this.query = EMPTY_STRING;
+                }
+            },
+
+            visible(val){
+                if (val) {
+                    if (this.filterable) {
+                        const {
+                            input,
+                        } = this.$refs;
+
+                        if (this.multiple) {
+                            input.focus();
+                        } else if (!this.autoComplete) {
+                            input.select();
+
+                            const cursorAt = this.selectionStart === -1 ? input.value.length : this.selectionStart;
+
+                            input.setSelectionRange(cursorAt, cursorAt);
+                            this.selectionStart = -1;
+                        }
+
+                        if (this.remote) {
+                            const {
+                                model,
+                                multiple,
+                            } = this;
+
+                            this.findChild((child) => {
+                                const {
+                                    value,
+                                } = child;
+
+                                const selected = multiple ? model.includes(value) : model === value;
+
+                                this.setProperty(child, SELECTED, selected);
+                            });
+                        }
+                    }
+
+                    this.broadcast(DROPDOWN_NAME, EVENT_ON_UPDATE_POPPER);
+                } else {
+                    this.broadcast(DROPDOWN_NAME, EVENT_ON_DESTROY_POPPER);
+                }
+            },
+        },
+
+        created(){
+            this.validateModel();
+        },
+
+        mounted(){
+            this.modelToQuery();
+            // 处理 remote 初始值
+            this.updateLabel();
+            this.$nextTick(() => {
+                this.broadcastQuery(EMPTY_STRING);
+            });
+
+            this.updateOptions();
+
+            this.$on(EVENT_APPEND, this.debouncedAppendRemove());
+            this.$on(EVENT_REMOVE, this.debouncedAppendRemove());
+
+            this.$on(EVENT_ON_SELECT_SELECTED, (value) => {
+                if (this.model === value) {
+                    // console.log('value');
+                    if (this.autoComplete) {
+                        this.$emit(EVENT_ON_CHANGE, value);
+                    }
+
+                    this.hideMenu();
+                    this.query = value;
+                } else if (this.multiple) {
+                    // console.log('multiple');
+                    const index = this.model.findIndex(model => model === value);
+
+                    if (isWholeNumber(index)) {
+                        this.removeTag(index);
+                    } else {
+                        this.model.push(value);
+                        this.broadcast(DROPDOWN_NAME, EVENT_ON_UPDATE_POPPER);
+                    }
+
+                    if (this.filterable) {
+                        // remote&filterable&multiple时，一次点多项，不应该设置true，
+                        // 因为无法置为false，下次的搜索会失效
+                        if (this.query !== EMPTY_STRING) {
+                            this.selectToChangeQuery = true;
+                        }
+                    }
+                } else {
+                    // console.log('else');
+                    this.hideMenu();
+                    this.model = value;
+
+                    if (this.filterable) {
+                        this.findChild((child) => {
+                            if (child.value === value) {
+                                if (this.query !== EMPTY_STRING) {
+                                    this.selectToChangeQuery = true;
+                                }
+
+                                this.query = this.getChildValue(child);
+                            }
+                        });
+
+                        // only selected
+                        if (this.remote) {
+                            this.selectionStart = -1;
+                            this.remoteMethodDebounced(this.query);
+                        }
+                    }
+                }
+
+                this.focusElement();
+            });
+
+            this.$on(EVENT_ON_DESTROYED_POPPER, () => {
+                // console.log(EVENT_ON_DESTROYED_POPPER);
+            });
+
+            this.$on(EVENT_ON_UPDATED_POPPER, () => {
+                // console.log(EVENT_ON_UPDATED_POPPER);
+            });
+        },
+
+        methods: {
+            broadcastQuery(val){
+                if (findComponentDownward(this, OPTIONGROUP_NAME)) {
+                    this.broadcast(OPTIONGROUP_NAME, EVENT_ON_QUERY_CHANGE, val);
+                }
+
+                this.broadcast(OPTION_NAME, EVENT_ON_QUERY_CHANGE, val);
+            },
+
+            clearSingleSelect(){
+                if (this.isCloseIconVisible) {
+                    this.findChild(child => this.setProperty(child, SELECTED, false));
+                    this.model = EMPTY_STRING;
+
+                    if (this.filterable) {
+                        this.query = EMPTY_STRING;
+                    }
+                }
+            },
+
+            handleClose(){
+                this.hideMenu();
+            },
+
+            debouncedAppendRemove(){
+                const appendRemove = () => {
+                    // console.log('debouncedAppendRemove', this);
+                    if (this.remote) {
+                        this.findChild((child) => {
+                            child.updateSearchLabel(); // #1865
+                            const {
+                                value,
+                            } = child;
+
+                            const selected = this.multiple ? this.model.includes(value) : this.model === value;
+
+                            this.setProperty(child, SELECTED, selected);
+                        });
+                    } else {
+                        this.modelToQuery();
+                        this.$nextTick(() => this.broadcastQuery(EMPTY_STRING));
+                    }
+
+                    this.slotChange();
+                    this.updateOptions(true);
+                };
+
+                return debounce(appendRemove, 300);
+            },
+
+            // find option component
+            findChild(cb){
+                const instances = this.optionInstances.length > 0 ? this.optionInstances : this.$children;
+                const find = (child) => {
+                    const {
+                        $children,
+                        $options,
+                    } = child;
+
+                    if ($options.name === OPTION_NAME) {
+                        cb(child);
+                    } else if ($children.length > 0) {
+                        $children.forEach(find);
+                    }
+                };
+
+                return instances.forEach(find);
+            },
+
+            focusElement(){
+                const {
+                    input,
+                    reference,
+                } = this.$refs;
+
+                const ref = this.filterable ? input : reference;
+
+                ref.focus();
+            },
+
+            getChildValue({label, searchLabel, value}){
+                return label || searchLabel || value;
+            },
+
+            getLabelOrContent({label, $el}){
+                return label || $el.textContent;
+            },
+
+            getOptions(){
+                return this.$slots.default || [];
+            },
+
+            getPosition(event){
+                if (this.filterable && this.query !== EMPTY_STRING) {
+                    this.selectionStart = event.target.selectionStart;
+                }
+            },
+
+            getTextOrTranslate(text, key){
+                return text || this.t(key);
+            },
+
+            hideMenu(){
+                const {
+                    visible,
+                } = this;
+
+                this.visible = false;
+                this.focusIndex = 0;
+
+                if (visible) {
+                    this.broadcast(OPTION_NAME, EVENT_ON_SELECT_CLOSE);
+                }
+            },
+
+            inputOnBlur(){
+                if (this.disabled) {
+                    return;
+                }
+
+                if (!this.visible) {
+                    this.focused = false;
+                }
+            },
+
+            inputOnDelete(){
+                if (this.multiple && this.filterable && this.query === EMPTY_STRING && this.model.length > 0) {
+                    this.removeTag(LAST);
+                }
+            },
+
+            inputOnFocus(){
+                if (this.disabled || !this.filterable) {
+                    return;
+                }
+
+                this.focused = true;
+            },
+
+            modelToQuery(){
+                if (!this.multiple && this.filterable) {
+                    this.setQueryFromModel();
+                }
+            },
+
+            navigateOptions(direction){
+                if (direction === NEXT) {
+                    this.focusIndex = this.focusIndex === this.options.length ? 1 : this.focusIndex + 1;
+                } else if (direction === PREV) {
+                    this.focusIndex = this.focusIndex <= 1 ? this.options.length : this.focusIndex - 1;
+                } else {
+                    throw new Error(composeIViewMessage(`direction is neither "${NEXT}" or "${PREV}"`));
+                }
+
+                const childStatus = {
+                    disabled: false,
+                    hidden: false,
+                };
+
+                let findDeep = false; // can next find allowed
+
+                this.findChild((child) => {
+                    if (child.index === this.focusIndex) {
+                        childStatus.disabled = child.disabled;
+                        childStatus.hidden = child.hidden;
+
+                        if (!child.disabled && !child.hidden) {
+                            this.setProperty(child, ISFOCUS, true);
+                        }
+                    } else {
+                        this.setProperty(child, ISFOCUS, false);
+                    }
+
+                    if (!child.hidden && !child.disabled) {
+                        findDeep = true;
+                    }
+                });
+
+                this.resetScrollTop();
+
+                if (findDeep && (childStatus.disabled || childStatus.hidden)) {
+                    this.navigateOptions(direction);
+                }
+            },
+
+            onClickOutside(event){
+                if (this.visible) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    this.hideMenu();
+                    this.focusElement();
+                } else {
+                    this.focused = false;
+                }
+            },
+
+            onDown(event){
+                if (this.visible) {
+                    event.preventDefault();
+                    this.navigateOptions(NEXT);
+                }
+            },
+
+            onEnter(event){
+                if (this.visible) {
+                    event.preventDefault();
+
+                    this.findChild((child) => {
+                        if (child.isFocus) {
+                            child.select();
+                        }
+                    });
+                }
+            },
+
+            onEscape(event){
+                if (this.visible) {
+                    event.preventDefault();
+                    this.hideMenu();
+                }
+            },
+
+            onUp(event){
+                if (this.visible) {
+                    event.preventDefault();
+                    this.navigateOptions(PREV);
+                }
+            },
+
+            removeTag(index){
+                if (this.disabled) {
+                    return;
+                }
+
+                const idx = index === LAST ? this.model.length - 1 : index;
+
+                if (this.remote) {
+                    const tag = this.model[idx];
+
+                    this.selectedMultiple = this.selectedMultiple.filter(({value}) => value !== tag);
+                }
+
+                this.model.splice(idx, 1);
+
+                if (this.filterable && this.visible) {
+                    this.$refs.input.focus();
+                }
+
+                this.broadcast(DROPDOWN_NAME, EVENT_ON_UPDATE_POPPER);
+            },
+
+            resetInputState(event){
+                const {
+                    target,
+                } = event;
+
+                // console.log('resetInputState');
+                this.getPosition(event);
+
+                const fontSize = getStyle(target, 'font-size');
+                const fontSizeValue = parseDecimal(fontSize);
+
+                this.inputLength = (target.value.length * fontSizeValue) + INPUT_LENGTH;
+            },
+
+            resetRemoteVisible(){
+                if (!this.remote) {
+                    return;
+                }
+
+                if (this.visible && this.query === EMPTY_STRING) {
+                    this.hideMenu();
+                }
+            },
+
+            resetScrollTop(){
+                if (this.optionInstances.length < 1) {
+                    return;
+                }
+
+                const {
+                    bottom,
+                    top,
+                } = this.optionInstances[this.focusIndex - 1].$el.getBoundingClientRect();
+
+                const {
+                    $el,
+                } = this.$refs.dropdown;
+
+                const {
+                    bottom: bottomEl,
+                    top: topEl,
+                } = $el.getBoundingClientRect();
+
+                const bottomOverflowDistance = bottom - bottomEl;
+                if (bottomOverflowDistance > 0) {
+                    $el.scrollTop += bottomOverflowDistance;
+                }
+
+                const topOverflowDistance = top - topEl;
+                if (topOverflowDistance < 0) {
+                    $el.scrollTop += topOverflowDistance;
+                }
+            },
+
+            showMenu(){
+                this.visible = true;
+            },
+
+            selectionOnDelete(){
+                if (this.disabled || this.visible || this.autoComplete) {
+                    return;
+                }
+
+                if (this.multiple) {
+                    this.removeTag(LAST);
+                } else if (this.clearable) {
+                    this.clearSingleSelect();
+                }
+            },
+
+            selectionOnTab(event){
+                if (this.visible) {
+                    event.preventDefault();
+                }
+            },
+
+            selectionOnUpDown(){
+                if (!this.visible && this.getOptions().length > 0) {
+                    this.showMenu();
+                }
+            },
+
+            selectionSetFocus({type}){
+                if (this.disabled) {
+                    return;
+                }
+
+                if (this.filterable) {
+                    this.focusElement();
+
+                    return;
+                }
+
+                if (type === FOCUS) {
+                    this.focused = true;
+                } else if (!this.visible) {
+                    this.focused = false;
+                }
+            },
+
+            setProperty(object, property, value){
+                if (!Reflect.set(object, property, value)) {
+                    throw new Error(composeIViewMessage('Failed to set `${property}`'));
+                }
+
+                return object;
+            },
+
+            setQuery(query){
+                if (!this.filterable) {
+                    return;
+                }
+
+                this.query = query;
+            },
+
+            setQueryFromModel(){
+                this.findChild((child) => {
+                    if (child.value === this.model) {
+                        this.query = this.getChildValue(child);
+                    }
+                });
+            },
+
+            // use when slot changed
+            slotChange(){
+                this.options = [];
+                this.optionInstances = [];
+            },
+
+            toggleMenu(event){
+                if (this.disabled || this.autoComplete) {
+                    return;
+                }
+
+                if (this.multiple) {
+                    if (this.filterable) {
+                        const {
+                            arrow,
+                            input,
+                        } = this.$refs;
+
+                        const isInput = event.target === input;
+                        const isArrow = arrow ? event.target === arrow.$el : true;
+
+                        if (!isInput && !isArrow) {
+                            const {
+                                length,
+                            } = input.value;
+
+                            input.setSelectionRange(length, length);
+                            this.selectionStart = -1;
+                        }
+                    }
+
+                    if (this.visible) {
+                        this.focusElement();
+                    }
+                }
+
+                // console.log('toggleMenu3');
+                if (this.getOptions().length > 0) {
+                    if (this.visible) {
+                        this.hideMenu();
+                    } else {
+                        this.showMenu();
+                    }
+                } else {
+                    this.hideMenu();
+                }
+            },
+
+            // to select option for multiple
+            toggleMultipleSelected(init = false){
+                if (this.multiple) {
+                    const hybridValue = this.model.map(value => ({value}));
+
+                    this.findChild((child) => {
+                        const index = this.model.findIndex(value => child.value === value);
+
+                        this.setProperty(child, SELECTED, isWholeNumber(index));
+
+                        if (child.selected) {
+                            hybridValue[index].label = this.getLabelOrContent(child);
+                        }
+                    });
+
+                    if (!init) {
+                        const val = this.labelInValue ? hybridValue : this.model;
+
+                        this.$emit(EVENT_ON_CHANGE, val);
+                        this.dispatch(FORMITEM_NAME, EVENT_ON_FORM_CHANGE, val);
+                    }
+                }
+            },
+
+            // to select option for single
+            toggleSingleSelected(init = false){
+                if (!this.multiple) {
+                    let foundLabel = EMPTY_STRING;
+
+                    this.findChild((child) => {
+                        this.setProperty(child, SELECTED, child.value === this.model);
+
+                        if (child.selected) {
+                            foundLabel = this.getLabelOrContent(child);
+                        }
+                    });
+
+                    this.hideMenu();
+
+                    if (!init) {
+                        const val = this.labelInValue ? {value: this.model, label: foundLabel} : this.model;
+
+                        this.$emit(EVENT_ON_CHANGE, val);
+                        this.dispatch(FORMITEM_NAME, EVENT_ON_FORM_CHANGE, val);
+                    }
+                }
+            },
+
+            // 处理 remote 初始值
+            updateLabel(){
+                if (this.remote) {
+                    if (this.multiple) {
+                        if (this.model.length > 0) {
+                            if (this.currentLabel.length !== this.model.length) {
+                                this.currentLabel = this.model;
+                            }
+
+                            const {
+                                currentLabel,
+                            } = this;
+
+                            this.selectedMultiple = this.model.map((value, index) => ({
+                                label: currentLabel[index],
+                                value,
+                            }));
+                        } else {
+                            this.selectedMultiple = [];
+                        }
+                    } else if (this.model !== EMPTY_STRING) {
+                        this.selectToChangeQuery = true;
+
+                        if (this.currentLabel === EMPTY_STRING) {
+                            this.currentLabel = this.model;
+                        }
+
+                        this.query = this.currentLabel;
+                    }
+                }
+            },
+
+            updateMultipleSelected(init = false, slot = false){
+                if (this.multiple) {
+                    const selecteds = this.remote ? this.selectedMultiple : [];
+
+                    this.model.forEach((modelValue) => {
+                        this.options.forEach(({label, value}) => {
+                            if (value === modelValue) {
+                                selecteds.push({label, value});
+                            }
+                        });
+                    });
+
+                    const selectedArray = [];
+
+                    selecteds.reduce((selectedObject, selected) => {
+                        if (selectedObject[selected.value]) {
+                            return selectedObject;
+                        }
+
+                        selectedArray.push(selected);
+
+                        return {
+                            ...selectedObject,
+                            [selected.value]: true,
+                        };
+                    }, Object.create(null));
+
+                    // #2066
+                    if (this.remote) {
+                        this.selectedMultiple = this.model.length > 0 ? selectedArray : [];
+                    } else {
+                        this.selectedMultiple = selecteds;
+                    }
+
+                    if (slot) {
+                        const selectedModel = selecteds.map(({value}) => value);
+
+                        // if slot change and remove a selected option, emit user
+                        if (this.model.length === selectedModel.length) {
+                            this.slotChangeDuration = true;
+                        }
+
+                        this.model = selectedModel;
+                    }
+
+                    this.toggleMultipleSelected(init);
+                }
+            },
+
+            updateOptions(slot = false){
+                const options = [];
+                let index = 1;
+
+                this.findChild((child) => {
+                    options.push({
+                        value: child.value,
+                        label: this.getLabelOrContent(child),
+                    });
+
+                    this.setProperty(child, INDEX, index);
+
+                    index += 1;
+
+                    this.optionInstances.push(child);
+                });
+
+                this.options = options;
+
+                if (!this.remote) {
+                    if (this.multiple) {
+                        this.updateMultipleSelected(true, slot);
+                    } else {
+                        this.updateSingleSelected(true, slot);
+                    }
+                }
+            },
+
+            updateSingleSelected(init = false, slot = false){
+                if (!this.multiple) {
+                    const findModel = this.options.find(({value}) => (value === this.model));
+
+                    if (findModel) {
+                        this.selectedSingle = findModel.label;
+                    } else if (slot) {
+                        this.model = EMPTY_STRING;
+                        this.query = EMPTY_STRING;
+                    }
+
+                    this.toggleSingleSelected(init);
+                }
+            },
+
+            validateModel(){
+                if (this.multiple) {
+                    if (!Array.isArray(this.model)) {
+                        // eslint-disable-next-line no-console
+                        console.warn(composeIViewMessage('Multiple mode expects v-model to be an array.'));
+                    } else if (!isUniq(this.model)) {
+                        // eslint-disable-next-line no-console
+                        console.warn(composeIViewMessage('Multiple mode v-model contains duplicates.'));
+                    }
+                } else if (Array.isArray(this.model)) {
+                    // eslint-disable-next-line no-console
+                    console.warn(composeIViewMessage('Single mode expects v-model to be a string or number.'));
+                }
+            },
+        },
     };
+
+    export default component;
 </script>
