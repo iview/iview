@@ -54,6 +54,7 @@
 
                 h(Operation, {
                     props: {
+                        type: 'horizontal',
                         prefixCls: this.prefixCls,
                         operations: this.operations,
                         leftActive: this.leftValidKeysCount > 0,
@@ -79,7 +80,17 @@
                     on: {
                         'on-checked-keys-change': this.handleRightCheckedKeysChange
                     }
-                }, clonedVNodes)
+                }, clonedVNodes),
+
+                this.upDown && h(Operation, {
+                    props: {
+                        type: 'vertical',
+                        prefixCls: this.prefixCls,
+                        operations: this.operations,
+                        upActive: this.rightValidKeysCount > 0,
+                        downActive: this.rightValidKeysCount > 0
+                    }
+                })
             ]);
         },
         props: {
@@ -138,6 +149,10 @@
             },
             notFoundText: {
                 type: String
+            },
+            upDown: {
+              type: Boolean,
+              default: false
             }
         },
         data () {
@@ -217,15 +232,51 @@
                             .map(data => data.key);
                 }
             },
-            moveTo (direction) {
-                const targetKeys = this.targetKeys;
-                const opposite = direction === 'left' ? 'right' : 'left';
-                const moveKeys = this.getValidKeys(opposite);
-                const newTargetKeys = direction === 'right' ?
-                        moveKeys.concat(targetKeys) :
-                        targetKeys.filter(targetKey => !moveKeys.some(checkedKey => targetKey === checkedKey));
+            moveTo (direction, data) {
+                let newTargetKeys = this.targetKeys.concat();
+                let moveKeys = [];
 
-                this.$refs[opposite].toggleSelectAll(false);
+                if (direction === 'left' || direction === 'right') {
+                    const targetKeys = this.targetKeys;
+                    const opposite = direction === 'left' ? 'right' : 'left';
+                    moveKeys = this.getValidKeys(opposite);
+                    // 修改右移操作为追加到结尾而不是开头
+                    newTargetKeys = direction === 'right' ?
+                            targetKeys.concat(moveKeys) :
+                            targetKeys.filter(targetKey => !moveKeys.some(checkedKey => targetKey === checkedKey));
+
+                    this.$refs[opposite].toggleSelectAll(false);
+                }
+                // 新增右侧列表支持循环上下移动功能
+                // https://github.com/iview/iview/issues/2206
+                else if (direction === 'up' || direction === 'down') {
+                    moveKeys = this.targetSelectedKeys
+
+                    if (direction === 'up') {
+                        moveKeys.forEach(key => {
+                            let pos = newTargetKeys.indexOf(key);
+                            if (pos === 0) {
+                                newTargetKeys.push(newTargetKeys.shift());
+                            } else {
+                                newTargetKeys.splice(pos, 1, newTargetKeys[pos - 1]);
+                                newTargetKeys.splice(pos - 1, 1, key);
+                            }
+                        })
+                    } else {
+                        for (let i = moveKeys.length - 1; i >= 0; --i) {
+                            let key = moveKeys[i];
+                            let pos = newTargetKeys.indexOf(key);
+                            if (pos === newTargetKeys.length - 1) {
+                                newTargetKeys.unshift(newTargetKeys.pop());
+                            } else {
+                                newTargetKeys.splice(pos, 1, newTargetKeys[pos + 1]);
+                                newTargetKeys.splice(pos + 1, 1, key);
+                            }
+                        }
+                    }
+                }
+                else { return }
+
                 this.$emit('on-change', newTargetKeys, direction, moveKeys);
                 this.dispatch('FormItem', 'on-form-change', {
                     tarketKeys: newTargetKeys,
@@ -235,14 +286,18 @@
             },
             handleLeftCheckedKeysChange (keys) {
                 this.leftCheckedKeys = keys;
+                // fixed: issues/2478
+                this.handleCheckedKeys();
             },
             handleRightCheckedKeysChange (keys) {
                 this.rightCheckedKeys = keys;
+                // fixed: issues/2478
+                this.handleCheckedKeys();
             },
             handleCheckedKeys () {
-                const sourceSelectedKeys = this.getValidKeys('left');
-                const targetSelectedKeys = this.getValidKeys('right');
-                this.$emit('on-selected-change', sourceSelectedKeys, targetSelectedKeys);
+                this.sourceSelectedKeys = this.getValidKeys('left');
+                this.targetSelectedKeys = this.getValidKeys('right');
+                this.$emit('on-selected-change', this.sourceSelectedKeys, this.targetSelectedKeys);
             }
         },
         watch: {
