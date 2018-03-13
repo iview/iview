@@ -29,7 +29,7 @@
                 @change="change"
                 :readonly="readonly || !editable"
                 :name="name"
-                :value="precisionValue">
+                :value="formatterValue">
         </div>
     </div>
 </template>
@@ -113,6 +113,12 @@
             },
             elementId: {
                 type: String
+            },
+            formatter: {
+                type: Function
+            },
+            parser: {
+                type: Function
             }
         },
         data () {
@@ -170,6 +176,13 @@
             precisionValue () {
                 // can not display 1.0
                 return this.precision ? this.currentValue.toFixed(this.precision) : this.currentValue;
+            },
+            formatterValue () {
+                if (this.formatter) {
+                    return this.formatter(this.precisionValue);
+                } else {
+                    return this.precisionValue;
+                }
             }
         },
         methods: {
@@ -256,6 +269,9 @@
             },
             change (event) {
                 let val = event.target.value.trim();
+                if (this.parser) {
+                    val = this.parser(val);
+                }
 
                 if (event.type == 'input' && val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
 
