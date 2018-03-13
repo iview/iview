@@ -4,6 +4,7 @@
             :target-keys="targetKeys1"
             :render-format="render1"
             :up-down="true"
+            :draggable="true"
             @on-change="handleChange1"></Transfer>
 </template>
 <script>

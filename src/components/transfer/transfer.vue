@@ -3,6 +3,7 @@
     import Operation from './operation.vue';
     import Locale from '../../mixins/locale';
     import Emitter from '../../mixins/emitter';
+    import { removeElem, addAfterElem, addBeforeElem } from '../../utils/dom';
 
     const prefixCls = 'ivu-transfer';
 
@@ -35,6 +36,9 @@
                 h(List, {
                     ref: 'left',
                     props: {
+                        position: 'left',
+                        parentId: this._uid,
+                        draggable: this.draggable,
                         prefixCls: this.prefixCls + '-list',
                         data: this.leftData,
                         renderFormat: this.renderFormat,
@@ -65,6 +69,9 @@
                 h(List, {
                     ref: 'right',
                     props: {
+                        position: 'right',
+                        parentId: this._uid,
+                        draggable: this.draggable,
                         prefixCls: this.prefixCls + '-list',
                         data: this.rightData,
                         renderFormat: this.renderFormat,
@@ -151,6 +158,10 @@
                 type: String
             },
             upDown: {
+              type: Boolean,
+              default: false
+            },
+            draggable: {
               type: Boolean,
               default: false
             }
@@ -275,6 +286,46 @@
                         }
                     }
                 }
+                // 新增拖拽操作
+                else if (direction === 'drag' && data.position === 'right') {
+                    if (data.operation === 'move') return;
+                    let oldIndex = data.oldIndex;
+                    let newIndex = data.newIndex;
+
+                    if (data.operation === 'update') {
+                        let childrens = data.elem.parentNode.children;
+                        // 需要把拖拽后的修改恢复回来由targetKeys去触发
+                        if (newIndex > oldIndex) {
+                            addBeforeElem(childrens[newIndex], childrens[oldIndex]);
+                        } else {
+                            addAfterElem(childrens[newIndex], childrens[oldIndex]);
+                        }
+                        moveKeys = newTargetKeys[oldIndex];
+                        // 禁用的项也可以上下移动
+                        // if (this.isDisabledItem(moveKeys)) return;
+                        newTargetKeys.splice(oldIndex, 1);
+                        newTargetKeys.splice(newIndex, 0, moveKeys);
+                    }
+                    else if (data.operation === 'add' || data.operation === 'remove') {
+                        let childrens = data.fromParentElem.children;
+                        // 需要把拖拽后的修改恢复回来由targetKeys去触发
+                        removeElem(data.elem);
+                        if (childrens[oldIndex]) {
+                            addBeforeElem(data.elem, childrens[oldIndex]);
+                        } else {
+                            addAfterElem(data.elem, childrens[oldIndex - 1]);
+                        }
+                        if (data.operation === 'add') {
+                            moveKeys = this.leftData[oldIndex].key;
+                            if (this.isDisabledItem(moveKeys)) return;
+                            newTargetKeys.splice(newIndex, 0, moveKeys);
+                        } else {
+                            moveKeys = newTargetKeys[oldIndex];
+                            if (this.isDisabledItem(moveKeys)) return;
+                            newTargetKeys.splice(oldIndex, 1);
+                        }
+                    }
+                }
                 else { return }
 
                 this.$emit('on-change', newTargetKeys, direction, moveKeys);
@@ -283,6 +334,16 @@
                     direction: direction,
                     moveKeys: moveKeys
                 });
+            },
+            isDisabledItem (key) {
+                let item;
+                for (let i = 0; i < this.data.length; ++i) {
+                    if (this.data[i].key === key) {
+                        item = this.data[i];
+                        break;
+                    }
+                }
+                return !!item.disabled;
             },
             handleLeftCheckedKeysChange (keys) {
                 this.leftCheckedKeys = keys;
