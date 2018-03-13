@@ -1,5 +1,5 @@
 import setLang from '../lang';
-DazjkYWFx9WwNQVho5f5oPQuAcodHe
+
 const lang = {
     i: {
         locale: 'nl-NL',
