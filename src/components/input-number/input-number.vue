@@ -93,6 +93,10 @@
                 type: Boolean,
                 default: false
             },
+            empty: {
+                type: Boolean,
+                default: false
+            },
             autofocus: {
                 type: Boolean,
                 default: false
@@ -168,6 +172,9 @@
                 return `${prefixCls}-input`;
             },
             precisionValue () {
+                if (isNaN(this.currentValue)) {
+                    return '';
+                }
                 // can not display 1.0
                 return this.precision ? this.currentValue.toFixed(this.precision) : this.currentValue;
             }
@@ -279,7 +286,9 @@
                         this.setValue(val);
                     }
                 } else {
-                    event.target.value = this.currentValue;
+                    this.currentValue = this.empty ? NaN : this.min;
+                    this.setValue(this.currentValue);
+                    event.target.value = isNaN(this.currentValue) ? '' : this.currentValue;
                 }
             },
             changeVal (val) {
