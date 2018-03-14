@@ -1,5 +1,9 @@
 <template>
-    <div :class="classes" v-clickoutside="handleClose">
+    <div
+        tabindex="0"
+        @keydown.down="handleFocus"
+        :class="classes"
+        v-clickoutside="handleClose">
         <div
             :class="selectionCls"
             ref="reference"
@@ -260,6 +264,10 @@
             }
         },
         methods: {
+            // open when focus on Select and press `down` key
+            handleFocus () {
+                if (!this.visible) this.toggleMenu();
+            },
             toggleMenu () {
                 if (this.disabled || this.autoComplete) {
                     return false;

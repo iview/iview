@@ -35,6 +35,7 @@
         <textarea
             v-else
             :id="elementId"
+            :wrap="wrap"
             :autocomplete="autocomplete"
             :spellcheck="spellcheck"
             ref="textarea"
@@ -135,6 +136,12 @@
             },
             elementId: {
                 type: String
+            },
+            wrap: {
+                validator (value) {
+                    return oneOf(value, ['hard', 'soft']);
+                },
+                default: 'soft'
             }
         },
         data () {

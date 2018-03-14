@@ -158,12 +158,12 @@
                 type: String
             },
             upDown: {
-              type: Boolean,
-              default: false
+                type: Boolean,
+                default: false
             },
             draggable: {
-              type: Boolean,
-              default: false
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -261,7 +261,7 @@
                 // 新增右侧列表支持循环上下移动功能
                 // https://github.com/iview/iview/issues/2206
                 else if (direction === 'up' || direction === 'down') {
-                    moveKeys = this.targetSelectedKeys
+                    moveKeys = this.targetSelectedKeys;
 
                     if (direction === 'up') {
                         moveKeys.forEach(key => {
@@ -272,7 +272,7 @@
                                 newTargetKeys.splice(pos, 1, newTargetKeys[pos - 1]);
                                 newTargetKeys.splice(pos - 1, 1, key);
                             }
-                        })
+                        });
                     } else {
                         for (let i = moveKeys.length - 1; i >= 0; --i) {
                             let key = moveKeys[i];
@@ -326,7 +326,7 @@
                         }
                     }
                 }
-                else { return }
+                else { return; }
 
                 this.$emit('on-change', newTargetKeys, direction, moveKeys);
                 this.dispatch('FormItem', 'on-form-change', {

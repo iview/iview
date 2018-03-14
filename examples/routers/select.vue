@@ -293,377 +293,447 @@
 <!--}-->
 <!--</script>-->
 
+<!--<template>-->
+    <!--<div id="app">-->
+        <!--<input><br>-->
+        <!--<i-select-->
+            <!--v-model="model1"-->
+            <!--style="width:200px"-->
+        <!--&gt;-->
+            <!--<i-option-->
+                <!--v-for="item in cityList"-->
+                <!--:value="item.value"-->
+                <!--:key="item.value"-->
+            <!--&gt;{{item.label}}</i-option>-->
+        <!--</i-select>-->
+        <!--<br>-->
+        <!--<i-select-->
+            <!--v-model="model2"-->
+            <!--size="small"-->
+            <!--style="width:100px"-->
+        <!--&gt;-->
+            <!--<i-option-->
+                <!--v-for="item in cityList"-->
+                <!--:value="item.value"-->
+                <!--:key="item.value"-->
+            <!--&gt;{{item.label}}</i-option>-->
+        <!--</i-select>-->
+        <!--<i-select-->
+            <!--v-model="model3"-->
+            <!--style="width:100px"-->
+        <!--&gt;-->
+            <!--<i-option-->
+                <!--v-for="item in cityList"-->
+                <!--:value="item.value"-->
+                <!--:key="item.value"-->
+            <!--&gt;{{item.label}}</i-option>-->
+        <!--</i-select>-->
+        <!--<i-select-->
+            <!--v-model="model4"-->
+            <!--size="large"-->
+            <!--style="width:100px"-->
+        <!--&gt;-->
+            <!--<i-option-->
+                <!--v-for="item in cityList"-->
+                <!--:value="item.value"-->
+                <!--:key="item.value"-->
+            <!--&gt;{{item.label}}</i-option>-->
+        <!--</i-select>-->
+        <!--<br>-->
+        <!--<i-select-->
+            <!--v-model="model5"-->
+            <!--disabled-->
+            <!--style="width:200px"-->
+        <!--&gt;-->
+            <!--<i-option-->
+                <!--v-for="item in cityList"-->
+                <!--:value="item.value"-->
+                <!--:key="item.value"-->
+            <!--&gt;{{item.label}}</i-option>-->
+        <!--</i-select>-->
+        <!--<i-select-->
+            <!--v-model="model6"-->
+            <!--style="width:200px"-->
+        <!--&gt;-->
+            <!--<i-option value="beijing">New York</i-option>-->
+            <!--<i-option value="shanghai" disabled>London</i-option>-->
+            <!--<i-option value="shenzhen">Sydney</i-option>-->
+        <!--</i-select>-->
+        <!--<br>-->
+        <!--<i-select-->
+            <!--v-model="model8"-->
+            <!--clearable-->
+            <!--style="width:200px"-->
+        <!--&gt;-->
+            <!--<i-option-->
+                <!--v-for="item in cityList"-->
+                <!--:value="item.value"-->
+                <!--:key="item.value"-->
+            <!--&gt;{{item.label}}</i-option>-->
+        <!--</i-select>-->
+        <!--<br>-->
+        <!--<i-select-->
+            <!--v-model="model7"-->
+            <!--style="width:200px"-->
+        <!--&gt;-->
+            <!--<option-group label="Hot Cities">-->
+                <!--<i-option-->
+                    <!--v-for="item in cityList1"-->
+                    <!--:value="item.value"-->
+                    <!--:key="item.value"-->
+                <!--&gt;{{item.label}}</i-option>-->
+            <!--</option-group>-->
+            <!--<option-group label="Other Cities">-->
+                <!--<i-option-->
+                    <!--v-for="item in cityList2"-->
+                    <!--:value="item.value"-->
+                    <!--:key="item.value"-->
+                <!--&gt;{{item.label}}</i-option>-->
+            <!--</option-group>-->
+        <!--</i-select>-->
+        <!--<br>-->
+        <!--<i-select-->
+            <!--v-model="model9"-->
+            <!--style="width:200px"-->
+        <!--&gt;-->
+            <!--<i-option value="New York" label="New York">-->
+                <!--<span>New York</span>-->
+                <!--<span style="float:right;color:#ccc">America</span>-->
+            <!--</i-option>-->
+            <!--<i-option value="London" label="London">-->
+                <!--<span>London</span>-->
+                <!--<span style="float:right;color:#ccc">U.K.</span>-->
+            <!--</i-option>-->
+            <!--<i-option value="Sydney" label="Sydney">-->
+                <!--<span>Sydney</span>-->
+                <!--<span style="float:right;color:#ccc">Australian</span>-->
+            <!--</i-option>-->
+        <!--</i-select>-->
+        <!--<br>-->
+        <!--<div>here</div>-->
+        <!--<i-select-->
+            <!--v-model="model10"-->
+            <!--multiple-->
+            <!--style="width:260px"-->
+        <!--&gt;-->
+            <!--<i-option-->
+                <!--v-for="item in cityList"-->
+                <!--:value="item.value"-->
+                <!--:key="item.value"-->
+            <!--&gt;{{item.label}}</i-option>-->
+        <!--</i-select>-->
+        <!--<br>-->
+        <!--<row>-->
+            <!--<i-col-->
+                <!--span="12"-->
+                <!--style="padding-right:10px"-->
+            <!--&gt;-->
+                <!--<i-select-->
+                    <!--v-model="model11"-->
+                    <!--filterable-->
+                <!--&gt;-->
+                    <!--<i-option-->
+                        <!--v-for="item in cityList"-->
+                        <!--:value="item.value"-->
+                        <!--:key="item.value"-->
+                    <!--&gt;{{item.label}}</i-option>-->
+                <!--</i-select>-->
+            <!--</i-col>-->
+            <!--<i-col span="12">-->
+                <!--<i-select-->
+                    <!--v-model="model12"-->
+                    <!--filterable-->
+                    <!--multiple-->
+                <!--&gt;-->
+                    <!--<i-option-->
+                        <!--v-for="item in cityList"-->
+                        <!--:value="item.value"-->
+                        <!--:key="item.value"-->
+                    <!--&gt;{{item.label}}</i-option>-->
+                <!--</i-select>-->
+            <!--</i-col>-->
+        <!--</row>-->
+        <!--<br>-->
+        <!--<row>-->
+            <!--<i-col-->
+                <!--span="12"-->
+                <!--style="padding-right:10px"-->
+            <!--&gt;-->
+                <!--<i-select-->
+                    <!--v-model="model13"-->
+                    <!--filterable-->
+                    <!--remote-->
+                    <!--clearable-->
+                    <!--:remote-method="remoteMethod1"-->
+                    <!--:loading="loading1"-->
+                <!--&gt;-->
+                    <!--<i-option-->
+                        <!--v-for="(option, index) in options1"-->
+                        <!--:value="option.value"-->
+                        <!--:key="index"-->
+                    <!--&gt;{{option.label}}</i-option>-->
+                <!--</i-select>-->
+            <!--</i-col>-->
+            <!--<i-col span="12">-->
+                <!--<i-select-->
+                    <!--v-model="model14"-->
+                    <!--multiple-->
+                    <!--filterable-->
+                    <!--remote-->
+                    <!--clearable-->
+                    <!--:remote-method="remoteMethod2"-->
+                    <!--:loading="loading2">-->
+                    <!--<i-option-->
+                        <!--v-for="(option, index) in options2"-->
+                        <!--:value="option.value"-->
+                        <!--:key="index"-->
+                    <!--&gt;{{option.label}}</i-option>-->
+                <!--</i-select>-->
+            <!--</i-col>-->
+        <!--</row>-->
+    <!--</div>-->
+<!--</template>-->
+
+<!--<script>-->
+    <!--export default {-->
+        <!--data(){-->
+            <!--return {-->
+                <!--cityList: [-->
+                    <!--{-->
+                        <!--value: 'New York',-->
+                        <!--label: 'New York',-->
+                    <!--},-->
+                    <!--{-->
+                        <!--value: 'London',-->
+                        <!--label: 'London',-->
+                    <!--},-->
+                    <!--{-->
+                        <!--value: 'Sydney',-->
+                        <!--label: 'Sydney',-->
+                    <!--},-->
+                    <!--{-->
+                        <!--value: 'Ottawa',-->
+                        <!--label: 'Ottawa',-->
+                    <!--},-->
+                    <!--{-->
+                        <!--value: 'Paris',-->
+                        <!--label: 'Paris',-->
+                    <!--},-->
+                    <!--{-->
+                        <!--value: 'Canberra',-->
+                        <!--label: 'Canberra',-->
+                    <!--},-->
+                <!--],-->
+                <!--cityList1: [-->
+                    <!--{-->
+                        <!--value: 'New York',-->
+                        <!--label: 'New York',-->
+                    <!--},-->
+                    <!--{-->
+                        <!--value: 'London',-->
+                        <!--label: 'London',-->
+                    <!--},-->
+                    <!--{-->
+                        <!--value: 'Sydney',-->
+                        <!--label: 'Sydney',-->
+                    <!--},-->
+                <!--],-->
+                <!--cityList2: [-->
+                    <!--{-->
+                        <!--value: 'Ottawa',-->
+                        <!--label: 'Ottawa',-->
+                    <!--},-->
+                    <!--{-->
+                        <!--value: 'Paris',-->
+                        <!--label: 'Paris',-->
+                    <!--},-->
+                    <!--{-->
+                        <!--value: 'Canberra',-->
+                        <!--label: 'Canberra',-->
+                    <!--},-->
+                <!--],-->
+                <!--model1: '',-->
+                <!--model2: '',-->
+                <!--model3: '',-->
+                <!--model4: '',-->
+                <!--model5: '',-->
+                <!--model6: '',-->
+                <!--model7: '',-->
+                <!--model8: '',-->
+                <!--model9: '',-->
+                <!--model10: [],-->
+                <!--model11: '',-->
+                <!--model12: [],-->
+                <!--model13: '',-->
+                <!--loading1: false,-->
+                <!--options1: [],-->
+                <!--model14: [],-->
+                <!--loading2: false,-->
+                <!--options2: [],-->
+                <!--list: [-->
+                    <!--'Alabama',-->
+                    <!--'Alaska',-->
+                    <!--'Arizona',-->
+                    <!--'Arkansas',-->
+                    <!--'California',-->
+                    <!--'Colorado',-->
+                    <!--'Connecticut',-->
+                    <!--'Delaware',-->
+                    <!--'Florida',-->
+                    <!--'Georgia',-->
+                    <!--'Hawaii',-->
+                    <!--'Idaho',-->
+                    <!--'Illinois',-->
+                    <!--'Indiana',-->
+                    <!--'Iowa',-->
+                    <!--'Kansas',-->
+                    <!--'Kentucky',-->
+                    <!--'Louisiana',-->
+                    <!--'Maine',-->
+                    <!--'Maryland',-->
+                    <!--'Massachusetts',-->
+                    <!--'Michigan',-->
+                    <!--'Minnesota',-->
+                    <!--'Mississippi',-->
+                    <!--'Missouri',-->
+                    <!--'Montana',-->
+                    <!--'Nebraska',-->
+                    <!--'Nevada',-->
+                    <!--'New hampshire',-->
+                    <!--'New jersey',-->
+                    <!--'New mexico',-->
+                    <!--'New york',-->
+                    <!--'North carolina',-->
+                    <!--'North dakota',-->
+                    <!--'Ohio',-->
+                    <!--'Oklahoma',-->
+                    <!--'Oregon',-->
+                    <!--'Pennsylvania',-->
+                    <!--'Rhode island',-->
+                    <!--'South carolina',-->
+                    <!--'South dakota',-->
+                    <!--'Tennessee',-->
+                    <!--'Texas',-->
+                    <!--'Utah',-->
+                    <!--'Vermont',-->
+                    <!--'Virginia',-->
+                    <!--'Washington',-->
+                    <!--'West virginia',-->
+                    <!--'Wisconsin',-->
+                    <!--'Wyoming',-->
+                <!--],-->
+            <!--};-->
+        <!--},-->
+
+        <!--methods: {-->
+            <!--remoteMethod1(query){-->
+                <!--if (query !== '') {-->
+                    <!--this.loading1 = true;-->
+
+                    <!--setTimeout(() => {-->
+                        <!--this.loading1 = false;-->
+
+                        <!--const list = this.list.map(item => ({-->
+                            <!--value: item,-->
+                            <!--label: item,-->
+                        <!--}));-->
+
+                        <!--this.options1 = list-->
+                            <!--.filter(item => item.label.toLowerCase().includes(query.toLowerCase()));-->
+                    <!--}, 1500);-->
+                <!--} else {-->
+                    <!--this.options1 = [];-->
+                <!--}-->
+            <!--},-->
+            <!--remoteMethod2(query){-->
+                <!--if (query !== '') {-->
+                    <!--this.loading2 = true;-->
+
+                    <!--setTimeout(() => {-->
+                        <!--this.loading2 = false;-->
+
+                        <!--const list = this.list.map(item => ({-->
+                            <!--value: item,-->
+                            <!--label: item,-->
+                        <!--}));-->
+
+                        <!--this.options2 = list-->
+                            <!--.filter(item => item.label.toLowerCase().includes(query.toLowerCase()));-->
+                    <!--}, 200);-->
+                <!--} else {-->
+                    <!--this.options2 = [];-->
+                <!--}-->
+            <!--},-->
+        <!--},-->
+    <!--};-->
+<!--</script>-->
+
+
 <template>
-    <div id="app">
-        <input><br>
-        <i-select
-            v-model="model1"
-            style="width:200px"
-        >
-            <i-option
-                v-for="item in cityList"
-                :value="item.value"
-                :key="item.value"
-            >{{item.label}}</i-option>
-        </i-select>
-        <br>
-        <i-select
-            v-model="model2"
-            size="small"
-            style="width:100px"
-        >
-            <i-option
-                v-for="item in cityList"
-                :value="item.value"
-                :key="item.value"
-            >{{item.label}}</i-option>
-        </i-select>
-        <i-select
-            v-model="model3"
-            style="width:100px"
-        >
-            <i-option
-                v-for="item in cityList"
-                :value="item.value"
-                :key="item.value"
-            >{{item.label}}</i-option>
-        </i-select>
-        <i-select
-            v-model="model4"
-            size="large"
-            style="width:100px"
-        >
-            <i-option
-                v-for="item in cityList"
-                :value="item.value"
-                :key="item.value"
-            >{{item.label}}</i-option>
-        </i-select>
-        <br>
-        <i-select
-            v-model="model5"
-            disabled
-            style="width:200px"
-        >
-            <i-option
-                v-for="item in cityList"
-                :value="item.value"
-                :key="item.value"
-            >{{item.label}}</i-option>
-        </i-select>
-        <i-select
-            v-model="model6"
-            style="width:200px"
-        >
-            <i-option value="beijing">New York</i-option>
-            <i-option value="shanghai" disabled>London</i-option>
-            <i-option value="shenzhen">Sydney</i-option>
-        </i-select>
-        <br>
-        <i-select
-            v-model="model8"
-            clearable
-            style="width:200px"
-        >
-            <i-option
-                v-for="item in cityList"
-                :value="item.value"
-                :key="item.value"
-            >{{item.label}}</i-option>
-        </i-select>
-        <br>
-        <i-select
-            v-model="model7"
-            style="width:200px"
-        >
-            <option-group label="Hot Cities">
-                <i-option
-                    v-for="item in cityList1"
-                    :value="item.value"
-                    :key="item.value"
-                >{{item.label}}</i-option>
-            </option-group>
-            <option-group label="Other Cities">
-                <i-option
-                    v-for="item in cityList2"
-                    :value="item.value"
-                    :key="item.value"
-                >{{item.label}}</i-option>
-            </option-group>
-        </i-select>
-        <br>
-        <i-select
-            v-model="model9"
-            style="width:200px"
-        >
-            <i-option value="New York" label="New York">
-                <span>New York</span>
-                <span style="float:right;color:#ccc">America</span>
-            </i-option>
-            <i-option value="London" label="London">
-                <span>London</span>
-                <span style="float:right;color:#ccc">U.K.</span>
-            </i-option>
-            <i-option value="Sydney" label="Sydney">
-                <span>Sydney</span>
-                <span style="float:right;color:#ccc">Australian</span>
-            </i-option>
-        </i-select>
-        <br>
-        <div>here</div>
-        <i-select
-            v-model="model10"
-            multiple
-            style="width:260px"
-        >
-            <i-option
-                v-for="item in cityList"
-                :value="item.value"
-                :key="item.value"
-            >{{item.label}}</i-option>
-        </i-select>
-        <br>
-        <row>
-            <i-col
-                span="12"
-                style="padding-right:10px"
-            >
-                <i-select
-                    v-model="model11"
-                    filterable
-                >
-                    <i-option
-                        v-for="item in cityList"
-                        :value="item.value"
-                        :key="item.value"
-                    >{{item.label}}</i-option>
-                </i-select>
-            </i-col>
-            <i-col span="12">
-                <i-select
-                    v-model="model12"
-                    filterable
-                    multiple
-                >
-                    <i-option
-                        v-for="item in cityList"
-                        :value="item.value"
-                        :key="item.value"
-                    >{{item.label}}</i-option>
-                </i-select>
-            </i-col>
-        </row>
-        <br>
-        <row>
-            <i-col
-                span="12"
-                style="padding-right:10px"
-            >
-                <i-select
-                    v-model="model13"
-                    filterable
-                    remote
-                    clearable
-                    :remote-method="remoteMethod1"
-                    :loading="loading1"
-                >
-                    <i-option
-                        v-for="(option, index) in options1"
-                        :value="option.value"
-                        :key="index"
-                    >{{option.label}}</i-option>
-                </i-select>
-            </i-col>
-            <i-col span="12">
-                <i-select
-                    v-model="model14"
-                    multiple
-                    filterable
-                    remote
-                    clearable
-                    :remote-method="remoteMethod2"
-                    :loading="loading2">
-                    <i-option
-                        v-for="(option, index) in options2"
-                        :value="option.value"
-                        :key="index"
-                    >{{option.label}}</i-option>
-                </i-select>
-            </i-col>
-        </row>
+    <div>
+        <Select v-model="model1" size="small" style="width:200px;">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+        <Select v-model="model10" size="small" multiple style="width:260px">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+
+        <br><br>
+
+        <Select v-model="model1" size="large" style="width:200px">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+        <Select v-model="model10" size="large" multiple style="width:260px">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+
+        <br><br>
+
+        <Select v-model="model1" style="width:200px">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+        <Select v-model="model11" multiple style="width:260px">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+        <Select v-model="model10" multiple style="width:260px">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
     </div>
 </template>
-
 <script>
     export default {
-        data(){
+        data () {
             return {
                 cityList: [
                     {
                         value: 'New York',
-                        label: 'New York',
+                        label: 'New York'
                     },
                     {
-                        value: 'London',
-                        label: 'London',
-                    },
-                    {
-                        value: 'Sydney',
-                        label: 'Sydney',
-                    },
-                    {
-                        value: 'Ottawa',
-                        label: 'Ottawa',
-                    },
-                    {
-                        value: 'Paris',
-                        label: 'Paris',
-                    },
-                    {
-                        value: 'Canberra',
-                        label: 'Canberra',
-                    },
-                ],
-                cityList1: [
-                    {
-                        value: 'New York',
-                        label: 'New York',
-                    },
-                    {
-                        value: 'London',
-                        label: 'London',
+                        value: '中国',
+                        label: '中国'
                     },
                     {
                         value: 'Sydney',
-                        label: 'Sydney',
+                        label: 'Sydney'
                     },
-                ],
-                cityList2: [
                     {
                         value: 'Ottawa',
-                        label: 'Ottawa',
+                        label: 'Ottawa'
                     },
                     {
                         value: 'Paris',
-                        label: 'Paris',
+                        label: 'Paris'
                     },
                     {
                         value: 'Canberra',
-                        label: 'Canberra',
-                    },
+                        label: 'Canberra'
+                    }
                 ],
                 model1: '',
-                model2: '',
-                model3: '',
-                model4: '',
-                model5: '',
-                model6: '',
-                model7: '',
-                model8: '',
-                model9: '',
                 model10: [],
-                model11: '',
-                model12: [],
-                model13: '',
-                loading1: false,
-                options1: [],
-                model14: [],
-                loading2: false,
-                options2: [],
-                list: [
-                    'Alabama',
-                    'Alaska',
-                    'Arizona',
-                    'Arkansas',
-                    'California',
-                    'Colorado',
-                    'Connecticut',
-                    'Delaware',
-                    'Florida',
-                    'Georgia',
-                    'Hawaii',
-                    'Idaho',
-                    'Illinois',
-                    'Indiana',
-                    'Iowa',
-                    'Kansas',
-                    'Kentucky',
-                    'Louisiana',
-                    'Maine',
-                    'Maryland',
-                    'Massachusetts',
-                    'Michigan',
-                    'Minnesota',
-                    'Mississippi',
-                    'Missouri',
-                    'Montana',
-                    'Nebraska',
-                    'Nevada',
-                    'New hampshire',
-                    'New jersey',
-                    'New mexico',
-                    'New york',
-                    'North carolina',
-                    'North dakota',
-                    'Ohio',
-                    'Oklahoma',
-                    'Oregon',
-                    'Pennsylvania',
-                    'Rhode island',
-                    'South carolina',
-                    'South dakota',
-                    'Tennessee',
-                    'Texas',
-                    'Utah',
-                    'Vermont',
-                    'Virginia',
-                    'Washington',
-                    'West virginia',
-                    'Wisconsin',
-                    'Wyoming',
-                ],
-            };
-        },
-
-        methods: {
-            remoteMethod1(query){
-                if (query !== '') {
-                    this.loading1 = true;
-
-                    setTimeout(() => {
-                        this.loading1 = false;
-
-                        const list = this.list.map(item => ({
-                            value: item,
-                            label: item,
-                        }));
-
-                        this.options1 = list
-                            .filter(item => item.label.toLowerCase().includes(query.toLowerCase()));
-                    }, 1500);
-                } else {
-                    this.options1 = [];
-                }
-            },
-            remoteMethod2(query){
-                if (query !== '') {
-                    this.loading2 = true;
-
-                    setTimeout(() => {
-                        this.loading2 = false;
-
-                        const list = this.list.map(item => ({
-                            value: item,
-                            label: item,
-                        }));
-
-                        this.options2 = list
-                            .filter(item => item.label.toLowerCase().includes(query.toLowerCase()));
-                    }, 200);
-                } else {
-                    this.options2 = [];
-                }
-            },
-        },
-    };
+                model11: []
+            }
+        }
+    }
 </script>

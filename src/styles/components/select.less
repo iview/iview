@@ -55,6 +55,12 @@
             transform: rotate(180deg);
         }
     }
+    &:focus{
+        outline: 0;
+        .@{select-prefix-cls}-selection{
+            .active();
+        }
+    }
 
     &-disabled {
         .@{select-prefix-cls}-selection {
@@ -96,11 +102,39 @@
         }
     }
 
+    &-multiple &-selection{
+        padding: 0 24px 0 4px;
+        //min-height: @input-height-base;
+
+        .@{select-prefix-cls}-placeholder{
+            display: block;
+            height: @input-height-base - 2px;
+            line-height: @input-height-base - 2px;
+            color: @input-placeholder-color;
+            font-size: @font-size-small;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding-left: 4px;
+            padding-right: 22px;
+        }
+    }
+
     &-large&-single &-selection{
         height: @input-height-large;
 
         .@{select-prefix-cls}-placeholder, .@{select-prefix-cls}-selected-value{
             height: @input-height-large - 2px;
+            line-height: @input-height-large - 2px;
+            font-size: @font-size-base;
+        }
+    }
+
+    &-large&-multiple &-selection{
+        min-height: @input-height-large;
+
+        .@{select-prefix-cls}-placeholder, .@{select-prefix-cls}-selected-value{
+            min-height: @input-height-large - 2px;
             line-height: @input-height-large - 2px;
             font-size: @font-size-base;
         }
@@ -116,21 +150,14 @@
         }
     }
 
-    &-multiple &-selection{
-        padding: 0 24px 0 4px;
-        min-height: @input-height-base;
+    &-small&-multiple &-selection{
+        min-height: @input-height-small;
+        border-radius: @btn-border-radius-small;
 
-        .@{select-prefix-cls}-placeholder{
-            display: block;
-            height: @input-height-base - 2px;
-            line-height: @input-height-base - 2px;
-            color: @input-placeholder-color;
-            font-size: @font-size-small;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            padding-left: 4px;
-            padding-right: 22px;
+        .@{select-prefix-cls}-placeholder, .@{select-prefix-cls}-selected-value{
+            height: auto;
+            min-height: @input-height-small - 2px;
+            line-height: @input-height-small - 2px;
         }
     }
 
@@ -189,6 +216,22 @@
     }
 
     &-multiple .@{css-prefix}tag{
+        height: 24px;
+        line-height: 22px;
+        margin: 3px 4px 3px 0;
+    }
+
+    &-large&-multiple .@{css-prefix}tag{
+        height: 28px;
+        line-height: 26px;
+        font-size: @font-size-base;
+    }
+
+    &-small&-multiple .@{css-prefix}tag{
+        height: 17px;
+        line-height: 15px;
+        font-size: @font-size-small;
+        padding: 0 6px;
         margin: 3px 4px 2px 0;
     }
 
