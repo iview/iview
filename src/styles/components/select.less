@@ -55,6 +55,12 @@
             transform: rotate(180deg);
         }
     }
+    &:focus{
+        outline: 0;
+        .@{select-prefix-cls}-selection{
+            .active();
+        }
+    }
 
     &-disabled {
         .@{select-prefix-cls}-selection {
