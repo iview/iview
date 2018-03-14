@@ -34,3 +34,27 @@ export const off = (function() {
         };
     }
 })();
+
+/* istanbul ignore next */
+export const removeElem = function (elem) {
+    if (!elem) return false;
+    let parent = elem.parentNode;
+    if (!parent) return false;
+    return parent.removeChild(elem);
+};
+
+/* istanbul ignore next */
+export const addAfterElem = function (eNewElem, elem) {
+    if (!eNewElem || !elem || !elem.parentNode) return;
+    if (!elem.nextSibling) {
+        elem.parentNode.appendChild(eNewElem);
+    } else {
+        elem.parentNode.insertBefore(eNewElem, elem.nextSibling);
+    }
+};
+
+/* istanbul ignore next */
+export const addBeforeElem = function (eNewElem, elem) {
+    if (!eNewElem || !elem || !elem.parentNode) return;
+    elem.parentNode.insertBefore(eNewElem, elem);
+};

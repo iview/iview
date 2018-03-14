@@ -14,7 +14,7 @@
                     @on-query-change="handleQueryChange"
                     :placeholder="filterPlaceholder"></Search>
             </div>
-            <ul :class="prefixCls + '-content'">
+            <ul :class="prefixCls + '-content'" ref="dragList">
                 <li
                     v-for="item in filterData"
                     :class="itemClasses(item)"
@@ -29,6 +29,7 @@
     </div>
 </template>
 <script>
+    import Sortable from 'sortablejs';
     import Search from './search.vue';
     import Checkbox from '../checkbox/checkbox.vue';
 
@@ -36,6 +37,9 @@
         name: 'TransferList',
         components: { Search, Checkbox },
         props: {
+            position: String,
+            parentId: Number,
+            draggable: Boolean,
             prefixCls: String,
             data: Array,
             renderFormat: Function,
@@ -127,13 +131,48 @@
             },
             handleQueryChange (val) {
                 this.query = val;
+            },
+            enableDrag () {
+                this.$nextTick(() => {
+                    this.sortable = Sortable.create(this.$refs.dragList, {
+                        group: {
+                            name: `${this.parentId}-${this.position}`,
+                            put: `${this.parentId}-${this.position === 'left' ? 'right' : 'left'}`,
+                            pull: true
+                        },
+                        // animation: 100, /* 移动时会出现水平滚动条,屏蔽掉 */
+                        draggable: `.${this.prefixCls}-content-item`,
+                        forceFallback: false,
+                        sort: this.position === 'right',
+                        onAdd: this.emitDragEvent,
+                        onUpdate: this.emitDragEvent,
+                        onRemove: this.emitDragEvent,
+                        onMove: this.emitDragEvent
+                    });
+                });
+            },
+            emitDragEvent (e) {
+                return this.$parent.moveTo('drag', {
+                    position: this.position,
+                    operation: e.type,
+                    elem: e.item,
+                    oldIndex: e.oldIndex,
+                    newIndex: e.newIndex,
+                    fromParentElem: e.from,
+                    toParentElem: e.to,
+                    event: e
+                });
             }
         },
         created () {
             this.updateFilteredData();
+            if (this.draggable) this.enableDrag();
         },
         mounted () {
             this.showFooter = this.$slots.default !== undefined;
+        },
+        beforeDestroy () {
+            this.sortable && this.sortable.destroy();
         }
     };
 </script>
