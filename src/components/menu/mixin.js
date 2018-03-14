@@ -7,7 +7,7 @@ export default {
     },
     computed: {
         hasParentSubmenu () {
-            return findComponentUpward(this, 'Submenu');
+            return !!findComponentUpward(this, 'Submenu');
         },
         parentSubmenuNum () {
             return findComponentsUpward(this, 'Submenu').length;

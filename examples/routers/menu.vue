@@ -1,5 +1,5 @@
 <template>
-    <Menu active-name="1-2" :open-names="['1']">
+    <Menu active-name="1-2" :open-names="['1']" theme="dark">
         <Submenu name="1">
             <template slot="title">
                 <Icon type="ios-analytics"></Icon>
