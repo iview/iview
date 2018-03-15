@@ -49,6 +49,9 @@
                             },
                             onCreate:()=>{
                                 this.resetTransformOrigin();
+                            },
+                            onUpdate:()=>{
+                                this.resetTransformOrigin();
                             }
                         });
                     });
