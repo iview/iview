@@ -698,6 +698,33 @@
         <Select v-model="model10" multiple style="width:260px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
+        
+        <br><br>
+        
+        <br><br>
+        
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <Select v-model="model10" multiple style="width:260px">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+        <br><br>
+        
+        <br><br>
+        
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <Select v-model="model10" multiple style="width:260px">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
     </div>
 </template>
 <script>
