@@ -20,7 +20,7 @@
                 <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']"></Icon>
             </slot>
         </div>
-        <transition name="slide-up">
+        <transition name="transition-drop">
             <Drop
                 v-show="visible"
                 :class="{ [prefixCls + '-transfer']: transfer }"

@@ -5,7 +5,7 @@
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave">
         <div :class="[prefixCls + '-rel']" ref="reference" @click="handleClick"><slot></slot></div>
-        <transition :name="transition">
+        <transition name="transition-drop">
             <Drop
                 :class="dropdownCls"
                 v-show="currentVisible"
