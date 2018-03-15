@@ -1,5 +1,11 @@
 <template>
-    <Cascader v-model="value3" :data="data" filterable style="width: 400px"></Cascader>
+    <div>
+        <Cascader v-model="value3" :data="data" filterable style="width: 400px"></Cascader>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <Cascader v-model="value3" :data="data" filterable style="width: 400px"></Cascader>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <Cascader v-model="value3" :data="data" filterable style="width: 400px"></Cascader>
+    </div>
 </template>
 <script>
     export default {
