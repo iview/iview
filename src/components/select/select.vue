@@ -6,6 +6,7 @@
         v-clickoutside="handleClose">
         <div
             :class="selectionCls"
+            :style="selectionStyles"
             ref="reference"
             @click="toggleMenu">
             <slot name="input">
@@ -80,6 +81,9 @@
             multiple: {
                 type: Boolean,
                 default: false
+            },
+            height: {
+                type: [Number, String]
             },
             disabled: {
                 type: Boolean,
@@ -191,6 +195,14 @@
                 return {
                     [`${prefixCls}-selection`]: !this.autoComplete
                 };
+            },
+            selectionStyles(){
+                let style = {};
+                if (this.multiple&&this.height) {
+                    const height = parseInt(this.height);
+                    style.height = height+`px`;
+                }
+                return style;
             },
             showPlaceholder () {
                 let status = false;
