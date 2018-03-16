@@ -334,7 +334,7 @@
                         if (typeof val === 'string') {
                             val = parser(val, format);
                         } else if (type === 'timerange') {
-                            val = parser(val, format);
+                            val = parser(val, format).map(v => v || '');
                         } else {
                             val = val.map(date => new Date(date)); // try to parse
                             val = val.map(date => isNaN(date.getTime()) ? null : date); // check if parse passed
