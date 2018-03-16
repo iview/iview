@@ -1,17 +1,3 @@
-<style>
-    .table{
-        margin:20px 0px;
-    }
-    .table .iview-table-cell{
-        padding-left: 2px !important;
-        padding-right: 2px !important;
-
-    }
-    .table .iview-table-small td {
-        height: 30px !important;
-    }
-</style>
-
 <template>
     <div>
         <Table border ref="selection" :columns="columns4" :data="data1"></Table>
@@ -20,7 +6,7 @@
         <Button @click="handleSelectAll(true)">Set all selected</Button>
         <Button @click="handleSelectAll(false)">Cancel all selected</Button>
         
-        <div class="table1">
+        <div style='margin:20px 0px;'>
             <Table :data="tableData1" :columns="tableColumns1" :height='500' stripe size='small'></Table>
             <div style="margin: 10px;overflow: hidden">
                 <div style="float: right;">
@@ -80,7 +66,7 @@
                         key: 'data5'
                     },
                     {
-                        title: '一二三四一二三四一二三四一二三四',
+                        title: 'Data6Data6Data6Data6Data6Data6Data6Data6Data6Data6Data6',
                         key: 'data6'
                     },
                 ]
