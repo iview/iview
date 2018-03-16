@@ -49,6 +49,7 @@
                             },
                             onCreate:()=>{
                                 this.resetTransformOrigin();
+                                this.$nextTick(this.popper.update());
                             },
                             onUpdate:()=>{
                                 this.resetTransformOrigin();
