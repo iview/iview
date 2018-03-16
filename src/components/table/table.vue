@@ -338,6 +338,12 @@
             rowClsName (index) {
                 return this.rowClassName(this.data[index], index);
             },
+            showScrollBar () {
+                if (!this.$refs.tbody) return false;
+                let bodyContent = this.$refs.tbody.$el;
+                let bodyContentHeight = parseInt(getStyle(bodyContent, 'height'));
+                return this.bodyHeight? this.bodyHeight < bodyContentHeight : false;
+            },
             handleResize () {
                 this.$nextTick(() => {
                     const allWidth = !this.columns.some(cell => !cell.width);    // each column set a width
@@ -374,6 +380,7 @@
                                 };
                             }
                             this.columnsWidth = columnsWidth;
+                            this.fixedHeader();
                         }
                     });
                     // get table real height,for fixed when set height prop,but height < table's height,show scrollBarWidth
@@ -478,6 +485,7 @@
                 }
                 this.$emit('on-selection-change', selection);
             },
+            
             fixedHeader () {
                 if (this.height) {
                     this.$nextTick(() => {
