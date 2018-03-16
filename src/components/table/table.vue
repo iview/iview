@@ -187,7 +187,7 @@
                 scrollBarWidth: getScrollBarSize(),
                 currentContext: this.context,
                 cloneData: deepCopy(this.data),    // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
-                showScrollBar:false,
+                showVerticalScrollBar:false,
             };
         },
         computed: {
@@ -378,20 +378,20 @@
                             this.fixedHeader();
 
                             if (this.$refs.tbody) {
-                                let bodyContent = this.$refs.tbody.$el;
-                                let className = bodyContent.parentElement.className;
-                                bodyContent.parentElement.className = '';
-                                let bodyContentHeight = bodyContent.offsetHeight;
-                                let bodyContentWidth = bodyContent.offsetWidth;
-                                bodyContent.parentElement.className = className;
-                                let bodyWidth = this.$refs.tbody.$el.parentElement.offsetWidth;
-                                let bodyHeight = this.$refs.tbody.$el.parentElement.offsetHeight;
+                                let bodyContentEl = this.$refs.tbody.$el;
+                                let bodyEl = bodyContentEl.parentElement;
+                                let className = bodyEl.className;
+                                bodyEl.className = '';
+                                let bodyContentHeight = bodyContentEl.offsetHeight;
+                                let bodyContentWidth = bodyContentEl.offsetWidth;
+                                bodyEl.className = className;
+                                let bodyWidth = bodyEl.offsetWidth;
+                                let bodyHeight = bodyEl.offsetHeight;
                                 let scrollBarWidth = 0;
                                 if (bodyWidth < bodyContentWidth) {
                                     scrollBarWidth = this.scrollBarWidth;
                                 }
-                                let show = this.bodyHeight? bodyHeight - scrollBarWidth < bodyContentHeight : false;
-                                this.showScrollBar = show;
+                                this.showVerticalScrollBar = this.bodyHeight? bodyHeight - scrollBarWidth < bodyContentHeight : false;
                             }
                         }
                     });

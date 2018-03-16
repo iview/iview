@@ -27,7 +27,7 @@ export default {
             // when browser has scrollBar,set a width to resolve scroll position bug
             if (width && this.columns.length === index + 1 && top && this.$parent.bodyHeight !== 0) {
                 let scrollBarWidth = this.$parent.scrollBarWidth;
-                if (!this.$parent.showScrollBar) scrollBarWidth = 0;
+                if (!this.$parent.showVerticalScrollBar) scrollBarWidth = 0;
                 width += scrollBarWidth;
             }
             // when fixed type,reset first right fixed column's width
@@ -35,7 +35,7 @@ export default {
                 const firstFixedIndex = this.columns.findIndex((col) => col.fixed === 'right');
                 if (firstFixedIndex === index) {
                     let scrollBarWidth = this.$parent.scrollBarWidth;
-                    if (!this.$parent.showScrollBar) scrollBarWidth = 0;
+                    if (!this.$parent.showVerticalScrollBar) scrollBarWidth = 0;
                     width += scrollBarWidth;
                 }
             }
