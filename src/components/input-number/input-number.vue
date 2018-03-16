@@ -93,6 +93,10 @@
                 type: Boolean,
                 default: false
             },
+            empty: {
+                type: Boolean,
+                default: false
+            },
             autofocus: {
                 type: Boolean,
                 default: false
@@ -174,6 +178,9 @@
                 return `${prefixCls}-input`;
             },
             precisionValue () {
+                if (this.empty && isNaN(this.currentValue)) {
+                    return undefined;
+                }
                 // can not display 1.0
                 return this.precision ? this.currentValue.toFixed(this.precision) : this.currentValue;
             },
@@ -212,7 +219,7 @@
                 let val = Number(this.currentValue);
                 const step = Number(this.step);
                 if (isNaN(val)) {
-                    return false;
+                    val = this.min;
                 }
 
                 // input a number, and key up or down
@@ -273,10 +280,21 @@
                     val = this.parser(val);
                 }
 
-                if (event.type == 'input' && val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
-
                 const {min, max} = this;
                 const isEmptyString = val.length === 0;
+
+                if (event.type == 'input') {
+                    this.currentValue = this.min;
+                    this.setValue(this.currentValue);
+                    if (isEmptyString) {
+                        // If input is cleared out, set currentValue NaN
+                        this.currentValue = NaN;
+                        this.setValue(this.currentValue);
+                        return;
+                    }
+                    if (val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
+                }
+
                 val = Number(val);
 
                 if(isEmptyString){
@@ -306,12 +324,14 @@
                 val = Number(val);
                 if (!isNaN(val)) {
                     const step = this.step;
-
                     this.upDisabled = val + step > this.max;
                     this.downDisabled = val - step < this.min;
                 } else {
-                    this.upDisabled = true;
-                    this.downDisabled = true;
+                    if (!this.empty) {
+                        this.upDisabled = true;
+                        this.downDisabled = true;
+                        return;
+                    }
                 }
             }
         },
