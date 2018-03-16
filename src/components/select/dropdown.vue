@@ -46,6 +46,12 @@
                                 computeStyle:{
                                     gpuAcceleration: false,
                                 }
+                            },
+                            onCreate:()=>{
+                                this.resetTransformOrigin();
+                            },
+                            onUpdate:()=>{
+                                this.resetTransformOrigin();
                             }
                         });
                     });
@@ -64,6 +70,10 @@
                         }
                     }, 300);
                 }
+            },
+            resetTransformOrigin() {
+                let placement = this.popper.popper.getAttribute('x-placement').split('-')[0];
+                this.popper.popper.style.transformOrigin = placement==='bottom'?'center top':'center bottom';
             }
         },
         created () {

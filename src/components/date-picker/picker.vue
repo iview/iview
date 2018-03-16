@@ -23,7 +23,7 @@
                 ></i-input>
             </slot>
         </div>
-        <transition :name="transition">
+        <transition name="transition-drop">
             <Drop
                 @click.native="handleTransferClick"
                 v-show="opened"
