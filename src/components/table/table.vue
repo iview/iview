@@ -186,7 +186,8 @@
                 bodyRealHeight: 0,
                 scrollBarWidth: getScrollBarSize(),
                 currentContext: this.context,
-                cloneData: deepCopy(this.data)    // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
+                cloneData: deepCopy(this.data),    // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
+                showScrollBar:false,
             };
         },
         computed: {
@@ -338,12 +339,6 @@
             rowClsName (index) {
                 return this.rowClassName(this.data[index], index);
             },
-            showScrollBar () {
-                if (!this.$refs.tbody) return false;
-                let bodyContent = this.$refs.tbody.$el;
-                let bodyContentHeight = parseInt(getStyle(bodyContent, 'height'));
-                return this.bodyHeight? this.bodyHeight < bodyContentHeight : false;
-            },
             handleResize () {
                 this.$nextTick(() => {
                     const allWidth = !this.columns.some(cell => !cell.width);    // each column set a width
@@ -381,6 +376,23 @@
                             }
                             this.columnsWidth = columnsWidth;
                             this.fixedHeader();
+
+                            if (this.$refs.tbody) {
+                                let bodyContent = this.$refs.tbody.$el;
+                                let className = bodyContent.parentElement.className;
+                                bodyContent.parentElement.className = '';
+                                let bodyContentHeight = bodyContent.offsetHeight;
+                                let bodyContentWidth = bodyContent.offsetWidth;
+                                bodyContent.parentElement.className = className;
+                                let bodyWidth = this.$refs.tbody.$el.parentElement.offsetWidth;
+                                let bodyHeight = this.$refs.tbody.$el.parentElement.offsetHeight;
+                                let scrollBarWidth = 0;
+                                if (bodyWidth < bodyContentWidth) {
+                                    scrollBarWidth = this.scrollBarWidth;
+                                }
+                                let show = this.bodyHeight? bodyHeight - scrollBarWidth < bodyContentHeight : false;
+                                this.showScrollBar = show;
+                            }
                         }
                     });
                     // get table real height,for fixed when set height prop,but height < table's height,show scrollBarWidth

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Table border ref="selection" :columns="columns4" :data="data1"></Table>
+        <Table border ref="selection" :columns="columns4" :data="data1" :height='258'></Table>
         <Button @click="handleSetData">Set Data</Button>
         <Button @click="handleClearData">Clear Data</Button>
         <Button @click="handleSelectAll(true)">Set all selected</Button>
@@ -28,7 +28,8 @@
                     },
                     {
                         title: 'Name',
-                        key: 'name'
+                        key: 'name',
+                        width: 260
                     },
                     {
                         title: 'Age',
@@ -36,7 +37,13 @@
                     },
                     {
                         title: 'Address',
-                        key: 'address'
+                        key: 'address',
+                        width: 260
+                    },
+                    {
+                        title: 'Address',
+                        key: 'address',
+                        width: 260
                     }
                 ],
                 data1: [
