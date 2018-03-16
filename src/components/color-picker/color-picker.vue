@@ -12,7 +12,7 @@
                 </div>
             </div>
         </div>
-        <transition :name="transition">
+        <transition name="transition-drop">
             <Drop
                 v-show="visible"
                 @click.native="handleTransferClick"
