@@ -380,11 +380,10 @@
                             if (this.$refs.tbody) {
                                 let bodyContentEl = this.$refs.tbody.$el;
                                 let bodyEl = bodyContentEl.parentElement;
-                                let className = bodyEl.className;
                                 bodyEl.className = '';
+                                this.$nextTick(() => { bodyEl.className = this.prefixCls + '-body'; });
                                 let bodyContentHeight = bodyContentEl.offsetHeight;
                                 let bodyContentWidth = bodyContentEl.offsetWidth;
-                                bodyEl.className = className;
                                 let bodyWidth = bodyEl.offsetWidth;
                                 let bodyHeight = bodyEl.offsetHeight;
                                 let scrollBarWidth = 0;
