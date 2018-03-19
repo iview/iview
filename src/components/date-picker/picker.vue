@@ -12,6 +12,7 @@
                     :placeholder="placeholder"
                     :value="visualValue"
                     :name="name"
+                    :clearable="clearable"
                     @on-input-change="handleInputChange"
                     @on-focus="handleFocus"
                     @on-blur="handleBlur"
