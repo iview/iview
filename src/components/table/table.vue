@@ -401,14 +401,14 @@
                                     this.showHorizontalScrollBar = bodyWidth  < bodyContentWidth + (this.showVerticalScrollBar?this.scrollBarWidth:0);
                                     
                                     if(this.showVerticalScrollBar){
-                                        bodyEl.classList.add(this.prefixCls +'-overflowY')
+                                        bodyEl.classList.add(this.prefixCls +'-overflowY');
                                     }else{
-                                        bodyEl.classList.remove(this.prefixCls +'-overflowY')
+                                        bodyEl.classList.remove(this.prefixCls +'-overflowY');
                                     }
                                     if(this.showHorizontalScrollBar){
-                                        bodyEl.classList.add(this.prefixCls +'-overflowX')
+                                        bodyEl.classList.add(this.prefixCls +'-overflowX');
                                     }else{
-                                        bodyEl.classList.remove(this.prefixCls +'-overflowX')
+                                        bodyEl.classList.remove(this.prefixCls +'-overflowX');
                                     }
 
                                 }
