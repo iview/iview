@@ -23,12 +23,12 @@
                     :obj-data="objData"></table-body>
             </div>
             <div
-                :class="[prefixCls + '-tip']"
+                :class="[prefixCls + '-tip']" :style="bodyStyle" @scroll="handleBodyScroll"
                 v-show="((!!localeNoDataText && (!data || data.length === 0)) || (!!localeNoFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
                 <table cellspacing="0" cellpadding="0" border="0">
                     <tbody>
                         <tr>
-                            <td :style="{ 'height': bodyStyle.height }">
+                            <td :style="{'height':bodyStyle.height,'width':`${this.headerWidth}px`}">
                                 <span v-html="localeNoDataText" v-if="!data || data.length === 0"></span>
                                 <span v-html="localeNoFilteredDataText" v-else></span>
                             </td>
@@ -188,6 +188,7 @@
                 currentContext: this.context,
                 cloneData: deepCopy(this.data),    // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
                 showVerticalScrollBar:false,
+                headerWidth:0
             };
         },
         computed: {
@@ -253,7 +254,7 @@
                         if (this.bodyHeight > this.bodyRealHeight) {
                             width = this.tableWidth;
                         } else {
-                            width = this.tableWidth - this.scrollBarWidth;
+                            width = this.tableWidth - (this.showVerticalScrollBar?this.scrollBarWidth:0);
                         }
                     }
 //                    const width = this.bodyHeight === 0 ? this.tableWidth : this.tableWidth - this.scrollBarWidth;
@@ -348,7 +349,12 @@
                         this.tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
                     }
                     this.columnsWidth = {};
-                    if (!this.$refs.tbody) return;
+                    this.fixedHeader();
+                    this.headerWidth = this.$refs.header.childNodes[0].offsetWidth;
+                    if (!this.$refs.tbody) {
+                        this.showVerticalScrollBar = false;
+                        return;
+                    }
                     this.$nextTick(() => {
                         let columnsWidth = {};
                         let autoWidthIndex = -1;
@@ -358,7 +364,6 @@
                             const $tr = this.$refs.tbody.$el.querySelectorAll('tbody tr');
                             if ($tr.length === 0) return;
                             const $td = $tr[0].children;
-
                             for (let i = 0; i < $td.length; i++) {    // can not use forEach in Firefox
                                 const column = this.cloneColumns[i];
 
@@ -375,7 +380,6 @@
                                 };
                             }
                             this.columnsWidth = columnsWidth;
-                            this.fixedHeader();
 
                             if (this.$refs.tbody) {
                                 let bodyContentEl = this.$refs.tbody.$el;
