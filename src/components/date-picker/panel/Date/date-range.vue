@@ -295,9 +295,7 @@
                     const otherPanel = panel === 'left' ? 'right' : 'left';
                     const otherCurrent = new Date(this[`${otherPanel}PanelDate`]);
                     otherCurrent[`set${type}`](otherCurrent[`get${type}`]() + increment);
-                    if (current[`get${type}`]() !== otherCurrent[`get${type}`]()){
-                        this[`${otherPanel}PanelDate`] = otherCurrent;
-                    }
+                    this[`${otherPanel}PanelDate`] = otherCurrent;
                 }
             },
             showYearPicker (panel) {
