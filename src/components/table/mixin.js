@@ -31,7 +31,7 @@ export default {
                 width += scrollBarWidth;
             }
             // when fixed type,reset first right fixed column's width
-            if (this.fixed === 'right') {
+            if (this.fixed === 'right' && top ) {
                 const firstFixedIndex = this.columns.findIndex((col) => col.fixed === 'right');
                 if (firstFixedIndex === index) {
                     let scrollBarWidth = this.$parent.scrollBarWidth;

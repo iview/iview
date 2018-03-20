@@ -188,6 +188,7 @@
                 currentContext: this.context,
                 cloneData: deepCopy(this.data),    // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
                 showVerticalScrollBar:false,
+                showHorizontalScrollBar:false,
                 headerWidth:0
             };
         },
@@ -277,8 +278,9 @@
                 this.rightFixedColumns.forEach((col) => {
                     if (col.fixed && col.fixed === 'right') width += col._width;
                 });
-                width += this.scrollBarWidth;
+                //width += this.scrollBarWidth;
                 style.width = `${width}px`;
+                style.right = `${this.showVerticalScrollBar?this.scrollBarWidth:0}px`;
                 return style;
             },
             bodyStyle () {
@@ -293,11 +295,11 @@
             fixedBodyStyle () {
                 let style = {};
                 if (this.bodyHeight !== 0) {
-                    let height = this.bodyHeight + this.scrollBarWidth - 1;
+                    let height = this.bodyHeight + (!this.showHorizontalScrollBar?this.scrollBarWidth:0) - 1;
 
                     // #2102 里，如果 Table 没有设置 width，而是集成父级的 width，固定列也应该不包含滚动条高度，所以这里直接计算表格宽度
                     const tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
-                    if ((this.width && this.width < this.tableWidth) || tableWidth < this.tableWidth){
+                    if ((this.width && this.width < this.tableWidth) || tableWidth < this.tableWidth+(this.showVerticalScrollBar?this.scrollBarWidth:0)){
                         height = this.bodyHeight;
                     }
 //                    style.height = this.scrollBarWidth > 0 ? `${this.bodyHeight}px` : `${this.bodyHeight - 1}px`;
@@ -349,12 +351,13 @@
                         this.tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
                     }
                     this.columnsWidth = {};
-                    this.fixedHeader();
-                    this.headerWidth = this.$refs.header.childNodes[0].offsetWidth;
-                    if (!this.$refs.tbody) {
-                        this.showVerticalScrollBar = false;
-                        return;
-                    }
+                    this.$nextTick(()=>{
+                        this.headerWidth = this.$refs.header.childNodes[0].offsetWidth;
+                        if (!this.$refs.tbody) {
+                            this.showVerticalScrollBar = false;
+                            return;
+                        }
+                    });
                     this.$nextTick(() => {
                         let columnsWidth = {};
                         let autoWidthIndex = -1;
@@ -380,22 +383,36 @@
                                 };
                             }
                             this.columnsWidth = columnsWidth;
+                            this.$nextTick(()=>{
+                                this.fixedHeader();
+                                if (this.$refs.tbody) {
+                                    let bodyContentEl = this.$refs.tbody.$el;
+                                    let bodyEl = bodyContentEl.parentElement;
+                                    let bodyContentHeight = bodyContentEl.offsetHeight;
+                                    let bodyContentWidth = bodyContentEl.offsetWidth;
+                                    let bodyWidth = bodyEl.offsetWidth;
+                                    let bodyHeight = bodyEl.offsetHeight;
+                                    let scrollBarWidth = 0;
+                                    if (bodyWidth < bodyContentWidth + (bodyHeight<bodyContentHeight?this.scrollBarWidth : 0)) {
+                                        scrollBarWidth = this.scrollBarWidth;
+                                    }
+                                    
+                                    this.showVerticalScrollBar = this.bodyHeight? bodyHeight - scrollBarWidth < bodyContentHeight : false;
+                                    this.showHorizontalScrollBar = bodyWidth  < bodyContentWidth + (this.showVerticalScrollBar?this.scrollBarWidth:0);
+                                    
+                                    if(this.showVerticalScrollBar){
+                                        bodyEl.classList.add(this.prefixCls +'-overflowY')
+                                    }else{
+                                        bodyEl.classList.remove(this.prefixCls +'-overflowY')
+                                    }
+                                    if(this.showHorizontalScrollBar){
+                                        bodyEl.classList.add(this.prefixCls +'-overflowX')
+                                    }else{
+                                        bodyEl.classList.remove(this.prefixCls +'-overflowX')
+                                    }
 
-                            if (this.$refs.tbody) {
-                                let bodyContentEl = this.$refs.tbody.$el;
-                                let bodyEl = bodyContentEl.parentElement;
-                                bodyEl.className = '';
-                                this.$nextTick(() => { bodyEl.className = this.prefixCls + '-body'; });
-                                let bodyContentHeight = bodyContentEl.offsetHeight;
-                                let bodyContentWidth = bodyContentEl.offsetWidth;
-                                let bodyWidth = bodyEl.offsetWidth;
-                                let bodyHeight = bodyEl.offsetHeight;
-                                let scrollBarWidth = 0;
-                                if (bodyWidth < bodyContentWidth) {
-                                    scrollBarWidth = this.scrollBarWidth;
                                 }
-                                this.showVerticalScrollBar = this.bodyHeight? bodyHeight - scrollBarWidth < bodyContentHeight : false;
-                            }
+                            });
                         }
                     });
                     // get table real height,for fixed when set height prop,but height < table's height,show scrollBarWidth
