@@ -345,15 +345,13 @@
         &-footer{
             padding: 4px;
             border-top: 1px solid @border-color-split;
-        }
-    }
-    .ivu-poptip-popper{
-        min-width: 0;
-        text-align: left;
-    }
-    thead .ivu-poptip-popper{
-        .ivu-poptip-body{
-            padding: 0;
+            overflow: hidden;
+            button:first-child{
+                float: left;
+            }
+            button:last-child{
+                float: right;
+            }
         }
     }
 
@@ -369,5 +367,12 @@
 
     &-expanded-hidden{
         visibility: hidden;
+    }
+}
+.ivu-table-popper{
+    min-width: 0;
+    text-align: left;
+    .ivu-poptip-body{
+        padding: 0;
     }
 }

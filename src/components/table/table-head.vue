@@ -23,6 +23,8 @@
                                 v-if="isPopperShow(column)"
                                 v-model="column._filterVisible"
                                 placement="bottom"
+                                popper-class="ivu-table-popper"
+                                transfer
                                 @on-popper-hide="handleFilterHide(column._index)">
                                 <span :class="[prefixCls + '-filter']">
                                     <i class="ivu-icon ivu-icon-funnel" :class="{on: column._isFiltered}"></i>
