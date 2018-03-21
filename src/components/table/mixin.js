@@ -25,13 +25,19 @@ export default {
                 width = this.columnsWidth[column._index].width;
             }
             // when browser has scrollBar,set a width to resolve scroll position bug
-            if (width && this.columns.length === index + 1 && top && this.$parent.bodyHeight !== 0) {
-                width += this.$parent.scrollBarWidth;
+            if (width && this.columns.length === index + 1 && top && this.$parent.bodyHeight !== 0 && column.fixed!=='left' && !this.fixed) {
+                let scrollBarWidth = this.$parent.scrollBarWidth;
+                if (!this.$parent.showVerticalScrollBar) scrollBarWidth = 0;
+                width += scrollBarWidth;
             }
             // when fixed type,reset first right fixed column's width
-            if (this.fixed === 'right') {
-                const firstFixedIndex = this.columns.findIndex((col) => col.fixed === 'right');
-                if (firstFixedIndex === index) width += this.$parent.scrollBarWidth;
+            if (this.fixed === 'right' && top ) {
+                //const firstFixedIndex = this.columns.findIndex((col) => col.fixed === 'right');
+                if (this.columns.length  === index + 1) {
+                    let scrollBarWidth = this.$parent.scrollBarWidth;
+                    if (!this.$parent.showVerticalScrollBar) scrollBarWidth = 0;
+                    width += scrollBarWidth;
+                }
             }
             if (width === '0') width = '';
             return width;

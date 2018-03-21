@@ -23,12 +23,12 @@
                     :obj-data="objData"></table-body>
             </div>
             <div
-                :class="[prefixCls + '-tip']"
+                :class="[prefixCls + '-tip']" :style="bodyStyle" @scroll="handleBodyScroll"
                 v-show="((!!localeNoDataText && (!data || data.length === 0)) || (!!localeNoFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
                 <table cellspacing="0" cellpadding="0" border="0">
                     <tbody>
                         <tr>
-                            <td :style="{ 'height': bodyStyle.height }">
+                            <td :style="{'height':bodyStyle.height,'width':`${this.headerWidth}px`}">
                                 <span v-html="localeNoDataText" v-if="!data || data.length === 0"></span>
                                 <span v-html="localeNoFilteredDataText" v-else></span>
                             </td>
@@ -186,7 +186,10 @@
                 bodyRealHeight: 0,
                 scrollBarWidth: getScrollBarSize(),
                 currentContext: this.context,
-                cloneData: deepCopy(this.data)    // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
+                cloneData: deepCopy(this.data),    // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
+                showVerticalScrollBar:false,
+                showHorizontalScrollBar:false,
+                headerWidth:0
             };
         },
         computed: {
@@ -252,7 +255,7 @@
                         if (this.bodyHeight > this.bodyRealHeight) {
                             width = this.tableWidth;
                         } else {
-                            width = this.tableWidth - this.scrollBarWidth;
+                            width = this.tableWidth - (this.showVerticalScrollBar?this.scrollBarWidth:0);
                         }
                     }
 //                    const width = this.bodyHeight === 0 ? this.tableWidth : this.tableWidth - this.scrollBarWidth;
@@ -275,8 +278,9 @@
                 this.rightFixedColumns.forEach((col) => {
                     if (col.fixed && col.fixed === 'right') width += col._width;
                 });
-                width += this.scrollBarWidth;
+                //width += this.scrollBarWidth;
                 style.width = `${width}px`;
+                style.right = `${this.showVerticalScrollBar?this.scrollBarWidth:0}px`;
                 return style;
             },
             bodyStyle () {
@@ -291,11 +295,11 @@
             fixedBodyStyle () {
                 let style = {};
                 if (this.bodyHeight !== 0) {
-                    let height = this.bodyHeight + this.scrollBarWidth - 1;
+                    let height = this.bodyHeight + (!this.showHorizontalScrollBar?this.scrollBarWidth:0) - 1;
 
                     // #2102 里，如果 Table 没有设置 width，而是集成父级的 width，固定列也应该不包含滚动条高度，所以这里直接计算表格宽度
                     const tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
-                    if ((this.width && this.width < this.tableWidth) || tableWidth < this.tableWidth){
+                    if ((this.width && this.width < this.tableWidth) || tableWidth < this.tableWidth+(this.showVerticalScrollBar?this.scrollBarWidth:0)){
                         height = this.bodyHeight;
                     }
 //                    style.height = this.scrollBarWidth > 0 ? `${this.bodyHeight}px` : `${this.bodyHeight - 1}px`;
@@ -310,7 +314,7 @@
                     if (col.fixed && col.fixed === 'left') {
                         left.push(col);
                     } else {
-                        other.push(col);
+                        //other.push(col);
                     }
                 });
                 return left.concat(other);
@@ -322,7 +326,7 @@
                     if (col.fixed && col.fixed === 'right') {
                         right.push(col);
                     } else {
-                        other.push(col);
+                        //other.push(col);
                     }
                 });
                 return right.concat(other);
@@ -347,7 +351,13 @@
                         this.tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
                     }
                     this.columnsWidth = {};
-                    if (!this.$refs.tbody) return;
+                    this.$nextTick(()=>{
+                        this.headerWidth = this.$refs.header.childNodes[0].offsetWidth;
+                        if (!this.$refs.tbody) {
+                            this.showVerticalScrollBar = false;
+                            return;
+                        }
+                    });
                     this.$nextTick(() => {
                         let columnsWidth = {};
                         let autoWidthIndex = -1;
@@ -357,7 +367,6 @@
                             const $tr = this.$refs.tbody.$el.querySelectorAll('tbody tr');
                             if ($tr.length === 0) return;
                             const $td = $tr[0].children;
-
                             for (let i = 0; i < $td.length; i++) {    // can not use forEach in Firefox
                                 const column = this.cloneColumns[i];
 
@@ -374,6 +383,36 @@
                                 };
                             }
                             this.columnsWidth = columnsWidth;
+                            this.$nextTick(()=>{
+                                this.fixedHeader();
+                                if (this.$refs.tbody) {
+                                    let bodyContentEl = this.$refs.tbody.$el;
+                                    let bodyEl = bodyContentEl.parentElement;
+                                    let bodyContentHeight = bodyContentEl.offsetHeight;
+                                    let bodyContentWidth = bodyContentEl.offsetWidth;
+                                    let bodyWidth = bodyEl.offsetWidth;
+                                    let bodyHeight = bodyEl.offsetHeight;
+                                    let scrollBarWidth = 0;
+                                    if (bodyWidth < bodyContentWidth + (bodyHeight<bodyContentHeight?this.scrollBarWidth : 0)) {
+                                        scrollBarWidth = this.scrollBarWidth;
+                                    }
+                                    
+                                    this.showVerticalScrollBar = this.bodyHeight? bodyHeight - scrollBarWidth < bodyContentHeight : false;
+                                    this.showHorizontalScrollBar = bodyWidth  < bodyContentWidth + (this.showVerticalScrollBar?this.scrollBarWidth:0);
+                                    
+                                    if(this.showVerticalScrollBar){
+                                        bodyEl.classList.add(this.prefixCls +'-overflowY');
+                                    }else{
+                                        bodyEl.classList.remove(this.prefixCls +'-overflowY');
+                                    }
+                                    if(this.showHorizontalScrollBar){
+                                        bodyEl.classList.add(this.prefixCls +'-overflowX');
+                                    }else{
+                                        bodyEl.classList.remove(this.prefixCls +'-overflowX');
+                                    }
+
+                                }
+                            });
                         }
                     });
                     // get table real height,for fixed when set height prop,but height < table's height,show scrollBarWidth
@@ -478,6 +517,7 @@
                 }
                 this.$emit('on-selection-change', selection);
             },
+            
             fixedHeader () {
                 if (this.height) {
                     this.$nextTick(() => {
@@ -795,6 +835,7 @@
                 deep: true
             },
             height () {
+                this.handleResize();
                 this.fixedHeader();
             }
         }

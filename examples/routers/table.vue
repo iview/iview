@@ -1,18 +1,32 @@
 <template>
     <div>
-        <Table border ref="selection" :columns="columns4" :data="data1"></Table>
+        <Table border ref="selection" :columns="columns4" :data="data1" :height='258'></Table>
         <Button @click="handleSetData">Set Data</Button>
         <Button @click="handleClearData">Clear Data</Button>
         <Button @click="handleSelectAll(true)">Set all selected</Button>
         <Button @click="handleSelectAll(false)">Cancel all selected</Button>
-        <div style="margin:20px 0px;">
-            <Table :data="tableData1" :columns="tableColumns1"  style="width: 100%;" stripe></Table>
+        <div style='margin:20px 0px'>
+            <Table border :columns="columns2" :data="data3"></Table>
+        </div>
+        <div style='margin:20px 0px'>
+            <Table :height='200' border :columns="columns2" :data="data3"></Table>
+        </div>
+        <div style='margin:20px 0px'>
+            <Table  :width='600' border :columns="columns2" :data="data3"></Table>
+        </div>
+        <div style='margin:20px 0px'>
+            <Table  :width='600' :height='200' border :columns="columns2" :data="data3"></Table>
+        </div>
+        <div style='margin:20px 0px;'>
+            Table scrolling <i-switch v-model="fixedHeader" style="margin-right: 5px"></i-switch>
+            <Table :data="tableData1" :columns="tableColumns1" :height="fixedHeader ? 250 : ''" stripe size='small'></Table>
             <div style="margin: 10px;overflow: hidden">
                 <div style="float: right;">
                     <Page :total="100" show-sizer :current="1" @on-change="changePage"></Page>
                 </div>
             </div>
         </div>
+
     </div>
 </template>
 <script>
@@ -27,7 +41,8 @@
                     },
                     {
                         title: 'Name',
-                        key: 'name'
+                        key: 'name',
+                        width: 260
                     },
                     {
                         title: 'Age',
@@ -35,13 +50,110 @@
                     },
                     {
                         title: 'Address',
-                        key: 'address'
+                        key: 'address',
+                        width: 260
+                    },
+                    {
+                        title: 'Address',
+                        key: 'address',
+                        width: 260
                     }
                 ],
                 data1: [
 
                 ],
-
+                columns2: [
+                    {
+                        title: 'Name',
+                        key: 'name',
+                        width: 100,
+                        fixed: 'left'
+                    },
+                    {
+                        title: 'Age',
+                        key: 'age',
+                        width: 100
+                    },
+                    {
+                        title: 'Province',
+                        key: 'province',
+                        width: 100
+                    },
+                    {
+                        title: 'City',
+                        key: 'city',
+                        width: 100
+                    },
+                    {
+                        title: 'Address',
+                        key: 'address',
+                        width: 200
+                    },
+                    {
+                        title: 'Postcode',
+                        key: 'zip',
+                        width: 100,
+                        fixed: 'right',
+                    },
+                    {
+                        title: 'Action',
+                        key: 'action',
+                        fixed: 'right',
+                        width: 120,
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'text',
+                                        size: 'small'
+                                    }
+                                }, 'View'),
+                                h('Button', {
+                                    props: {
+                                        type: 'text',
+                                        size: 'small'
+                                    }
+                                }, 'Edit')
+                            ]);
+                        }
+                    }
+                ],
+                data3: [
+                    {
+                        name: 'John Brown',
+                        age: 18,
+                        address: 'New York No. 1 Lake Park',
+                        province: 'America',
+                        city: 'New York',
+                        zip: 100000
+                    },
+                    {
+                        name: 'Jim Green',
+                        age: 24,
+                        address: 'Washington, D.C. No. 1 Lake Park',
+                        province: 'America',
+                        city: 'Washington, D.C.',
+                        zip: 100000
+                    },
+                    {
+                        name: 'Joe Black',
+                        age: 30,
+                        address: 'Sydney No. 1 Lake Park',
+                        province: 'Australian',
+                        city: 'Sydney',
+                        zip: 100000
+                    },
+                    {
+                        name: 'Jon Snow',
+                        age: 26,
+                        address: 'Ottawa No. 2 Lake Park',
+                        province: 'Canada',
+                        city: 'Ottawa',
+                        zip: 100000
+                    }
+                ],
+                
+                fixedHeader: false,
                 tableData1: [],
                 tableColumns1: [
                     {
@@ -65,7 +177,7 @@
                         key: 'data5'
                     },
                     {
-                        title: 'Data6',
+                        title: 'Data6Data6Data6Data6Data6Data6Data6Data6Data6Data6Data6',
                         key: 'data6'
                     },
                 ]
@@ -118,7 +230,7 @@
                         data3: Math.floor(Math.random () * 100000000),
                         data4: Math.floor(Math.random () * Math.random () * 10000),
                         data5: Math.floor(Math.random () * Math.random () * 1000000),
-                        data6: Math.floor(Math.random () * Math.random () * 100000000),
+                        data6: ''+Math.floor(Math.random () * Math.random () * 100000000)+Math.floor(Math.random () * 100000000)+Math.floor(Math.random () * 100000000),
                     });
                 }
                 this.tableData1 = data;
