@@ -12,10 +12,10 @@
             <Table :height='200' border :columns="columns2" :data="data3"></Table>
         </div>
         <div style='margin:20px 0px'>
-            <Table  :width='500' border :columns="columns2" :data="data3"></Table>
+            <Table  :width='600' border :columns="columns2" :data="data3"></Table>
         </div>
         <div style='margin:20px 0px'>
-            <Table  :width='500' :height='200' border :columns="columns2" :data="data3"></Table>
+            <Table  :width='600' :height='200' border :columns="columns2" :data="data3"></Table>
         </div>
         <div style='margin:20px 0px;'>
             Table scrolling <i-switch v-model="fixedHeader" style="margin-right: 5px"></i-switch>
