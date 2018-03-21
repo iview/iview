@@ -12,6 +12,7 @@
                     :data="rebuildData"></table-head>
             </div>
             <div :class="[prefixCls + '-body']" :style="bodyStyle" ref="body" @scroll="handleBodyScroll"
+                @mousewheel="handleFixedMousewheel"
                 v-show="!((!!localeNoDataText && (!data || data.length === 0)) || (!!localeNoFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
                 <table-body
                     ref="tbody"
@@ -48,7 +49,7 @@
                         :data="rebuildData"></table-head>
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedBody" 
-                    @wheel="handleFixedMousewheel">
+                    @mousewheel="handleFixedMousewheel">
                     <table-body
                         fixed="left"
                         :prefix-cls="prefixCls"
@@ -71,7 +72,7 @@
                         :data="rebuildData"></table-head>
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedRightBody"
-                    @wheel="handleFixedMousewheel">
+                    @mousewheel="handleFixedMousewheel">
                     <table-body
                         fixed="right"
                         :prefix-cls="prefixCls"
@@ -554,17 +555,17 @@
                 //body.scrollTop += deltaY;
                 let step = 0;
                 let timeId = setInterval(()=>{
-                    step+=10;
+                    step += 5;
                     if(deltaY>0){
-                        body.scrollTop += 10;
+                        body.scrollTop += 2;
                     }
                     else{
-                        body.scrollTop += -10;
+                        body.scrollTop -= 2;
                     }
-                    if(step>=Math.abs(deltaY)){
+                    if(step >= Math.abs(deltaY)){
                         clearInterval(timeId);
                     }
-                } , 20);
+                }, 5);
             },
             handleMouseWheel (event) {
                 const deltaX = event.deltaX;
