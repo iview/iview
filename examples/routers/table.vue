@@ -92,7 +92,8 @@
                     {
                         title: 'Postcode',
                         key: 'zip',
-                        width: 100
+                        width: 100,
+                        fixed: 'right',
                     },
                     {
                         title: 'Action',
