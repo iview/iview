@@ -47,7 +47,8 @@
                         :columns-width="columnsWidth"
                         :data="rebuildData"></table-head>
                 </div>
-                <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedBody">
+                <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedBody" 
+                    @wheel="handleFixedMousewheel">
                     <table-body
                         fixed="left"
                         :prefix-cls="prefixCls"
@@ -69,7 +70,8 @@
                         :columns-width="columnsWidth"
                         :data="rebuildData"></table-head>
                 </div>
-                <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedRightBody">
+                <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedRightBody"
+                    @wheel="handleFixedMousewheel">
                     <table-body
                         fixed="right"
                         :prefix-cls="prefixCls"
@@ -538,6 +540,31 @@
                 if (this.isLeftFixed) this.$refs.fixedBody.scrollTop = event.target.scrollTop;
                 if (this.isRightFixed) this.$refs.fixedRightBody.scrollTop = event.target.scrollTop;
                 this.hideColumnFilter();
+            },
+            handleFixedMousewheel(event) {
+                const deltaY = event.deltaY;
+                const body = this.$refs.body;
+                const currentScrollTop = body.scrollTop;
+                if (deltaY < 0 && currentScrollTop !== 0) {
+                    event.preventDefault();
+                }
+                if (deltaY > 0 && body.scrollHeight - body.clientHeight > currentScrollTop) {
+                    event.preventDefault();
+                }
+                //body.scrollTop += deltaY;
+                let step = 0;
+                let timeId = setInterval(()=>{
+                    step+=10;
+                    if(deltaY>0){
+                        body.scrollTop += 10;
+                    }
+                    else{
+                        body.scrollTop += -10;
+                    }
+                    if(step>=Math.abs(deltaY)){
+                        clearInterval(timeId);
+                    }
+                } , 20);
             },
             handleMouseWheel (event) {
                 const deltaX = event.deltaX;
