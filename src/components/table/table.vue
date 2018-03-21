@@ -12,7 +12,7 @@
                     :data="rebuildData"></table-head>
             </div>
             <div :class="[prefixCls + '-body']" :style="bodyStyle" ref="body" @scroll="handleBodyScroll"
-                @mousewheel="handleFixedMousewheel"
+                @mousewheel="handleFixedMousewheel" @DOMMouseScroll="handleFixedMousewheel"
                 v-show="!((!!localeNoDataText && (!data || data.length === 0)) || (!!localeNoFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
                 <table-body
                     ref="tbody"
@@ -49,7 +49,8 @@
                         :data="rebuildData"></table-head>
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedBody" 
-                    @mousewheel="handleFixedMousewheel">
+                    @mousewheel="handleFixedMousewheel" @DOMMouseScroll="handleFixedMousewheel"
+                    @touchmove="handleFixedTouchmove">
                     <table-body
                         fixed="left"
                         :prefix-cls="prefixCls"
@@ -72,7 +73,8 @@
                         :data="rebuildData"></table-head>
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedRightBody"
-                    @mousewheel="handleFixedMousewheel">
+                    @mousewheel="handleFixedMousewheel" @DOMMouseScroll="handleFixedMousewheel"
+                    @touchmove="handleFixedTouchmove">
                     <table-body
                         fixed="right"
                         :prefix-cls="prefixCls"
@@ -542,8 +544,21 @@
                 if (this.isRightFixed) this.$refs.fixedRightBody.scrollTop = event.target.scrollTop;
                 this.hideColumnFilter();
             },
+            handleFixedTouchmove(event){
+                //console.log(event);
+                if(event.touches && event.touches.length && event.touches.length===1){
+                    //const body = this.$refs.body;
+                }
+            },
             handleFixedMousewheel(event) {
-                const deltaY = event.deltaY;
+                let deltaY = event.deltaY;
+                if(!deltaY && event.detail){
+                    deltaY = event.detail * 40;
+                }
+                if(!deltaY && event.wheelDeltaY){
+                    deltaY = -event.wheelDeltaY;
+                }
+                if(!deltaY) return;
                 const body = this.$refs.body;
                 const currentScrollTop = body.scrollTop;
                 if (deltaY < 0 && currentScrollTop !== 0) {
