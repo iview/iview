@@ -25,9 +25,6 @@ export default {
                 width = this.columnsWidth[column._index].width;
             }
             // when browser has scrollBar,set a width to resolve scroll position bug
-            if(this.columns.length==7 && column.fixed){
-                console.log(column);
-            }
             if (width && this.columns.length === index + 1 && top && this.$parent.bodyHeight !== 0 && column.fixed!=='left' && !this.fixed) {
                 let scrollBarWidth = this.$parent.scrollBarWidth;
                 if (!this.$parent.showVerticalScrollBar) scrollBarWidth = 0;
