@@ -18,7 +18,8 @@
             <Table  :width='500' :height='200' border :columns="columns2" :data="data3"></Table>
         </div>
         <div style='margin:20px 0px;'>
-            <Table :data="tableData1" :columns="tableColumns1" :height='500' stripe size='small'></Table>
+            Table scrolling <i-switch v-model="fixedHeader" style="margin-right: 5px"></i-switch>
+            <Table :data="tableData1" :columns="tableColumns1" :height="fixedHeader ? 250 : ''" stripe size='small'></Table>
             <div style="margin: 10px;overflow: hidden">
                 <div style="float: right;">
                     <Page :total="100" show-sizer :current="1" @on-change="changePage"></Page>
@@ -151,6 +152,7 @@
                     }
                 ],
                 
+                fixedHeader: false,
                 tableData1: [],
                 tableColumns1: [
                     {

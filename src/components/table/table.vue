@@ -835,6 +835,7 @@
                 deep: true
             },
             height () {
+                this.handleResize();
                 this.fixedHeader();
             }
         }
