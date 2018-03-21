@@ -87,6 +87,9 @@
                 const style = Object.assign({}, this.styleObject);
                 let scrollBarWidth = this.$parent.scrollBarWidth;
                 if(!this.$parent.showVerticalScrollBar) scrollBarWidth = 0;
+               
+                let isLeftFixed = this.$el && this.$el.parentElement.className.indexOf('fixed-header')>0;
+                if(isLeftFixed) scrollBarWidth = 0;
                 const width = this.$parent.bodyHeight === 0 ? parseInt(this.styleObject.width) : parseInt(this.styleObject.width) + scrollBarWidth;
                 style.width = `${width}px`;
                 return style;

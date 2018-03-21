@@ -11,6 +11,12 @@
         <div style='margin:20px 0px'>
             <Table :height='200' border :columns="columns2" :data="data3"></Table>
         </div>
+        <div style='margin:20px 0px'>
+            <Table  :width='500' border :columns="columns2" :data="data3"></Table>
+        </div>
+        <div style='margin:20px 0px'>
+            <Table  :width='500' :height='200' border :columns="columns2" :data="data3"></Table>
+        </div>
         <div style='margin:20px 0px;'>
             <Table :data="tableData1" :columns="tableColumns1" :height='500' stripe size='small'></Table>
             <div style="margin: 10px;overflow: hidden">

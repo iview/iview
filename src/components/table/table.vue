@@ -314,7 +314,7 @@
                     if (col.fixed && col.fixed === 'left') {
                         left.push(col);
                     } else {
-                        other.push(col);
+                        //other.push(col);
                     }
                 });
                 return left.concat(other);
@@ -326,7 +326,7 @@
                     if (col.fixed && col.fixed === 'right') {
                         right.push(col);
                     } else {
-                        other.push(col);
+                        //other.push(col);
                     }
                 });
                 return right.concat(other);
