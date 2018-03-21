@@ -61,8 +61,7 @@
         data () {
             return {
                 prefixCls: prefixCls,
-                mediaMatched: false,
-                isCollapsed: false
+                mediaMatched: false
             };
         },
         computed: {
@@ -70,7 +69,7 @@
                 return [
                     `${prefixCls}`,
                     this.siderWidth ? '' : `${prefixCls}-zero-width`,
-                    this.isCollapsed ? `${prefixCls}-collapsed` : ''
+                    this.value ? `${prefixCls}-collapsed` : ''
                 ];
             },
             wrapStyles () {
@@ -84,7 +83,7 @@
             triggerClasses () {
                 return [
                     `${prefixCls}-trigger`,
-                    this.isCollapsed ? `${prefixCls}-trigger-collapsed` : '',
+                    this.value ? `${prefixCls}-trigger-collapsed` : '',
                 ];
             },
             childClasses () {
@@ -104,10 +103,10 @@
                 ];
             },
             siderWidth () {
-                return this.collapsible ? (this.isCollapsed ? (this.mediaMatched ? 0 : parseInt(this.collapsedWidth)) : parseInt(this.width)) : this.width;
+                return this.collapsible ? (this.value ? (this.mediaMatched ? 0 : parseInt(this.collapsedWidth)) : parseInt(this.width)) : this.width;
             },
             showZeroTrigger () {
-                return this.collapsible ? (this.mediaMatched && !this.hideTrigger || (parseInt(this.collapsedWidth) === 0) && this.isCollapsed && !this.hideTrigger) : false;
+                return this.collapsible ? (this.mediaMatched && !this.hideTrigger || (parseInt(this.collapsedWidth) === 0) && this.value && !this.hideTrigger) : false;
             },
             showBottomTrigger () {
                 return this.collapsible ? !this.mediaMatched && !this.hideTrigger : false;
@@ -115,9 +114,8 @@
         },
         methods: {
             toggleCollapse () {
-                this.isCollapsed = this.collapsible ? !this.isCollapsed : false;
-                this.$emit('input', this.isCollapsed);
-                this.$emit('on-collapse', this.isCollapsed);
+                let value = this.collapsible ? !this.value : false;
+                this.$emit('input', value);
             },
             matchMedia () {
                 let matchMedia;
@@ -128,23 +126,21 @@
                 this.mediaMatched = matchMedia(`(max-width: ${dimensionMap[this.breakpoint]})`).matches;
                 
                 if (this.mediaMatched !== mediaMatched) {
-                    this.isCollapsed = this.collapsible ? this.mediaMatched : false;
                     this.$emit('input', this.mediaMatched);
-                    this.$emit('on-collapse', this.mediaMatched);
                 }
             },
             onWindowResize () {
                 this.matchMedia();
             }
         },
+        watch: {
+            value (stat) {
+                this.$emit('on-collapse', stat);
+            }
+        },
         mounted () {
             if (this.defaultCollapsed) {
-                this.isCollapsed = true;
                 this.$emit('input', this.defaultCollapsed);
-            } else {
-                if (this.value !== undefined) {
-                    this.isCollapsed = this.value;
-                }
             }
             if (this.breakpoint !== undefined) {
                 on(window, 'resize', this.onWindowResize);
