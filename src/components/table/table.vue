@@ -547,6 +547,9 @@
                 if(!deltaY && event.wheelDeltaY){
                     deltaY = -event.wheelDeltaY;
                 }
+                if(!deltaY && event.wheelDelta){
+                    deltaY = -event.wheelDelta;
+                }
                 if(!deltaY) return;
                 const body = this.$refs.body;
                 const currentScrollTop = body.scrollTop;
