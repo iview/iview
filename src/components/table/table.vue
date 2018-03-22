@@ -12,7 +12,6 @@
                     :data="rebuildData"></table-head>
             </div>
             <div :class="[prefixCls + '-body']" :style="bodyStyle" ref="body" @scroll="handleBodyScroll"
-                @mousewheel="handleFixedMousewheel" @DOMMouseScroll="handleFixedMousewheel"
                 v-show="!((!!localeNoDataText && (!data || data.length === 0)) || (!!localeNoFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
                 <table-body
                     ref="tbody"
@@ -49,8 +48,7 @@
                         :data="rebuildData"></table-head>
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedBody" 
-                    @mousewheel="handleFixedMousewheel" @DOMMouseScroll="handleFixedMousewheel"
-                    @touchmove="handleFixedTouchmove">
+                    @mousewheel="handleFixedMousewheel" @DOMMouseScroll="handleFixedMousewheel">
                     <table-body
                         fixed="left"
                         :prefix-cls="prefixCls"
@@ -73,8 +71,7 @@
                         :data="rebuildData"></table-head>
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedRightBody"
-                    @mousewheel="handleFixedMousewheel" @DOMMouseScroll="handleFixedMousewheel"
-                    @touchmove="handleFixedTouchmove">
+                    @mousewheel="handleFixedMousewheel" @DOMMouseScroll="handleFixedMousewheel">
                     <table-body
                         fixed="right"
                         :prefix-cls="prefixCls"
@@ -543,12 +540,6 @@
                 if (this.isLeftFixed) this.$refs.fixedBody.scrollTop = event.target.scrollTop;
                 if (this.isRightFixed) this.$refs.fixedRightBody.scrollTop = event.target.scrollTop;
                 this.hideColumnFilter();
-            },
-            handleFixedTouchmove(event){
-                //console.log(event);
-                if(event.touches && event.touches.length && event.touches.length===1){
-                    //const body = this.$refs.body;
-                }
             },
             handleFixedMousewheel(event) {
                 let deltaY = event.deltaY;
