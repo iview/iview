@@ -1,66 +1,91 @@
 <template>
     <div>
-        <Table border ref="selection" :columns="columns4" :data="data1" :height='258'></Table>
-        <Button @click="handleSetData">Set Data</Button>
-        <Button @click="handleClearData">Clear Data</Button>
-        <Button @click="handleSelectAll(true)">Set all selected</Button>
-        <Button @click="handleSelectAll(false)">Cancel all selected</Button>
-        <div style='margin:20px 0px'>
-            <Table border :columns="columns2" :data="data3"></Table>
-        </div>
-        <div style='margin:20px 0px'>
-            <Table :height='200' border :columns="columns2" :data="data3"></Table>
-        </div>
-        <div style='margin:20px 0px'>
-            <Table  :width='600' border :columns="columns2" :data="data3"></Table>
-        </div>
-        <div style='margin:20px 0px'>
-            <Table  :width='600' :height='200' border :columns="columns2" :data="data31"></Table>
-        </div>
-        <div style='margin:20px 0px;'>
-            Table scrolling <i-switch v-model="fixedHeader" style="margin-right: 5px"></i-switch>
-            <Table :data="tableData1" :columns="tableColumns1" :height="fixedHeader ? 250 : ''" stripe size='small'></Table>
-            <div style="margin: 10px;overflow: hidden">
-                <div style="float: right;">
-                    <Page :total="100" show-sizer :current="1" @on-change="changePage"></Page>
-                </div>
-            </div>
-        </div>
-
+        <br><br><br><br><br>
+        <Table border :columns="columns1" height="500" :data="data1"></Table>
+        <br><br><br><br><br>
+        <!--<Table width="550" height="200" border :columns="columns2" :data="data4"></Table>-->
+        <br><br><br><br><br>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                columns4: [
-                    {
-                        type: 'selection',
-                        width: 60,
-                        align: 'center'
-                    },
+                columns1: [
                     {
                         title: 'Name',
                         key: 'name',
-                        width: 260
+                        align: 'center',
+                        width: 200,
+                        fixed: 'left'
                     },
                     {
-                        title: 'Age',
-                        key: 'age'
+                        title: 'Other',
+                        align: 'center',
+                        children: [
+                            {
+                                title: 'Age',
+                                key: 'age',
+                                align: 'center',
+                                width: 200
+                            },
+                            {
+                                title: 'Address',
+                                align: 'center',
+                                children: [
+                                    {
+                                        title: 'Street',
+                                        key: 'street',
+                                        align: 'center',
+                                        width: 200
+                                    },
+                                    {
+                                        title: 'Block',
+                                        align: 'center',
+                                        children: [
+                                            {
+                                                title: 'Building',
+                                                key: 'building',
+                                                align: 'center',
+                                                width: 200
+                                            },
+                                            {
+                                                title: 'Door No.',
+                                                key: 'door',
+                                                align: 'center',
+                                                width: 200
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
                     },
                     {
-                        title: 'Address',
-                        key: 'address',
-                        width: 260
+                        title: 'Company',
+                        align: 'center',
+                        children: [
+                            {
+                                title: 'Company Address',
+                                key: 'caddress',
+                                align: 'center',
+                                width: 200
+                            },
+                            {
+                                title: 'Company Name',
+                                key: 'cname',
+                                align: 'center',
+                                width: 200
+                            }
+                        ]
                     },
                     {
-                        title: 'Address',
-                        key: 'address',
-                        width: 260
+                        title: 'Gender',
+                        key: 'gender',
+                        align: 'center',
+                        width: 200,
+                        fixed: 'right'
                     }
-                ],
-                data1: [
-
                 ],
                 columns2: [
                     {
@@ -72,7 +97,9 @@
                     {
                         title: 'Age',
                         key: 'age',
-                        width: 100
+                        width: 100,
+                        fixed: 'right',
+                        sortable: true
                     },
                     {
                         title: 'Province',
@@ -92,8 +119,7 @@
                     {
                         title: 'Postcode',
                         key: 'zip',
-                        width: 100,
-                        fixed: 'right',
+                        width: 100
                     },
                     {
                         title: 'Action',
@@ -118,7 +144,8 @@
                         }
                     }
                 ],
-                data3: [
+                data1: [],
+                data4: [
                     {
                         name: 'John Brown',
                         age: 18,
@@ -152,16 +179,6 @@
                         zip: 100000
                     },
                     {
-                        name: 'Jon Snow',
-                        age: 26,
-                        address: 'Ottawa No. 2 Lake Park',
-                        province: 'Canada',
-                        city: 'Ottawa',
-                        zip: 100000
-                    }
-                ],
-                data31: [
-                    {
                         name: 'John Brown',
                         age: 18,
                         address: 'New York No. 1 Lake Park',
@@ -192,167 +209,26 @@
                         province: 'Canada',
                         city: 'Ottawa',
                         zip: 100000
-                    },
-                    {
-                        name: 'Jon Snow',
-                        age: 26,
-                        address: 'Ottawa No. 2 Lake Park',
-                        province: 'Canada',
-                        city: 'Ottawa',
-                        zip: 100000
-                    },
-                    {
-                        name: 'Jim Green',
-                        age: 24,
-                        address: 'Washington, D.C. No. 1 Lake Park',
-                        province: 'America',
-                        city: 'Washington, D.C.',
-                        zip: 100000
-                    },
-                    {
-                        name: 'Joe Black',
-                        age: 30,
-                        address: 'Sydney No. 1 Lake Park',
-                        province: 'Australian',
-                        city: 'Sydney',
-                        zip: 100000
-                    },
-                    {
-                        name: 'Jon Snow',
-                        age: 26,
-                        address: 'Ottawa No. 2 Lake Park',
-                        province: 'Canada',
-                        city: 'Ottawa',
-                        zip: 100000
-                    },
-                    {
-                        name: 'Jon Snow',
-                        age: 26,
-                        address: 'Ottawa No. 2 Lake Park',
-                        province: 'Canada',
-                        city: 'Ottawa',
-                        zip: 100000
-                    },
-                    {
-                        name: 'Jim Green',
-                        age: 24,
-                        address: 'Washington, D.C. No. 1 Lake Park',
-                        province: 'America',
-                        city: 'Washington, D.C.',
-                        zip: 100000
-                    },
-                    {
-                        name: 'Joe Black',
-                        age: 30,
-                        address: 'Sydney No. 1 Lake Park',
-                        province: 'Australian',
-                        city: 'Sydney',
-                        zip: 100000
-                    },
-                    {
-                        name: 'Jon Snow',
-                        age: 26,
-                        address: 'Ottawa No. 2 Lake Park',
-                        province: 'Canada',
-                        city: 'Ottawa',
-                        zip: 100000
-                    },
-                    {
-                        name: 'Jon Snow',
-                        age: 26,
-                        address: 'Ottawa No. 2 Lake Park',
-                        province: 'Canada',
-                        city: 'Ottawa',
-                        zip: 100000
                     }
-                ],
-                
-                
-                fixedHeader: false,
-                tableData1: [],
-                tableColumns1: [
-                    {
-                        title: 'Data1',
-                        key: 'data1'
-                    },
-                    {
-                        title: 'Data2',
-                        key: 'data2'
-                    },
-                    {
-                        title: 'Data3',
-                        key: 'data3'
-                    },
-                    {
-                        title: 'Data4',
-                        key: 'data4'
-                    },
-                    {
-                        title: 'Data5',
-                        key: 'data5'
-                    },
-                    {
-                        title: 'Data6Data6Data6Data6Data6Data6Data6Data6Data6Data6Data6',
-                        key: 'data6'
-                    },
                 ]
             }
         },
-        mounted(){
-            this.refreshData();
-        },
-        methods: {
-            handleSelectAll (status) {
-                this.$refs.selection.selectAll(status);
-            },
-            handleSetData () {
-                this.data1 = [
-                    {
-                        name: 'John Brown',
-                        age: 18,
-                        address: 'New York No. 1 Lake Park',
-                        date: '2016-10-03'
-                    },
-                    {
-                        name: 'Jim Green',
-                        age: 24,
-                        address: 'London No. 1 Lake Park',
-                        date: '2016-10-01'
-                    },
-                    {
-                        name: 'Joe Black',
-                        age: 30,
-                        address: 'Sydney No. 1 Lake Park',
-                        date: '2016-10-02'
-                    },
-                    {
-                        name: 'Jon Snow',
-                        age: 26,
-                        address: 'Ottawa No. 2 Lake Park',
-                        date: '2016-10-04'
-                    }
-                ];
-            },
-            handleClearData () {
-                this.data1 = [];
-            },
-            refreshData(){
-                let data = [];
-                for (let i = 0; i < 10; i++) {
-                    data.push({
-                        data1: Math.floor(Math.random () * 10000),
-                        data2: Math.floor(Math.random () * 1000000),
-                        data3: Math.floor(Math.random () * 100000000),
-                        data4: Math.floor(Math.random () * Math.random () * 10000),
-                        data5: Math.floor(Math.random () * Math.random () * 1000000),
-                        data6: ''+Math.floor(Math.random () * Math.random () * 100000000)+Math.floor(Math.random () * 100000000)+Math.floor(Math.random () * 100000000),
-                    });
-                }
-                this.tableData1 = data;
-            },
-            changePage(){
-                this.refreshData();
+        mounted () {
+            const data = [];
+            for (let i = 0; i < 100; i++) {
+                data.push({
+                    key: i,
+                    name: 'John Brown',
+                    age: i + 1,
+                    street: 'Lake Park',
+                    building: 'C',
+                    door: 2035,
+                    caddress: 'Lake Street 42',
+                    cname: 'SoftLake Co',
+                    gender: 'M',
+                });
             }
+            this.data1 = data;
         }
     }
 </script>

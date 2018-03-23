@@ -7,6 +7,7 @@
                     :prefix-cls="prefixCls"
                     :styleObject="tableStyle"
                     :columns="cloneColumns"
+                    :column-rows="columnRows"
                     :obj-data="objData"
                     :columns-width="columnsWidth"
                     :data="rebuildData"></table-head>
@@ -43,6 +44,7 @@
                         :prefix-cls="prefixCls"
                         :styleObject="fixedTableStyle"
                         :columns="leftFixedColumns"
+                        :column-rows="columnRows"
                         :obj-data="objData"
                         :columns-width="columnsWidth"
                         :data="rebuildData"></table-head>
@@ -65,6 +67,7 @@
                         :prefix-cls="prefixCls"
                         :styleObject="fixedRightTableStyle"
                         :columns="rightFixedColumns"
+                        :column-rows="columnRows"
                         :obj-data="objData"
                         :columns-width="columnsWidth"
                         :data="rebuildData"></table-head>
@@ -97,6 +100,7 @@
     import ExportCsv from './export-csv';
     import Locale from '../../mixins/locale';
     import elementResizeDetectorMaker from 'element-resize-detector';
+    import { getAllColumns, convertToRows, convertColumnOrder } from './util';
 
     const prefixCls = 'ivu-table';
 
@@ -180,6 +184,8 @@
                 objData: this.makeObjData(),     // checkbox or highlight-row
                 rebuildData: [],    // for sort or filter
                 cloneColumns: this.makeColumns(),
+                columnRows: this.makeColumnRows(),
+                allColumns: getAllColumns(this.columns),  // for multiple table-head, get columns that have no children
                 showSlotHeader: true,
                 showSlotFooter: true,
                 bodyHeight: 0,
@@ -308,28 +314,10 @@
                 return style;
             },
             leftFixedColumns () {
-                let left = [];
-                let other = [];
-                this.cloneColumns.forEach((col) => {
-                    if (col.fixed && col.fixed === 'left') {
-                        left.push(col);
-                    } else {
-                        //other.push(col);
-                    }
-                });
-                return left.concat(other);
+                return convertColumnOrder(this.cloneColumns, 'left');
             },
             rightFixedColumns () {
-                let right = [];
-                let other = [];
-                this.cloneColumns.forEach((col) => {
-                    if (col.fixed && col.fixed === 'right') {
-                        right.push(col);
-                    } else {
-                        //other.push(col);
-                    }
-                });
-                return right.concat(other);
+                return convertColumnOrder(this.cloneColumns, 'right');
             },
             isLeftFixed () {
                 return this.columns.some(col => col.fixed && col.fixed === 'left');
@@ -344,9 +332,9 @@
             },
             handleResize () {
                 this.$nextTick(() => {
-                    const allWidth = !this.columns.some(cell => !cell.width);    // each column set a width
+                    const allWidth = !this.allColumns.some(cell => !cell.width);    // each column set a width
                     if (allWidth) {
-                        this.tableWidth = this.columns.map(cell => cell.width).reduce((a, b) => a + b, 0);
+                        this.tableWidth = this.allColumns.map(cell => cell.width).reduce((a, b) => a + b, 0);
                     } else {
                         this.tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
                     }
@@ -614,7 +602,7 @@
                 this.cloneColumns[index]._sortType = type;
 
                 this.$emit('on-sort-change', {
-                    column: JSON.parse(JSON.stringify(this.columns[this.cloneColumns[index]._index])),
+                    column: JSON.parse(JSON.stringify(this.allColumns[this.cloneColumns[index]._index])),
                     key: key,
                     order: type
                 });
@@ -751,7 +739,8 @@
                 return data;
             },
             makeColumns () {
-                let columns = deepCopy(this.columns);
+                // 在 data 时，this.allColumns 暂时为 undefined
+                let columns = deepCopy(getAllColumns(this.columns));
                 let left = [];
                 let right = [];
                 let center = [];
@@ -789,6 +778,10 @@
                 });
                 return left.concat(center).concat(right);
             },
+            // create a multiple table-head
+            makeColumnRows () {
+                return convertToRows(this.columns);
+            },
             exportCsv (params) {
                 if (params.filename) {
                     if (params.filename.indexOf('.csv') === -1) {
@@ -804,7 +797,7 @@
                     columns = params.columns;
                     datas = params.data;
                 } else {
-                    columns = this.columns;
+                    columns = this.allColumns;
                     if (!('original' in params)) params.original = true;
                     datas = params.original ? this.data : this.rebuildData;
                 }
@@ -863,7 +856,9 @@
             columns: {
                 handler () {
                     // todo 这里有性能问题，可能是左右固定计算属性影响的
+                    this.allColumns = getAllColumns(this.columns);
                     this.cloneColumns = this.makeColumns();
+                    this.columnRows = this.makeColumnRows();
                     this.rebuildData = this.makeDataWithSortAndFilter();
                     this.handleResize();
                 },

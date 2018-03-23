@@ -4,8 +4,12 @@
             <col v-for="(column, index) in columns" :width="setCellWidth(column, index, true)">
         </colgroup>
         <thead>
-            <tr>
-                <th v-for="(column, index) in columns" :class="alignCls(column)">
+            <tr v-for="(cols, rowIndex) in headRows">
+                <th
+                    v-for="(column, index) in cols"
+                    :colspan="column.colSpan"
+                    :rowspan="column.rowSpan"
+                    :class="alignCls(column)">
                     <div :class="cellClasses(column)">
                         <template v-if="column.type === 'expand'">
                             <span v-if="!column.renderHeader">{{ column.title || '' }}</span>
@@ -67,6 +71,7 @@
     import renderHeader from './header';
     import Mixin from './mixin';
     import Locale from '../../mixins/locale';
+    import { convertColumnOrder } from './util';
 
     export default {
         name: 'TableHead',
@@ -82,7 +87,8 @@
             fixed: {
                 type: [Boolean, String],
                 default: false
-            }
+            },
+            columnRows: Array
         },
         computed: {
             styles () {
@@ -108,6 +114,25 @@
                 }
 
                 return isSelectAll;
+            },
+            headRows () {
+                const isGroup = this.columnRows.length > 1;
+                return isGroup ? this.columnRows : [this.columns];
+
+//                if (isGroup) {
+//                    const fixedType = this.fixed;
+//                    if (fixedType) {
+//                        if (fixedType === 'left') {
+//                            return convertColumnOrder(this.columnRows, 'left');
+//                        } else if (fixedType === 'right') {
+//                            return convertColumnOrder(this.columnRows, 'right');
+//                        }
+//                    } else {
+//                        return this.columnRows;
+//                    }
+//                } else {
+//                    return [this.columns];
+//                }
             }
         },
         methods: {
