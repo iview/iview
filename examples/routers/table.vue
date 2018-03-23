@@ -84,7 +84,8 @@
                         key: 'gender',
                         align: 'center',
                         width: 200,
-                        fixed: 'right'
+                        fixed: 'right',
+                        // fixed: 'left'
                     }
                 ],
                 columns2: [

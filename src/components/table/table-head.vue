@@ -71,7 +71,6 @@
     import renderHeader from './header';
     import Mixin from './mixin';
     import Locale from '../../mixins/locale';
-    import { convertColumnOrder } from './util';
 
     export default {
         name: 'TableHead',
@@ -118,21 +117,6 @@
             headRows () {
                 const isGroup = this.columnRows.length > 1;
                 return isGroup ? this.columnRows : [this.columns];
-
-//                if (isGroup) {
-//                    const fixedType = this.fixed;
-//                    if (fixedType) {
-//                        if (fixedType === 'left') {
-//                            return convertColumnOrder(this.columnRows, 'left');
-//                        } else if (fixedType === 'right') {
-//                            return convertColumnOrder(this.columnRows, 'right');
-//                        }
-//                    } else {
-//                        return this.columnRows;
-//                    }
-//                } else {
-//                    return [this.columns];
-//                }
             }
         },
         methods: {
