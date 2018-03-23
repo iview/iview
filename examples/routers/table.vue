@@ -3,7 +3,7 @@
         <br><br><br><br><br>
         <Table border :columns="columns1" height="500" :data="data1"></Table>
         <br><br><br><br><br>
-        <!--<Table width="550" height="200" border :columns="columns2" :data="data4"></Table>-->
+        <Table width="550" height="200" border :columns="columns2" :data="data4"></Table>
         <br><br><br><br><br>
     </div>
 </template>
@@ -84,8 +84,7 @@
                         key: 'gender',
                         align: 'center',
                         width: 200,
-                        fixed: 'right',
-                        // fixed: 'left'
+                        fixed: 'right'
                     }
                 ],
                 columns2: [

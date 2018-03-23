@@ -87,7 +87,8 @@
                 type: [Boolean, String],
                 default: false
             },
-            columnRows: Array
+            columnRows: Array,
+            fixedColumnRows: Array
         },
         computed: {
             styles () {
@@ -116,7 +117,11 @@
             },
             headRows () {
                 const isGroup = this.columnRows.length > 1;
-                return isGroup ? this.columnRows : [this.columns];
+                if (isGroup) {
+                    return this.fixed ? this.fixedColumnRows : this.columnRows;
+                } else {
+                    return [this.columns];
+                }
             }
         },
         methods: {

@@ -1,5 +1,20 @@
 import { deepCopy } from '../../utils/assist';
 
+const convertColumnOrder = (columns, fixedType) => {
+    let list = [];
+    let other = [];
+    columns.forEach((col) => {
+        if (col.fixed && col.fixed === fixedType) {
+            list.push(col);
+        } else {
+            other.push(col);
+        }
+    });
+    return list.concat(other);
+};
+
+export {convertColumnOrder};
+
 // set forTableHead to true when convertToRows, false in normal cases like table.vue
 const getAllColumns = (cols, forTableHead = false) => {
     const columns = deepCopy(cols);
@@ -17,8 +32,8 @@ const getAllColumns = (cols, forTableHead = false) => {
 
 export {getAllColumns};
 
-const convertToRows = (columns) => {
-    const originColumns = deepCopy(columns);
+const convertToRows = (columns, fixedType = false) => {
+    const originColumns = fixedType ? fixedType === 'left' ? deepCopy(convertColumnOrder(columns, 'left')) : deepCopy(convertColumnOrder(columns, 'right')) : deepCopy(columns);
     let maxLevel = 1;
     const traverse = (column, parent) => {
         if (parent) {
@@ -64,18 +79,3 @@ const convertToRows = (columns) => {
 };
 
 export {convertToRows};
-
-const convertColumnOrder = (columns, FixedType) => {
-    let list = [];
-    let other = [];
-    columns.forEach((col) => {
-        if (col.fixed && col.fixed === FixedType) {
-            list.push(col);
-        } else {
-            other.push(col);
-        }
-    });
-    return list.concat(other);
-};
-
-export {convertColumnOrder};

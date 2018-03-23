@@ -45,6 +45,7 @@
                         :styleObject="fixedTableStyle"
                         :columns="leftFixedColumns"
                         :column-rows="columnRows"
+                        :fixed-column-rows="leftFixedColumnRows"
                         :obj-data="objData"
                         :columns-width="columnsWidth"
                         :data="rebuildData"></table-head>
@@ -68,6 +69,7 @@
                         :styleObject="fixedRightTableStyle"
                         :columns="rightFixedColumns"
                         :column-rows="columnRows"
+                        :fixed-column-rows="rightFixedColumnRows"
                         :obj-data="objData"
                         :columns-width="columnsWidth"
                         :data="rebuildData"></table-head>
@@ -184,7 +186,9 @@
                 objData: this.makeObjData(),     // checkbox or highlight-row
                 rebuildData: [],    // for sort or filter
                 cloneColumns: this.makeColumns(),
-                columnRows: this.makeColumnRows(),
+                columnRows: this.makeColumnRows(false),
+                leftFixedColumnRows: this.makeColumnRows('left'),
+                rightFixedColumnRows: this.makeColumnRows('right'),
                 allColumns: getAllColumns(this.columns),  // for multiple table-head, get columns that have no children
                 showSlotHeader: true,
                 showSlotFooter: true,
@@ -779,8 +783,8 @@
                 return left.concat(center).concat(right);
             },
             // create a multiple table-head
-            makeColumnRows () {
-                return convertToRows(this.columns);
+            makeColumnRows (fixedType) {
+                return convertToRows(this.columns, fixedType);
             },
             exportCsv (params) {
                 if (params.filename) {
@@ -858,7 +862,9 @@
                     // todo 这里有性能问题，可能是左右固定计算属性影响的
                     this.allColumns = getAllColumns(this.columns);
                     this.cloneColumns = this.makeColumns();
-                    this.columnRows = this.makeColumnRows();
+                    this.columnRows = this.makeColumnRows(false);
+                    this.leftFixedColumnRows = this.makeColumnRows('left');
+                    this.rightFixedColumnRows = this.makeColumnRows('right');
                     this.rebuildData = this.makeDataWithSortAndFilter();
                     this.handleResize();
                 },
