@@ -6,7 +6,8 @@
             :data="item"
             visible
             :multiple="multiple"
-            :show-checkbox="showCheckbox">
+            :show-checkbox="showCheckbox"
+            :children-key="childrenKey">
         </Tree-node>
         <div :class="[prefixCls + '-empty']" v-if="!stateTree.length">{{ localeEmptyText }}</div>
     </div>
@@ -39,6 +40,10 @@
             },
             emptyText: {
                 type: String
+            },
+            childrenKey: {
+                type: String,
+                default: 'children'
             },
             loadData: {
                 type: Function
