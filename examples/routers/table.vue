@@ -322,6 +322,7 @@
                     {
                         title: 'Address',
                         key: 'address',
+                        fixed: 'right',
                         filters: [
                             {
                                 label: 'New York',
