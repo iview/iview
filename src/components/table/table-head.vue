@@ -1,7 +1,8 @@
 <template>
     <table cellspacing="0" cellpadding="0" border="0" :style="styles">
         <colgroup>
-            <col v-for="(column, index) in columns" :width="setCellWidth(column, index, true)">
+            <col v-for="(column, index) in columns" :width="setCellWidth(column)">
+            <col v-if="$parent.showVerticalScrollBar" :width="$parent.scrollBarWidth"/>
         </colgroup>
         <thead>
             <tr v-for="(cols, rowIndex) in headRows">
@@ -59,6 +60,8 @@
                         </template>
                     </div>
                 </th>
+                
+                <th v-if="$parent.showVerticalScrollBar" :rowspan="headRows.length"></th>
             </tr>
         </thead>
     </table>
@@ -93,12 +96,7 @@
         computed: {
             styles () {
                 const style = Object.assign({}, this.styleObject);
-                let scrollBarWidth = this.$parent.scrollBarWidth;
-                if(!this.$parent.showVerticalScrollBar) scrollBarWidth = 0;
-               
-                let isLeftFixed = this.$el && this.$el.parentElement.className.indexOf('fixed-header')>0;
-                if(isLeftFixed) scrollBarWidth = 0;
-                const width = this.$parent.bodyHeight === 0 ? parseInt(this.styleObject.width) : parseInt(this.styleObject.width) + scrollBarWidth;
+                const width = parseInt(this.styleObject.width) ;
                 style.width = `${width}px`;
                 return style;
             },

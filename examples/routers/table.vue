@@ -5,7 +5,7 @@
         <br><br><br><br><br>
         <!--<Table width="550" height="200" border :columns="columns2" :data="data4"></Table>-->
         <!--<br><br><br><br><br>-->
-        <Table border :columns="columns5" height="200" :data="data5"></Table>
+        <Table border :columns="columns5" height="240" :data="data5"></Table>
         <br><br><br><br><br>
         <Table border :columns="columns6" :data="data5"></Table>
         <br><br><br><br><br>

@@ -5,7 +5,7 @@
             <div :class="[prefixCls + '-header']" v-if="showHeader" ref="header" @mousewheel="handleMouseWheel">
                 <table-head
                     :prefix-cls="prefixCls"
-                    :styleObject="tableStyle"
+                    :styleObject="tableHeaderStyle"
                     :columns="cloneColumns"
                     :column-rows="columnRows"
                     :obj-data="objData"
@@ -271,6 +271,15 @@
                         }
                     }
 //                    const width = this.bodyHeight === 0 ? this.tableWidth : this.tableWidth - this.scrollBarWidth;
+                    style.width = `${width}px`;
+                }
+                return style;
+            },
+            tableHeaderStyle () {
+                let style = {};
+                if (this.tableWidth !== 0) {
+                    let width = '';
+                    width = this.tableWidth;
                     style.width = `${width}px`;
                 }
                 return style;
