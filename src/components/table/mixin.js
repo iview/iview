@@ -32,8 +32,17 @@ export default {
             }
             // when fixed type,reset first right fixed column's width
             if (this.fixed === 'right' && top ) {
-                //const firstFixedIndex = this.columns.findIndex((col) => col.fixed === 'right');
-                if (this.columns.length  === index + 1) {
+                //const firstFixedIndex = this.columns.lastIndexOf((col) => col.fixed === 'right');
+                let lastFixedIndex = -1;
+                for(let i=0;i<this.columns.length;i++){
+                    if(this.columns[i].fixed==='right'){
+                        lastFixedIndex = i;
+                    }
+                    else{
+                        break;
+                    }
+                }
+                if (lastFixedIndex === index) {
                     let scrollBarWidth = this.$parent.scrollBarWidth;
                     if (!this.$parent.showVerticalScrollBar) scrollBarWidth = 0;
                     width += scrollBarWidth;
