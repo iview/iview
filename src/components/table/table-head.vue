@@ -61,7 +61,7 @@
                     </div>
                 </th>
                 
-                <th v-if="$parent.showVerticalScrollBar" :rowspan="headRows.length"></th>
+                <th v-if="$parent.showVerticalScrollBar && rowIndex===0" :class='scrollBarCellClass()' :rowspan="headRows.length"></th>
             </tr>
         </thead>
     </table>
@@ -128,6 +128,23 @@
                     `${this.prefixCls}-cell`,
                     {
                         [`${this.prefixCls}-hidden`]: !this.fixed && column.fixed && (column.fixed === 'left' || column.fixed === 'right')
+                    }
+                ];
+            },
+            scrollBarCellClass(){
+                let hasRightFixed = false;
+                for(var i in this.headRows){
+                    for(var j in this.headRows[i]){
+                        if(this.headRows[i][j].fixed === 'right') {
+                            hasRightFixed=true;
+                            break;
+                        }
+                        if(hasRightFixed) break;
+                    }
+                }
+                return [
+                    {
+                        [`${this.prefixCls}-hidden`]: hasRightFixed
                     }
                 ];
             },

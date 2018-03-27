@@ -896,6 +896,10 @@
             height () {
                 this.handleResize();
                 this.fixedHeader();
+            },
+            showHorizontalScrollBar () {
+                this.handleResize();
+                this.fixedHeader();
             }
         }
     };

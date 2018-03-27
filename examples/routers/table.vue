@@ -9,6 +9,8 @@
         <br><br><br><br><br>
         <Table border :columns="columns6" :data="data5"></Table>
         <br><br><br><br><br>
+        <Table border :columns="columns7"  height="240" :data="data7"></Table>
+        <br><br><br><br><br>
     </div>
 </template>
 <script>
@@ -103,19 +105,19 @@
                             }
                         ]
                     },
+                    // {
+                    //     title: 'Gender',
+                    //     key: 'gender',
+                    //     align: 'center',
+                    //     width: 200,
+                    //     fixed: 'right'
+                    // },
                     {
                         title: 'Gender',
                         key: 'gender',
                         align: 'center',
                         width: 200,
-                        fixed: 'right'
-                    },
-                    {
-                        title: 'Gender',
-                        key: 'gender',
-                        align: 'center',
-                        width: 200,
-                        fixed: 'right'
+                        //fixed: 'right'
                     }
                 ],
                 columns2: [
@@ -340,6 +342,55 @@
                         filterMethod (value, row) {
                             return row.address.indexOf(value) > -1;
                         }
+                    }
+                ],
+                
+                columns7: [
+                    {
+                        title: 'Date',
+                        key: 'date',
+                        sortable: true,
+                        width:200,
+                    },
+                    {
+                        title: 'Name',
+                        key: 'name',
+                        width:200,
+                    },
+                    {
+                        title: 'Age',
+                        key: 'age',
+                    },
+                    {
+                        title: 'Address',
+                        key: 'address',
+                        width:200,
+                    }
+                ],
+                data7: [
+                    {
+                        name: 'John Brown',
+                        age: 18,
+                        address: 'New York No. 1 Lake Park',
+                        date: '2016-10-03'
+                    },
+                    {
+                        name: 'Jim Green',
+                        age: 24,
+                        address: 'London No. 1 Lake Park',
+                        date: '2016-10-01'
+                    },
+                    {
+                        name: 'Joe Black',
+                        age: 30,
+                        address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        date: '2016-10-02'
+                    },
+                    {
+                        name: 'Jon Snow',
+                        age: 26,
+                        address: 'Ottawa No. 2 Lake Park Ottawa No. 2 Lake Park Ottawa No. 2 Lake Park',
+                        date: '2016-10-04'
                     }
                 ],
             }
