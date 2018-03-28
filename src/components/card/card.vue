@@ -1,6 +1,8 @@
 <template>
     <div :class="classes">
-        <div :class="headClasses" v-if="showHead"><slot name="title"></slot></div>
+        <div :class="headClasses" v-if="showHead"><slot name="title">
+            <p v-if="title"><Icon v-if="icon" :type="icon"></Icon>{{title}}</p>
+        </slot></div>
         <div :class="extraClasses" v-if="showExtra"><slot name="extra"></slot></div>
         <div :class="bodyClasses" :style="bodyStyles"><slot></slot></div>
     </div>
@@ -8,10 +10,10 @@
 <script>
     const prefixCls = 'ivu-card';
     const defaultPadding = 16;
-
+    import Icon from '../icon/index'
     export default {
         name: 'Card',
-
+        components: { Icon },
         props: {
             bordered: {
                 type: Boolean,
@@ -28,6 +30,12 @@
             padding: {
                 type: Number,
                 default: defaultPadding
+            },
+            title: {
+                type: String,
+            },
+            icon: {
+                type: String,
             }
         },
         data () {
@@ -67,7 +75,7 @@
             }
         },
         mounted () {
-            this.showHead = this.$slots.title !== undefined;
+            this.showHead = this.title || this.$slots.title !== undefined;
             this.showExtra = this.$slots.extra !== undefined;
         }
     };
