@@ -71,7 +71,7 @@
         overflow: hidden;
     }
     &-body{
-        overflow: auto;
+        //overflow: auto;
         //position: relative;
 
     }
@@ -287,6 +287,14 @@
         left: auto;
         right: 0;
         box-shadow: -2px 0 6px -2px rgba(0, 0, 0, 0.2);
+    }
+    &-fixed-right-header{
+        position: absolute;
+        top: -1px;
+        right: 0;
+        background-color: @table-thead-bg;
+        border-top: 1px solid @border-color-base;
+        border-bottom: 1px solid @border-color-split;
     }
     &-fixed-header{
         overflow: hidden;

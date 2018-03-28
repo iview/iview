@@ -5,7 +5,7 @@
             <div :class="[prefixCls + '-header']" v-if="showHeader" ref="header" @mousewheel="handleMouseWheel">
                 <table-head
                     :prefix-cls="prefixCls"
-                    :styleObject="tableStyle"
+                    :styleObject="tableHeaderStyle"
                     :columns="cloneColumns"
                     :column-rows="columnRows"
                     :obj-data="objData"
@@ -85,6 +85,7 @@
                         :obj-data="objData"></table-body>
                 </div>
             </div>
+            <div :class="[prefixCls + '-fixed-right-header']" :style="fixedRightHeaderStyle" v-if="isRightFixed"></div>
             <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" ref="footer"><slot name="footer"></slot></div>
         </div>
         <Spin fix size="large" v-if="loading">
@@ -199,7 +200,8 @@
                 cloneData: deepCopy(this.data),    // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
                 showVerticalScrollBar:false,
                 showHorizontalScrollBar:false,
-                headerWidth:0
+                headerWidth:0,
+                headerHeight:0,
             };
         },
         computed: {
@@ -273,6 +275,15 @@
                 }
                 return style;
             },
+            tableHeaderStyle () {
+                let style = {};
+                if (this.tableWidth !== 0) {
+                    let width = '';
+                    width = this.tableWidth;
+                    style.width = `${width}px`;
+                }
+                return style;
+            },
             fixedTableStyle () {
                 let style = {};
                 let width = 0;
@@ -291,6 +302,17 @@
                 //width += this.scrollBarWidth;
                 style.width = `${width}px`;
                 style.right = `${this.showVerticalScrollBar?this.scrollBarWidth:0}px`;
+                return style;
+            },
+            fixedRightHeaderStyle () {
+                let style = {};
+                let width = 0;
+                let height = this.headerHeight+1;
+                if(this.showVerticalScrollBar){
+                    width = this.scrollBarWidth;
+                }
+                style.width = `${width}px`;
+                style.height = `${height}px`;
                 return style;
             },
             bodyStyle () {
@@ -345,6 +367,7 @@
                     this.columnsWidth = {};
                     this.$nextTick(()=>{
                         this.headerWidth = this.$refs.header.childNodes[0].offsetWidth;
+                        this.headerHeight = this.$refs.header.childNodes[0].offsetHeight;
                         if (!this.$refs.tbody) {
                             this.showVerticalScrollBar = false;
                             return;
@@ -871,6 +894,10 @@
                 deep: true
             },
             height () {
+                this.handleResize();
+                this.fixedHeader();
+            },
+            showHorizontalScrollBar () {
                 this.handleResize();
                 this.fixedHeader();
             }
