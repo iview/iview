@@ -202,6 +202,10 @@ const router = new VueRouter({
         {
             path: '/scroll',
             component: (resolve) => require(['./routers/scroll.vue'], resolve)
+        },
+        {
+            path: '/divider',
+            component: (resolve) => require(['./routers/divider.vue'], resolve)
         }
     ]
 });
