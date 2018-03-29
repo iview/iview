@@ -35,8 +35,7 @@ export default {
   },
   computed: {
     hasSlot() {
-      if(this.$slots.default) return true;
-      else return false;
+      return !!this.$slots.default;
     },
     classes() {
       return [
