@@ -578,6 +578,9 @@
             handleBlur () {
                 setTimeout(() => {
                     if (this.autoComplete) return;
+                    if(this.model!==this.query ){
+                        this.model = this.query
+                    }
                     const model = this.model;
 
                     if (this.multiple) {
