@@ -337,6 +337,7 @@
             },
             getOptionData(value){
                 const option = this.flatOptions.find(({componentOptions}) => componentOptions.propsData.value === value);
+                if (!option) return {};
                 const textContent = option.componentOptions.children.reduce((str, child) => str + (child.text || ''), '');
                 const label = option.componentOptions.propsData.label || textContent || '';
                 return {
@@ -389,6 +390,7 @@
                 this.visible = typeof force !== 'undefined' ? force : !this.visible;
                 if (this.visible){
                     this.dropDownWidth = this.$el.getBoundingClientRect().width;
+                    this.broadcast('Drop', 'on-update-popper');
                 }
             },
             hideMenu () {
@@ -598,6 +600,9 @@
                 if (topOverflowDistance < 0) {
                     this.$refs.dropdown.$el.scrollTop += topOverflowDistance;
                 }
+            },
+            dropVisible(open){
+                this.broadcast('Drop', open ? 'on-update-popper' : 'on-destroy-popper');
             }
         }
     };

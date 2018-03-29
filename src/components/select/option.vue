@@ -1,5 +1,10 @@
 <template>
-    <li :class="classes" @click.stop="select"><slot>{{ showLabel }}</slot></li>
+    <li
+        :class="classes"
+        @click.stop="select"
+        @mousedown.prevent
+        @touchstart.prevent
+    ><slot>{{ showLabel }}</slot></li>
 </template>
 <script>
     import Emitter from '../../mixins/emitter';
