@@ -1,15 +1,17 @@
 <template>
     <div>
-        <br><br><br><br><br>
+        <!-- <br><br><br><br><br>
         <Table border :columns="columns1" height="500" :data="data1"></Table>
-        <br><br><br><br><br>
+        <br><br><br><br><br> -->
         <!--<Table width="550" height="200" border :columns="columns2" :data="data4"></Table>-->
         <!--<br><br><br><br><br>-->
-        <Table border :columns="columns5" height="240" :data="data5"></Table>
+        <!-- <Table border :columns="columns5" height="240" :data="data5"></Table> -->
         <br><br><br><br><br>
-        <Table border :columns="columns6" :data="data5"></Table>
+        <!-- <Table border :columns="columns6" :data="data5"></Table> -->
         <br><br><br><br><br>
-        <Table border :columns="columns7"  height="240" :data="data7"></Table>
+        <!-- <Table border :columns="columns7"  height="240" :data="data7"></Table>
+        <br><br><br><br><br> -->
+        <Table border :columns="columns8"  :data="data7" height="200"></Table>
         <br><br><br><br><br>
     </div>
 </template>
@@ -117,7 +119,7 @@
                         key: 'gender',
                         align: 'center',
                         width: 200,
-                        //fixed: 'right'
+                        fixed: 'right'
                     }
                 ],
                 columns2: [
@@ -391,6 +393,34 @@
                         age: 26,
                         address: 'Ottawa No. 2 Lake Park Ottawa No. 2 Lake Park Ottawa No. 2 Lake Park',
                         date: '2016-10-04'
+                    }
+                ],
+                
+                columns8: [
+                    {
+                        title: 'Date',
+                        key: 'date',
+                        sortable: true,
+                        minWidth:100,
+                        maxWidth:200,
+                    },
+                    {
+                        title: 'Name',
+                        key: 'name',
+                        minWidth:100,
+                        maxWidth:200,
+                    },
+                    {
+                        title: 'Age',
+                        key: 'age',
+                        minWidth:100,
+                        maxWidth:200,
+                    },
+                    {
+                        title: 'Address',
+                        key: 'address',
+                        minWidth:200,
+                        maxWidth:300,
                     }
                 ],
             }
