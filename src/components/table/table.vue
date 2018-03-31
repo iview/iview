@@ -579,10 +579,6 @@
                     let bodyEl = bodyContentEl.parentElement;
                     let bodyContentHeight = bodyContentEl.offsetHeight;
                     let bodyHeight = bodyEl.offsetHeight;
-<<<<<<< HEAD
-=======
-                    let scrollBarWidth = 0;
->>>>>>> b3ef1c6358515d40e17eb162afd30fc427f0c885
                     
                     this.showVerticalScrollBar = this.bodyHeight? bodyHeight - (this.showHorizontalScrollBar?this.scrollBarWidth:0) < bodyContentHeight : false;
                     
