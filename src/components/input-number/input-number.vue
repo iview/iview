@@ -194,16 +194,16 @@
                 if (this.upDisabled && isNaN(targetVal)) {
                     return false;
                 }
-                this.changeStep('up', e);
+                this.changeStep('up', e, 'on-up');
             },
             down (e) {
                 const targetVal = Number(e.target.value);
                 if (this.downDisabled && isNaN(targetVal)) {
                     return false;
                 }
-                this.changeStep('down', e);
+                this.changeStep('down', e, 'on-down');
             },
-            changeStep (type, e) {
+            changeStep (type, e, eventName) {
                 if (this.disabled || this.readonly) {
                     return false;
                 }
@@ -237,9 +237,9 @@
                 } else if (type === 'down') {
                     val = addNum(val, -step);
                 }
-                this.setValue(val);
+                this.setValue(val, eventName);
             },
-            setValue (val) {
+            setValue (val, eventName) {
                 // 如果 step 是小数，且没有设置 precision，是有问题的
                 if (!isNaN(this.precision)) val = Number(Number(val).toFixed(this.precision));
 
@@ -247,6 +247,9 @@
                     this.currentValue = val;
                     this.$emit('input', val);
                     this.$emit('on-change', val);
+                    if (eventName) {
+                        this.$emit(eventName, val)
+                    }
                     this.dispatch('FormItem', 'on-form-change', val);
                 });
             },
