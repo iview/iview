@@ -570,9 +570,8 @@
                 this.headerWidth = this.$refs.header.childNodes[0].offsetWidth;
                 this.headerHeight = this.$refs.header.childNodes[0].offsetHeight;
                 this.showHorizontalScrollBar = this.headerWidth>this.$refs.header.parentElement.offsetWidth;
-                if (!this.$refs.tbody) {
+                if (!this.$refs.tbody || !this.data || this.data.length === 0) {
                     this.showVerticalScrollBar = false;
-                    return;
                 }
                 else{
                     let bodyContentEl = this.$refs.tbody.$el;
@@ -592,8 +591,8 @@
                     }else{
                         bodyEl.classList.remove(this.prefixCls +'-overflowX');
                     }
-                    this.tableWidth = this.cloneColumns.map(cell => cell._width).reduce((a, b) => a + b, 0) + (this.showVerticalScrollBar?this.scrollBarWidth:0);
                 }
+                this.tableWidth = this.cloneColumns.map(cell => cell._width).reduce((a, b) => a + b, 0) + (this.showVerticalScrollBar?this.scrollBarWidth:0);
             },
 
             hideColumnFilter () {
