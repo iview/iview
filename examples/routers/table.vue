@@ -1,17 +1,19 @@
 <template>
     <div>
-        <!-- <br><br><br><br><br>
+        <br><br><br><br><br>
         <Table border :columns="columns1" height="500" :data="data1"></Table>
-        <br><br><br><br><br> -->
-        <!--<Table width="550" height="200" border :columns="columns2" :data="data4"></Table>-->
+        <Table border :columns="columns1" height='300'></Table>
+        <!-- <br><br><br><br><br> -->
+        <!-- <Table width="550" height="200" border :columns="columns2" :data="data4"></Table> -->
         <!--<br><br><br><br><br>-->
         <!-- <Table border :columns="columns5" height="240" :data="data5"></Table> -->
-        <br><br><br><br><br>
+        <!-- <br><br><br><br><br> -->
         <!-- <Table border :columns="columns6" :data="data5"></Table> -->
-        <br><br><br><br><br>
-        <!-- <Table border :columns="columns7"  height="240" :data="data7"></Table>
-        <br><br><br><br><br> -->
+        <!-- <br><br><br><br><br> -->
+        <Table border :columns="columns7"  height="240" :data="data7"></Table>
+        <!-- <br><br><br><br><br> -->
         <Table border :columns="columns8"  :data="data7" height="200"></Table>
+        <Table border :columns="columns8" height="200"></Table>
         <br><br><br><br><br>
     </div>
 </template>
@@ -24,7 +26,8 @@
                         title: 'Name',
                         key: 'name',
                         align: 'center',
-                        width: 200,
+                        minWidth: 100,
+                        maxWidth: 200,
                         fixed: 'left',
                         filters: [
                             {
@@ -53,7 +56,8 @@
                                 title: 'Age',
                                 key: 'age',
                                 align: 'center',
-                                width: 200,
+                                minWidth: 100,
+                                maxWidth: 200,
                                 sortable: true
                             },
                             {
@@ -64,7 +68,8 @@
                                         title: 'Street',
                                         key: 'street',
                                         align: 'center',
-                                        width: 200
+                                        minWidth: 100,
+                                        maxWidth: 200,
                                     },
                                     {
                                         title: 'Block',
@@ -74,14 +79,16 @@
                                                 title: 'Building',
                                                 key: 'building',
                                                 align: 'center',
-                                                width: 200,
+                                                minWidth: 100,
+                                                maxWidth: 200,
                                                 sortable: true
                                             },
                                             {
                                                 title: 'Door No.',
                                                 key: 'door',
                                                 align: 'center',
-                                                width: 200
+                                                minWidth: 100,
+                                                maxWidth: 200,
                                             }
                                         ]
                                     }
@@ -97,13 +104,15 @@
                                 title: 'Company Address',
                                 key: 'caddress',
                                 align: 'center',
-                                width: 200
+                                minWidth: 100,
+                                maxWidth: 200,
                             },
                             {
                                 title: 'Company Name',
                                 key: 'cname',
                                 align: 'center',
-                                width: 200
+                                minWidth: 100,
+                                maxWidth: 200,
                             }
                         ]
                     },
@@ -118,7 +127,8 @@
                         title: 'Gender',
                         key: 'gender',
                         align: 'center',
-                        width: 200,
+                        minWidth: 100,
+                        maxWidth: 200,
                         fixed: 'right'
                     }
                 ],
