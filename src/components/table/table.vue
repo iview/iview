@@ -251,7 +251,7 @@
             styles () {
                 let style = {};
                 if (this.height) {
-                    const height = (this.isLeftFixed || this.isRightFixed) ? parseInt(this.height) + this.scrollBarWidth : parseInt(this.height);
+                    const height = parseInt(this.height);
                     style.height = `${height}px`;
                 }
                 if (this.width) style.width = `${this.width}px`;
@@ -318,8 +318,7 @@
             bodyStyle () {
                 let style = {};
                 if (this.bodyHeight !== 0) {
-                    // add a height to resolve scroll bug when browser has a scrollBar in fixed type and height prop
-                    const height = (this.isLeftFixed || this.isRightFixed) ? this.bodyHeight + this.scrollBarWidth : this.bodyHeight;
+                    const height = this.bodyHeight;
                     style.height = `${height}px`;
                 }
                 return style;
@@ -327,15 +326,8 @@
             fixedBodyStyle () {
                 let style = {};
                 if (this.bodyHeight !== 0) {
-                    let height = this.bodyHeight + (!this.showHorizontalScrollBar?this.scrollBarWidth:0) - 1;
-
-                    // #2102 里，如果 Table 没有设置 width，而是集成父级的 width，固定列也应该不包含滚动条高度，所以这里直接计算表格宽度
-                    const tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
-                    if ((this.width && this.width < this.tableWidth) || tableWidth < this.tableWidth+(this.showVerticalScrollBar?this.scrollBarWidth:0)){
-                        height = this.bodyHeight;
-                    }
-//                    style.height = this.scrollBarWidth > 0 ? `${this.bodyHeight}px` : `${this.bodyHeight - 1}px`;
-                    style.height = this.scrollBarWidth > 0 ? `${height}px` : `${height - 1}px`;
+                    let height = this.bodyHeight - (this.showHorizontalScrollBar?this.scrollBarWidth:0);
+                    style.height = this.showHorizontalScrollBar ? `${height}px` : `${height - 1}px`;
                 }
                 return style;
             },
@@ -365,14 +357,6 @@
                         this.tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
                     }
                     this.columnsWidth = {};
-                    this.$nextTick(()=>{
-                        this.headerWidth = this.$refs.header.childNodes[0].offsetWidth;
-                        this.headerHeight = this.$refs.header.childNodes[0].offsetHeight;
-                        if (!this.$refs.tbody) {
-                            this.showVerticalScrollBar = false;
-                            return;
-                        }
-                    });
                     this.$nextTick(() => {
                         let columnsWidth = {};
 
@@ -393,6 +377,7 @@
                                     maxWidthColumns.push(col);
                                 }
                             }
+                            col._width = null;
                         });
 
                         minWidthColumns.sort((a,b)=>a.minWidth > b.minWidth);
@@ -405,6 +390,7 @@
 
                         for (let i = 0; i < maxWidthColumns.length; i++) {
                             if(columnWidth > maxWidthColumns[i].maxWidth){
+                                maxWidthColumns[i]._width = maxWidthColumns[i].maxWidth;
                                 usableWidth -= maxWidthColumns[i].maxWidth;
                                 usableLength--;
                                 columnWidth = parseInt(usableWidth / usableLength);
@@ -412,7 +398,8 @@
                         }
 
                         for (let i = 0; i < minWidthColumns.length; i++) {
-                            if(columnWidth < minWidthColumns[i].minWidth){
+                            if(columnWidth < minWidthColumns[i].minWidth && !minWidthColumns[i].width){
+                                minWidthColumns[i]._width = minWidthColumns[i].minWidth;
                                 usableWidth -= minWidthColumns[i].minWidth;
                                 usableLength--;
                                 columnWidth = parseInt(usableWidth / usableLength);
@@ -430,7 +417,10 @@
                                 width = column.width;
                             }
                             else{
-                                if (column.minWidth > width){
+                                if(column._width){
+                                    width = column._width;
+                                }
+                                else if (column.minWidth > width){
                                     width = column.minWidth;
                                 }
                                 else if (column.maxWidth < width){
@@ -445,7 +435,6 @@
                                 }
                             }
 
-
                             this.cloneColumns[i]._width = width;
 
                             columnsWidth[column._index] = {
@@ -453,37 +442,11 @@
                             };
 
                         }
-                        this.tableWidth = this.cloneColumns.map(cell => cell._width).reduce((a, b) => a + b, 0);
+                        //this.tableWidth = this.cloneColumns.map(cell => cell._width).reduce((a, b) => a + b, 0);
                         this.columnsWidth = columnsWidth;
                         this.$nextTick(()=>{
                             this.fixedHeader();
-                            if (this.$refs.tbody) {
-                                let bodyContentEl = this.$refs.tbody.$el;
-                                let bodyEl = bodyContentEl.parentElement;
-                                let bodyContentHeight = bodyContentEl.offsetHeight;
-                                let bodyContentWidth = bodyContentEl.offsetWidth;
-                                let bodyWidth = bodyEl.offsetWidth;
-                                let bodyHeight = bodyEl.offsetHeight;
-                                let scrollBarWidth = 0;
-                                if (bodyWidth < bodyContentWidth + (bodyHeight<bodyContentHeight?this.scrollBarWidth : 0)) {
-                                    scrollBarWidth = this.scrollBarWidth;
-                                }
-                                
-                                this.showVerticalScrollBar = this.bodyHeight? bodyHeight - scrollBarWidth < bodyContentHeight : false;
-                                this.showHorizontalScrollBar = bodyWidth  < bodyContentWidth + (this.showVerticalScrollBar?this.scrollBarWidth:0);
-                                
-                                if(this.showVerticalScrollBar){
-                                    bodyEl.classList.add(this.prefixCls +'-overflowY');
-                                }else{
-                                    bodyEl.classList.remove(this.prefixCls +'-overflowY');
-                                }
-                                if(this.showHorizontalScrollBar){
-                                    bodyEl.classList.add(this.prefixCls +'-overflowX');
-                                }else{
-                                    bodyEl.classList.remove(this.prefixCls +'-overflowX');
-                                }
-                                this.tableWidth = this.cloneColumns.map(cell => cell._width).reduce((a, b) => a + b, 0) + (this.showVerticalScrollBar?this.scrollBarWidth:0);
-                            }
+                            
                         });
                     });
                     // get table real height,for fixed when set height prop,but height < table's height,show scrollBarWidth
@@ -596,11 +559,43 @@
                         const headerHeight = parseInt(getStyle(this.$refs.header, 'height')) || 0;
                         const footerHeight = parseInt(getStyle(this.$refs.footer, 'height')) || 0;
                         this.bodyHeight = this.height - titleHeight - headerHeight - footerHeight;
+                        this.fixedBody();
                     });
                 } else {
                     this.bodyHeight = 0;
+                    this.fixedBody();
                 }
             },
+            fixedBody (){
+                this.headerWidth = this.$refs.header.childNodes[0].offsetWidth;
+                this.headerHeight = this.$refs.header.childNodes[0].offsetHeight;
+                this.showHorizontalScrollBar = this.headerWidth>this.$refs.header.parentElement.offsetWidth;
+                if (!this.$refs.tbody) {
+                    this.showVerticalScrollBar = false;
+                    return;
+                }
+                else{
+                    let bodyContentEl = this.$refs.tbody.$el;
+                    let bodyEl = bodyContentEl.parentElement;
+                    let bodyContentHeight = bodyContentEl.offsetHeight;
+                    let bodyHeight = bodyEl.offsetHeight;
+                    
+                    this.showVerticalScrollBar = this.bodyHeight? bodyHeight - (this.showHorizontalScrollBar?this.scrollBarWidth:0) < bodyContentHeight : false;
+                    
+                    if(this.showVerticalScrollBar){
+                        bodyEl.classList.add(this.prefixCls +'-overflowY');
+                    }else{
+                        bodyEl.classList.remove(this.prefixCls +'-overflowY');
+                    }
+                    if(this.showHorizontalScrollBar){
+                        bodyEl.classList.add(this.prefixCls +'-overflowX');
+                    }else{
+                        bodyEl.classList.remove(this.prefixCls +'-overflowX');
+                    }
+                    this.tableWidth = this.cloneColumns.map(cell => cell._width).reduce((a, b) => a + b, 0) + (this.showVerticalScrollBar?this.scrollBarWidth:0);
+                }
+            },
+
             hideColumnFilter () {
                 this.cloneColumns.forEach((col) => col._filterVisible = false);
             },
@@ -901,7 +896,6 @@
         },
         mounted () {
             this.handleResize();
-            this.fixedHeader();
             this.$nextTick(() => this.ready = true);
 
             on(window, 'resize', this.handleResize);
@@ -911,7 +905,6 @@
             this.$on('on-visible-change', (val) => {
                 if (val) {
                     this.handleResize();
-                    this.fixedHeader();
                 }
             });
         },
@@ -951,11 +944,12 @@
             },
             height () {
                 this.handleResize();
-                this.fixedHeader();
             },
             showHorizontalScrollBar () {
                 this.handleResize();
-                this.fixedHeader();
+            },
+            showVerticalScrollBar () {
+                this.handleResize();
             }
         }
     };
