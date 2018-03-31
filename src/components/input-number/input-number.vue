@@ -248,7 +248,7 @@
                     this.$emit('input', val);
                     this.$emit('on-change', val);
                     if (eventName) {
-                        this.$emit(eventName, val)
+                        this.$emit(eventName, val);
                     }
                     this.dispatch('FormItem', 'on-form-change', val);
                 });
