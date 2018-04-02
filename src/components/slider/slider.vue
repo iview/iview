@@ -326,12 +326,11 @@
                 const index = type === 'min' ? 0 : 1;
                 if (type === 'min') newPos = this.checkLimits([newPos, this.maxPosition])[0];
                 else newPos = this.checkLimits([this.minPosition, newPos])[1];
-
-                const modulus = newPos % this.step;
+                
+                const modulus = this.handleDecimal(newPos,this.step)
                 const value = this.currentValue;
                 value[index] = newPos - modulus;
                 this.currentValue = [...value];
-
                 if (!this.dragging) {
                     if (this.currentValue[index] !== this.oldValue[index]) {
                         this.emitChange();
@@ -339,7 +338,18 @@
                     }
                 }
             },
-
+            handleDecimal(pos,step){
+                if(step<1){
+                    let sl = step.toString(),
+                        multiple = 1,
+                        m = 0;
+                    try {
+                            m += sl.split('.')[1].length;
+                        } catch (e) {}
+                    multiple = Math.pow(10,m);
+                    return (pos * multiple) % (step * multiple) / multiple;
+                }else return  pos % step;
+            },
             emitChange(){
                 const value = this.range ? this.exportValue : this.exportValue[0];
                 this.$emit('on-change', value);
