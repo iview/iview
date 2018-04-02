@@ -327,7 +327,7 @@
                 if (type === 'min') newPos = this.checkLimits([newPos, this.maxPosition])[0];
                 else newPos = this.checkLimits([this.minPosition, newPos])[1];
                 
-                const modulus = this.handleDecimal(newPos,this.step)
+                const modulus = this.handleDecimal(newPos,this.step);
                 const value = this.currentValue;
                 value[index] = newPos - modulus;
                 this.currentValue = [...value];
@@ -342,10 +342,12 @@
                 if(step<1){
                     let sl = step.toString(),
                         multiple = 1,
-                        m = 0;
+                        m;
                     try {
-                            m += sl.split('.')[1].length;
-                        } catch (e) {}
+                        m = sl.split('.')[1].length;
+                    } catch (e){
+                        m = 0;
+                    }
                     multiple = Math.pow(10,m);
                     return (pos * multiple) % (step * multiple) / multiple;
                 }else return  pos % step;
