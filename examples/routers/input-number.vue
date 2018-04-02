@@ -41,7 +41,7 @@
 
 <template>
     <div>
-        <InputNumber :max="1000000000" :min="1" v-model="value1" :formatter="formatter" :parser="parser" @on-change="change" style="width: 200px"></InputNumber>
+        <InputNumber :max="1000000000" :min="1" v-model="value1" :formatter="formatter" :parser="parser" @on-change="change" style="width: 200px" @on-up="up" @on-down="down"></InputNumber>
         <InputNumber :max="1000000000" :min="1" v-model="value2" :formatter="formatter2" :parser="parser2" @on-change="change" style="width: 200px"></InputNumber>
         
         <InputNumber @on-change="change" style="width: 200px"></InputNumber>
@@ -65,7 +65,13 @@
         },
         methods: {
             change (v) {
-                console.log(v)
+                console.log('change', v)
+            },
+            up (v) {
+                console.log('up', v)
+            },
+            down (v) {
+                console.log('down', v)
             }
         }
     }
