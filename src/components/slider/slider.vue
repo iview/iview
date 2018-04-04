@@ -3,6 +3,7 @@
         <Input-number
             v-if="!range && showInput"
             :min="min"
+            :size="inputSize"
             :max="max"
             :step="step"
             :value="exportValue[0]"
@@ -119,6 +120,13 @@
             showInput: {
                 type: Boolean,
                 default: false
+            },
+            inputSize: {
+                type: String,
+                default: 'default',
+                validator (value) {
+                    return oneOf(value, ['small', 'large', 'default']);
+                }
             },
             showStops: {
                 type: Boolean,
