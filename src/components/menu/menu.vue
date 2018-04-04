@@ -43,7 +43,8 @@
         },
         data () {
             return {
-                currentActiveName: this.activeName
+                currentActiveName: this.activeName,
+                openedNames: []
             };
         },
         computed: {
@@ -76,36 +77,40 @@
                 this.broadcast('MenuItem', 'on-update-active-name', this.currentActiveName);
             },
             updateOpenKeys (name) {
-                const index = this.openNames.indexOf(name);
-                if (index > -1) {
-                    this.openNames.splice(index, 1);
+                let names = [...this.openedNames];
+                const index = names.indexOf(name);
+                if (index >= 0) {
+                    names.splice(index, 1);
                 } else {
-                    this.openNames.push(name);
                     if (this.accordion) {
-                        let currentSubmenu = {};
+                        let currentSubmenu = null;
                         findComponentsDownward(this, 'Submenu').forEach(item => {
                             if (item.name === name) currentSubmenu = item;
                         });
                         findBrothersComponents(currentSubmenu, 'Submenu').forEach(item => {
-                            let index = this.openNames.indexOf(item.name);
-                            this.openNames.splice(index, index >= 0 ? 1 : 0);
+                            let i = names.indexOf(item.name);
+                            if (i >= 0) names.splice(i, 1);
                         });
-                        this.openNames.push(name);
+                        names.push(name);
                     }
                 }
+                this.openedNames = names;
+                this.$emit('on-open-change', this.openedNames);
             },
             updateOpened () {
                 const items = findComponentsDownward(this, 'Submenu');
 
                 if (items.length) {
                     items.forEach(item => {
-                        if (this.openNames.indexOf(item.name) > -1) item.opened = true;
+                        if (this.openedNames.indexOf(item.name) > -1) item.opened = true;
+                        else item.opened = false;
                     });
                 }
             }
         },
         mounted () {
             this.updateActiveName();
+            this.openedNames = [...this.openNames];
             this.updateOpened();
             this.$on('on-menu-item-select', (name) => {
                 this.currentActiveName = name;
@@ -113,8 +118,8 @@
             });
         },
         watch: {
-            openNames () {
-                this.$emit('on-open-change', this.openNames);
+            openNames (names) {
+                this.openedNames = names;
             },
             activeName (val) {
                 this.currentActiveName = val;
