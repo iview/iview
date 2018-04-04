@@ -151,7 +151,7 @@
                 startX: 0,
                 currentX: 0,
                 startPos: 0,
-                oldValue: val,
+                oldValue: [...val],
                 valueIndex: {
                     min: 0,
                     max: 1,
@@ -326,11 +326,12 @@
                 const index = type === 'min' ? 0 : 1;
                 if (type === 'min') newPos = this.checkLimits([newPos, this.maxPosition])[0];
                 else newPos = this.checkLimits([this.minPosition, newPos])[1];
-                
+
                 const modulus = this.handleDecimal(newPos,this.step);
                 const value = this.currentValue;
                 value[index] = newPos - modulus;
                 this.currentValue = [...value];
+
                 if (!this.dragging) {
                     if (this.currentValue[index] !== this.oldValue[index]) {
                         this.emitChange();
