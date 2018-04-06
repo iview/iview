@@ -72,7 +72,7 @@
     import clickoutside from '../../directives/clickoutside';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
-    import { DEFAULT_FORMATS, TYPE_VALUE_RESOLVER_MAP } from './util';
+    import { DEFAULT_FORMATS, RANGE_SEPARATOR, TYPE_VALUE_RESOLVER_MAP } from './util';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-date-picker';
@@ -336,8 +336,14 @@
                         } else if (type === 'timerange') {
                             val = parser(val, format).map(v => v || '');
                         } else {
-                            val = val.map(date => new Date(date)); // try to parse
-                            val = val.map(date => isNaN(date.getTime()) ? null : date); // check if parse passed
+                            const [start, end] = val;
+                            if (start instanceof Date && end instanceof Date){
+                                val = val.map(date => new Date(date));
+                            } else if (typeof start === 'string' && typeof end === 'string'){
+                                val = parser(val.join(RANGE_SEPARATOR), format);
+                            } else if (!start || !end){
+                                val = [null, null];
+                            }
                         }
                     }
                 } else if (typeof val === 'string' && type.indexOf('time') !== 0){
