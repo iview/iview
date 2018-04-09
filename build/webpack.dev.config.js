@@ -41,5 +41,8 @@ module.exports = merge(webpackBaseConfig, {
             template: path.join(__dirname, '../examples/index.html')
         }),
         new FriendlyErrorsPlugin()
-    ]
+    ],
+    devServer:{
+        host: '0.0.0.0'
+    }
 });

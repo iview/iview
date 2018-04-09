@@ -187,6 +187,8 @@
                 objData: this.makeObjData(),     // checkbox or highlight-row
                 rebuildData: [],    // for sort or filter
                 cloneColumns: this.makeColumns(),
+                minWidthColumns:[],
+                maxWidthColumns:[],
                 columnRows: this.makeColumnRows(false),
                 leftFixedColumnRows: this.makeColumnRows('left'),
                 rightFixedColumnRows: this.makeColumnRows('right'),
@@ -194,7 +196,6 @@
                 showSlotHeader: true,
                 showSlotFooter: true,
                 bodyHeight: 0,
-                bodyRealHeight: 0,
                 scrollBarWidth: getScrollBarSize(),
                 currentContext: this.context,
                 cloneData: deepCopy(this.data),    // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
@@ -264,11 +265,7 @@
                     if (this.bodyHeight === 0) {
                         width = this.tableWidth;
                     } else {
-                        if (this.bodyHeight > this.bodyRealHeight) {
-                            width = this.tableWidth;
-                        } else {
-                            width = this.tableWidth - (this.showVerticalScrollBar?this.scrollBarWidth:0);
-                        }
+                        width = this.tableWidth - (this.showVerticalScrollBar?this.scrollBarWidth:0);
                     }
 //                    const width = this.bodyHeight === 0 ? this.tableWidth : this.tableWidth - this.scrollBarWidth;
                     style.width = `${width}px`;
@@ -349,109 +346,118 @@
                 return this.rowClassName(this.data[index], index);
             },
             handleResize () {
-                this.$nextTick(() => {
-                    const allWidth = !this.allColumns.some(cell => !cell.width);    // each column set a width
-                    if (allWidth) {
-                        this.tableWidth = this.allColumns.map(cell => cell.width).reduce((a, b) => a + b, 0);
-                    } else {
-                        this.tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
-                    }
-                    this.columnsWidth = {};
-                    this.$nextTick(() => {
-                        let columnsWidth = {};
+                    //let tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
+                    let tableWidth = this.$el.offsetWidth - 1;
+                    let columnsWidth = {};
 
-                        let hasWidthColumns = [];
-                        let noWidthColumns = [];
-                        let minWidthColumns = [];
-                        let maxWidthColumns = [];
-                        this.cloneColumns.forEach((col) => {
-                            if (col.width) {
-                                hasWidthColumns.push(col);
+                    let hasWidthColumns = [];
+                    let noWidthColumns = [];
+                    let minWidthColumns = this.minWidthColumns;
+                    let maxWidthColumns = this.maxWidthColumns;
+                    this.cloneColumns.forEach((col) => {
+                        if (col.width) {
+                            hasWidthColumns.push(col);
+                        }
+                        else{
+                            noWidthColumns.push(col);
+                        }
+                        col._width = null;
+                    });
+
+
+                    let unUsableWidth = hasWidthColumns.map(cell => cell.width).reduce((a, b) => a + b, 0);
+                    let usableWidth = tableWidth - unUsableWidth - (this.showVerticalScrollBar?this.scrollBarWidth:0);
+                    let usableLength = noWidthColumns.length;
+                    let columnWidth = 0;
+                    if(usableWidth > 0 && usableLength > 0){
+                        columnWidth = parseInt(usableWidth / usableLength);
+                    }
+                    for (let i = 0; i < maxWidthColumns.length; i++) {
+                        if(columnWidth > maxWidthColumns[i].maxWidth){
+                            maxWidthColumns[i]._width = maxWidthColumns[i].maxWidth;
+                            usableWidth -= maxWidthColumns[i].maxWidth;
+                            usableLength--;
+                            if (usableWidth>0) {
+                                if (usableLength === 0) {
+                                    columnWidth = 0;
+                                }
+                                else {
+                                    columnWidth = parseInt(usableWidth / usableLength);
+                                }
                             }
                             else{
-                                noWidthColumns.push(col);
-                                if(col.minWidth){
-                                    minWidthColumns.push(col);
-                                }
-                                if(col.maxWidth){
-                                    maxWidthColumns.push(col);
-                                }
-                            }
-                            col._width = null;
-                        });
-
-                        minWidthColumns.sort((a,b)=>a.minWidth > b.minWidth);
-                        maxWidthColumns.sort((a,b)=>a.maxWidth < b.maxWidth);
-
-                        let unUsableWidth = hasWidthColumns.map(cell => cell.width).reduce((a, b) => a + b, 0);
-                        let usableWidth = this.tableWidth - unUsableWidth - (this.showVerticalScrollBar?this.scrollBarWidth:0);
-                        let usableLength = noWidthColumns.length;
-                        let columnWidth = parseInt(usableWidth / usableLength);
-
-                        for (let i = 0; i < maxWidthColumns.length; i++) {
-                            if(columnWidth > maxWidthColumns[i].maxWidth){
-                                maxWidthColumns[i]._width = maxWidthColumns[i].maxWidth;
-                                usableWidth -= maxWidthColumns[i].maxWidth;
-                                usableLength--;
-                                columnWidth = parseInt(usableWidth / usableLength);
+                                columnWidth = 0;
                             }
                         }
+                    }
 
-                        for (let i = 0; i < minWidthColumns.length; i++) {
-                            if(columnWidth < minWidthColumns[i].minWidth && !minWidthColumns[i].width){
+                    for (let i = 0; i < minWidthColumns.length; i++) {
+                        if(columnWidth < minWidthColumns[i].minWidth && !minWidthColumns[i].width){
+                            if(!minWidthColumns[i]._width){
                                 minWidthColumns[i]._width = minWidthColumns[i].minWidth;
                                 usableWidth -= minWidthColumns[i].minWidth;
                                 usableLength--;
-                                columnWidth = parseInt(usableWidth / usableLength);
-                            }
-                        }
-
-                        if (usableLength===0){
-                            columnWidth = 0;
-                        }
-                        
-                        for (let i = 0; i < this.cloneColumns.length; i++) {
-                            const column = this.cloneColumns[i];
-                            let width = columnWidth;
-                            if(column.width){
-                                width = column.width;
-                            }
-                            else{
-                                if(column._width){
-                                    width = column._width;
-                                }
-                                else if (column.minWidth > width){
-                                    width = column.minWidth;
-                                }
-                                else if (column.maxWidth < width){
-                                    width = column.maxWidth;
+                                if (usableWidth>0) {
+                                    if (usableLength === 0) {
+                                        columnWidth = 0;
+                                    }
+                                    else {
+                                        columnWidth = parseInt(usableWidth / usableLength);
+                                    }
                                 }
                                 else{
+                                    columnWidth = 0;
+                                }
+                            }
+                            
+                        }
+                    }
+
+                    
+                    for (let i = 0; i < this.cloneColumns.length; i++) {
+                        const column = this.cloneColumns[i];
+                        let width = columnWidth;
+                        if(column.width){
+                            width = column.width;
+                        }
+                        else{
+                            if (column._width) {
+                                width = column._width;
+                            }
+                            else if (column.minWidth > width){
+                                width = column.minWidth;
+                            }
+                            else if (column.maxWidth < width){
+                                width = column.maxWidth;
+                            }
+                            else {
+                                if (usableWidth>0) {
                                     if (usableLength > 1) {
                                         usableLength--;
                                         usableWidth -= width;
                                         columnWidth = parseInt(usableWidth / usableLength);
                                     }
+                                    else {
+                                        columnWidth = 0;
+                                    }
+                                }
+                                else{
+                                    columnWidth = 0;
                                 }
                             }
-
-                            this.cloneColumns[i]._width = width;
-
-                            columnsWidth[column._index] = {
-                                width: width
-                            };
-
                         }
-                        //this.tableWidth = this.cloneColumns.map(cell => cell._width).reduce((a, b) => a + b, 0);
-                        this.columnsWidth = columnsWidth;
-                        this.$nextTick(()=>{
-                            this.fixedHeader();
-                            
-                        });
-                    });
-                    // get table real height,for fixed when set height prop,but height < table's height,show scrollBarWidth
-                    this.bodyRealHeight = parseInt(getStyle(this.$refs.tbody.$el, 'height'));
-                });
+
+                        this.cloneColumns[i]._width = width;
+
+                        columnsWidth[column._index] = {
+                            width: width
+                        };
+
+                    }
+                    //this.tableWidth = this.cloneColumns.map(cell => cell._width).reduce((a, b) => a + b, 0);
+                    this.tableWidth = this.cloneColumns.map(cell => cell._width).reduce((a, b) => a + b, 0) + (this.showVerticalScrollBar?this.scrollBarWidth:0);
+                    this.columnsWidth = columnsWidth;
+                    this.fixedHeader();
             },
             handleMouseIn (_index) {
                 if (this.disabledHover) return;
@@ -567,9 +573,9 @@
                 }
             },
             fixedBody (){
-                this.headerWidth = this.$refs.header.childNodes[0].offsetWidth;
-                this.headerHeight = this.$refs.header.childNodes[0].offsetHeight;
-                this.showHorizontalScrollBar = this.headerWidth>this.$refs.header.parentElement.offsetWidth;
+                this.headerWidth = this.$refs.header.children[0].offsetWidth;
+                this.headerHeight = this.$refs.header.children[0].offsetHeight;
+                this.showHorizontalScrollBar = this.headerWidth>this.$refs.header.offsetWidth;
                 if (!this.$refs.tbody || !this.data || this.data.length === 0) {
                     this.showVerticalScrollBar = false;
                 }
@@ -592,7 +598,6 @@
                         bodyEl.classList.remove(this.prefixCls +'-overflowX');
                     }
                 }
-                this.tableWidth = this.cloneColumns.map(cell => cell._width).reduce((a, b) => a + b, 0) + (this.showVerticalScrollBar?this.scrollBarWidth:0);
             },
 
             hideColumnFilter () {
@@ -859,6 +864,25 @@
             makeColumnRows (fixedType) {
                 return convertToRows(this.columns, fixedType);
             },
+            setMinMaxColumnRows (){
+                let minWidthColumns=[];
+                let maxWidthColumns=[];
+                this.cloneColumns.forEach((col) => {
+                    if (!col.width) {
+                        if(col.minWidth){
+                            minWidthColumns.push(col);
+                        }
+                        if(col.maxWidth){
+                            maxWidthColumns.push(col);
+                        }
+                    }
+                });
+
+                minWidthColumns.sort((a,b)=>a.minWidth > b.minWidth);
+                maxWidthColumns.sort((a,b)=>a.maxWidth < b.maxWidth);
+                this.minWidthColumns = minWidthColumns;
+                this.maxWidthColumns = maxWidthColumns;
+            },
             exportCsv (params) {
                 if (params.filename) {
                     if (params.filename.indexOf('.csv') === -1) {
@@ -895,6 +919,7 @@
         },
         mounted () {
             this.handleResize();
+            this.setMinMaxColumnRows();
             this.$nextTick(() => this.ready = true);
 
             on(window, 'resize', this.handleResize);
@@ -933,6 +958,8 @@
                     // todo 这里有性能问题，可能是左右固定计算属性影响的
                     this.allColumns = getAllColumns(this.columns);
                     this.cloneColumns = this.makeColumns();
+                    this.setMinMaxColumnRows();
+
                     this.columnRows = this.makeColumnRows(false);
                     this.leftFixedColumnRows = this.makeColumnRows('left');
                     this.rightFixedColumnRows = this.makeColumnRows('right');
