@@ -590,7 +590,7 @@
                     let bodyHeight = bodyEl.offsetHeight;
 
                     if (!this.$refs.header) {
-                        this.showHorizontalScrollBar = bodyEl.offsetWidth < bodyContentEl.offsetWidth;
+                        this.showHorizontalScrollBar = bodyEl.offsetWidth < bodyContentEl.offsetWidth + (this.showVerticalScrollBar?this.scrollBarWidth:0);
                     }
                     
                     this.showVerticalScrollBar = this.bodyHeight? bodyHeight - (this.showHorizontalScrollBar?this.scrollBarWidth:0) < bodyContentHeight : false;
