@@ -573,9 +573,13 @@
                 }
             },
             fixedBody (){
-                this.headerWidth = this.$refs.header.children[0].offsetWidth;
-                this.headerHeight = this.$refs.header.children[0].offsetHeight;
-                this.showHorizontalScrollBar = this.headerWidth>this.$refs.header.offsetWidth;
+                if (this.$refs.header) {
+                    this.headerWidth = this.$refs.header.children[0].offsetWidth;
+                    this.headerHeight = this.$refs.header.children[0].offsetHeight;
+                    this.showHorizontalScrollBar = this.headerWidth>this.$refs.header.offsetWidth;
+                    
+                }
+
                 if (!this.$refs.tbody || !this.data || this.data.length === 0) {
                     this.showVerticalScrollBar = false;
                 }
@@ -584,6 +588,10 @@
                     let bodyEl = bodyContentEl.parentElement;
                     let bodyContentHeight = bodyContentEl.offsetHeight;
                     let bodyHeight = bodyEl.offsetHeight;
+
+                    if (!this.$refs.header) {
+                        this.showHorizontalScrollBar = bodyEl.offsetWidth < bodyContentEl.offsetWidth;
+                    }
                     
                     this.showVerticalScrollBar = this.bodyHeight? bodyHeight - (this.showHorizontalScrollBar?this.scrollBarWidth:0) < bodyContentHeight : false;
                     
@@ -597,7 +605,7 @@
                     }else{
                         bodyEl.classList.remove(this.prefixCls +'-overflowX');
                     }
-                }
+                } 
             },
 
             hideColumnFilter () {
