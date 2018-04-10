@@ -32,6 +32,9 @@ export default {
                     modifiers: {
                         computeStyle:{
                             gpuAcceleration: false,
+                        },
+                        preventOverflow :{
+                            boundariesElement: 'body'
                         }
                     }
                 };
@@ -83,11 +86,8 @@ export default {
             }
 
             options.placement = this.placement;
-            
-            if (options.modifiers) {
-                options.modifiers = {};
-            }
-            if (options.modifiers.offset) {
+
+            if (!options.modifiers.offset) {
                 options.modifiers.offset = {};
             }
             options.modifiers.offset = this.offset;
