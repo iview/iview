@@ -147,7 +147,7 @@ export const DEFAULT_FORMATS = {
     datetimerange: 'yyyy-MM-dd HH:mm:ss'
 };
 
-const RANGE_SEPARATOR = ' - ';
+export const RANGE_SEPARATOR = ' - ';
 
 const DATE_FORMATTER = function(value, format) {
     return formatDate(value, format);
