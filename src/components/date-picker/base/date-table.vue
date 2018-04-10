@@ -36,10 +36,8 @@
             },
         },
         data () {
-            const weekStartDay = Number(this.t('i.datepicker.weekStartDay'));
             return {
                 prefixCls: prefixCls,
-                calendar: new jsCalendar.Generator({onlyDays: !this.showWeekNumbers, weekStart: weekStartDay})
             };
         },
         computed: {
@@ -50,6 +48,10 @@
                         [`${prefixCls}-show-week-numbers`]: this.showWeekNumbers
                     }
                 ];
+            },
+            calendar(){
+                const weekStartDay = Number(this.t('i.datepicker.weekStartDay'));
+                return new jsCalendar.Generator({onlyDays: !this.showWeekNumbers, weekStart: weekStartDay});
             },
             headerDays () {
                 const weekStartDay = Number(this.t('i.datepicker.weekStartDay'));
