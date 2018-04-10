@@ -46,7 +46,10 @@
                             placement: this.placement,
                             modifiers: {
                                 computeStyle:{
-                                    gpuAcceleration: false,
+                                    gpuAcceleration: false
+                                },
+                                preventOverflow :{
+                                    boundariesElement: 'body'
                                 }
                             },
                             onCreate:()=>{
