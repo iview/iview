@@ -159,7 +159,20 @@
 
 <template>
     <Tabs type="card">
-        <TabPane v-for="tab in tabs" :key="tab" :label="'标签' + tab">标签{{ tab }}</TabPane>
+        <TabPane v-for="tab in tabs" :key="tab" :label="'标签' + tab">
+            <span v-if="tab==1">
+                <p>标签1</p>
+                <p>标签1</p>
+                <p>标签1</p>
+                <p>标签1</p>
+                <p>标签1</p>
+                <p>标签1</p>
+                <p>标签1</p>
+                <p>标签1</p>
+                <p>标签1</p>
+            </span>
+            <span v-else>标签{{ tab }}</span>
+        </TabPane>
         <Button type="ghost" @click="handleTabsAdd" size="small" slot="extra">增加</Button>
     </Tabs>
 </template>
@@ -177,5 +190,11 @@
         }
     }
 </script>
+<style lang="postcss" scoped>
+p {
+    margin-bottom: 50px; 
+}
+</style>
+
 
 

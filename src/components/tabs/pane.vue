@@ -1,5 +1,5 @@
 <template>
-    <div :class="prefixCls" v-show="show"><slot></slot></div>
+    <div :class="paneClasses" v-show="show"><slot></slot></div>
 </template>
 <script>
     const prefixCls = 'ivu-tabs-tabpane';
@@ -58,6 +58,17 @@
         },
         destroyed () {
             this.updateNav();
+        },
+        computed: {
+            paneClasses() {
+                return [
+                    `${prefixCls}`,
+                    {
+                        [`${prefixCls}-active`]: this.$parent.activeKey == this.currentName,
+                        [`${prefixCls}-inactive`]: this.$parent.activeKey != this.currentName
+                    }
+                ]
+            }
         }
     };
 </script>
