@@ -50,6 +50,7 @@
                     :value="dates"
                     :format="format"
                     :time-disabled="timeDisabled"
+                    :disabled-date="disabledDate"
                     v-bind="timePickerOptions"
                     @on-pick="handlePick"
                     @on-pick-click="handlePickClick"
@@ -150,6 +151,13 @@
             currentView (currentView) {
                 this.$emit('on-selection-mode-change', currentView);
                 this.pickertable = this.getTableType(currentView);
+
+                if (this.currentView === 'time') {
+                    this.$nextTick(() => {
+                        const spinner = this.$refs.timePicker.$refs.timeSpinner;
+                        spinner.updateScroll();
+                    });
+                }
             },
             selectionMode(type){
                 this.currentView = type;
@@ -186,6 +194,7 @@
                 else if (selectionMode === 'month') value = new Date(panelDate.getFullYear(), value.getMonth(), 1);
                 else value = new Date(value);
 
+                this.dates = [value];
                 this.$emit('on-pick', value);
             },
         },
