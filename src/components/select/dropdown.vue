@@ -21,7 +21,8 @@
         data () {
             return {
                 popper: null,
-                width: ''
+                width: '',
+                popperStatus: false
             };
         },
         computed: {
@@ -37,6 +38,7 @@
                 if (this.popper) {
                     this.$nextTick(() => {
                         this.popper.update();
+                        this.popperStatus = true;
                     });
                 } else {
                     this.$nextTick(() => {
@@ -65,10 +67,11 @@
             destroy () {
                 if (this.popper) {
                     setTimeout(() => {
-                        if (this.popper) {
+                        if (this.popper && !this.popperStatus) {
                             this.popper.destroy();
                             this.popper = null;
                         }
+                        this.popperStatus = false;
                     }, 300);
                 }
             },

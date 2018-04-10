@@ -3,6 +3,7 @@
         <Input-number
             v-if="!range && showInput"
             :min="min"
+            :size="inputSize"
             :max="max"
             :step="step"
             :value="exportValue[0]"
@@ -120,6 +121,13 @@
                 type: Boolean,
                 default: false
             },
+            inputSize: {
+                type: String,
+                default: 'default',
+                validator (value) {
+                    return oneOf(value, ['small', 'large', 'default']);
+                }
+            },
             showStops: {
                 type: Boolean,
                 default: false
@@ -151,7 +159,7 @@
                 startX: 0,
                 currentX: 0,
                 startPos: 0,
-                oldValue: val,
+                oldValue: [...val],
                 valueIndex: {
                     min: 0,
                     max: 1,
@@ -327,7 +335,7 @@
                 if (type === 'min') newPos = this.checkLimits([newPos, this.maxPosition])[0];
                 else newPos = this.checkLimits([this.minPosition, newPos])[1];
 
-                const modulus = newPos % this.step;
+                const modulus = this.handleDecimal(newPos,this.step);
                 const value = this.currentValue;
                 value[index] = newPos - modulus;
                 this.currentValue = [...value];
@@ -339,7 +347,20 @@
                     }
                 }
             },
-
+            handleDecimal(pos,step){
+                if(step<1){
+                    let sl = step.toString(),
+                        multiple = 1,
+                        m;
+                    try {
+                        m = sl.split('.')[1].length;
+                    } catch (e){
+                        m = 0;
+                    }
+                    multiple = Math.pow(10,m);
+                    return (pos * multiple) % (step * multiple) / multiple;
+                }else return  pos % step;
+            },
             emitChange(){
                 const value = this.range ? this.exportValue : this.exportValue[0];
                 this.$emit('on-change', value);
