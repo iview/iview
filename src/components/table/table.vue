@@ -103,7 +103,7 @@
     import ExportCsv from './export-csv';
     import Locale from '../../mixins/locale';
     import elementResizeDetectorMaker from 'element-resize-detector';
-    import { getAllColumns, convertToRows, convertColumnOrder } from './util';
+    import { getAllColumns, convertToRows, convertColumnOrder, getRandomStr } from './util';
 
     const prefixCls = 'ivu-table';
 
@@ -178,6 +178,7 @@
             }
         },
         data () {
+            const colsWithId = this.makeColumnsId(this.columns);
             return {
                 ready: false,
                 tableWidth: 0,
@@ -186,13 +187,13 @@
                 compiledUids: [],
                 objData: this.makeObjData(),     // checkbox or highlight-row
                 rebuildData: [],    // for sort or filter
-                cloneColumns: this.makeColumns(),
+                cloneColumns: this.makeColumns(colsWithId),
                 minWidthColumns:[],
                 maxWidthColumns:[],
-                columnRows: this.makeColumnRows(false),
-                leftFixedColumnRows: this.makeColumnRows('left'),
-                rightFixedColumnRows: this.makeColumnRows('right'),
-                allColumns: getAllColumns(this.columns),  // for multiple table-head, get columns that have no children
+                columnRows: this.makeColumnRows(false, colsWithId),
+                leftFixedColumnRows: this.makeColumnRows('left', colsWithId),
+                rightFixedColumnRows: this.makeColumnRows('right', colsWithId),
+                allColumns: getAllColumns(colsWithId),  // for multiple table-head, get columns that have no children
                 showSlotHeader: true,
                 showSlotFooter: true,
                 bodyHeight: 0,
@@ -828,9 +829,17 @@
                 });
                 return data;
             },
-            makeColumns () {
+            // 修改列，设置一个隐藏的 id，便于后面的多级表头寻找对应的列，否则找不到
+            makeColumnsId (columns) {
+                return columns.map(item => {
+                    if ('children' in item) item.children = this.makeColumnsId(item.children);
+                    item.__id = getRandomStr(6);
+                    return item;
+                });
+            },
+            makeColumns (cols) {
                 // 在 data 时，this.allColumns 暂时为 undefined
-                let columns = deepCopy(getAllColumns(this.columns));
+                let columns = deepCopy(getAllColumns(cols));
                 let left = [];
                 let right = [];
                 let center = [];
@@ -869,8 +878,8 @@
                 return left.concat(center).concat(right);
             },
             // create a multiple table-head
-            makeColumnRows (fixedType) {
-                return convertToRows(this.columns, fixedType);
+            makeColumnRows (fixedType, cols) {
+                return convertToRows(cols, fixedType);
             },
             setMinMaxColumnRows (){
                 let minWidthColumns=[];
@@ -964,13 +973,14 @@
             columns: {
                 handler () {
                     // todo 这里有性能问题，可能是左右固定计算属性影响的
-                    this.allColumns = getAllColumns(this.columns);
+                    const colsWithId = this.makeColumnsId(this.columns);
+                    this.allColumns = getAllColumns(colsWithId);
                     this.cloneColumns = this.makeColumns();
                     this.setMinMaxColumnRows();
 
-                    this.columnRows = this.makeColumnRows(false);
-                    this.leftFixedColumnRows = this.makeColumnRows('left');
-                    this.rightFixedColumnRows = this.makeColumnRows('right');
+                    this.columnRows = this.makeColumnRows(false, colsWithId);
+                    this.leftFixedColumnRows = this.makeColumnRows('left', colsWithId);
+                    this.rightFixedColumnRows = this.makeColumnRows('right', colsWithId);
                     this.rebuildData = this.makeDataWithSortAndFilter();
                     this.handleResize();
                 },
