@@ -49,7 +49,7 @@
                                     gpuAcceleration: false
                                 },
                                 preventOverflow :{
-                                    boundariesElement: 'body'
+                                    boundariesElement: 'viewport'
                                 }
                             },
                             onCreate:()=>{
@@ -79,8 +79,13 @@
                 }
             },
             resetTransformOrigin() {
-                let placement = this.popper.popper.getAttribute('x-placement').split('-')[0];
-                this.popper.popper.style.transformOrigin = placement==='bottom'?'center top':'center bottom';
+                let x_placement = this.popper.popper.getAttribute('x-placement');
+                let placementStart = x_placement.split('-')[0];
+                let placementEnd = x_placement.split('-')[1];
+                const leftOrRight = x_placement === 'left' || x_placement === 'right';
+                if(!leftOrRight){
+                    this.popper.popper.style.transformOrigin = placementStart==='bottom' || ( placementStart !== 'top' && placementEnd === 'start') ? 'center top' : 'center bottom';
+                }
             }
         },
         created () {
