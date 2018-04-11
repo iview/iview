@@ -275,11 +275,12 @@
             nextMonth(panel){
                 this.changePanelDate(panel, 'Month', 1);
             },
-            changePanelDate(panel, type, increment){
+            changePanelDate(panel, type, increment, updateOtherPanel = true){
                 const current = new Date(this[`${panel}PanelDate`]);
                 current[`set${type}`](current[`get${type}`]() + increment);
                 this[`${panel}PanelDate`] = current;
 
+                if (!updateOtherPanel) return;
 
                 if (this.splitPanels){
                     // change other panel if dates overlap
@@ -312,9 +313,8 @@
 
                 if (!this.splitPanels){
                     const otherPanel = panel === 'left' ? 'right' : 'left';
-                    const type = currentViewType === 'year-table' ? 'FullYear' : 'Month';
                     this[`${otherPanel}PanelDate`] = value;
-                    this.changePanelDate(otherPanel, type, 1);
+                    this.changePanelDate(otherPanel, 'Month', 1, false);
                 }
             },
             handleRangePick (val) {
