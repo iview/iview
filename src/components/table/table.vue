@@ -975,7 +975,7 @@
                     // todo 这里有性能问题，可能是左右固定计算属性影响的
                     const colsWithId = this.makeColumnsId(this.columns);
                     this.allColumns = getAllColumns(colsWithId);
-                    this.cloneColumns = this.makeColumns();
+                    this.cloneColumns = this.makeColumns(colsWithId);
                     this.setMinMaxColumnRows();
 
                     this.columnRows = this.makeColumnRows(false, colsWithId);
