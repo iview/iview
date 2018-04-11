@@ -142,7 +142,7 @@
                 // judge endTime > startTime?
                 if (dateEnd < dateStart) dateEnd = dateStart;
 
-                if (emit) this.$emit('on-pick', [dateStart, dateEnd], true);
+                if (emit) this.$emit('on-pick', [dateStart, dateEnd], 'time');
             },
             handleStartChange (date) {
                 this.handleChange(date, {});

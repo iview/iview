@@ -272,7 +272,7 @@
                 const isValidDate = newDate.reduce((valid, date) => valid && date instanceof Date, true);
 
                 if (newValue !== oldValue && !isDisabled && isValidDate) {
-                    this.emitChange();
+                    this.emitChange(this.type);
                     this.internalValue = newDate;
                 } else {
                     this.forceInputRerender++;
@@ -299,7 +299,7 @@
                 this.internalValue = this.internalValue.map(() => null);
                 this.$emit('on-clear');
                 this.dispatch('FormItem', 'on-form-change', '');
-                this.emitChange();
+                this.emitChange(this.type);
                 this.reset();
 
                 setTimeout(
@@ -307,9 +307,9 @@
                     500 // delay to improve dropdown close visual effect
                 );
             },
-            emitChange () {
+            emitChange (type) {
                 this.$nextTick(() => {
-                    this.$emit('on-change', this.publicStringValue);
+                    this.$emit('on-change', this.publicStringValue, type);
                     this.dispatch('FormItem', 'on-form-change', this.publicStringValue);
                 });
             },
@@ -366,7 +366,7 @@
                     return formatter(value, this.format || format);
                 }
             },
-            onPick(dates, visible = false) {
+            onPick(dates, visible = false, type) {
                 if (this.multiple){
                     const pickedTimeStamp = dates.getTime();
                     const indexOfPickedDate = this.internalValue.findIndex(date => date && date.getTime() === pickedTimeStamp);
@@ -379,7 +379,7 @@
 
                 if (!this.isConfirm) this.onSelectionModeChange(this.type); // reset the selectionMode
                 if (!this.isConfirm) this.visible = visible;
-                this.emitChange();
+                this.emitChange(type);
             },
             onPickSuccess(){
                 this.visible = false;

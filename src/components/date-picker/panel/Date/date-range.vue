@@ -317,7 +317,7 @@
                     this.changePanelDate(otherPanel, 'Month', 1, false);
                 }
             },
-            handleRangePick (val) {
+            handleRangePick (val, type) {
                 if (this.rangeState.selecting || this.currentView === 'time'){
                     if (this.currentView === 'time'){
                         this.dates = val;
@@ -330,7 +330,7 @@
                             selecting: false
                         };
                     }
-                    this.handleConfirm(false);
+                    this.handleConfirm(false, type || 'date');
                 } else {
                     this.rangeState = {
                         from: val,
