@@ -2,7 +2,7 @@
     <div style="margin: 200px">
         <Tabs value="name1">
             <TabPane label="标签一" name="name1">
-                <div style="width: 200px;height:300px">
+                <div style="width: 200px;height:300px;overflow: auto;">
                     <Poptip title="提示标题" content="标签一的内容" placement="left" transfer >
                         <Button id="aaa">左边</Button>
                     </Poptip>
