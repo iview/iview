@@ -179,8 +179,12 @@
             this.$on('on-select-selected', this.onOptionClick);
 
             // set the initial values if there are any
-            if (this.values.length > 0 && !this.remote){
+            if (this.values.length > 0 && !this.remote && this.selectOptions.length > 0){
                 this.values = this.values.map(this.getOptionData);
+            }
+
+            if (this.values.length > 0 && this.selectOptions.length === 0){
+                this.hasExpectedValue = this.values;
             }
         },
         data () {
@@ -198,6 +202,7 @@
                 slotOptions: this.$slots.default,
                 caretPosition: -1,
                 lastRemoteQuery: '',
+                hasExpectedValue: false,
             };
         },
         computed: {
@@ -337,7 +342,7 @@
             },
             getOptionData(value){
                 const option = this.flatOptions.find(({componentOptions}) => componentOptions.propsData.value === value);
-                if (!option) return {};
+                if (!option) return null;
                 const textContent = option.componentOptions.children.reduce((str, child) => str + (child.text || ''), '');
                 const label = option.componentOptions.propsData.label || textContent || '';
                 return {
@@ -603,6 +608,12 @@
             },
             dropVisible(open){
                 this.broadcast('Drop', open ? 'on-update-popper' : 'on-destroy-popper');
+            },
+            selectOptions(){
+                if (this.hasExpectedValue){
+                    this.values = this.values.map(this.getOptionData);
+                    this.hasExpectedValue = false;
+                }
             }
         }
     };
