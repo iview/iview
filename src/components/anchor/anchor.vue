@@ -79,7 +79,6 @@ export default {
             this.getCurrentScrollAtTitleId(scrollTop);
         },
         turnTo (href) {
-            const oldHref = this.currentLink;
             this.currentLink = href;
             this.$router.push({
                 path: href
@@ -180,7 +179,7 @@ export default {
         }
     },
     mounted () {
-        this.init()
+        this.init();
     },
     beforeDestroy () {
         this.removeListener();
