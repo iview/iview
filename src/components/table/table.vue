@@ -566,19 +566,18 @@
                         const headerHeight = parseInt(getStyle(this.$refs.header, 'height')) || 0;
                         const footerHeight = parseInt(getStyle(this.$refs.footer, 'height')) || 0;
                         this.bodyHeight = this.height - titleHeight - headerHeight - footerHeight;
-                        this.fixedBody();
+                        this.$nextTick(()=>this.fixedBody());
                     });
                 } else {
                     this.bodyHeight = 0;
-                    this.fixedBody();
+                    this.$nextTick(()=>this.fixedBody());
                 }
             },
             fixedBody (){
                 if (this.$refs.header) {
                     this.headerWidth = this.$refs.header.children[0].offsetWidth;
                     this.headerHeight = this.$refs.header.children[0].offsetHeight;
-                    this.showHorizontalScrollBar = this.headerWidth>this.$refs.header.offsetWidth;
-                    
+                    //this.showHorizontalScrollBar = this.headerWidth>this.$refs.header.offsetWidth;
                 }
 
                 if (!this.$refs.tbody || !this.data || this.data.length === 0) {
@@ -590,10 +589,7 @@
                     let bodyContentHeight = bodyContentEl.offsetHeight;
                     let bodyHeight = bodyEl.offsetHeight;
 
-                    if (!this.$refs.header) {
-                        this.showHorizontalScrollBar = bodyEl.offsetWidth < bodyContentEl.offsetWidth + (this.showVerticalScrollBar?this.scrollBarWidth:0);
-                    }
-                    
+                    this.showHorizontalScrollBar = bodyEl.offsetWidth < bodyContentEl.offsetWidth + (this.showVerticalScrollBar?this.scrollBarWidth:0);
                     this.showVerticalScrollBar = this.bodyHeight? bodyHeight - (this.showHorizontalScrollBar?this.scrollBarWidth:0) < bodyContentHeight : false;
                     
                     if(this.showVerticalScrollBar){
