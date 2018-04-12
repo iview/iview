@@ -203,6 +203,7 @@
                 caretPosition: -1,
                 lastRemoteQuery: '',
                 hasExpectedValue: false,
+                preventRemoteCall: false,
             };
         },
         computed: {
@@ -558,7 +559,8 @@
                 this.$emit('on-query-change', query);
                 const {remoteMethod, lastRemoteQuery} = this;
                 const hasValidQuery = query !== '' && (query !== lastRemoteQuery || !lastRemoteQuery);
-                const shouldCallRemoteMethod = remoteMethod && hasValidQuery;
+                const shouldCallRemoteMethod = remoteMethod && hasValidQuery && !this.preventRemoteCall;
+                this.preventRemoteCall = false; // remove the flag
 
                 if (shouldCallRemoteMethod){
                     this.focusIndex = -1;
@@ -586,7 +588,10 @@
                 const [selectedOption] = this.values;
                 if (selectedOption && this.filterable && !this.multiple && !focused){
                     const selectedLabel = selectedOption.label || selectedOption.value;
-                    if (this.query !== selectedLabel) this.query = selectedLabel;
+                    if (this.query !== selectedLabel) {
+                        this.preventRemoteCall = true;
+                        this.query = selectedLabel;
+                    }
                 }
             },
             focusIndex(index){
