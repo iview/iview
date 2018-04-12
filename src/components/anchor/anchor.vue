@@ -112,13 +112,16 @@ export default {
             const links = findComponentsDownward(this, 'AnchorLink').map(link => {
                 return link.href;
             });
-            const offsetArr = links.map(link => {
-                const id = link.split('#')[1];
+            const idArr = links.map(link => {
+                return link.split('#')[1];
+            });
+            let offsetArr = [];
+            idArr.forEach(id => {
                 const titleEle = document.getElementById(id);
-                return {
-                    link: link,
+                if (titleEle) offsetArr.push({
+                    link: `#${id}`,
                     offset: titleEle.offsetTop - this.scrollElement.offsetTop
-                };
+                });
             });
             this.titlesOffsetArr = offsetArr;
         },

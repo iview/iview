@@ -40,6 +40,11 @@ export default {
         goAnchor () {
             this.parentAnchor.turnTo(this.href);
         }
+    },
+    mounted () {
+        this.$nextTick(() => {
+            this.parentAnchor.init();
+        });
     }
 };
 </script>

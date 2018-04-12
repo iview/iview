@@ -2,10 +2,12 @@
 	<div class="anchor-wrapper">
 		<div class="link-wrapper">
             <Button @click="changeCon">修改为Window</Button>
+            <Button @click="andLink">添加一个连接</Button>
 			<Anchor @on-change="handleChange" @on-select="handleSelect" :style="{right: '100px'}" :affix="true" :offset-top="30" :container="scrollCon" show-ink-in-fixed>
 				<AnchorLink v-if="(link - 1) % 30 === 0" v-for="link in 300" :key="`link${link}`" :href="`#title-${link}`" :title="`title-${link}`">
                     <AnchorLink v-if="link === 61" href="#title-child-69" title="title-child-69"/>
                 </AnchorLink>
+                <AnchorLink v-if="showNewLink" href="#new-link" title="这是动态添加的连接"/>
 			</Anchor>
 		</div>
 		<div v-if="con === 'div'" ref="listWrapper" id="listWrapper" class="list-wrapper">
@@ -30,6 +32,8 @@
                     </Panel>
                 </Collapse>
             </template>
+            <!-- <h1 id="new-link">这是新添加的哦哦哦哦哦 哦 </h1>
+            <p v-for="i in 50" :key="`new-${i}`">这是信息司大是大非胜多负少的{{i}}</p> -->
         </div>
         <div v-else>
             <template v-for="i in 300">
@@ -52,6 +56,8 @@
                     </Panel>
                 </Collapse>
             </template>
+            <h1 id="new-link">这是新添加的哦哦哦哦哦 哦 </h1>
+            <p v-for="i in 50" :key="`new-${i}`">这是信息司大是大非胜多负少的{{i}}</p>
         </div>
 
 	</div>
@@ -63,7 +69,8 @@ export default {
             container: null,
             value1: '1',
             scrollCon: '',
-            con: 'div'
+            con: 'div',
+            showNewLink: false
         }
     },
     methods: {
@@ -76,6 +83,9 @@ export default {
         },
         handleSelect (href) {
             console.log(`select ${href}`)
+        },
+        andLink () {
+            this.showNewLink = true;
         }
     },
     mounted () {
