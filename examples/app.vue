@@ -18,6 +18,7 @@ nav {
             <ul>
                 <li><router-link to="/layout">Layout</router-link></li>
                 <li><router-link to="/affix">Affix</router-link></li>
+                <li><router-link to="/anchor">Anchor</router-link></li>
                 <li><router-link to="/grid">Grid</router-link></li>
                 <li><router-link to="/button">Button</router-link></li>
                 <li><router-link to="/input">Input</router-link></li>
