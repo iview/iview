@@ -613,6 +613,7 @@
             slotChange () {
                 this.options = [];
                 this.optionInstances = [];
+                this.notFound = false;
             },
             setQuery (query) {
                 if (!this.filterable) return;
