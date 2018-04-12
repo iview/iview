@@ -36,15 +36,8 @@
 
                 this.$children.forEach((child, index) => {
                     const name = child.name || index.toString();
-                    let isActive = false;
 
-                    if (self.accordion) {
-                        isActive = activeKey === name;
-                    } else {
-                        isActive = activeKey.indexOf(name) > -1;
-                    }
-
-                    child.isActive = isActive;
+                    child.isActive = activeKey.indexOf(name) > -1;
                     child.index = index;
                 });
             },
