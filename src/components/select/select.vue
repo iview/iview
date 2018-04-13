@@ -282,10 +282,11 @@
                 const selectedValues = this.values.map(({value}) => value);
                 for (let option of (this.slotOptions || [])) {
 
-                    if (!option.componentOptions) continue;
+                    const cOptions = option.componentOptions;
+                    if (!cOptions) continue;
 
-                    if (option.componentOptions.tag.match(optionGroupRegexp)){
-                        let children = option.componentOptions.children;
+                    if (cOptions.tag.match(optionGroupRegexp)){
+                        let children = cOptions.children;
 
                         // remove filtered children
                         if (this.filterable){
@@ -294,16 +295,16 @@
                             );
                         }
 
-                        option.componentOptions.children = children.map(opt => {
+                        cOptions.children = children.map(opt => {
                             optionCounter = optionCounter + 1;
                             return this.processOption(opt, selectedValues, optionCounter === currentIndex);
                         });
 
                         // keep the group if it still has children
-                        if (option.componentOptions.children.length > 0) selectOptions.push({...option});
+                        if (cOptions.children.length > 0) selectOptions.push({...option});
                     } else {
                         // ignore option if not passing filter
-                        const optionPassesFilter = this.filterable ? this.validateOption(option.componentOptions) : option;
+                        const optionPassesFilter = this.filterable ? this.validateOption(cOptions) : option;
                         if (!optionPassesFilter) continue;
 
                         optionCounter = optionCounter + 1;
@@ -614,10 +615,14 @@
             dropVisible(open){
                 this.broadcast('Drop', open ? 'on-update-popper' : 'on-destroy-popper');
             },
-            selectOptions(){
+            selectOptions(options){
                 if (this.hasExpectedValue){
                     this.values = this.values.map(this.getOptionData);
                     this.hasExpectedValue = false;
+                }
+
+                if (options.length === 0){
+                    this.query = '';
                 }
             }
         }
