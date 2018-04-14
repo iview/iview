@@ -589,7 +589,7 @@
                 const [selectedOption] = this.values;
                 if (selectedOption && this.filterable && !this.multiple && !focused){
                     const selectedLabel = selectedOption.label || selectedOption.value;
-                    if (this.query !== selectedLabel) {
+                    if (selectedLabel && this.query !== selectedLabel) {
                         this.preventRemoteCall = true;
                         this.query = selectedLabel;
                     }
