@@ -48,6 +48,8 @@
         
         <InputNumber v-model="valueNull" @on-change="change" style="width: 200px"></InputNumber>
         <InputNumber v-model="valueNull" @on-change="change" :formatter="formatter" :parser="parser" style="width: 200px"></InputNumber>
+                
+        <InputNumber v-model="value2" @on-focus="focus" style="width: 200px"></InputNumber>
     </div>
 </template>
 <script>
@@ -64,6 +66,9 @@
             }
         },
         methods: {
+            focus (e) {
+                e.target.select()
+            },
             change (v) {
                 console.log(v)
             }

@@ -26,6 +26,7 @@
                 @blur="blur"
                 @keydown.stop="keyDown"
                 @input="change"
+                @mouseup="preventDefault"
                 @change="change"
                 :readonly="readonly || !editable"
                 :name="name"
