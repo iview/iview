@@ -8,12 +8,16 @@
         name: 'Icon',
         props: {
             type: String,
+            iconCls: String,
             size: [Number, String],
             color: String
         },
         computed: {
             classes () {
-                return `${prefixCls} ${prefixCls}-${this.type}`;
+                return [{
+                    [`${prefixCls} ${prefixCls}-${this.type}`]: !this.iconCls,
+                    [`${this.iconCls}`]: !!this.iconCls
+                }];
             },
             styles () {
                 let style = {};
