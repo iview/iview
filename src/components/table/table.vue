@@ -374,7 +374,6 @@
 
 
                 let unUsableWidth = hasWidthColumns.map(cell => cell.width).reduce((a, b) => a + b, 0);
-                console.log(tableWidth);
                 let usableWidth = tableWidth - unUsableWidth - sumMinWidth - (this.showVerticalScrollBar?this.scrollBarWidth:0);
                 let usableLength = noWidthColumns.length;
                 let columnWidth = 0;
@@ -447,9 +446,8 @@
 
                     }
                 }
-                    //this.tableWidth = this.cloneColumns.map(cell => cell._width).reduce((a, b) => a + b, 0);
+                
                 this.tableWidth = this.cloneColumns.map(cell => cell._width).reduce((a, b) => a + b, 0) + (this.showVerticalScrollBar?this.scrollBarWidth:0);
-                console.log(this.tableWidth);
                 this.columnsWidth = columnsWidth;
                 this.fixedHeader();
             },
