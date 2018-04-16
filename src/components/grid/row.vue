@@ -1,28 +1,25 @@
-<template>
-    <div :class="classes" :style="styles">
-        <slot></slot>
-    </div>
-</template>
 <script>
-    import { oneOf, findComponentsDownward } from '../../utils/assist';
-
+    import { oneOf } from '../../utils/assist';
     const prefixCls = 'ivu-row';
-
     export default {
         name: 'Row',
         props: {
+            tag: {
+                type: String,
+                default: 'div'
+            },
             type: {
-                validator (value) {
+                validator(value) {
                     return oneOf(value, ['flex']);
                 }
             },
             align: {
-                validator (value) {
+                validator(value) {
                     return oneOf(value, ['top', 'middle', 'bottom']);
                 }
             },
             justify: {
-                validator (value) {
+                validator(value) {
                     return oneOf(value, ['start', 'end', 'center', 'space-around', 'space-between']);
                 }
             },
@@ -33,45 +30,29 @@
             className: String
         },
         computed: {
-            classes () {
-                return [
-                    {
-                        [`${prefixCls}`]: !this.type,
-                        [`${prefixCls}-${this.type}`]: !!this.type,
-                        [`${prefixCls}-${this.type}-${this.align}`]: !!this.align,
-                        [`${prefixCls}-${this.type}-${this.justify}`]: !!this.justify,
-                        [`${this.className}`]: !!this.className
-                    }
-                ];
+            classes() {
+                return [{
+                    [`${prefixCls}`]: !this.type,
+                    [`${prefixCls}-${this.type}`]: !!this.type,
+                    [`${prefixCls}-${this.type}-${this.align}`]: !!this.align,
+                    [`${prefixCls}-${this.type}-${this.justify}`]: !!this.justify,
+                    [`${this.className}`]: !!this.className
+                }];
             },
-            styles () {
-                let style = {};
-                if (this.gutter !== 0) {
-                    style = {
-                        marginLeft: this.gutter / -2 + 'px',
-                        marginRight: this.gutter / -2 + 'px'
-                    };
+            styles() {
+                let ret = {};
+                if (this.gutter) {
+                    ret.marginLeft = `-${this.gutter / 2}px`;
+                    ret.marginRight = ret.marginLeft;
                 }
-
-                return style;
+                return ret;
             }
         },
-        methods: {
-            updateGutter (val) {
-                const Cols = findComponentsDownward(this, 'iCol');
-                if (Cols.length) {
-                    Cols.forEach((child) => {
-                        if (val !== 0) {
-                            child.gutter = val;
-                        }
-                    });
-                }
-            }
-        },
-        watch: {
-            gutter (val) {
-                this.updateGutter(val);
-            }
+        render(h) {
+            return h(this.tag, {
+                class: this.classes,
+                style: this.styles
+            }, this.$slots.default);
         }
-    };
+    }
 </script>

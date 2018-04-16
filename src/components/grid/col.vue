@@ -1,15 +1,12 @@
-<template>
-    <div :class="classes" :style="styles">
-        <slot></slot>
-    </div>
-</template>
 <script>
-    import { findComponentUpward } from '../../utils/assist';
     const prefixCls = 'ivu-col';
-
     export default {
         name: 'iCol',
         props: {
+            tag: {
+                type: String,
+                default: 'div'
+            },
             span: [Number, String],
             order: [Number, String],
             offset: [Number, String],
@@ -22,11 +19,16 @@
             lg: [Number, Object]
         },
         data () {
-            return {
-                gutter: 0
-            };
+            return {};
         },
         computed: {
+            gutter() {
+              let parent = this.$parent;
+              while (parent && parent.$options.name !== 'Row') {
+                parent = parent.$parent;
+              }
+              return parent ? parent.gutter : 0;
+            },
             classes () {
                 let classList = [
                     `${prefixCls}`,
@@ -59,29 +61,18 @@
             },
             styles () {
                 let style = {};
-                if (this.gutter !== 0) {
-                    style = {
-                        paddingLeft: this.gutter / 2 + 'px',
-                        paddingRight: this.gutter / 2 + 'px'
-                    };
+                if (this.gutter) {
+                  style.paddingLeft = this.gutter / 2 + 'px';
+                  style.paddingRight = style.paddingLeft;
                 }
-
                 return style;
             }
         },
-        methods: {
-            updateGutter () {
-                const Row = findComponentUpward(this, 'Row');
-                if (Row) {
-                    Row.updateGutter(Row.gutter);
-                }
-            }
-        },
-        mounted () {
-            this.updateGutter();
-        },
-        beforeDestroy () {
-            this.updateGutter();
+        render(h) {
+            return h(this.tag, {
+                class: this.classes,
+                style: this.styles
+            }, this.$slots.default);
         }
     };
 </script>
