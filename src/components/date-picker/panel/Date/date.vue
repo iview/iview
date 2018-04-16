@@ -188,14 +188,14 @@
                 else this.pickerTable = this.getTableType(this.currentView);
 
             },
-            handlePick (value) {
+            handlePick (value, type) {
                 const {selectionMode, panelDate} = this;
                 if (selectionMode === 'year') value = new Date(value.getFullYear(), 0, 1);
                 else if (selectionMode === 'month') value = new Date(panelDate.getFullYear(), value.getMonth(), 1);
                 else value = new Date(value);
 
                 this.dates = [value];
-                this.$emit('on-pick', value);
+                this.$emit('on-pick', value, false, type || selectionMode);
             },
         },
     };
