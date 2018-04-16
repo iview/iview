@@ -26,6 +26,7 @@
                 @blur="blur"
                 @keydown.stop="keyDown"
                 @input="change"
+                @mouseup="preventDefault"
                 @change="change"
                 :readonly="readonly || !editable"
                 :name="name"
@@ -250,9 +251,9 @@
                     this.dispatch('FormItem', 'on-form-change', val);
                 });
             },
-            focus () {
+            focus (event) {
                 this.focused = true;
-                this.$emit('on-focus');
+                this.$emit('on-focus', event);
             },
             blur () {
                 this.focused = false;
