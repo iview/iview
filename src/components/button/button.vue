@@ -1,13 +1,14 @@
 <template>
-    <button
-        :type="htmlType"
-        :class="classes"
-        :disabled="disabled"
-        @click="handleClick">
+    <button v-if="!isLink" :type="htmlType" :class="classes" :disabled="disabled" @click="handleClick">
         <Icon class="ivu-load-loop" type="load-c" v-if="loading"></Icon>
-        <Icon :type="icon" v-if="icon && !loading"></Icon>
+        <Icon :type="icon" :iconCls="iconCls" v-if="(icon || iconCls) && !loading"></Icon>
         <span v-if="showSlot" ref="slot"><slot></slot></span>
     </button>
+    <a v-else :href="href" :target="target" :class="classes" :disabled="disabled" @click="handleClick">
+        <Icon class="ivu-load-loop" type="load-c" v-if="loading"></Icon>
+        <Icon :type="icon" :iconCls="iconCls"  v-if="(icon || iconCls) && !loading"></Icon>
+        <span v-if="showSlot" ref="slot"><slot></slot></span>
+    </a>
 </template>
 <script>
     import Icon from '../icon';
@@ -43,6 +44,15 @@
                 }
             },
             icon: String,
+            iconCls: String,
+            href: {
+                type: String,
+                default: ''
+            },
+            target: {
+                type: String,
+                default: ''
+            },
             long: {
                 type: Boolean,
                 default: false
@@ -54,6 +64,9 @@
             };
         },
         computed: {
+            isLink () {
+                return this.href !== ''
+            },
             classes () {
                 return [
                     `${prefixCls}`,
@@ -63,7 +76,7 @@
                         [`${prefixCls}-${this.shape}`]: !!this.shape,
                         [`${prefixCls}-${this.size}`]: !!this.size,
                         [`${prefixCls}-loading`]: this.loading != null && this.loading,
-                        [`${prefixCls}-icon-only`]: !this.showSlot && (!!this.icon || this.loading)
+                        [`${prefixCls}-icon-only`]: !this.showSlot && (!!this.icon || !!this.iconCls || this.loading)
                     }
                 ];
             }
