@@ -57,8 +57,9 @@
                     <Header :style="{background: '#eee'}"><Button @click="toggleCollapse">菜单</Button></Header>
                     <Content :style="{background:'#FFCF9E'}">
                         <!-- <Table border  :columns="columns1" height="500" :data="data1"></Table> -->
-                        <br>
-                        <Table border :columns="columns5" :data="data5"></Table>
+                        <!-- <br> -->
+                        <!-- <Table border :columns="columns5" :data="data5"></Table> -->
+                        <Table border :columns="columns8"  height="240" :data="data7"></Table>
                     </Content>
                     <Footer>sdfsdsdfsdfs</Footer>
                 </Layout>
@@ -462,8 +463,8 @@
                         title: 'Date',
                         key: 'date',
                         sortable: true,
-                        minWidth:100,
-                        maxWidth:200,
+                        minWidth:80,
+                        maxWidth:150,
                     },
                     {
                         title: 'Name',
@@ -474,14 +475,14 @@
                     {
                         title: 'Age',
                         key: 'age',
-                        minWidth:100,
-                        maxWidth:200,
+                        minWidth:60,
+                        maxWidth:100,
                     },
                     {
                         title: 'Address',
                         key: 'address',
                         minWidth:200,
-                        maxWidth:300,
+                        //maxWidth:300,
                     }
                 ],
             }
