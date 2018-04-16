@@ -460,10 +460,16 @@
                 
                 columns8: [
                     {
+                        title: 'Address',
+                        key: 'address',
+                        minWidth:200,
+                        //maxWidth:300,
+                    },
+                    {
                         title: 'Date',
                         key: 'date',
                         sortable: true,
-                        minWidth:80,
+                        minWidth:100,
                         maxWidth:150,
                     },
                     {
@@ -478,12 +484,6 @@
                         minWidth:60,
                         maxWidth:100,
                     },
-                    {
-                        title: 'Address',
-                        key: 'address',
-                        minWidth:200,
-                        //maxWidth:300,
-                    }
                 ],
             }
         },
