@@ -18,6 +18,43 @@
             <a href="#" class="demo-badge"></a>
         </Badge>
         <Button @click="setCount">set count</Button>
+
+        <Badge :count="1" type="primary">
+            <a href="#" class="demo-badge"></a>
+        </Badge>
+        <Badge dot type="primary">
+            <a href="#" class="demo-badge"></a>
+        </Badge>
+
+        <Badge :count="2" type="info">
+            <a href="#" class="demo-badge"></a>
+        </Badge>
+        <Badge dot type="info">
+            <a href="#" class="demo-badge"></a>
+        </Badge>
+
+        <Badge :count="3" type="success">
+            <a href="#" class="demo-badge"></a>
+        </Badge>
+        <Badge dot type="success">
+            <a href="#" class="demo-badge"></a>
+        </Badge>
+
+        <Badge :count="4" type="warning">
+            <a href="#" class="demo-badge"></a>
+        </Badge>
+        <Badge dot type="warning">
+            <a href="#" class="demo-badge"></a>
+        </Badge>
+
+        
+        <Badge :count="5" type="error">
+            <a href="#" class="demo-badge"></a>
+        </Badge>
+        <Badge dot type="error">
+            <a href="#" class="demo-badge"></a>
+        </Badge>
+
     </div>
 </template>
 <script>
