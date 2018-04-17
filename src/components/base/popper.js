@@ -110,6 +110,10 @@ export default {
             this.popperJS = null;
         }
     },
+    updated (){
+        this.$nextTick(()=>this.updatePopper());
+        
+    },
     beforeDestroy() {
         if (isServer) return;
         if (this.popperJS) {
