@@ -16,7 +16,7 @@ function getTarget (node) {
 
 const directive = {
     inserted (el, { value }, vnode) {
-        if (el.dataset.transfer !== 'true') return false;
+        if ( el.dataset && el.dataset.transfer !== 'true') return false;
         el.className = el.className ? el.className + ' v-transfer-dom' : 'v-transfer-dom';
         const parentNode = el.parentNode;
         if (!parentNode) return;
@@ -38,7 +38,7 @@ const directive = {
         }
     },
     componentUpdated (el, { value }) {
-        if (el.dataset.transfer !== 'true') return false;
+        if ( el.dataset && el.dataset.transfer !== 'true') return false;
         // need to make sure children are done updating (vs. `update`)
         const ref$1 = el.__transferDomData;
         if (!ref$1) return;
@@ -63,7 +63,7 @@ const directive = {
         }
     },
     unbind (el) {
-        if (el.dataset.transfer !== 'true') return false;
+        if (el.dataset && el.dataset.transfer !== 'true') return false;
         el.className = el.className.replace('v-transfer-dom', '');
         const ref$1 = el.__transferDomData;
         if (!ref$1) return;
