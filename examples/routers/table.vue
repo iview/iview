@@ -1,3 +1,10 @@
+<style>
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+</style>
+
 <template>
     <div>
         <!-- <br><br><br><br><br> -->
