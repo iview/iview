@@ -202,7 +202,11 @@
 <template>
     <div>
         {{ data1 }}
-        <Tree :data="data1"></Tree>
+        <Tree :data="data1">
+            <template slot-scop="scope">
+                <div>xxx</div>
+            </template>
+        </Tree>
     </div>
 </template>
 <script>

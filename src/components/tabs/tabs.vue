@@ -136,9 +136,18 @@
             updateNav () {
                 this.navList = [];
                 this.getTabs().forEach((pane, index) => {
+                    let label = pane.label;
+                    if (!label) {
+                        let paneLabel = pane.$slots.label;
+                        if (paneLabel) {
+                            label = function() {
+                                return paneLabel;
+                            }; 
+                        }
+                    }
                     this.navList.push({
-                        labelType: typeof pane.label,
-                        label: pane.label,
+                        labelType: typeof label,
+                        label: label,
                         icon: pane.icon || '',
                         name: pane.currentName || index,
                         disabled: pane.disabled,

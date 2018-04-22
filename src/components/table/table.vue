@@ -21,7 +21,8 @@
                     :columns="cloneColumns"
                     :data="rebuildData"
                     :columns-width="columnsWidth"
-                    :obj-data="objData"></table-body>
+                    :obj-data="objData">
+                    </table-body>
             </div>
             <div
                 :class="[prefixCls + '-tip']" :style="bodyStyle" @scroll="handleBodyScroll"
@@ -58,7 +59,8 @@
                         :columns="leftFixedColumns"
                         :data="rebuildData"
                         :columns-width="columnsWidth"
-                        :obj-data="objData"></table-body>
+                        :obj-data="objData">
+                        </table-body>
                 </div>
             </div>
             <div :class="[prefixCls + '-fixed-right']" :style="fixedRightTableStyle" v-if="isRightFixed">
@@ -82,7 +84,8 @@
                         :columns="rightFixedColumns"
                         :data="rebuildData"
                         :columns-width="columnsWidth"
-                        :obj-data="objData"></table-body>
+                        :obj-data="objData">
+                        </table-body>
                 </div>
             </div>
             <div :class="[prefixCls + '-fixed-right-header']" :style="fixedRightHeaderStyle" v-if="isRightFixed"></div>
@@ -853,7 +856,15 @@
                     if ('sortType' in column) {
                         column._sortType = column.sortType;
                     }
-
+                    //添加自定义列渲染函数
+                    column.render = (h, params)=> {
+                        let key = params.column.key;
+                        if (this.$scopedSlots[key]) {
+                            return this.$scopedSlots[key](params)
+                        } else {
+                            return h('span',params.row[key])
+                        }
+                    }
                     if (column.fixed && column.fixed === 'left') {
                         left.push(column);
                     } else if (column.fixed && column.fixed === 'right') {

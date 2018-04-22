@@ -25,7 +25,8 @@
                             :checked="rowChecked(row._index)"
                             :disabled="rowDisabled(row._index)"
                             :expanded="rowExpanded(row._index)"
-                        ></Cell>
+                        >
+                        </Cell>
                     </td>
                 </table-tr>
                 <tr v-if="rowExpanded(row._index)" :class="{[prefixCls + '-expanded-hidden']: fixed}">
