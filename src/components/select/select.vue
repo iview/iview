@@ -42,8 +42,6 @@
                     @on-query-change="onQueryChange"
                     @on-input-focus="isFocused = true"
                     @on-input-blur="isFocused = false"
-
-                    ref="selectHead"
                 />
             </slot>
         </div>
@@ -407,7 +405,7 @@
                 if (this.visible) {
 
                     if (this.filterable) {
-                        const input = this.$refs.selectHead.$refs.input;
+                        const input = this.$el.querySelector('input[type="text"]');
                         this.caretPosition = input.selectionStart;
                         this.$nextTick(() => {
                             const caretPosition = this.caretPosition === -1 ? input.value.length : this.caretPosition;
@@ -415,7 +413,7 @@
                         });
                     }
 
-                    event.stopPropagation();
+                    if (!this.autoComplete) event.stopPropagation();
                     event.preventDefault();
                     this.hideMenu();
                     this.isFocused = true;
@@ -513,8 +511,8 @@
                 }
 
                 if (this.filterable){
-                    const inputField = this.$refs.selectHead.$refs.input;
-                    this.$nextTick(() => inputField.focus());
+                    const inputField = this.$el.querySelector('input[type="text"]');
+                    if (!this.autoComplete) this.$nextTick(() => inputField.focus());
                 }
             },
             onQueryChange(query) {
@@ -581,8 +579,7 @@
                 }
             },
             isFocused(focused){
-                const {selectHead, reference} = this.$refs;
-                const el = this.filterable ? selectHead.$el.querySelector('input') : reference;
+                const el = this.filterable ? this.$el.querySelector('input[type="text"]') : this.$el;
                 el[this.isFocused ? 'focus' : 'blur']();
 
                 // restore query value in filterable single selects
