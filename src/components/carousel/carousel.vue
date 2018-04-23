@@ -1,6 +1,6 @@
 <template>
     <div :class="classes">
-        <button :class="arrowClasses" class="left" @click="arrowEvent(-1)">
+        <button type="button" :class="arrowClasses" class="left" @click="arrowEvent(-1)">
             <Icon type="chevron-left"></Icon>
         </button>
         <div :class="[prefixCls + '-list']">
@@ -10,7 +10,7 @@
             <div :class="[prefixCls + '-track', showCopyTrack ? 'higher' : '']" :style="copyTrackStyles" ref="copyTrack" v-if="loop">
             </div>
         </div>
-        <button :class="arrowClasses" class="right" @click="arrowEvent(1)">
+        <button type="button" :class="arrowClasses" class="right" @click="arrowEvent(1)">
             <Icon type="chevron-right"></Icon>
         </button>
         <ul :class="dotsClasses">
@@ -18,7 +18,7 @@
                 <li :class="[n - 1 === currentIndex ? prefixCls + '-active' : '']"
                     @click="dotsEvent('click', n - 1)"
                     @mouseover="dotsEvent('hover', n - 1)">
-                    <button :class="[radiusDot ? 'radius' : '']"></button>
+                    <button type="button" :class="[radiusDot ? 'radius' : '']"></button>
                 </li>
             </template>
         </ul>
