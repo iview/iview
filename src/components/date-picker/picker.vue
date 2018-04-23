@@ -110,7 +110,7 @@
             },
             open: {
                 type: Boolean,
-                default: null
+                default: false
             },
             multiple: {
                 type: Boolean,
