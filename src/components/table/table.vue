@@ -856,13 +856,15 @@
                     if ('sortType' in column) {
                         column._sortType = column.sortType;
                     }
-                    //添加自定义列渲染函数
-                    column.render = (h, params)=> {
-                        let key = params.column.key;
-                        if (this.$scopedSlots[key]) {
-                            return this.$scopedSlots[key](params)
-                        } else {
-                            return h('span',params.row[key])
+                    if (!column.render) {
+                        //添加自定义列渲染函数
+                        column.render = (h, params)=> {
+                            let key = params.column.key;
+                            if (this.$scopedSlots[key]) {
+                                return this.$scopedSlots[key](params)
+                            } else {
+                                return h('span',params.row[key])
+                            }
                         }
                     }
                     if (column.fixed && column.fixed === 'left') {

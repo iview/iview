@@ -1,11 +1,11 @@
 {
-  "name": "iview",
-  "version": "2.13.0",
-  "title": "iView",
+  "name": "bh-iview",
+  "version": "1.0.1",
+  "title": "bh-iView",
   "description": "A high quality  UI components Library with Vue.js",
   "homepage": "http://www.iviewui.com",
   "keywords": [
-    "iview",
+    "bh-iview",
     "vue",
     "vue.js",
     "component",
