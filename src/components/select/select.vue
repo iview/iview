@@ -250,16 +250,16 @@
             },
             dropVisible () {
                 let status = true;
-                const options = this.selectOptions;
-                if (!this.loading && this.remote && this.query === '' && !options.length) status = false;
+                const noOptions = !this.selectOptions || this.selectOptions.length === 0;
+                if (!this.loading && this.remote && this.query === '' && noOptions) status = false;
 
-                if (this.autoComplete && !options.length) status = false;
+                if (this.autoComplete && noOptions) status = false;
 
                 return this.visible && status;
             },
             showNotFoundLabel () {
                 const {loading, remote, selectOptions} = this;
-                return selectOptions.length === 0 && (!remote || (remote && !loading));
+                return selectOptions && selectOptions.length === 0 && (!remote || (remote && !loading));
             },
             publicValue(){
                 if (this.labelInValue){
@@ -278,6 +278,8 @@
                 let optionCounter = -1;
                 const currentIndex = this.focusIndex;
                 const selectedValues = this.values.map(({value}) => value);
+                if (this.autoComplete) return this.slotOptions;
+
                 for (let option of (this.slotOptions || [])) {
 
                     const cOptions = option.componentOptions;
@@ -618,7 +620,7 @@
                     this.hasExpectedValue = false;
                 }
 
-                if (options.length === 0){
+                if (options && options.length === 0){
                     this.query = '';
                 }
             }
