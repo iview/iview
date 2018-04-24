@@ -614,13 +614,13 @@
             dropVisible(open){
                 this.broadcast('Drop', open ? 'on-update-popper' : 'on-destroy-popper');
             },
-            selectOptions(options){
+            selectOptions(){
                 if (this.hasExpectedValue){
                     this.values = this.values.map(this.getOptionData);
                     this.hasExpectedValue = false;
                 }
 
-                if (options && options.length === 0){
+                if (this.slotOptions && this.slotOptions.length === 0){
                     this.query = '';
                 }
             }
