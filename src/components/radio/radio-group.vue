@@ -82,7 +82,7 @@
         },
         watch: {
             value () {
-                if(this.currentValue !== this.value;){
+                if(this.currentValue !== this.value){
                     this.currentValue = this.value;
                     this.updateValue();
                 }
