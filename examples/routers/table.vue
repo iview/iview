@@ -66,7 +66,11 @@ table {
                         <!-- <Table border  :columns="columns1" height="500" :data="data1"></Table> -->
                         <!-- <br> -->
                         <!-- <Table border :columns="columns5" :data="data5"></Table> -->
-                        <Table border :columns="columns8"  height="240" :data="data7"></Table>
+                        <!-- <Table border  height="240" :columns="columns8"  :data="data7"></Table> -->
+
+                        <Table border :columns="columns6" :data="data5" >
+                             <p slot="header">表头</p>
+                        </Table> 
                     </Content>
                     <Footer>sdfsdsdfsdfs</Footer>
                 </Layout>
