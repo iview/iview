@@ -69,7 +69,7 @@
         directives: { clickoutside, TransferDom },
         props: {
             value: {
-                type: [String, Number, Array],
+                type: [String, Number, Array, Boolean],
                 default: ''
             },
             // 使用时，也得设置 value 才行
@@ -327,7 +327,7 @@
             updateSingleSelected (init = false, slot = false) {
                 const type = typeof this.model;
 
-                if (type === 'string' || type === 'number') {
+                if (['string', 'number', 'boolean'].includes(type)) {
                     let findModel = false;
 
                     for (let i = 0; i < this.options.length; i++) {
