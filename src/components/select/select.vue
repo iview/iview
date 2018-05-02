@@ -92,6 +92,20 @@
         }
     };
 
+    const findOptionsInVNode = (node) => {
+        const opts = node.componentOptions;
+        if (opts && opts.tag === 'Option') return [node];
+        if (!node.children) return [];
+        const options = node.children.reduce(
+            (arr, el) => [...arr, ...findOptionsInVNode(el)], []
+        ).filter(Boolean);
+        return options.length > 0 ? options : [];
+    };
+
+    const extractOptions = (options) => options.reduce((options, slotEntry) => {
+        return options.concat(findOptionsInVNode(slotEntry));
+    }, []);
+
     export default {
         name: 'iSelect',
         mixins: [ Emitter, Locale ],
@@ -275,16 +289,39 @@
             },
             selectOptions() {
                 const selectOptions = [];
+                const slotOptions = (this.slotOptions || []);
                 let optionCounter = -1;
                 const currentIndex = this.focusIndex;
                 const selectedValues = this.values.map(({value}) => value);
-                if (this.autoComplete) return this.slotOptions;
+                if (this.autoComplete) {
+                    const copyChildren = (node, fn) => {
+                        return {
+                            ...node,
+                            children: (node.children || []).map(fn).map(child => copyChildren(child, fn))
+                        };
+                    };
+                    const autoCompleteOptions = extractOptions(slotOptions);
+                    const selectedSlotOption = autoCompleteOptions[currentIndex];
 
-                for (let option of (this.slotOptions || [])) {
+                    return slotOptions.map(node => copyChildren(node, (child) => {
+                        if (child !== selectedSlotOption) return child;
+                        return {
+                            ...child,
+                            componentOptions: {
+                                ...child.componentOptions,
+                                propsData: {
+                                    ...child.componentOptions.propsData,
+                                    isFocused: true,
+                                }
+                            }
+                        };
+                    }));
+                }
+
+                for (let option of slotOptions) {
 
                     const cOptions = option.componentOptions;
                     if (!cOptions) continue;
-
                     if (cOptions.tag.match(optionGroupRegexp)){
                         let children = cOptions.children;
 
@@ -315,11 +352,7 @@
                 return selectOptions;
             },
             flatOptions(){
-                return this.selectOptions.reduce((options, option) => {
-                    const isOptionGroup = option.componentOptions.tag.match(optionGroupRegexp);
-                    if (isOptionGroup) return options.concat(option.componentOptions.children || []);
-                    else return options.concat(option);
-                }, []);
+                return extractOptions(this.selectOptions);
             },
             selectTabindex(){
                 return this.disabled || this.filterable ? -1 : 0;
@@ -595,7 +628,7 @@
                 }
             },
             focusIndex(index){
-                if (index < 0) return;
+                if (index < 0 || this.autoComplete) return;
                 // update scroll
                 const optionValue = this.flatOptions[index].componentOptions.propsData.value;
                 const optionInstance = findChild(this, ({$options}) => {
