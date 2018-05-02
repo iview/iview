@@ -1,7 +1,7 @@
 <template>
     <label :class="wrapClasses">
         <span :class="checkboxClasses">
-            <span :class="innerClasses"></span>
+            <span :class="innerClasses" :style="innerStyles"></span>
             <input
                 v-if="group"
                 type="checkbox"
@@ -65,6 +65,10 @@
                     return oneOf(value, ['small', 'large', 'default']);
                 }
             },
+            color: {
+                type: String,
+                required: false
+            },
             name: {
                 type: String
             }
@@ -100,6 +104,20 @@
                         [`${prefixCls}-indeterminate`]: this.indeterminate
                     }
                 ];
+            },
+            innerStyles () {
+                let styles = {}
+                if (this.color) {
+                    if (this.indeterminate) {
+                        styles.backgroundColor = `${this.color}`
+                        styles.borderColor = `${this.color}`
+                    }
+                    if (this.currentValue) {
+                        styles.backgroundColor = `${this.color}`
+                        styles.borderColor = `${this.color}`
+                    }
+                }
+                return styles
             },
             innerClasses () {
                 return [

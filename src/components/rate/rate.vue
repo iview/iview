@@ -4,6 +4,7 @@
         <div
             v-for="item in count"
             :class="starCls(item)"
+            :style="starStyle(item)"
             @mousemove="handleMousemove(item, $event)"
             @click="handleClick(item)">
             <span :class="[prefixCls + '-star-content']" type="half"></span>
@@ -42,6 +43,11 @@
             showText: {
                 type: Boolean,
                 default: false
+            },
+            color: {
+                type: String,
+                required: false,
+                default: '#2d8cf0' // less var @rate-star-color
             },
             name: {
                 type: String
@@ -98,6 +104,29 @@
                         [`${prefixCls}-star-zero`]: !full
                     }
                 ];
+            },
+            starStyle (value) {
+                let styles = {}
+
+                const hoverIndex = this.hoverIndex;
+                const currentIndex = this.isHover ? hoverIndex : this.currentValue;
+
+                let full = false;
+                let isLast = false;
+
+                if (currentIndex >= value) full = true;
+
+                if (this.isHover) {
+                    isLast = currentIndex === value;
+                } else {
+                    isLast = Math.ceil(this.currentValue) === value;
+                }
+
+                if (full || (isLast && this.isHalf)) {
+                    styles['--tooltip-string'] = this.color
+                }
+
+                return styles
             },
             handleMousemove(value, event) {
                 if (this.disabled) return;
