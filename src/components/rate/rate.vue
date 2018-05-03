@@ -46,7 +46,7 @@
             name: {
                 type: String
             },
-            allowClear: {
+            clearable: {
                 type: Boolean,
                 default: false
             }
@@ -130,7 +130,7 @@
                 //value++;
                 if (this.isHalf) value -= 0.5;
 
-                if(this.allowClear && Math.abs(value - this.currentValue) < 0.01) {
+                if(this.clearable && Math.abs(value - this.currentValue) < 0.01) {
                     value = 0;
                 }
 
