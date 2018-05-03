@@ -305,6 +305,7 @@
                 } else {
                     this.$refs.drop.destroy();
                 }
+                this.$emit('on-open-change', Boolean(val));
             }
         },
         methods: {
