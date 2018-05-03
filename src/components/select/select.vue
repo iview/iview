@@ -107,6 +107,19 @@
         return options.concat(findOptionsInVNode(slotEntry));
     }, []);
 
+    const applyProp = (node, propName, value) => {
+        return {
+            ...node,
+            componentOptions: {
+                ...node.componentOptions,
+                propsData: {
+                    ...node.componentOptions.propsData,
+                    [propName]: value,
+                }
+            }
+        };
+    };
+
     export default {
         name: 'iSelect',
         mixins: [ Emitter, Locale ],
@@ -304,19 +317,13 @@
                     const autoCompleteOptions = extractOptions(slotOptions);
                     const selectedSlotOption = autoCompleteOptions[currentIndex];
 
-                    return slotOptions.map(node => copyChildren(node, (child) => {
-                        if (child !== selectedSlotOption) return child;
-                        return {
-                            ...child,
-                            componentOptions: {
-                                ...child.componentOptions,
-                                propsData: {
-                                    ...child.componentOptions.propsData,
-                                    isFocused: true,
-                                }
-                            }
-                        };
-                    }));
+                    return slotOptions.map(node => {
+                        if (node === selectedSlotOption) return applyProp(node, 'isFocused', true);
+                        return copyChildren(node, (child) => {
+                            if (child !== selectedSlotOption) return child;
+                            return applyProp(child, 'isFocused', true);
+                        });
+                    });
                 }
 
                 for (let option of slotOptions) {
