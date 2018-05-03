@@ -2,6 +2,7 @@
     <span
         tabindex="0"
         :class="wrapClasses"
+        :style="wrapstyles"
         @click="toggle"
         @keydown.space="toggle"
     >
@@ -43,6 +44,10 @@
                     return oneOf(value, ['large', 'small', 'default']);
                 }
             },
+            color: {
+                type: String,
+                required: false
+            },
             name: {
                 type: String
             }
@@ -62,6 +67,16 @@
                         [`${prefixCls}-${this.size}`]: !!this.size
                     }
                 ];
+            },
+            wrapstyles () {
+                let styles = {}
+                if (this.color) {
+                    if (this.currentValue === this.trueValue) {
+                        styles.backgroundColor = `${this.color}`
+                        styles.borderColor = `${this.color}`
+                    }
+                }
+                return styles
             },
             innerClasses () {
                 return `${prefixCls}-inner`;
