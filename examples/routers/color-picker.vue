@@ -12,7 +12,8 @@
         <Button @click="setColor">set color</Button>
 
         <br><br><br><br>
-        <ColorPicker v-model="color7" :hue="false"></ColorPicker>
+        {{openState}}
+        <ColorPicker v-model="color7" :hue="false" @on-open-change="onOpenChange"></ColorPicker>
     </div>
 </template>
 <script>
@@ -22,7 +23,8 @@
             return {
                 color: 'rgba(12,34,255,.85)',
                 color2: '',
-                color7: '#19be6b'
+                color7: '#19be6b',
+                openState: false,
             };
         },
         computed: {},
@@ -35,6 +37,9 @@
             },
             c2 (d) {
                 console.log(d);
+            },
+            onOpenChange(state){
+                this.openState = state;
             }
         }
     };
