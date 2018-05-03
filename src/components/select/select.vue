@@ -96,8 +96,9 @@
     const findOptionsInVNode = (node) => {
         const opts = node.componentOptions;
         if (opts && opts.tag.match(optionRegexp)) return [node];
-        if (!node.children) return [];
-        const options = node.children.reduce(
+        if (!node.children && (!opts || !opts.children)) return [];
+        const children = [...(node.children || []),  ...(opts && opts.children || [])];
+        const options = children.reduce(
             (arr, el) => [...arr, ...findOptionsInVNode(el)], []
         ).filter(Boolean);
         return options.length > 0 ? options : [];
