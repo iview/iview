@@ -80,7 +80,8 @@
     import FunctionalOptions from './functional-options.vue';
 
     const prefixCls = 'ivu-select';
-    const optionGroupRegexp = /option\-?group/i;
+    const optionRegexp = /^i-option$|^Option$/;
+    const optionGroupRegexp = /option-?group/i;
 
     const findChild = (instance, checkFn) => {
         let match = checkFn(instance);
@@ -94,7 +95,7 @@
 
     const findOptionsInVNode = (node) => {
         const opts = node.componentOptions;
-        if (opts && opts.tag === 'Option') return [node];
+        if (opts && opts.tag.match(optionRegexp)) return [node];
         if (!node.children) return [];
         const options = node.children.reduce(
             (arr, el) => [...arr, ...findOptionsInVNode(el)], []
