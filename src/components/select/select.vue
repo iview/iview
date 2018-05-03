@@ -549,6 +549,7 @@
                     const inputField = this.$el.querySelector('input[type="text"]');
                     if (!this.autoComplete) this.$nextTick(() => inputField.focus());
                 }
+                this.broadcast('Drop', 'on-update-popper');
             },
             onQueryChange(query) {
                 this.query = query;
