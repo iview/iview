@@ -1,7 +1,7 @@
 <template>
-    <label :class="wrapClasses">
+    <label :class="wrapClasses" :style="wrapStyles">
         <span :class="radioClasses">
-            <span :class="innerClasses"></span>
+            <span :class="innerClasses" :style="innerStyles"></span>
             <input
                 type="radio"
                 :class="inputClasses"
@@ -49,6 +49,11 @@
                     return oneOf(value, ['small', 'large', 'default']);
                 }
             },
+            color: {
+                type: String,
+                required: false,
+                default: '#2d8cf0' // less var @primary-color
+            },
             name: {
                 type: String
             }
@@ -93,6 +98,26 @@
                     }
                 ];
             },
+            innerStyles () {
+                let styles = {}
+                if (this.color) {
+                    if (this.currentValue) {
+                        styles['border-color'] = `${this.color}`,
+                        styles['--tooltip-string'] = `${this.color}`
+                    }
+                }
+                return styles
+            },
+            wrapStyles () {
+                let styles = {}
+                if (this.color) {
+                    if (this.currentValue && this.group && this.parent.type === 'button') {
+                        styles['border-color'] = `${this.color}`,
+                        styles['color'] = `${this.color}`
+                    }
+                }
+                return styles
+            },
             inputClasses () {
                 return `${prefixCls}-input`;
             }
@@ -107,7 +132,7 @@
                     }
                     /* eslint-enable no-console */
                 } else {
-                    this.groupName = this.parent.name; 
+                    this.groupName = this.parent.name;
                 }
             }
 
