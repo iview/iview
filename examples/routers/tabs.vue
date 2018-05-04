@@ -158,10 +158,20 @@
 <!--</script>-->
 
 <template>
-    <Tabs type="card">
-        <TabPane v-for="tab in tabs" :key="tab" :label="'标签' + tab">标签{{ tab }}</TabPane>
+    <div>
+        <i-input></i-input>
         <Button type="ghost" @click="handleTabsAdd" size="small" slot="extra">增加</Button>
-    </Tabs>
+
+        <hr style="margin: 10px 0;">
+        <Tabs type="card">
+            <TabPane v-for="tab in tabs" :key="tab" :label="'Tab' + tab">
+                <div>
+                    <h3>Some text...</h3>
+                    <i-button>Some focusable content...{{ tab }}</i-button>
+                </div>
+            </TabPane>
+        </Tabs>
+    </div>
 </template>
 <script>
     export default {
