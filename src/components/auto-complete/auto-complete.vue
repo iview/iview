@@ -124,7 +124,9 @@
         },
         watch: {
             value (val) {
-                this.disableEmitChange = true;
+                if(this.currentValue !== val){
+                    this.disableEmitChange = true;
+                }
                 this.currentValue = val;
             },
             currentValue (val) {
