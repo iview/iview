@@ -41,6 +41,7 @@
                 >
                     <div
                         :class="minButtonClasses"
+                        :style="minButtonStyles"
                         tabindex="0"
                         @focus="handleFocus('min')"
                         @blur="handleBlur('min')"
@@ -66,6 +67,7 @@
                 >
                     <div
                         :class="maxButtonClasses"
+                        :style="maxButtonStyles"
                         tabindex="0"
                         @focus="handleFocus('max')"
                         @blur="handleBlur('max')"
@@ -144,6 +146,10 @@
                 validator (value) {
                     return oneOf(value, ['hover', 'always', 'never']);
                 }
+            },
+            color: {
+                type: String,
+                required: false
             },
             name: {
                 type: String
@@ -235,7 +241,25 @@
                     style.width = (this.currentValue[1] - this.currentValue[0]) / this.valueRange * 100 + '%';
                 }
 
+                if (this.color) {
+                    style.background = `${this.color}`
+                }
+
                 return style;
+            },
+            minButtonStyles () {
+                let styles = {}
+                if (this.color){
+                    styles.border = `2px solid ${this.color}`
+                }
+                return styles
+            },
+            maxButtonStyles () {
+                let styles = {}
+                if (this.color){
+                    styles.border = `2px solid ${this.color}`
+                }
+                return styles
             },
             stops () {
                 let stopCount = this.valueRange / this.step;
