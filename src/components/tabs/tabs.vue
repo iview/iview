@@ -49,7 +49,7 @@
 
     const focusFirst = (element, root) => {
         try {element.focus();}
-        catch(err) {}
+        catch(err) {} // eslint-disable-line no-empty
 
         if (document.activeElement == element && element !== root) return true;
 
