@@ -91,8 +91,8 @@
                             let i = names.indexOf(item.name);
                             if (i >= 0) names.splice(i, 1);
                         });
-                        names.push(name);
                     }
+                    names.push(name);
                 }
                 this.openedNames = names;
                 this.$emit('on-open-change', this.openedNames);
