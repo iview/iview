@@ -56,12 +56,12 @@
             >
                 <ul v-show="showNotFoundLabel" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
                 <ul :class="prefixCls + '-dropdown-list'">
-                  <functional-options
-                      v-if="(!remote) || (remote && !loading)"
-                      :options="selectOptions"
-                      :slot-update-hook="updateSlotOptions"
-                      :slot-options="slotOptions"
-                  ></functional-options>
+                    <functional-options
+                        v-if="(!remote) || (remote && !loading)"
+                        :options="selectOptions"
+                        :slot-update-hook="updateSlotOptions"
+                        :slot-options="slotOptions"
+                    ></functional-options>
                 </ul>
                 <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
             </Drop>
@@ -207,7 +207,7 @@
 
             // set the initial values if there are any
             if (this.values.length > 0 && !this.remote && this.selectOptions.length > 0){
-                this.values = this.values.map(this.getOptionData);
+                this.values = this.values.map(this.getOptionData).filter(Boolean);
             }
 
             if (this.values.length > 0 && this.selectOptions.length === 0){
@@ -307,7 +307,7 @@
                 const slotOptions = (this.slotOptions || []);
                 let optionCounter = -1;
                 const currentIndex = this.focusIndex;
-                const selectedValues = this.values.map(({value}) => value);
+                const selectedValues = this.values.filter(Boolean).map(({value}) => value);
                 if (this.autoComplete) {
                     const copyChildren = (node, fn) => {
                         return {
@@ -398,7 +398,7 @@
                 const {multiple, value} = this;
                 let initialValue = Array.isArray(value) ? value : [value];
                 if (!multiple && (typeof initialValue[0] === 'undefined' || String(initialValue[0]).trim() === '')) initialValue = [];
-                return initialValue;
+                return initialValue.filter(Boolean);
             },
             processOption(option, values, isFocused){
                 if (!option.componentOptions) return option;
@@ -580,7 +580,7 @@
 
                 if (value === '') this.values = [];
                 else if (JSON.stringify(value) !== JSON.stringify(publicValue)) {
-                    this.$nextTick(() => this.values = getInitialValue().map(getOptionData));
+                    this.$nextTick(() => this.values = getInitialValue().map(getOptionData).filter(Boolean));
                 }
             },
             values(now, before){
@@ -592,8 +592,8 @@
                     // v-model is always just the value, event with labelInValue === true
                     const vModelValue = this.labelInValue ?
                         (this.multiple ? this.publicValue.map(({value}) => value)
-                        :
-                        this.publicValue.value) : this.publicValue;
+                            :
+                            this.publicValue.value) : this.publicValue;
                     this.$emit('input', vModelValue); // to update v-model
                     this.$emit('on-change', this.publicValue);
                     this.dispatch('FormItem', 'on-form-change', this.publicValue);
@@ -659,7 +659,7 @@
             },
             selectOptions(){
                 if (this.hasExpectedValue){
-                    this.values = this.values.map(this.getOptionData);
+                    this.values = this.values.map(this.getOptionData).filter(Boolean);
                     this.hasExpectedValue = false;
                 }
 
