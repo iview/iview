@@ -42,6 +42,7 @@
                     @on-query-change="onQueryChange"
                     @on-input-focus="isFocused = true"
                     @on-input-blur="isFocused = false"
+                    @on-clear="clearSingleSelect"
                 />
             </slot>
         </div>
@@ -382,6 +383,7 @@
                 }
             },
             clearSingleSelect(){ // PUBLIC API
+                this.$emit('on-clear');
                 if (this.clearable) this.values = [];
             },
             getOptionData(value){
