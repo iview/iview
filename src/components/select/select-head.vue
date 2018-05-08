@@ -25,7 +25,7 @@
             @blur="onInputFocus"
 
             ref="input">
-        <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-if="resetSelect" @click.native.stop="resetSelect"></Icon>
+        <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-if="resetSelect" @click.native.stop="onClear"></Icon>
         <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']" v-if="!resetSelect && !remote && !disabled"></Icon>
     </div>
 </template>
@@ -165,6 +165,9 @@
                 if (this.filterable && e.target === this.$el){
                     this.$refs.input.focus();
                 }
+            },
+            onClear(){
+                this.$emit('on-clear');
             }
         },
         watch: {
