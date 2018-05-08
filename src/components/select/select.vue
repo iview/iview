@@ -122,6 +122,8 @@
         };
     };
 
+    const ANIMATION_TIMEOUT = 300;
+
     export default {
         name: 'iSelect',
         mixins: [ Emitter, Locale ],
@@ -230,6 +232,7 @@
                 slotOptions: this.$slots.default,
                 caretPosition: -1,
                 lastRemoteQuery: '',
+                unchangedQuery: true,
                 hasExpectedValue: false,
                 preventRemoteCall: false,
             };
@@ -260,6 +263,10 @@
                     [`${prefixCls}-selection`]: !this.autoComplete,
                     [`${prefixCls}-selection-focused`]: this.isFocused
                 };
+            },
+            queryStringMatchesSelectedOption(){
+                const selectedOptions = this.values[0];
+                return selectedOptions && !this.multiple && this.unchangedQuery && this.query === selectedOptions.value;
             },
             localeNotFoundText () {
                 if (typeof this.notFoundText === 'undefined') {
@@ -425,6 +432,7 @@
             },
 
             validateOption({elm, propsData}){
+                if (this.queryStringMatchesSelectedOption) return true;
                 const value = propsData.value;
                 const label = propsData.label || '';
                 const textContent = elm && elm.textContent || '';
@@ -446,6 +454,7 @@
             },
             hideMenu () {
                 this.toggleMenu(null, false);
+                setTimeout(() => this.unchangedQuery = true, ANIMATION_TIMEOUT);
             },
             onClickOutside(event){
                 if (this.visible) {
@@ -469,6 +478,7 @@
                 }
             },
             reset(){
+                this.unchangedQuery = true;
                 this.values = [];
             },
             handleKeydown (e) {
@@ -553,6 +563,7 @@
 
                     this.isFocused = true; // so we put back focus after clicking with mouse on option elements
                 } else {
+                    this.query = option.value;
                     this.values = [option];
                     this.lastRemoteQuery = '';
                     this.hideMenu();
@@ -565,6 +576,7 @@
                 this.broadcast('Drop', 'on-update-popper');
             },
             onQueryChange(query) {
+                this.unchangedQuery = false;
                 this.query = query;
                 if (this.query.length > 0) this.visible = true;
             },
