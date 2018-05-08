@@ -43,7 +43,7 @@
         const currentIndex = list.findIndex(tab => tab.name === activeKey);
         const nextIndex = (currentIndex + direction + list.length) % list.length;
         const nextTab = list[nextIndex];
-        if (nextTab.disabled) return getNextTab(list, nextTab, direction, countDisabledAlso);
+        if (nextTab.disabled) return getNextTab(list, nextTab.name, direction, countDisabledAlso);
         else return nextTab;
     };
 
@@ -237,8 +237,9 @@
                 this.focusedKey = nextTab.name;
             },
             handleTabKeyboardSelect(){
-                this.activeKey = this.focusedKey;
-                const nextIndex = this.navList.findIndex(tab => tab.name === this.focusedKey);
+                this.activeKey = this.focusedKey || 0;
+                const nextIndex = Math.max(this.navList.findIndex(tab => tab.name === this.focusedKey), 0);
+
                 [...this.$refs.panes.children].forEach((el, i) => {
                     if (nextIndex === i) {
                         [...el.children].forEach(child => child.style.display = 'block');
@@ -411,6 +412,8 @@
 
                 this.mutationObserver.observe(hiddenParentNode, { attributes: true, childList: true, characterData: true, attributeFilter: ['style'] });
             }
+
+            this.handleTabKeyboardSelect();
         },
         beforeDestroy() {
             this.observer.removeListener(this.$refs.navWrap, this.handleResize);
