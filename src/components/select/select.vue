@@ -482,6 +482,7 @@
 
                     // Esc slide-up
                     if (e.key === 'Escape') {
+                        e.stopPropagation();
                         this.hideMenu();
                     }
                     // next
