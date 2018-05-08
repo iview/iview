@@ -2,7 +2,13 @@
     <div :class="classes">
         <div :class="[prefixCls + '-bar']">
             <div :class="[prefixCls + '-nav-right']" v-if="showSlot"><slot name="extra"></slot></div>
-            <div :class="[prefixCls + '-nav-container']">
+            <div
+                :class="[prefixCls + '-nav-container']"
+                tabindex="0"
+                ref="navContainer"
+                @keydown="handleTabKeyNavigation"
+                @keydown.space.prevent="handleTabKeyboardSelect"
+            >
                 <div ref="navWrap" :class="[prefixCls + '-nav-wrap', scrollable ? prefixCls + '-nav-scrollable' : '']">
                     <span :class="[prefixCls + '-nav-prev', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollPrev"><Icon type="chevron-left"></Icon></span>
                     <span :class="[prefixCls + '-nav-next', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollNext"><Icon type="chevron-right"></Icon></span>
@@ -20,7 +26,7 @@
                 </div>
             </div>
         </div>
-        <div :class="contentClasses" :style="contentStyle"><slot></slot></div>
+        <div :class="contentClasses" :style="contentStyle" ref="panes"><slot></slot></div>
     </div>
 </template>
 <script>
@@ -31,6 +37,28 @@
     import elementResizeDetectorMaker from 'element-resize-detector';
 
     const prefixCls = 'ivu-tabs';
+    const transitionTime = 300; // from CSS
+
+    const getNextTab = (list, activeKey, direction, countDisabledAlso) => {
+        const currentIndex = list.findIndex(tab => tab.name === activeKey);
+        const nextIndex = (currentIndex + direction + list.length) % list.length;
+        const nextTab = list[nextIndex];
+        if (nextTab.disabled) return getNextTab(list, nextTab.name, direction, countDisabledAlso);
+        else return nextTab;
+    };
+
+    const focusFirst = (element, root) => {
+        try {element.focus();}
+        catch(err) {} // eslint-disable-line no-empty
+
+        if (document.activeElement == element && element !== root) return true;
+
+        const candidates = element.children;
+        for (let candidate of candidates) {
+            if (focusFirst(candidate, root)) return true;
+        }
+        return false;
+    };
 
     export default {
         name: 'Tabs',
@@ -68,11 +96,13 @@
                 barWidth: 0,
                 barOffset: 0,
                 activeKey: this.value,
+                focusedKey: this.value,
                 showSlot: false,
                 navStyle: {
                     transform: ''
                 },
-                scrollable: false
+                scrollable: false,
+                transitioning: false,
             };
         },
         computed: {
@@ -183,16 +213,45 @@
                     `${prefixCls}-tab`,
                     {
                         [`${prefixCls}-tab-disabled`]: item.disabled,
-                        [`${prefixCls}-tab-active`]: item.name === this.activeKey
+                        [`${prefixCls}-tab-active`]: item.name === this.activeKey,
+                        [`${prefixCls}-tab-focused`]: item.name === this.focusedKey,
                     }
                 ];
             },
             handleChange (index) {
+                if (this.transitioning) return;
+
+                this.transitioning = true;
+                setTimeout(() => this.transitioning = false, transitionTime);
+
                 const nav = this.navList[index];
                 if (nav.disabled) return;
                 this.activeKey = nav.name;
                 this.$emit('input', nav.name);
                 this.$emit('on-click', nav.name);
+            },
+            handleTabKeyNavigation(e){
+                if (e.keyCode !== 37 && e.keyCode !== 39) return;
+                const direction = e.keyCode === 39 ? 1 : -1;
+                const nextTab = getNextTab(this.navList, this.focusedKey, direction);
+                this.focusedKey = nextTab.name;
+            },
+            handleTabKeyboardSelect(){
+                this.activeKey = this.focusedKey || 0;
+                const nextIndex = Math.max(this.navList.findIndex(tab => tab.name === this.focusedKey), 0);
+
+                [...this.$refs.panes.children].forEach((el, i) => {
+                    if (nextIndex === i) {
+                        [...el.children].forEach(child => child.style.display = 'block');
+                        setTimeout(() => {
+                            focusFirst(el, el);
+                        }, transitionTime);
+                    } else {
+                        setTimeout(() => {
+                            [...el.children].forEach(child => child.style.display = 'none');
+                        }, transitionTime);
+                    }
+                });
             },
             handleRemove (index) {
                 const tabs = this.getTabs();
@@ -325,8 +384,10 @@
         watch: {
             value (val) {
                 this.activeKey = val;
+                this.focusedKey = val;
             },
-            activeKey () {
+            activeKey (val) {
+                this.focusedKey = val;
                 this.updateBar();
                 this.updateStatus();
                 this.broadcast('Table', 'on-visible-change', true);
@@ -351,6 +412,8 @@
 
                 this.mutationObserver.observe(hiddenParentNode, { attributes: true, childList: true, characterData: true, attributeFilter: ['style'] });
             }
+
+            this.handleTabKeyboardSelect();
         },
         beforeDestroy() {
             this.observer.removeListener(this.$refs.navWrap, this.handleResize);
