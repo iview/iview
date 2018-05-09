@@ -160,14 +160,14 @@
             mask () {
                 if (this.maskClosable) {
                     this.close();
+                    // More power to control the Mask layer
+                    this.$emit('on-mask');
                 }
             },
             handleWrapClick (event) {
                 // use indexOf,do not use === ,because ivu-modal-wrap can have other custom className
                 const className = event.target.getAttribute('class');
                 if (className && className.indexOf(`${prefixCls}-wrap`) > -1) this.mask();
-                // More power to manipulate the Mask layer
-                this.$emit('on-mask');
             },
             cancel () {
                 this.close();
