@@ -11,8 +11,7 @@
                 @change="change"
                 @focus="onFocus"
                 @blur="onBlur">
-        </span>
-        <slot>{{ label }}</slot>
+        </span><slot>{{ label }}</slot>
     </label>
 </template>
 <script>
