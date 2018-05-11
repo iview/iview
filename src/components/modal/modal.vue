@@ -160,6 +160,8 @@
             mask () {
                 if (this.maskClosable) {
                     this.close();
+                    // More power to control the Mask layer
+                    this.$emit('on-mask');
                 }
             },
             handleWrapClick (event) {
