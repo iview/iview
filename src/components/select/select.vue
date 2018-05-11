@@ -266,7 +266,9 @@
             },
             queryStringMatchesSelectedOption(){
                 const selectedOptions = this.values[0];
-                return selectedOptions && !this.multiple && this.unchangedQuery && this.query === selectedOptions.label;
+                if (!selectedOptions) return false;
+                const [query, label] = [this.query, selectedOptions.label].map(str => (str || '').trim());
+                return !this.multiple && this.unchangedQuery && query === label;
             },
             localeNotFoundText () {
                 if (typeof this.notFoundText === 'undefined') {
@@ -438,7 +440,7 @@
                 const label = propsData.label || '';
                 const textContent = elm && elm.textContent || '';
                 const stringValues = JSON.stringify([value, label, textContent]);
-                const query = this.query.toLowerCase();
+                const query = this.query.toLowerCase().trim();
                 return stringValues.toLowerCase().includes(query);
             },
 
@@ -564,7 +566,7 @@
 
                     this.isFocused = true; // so we put back focus after clicking with mouse on option elements
                 } else {
-                    this.query = option.label;
+                    this.query = String(option.label).trim();
                     this.values = [option];
                     this.lastRemoteQuery = '';
                     this.hideMenu();
@@ -652,7 +654,7 @@
                 // restore query value in filterable single selects
                 const [selectedOption] = this.values;
                 if (selectedOption && this.filterable && !this.multiple && !focused){
-                    const selectedLabel = selectedOption.label || selectedOption.value;
+                    const selectedLabel = String(selectedOption.label || selectedOption.value).trim();
                     if (selectedLabel && this.query !== selectedLabel) {
                         this.preventRemoteCall = true;
                         this.query = selectedLabel;
