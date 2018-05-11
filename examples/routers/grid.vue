@@ -148,18 +148,49 @@
                 </Row>
             </i-col>
         </Row>
+
+         <Row :gutter="30" tag="article" ref="row">
+              <Col span="16">
+                  <Row :gutter="gutter">
+                      <Col span="7">
+                          <Input v-model="deliveryData.goodsLength"  placeholder="长"></Input>
+                      </Col>
+                      <Col span="7">
+                          <Input v-model="deliveryData.goodsWidth"  placeholder="宽"></Input>
+                      </Col>
+                      <Col span="7">
+                          <Input v-model="deliveryData.goodsHeight" placeholder="高"></Input>
+                      </Col>
+                  </Row>
+              </Col>
+        </Row>
+
+        <Button @click="updateRow">测试动态gutter</Button>
+
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                n: 2
+                n: 2,
+                gutter: 30,
+                deliveryData: {}
             }
         },
         methods: {
             add () {
                 this.n++;
+            },
+            random (min, max) {
+                if (max == null) {
+                    max = min;
+                    min = 0;
+                }
+                return min + Math.floor(Math.random() * (max - min + 1));
+            },
+            updateRow () {
+                this.gutter = this.random(30, 50);
             }
         }
     }
