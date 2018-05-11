@@ -266,7 +266,7 @@
             },
             queryStringMatchesSelectedOption(){
                 const selectedOptions = this.values[0];
-                return selectedOptions && !this.multiple && this.unchangedQuery && this.query === selectedOptions.value;
+                return selectedOptions && !this.multiple && this.unchangedQuery && this.query === selectedOptions.label;
             },
             localeNotFoundText () {
                 if (typeof this.notFoundText === 'undefined') {
@@ -391,6 +391,7 @@
             },
             clearSingleSelect(){ // PUBLIC API
                 this.$emit('on-clear');
+                this.hideMenu();
                 if (this.clearable) this.values = [];
             },
             getOptionData(value){
@@ -437,7 +438,8 @@
                 const label = propsData.label || '';
                 const textContent = elm && elm.textContent || '';
                 const stringValues = JSON.stringify([value, label, textContent]);
-                return stringValues.toLowerCase().includes(this.query.toLowerCase());
+                const query = this.query.toLowerCase();
+                return stringValues.toLowerCase().includes(query);
             },
 
             toggleMenu (e, force) {
@@ -563,7 +565,7 @@
 
                     this.isFocused = true; // so we put back focus after clicking with mouse on option elements
                 } else {
-                    this.query = option.value;
+                    this.query = option.label;
                     this.values = [option];
                     this.lastRemoteQuery = '';
                     this.hideMenu();
@@ -576,9 +578,9 @@
                 this.broadcast('Drop', 'on-update-popper');
             },
             onQueryChange(query) {
-                this.unchangedQuery = false;
+                if (query.length > 0 && query !== this.query) this.visible = true;
                 this.query = query;
-                if (this.query.length > 0) this.visible = true;
+                this.unchangedQuery = this.visible;
             },
             toggleHeaderFocus({type}){
                 if (this.disabled) {

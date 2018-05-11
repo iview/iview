@@ -182,6 +182,7 @@
                 // #982
                 if (typeof value === 'undefined' || value === '' || value === null) this.query = '';
                 else this.query = value.label;
+                this.$nextTick(() => this.preventRemoteCall = false); // this should be after the query change setter above
             },
             query (val) {
                 if (this.preventRemoteCall) {
