@@ -684,6 +684,9 @@
                 if (this.slotOptions && this.slotOptions.length === 0){
                     this.query = '';
                 }
+            },
+            visible(state){
+                this.$emit('on-open-change', state);
             }
         }
     };
