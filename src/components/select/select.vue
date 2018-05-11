@@ -446,7 +446,6 @@
                 if (this.disabled || this.autoComplete) {
                     return false;
                 }
-                this.focusIndex = -1;
 
                 this.visible = typeof force !== 'undefined' ? force : !this.visible;
                 if (this.visible){
@@ -570,6 +569,11 @@
                     this.lastRemoteQuery = '';
                     this.hideMenu();
                 }
+
+                this.focusIndex = this.flatOptions.findIndex((opt) => {
+                    if (!opt || !opt.componentOptions) return false;
+                    return opt.componentOptions.propsData.value === option.value;
+                });
 
                 if (this.filterable){
                     const inputField = this.$el.querySelector('input[type="text"]');
