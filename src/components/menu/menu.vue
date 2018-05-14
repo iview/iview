@@ -92,6 +92,8 @@
                             if (i >= 0) names.splice(i, 1);
                         });
                         names.push(name);
+                    }else {
+                      names.push(name);
                     }
                 }
                 this.openedNames = names;
