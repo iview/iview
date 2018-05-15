@@ -42,6 +42,7 @@
                     @on-query-change="onQueryChange"
                     @on-input-focus="isFocused = true"
                     @on-input-blur="isFocused = false"
+                    @on-clear="clearSingleSelect"
                 />
             </slot>
         </div>
@@ -120,6 +121,8 @@
             }
         };
     };
+
+    const ANIMATION_TIMEOUT = 300;
 
     export default {
         name: 'iSelect',
@@ -229,6 +232,7 @@
                 slotOptions: this.$slots.default,
                 caretPosition: -1,
                 lastRemoteQuery: '',
+                unchangedQuery: true,
                 hasExpectedValue: false,
                 preventRemoteCall: false,
             };
@@ -259,6 +263,12 @@
                     [`${prefixCls}-selection`]: !this.autoComplete,
                     [`${prefixCls}-selection-focused`]: this.isFocused
                 };
+            },
+            queryStringMatchesSelectedOption(){
+                const selectedOptions = this.values[0];
+                if (!selectedOptions) return false;
+                const [query, label] = [this.query, selectedOptions.label].map(str => (str || '').trim());
+                return !this.multiple && this.unchangedQuery && query === label;
             },
             localeNotFoundText () {
                 if (typeof this.notFoundText === 'undefined') {
@@ -382,6 +392,8 @@
                 }
             },
             clearSingleSelect(){ // PUBLIC API
+                this.$emit('on-clear');
+                this.hideMenu();
                 if (this.clearable) this.values = [];
             },
             getOptionData(value){
@@ -423,18 +435,19 @@
             },
 
             validateOption({elm, propsData}){
+                if (this.queryStringMatchesSelectedOption) return true;
                 const value = propsData.value;
                 const label = propsData.label || '';
                 const textContent = elm && elm.textContent || '';
                 const stringValues = JSON.stringify([value, label, textContent]);
-                return stringValues.toLowerCase().includes(this.query.toLowerCase());
+                const query = this.query.toLowerCase().trim();
+                return stringValues.toLowerCase().includes(query);
             },
 
             toggleMenu (e, force) {
                 if (this.disabled || this.autoComplete) {
                     return false;
                 }
-                this.focusIndex = -1;
 
                 this.visible = typeof force !== 'undefined' ? force : !this.visible;
                 if (this.visible){
@@ -444,6 +457,7 @@
             },
             hideMenu () {
                 this.toggleMenu(null, false);
+                setTimeout(() => this.unchangedQuery = true, ANIMATION_TIMEOUT);
             },
             onClickOutside(event){
                 if (this.visible) {
@@ -467,6 +481,7 @@
                 }
             },
             reset(){
+                this.unchangedQuery = true;
                 this.values = [];
             },
             handleKeydown (e) {
@@ -551,10 +566,16 @@
 
                     this.isFocused = true; // so we put back focus after clicking with mouse on option elements
                 } else {
+                    this.query = String(option.label).trim();
                     this.values = [option];
                     this.lastRemoteQuery = '';
                     this.hideMenu();
                 }
+
+                this.focusIndex = this.flatOptions.findIndex((opt) => {
+                    if (!opt || !opt.componentOptions) return false;
+                    return opt.componentOptions.propsData.value === option.value;
+                });
 
                 if (this.filterable){
                     const inputField = this.$el.querySelector('input[type="text"]');
@@ -563,8 +584,9 @@
                 this.broadcast('Drop', 'on-update-popper');
             },
             onQueryChange(query) {
+                if (query.length > 0 && query !== this.query) this.visible = true;
                 this.query = query;
-                if (this.query.length > 0) this.visible = true;
+                this.unchangedQuery = this.visible;
             },
             toggleHeaderFocus({type}){
                 if (this.disabled) {
@@ -632,7 +654,7 @@
                 // restore query value in filterable single selects
                 const [selectedOption] = this.values;
                 if (selectedOption && this.filterable && !this.multiple && !focused){
-                    const selectedLabel = selectedOption.label || selectedOption.value;
+                    const selectedLabel = String(selectedOption.label || selectedOption.value).trim();
                     if (selectedLabel && this.query !== selectedLabel) {
                         this.preventRemoteCall = true;
                         this.query = selectedLabel;
@@ -668,6 +690,9 @@
                 if (this.slotOptions && this.slotOptions.length === 0){
                     this.query = '';
                 }
+            },
+            visible(state){
+                this.$emit('on-open-change', state);
             }
         }
     };
