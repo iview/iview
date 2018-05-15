@@ -90,7 +90,7 @@ export default {
             if (!options.modifiers.offset) {
                 options.modifiers.offset = {};
             }
-            options.modifiers.offset = this.offset;
+            options.modifiers.offset.offset = this.offset;
             options.onCreate =()=>{
                 this.$nextTick(this.updatePopper);
                 this.$emit('created', this);
