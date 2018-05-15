@@ -44,14 +44,92 @@
                 <MenuItem name="5-4">Option 12</MenuItem>
             </Submenu>
         </Menu>
+        <!-- <Menu theme="dark" accordion @on-open-change="handleOpenChange">
+            <template v-for="item in menuList">
+                <custem-menu-item v-if="item.children" :key="`menu-${item.name}`" :parent-item="item"></custem-menu-item>
+                <menu-item v-else :name="`${item.name}`" :key="`menu-${item.name}`">{{ item.name }}</menu-item>
+            </template>
+        </Menu>
         <Button @click="setOpenNames">修改展开数组</Button>
+        <Button @click="addNewItem">添加菜单项</Button> -->
     </div>
 </template>
 <script>
+import custemMenuItem from './menu-item.vue'
     export default {
+        components: {
+            custemMenuItem
+        },
         data () {
             return {
-                openNames: ['1']
+                openNames: ['1'],
+                menuList: [
+                    {
+                        name: '111',
+                        children: [
+                            {
+                                name: '111-111'
+                            },
+                            {
+                                name: '111-222'
+                            }
+                        ]
+                    },
+                    {
+                        name: '222',
+                        children: [
+                            {
+                                name: '222-111'
+                            },
+                            {
+                                name: '222-222',
+                                children: [
+                                    {
+                                        name: '222-222-111'
+                                    },
+                                    {
+                                        name: '222-222-222',
+                                        children: [
+                                            {
+                                                name: '222-222-222-111'
+                                            },
+                                            {
+                                                name: '222-222-222-222'
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                name: '222-333',
+                                children: [
+                                    {
+                                        name: '222-333-111',
+                                        children: [
+                                            {
+                                                name: '222-333-111-111'
+                                            },
+                                            {
+                                                name: '222-333-111-222'
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        name: '222-333-222',
+                                        children: [
+                                            {
+                                                name: '222-333-222-111'
+                                            },
+                                            {
+                                                name: '222-333-222-222'
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             };
         },
         methods: {
@@ -62,6 +140,16 @@
                 this.openNames = ['2', '3'];
                 this.$nextTick(() => {
                     this.$refs.menu.updateOpened();
+                })
+            },
+            addNewItem () {
+                this.menuList[1].children[1].children.push({
+                    name: '222-222-333',
+                    children: [
+                        {
+                            name: '222-222-333-111'
+                        }
+                    ]
                 })
             }
         }

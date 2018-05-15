@@ -234,7 +234,9 @@ export function findBrothersComponents (context, componentName, exceptMe = true)
     let res = context.$parent.$children.filter(item => {
         return item.$options.name === componentName;
     });
-    let index = res.indexOf(context);
+    let index = res.findIndex(item => {
+        return item._uid === context._uid;
+    });
     if (exceptMe) res.splice(index, 1);
     return res;
 }
@@ -321,4 +323,16 @@ export function setMatchMedia () {
         };
         window.matchMedia = window.matchMedia || matchMediaPolyfill;
     }
+}
+
+export function getCommonString (arr1, arr2) {
+    const len1 = arr1.length;
+    const len2 = arr2.length;
+    let i = -1;
+    const len = Math.min(len1, len2);
+    let res = [];
+    while (++i < len) {
+        if (arr1.indexOf(arr2[i]) >= 0) res.push(arr2[i]);
+    }
+    return res;
 }

@@ -2,7 +2,7 @@
     <ul :class="classes" :style="styles"><slot></slot></ul>
 </template>
 <script>
-    import { oneOf, findComponentsDownward, findBrothersComponents } from '../../utils/assist';
+    import { oneOf, findComponentsDownward, findComponentsUpward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-menu';
@@ -84,17 +84,18 @@
                 } else {
                     if (this.accordion) {
                         let currentSubmenu = null;
+                        names = [];
                         findComponentsDownward(this, 'Submenu').forEach(item => {
                             if (item.name === name) currentSubmenu = item;
                         });
-                        findBrothersComponents(currentSubmenu, 'Submenu').forEach(item => {
-                            let i = names.indexOf(item.name);
-                            if (i >= 0) names.splice(i, 1);
+                        findComponentsUpward(currentSubmenu, 'Submenu').forEach(item => {
+                            names.push(item.name);
                         });
                     }
                     names.push(name);
                 }
                 this.openedNames = names;
+                this.updateOpened();
                 this.$emit('on-open-change', this.openedNames);
             },
             updateOpened () {
