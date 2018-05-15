@@ -55,7 +55,7 @@
     </div>
 </template>
 <script>
-import custemMenuItem from './menu-item.vue'
+import custemMenuItem from './custem-menu-item.vue'
     export default {
         components: {
             custemMenuItem
