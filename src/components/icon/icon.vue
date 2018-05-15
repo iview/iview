@@ -1,5 +1,5 @@
 <template>
-    <i :class="classes" :style="styles"></i>
+    <i :class="classes" :style="styles" @click="$emit('click')"></i>
 </template>
 <script>
     const prefixCls = 'ivu-icon';
