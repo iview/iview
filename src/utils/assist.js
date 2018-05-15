@@ -230,12 +230,12 @@ export function findComponentsUpward (context, componentName) {
 }
 
 // Find brothers components
-export function findBrothersComponents (context, componentName) {
+export function findBrothersComponents (context, componentName, exceptMe = true) {
     let res = context.$parent.$children.filter(item => {
         return item.$options.name === componentName;
     });
     let index = res.indexOf(context);
-    res.splice(index, 1);
+    if (exceptMe) res.splice(index, 1);
     return res;
 }
 
