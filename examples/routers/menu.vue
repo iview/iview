@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Menu ref="menu" active-name="1-2" :open-names="openNames" theme="dark" accordion @on-open-change="handleOpenChange">
+        <!-- <Menu ref="menu" :active-name="activeName" :open-names="openNames" accordion theme="dark" @on-open-change="handleOpenChange">
             <Submenu name="1">
                 <template slot="title">
                     <Icon type="ios-analytics"></Icon>
@@ -43,15 +43,16 @@
                 <MenuItem name="5-3">Option 11</MenuItem>
                 <MenuItem name="5-4">Option 12</MenuItem>
             </Submenu>
-        </Menu>
-        <!-- <Menu theme="dark" accordion @on-open-change="handleOpenChange">
+        </Menu> -->
+        <Menu ref="menu" theme="dark" accordion :active-name="activeName" :open-names="openNames" @on-open-change="handleOpenChange">
             <template v-for="item in menuList">
                 <custem-menu-item v-if="item.children" :key="`menu-${item.name}`" :parent-item="item"></custem-menu-item>
                 <menu-item v-else :name="`${item.name}`" :key="`menu-${item.name}`">{{ item.name }}</menu-item>
             </template>
         </Menu>
         <Button @click="setOpenNames">修改展开数组</Button>
-        <Button @click="addNewItem">添加菜单项</Button> -->
+        <Button @click="addNewItem">添加菜单项</Button>
+        <Button @click="updateAcName">更新当前选中项</Button>
     </div>
 </template>
 <script>
@@ -63,6 +64,7 @@ import custemMenuItem from './custem-menu-item.vue'
         data () {
             return {
                 openNames: ['1'],
+                activeName: '',
                 menuList: [
                     {
                         name: '111',
@@ -137,7 +139,7 @@ import custemMenuItem from './custem-menu-item.vue'
                 console.log(name)
             },
             setOpenNames () {
-                this.openNames = ['2', '3'];
+                this.openNames = ['222', '222-222'];
                 this.$nextTick(() => {
                     this.$refs.menu.updateOpened();
                 })
@@ -150,6 +152,12 @@ import custemMenuItem from './custem-menu-item.vue'
                             name: '222-222-333-111'
                         }
                     ]
+                })
+            },
+            updateAcName () {
+                this.activeName = '222-333-111-111';
+                this.$nextTick(() => {
+                    this.$refs.menu.updateActiveName();
                 })
             }
         }
