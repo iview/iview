@@ -6,7 +6,7 @@
                 v-for="shortcut in shortcuts"
                 @click="handleShortcutClick(shortcut)">{{ shortcut.text }}</div>
         </div>
-        <div :class="[prefixCls + '-body']">
+        <div :class="panelBodyClasses">
             <div :class="[prefixCls + '-content', prefixCls + '-content-left']" v-show="!isTime">
                 <div :class="[datePrefixCls + '-header']" v-show="currentView !== 'time'">
                     <span
@@ -170,6 +170,15 @@
                         [`${datePrefixCls}-with-week-numbers`]: this.showWeekNumbers
                     }
                 ];
+            },
+            panelBodyClasses(){
+                return [
+                    prefixCls + '-body',
+                    {
+                        [prefixCls + '-body-time']: this.showTime,
+                        [prefixCls + '-body-date']: !this.showTime,
+                    }
+                ]
             },
             leftDatePanelLabel(){
                 return this.panelLabelConfig('left');
