@@ -73,7 +73,7 @@
                 if (this.currentActiveName === undefined) {
                     this.currentActiveName = -1;
                 }
-                this.broadcast('Submenu', 'on-update-active-name', false);
+                // this.broadcast('Submenu', 'on-update-active-name', false);
                 this.broadcast('MenuItem', 'on-update-active-name', this.currentActiveName);
             },
             updateOpenKeys (name) {
@@ -125,9 +125,9 @@
             activeName (val) {
                 this.currentActiveName = val;
             },
-            currentActiveName () {
-                this.updateActiveName();
-            }
+            // currentActiveName () {
+            //     this.updateActiveName();
+            // }
         }
     };
 </script>
