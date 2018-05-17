@@ -47,6 +47,19 @@
         else return nextTab;
     };
 
+    const focusFirst = (element, root) => {
+        try {element.focus();}
+        catch(err) {} // eslint-disable-line no-empty
+
+        if (document.activeElement == element && element !== root) return true;
+
+        const candidates = element.children;
+        for (let candidate of candidates) {
+            if (focusFirst(candidate, root)) return true;
+        }
+        return false;
+    };
+
     export default {
         name: 'Tabs',
         mixins: [ Emitter ],
@@ -227,7 +240,18 @@
                 this.activeKey = this.focusedKey || 0;
                 const nextIndex = Math.max(this.navList.findIndex(tab => tab.name === this.focusedKey), 0);
 
-                this.handleChange(nextIndex);
+                [...this.$refs.panes.children].forEach((el, i) => {
+                    if (nextIndex === i) {
+                        [...el.children].forEach(child => child.style.display = 'block');
+                        setTimeout(() => {
+                            focusFirst(el, el);
+                        }, transitionTime);
+                    } else {
+                        setTimeout(() => {
+                            [...el.children].forEach(child => child.style.display = 'none');
+                        }, transitionTime);
+                    }
+                });
             },
             handleRemove (index) {
                 const tabs = this.getTabs();
@@ -388,6 +412,8 @@
 
                 this.mutationObserver.observe(hiddenParentNode, { attributes: true, childList: true, characterData: true, attributeFilter: ['style'] });
             }
+
+            this.handleTabKeyboardSelect();
         },
         beforeDestroy() {
             this.observer.removeListener(this.$refs.navWrap, this.handleResize);
