@@ -202,6 +202,10 @@ const router = new VueRouter({
         {
             path: '/scroll',
             component: (resolve) => require(['./routers/scroll.vue'], resolve)
+        },
+        {
+            path: '/time',
+            component: (resolve) => require(['./routers/time.vue'], resolve)
         }
     ]
 });

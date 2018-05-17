@@ -62,6 +62,7 @@ nav {
                 <li><router-link to="/color-picker">ColorPicker</router-link></li>
                 <li><router-link to="/auto-complete">AutoComplete</router-link></li>
                 <li><router-link to="/scroll">Scroll</router-link></li>
+                <li><router-link to="/time">Time</router-link></li>
             </ul>
         </nav>
         <router-view></router-view>
