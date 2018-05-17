@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Time />
+        <Time :time="1526552777" />
     </div>
 </template>
 <script>

@@ -1,5 +1,5 @@
 <template>
-    <span :class="classes" @click="handleClick">time</span>
+    <span :class="classes" @click="handleClick">{{ date }}</span>
 </template>
 <script>
     import Vue from 'vue';
@@ -51,7 +51,7 @@
                 if (this.hash !== '') window.location.hash = this.hash;
             },
             setTime () {
-
+                this.date = this.time;
             }
         },
         mounted () {
