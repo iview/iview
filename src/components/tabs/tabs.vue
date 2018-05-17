@@ -237,21 +237,9 @@
                 this.focusedKey = nextTab.name;
             },
             handleTabKeyboardSelect(){
-                this.activeKey = this.focusedKey || 0;
-                const nextIndex = Math.max(this.navList.findIndex(tab => tab.name === this.focusedKey), 0);
-
-                [...this.$refs.panes.children].forEach((el, i) => {
-                    if (nextIndex === i) {
-                        [...el.children].forEach(child => child.style.display = 'block');
-                        setTimeout(() => {
-                            focusFirst(el, el);
-                        }, transitionTime);
-                    } else {
-                        setTimeout(() => {
-                            [...el.children].forEach(child => child.style.display = 'none');
-                        }, transitionTime);
-                    }
-                });
+                const focused = this.focusedKey || 0;
+                const index = this.navList.findIndex(({name}) => name === focused);
+                this.handleChange(index);
             },
             handleRemove (index) {
                 const tabs = this.getTabs();
@@ -393,6 +381,21 @@
                 this.broadcast('Table', 'on-visible-change', true);
                 this.$nextTick(() => {
                     this.scrollToActiveTab();
+                });
+
+                // update visibility
+                const nextIndex = Math.max(this.navList.findIndex(tab => tab.name === this.focusedKey), 0);
+                [...this.$refs.panes.children].forEach((el, i) => {
+                    if (nextIndex === i) {
+                        [...el.children].forEach(child => child.style.display = 'block');
+                        setTimeout(() => {
+                            focusFirst(el, el);
+                        }, transitionTime);
+                    } else {
+                        setTimeout(() => {
+                            [...el.children].forEach(child => child.style.display = 'none');
+                        }, transitionTime);
+                    }
                 });
             }
         },
