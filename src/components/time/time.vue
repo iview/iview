@@ -2,6 +2,8 @@
     <span :class="classes" @click="handleClick">time</span>
 </template>
 <script>
+    import Vue from 'vue';
+    const isServer = Vue.prototype.$isServer;
     import { oneOf } from '../../utils/assist';
 
     const prefixCls = 'ivu-time';
@@ -47,10 +49,14 @@
         methods: {
             handleClick () {
                 if (this.hash !== '') window.location.hash = this.hash;
+            },
+            setTime () {
+
             }
         },
         mounted () {
             this.setTime();
+            if (isServer) return;
             this.timer = setInterval(() => {
                 this.setTime();
             }, 1000 * this.interval);
