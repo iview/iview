@@ -7,7 +7,7 @@
                 tabindex="0"
                 ref="navContainer"
                 @keydown="handleTabKeyNavigation"
-                @keydown.space.prevent="handleTabKeyboardSelect"
+                @keydown.space.prevent="handleTabKeyboardSelect(false)"
             >
                 <div ref="navWrap" :class="[prefixCls + '-nav-wrap', scrollable ? prefixCls + '-nav-scrollable' : '']">
                     <span :class="[prefixCls + '-nav-prev', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollPrev"><Icon type="chevron-left"></Icon></span>
