@@ -7,7 +7,7 @@
                 tabindex="0"
                 ref="navContainer"
                 @keydown="handleTabKeyNavigation"
-                @keydown.space.prevent="handleTabKeyboardSelect"
+                @keydown.space.prevent="handleTabKeyboardSelect(false)"
             >
                 <div ref="navWrap" :class="[prefixCls + '-nav-wrap', scrollable ? prefixCls + '-nav-scrollable' : '']">
                     <span :class="[prefixCls + '-nav-prev', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollPrev"><Icon type="chevron-left"></Icon></span>
@@ -236,22 +236,11 @@
                 const nextTab = getNextTab(this.navList, this.focusedKey, direction);
                 this.focusedKey = nextTab.name;
             },
-            handleTabKeyboardSelect(){
-                this.activeKey = this.focusedKey || 0;
-                const nextIndex = Math.max(this.navList.findIndex(tab => tab.name === this.focusedKey), 0);
-
-                [...this.$refs.panes.children].forEach((el, i) => {
-                    if (nextIndex === i) {
-                        [...el.children].forEach(child => child.style.display = 'block');
-                        setTimeout(() => {
-                            focusFirst(el, el);
-                        }, transitionTime);
-                    } else {
-                        setTimeout(() => {
-                            [...el.children].forEach(child => child.style.display = 'none');
-                        }, transitionTime);
-                    }
-                });
+            handleTabKeyboardSelect(init = false){
+                if (init) return;
+                const focused = this.focusedKey || 0;
+                const index = this.navList.findIndex(({name}) => name === focused);
+                this.handleChange(index);
             },
             handleRemove (index) {
                 const tabs = this.getTabs();
@@ -394,6 +383,21 @@
                 this.$nextTick(() => {
                     this.scrollToActiveTab();
                 });
+
+                // update visibility
+                const nextIndex = Math.max(this.navList.findIndex(tab => tab.name === this.focusedKey), 0);
+                [...this.$refs.panes.children].forEach((el, i) => {
+                    if (nextIndex === i) {
+                        [...el.children].forEach(child => child.style.display = 'block');
+                        setTimeout(() => {
+                            focusFirst(el, el);
+                        }, transitionTime);
+                    } else {
+                        setTimeout(() => {
+                            [...el.children].forEach(child => child.style.display = 'none');
+                        }, transitionTime);
+                    }
+                });
             }
         },
         mounted () {
@@ -413,7 +417,7 @@
                 this.mutationObserver.observe(hiddenParentNode, { attributes: true, childList: true, characterData: true, attributeFilter: ['style'] });
             }
 
-            this.handleTabKeyboardSelect();
+            this.handleTabKeyboardSelect(true);
         },
         beforeDestroy() {
             this.observer.removeListener(this.$refs.navWrap, this.handleResize);
