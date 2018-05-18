@@ -1,21 +1,20 @@
-export default {
-    bind (el, binding, vnode) {
-        function documentHandler (e) {
-            if (el.contains(e.target)) {
-                return false;
-            }
-            if (binding.expression) {
-                binding.value(e);
-            }
-        }
-        el.__vueClickOutside__ = documentHandler;
-        document.addEventListener('click', documentHandler);
-    },
-    update () {
+import {
+  bind as focusBind,
+  unbind as focusUnbind
+} from 'focus-outside'
 
-    },
-    unbind (el, binding) {
-        document.removeEventListener('click', el.__vueClickOutside__);
-        delete el.__vueClickOutside__;
-    }
+export default {
+  bind (el, binding) {
+    focusBind(el, binding.value)
+  },
+
+  unbind (el, binding) {
+    focusUnbind(el, binding.value)
+  },
+
+  update (el, { value, oldValue }) {
+    if (value === oldValue) return
+    focusUnbind(el, oldValue)
+    focusBind(el, value)
+  }
 };
