@@ -9,7 +9,7 @@
                 :class="getCellCls(cell)"
                 v-for="(cell, i) in readCells"
                 :key="String(cell.date) + i"
-                @click="handleClick(cell)"
+                @click="handleClick(cell, $event)"
                 @mouseenter="handleMouseMove(cell)"
         >
             <em>{{ cell.desc }}</em>
@@ -99,7 +99,9 @@
                         [`${prefixCls}-cell-prev-month`]: cell.type === 'prevMonth',
                         [`${prefixCls}-cell-next-month`]: cell.type === 'nextMonth',
                         [`${prefixCls}-cell-week-label`]: cell.type === 'weekLabel',
-                        [`${prefixCls}-cell-range`]: cell.range && !cell.start && !cell.end
+                        [`${prefixCls}-cell-range`]: cell.range && !cell.start && !cell.end,
+                        [`${prefixCls}-focused`]: clearHours(cell.date) === clearHours(this.focusedDate)
+
                     }
                 ];
             },

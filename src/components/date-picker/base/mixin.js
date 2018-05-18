@@ -26,7 +26,10 @@ export default {
                 selecting: false
             })
         },
-
+        focusedDate: {
+            type: Date,
+            required: true,
+        }
     },
     computed: {
         dates(){
