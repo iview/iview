@@ -236,7 +236,8 @@
                 const nextTab = getNextTab(this.navList, this.focusedKey, direction);
                 this.focusedKey = nextTab.name;
             },
-            handleTabKeyboardSelect(){
+            handleTabKeyboardSelect(init = false){
+                if (init) return;
                 const focused = this.focusedKey || 0;
                 const index = this.navList.findIndex(({name}) => name === focused);
                 this.handleChange(index);
@@ -416,7 +417,7 @@
                 this.mutationObserver.observe(hiddenParentNode, { attributes: true, childList: true, characterData: true, attributeFilter: ['style'] });
             }
 
-            this.handleTabKeyboardSelect();
+            this.handleTabKeyboardSelect(true);
         },
         beforeDestroy() {
             this.observer.removeListener(this.$refs.navWrap, this.handleResize);
