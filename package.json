@@ -44,6 +44,7 @@
     "async-validator": "^1.8.2",
     "deepmerge": "^2.1.0",
     "element-resize-detector": "^1.1.14",
+    "focus-outside": "^0.5.0",
     "js-calendar": "^1.2.3",
     "lodash.throttle": "^4.1.1",
     "popper.js": "^1.14.1",
