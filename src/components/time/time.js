@@ -55,7 +55,7 @@ const time = {
         const currentDate = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
         const hh = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
         const mm = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
-        const ss = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+        // const ss = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
 
         if (type === 'month') {
             return month + '-' + currentDate + ' ' + hh + ':' + mm;
