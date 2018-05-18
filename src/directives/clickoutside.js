@@ -4,7 +4,7 @@ import {
 } from 'focus-outside'
 
 export default {
-  bind (el, binding, vnode) {
+  bind (el, binding) {
     focusBind(el, binding.value)
   },
 
