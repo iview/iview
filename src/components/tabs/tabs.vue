@@ -146,7 +146,7 @@
             },
             barStyle () {
                 let style = {
-                    display: 'none',
+                    visibility: 'hidden',
                     width: `${this.barWidth}px`
                 };
                 if (this.type === 'line') style.display = 'block';
@@ -388,14 +388,10 @@
                 const nextIndex = Math.max(this.navList.findIndex(tab => tab.name === this.focusedKey), 0);
                 [...this.$refs.panes.children].forEach((el, i) => {
                     if (nextIndex === i) {
-                        [...el.children].forEach(child => child.style.display = 'block');
-                        setTimeout(() => {
-                            focusFirst(el, el);
-                        }, transitionTime);
+                        [...el.children].forEach(child => child.style.visibility = 'visible');
+                        setTimeout(() => focusFirst(el, el), transitionTime);
                     } else {
-                        setTimeout(() => {
-                            [...el.children].forEach(child => child.style.display = 'none');
-                        }, transitionTime);
+                        [...el.children].forEach(child => child.style.visibility = 'hidden');
                     }
                 });
             }
