@@ -17,7 +17,11 @@
         <Badge dot :count="count">
             <a href="#" class="demo-badge"></a>
         </Badge>
+        <Badge :count="0" showZero>
+            <a href="#" class="demo-badge"></a>
+        </Badge>
         <Button @click="setCount">set count</Button>
+        
     </div>
 </template>
 <script>
