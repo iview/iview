@@ -49,7 +49,7 @@
                                     gpuAcceleration: false
                                 },
                                 preventOverflow :{
-                                    boundariesElement: 'viewport'
+                                    boundariesElement: 'window'
                                 }
                             },
                             onCreate:()=>{

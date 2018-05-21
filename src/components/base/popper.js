@@ -34,7 +34,7 @@ export default {
                             gpuAcceleration: false,
                         },
                         preventOverflow :{
-                            boundariesElement: 'viewport'
+                            boundariesElement: 'window'
                         }
                     }
                 };
