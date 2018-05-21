@@ -41,6 +41,8 @@
                     :range-state="rangeState"
                     :show-week-numbers="showWeekNumbers"
                     :value="preSelecting.left ? [dates[0]] : dates"
+                    :focused-date="focusedDate"
+
                     @on-change-range="handleChangeRange"
                     @on-pick="panelPickerHandlers.left"
                     @on-pick-click="handlePickClick"
@@ -80,6 +82,8 @@
                     :disabled-date="disabledDate"
                     :show-week-numbers="showWeekNumbers"
                     :value="preSelecting.right ? [dates[dates.length - 1]] : dates"
+                    :focused-date="focusedDate"
+
                     @on-change-range="handleChangeRange"
                     @on-pick="panelPickerHandlers.right"
                     @on-pick-click="handlePickClick"></component>
@@ -178,7 +182,7 @@
                         [prefixCls + '-body-time']: this.showTime,
                         [prefixCls + '-body-date']: !this.showTime,
                     }
-                ]
+                ];
             },
             leftDatePanelLabel(){
                 return this.panelLabelConfig('left');
@@ -224,10 +228,7 @@
 
 
                 // set panels positioning
-                const leftPanelDate = this.startDate || this.dates[0] || new Date();
-                this.leftPanelDate = leftPanelDate;
-                const rightPanelDate = new Date(leftPanelDate.getFullYear(), leftPanelDate.getMonth() + 1, leftPanelDate.getDate());
-                this.rightPanelDate = this.splitPanels ? new Date(Math.max(this.dates[1], rightPanelDate)) : rightPanelDate;
+                this.setPanelDates(this.startDate || this.dates[0] || new Date());
             },
             currentView(currentView){
                 const leftMonth = this.leftPanelDate.getMonth();
@@ -246,6 +247,9 @@
             },
             selectionMode(type){
                 this.currentView = type || 'range';
+            },
+            focusedDate(date){
+                this.setPanelDates(date || new Date());
             }
         },
         methods: {
@@ -253,6 +257,11 @@
                 this.currentView = this.selectionMode;
                 this.leftPickerTable = `${this.currentView}-table`;
                 this.rightPickerTable = `${this.currentView}-table`;
+            },
+            setPanelDates(leftPanelDate){
+                this.leftPanelDate = leftPanelDate;
+                const rightPanelDate = new Date(leftPanelDate.getFullYear(), leftPanelDate.getMonth() + 1, leftPanelDate.getDate());
+                this.rightPanelDate = this.splitPanels ? new Date(Math.max(this.dates[1], rightPanelDate)) : rightPanelDate;
             },
             panelLabelConfig (direction) {
                 const locale = this.t('i.locale');
