@@ -44,12 +44,17 @@
             margin: 2px;
             color: @btn-disable-color;
         }
-        &-cell:hover, &-focused{
+        &-cell:hover{
             em{
-                background: @date-picker-cell-hover-bg !important;
+                background: @date-picker-cell-hover-bg;
             }
         }
-
+        &-focused{
+            em{
+                box-shadow: 0 0 0 1px @primary-color inset;
+            }
+        }
+        
         &-cell{
             span&{
                 width: 28px;
