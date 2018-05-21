@@ -7,7 +7,7 @@
         </div>
         <span
                 :class="getCellCls(cell)"
-                v-for="(cell, i) in readCells"
+                v-for="(cell, i) in cells"
                 :key="String(cell.date) + i"
                 @click="handleClick(cell, $event)"
                 @mouseenter="handleMouseMove(cell)"
@@ -61,7 +61,7 @@
                 const weekDays = translatedDays.splice(weekStartDay, 7 - weekStartDay).concat(translatedDays.splice(0, weekStartDay));
                 return this.showWeekNumbers ? [''].concat(weekDays) : weekDays;
             },
-            readCells () {
+            cells () {
                 const tableYear = this.tableDate.getFullYear();
                 const tableMonth = this.tableDate.getMonth();
                 const today = clearHours(new Date());    // timestamp of today

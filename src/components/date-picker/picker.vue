@@ -385,7 +385,15 @@
                     if (this.type.match(/range/)){
                         this.$refs.pickerPanel.handleRangePick(this.focusedDate, 'date');
                     } else {
-                        this.onPick(this.focusedDate, false, 'date');
+                        const panels = findComponentsDownward(this, 'PanelTable');
+                        const compareDate = (d) => {
+                            const sliceIndex = ['year', 'month', 'date'].indexOf((this.type)) + 1;
+                            return [d.getFullYear(), d.getMonth(), d.getDate()].slice(0, sliceIndex).join('-');
+                        };
+                        const dateIsValid = panels.find(({cells}) => {
+                            return cells.find(({date, disabled}) => compareDate(date) === compareDate(this.focusedDate) && !disabled);
+                        });
+                        if (dateIsValid) this.onPick(this.focusedDate, false, 'date');
                     }
                 }
 

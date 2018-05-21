@@ -2,6 +2,7 @@
 import {clearHours} from '../util';
 
 export default {
+    name: 'PanelTable',
     props: {
         tableDate: {
             type: Date,
