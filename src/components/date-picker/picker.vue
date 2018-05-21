@@ -221,7 +221,7 @@
                 selectionMode: this.onSelectionModeChange(this.type),
                 forceInputRerender: 1,
                 isFocused: false,
-                focusedDate: initialValue[0] || new Date(),
+                focusedDate: initialValue[0] || this.startDate || new Date(),
                 focusedTime: {
                     column: 0, // which column inside the picker
                     picker: 0, // which picker
