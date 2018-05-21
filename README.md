@@ -41,8 +41,10 @@
 
 - [TalkingData](http://www.talkingdata.com/)
 - [Alibaba](http://www.alibaba.com/)
+- [Tencent](https://www.tencent.com/)
 - [JD](http://www.jd.com/)
 - [DiDi](http://www.didichuxing.com/)
+- [Meituan](http://www.meituan.com/)
 - [Sina](http://www.sina.com.cn/)
 - [Lenovo](https://www.lenovo.com.cn/)
 
