@@ -72,7 +72,7 @@
 <script>
     import Icon from '../icon';
     import Drop from './dropdown.vue';
-    import vClickOutside from 'v-click-outside-x/index';
+    import vClickOutside from 'v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
