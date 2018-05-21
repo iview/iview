@@ -149,7 +149,7 @@
                     visibility: 'hidden',
                     width: `${this.barWidth}px`
                 };
-                if (this.type === 'line') style.display = 'block';
+                if (this.type === 'line') style.visibility = 'visible';
                 if (this.animated) {
                     style.transform = `translate3d(${this.barOffset}px, 0px, 0px)`;
                 } else {
