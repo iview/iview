@@ -48,6 +48,12 @@ export default {
         };
     },
 
+    watch: {
+        value () {
+            this.percent = clamp(this.value.hsl.h * 100 / 360, 0, 100);
+        }
+    },
+
     methods: {
         change(percent) {
             this.percent = clamp(percent, 0, 100);
