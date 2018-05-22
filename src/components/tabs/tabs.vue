@@ -133,7 +133,7 @@
                 ];
             },
             contentStyle () {
-                const x = this.navList.findIndex((nav) => nav.name === this.activeKey);
+                const x = this.getTabIndex(this.activeKey);
                 const p = x === 0 ? '0%' : `-${x}00%`;
 
                 let style = {};
@@ -184,7 +184,7 @@
             },
             updateBar () {
                 this.$nextTick(() => {
-                    const index = this.navList.findIndex((nav) => nav.name === this.activeKey);
+                    const index = this.getTabIndex(this.activeKey);
                     if (!this.$refs.nav) return;  // 页面销毁时，这里会报错，为了解决 #2100
                     const prevTabs = this.$refs.nav.querySelectorAll(`.${prefixCls}-tab`);
                     const tab = prevTabs[index];
@@ -239,7 +239,7 @@
             handleTabKeyboardSelect(init = false){
                 if (init) return;
                 const focused = this.focusedKey || 0;
-                const index = this.navList.findIndex(({name}) => name === focused);
+                const index = this.getTabIndex(focused);
                 this.handleChange(index);
             },
             handleRemove (index) {
@@ -310,6 +310,9 @@
                     ? Number(navStyle.transform.match(/translateX\(-(\d+(\.\d+)*)px\)/)[1])
                     : 0;
             },
+            getTabIndex(name){
+                return this.navList.findIndex(nav => nav.name === name);
+            },
             setOffset(value) {
                 this.navStyle.transform = `translateX(-${value}px)`;
             },
@@ -368,6 +371,18 @@
                     parentNode = parentNode.parentNode;
                 }
                 return false;
+            },
+            updateVisibility(index){
+                [...this.$refs.panes.children].forEach((el, i) => {
+                    if (index === i) {
+                        [...el.children].forEach(child => child.style.visibility = 'visible');
+                        setTimeout(() => focusFirst(el, el), transitionTime);
+                    } else {
+                        setTimeout(() => {
+                            [...el.children].forEach(child => child.style.visibility = 'hidden');
+                        }, transitionTime);
+                    }
+                });
             }
         },
         watch: {
@@ -385,15 +400,8 @@
                 });
 
                 // update visibility
-                const nextIndex = Math.max(this.navList.findIndex(tab => tab.name === this.focusedKey), 0);
-                [...this.$refs.panes.children].forEach((el, i) => {
-                    if (nextIndex === i) {
-                        [...el.children].forEach(child => child.style.visibility = 'visible');
-                        setTimeout(() => focusFirst(el, el), transitionTime);
-                    } else {
-                        [...el.children].forEach(child => child.style.visibility = 'hidden');
-                    }
-                });
+                const nextIndex = Math.max(this.getTabIndex(this.focusedKey), 0);
+                this.updateVisibility(nextIndex);
             }
         },
         mounted () {
@@ -414,6 +422,7 @@
             }
 
             this.handleTabKeyboardSelect(true);
+            this.updateVisibility(this.getTabIndex(this.activeKey));
         },
         beforeDestroy() {
             this.observer.removeListener(this.$refs.navWrap, this.handleResize);
