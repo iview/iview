@@ -15,8 +15,8 @@
             @click="toggleMenu"
             @keydown.esc="handleKeydown"
             @keydown.enter="handleKeydown"
-            @keydown.up="handleKeydown"
-            @keydown.down="handleKeydown"
+            @keydown.up.prevent="handleKeydown"
+            @keydown.down.prevent="handleKeydown"
             @keydown.tab="handleKeydown"
             @keydown.delete="handleKeydown"
 
