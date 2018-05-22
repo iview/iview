@@ -231,6 +231,7 @@
 .select-item(@select-prefix-cls, @select-item-prefix-cls);
 
 .@{select-prefix-cls}-multiple .@{select-item-prefix-cls} {
+    position: relative;
     &-selected{
         color: @selected-color;
         background: #fff;
@@ -246,10 +247,13 @@
 
     &-selected:after{
         .ivu-icon();
-        float: right;
+        //float: right;
         font-size: 24px;
         content: '\F3FD';
         color: @selected-color;
+        position: absolute;
+        top: 2px;
+        right: 16px;
     }
 }
 
