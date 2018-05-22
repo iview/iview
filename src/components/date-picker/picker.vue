@@ -78,7 +78,7 @@
 
     import iInput from '../../components/input/input.vue';
     import Drop from '../../components/select/dropdown.vue';
-    import vClickOutside from 'v-click-outside-x/index';
+    import vClickOutside from 'v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
     import { DEFAULT_FORMATS, RANGE_SEPARATOR, TYPE_VALUE_RESOLVER_MAP, getDayCountOfMonth } from './util';
