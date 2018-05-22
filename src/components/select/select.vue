@@ -2,6 +2,7 @@
     <div
         :class="classes"
         v-click-outside.capture="onClickOutside"
+        v-click-outside:mousedown.capture="onClickOutside"
     >
         <div
             ref="reference"
@@ -465,6 +466,10 @@
             },
             onClickOutside(event){
                 if (this.visible) {
+                    if (event.type === 'mousedown') {
+                        event.preventDefault();
+                        return;
+                    }
 
                     if (this.filterable) {
                         const input = this.$el.querySelector('input[type="text"]');
