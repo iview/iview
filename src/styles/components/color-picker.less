@@ -1,5 +1,13 @@
 @color-picker-prefix-cls: ~'@{css-prefix}color-picker';
 
+.circle-dot(){
+    width: 4px;
+    height: 4px;
+    box-shadow: 0 0 0 1.5px #fff, inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 2px rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+    transform: translate(-2px, -2px);
+}
+
 .@{color-picker-prefix-cls} {
     display: inline-block;
     &-hide {
@@ -9,14 +17,11 @@
         }
     }
     &-disabled {
-        background-color: @input-disabled-bg;
-        opacity: 1;
-        cursor: @cursor-disabled;
-        color: #ccc;
+        .disabled();
     }
     & > div:first-child:hover {
         .ivu-input {
-            border-color: @input-hover-border-color;
+            .hover();
         }
     }
     & > div:first-child.@{color-picker-prefix-cls}-disabled:hover {
@@ -27,8 +32,12 @@
     & .@{select-dropdown-prefix-cls} {
         padding: 0;
     }
+
+    &-input.ivu-input:focus{
+        box-shadow: none;
+    }
     &-focused {
-        box-shadow: 0 0 0 2px fade(@input-hover-border-color, 20%);
+        .active();
     }
     &-rel {
         line-height: 0;
@@ -55,7 +64,7 @@
             }
         }
         &-focused {
-            box-shadow: 0 0 0 2px fade(@input-hover-border-color, 20%);
+            .active();
         }
     }
     &-large &-color {
@@ -98,14 +107,10 @@
         &-colors {
             margin-top: 8px;
             overflow: hidden;
-            outline: 0;
-            border: 1px solid @input-border-color;
+            border-radius: 2px;
             transition: border @transition-time @ease-in-out, box-shadow @transition-time @ease-in-out;
-            &:hover {
-                border: 1px solid @input-hover-border-color;
-            }
             &:focus {
-                box-shadow: 0 0 0 2px fade(@input-hover-border-color, 20%);
+                .active();
             }
             &-wrapper {
                 display: inline;
@@ -122,25 +127,14 @@
                     margin: 2px;
                     cursor: pointer;
                     border-radius: 2px;
-                    border: 1px solid @input-border-color;
-                    transition: border @transition-time @ease-in-out, box-shadow @transition-time @ease-in-out;
-                    &:hover {
-                        border: 1px solid @input-hover-border-color;
-                    }
-                    &:focus {
-                        box-shadow: 0 0 0 2px fade(@input-hover-border-color, 20%);
-                    }
+                    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
                 }
                 &-circle {
-                    cursor: pointer;
+                    .circle-dot();
+                    position: absolute;
                     top: 10px;
                     left: 10px;
-                    position: absolute;
-                    width: 4px;
-                    height: 4px;
-                    box-shadow: 0 0 0 1.5px #fff, inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 2px rgba(0, 0, 0, 0.4);
-                    border-radius: 50%;
-                    transform: translate(-2px, -2px);
+                    cursor: pointer;
                 }
             }
         }
@@ -154,16 +148,11 @@
             width: 100%;
             padding-bottom: 75%;
             position: relative;
-            overflow: hidden;
-            outline: 0;
-            border: 1px solid @input-border-color;
-            box-shadow: @shadow-base;
+            //overflow: hidden;
             transition: border @transition-time @ease-in-out, box-shadow @transition-time @ease-in-out;
-            &:hover {
-                border: 1px solid @input-hover-border-color;
-            }
+
             &:focus {
-                box-shadow: 0 0 0 2px fade(@input-hover-border-color, 20%);
+                .active();
             }
         }
         &,
@@ -187,11 +176,7 @@
             position: absolute;
         }
         &-circle {
-            width: 4px;
-            height: 4px;
-            box-shadow: 0 0 0 1.5px #fff, inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 2px rgba(0, 0, 0, 0.4);
-            border-radius: 50%;
-            transform: translate(-2px, -2px);
+            .circle-dot();
         }
     }
 
@@ -203,15 +188,11 @@
         left: 0;
         border-radius: 2px;
         background: linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%);
-        outline: 0;
-        border: 1px solid @input-border-color;
-        box-shadow: @shadow-base;
+
         transition: border @transition-time @ease-in-out, box-shadow @transition-time @ease-in-out;
-        &:hover {
-            border: 1px solid @input-hover-border-color;
-        }
+
         &:focus {
-            box-shadow: 0 0 0 2px fade(@input-hover-border-color, 20%);
+            .active();
         }
         &-container {
             cursor: pointer;
@@ -241,15 +222,12 @@
         right: 0;
         bottom: 0;
         left: 0;
-        outline: 0;
-        border: 1px solid @input-border-color;
-        box-shadow: @shadow-base;
+        border-radius: 2px;
+
         transition: border @transition-time @ease-in-out, box-shadow @transition-time @ease-in-out;
-        &:hover {
-            border: 1px solid @input-hover-border-color;
-        }
+
         &:focus {
-            box-shadow: 0 0 0 2px fade(@input-hover-border-color, 20%);
+            .active();
         }
         &-checkboard-wrap {
             position: absolute;

@@ -8,6 +8,7 @@
             size="large"
             @on-change="c1"
             @on-active-change="c2"></color-picker>
+        <Input value="hello" style="display: inline-block" />
         <Date-picker
             transfer
             type="date"
