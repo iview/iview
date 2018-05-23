@@ -132,7 +132,8 @@
                 focused: false,
                 upDisabled: false,
                 downDisabled: false,
-                currentValue: this.value
+                currentValue: this.value,
+                isAddPrecision: true
             };
         },
         computed: {
@@ -181,7 +182,7 @@
             },
             precisionValue () {
                 // can not display 1.0
-                return this.precision ? this.currentValue.toFixed(this.precision) : this.currentValue;
+                return this.precision && this.isAddPrecision? this.currentValue.toFixed(this.precision) : this.currentValue;
             },
             formatterValue () {
                 if (this.formatter && this.precisionValue !== null) {
@@ -262,6 +263,7 @@
             },
             blur () {
                 this.focused = false;
+                this.isAddPrecision= true;
                 this.$emit('on-blur');
             },
             keyDown (e) {
@@ -278,7 +280,9 @@
                 if (this.parser) {
                     val = this.parser(val);
                 }
-
+                
+                this.isAddPrecision= false;
+                
                 if (event.type == 'input' && val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
 
                 const {min, max} = this;
