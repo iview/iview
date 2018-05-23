@@ -35,7 +35,7 @@ const lang = {
             month9: 'Septiembre',
             month10: 'Octubre',
             month11: 'Noviembre',
-            month12: 'Deciembre',
+            month12: 'Diciembre',
             year: 'Año',
             weekStartDay: '1',
             weeks: {

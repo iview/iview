@@ -332,8 +332,8 @@
             changeButtonPosition (newPos, forceType) {
                 const type = forceType || this.pointerDown;
                 const index = type === 'min' ? 0 : 1;
-                if (type === 'min') newPos = this.checkLimits([newPos, this.maxPosition])[0];
-                else newPos = this.checkLimits([this.minPosition, newPos])[1];
+                if (type === 'min') newPos = this.checkLimits([newPos, this.max])[0];
+                else newPos = this.checkLimits([this.min, newPos])[1];
 
                 const modulus = this.handleDecimal(newPos,this.step);
                 const value = this.currentValue;

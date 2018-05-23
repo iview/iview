@@ -1,11 +1,16 @@
 <template>
-    <transition name="fade">
+    <transition name="fade" v-if="fade">
         <div :class="classes" @click.stop="check" :style="wraperStyles">
             <span :class="dotClasses" v-if="showDot" :style="bgColorStyle"></span>
             <span :class="textClasses" :style="textColorStyle"><slot></slot></span>
             <Icon v-if="closable" :class="iconClass" :color="lineColor" type="ios-close-empty" @click.native.stop="close"></Icon>
         </div>
     </transition>
+    <div v-else :class="classes" @click.stop="check" :style="wraperStyles">
+        <span :class="dotClasses" v-if="showDot" :style="bgColorStyle"></span>
+        <span :class="textClasses" :style="textColorStyle"><slot></slot></span>
+        <Icon v-if="closable" :class="iconClass" :color="lineColor" type="ios-close-empty" @click.native.stop="close"></Icon>
+    </div>
 </template>
 <script>
     import Icon from '../icon';
@@ -39,6 +44,10 @@
             },
             name: {
                 type: [String, Number]
+            },
+            fade: {
+                type: Boolean,
+                default: true
             }
         },
         data () {

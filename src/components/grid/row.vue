@@ -4,7 +4,7 @@
     </div>
 </template>
 <script>
-    import { oneOf, findComponentsDownward } from '../../utils/assist';
+    import { oneOf, findComponentDownward, findBrothersComponents } from '../../utils/assist';
 
     const prefixCls = 'ivu-row';
 
@@ -58,7 +58,10 @@
         },
         methods: {
             updateGutter (val) {
-                const Cols = findComponentsDownward(this, 'iCol');
+                // 这里会嵌套寻找，把 Col 里的 Row 里的 Col 也找到，所以用 兄弟找
+//                const Cols = findComponentsDownward(this, 'iCol');
+                const Col = findComponentDownward(this, 'iCol');
+                const Cols = findBrothersComponents(Col, 'iCol', false);
                 if (Cols.length) {
                     Cols.forEach((child) => {
                         if (val !== 0) {

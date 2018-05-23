@@ -50,6 +50,8 @@
         <InputNumber v-model="valueNull" @on-change="change" :formatter="formatter" :parser="parser" style="width: 200px"></InputNumber>
                 
         <InputNumber v-model="value2" @on-focus="focus" style="width: 200px"></InputNumber>
+
+        <InputNumber v-model="value3" style="width: 200px" placeholder="Enter something..."></InputNumber>
     </div>
 </template>
 <script>
@@ -58,6 +60,7 @@
             return {
                 value1: 1800000,
                 value2: 55,
+                value3: 100,
                 valueNull:null,
                 formatter: (value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
                 parser: (value) => value.replace(/\$\s?|(,*)/g, ''),

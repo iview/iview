@@ -1,6 +1,6 @@
 {
   "name": "bh-iview",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "title": "bh-iView",
   "description": "A high quality  UI components Library with Vue.js",
   "homepage": "http://www.iviewui.com",
@@ -47,7 +47,8 @@
     "js-calendar": "^1.2.3",
     "lodash.throttle": "^4.1.1",
     "popper.js": "^1.14.1",
-    "tinycolor2": "^1.4.1"
+    "tinycolor2": "^1.4.1",
+    "v-click-outside-x": "^2.4.0"
   },
   "peerDependencies": {
     "vue": "^2.5.2"
