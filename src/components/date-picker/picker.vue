@@ -651,7 +651,7 @@
                     this.internalValue = Array.isArray(dates) ? dates : [dates];
                 }
 
-                this.focusedDate = this.internalValue[0];
+                if (this.internalValue[0]) this.focusedDate = this.internalValue[0];
                 this.focusedTime = {
                     ...this.focusedTime,
                     time: this.internalValue.map(extractTime)
