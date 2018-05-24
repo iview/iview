@@ -249,7 +249,7 @@
             setValue (val) {
                 // 如果 step 是小数，且没有设置 precision，是有问题的
                 if (val && !isNaN(this.precision)) val = Number(Number(val).toFixed(this.precision));
-                
+
                 this.$nextTick(() => {
                     this.currentValue = val;
                     this.$emit('input', val);
