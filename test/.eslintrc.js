@@ -1,6 +1,6 @@
-{
+module.exports = {
     "extends": [
-        "../.eslintrc.json"
+        "../.eslintrc.js"
     ],
     "globals": {
         "expect": true
@@ -12,4 +12,4 @@
     "rules": {
         "indent": ["error",2, { "SwitchCase": 1 }]
     }
-}
+};

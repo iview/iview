@@ -1,2 +1,10 @@
-src/directives
-src/utils/throttle.js
+!.eslintrc.js
+!.stylelintrc.js
+!postcss.config.js
+dist/
+node_modules/
+sandbox/
+__tests__/
+package-lock.json
+npm-shrinkwrap.json
+yarn.lock
