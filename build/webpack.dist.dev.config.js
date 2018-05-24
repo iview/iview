@@ -7,7 +7,7 @@ process.env.NODE_ENV = 'production';
 
 module.exports = merge(webpackBaseConfig, {
     devtool: 'source-map',
-
+    mode: process.env.NODE_ENV,
     entry: {
         main: './src/index.js'
     },
@@ -31,7 +31,7 @@ module.exports = merge(webpackBaseConfig, {
         // @todo
         new webpack.DefinePlugin({
             'process.env': {
-                NODE_ENV: '"production"'
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV)
             }
         })
     ]
