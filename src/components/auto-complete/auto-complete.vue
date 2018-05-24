@@ -98,6 +98,17 @@
                 type: String
             }
         },
+        beforeDestroy(){
+            this._clickOutsideClose && document.removeEventListener(this._clickOutsideClose);
+        },
+        mounted(){
+            this._clickOutsideClose = (event)=>{
+                if(!this.$el.contains(event.target)){
+                    this.$refs.select.visible = false;
+                }
+            }
+            document.addEventListener('click',this._clickOutsideClose);
+        },
         data () {
             return {
                 currentValue: this.value,
