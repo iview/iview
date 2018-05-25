@@ -410,8 +410,10 @@
             getInitialValue(){
                 const {multiple, value} = this;
                 let initialValue = Array.isArray(value) ? value : [value];
-                if (!multiple && (typeof initialValue[0] === 'undefined' || String(initialValue[0]).trim() === '')) initialValue = [];
-                return initialValue.filter(Boolean);
+                if (!multiple && (typeof initialValue[0] === 'undefined' || (String(initialValue[0]).trim() === '' && !Number.isfinite(initialValue[0])) )) initialValue = [];
+                return initialValue.filter((item) => {
+                  return Boolean(item) || item === 0
+                });
             },
             processOption(option, values, isFocused){
                 if (!option.componentOptions) return option;
