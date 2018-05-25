@@ -2,6 +2,7 @@
 import {clearHours} from '../util';
 
 export default {
+    name: 'PanelTable',
     props: {
         tableDate: {
             type: Date,
@@ -26,7 +27,10 @@ export default {
                 selecting: false
             })
         },
-
+        focusedDate: {
+            type: Date,
+            required: true,
+        }
     },
     computed: {
         dates(){

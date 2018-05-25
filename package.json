@@ -1,6 +1,6 @@
 {
   "name": "iview",
-  "version": "2.13.1",
+  "version": "2.14.0",
   "title": "iView",
   "description": "A high quality  UI components Library with Vue.js",
   "homepage": "http://www.iviewui.com",
@@ -47,7 +47,8 @@
     "js-calendar": "^1.2.3",
     "lodash.throttle": "^4.1.1",
     "popper.js": "^1.14.1",
-    "tinycolor2": "^1.4.1"
+    "tinycolor2": "^1.4.1",
+    "v-click-outside-x": "^2.4.0"
   },
   "peerDependencies": {
     "vue": "^2.5.2"
@@ -99,6 +100,7 @@
     "sinon": "^4.4.2",
     "sinon-chai": "^3.0.0",
     "style-loader": "^0.20.2",
+    "uglifyjs-webpack-plugin": "^1.2.3",
     "url-loader": "^1.0.1",
     "vue": "^2.5.16",
     "vue-hot-reload-api": "^2.3.0",
