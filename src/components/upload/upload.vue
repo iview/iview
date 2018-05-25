@@ -97,6 +97,12 @@
                     return {};
                 }
             },
+            onAllSuccess: {
+                type: Function,
+                default () {
+                    return {};
+                }
+            },
             onError: {
                 type: Function,
                 default () {
@@ -139,7 +145,9 @@
                 prefixCls: prefixCls,
                 dragOver: false,
                 fileList: [],
-                tempIndex: 1
+                tempIndex: 1,
+                tempResults:[],
+                uploadIndex:0
             };
         },
         computed: {
@@ -177,10 +185,14 @@
                 if (!this.multiple) postFiles = postFiles.slice(0, 1);
 
                 if (postFiles.length === 0) return;
-
+                
+                for (let index = 0; index < postFiles.length; index++) {
+                    this.tempResults.push(null)                  
+                }
                 postFiles.forEach(file => {
                     this.upload(file);
                 });
+                
             },
             upload (file) {
                 if (!this.beforeUpload) {
@@ -281,7 +293,14 @@
 
                     this.dispatch('FormItem', 'on-form-change', _file);
                     this.onSuccess(res, _file, this.fileList);
+                    this.uploadIndex++;
 
+                    this.tempResults[this.uploadIndex-1]=res;
+                    if(this.tempResults.length==this.uploadIndex){
+                        this.onAllSuccess(this.tempResults)
+                        this.tempResults=[];
+                        this.uploadIndex=0;
+                    }
                     setTimeout(() => {
                         _file.showProgress = false;
                     }, 1000);
