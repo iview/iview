@@ -408,10 +408,10 @@
                 };
             },
             getInitialValue(){
-                const {multiple, value} = this;
+                const {value} = this;
                 let initialValue = Array.isArray(value) ? value : [value];
                 return initialValue.filter((item) => {
-                  return Boolean(item) || item === 0
+                  return Boolean(item) || item === 0;
                 });
             },
             processOption(option, values, isFocused){
