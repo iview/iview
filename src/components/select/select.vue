@@ -236,6 +236,7 @@
                 unchangedQuery: true,
                 hasExpectedValue: false,
                 preventRemoteCall: false,
+                isCreate: true,
             };
         },
         computed: {
@@ -619,7 +620,7 @@
             values(now, before){
                 const newValue = JSON.stringify(now);
                 const oldValue = JSON.stringify(before);
-                const shouldEmitInput = newValue !== oldValue;
+                const shouldEmitInput = newValue !== oldValue && !this.isCreate;
 
                 if (shouldEmitInput) {
                     // v-model is always just the value, event with labelInValue === true
@@ -631,6 +632,7 @@
                     this.$emit('on-change', this.publicValue);
                     this.dispatch('FormItem', 'on-form-change', this.publicValue);
                 }
+                this.isCreate = false;
             },
             query (query) {
                 this.$emit('on-query-change', query);
