@@ -2,7 +2,7 @@
     <div>
         <Time :time="1526608921" />
         <Time :time="1652839997" />
-        <Time :time="ddd" interval="1" />
+        <Time :time="ddd" :interval="1" />
     </div>
 </template>
 <script>
