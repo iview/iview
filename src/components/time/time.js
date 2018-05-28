@@ -3,9 +3,9 @@
  * @returns {Boolean}
  */
 // const isMillisecond = timeStamp => {
-//     const timeStr = String(timeStamp);
-//     return timeStr.length > 10;
-// };
+//     const timeStr = String(timeStamp)
+//     return timeStr.length > 10
+// }
 
 /**
  * @param {Number} timeStamp 传入的时间戳
@@ -49,7 +49,6 @@ const getDate = (timeStamp, startType) => {
  */
 export const getRelativeTime = timeStamp => {
     // 判断当前传入的时间戳是秒格式还是毫秒
-    // const IS_MILLISECOND = isMillisecond(timeStamp);
     const IS_MILLISECOND = true;
     // 如果是毫秒格式则转为秒格式
     if (IS_MILLISECOND) Math.floor(timeStamp /= 1000);
@@ -73,9 +72,8 @@ export const getRelativeTime = timeStamp => {
     else if (diff > 3599 && diff <= 86399) resStr = Math.floor(diff / 3600) + '小时' + dirStr;
     // 多于23小时59分钟59秒，少于等于29天59分钟59秒
     else if (diff > 86399 && diff <= 2623859) resStr = Math.floor(diff / 86400) + '天' + dirStr;
-    // 多于29天59分钟59秒，少于364天23小时59分钟59秒
-    else if (diff > 2623859 && diff <= 31567859) resStr = getDate(timeStamp);
-    // 多于364天23小时59分钟59秒
+    // 多于29天59分钟59秒，少于364天23小时59分钟59秒，且传入的时间戳早于当前
+    else if (diff > 2623859 && diff <= 31567859 && IS_EARLY) resStr = getDate(timeStamp);
     else resStr = getDate(timeStamp, 'year');
     return resStr;
 };
