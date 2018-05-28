@@ -2,14 +2,14 @@
     <div>
         <Time :time="1526608921" />
         <Time :time="1652839997" />
-        <Time :time="ddd" />
+        <Time :time="ddd" interval="1" />
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                ddd: new Date('2018-01-01')
+                ddd: new Date('2019-05-28 14:12:00')
             };
         },
         computed: {},
