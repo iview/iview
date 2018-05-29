@@ -1,0 +1,7 @@
+dist/
+node_modules/
+sandbox/
+__tests__/
+package-lock.json
+yarn.lock
+npm-shrinkwrap.json

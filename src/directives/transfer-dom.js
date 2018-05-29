@@ -8,10 +8,10 @@
  */
 function getTarget (node) {
     if (node === void 0) {
-        node = document.body
+        node = document.body;
     }
-    if (node === true) { return document.body }
-    return node instanceof window.Node ? node : document.querySelector(node)
+    if (node === true) { return document.body; }
+    return node instanceof window.Node ? node : document.querySelector(node);
 }
 
 const directive = {
@@ -26,7 +26,7 @@ const directive = {
         if (value !== false) {
             parentNode.replaceChild(home, el); // moving out, el is no longer in the document
             getTarget(value).appendChild(el); // moving into new place
-            hasMovedOut = true
+            hasMovedOut = true;
         }
         if (!el.__transferDomData) {
             el.__transferDomData = {
@@ -34,7 +34,7 @@ const directive = {
                 home: home,
                 target: getTarget(value),
                 hasMovedOut: hasMovedOut
-            }
+            };
         }
     },
     componentUpdated (el, { value }) {
@@ -68,9 +68,9 @@ const directive = {
         const ref$1 = el.__transferDomData;
         if (!ref$1) return;
         if (el.__transferDomData.hasMovedOut === true) {
-            el.__transferDomData.parentNode && el.__transferDomData.parentNode.appendChild(el)
+            el.__transferDomData.parentNode && el.__transferDomData.parentNode.appendChild(el);
         }
-        el.__transferDomData = null
+        el.__transferDomData = null;
     }
 };
 

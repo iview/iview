@@ -18,15 +18,16 @@
             "useBuiltIns": "usage",
             "debug": false
         }],
-        "stage-3"
+        "stage-2"
     ],
     "plugins": [
         "dynamic-import-node",
+        "lodash",
         "transform-class-properties",
         "transform-es5-property-mutators",
+        "transform-export-extensions",
         "transform-object-rest-spread",
         "transform-runtime",
         "transform-vue-jsx"
-    ],
-    "comments": false
+    ]
 }
