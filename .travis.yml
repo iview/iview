@@ -1,7 +1,7 @@
 sudo: required
 language: node_js
 node_js:
-  - '6'
+  - '8'
 script:
   - 'npm run test'
 before_script:
