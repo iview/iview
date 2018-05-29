@@ -1,6 +1,7 @@
 import Emitter from '../../mixins/emitter';
 import handleEscapeMixin from './handleEscapeMixin';
 import {getTouches} from './utils';
+import { on, off } from '../../utils/dom';
 
 export default {
     mixins: [Emitter, handleEscapeMixin],
@@ -42,15 +43,19 @@ export default {
         handleMouseDown(e) {
             this.dispatch('ColorPicker', 'on-dragging', true);
             this.handleChange(e, true);
-            window.addEventListener('mousemove', this.handleChange, false);
-            window.addEventListener('mouseup', this.handleMouseUp, false);
+            // window.addEventListener('mousemove', this.handleChange, false);
+            // window.addEventListener('mouseup', this.handleMouseUp, false);
+            on(window, 'mousemove', this.handleChange);
+            on(window, 'mouseup', this.handleMouseUp);
         },
         handleMouseUp() {
             this.unbindEventListeners();
         },
         unbindEventListeners() {
-            window.removeEventListener('mousemove', this.handleChange);
-            window.removeEventListener('mouseup', this.handleMouseUp);
+            // window.removeEventListener('mousemove', this.handleChange);
+            // window.removeEventListener('mouseup', this.handleMouseUp);
+            off(window, 'mousemove', this.handleChange);
+            off(window, 'mouseup', this.handleMouseUp);
             // This timeout is required so that the click handler for click-outside
             // has the chance to run before the mouseup removes the dragging flag.
             setTimeout(() => this.dispatch('ColorPicker', 'on-dragging', false), 1);
