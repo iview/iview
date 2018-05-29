@@ -58,7 +58,7 @@
                 return (this.label) ? this.label : this.value;
             },
             optionLabel(){
-                return (this.$el && this.$el.textContent) || this.label;
+                return this.label || (this.$el && this.$el.textContent);
             }
         },
         methods: {
