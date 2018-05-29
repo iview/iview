@@ -47,7 +47,7 @@ describe('Select.vue', () => {
       waitForIt(
           () => {
               const selectedValueSpan = vm.$el.querySelector('.ivu-select-selected-value');
-              return selectedValueSpan.textContent === 'Bar';
+              return selectedValueSpan && selectedValueSpan.textContent === 'Bar';
           },
           () => {
               const selectedValueSpan = vm.$el.querySelector('.ivu-select-selected-value');
@@ -121,7 +121,7 @@ describe('Select.vue', () => {
         waitForIt(
             () => {
                 const selectedValueSpan = vm.$el.querySelector('.ivu-select-selected-value');
-                return selectedValueSpan.textContent === 'Bar';
+                return selectedValueSpan && selectedValueSpan.textContent === 'Bar';
             },
             () => {
                 const placeholderSpan = vm.$el.querySelector('.ivu-select-placeholder');

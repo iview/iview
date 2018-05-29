@@ -82,7 +82,7 @@
     import FunctionalOptions from './functional-options.vue';
 
     const prefixCls = 'ivu-select';
-    const optionRegexp = /^i-option$|^Option$/;
+    const optionRegexp = /^i-option$|^Option$/i;
     const optionGroupRegexp = /option-?group/i;
 
     const findChild = (instance, checkFn) => {
@@ -99,7 +99,7 @@
         const opts = node.componentOptions;
         if (opts && opts.tag.match(optionRegexp)) return [node];
         if (!node.children && (!opts || !opts.children)) return [];
-        const children = [...(node.children || []),  ...(opts && opts.children || [])];
+        const children = [...(node.children || []), ...(opts && opts.children || [])];
         const options = children.reduce(
             (arr, el) => [...arr, ...findOptionsInVNode(el)], []
         ).filter(Boolean);
@@ -122,6 +122,18 @@
             }
         };
     };
+
+    const getNestedProperty = (obj, path) => {
+        const keys = path.split('.');
+        return keys.reduce((o, key) => o && o[key] || null, obj);
+    };
+
+    const getOptionLabel = option => {
+        const textContent = (option.componentOptions.children || []).reduce((str, child) => str + (child.text || ''), '');
+        const innerHTML = getNestedProperty(option, 'data.domProps.innerHTML');
+        return option.componentOptions.propsData.label || textContent || (typeof innerHTML === 'string' ? innerHTML : '');
+    };
+
 
     const ANIMATION_TIMEOUT = 300;
 
@@ -210,8 +222,11 @@
             this.$on('on-select-selected', this.onOptionClick);
 
             // set the initial values if there are any
-            if (this.values.length > 0 && !this.remote && this.selectOptions.length > 0){
-                this.values = this.values.map(this.getOptionData).filter(Boolean);
+            if (!this.remote && this.selectOptions.length > 0){
+                this.values = this.getInitialValue().map(value => {
+                    if (typeof value !== 'number' && !value) return null;
+                    return this.getOptionData(value);
+                }).filter(Boolean);
             }
 
             if (this.values.length > 0 && this.selectOptions.length === 0){
@@ -222,7 +237,7 @@
 
             return {
                 prefixCls: prefixCls,
-                values: this.getInitialValue(),
+                values: [],
                 dropDownWidth: 0,
                 visible: false,
                 focusIndex: -1,
@@ -400,8 +415,7 @@
             getOptionData(value){
                 const option = this.flatOptions.find(({componentOptions}) => componentOptions.propsData.value === value);
                 if (!option) return null;
-                const textContent = option.componentOptions.children.reduce((str, child) => str + (child.text || ''), '');
-                const label = option.componentOptions.propsData.label || textContent || '';
+                const label = getOptionLabel(option);
                 return {
                     value: value,
                     label: label,
@@ -621,14 +635,12 @@
             values(now, before){
                 const newValue = JSON.stringify(now);
                 const oldValue = JSON.stringify(before);
-                const shouldEmitInput = newValue !== oldValue;
-
+                // v-model is always just the value, event with labelInValue === true
+                const vModelValue = (this.publicValue && this.labelInValue) ?
+                    (this.multiple ? this.publicValue.map(({value}) => value) : this.publicValue.value) :
+                    this.publicValue;
+                const shouldEmitInput = newValue !== oldValue && vModelValue !== this.value;
                 if (shouldEmitInput) {
-                    // v-model is always just the value, event with labelInValue === true
-                    const vModelValue = this.labelInValue ?
-                        (this.multiple ? this.publicValue.map(({value}) => value)
-                            :
-                            this.publicValue.value) : this.publicValue;
                     this.$emit('input', vModelValue); // to update v-model
                     this.$emit('on-change', this.publicValue);
                     this.dispatch('FormItem', 'on-form-change', this.publicValue);
