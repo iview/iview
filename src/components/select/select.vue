@@ -427,7 +427,7 @@
                 let initialValue = Array.isArray(value) ? value : [value];
                 if (!multiple && (typeof initialValue[0] === 'undefined' || (String(initialValue[0]).trim() === '' && !Number.isFinite(initialValue[0])))) initialValue = [];
                 return initialValue.filter((item) => {
-                  return Boolean(item) || item === 0
+                    return Boolean(item) || item === 0;
                 });
             },
             processOption(option, values, isFocused){
@@ -487,6 +487,14 @@
                         event.preventDefault();
                         return;
                     }
+
+                    if (this.transfer) {
+                        const {$el} = this.$refs.dropdown;
+                        if ($el === event.target || $el.contains(event.target)) {
+                            return;
+                        }
+                    }
+
 
                     if (this.filterable) {
                         const input = this.$el.querySelector('input[type="text"]');
