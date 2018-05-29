@@ -129,9 +129,10 @@
     };
 
     const getOptionLabel = option => {
+        if (option.componentOptions.propsData.label) return option.componentOptions.propsData.label;
         const textContent = (option.componentOptions.children || []).reduce((str, child) => str + (child.text || ''), '');
         const innerHTML = getNestedProperty(option, 'data.domProps.innerHTML');
-        return option.componentOptions.propsData.label || textContent || (typeof innerHTML === 'string' ? innerHTML : '');
+        return textContent || (typeof innerHTML === 'string' ? innerHTML : '');
     };
 
 
