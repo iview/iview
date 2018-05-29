@@ -411,7 +411,7 @@
             clearSingleSelect(){ // PUBLIC API
                 this.$emit('on-clear');
                 this.hideMenu();
-                if (this.clearable) this.values = [];
+                if (this.clearable) this.reset();
             },
             getOptionData(value){
                 const option = this.flatOptions.find(({componentOptions}) => componentOptions.propsData.value === value);
@@ -507,6 +507,8 @@
                 }
             },
             reset(){
+                this.query = '';
+                this.focusIndex = -1;
                 this.unchangedQuery = true;
                 this.values = [];
             },
