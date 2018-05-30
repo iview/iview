@@ -411,7 +411,7 @@
             clearSingleSelect(){ // PUBLIC API
                 this.$emit('on-clear');
                 this.hideMenu();
-                if (this.clearable) this.values = [];
+                if (this.clearable) this.reset();
             },
             getOptionData(value){
                 const option = this.flatOptions.find(({componentOptions}) => componentOptions.propsData.value === value);
@@ -427,7 +427,7 @@
                 let initialValue = Array.isArray(value) ? value : [value];
                 if (!multiple && (typeof initialValue[0] === 'undefined' || (String(initialValue[0]).trim() === '' && !Number.isFinite(initialValue[0])))) initialValue = [];
                 return initialValue.filter((item) => {
-                  return Boolean(item) || item === 0
+                    return Boolean(item) || item === 0;
                 });
             },
             processOption(option, values, isFocused){
@@ -488,6 +488,14 @@
                         return;
                     }
 
+                    if (this.transfer) {
+                        const {$el} = this.$refs.dropdown;
+                        if ($el === event.target || $el.contains(event.target)) {
+                            return;
+                        }
+                    }
+
+
                     if (this.filterable) {
                         const input = this.$el.querySelector('input[type="text"]');
                         this.caretPosition = input.selectionStart;
@@ -507,6 +515,8 @@
                 }
             },
             reset(){
+                this.query = '';
+                this.focusIndex = -1;
                 this.unchangedQuery = true;
                 this.values = [];
             },
