@@ -1,7 +1,7 @@
 <template>
     <div
         :class="[prefixCls]"
-        v-clickoutside="onClickoutside"
+        v-click-outside="onClickoutside"
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave">
         <div :class="[prefixCls + '-rel']" ref="reference" @click="handleClick"><slot></slot></div>
@@ -20,7 +20,7 @@
 </template>
 <script>
     import Drop from '../select/dropdown.vue';
-    import clickoutside from '../../directives/clickoutside';
+    import {directive as clickOutside} from 'v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf, findComponentUpward } from '../../utils/assist';
 
@@ -28,7 +28,7 @@
 
     export default {
         name: 'Dropdown',
-        directives: { clickoutside, TransferDom },
+        directives: { clickOutside, TransferDom },
         components: { Drop },
         props: {
             trigger: {
