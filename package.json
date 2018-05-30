@@ -4,14 +4,23 @@
     "title": "iView",
     "description": "A high quality  UI components Library with Vue.js",
     "homepage": "http://www.iviewui.com",
-    "keywords": ["iview", "vue", "vue.js", "component", "components", "ui", "framework"],
+    "keywords": [
+        "iview",
+        "vue",
+        "vue.js",
+        "component",
+        "components",
+        "ui",
+        "framework"
+    ],
     "main": "dist/iview.js",
-    "files": ["dist", "src"],
+    "files": [
+        "dist",
+        "src"
+    ],
     "scripts": {
-        "dev":
-            "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 8081 --config build/webpack.dev.config.js",
-        "dev:s":
-            "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 8081 --host 0.0.0.0 --config build/webpack.dev.config.js",
+        "dev": "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 8081 --config build/webpack.dev.config.js",
+        "dev:s": "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 8081 --host 0.0.0.0 --config build/webpack.dev.config.js",
         "dist:style": "gulp --gulpfile build/build-style.js",
         "dist:dev": "webpack --config build/webpack.dist.dev.config.js",
         "dist:prod": "webpack --config build/webpack.dist.prod.config.js",
