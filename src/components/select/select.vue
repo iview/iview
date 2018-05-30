@@ -346,7 +346,7 @@
                     const selectedSlotOption = autoCompleteOptions[currentIndex];
 
                     return slotOptions.map(node => {
-                        if (node === selectedSlotOption) return applyProp(node, 'isFocused', true);
+                        if (node === selectedSlotOption || getNestedProperty(node, 'componentOptions.propsData.value') === this.value) return applyProp(node, 'isFocused', true);
                         return copyChildren(node, (child) => {
                             if (child !== selectedSlotOption) return child;
                             return applyProp(child, 'isFocused', true);
@@ -467,7 +467,7 @@
             },
 
             toggleMenu (e, force) {
-                if (this.disabled || this.autoComplete) {
+                if (this.disabled) {
                     return false;
                 }
 
