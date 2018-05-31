@@ -73,7 +73,7 @@
 <script>
     import Icon from '../icon';
     import Drop from './dropdown.vue';
-    import vClickOutside from 'v-click-outside-x';
+    import {directive as clickOutside} from 'v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
@@ -142,7 +142,7 @@
         name: 'iSelect',
         mixins: [ Emitter, Locale ],
         components: { FunctionalOptions, Drop, Icon, SelectHead },
-        directives: { clickOutside: vClickOutside.directive, TransferDom },
+        directives: { clickOutside, TransferDom },
         props: {
             value: {
                 type: [String, Number, Array],

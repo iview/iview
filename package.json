@@ -2,7 +2,7 @@
     "name": "iview",
     "version": "2.14.0",
     "title": "iView",
-    "description": "A high quality  UI components Library with Vue.js",
+    "description": "A high quality UI components Library with Vue.js",
     "homepage": "http://www.iviewui.com",
     "keywords": [
         "iview",
@@ -29,7 +29,7 @@
         "lint": "eslint --fix --ext .js,.vue src",
         "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
         "test": "npm run lint && npm run unit",
-        "prepublish": "npm run dist"
+        "prepare": "npm run dist"
     },
     "repository": {
         "type": "git",
@@ -48,7 +48,7 @@
         "lodash.throttle": "^4.1.1",
         "popper.js": "^1.14.1",
         "tinycolor2": "^1.4.1",
-        "v-click-outside-x": "^2.5.1"
+        "v-click-outside-x": "^3.0.0"
     },
     "peerDependencies": {
         "vue": "^2.5.2"
