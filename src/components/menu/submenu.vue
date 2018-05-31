@@ -84,7 +84,13 @@
 
                 clearTimeout(this.timeout);
                 this.timeout = setTimeout(() => {
-                    this.menu.updateOpenKeys(this.name);
+                    /*
+                     * vertical run this function
+                     * if not use 'if' will cause dropdown bug
+                    */
+                    if (this.mode === 'vertical'){
+                        this.menu.updateOpenKeys(this.name);
+                    }
                     this.opened = true;
                 }, 250);
             },
@@ -94,7 +100,13 @@
 
                 clearTimeout(this.timeout);
                 this.timeout = setTimeout(() => {
-                    this.menu.updateOpenKeys(this.name);
+                    /*
+                     * vertical run this function
+                     * if not use 'if' will cause dropdown bug
+                    */
+                    if (this.mode === 'vertical'){
+                        this.menu.updateOpenKeys(this.name);
+                    }
                     this.opened = false;
                 }, 150);
             },
