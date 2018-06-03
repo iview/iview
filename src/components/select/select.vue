@@ -230,8 +230,8 @@
                 }).filter(Boolean);
             }
 
-            if (this.values.length > 0 && this.selectOptions.length === 0){
-                this.hasExpectedValue = this.values;
+            if (this.getInitialValue().length > 0 && this.selectOptions.length === 0){
+                this.hasExpectedValue = true;
             }
         },
         data () {
@@ -716,7 +716,10 @@
                 this.broadcast('Drop', open ? 'on-update-popper' : 'on-destroy-popper');
             },
             selectOptions(){
-                if (this.hasExpectedValue){
+                if (this.hasExpectedValue && this.selectOptions.length > 0){
+                    if (this.values.length === 0) {
+                        this.values = this.getInitialValue();
+                    }
                     this.values = this.values.map(this.getOptionData).filter(Boolean);
                     this.hasExpectedValue = false;
                 }
