@@ -135,6 +135,7 @@
         watch: {
             openNames (names) {
                 this.openedNames = names;
+                this.updateOpened()
             },
             activeName (val) {
                 this.currentActiveName = val;
