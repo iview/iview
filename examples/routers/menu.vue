@@ -44,13 +44,14 @@
                 <MenuItem name="5-4">Option 12</MenuItem>
             </Submenu>
         </Menu>
-        <!-- <Menu theme="dark" accordion @on-open-change="handleOpenChange">
+        <br/>
+        <Menu ref="menu2" theme="dark" accordion :open-names="openNames2" @on-open-change="handleOpenChange">
             <template v-for="item in menuList">
                 <custem-menu-item v-if="item.children" :key="`menu-${item.name}`" :parent-item="item"></custem-menu-item>
                 <menu-item v-else :name="`${item.name}`" :key="`menu-${item.name}`">{{ item.name }}</menu-item>
             </template>
         </Menu>
-        <Button @click="addNewItem">添加菜单项</Button> -->
+        <Button @click="addNewItem">添加菜单项</Button>
         <Button @click="changeActive">修改激活项</Button>
         <Button @click="setOpenNames">修改展开数组</Button>
         <Menu mode="horizontal" theme="light" :active-name="activeName" @on-open-change="hc">
@@ -108,6 +109,7 @@ import custemMenuItem from './custem-menu-item.vue'
         data () {
             return {
                 openNames: ['1'],
+                openNames2: [],
                 menuList: [
                     {
                         name: '111',
@@ -184,8 +186,10 @@ import custemMenuItem from './custem-menu-item.vue'
             },
             setOpenNames () {
                 this.openNames = ['2', '3'];
+                this.openNames2 = ['222', '222-222', '222-222-222', '222-222-222-111']
                 this.$nextTick(() => {
                     this.$refs.menu.updateOpened();
+                    this.$refs.menu2.updateOpened();
                 })
             },
             addNewItem () {
