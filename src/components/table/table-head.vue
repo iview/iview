@@ -54,14 +54,16 @@
                                         <li
                                             :class="itemClasses(getColumn(rowIndex, index), item)"
                                             v-for="item in column.filters"
-                                            @click="handleSelect(getColumn(rowIndex, index)._index, item.value)">{{ item.label }}</li>
+                                            @click="handleSelect(getColumn(rowIndex, index)._index, item.value)">
+                                            <FilterExpand :item="item" :render="filterRender(item)"></FilterExpand>
+                                        </li>
                                     </ul>
                                 </div>
                             </Poptip>
                         </template>
                     </div>
                 </th>
-                
+
                 <th v-if="$parent.showVerticalScrollBar && rowIndex===0" :class='scrollBarCellClass()' :rowspan="headRows.length"></th>
             </tr>
         </thead>
@@ -75,11 +77,12 @@
     import renderHeader from './header';
     import Mixin from './mixin';
     import Locale from '../../mixins/locale';
+    import FilterExpand from './filter-expand';
 
     export default {
         name: 'TableHead',
         mixins: [ Mixin, Locale ],
-        components: { CheckboxGroup, Checkbox, Poptip, iButton, renderHeader },
+        components: { CheckboxGroup, Checkbox, Poptip, iButton, renderHeader, FilterExpand },
         props: {
             prefixCls: String,
             styleObject: Object,
@@ -124,6 +127,15 @@
             }
         },
         methods: {
+            filterRender (item) {
+                let render = function (h, {item}) {
+                    return h("span", item.label);
+                }
+                if (item.render && typeof item.render === 'function') {
+                    render = item.render;
+                }
+                return render;
+            },
             cellClasses (column) {
                 return [
                     `${this.prefixCls}-cell`,
