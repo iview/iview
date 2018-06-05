@@ -638,6 +638,10 @@
             value(value){
                 const {getInitialValue, getOptionData, publicValue} = this;
 
+                if (getInitialValue().length > 0) {
+                    this.hasExpectedValue = true
+                }
+
                 if (value === '') this.values = [];
                 else if (JSON.stringify(value) !== JSON.stringify(publicValue)) {
                     this.$nextTick(() => this.values = getInitialValue().map(getOptionData).filter(Boolean));
