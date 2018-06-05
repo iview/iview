@@ -82,7 +82,7 @@
         data () {
             return {
                 prefixCls: prefixCls,
-                query: '',
+                query: this.remote && this.initialLabel ? this.initialLabel : '',
                 inputLength: 20,
                 remoteInitialLabel: this.initialLabel,
                 preventRemoteCall: false,

@@ -238,7 +238,7 @@
 
             return {
                 prefixCls: prefixCls,
-                values: [],
+                values: this.value ? [this.value] : [],
                 dropDownWidth: 0,
                 visible: false,
                 focusIndex: -1,
@@ -248,7 +248,7 @@
                 hasMouseHoverHead: false,
                 slotOptions: this.$slots.default,
                 caretPosition: -1,
-                lastRemoteQuery: '',
+                lastRemoteQuery: (this.remote && this.value) ? this.value : '',
                 unchangedQuery: true,
                 hasExpectedValue: false,
                 preventRemoteCall: false,
@@ -640,7 +640,9 @@
 
                 if (value === '') this.values = [];
                 else if (JSON.stringify(value) !== JSON.stringify(publicValue)) {
-                    this.$nextTick(() => this.values = getInitialValue().map(getOptionData).filter(Boolean));
+                    const values = getInitialValue().map(getOptionData).filter(Boolean);
+                    if (values.length === 0) this.hasExpectedValue = (String(value) && value !== 'undefined') ? [value] : [];
+                    this.$nextTick(() => this.values = values);
                 }
             },
             values(now, before){
@@ -688,7 +690,7 @@
                 // restore query value in filterable single selects
                 const [selectedOption] = this.values;
                 if (selectedOption && this.filterable && !this.multiple && !focused){
-                    const selectedLabel = String(selectedOption.label || selectedOption.value).trim();
+                    const selectedLabel = String(selectedOption.label || selectedOption.value || '').trim();
                     if (selectedLabel && this.query !== selectedLabel) {
                         this.preventRemoteCall = true;
                         this.query = selectedLabel;
@@ -715,9 +717,9 @@
             dropVisible(open){
                 this.broadcast('Drop', open ? 'on-update-popper' : 'on-destroy-popper');
             },
-            selectOptions(){
-                if (this.hasExpectedValue){
-                    this.values = this.values.map(this.getOptionData).filter(Boolean);
+            selectOptions(options){
+                if (this.hasExpectedValue && options.length > 0){
+                    this.values = this.hasExpectedValue.map(this.getOptionData).filter(Boolean);
                     this.hasExpectedValue = false;
                 }
 
