@@ -230,9 +230,7 @@
                 }).filter(Boolean);
             }
 
-            if (this.getInitialValue().length > 0 && this.selectOptions.length === 0){
-                this.hasExpectedValue = true;
-            }
+            this.checkUpdateStatus();
         },
         data () {
 
@@ -632,15 +630,18 @@
             },
             updateSlotOptions(){
                 this.slotOptions = this.$slots.default;
+            },
+            checkUpdateStatus() {
+                if (this.getInitialValue().length > 0 && this.selectOptions.length === 0) {
+                    this.hasExpectedValue = true;
+                }
             }
         },
         watch: {
             value(value){
                 const {getInitialValue, getOptionData, publicValue} = this;
 
-                if (getInitialValue().length > 0) {
-                    this.hasExpectedValue = true
-                }
+                this.checkUpdateStatus();
 
                 if (value === '') this.values = [];
                 else if (JSON.stringify(value) !== JSON.stringify(publicValue)) {
