@@ -100,6 +100,10 @@
             },
             popperClass: {
                 type: String
+            },
+            async: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -154,13 +158,28 @@
         methods: {
             handleClick () {
                 if (this.confirm) {
-                    this.visible = !this.visible;
+                    if (this.async) {
+                        this.$emit('before-popper-show', () => {
+                            this.visible = !this.visible;
+                        })
+                    } else {
+                        this.visible = !this.visible;
+                    }
+                    
                     return true;
                 }
                 if (this.trigger !== 'click') {
                     return false;
                 }
-                this.visible = !this.visible;
+
+                if (this.async) {
+                    this.$emit('before-popper-show', () => {
+                        this.visible = !this.visible;
+                    })
+                } else {
+                    this.visible = !this.visible;
+                }
+                
             },
             handleTransferClick () {
                 if (this.transfer) this.disableCloseUnderTransfer = true;
