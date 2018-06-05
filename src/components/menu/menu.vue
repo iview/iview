@@ -79,6 +79,9 @@
             updateOpenKeys (name) {
                 let names = [...this.openedNames];
                 const index = names.indexOf(name);
+                if (this.accordion) findComponentsDownward(this, 'Submenu').forEach(item => {
+                    item.opened = false;
+                });
                 if (index >= 0) {
                     let currentSubmenu = null;
                     findComponentsDownward(this, 'Submenu').forEach(item => {
@@ -87,11 +90,14 @@
                             item.opened = false;
                         }
                     });
+                    findComponentsUpward(currentSubmenu, 'Submenu').forEach(item => {
+                        item.opened = true;
+                    });
                     findComponentsDownward(currentSubmenu, 'Submenu').forEach(item => {
                         item.opened = false;
                     });
                 } else {
-                    if (this.mode === 'horizontal' && this.accordion) {
+                    if (this.accordion) {
                         let currentSubmenu = null;
                         findComponentsDownward(this, 'Submenu').forEach(item => {
                             if (item.name === name) {
