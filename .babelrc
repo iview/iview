@@ -25,7 +25,11 @@
         "transform-class-properties",
         "transform-es5-property-mutators",
         "transform-object-rest-spread",
-        "transform-runtime",
+        ["transform-runtime", {
+            "helpers": false,
+            "polyfill": false,
+            "regenerator": false
+        }],
         "transform-vue-jsx"
     ],
     "comments": false
