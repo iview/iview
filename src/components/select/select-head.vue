@@ -58,7 +58,7 @@
                 default: false
             },
             initialLabel: {
-                type: String,
+                type: [String, Number, Array],
             },
             values: {
                 type: Array,

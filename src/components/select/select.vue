@@ -230,9 +230,7 @@
                 }).filter(Boolean);
             }
 
-            if (this.values.length > 0 && this.selectOptions.length === 0){
-                this.hasExpectedValue = this.values;
-            }
+            this.checkUpdateStatus();
         },
         data () {
 
@@ -353,7 +351,7 @@
                         });
                     });
                 }
-
+                let hasDefaultSelected = slotOptions.some(option => this.query === option.key);
                 for (let option of slotOptions) {
 
                     const cOptions = option.componentOptions;
@@ -377,8 +375,10 @@
                         if (cOptions.children.length > 0) selectOptions.push({...option});
                     } else {
                         // ignore option if not passing filter
-                        const optionPassesFilter = this.filterable ? this.validateOption(cOptions) : option;
-                        if (!optionPassesFilter) continue;
+                        if (!hasDefaultSelected) {
+                            const optionPassesFilter = this.filterable ? this.validateOption(cOptions) : option;
+                            if (!optionPassesFilter) continue;
+                        }
 
                         optionCounter = optionCounter + 1;
                         selectOptions.push(this.processOption(option, selectedValues, optionCounter === currentIndex));
@@ -426,6 +426,7 @@
                 const {multiple, value} = this;
                 let initialValue = Array.isArray(value) ? value : [value];
                 if (!multiple && (typeof initialValue[0] === 'undefined' || (String(initialValue[0]).trim() === '' && !Number.isFinite(initialValue[0])))) initialValue = [];
+                if (this.remote && !this.multiple && this.value) this.query = value;
                 return initialValue.filter((item) => {
                     return Boolean(item) || item === 0;
                 });
@@ -632,11 +633,18 @@
             },
             updateSlotOptions(){
                 this.slotOptions = this.$slots.default;
+            },
+            checkUpdateStatus() {
+                if (this.getInitialValue().length > 0 && this.selectOptions.length === 0) {
+                    this.hasExpectedValue = true;
+                }
             }
         },
         watch: {
             value(value){
                 const {getInitialValue, getOptionData, publicValue} = this;
+
+                this.checkUpdateStatus();
 
                 if (value === '') this.values = [];
                 else if (JSON.stringify(value) !== JSON.stringify(publicValue)) {
@@ -716,7 +724,10 @@
                 this.broadcast('Drop', open ? 'on-update-popper' : 'on-destroy-popper');
             },
             selectOptions(){
-                if (this.hasExpectedValue){
+                if (this.hasExpectedValue && this.selectOptions.length > 0){
+                    if (this.values.length === 0) {
+                        this.values = this.getInitialValue();
+                    }
                     this.values = this.values.map(this.getOptionData).filter(Boolean);
                     this.hasExpectedValue = false;
                 }
