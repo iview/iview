@@ -20,6 +20,10 @@ const router = new VueRouter({
     esModule: false,
     routes: [
         {
+            path: '/split',
+            component: (resolve) => require(['./routers/split.vue'], resolve)
+        },
+        {
             path: '/layout',
             component: (resolve) => require(['./routers/layout.vue'], resolve)
         },
