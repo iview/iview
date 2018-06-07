@@ -351,7 +351,7 @@
                         });
                     });
                 }
-                let hasDefaultSelected = slotOptions.some(option => this.query === option.key);
+                let hasDefaultSelected = slotOptions.some(option => this.query === option.componentOptions.propsData.value);
                 for (let option of slotOptions) {
 
                     const cOptions = option.componentOptions;
@@ -426,6 +426,7 @@
                 const {multiple, value} = this;
                 let initialValue = Array.isArray(value) ? value : [value];
                 if (!multiple && (typeof initialValue[0] === 'undefined' || (String(initialValue[0]).trim() === '' && !Number.isFinite(initialValue[0])))) initialValue = [];
+                if (this.remote && this.value) this.query = value;
                 return initialValue.filter((item) => {
                     return Boolean(item) || item === 0;
                 });
