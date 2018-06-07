@@ -8,6 +8,7 @@
         :placeholder="placeholder"
         :size="size"
         :placement="placement"
+        :value="currentValue"
         filterable
         remote
         auto-complete
@@ -146,22 +147,19 @@
             },
             handleChange (val) {
                 this.currentValue = val;
-                this.$refs.select.model = val;
                 this.$refs.input.blur();
                 this.$emit('on-select', val);
             },
             handleFocus (event) {
-                this.$refs.select.visible = true;
                 this.$emit('on-focus', event);
             },
             handleBlur (event) {
-                this.$refs.select.visible = false;
                 this.$emit('on-blur', event);
             },
             handleClear () {
                 if (!this.clearable) return;
                 this.currentValue = '';
-                this.$refs.select.model = '';
+                this.$refs.select.reset();
             }
         }
     };

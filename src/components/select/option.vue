@@ -2,6 +2,7 @@
     <li
         :class="classes"
         @click.stop="select"
+        @touchend.stop="select"
         @mousedown.prevent
         @touchstart.prevent
     ><slot>{{ showLabel }}</slot></li>
@@ -58,7 +59,7 @@
                 return (this.label) ? this.label : this.value;
             },
             optionLabel(){
-                return (this.$el && this.$el.textContent) || this.label;
+                return this.label || (this.$el && this.$el.textContent);
             }
         },
         methods: {

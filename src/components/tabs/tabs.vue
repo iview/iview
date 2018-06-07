@@ -84,6 +84,10 @@
                 type: Boolean,
                 default: true
             },
+            captureFocus: {
+                type: Boolean,
+                default: false
+            },
             closable: {
                 type: Boolean,
                 default: false
@@ -385,7 +389,7 @@
                 [...this.$refs.panes.children].forEach((el, i) => {
                     if (index === i) {
                         [...el.children].forEach(child => child.style.visibility = 'visible');
-                        setTimeout(() => focusFirst(el, el), transitionTime);
+                        if (this.captureFocus) setTimeout(() => focusFirst(el, el), transitionTime);
                     } else {
                         setTimeout(() => {
                             [...el.children].forEach(child => child.style.visibility = 'hidden');
