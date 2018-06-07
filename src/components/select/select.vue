@@ -381,7 +381,7 @@
                         }
 
                         optionCounter = optionCounter + 1;
-                        selectOptions.push(this.processOption(option, selectedValues, false));
+                        selectOptions.push(this.processOption(option, selectedValues, optionCounter === currentIndex));
                     }
                 }
 
