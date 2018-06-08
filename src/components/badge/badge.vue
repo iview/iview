@@ -9,8 +9,10 @@
     </span>
 </template>
 <script>
-    const prefixCls = 'ivu-badge';
+   import { oneOf } from '../../utils/assist';
 
+    const prefixCls = 'ivu-badge';
+  
     export default {
         name: 'Badge',
         props: {
@@ -23,21 +25,29 @@
                 type: [Number, String],
                 default: 99
             },
-            className: String
+            className: String,
+            type: {
+                validator (value) {
+                    return oneOf(value, ['primary', 'info', 'success', 'warning', 'error']);
+                }
+            },
         },
         computed: {
             classes () {
                 return `${prefixCls}`;
             },
             dotClasses () {
-                return `${prefixCls}-dot`;
+                return [`${prefixCls}-dot`,{
+                    [`${prefixCls}-dot-${this.type}`]: !!this.type,
+                }];
             },
             countClasses () {
                 return [
                     `${prefixCls}-count`,
                     {
                         [`${this.className}`]: !!this.className,
-                        [`${prefixCls}-count-alone`]: this.alone
+                        [`${prefixCls}-count-alone`]: this.alone,
+                        [`${prefixCls}-count-${this.type}`]: !!this.type,
                     }
                 ];
             },
