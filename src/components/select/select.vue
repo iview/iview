@@ -344,7 +344,8 @@
                     const selectedSlotOption = autoCompleteOptions[currentIndex];
 
                     return slotOptions.map(node => {
-                        if (node === selectedSlotOption || getNestedProperty(node, 'componentOptions.propsData.value') === this.value) return applyProp(node, 'isFocused', true);
+                        if (typeof node.tag === "undefined") return node;
+                        else if (node === selectedSlotOption || getNestedProperty(node, 'componentOptions.propsData.value') === this.value) return applyProp(node, 'isFocused', true);
                         return copyChildren(node, (child) => {
                             if (child !== selectedSlotOption) return child;
                             return applyProp(child, 'isFocused', true);
