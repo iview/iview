@@ -29,6 +29,7 @@
 import HSAMixin from './hsaMixin';
 import Prefixes from './prefixMixin';
 import {clamp, getIncrement} from './utils';
+import { on, off } from '../../utils/dom';
 
 export default {
     name: 'Saturation',
@@ -87,11 +88,13 @@ export default {
         },
         handleMouseDown(e) {
             HSAMixin.methods.handleMouseDown.call(this, e);
-            window.addEventListener('mouseup', this.handleChange, false);
+//            window.addEventListener('mouseup', this.handleChange, false);
+            on(window, 'mouseup', this.handleChange);
         },
         unbindEventListeners(e) {
             HSAMixin.methods.unbindEventListeners.call(this, e);
-            window.removeEventListener('mouseup', this.handleChange);
+//            window.removeEventListener('mouseup', this.handleChange);
+            off(window, 'mouseup', this.handleChange);
         },
     },
 };

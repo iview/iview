@@ -112,7 +112,7 @@
 
 <script>
 import tinycolor from 'tinycolor2';
-import vClickOutside from 'v-click-outside-x';
+import {directive as clickOutside} from 'v-click-outside-x';
 import TransferDom from '../../directives/transfer-dom';
 import Drop from '../../components/select/dropdown.vue';
 import RecommendColors from './recommend-colors.vue';
@@ -130,7 +130,7 @@ export default {
 
     components: {Drop, RecommendColors, Saturation, Hue, Alpha},
 
-    directives: {clickOutside: vClickOutside.directive, TransferDom},
+    directives: {clickOutside, TransferDom},
 
     mixins: [Emitter, Locale, Prefixes],
 

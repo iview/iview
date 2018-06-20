@@ -44,14 +44,60 @@
                 <MenuItem name="5-4">Option 12</MenuItem>
             </Submenu>
         </Menu>
-        <!-- <Menu theme="dark" accordion @on-open-change="handleOpenChange">
+        <br/>
+        <Menu ref="menu2" theme="dark" accordion :open-names="openNames2" @on-open-change="handleOpenChange">
             <template v-for="item in menuList">
                 <custem-menu-item v-if="item.children" :key="`menu-${item.name}`" :parent-item="item"></custem-menu-item>
                 <menu-item v-else :name="`${item.name}`" :key="`menu-${item.name}`">{{ item.name }}</menu-item>
             </template>
         </Menu>
+        <Button @click="addNewItem">添加菜单项</Button>
+        <Button @click="changeActive">修改激活项</Button>
         <Button @click="setOpenNames">修改展开数组</Button>
-        <Button @click="addNewItem">添加菜单项</Button> -->
+        <Menu mode="horizontal" theme="light" :active-name="activeName" @on-open-change="hc">
+            <MenuItem name="1">
+                <Icon type="ios-paper"></Icon>
+                内容管理
+            </MenuItem>
+            <MenuItem name="2">
+                <Icon type="ios-people"></Icon>
+                用户管理
+            </MenuItem>
+            <Submenu name="3">
+                <template slot="title">
+                    <Icon type="stats-bars"></Icon>
+                    统计分析
+                </template>
+                <MenuGroup title="使用">
+                    <MenuItem name="3-1">新增和启动</MenuItem>
+                    <MenuItem name="3-2">活跃分析</MenuItem>
+                    <MenuItem name="3-3">时段分析</MenuItem>
+                </MenuGroup>
+                <MenuGroup title="留存">
+                    <MenuItem name="3-4">用户留存</MenuItem>
+                    <MenuItem name="3-5">流失用户</MenuItem>
+                </MenuGroup>
+            </Submenu>
+            <Submenu name="4">
+                <template slot="title">
+                    <Icon type="stats-bars"></Icon>
+                    统计分析2
+                </template>
+                <MenuGroup title="使用2">
+                    <MenuItem name="4-1">新增和启动2</MenuItem>
+                    <MenuItem name="4-2">活跃分析2</MenuItem>
+                    <MenuItem name="4-3">时段分析2</MenuItem>
+                </MenuGroup>
+                <MenuGroup title="留存2">
+                    <MenuItem name="4-4">用户留存2</MenuItem>
+                    <MenuItem name="4-5">流失用户2</MenuItem>
+                </MenuGroup>
+            </Submenu>
+            <MenuItem name="5">
+                <Icon type="settings"></Icon>
+                综合设置
+            </MenuItem>
+        </Menu>
     </div>
 </template>
 <script>
@@ -63,6 +109,7 @@ import custemMenuItem from './custem-menu-item.vue'
         data () {
             return {
                 openNames: ['1'],
+                openNames2: [],
                 menuList: [
                     {
                         name: '111',
@@ -129,7 +176,8 @@ import custemMenuItem from './custem-menu-item.vue'
                             }
                         ]
                     }
-                ]
+                ],
+                activeName: '1'
             };
         },
         methods: {
@@ -138,8 +186,10 @@ import custemMenuItem from './custem-menu-item.vue'
             },
             setOpenNames () {
                 this.openNames = ['2', '3'];
+                this.openNames2 = ['222', '222-222', '222-222-222', '222-222-222-111']
                 this.$nextTick(() => {
                     this.$refs.menu.updateOpened();
+                    this.$refs.menu2.updateOpened();
                 })
             },
             addNewItem () {
@@ -151,6 +201,12 @@ import custemMenuItem from './custem-menu-item.vue'
                         }
                     ]
                 })
+            },
+            changeActive () {
+                this.activeName = String(Number(this.activeName) + 1)
+            },
+            hc (data) {
+                console.log(data);
             }
         }
     }
