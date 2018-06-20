@@ -2,7 +2,7 @@
     <ul :class="classes" :style="styles"><slot></slot></ul>
 </template>
 <script>
-    import { oneOf, findComponentsDownward, findBrothersComponents } from '../../utils/assist';
+    import { oneOf, findComponentsDownward, findComponentsUpward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-menu';
@@ -79,23 +79,44 @@
             updateOpenKeys (name) {
                 let names = [...this.openedNames];
                 const index = names.indexOf(name);
+                if (this.accordion) findComponentsDownward(this, 'Submenu').forEach(item => {
+                    item.opened = false;
+                });
                 if (index >= 0) {
-                    names.splice(index, 1);
+                    let currentSubmenu = null;
+                    findComponentsDownward(this, 'Submenu').forEach(item => {
+                        if (item.name === name) {
+                            currentSubmenu = item;
+                            item.opened = false;
+                        }
+                    });
+                    findComponentsUpward(currentSubmenu, 'Submenu').forEach(item => {
+                        item.opened = true;
+                    });
+                    findComponentsDownward(currentSubmenu, 'Submenu').forEach(item => {
+                        item.opened = false;
+                    });
                 } else {
                     if (this.accordion) {
                         let currentSubmenu = null;
                         findComponentsDownward(this, 'Submenu').forEach(item => {
-                            if (item.name === name) currentSubmenu = item;
+                            if (item.name === name) {
+                                currentSubmenu = item;
+                                item.opened = true;
+                            }
                         });
-                        findBrothersComponents(currentSubmenu, 'Submenu').forEach(item => {
-                            let i = names.indexOf(item.name);
-                            if (i >= 0) names.splice(i, 1);
+                        findComponentsUpward(currentSubmenu, 'Submenu').forEach(item => {
+                            item.opened = true;
                         });
-                        names.push(name);
+                    } else {
+                        findComponentsDownward(this, 'Submenu').forEach(item => {
+                            if (item.name === name) item.opened = true;
+                        });
                     }
                 }
-                this.openedNames = names;
-                this.$emit('on-open-change', this.openedNames);
+                let openedNames = findComponentsDownward(this, 'Submenu').filter(item => item.opened).map(item => item.name);
+                this.openedNames = [...openedNames];
+                this.$emit('on-open-change', openedNames);
             },
             updateOpened () {
                 const items = findComponentsDownward(this, 'Submenu');

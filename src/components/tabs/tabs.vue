@@ -2,7 +2,13 @@
     <div :class="classes">
         <div :class="[prefixCls + '-bar']">
             <div :class="[prefixCls + '-nav-right']" v-if="showSlot"><slot name="extra"></slot></div>
-            <div :class="[prefixCls + '-nav-container']">
+            <div
+                :class="[prefixCls + '-nav-container']"
+                tabindex="0"
+                ref="navContainer"
+                @keydown="handleTabKeyNavigation"
+                @keydown.space.prevent="handleTabKeyboardSelect(false)"
+            >
                 <div ref="navWrap" :class="[prefixCls + '-nav-wrap', scrollable ? prefixCls + '-nav-scrollable' : '']">
                     <span :class="[prefixCls + '-nav-prev', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollPrev"><Icon type="chevron-left"></Icon></span>
                     <span :class="[prefixCls + '-nav-next', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollNext"><Icon type="chevron-right"></Icon></span>
@@ -20,7 +26,7 @@
                 </div>
             </div>
         </div>
-        <div :class="contentClasses" :style="contentStyle"><slot></slot></div>
+        <div :class="contentClasses" :style="contentStyle" ref="panes"><slot></slot></div>
     </div>
 </template>
 <script>
@@ -31,6 +37,28 @@
     import elementResizeDetectorMaker from 'element-resize-detector';
 
     const prefixCls = 'ivu-tabs';
+    const transitionTime = 300; // from CSS
+
+    const getNextTab = (list, activeKey, direction, countDisabledAlso) => {
+        const currentIndex = list.findIndex(tab => tab.name === activeKey);
+        const nextIndex = (currentIndex + direction + list.length) % list.length;
+        const nextTab = list[nextIndex];
+        if (nextTab.disabled) return getNextTab(list, nextTab.name, direction, countDisabledAlso);
+        else return nextTab;
+    };
+
+    const focusFirst = (element, root) => {
+        try {element.focus();}
+        catch(err) {} // eslint-disable-line no-empty
+
+        if (document.activeElement == element && element !== root) return true;
+
+        const candidates = element.children;
+        for (let candidate of candidates) {
+            if (focusFirst(candidate, root)) return true;
+        }
+        return false;
+    };
 
     export default {
         name: 'Tabs',
@@ -56,6 +84,10 @@
                 type: Boolean,
                 default: true
             },
+            captureFocus: {
+                type: Boolean,
+                default: false
+            },
             closable: {
                 type: Boolean,
                 default: false
@@ -68,11 +100,13 @@
                 barWidth: 0,
                 barOffset: 0,
                 activeKey: this.value,
+                focusedKey: this.value,
                 showSlot: false,
                 navStyle: {
                     transform: ''
                 },
-                scrollable: false
+                scrollable: false,
+                transitioning: false,
             };
         },
         computed: {
@@ -103,7 +137,7 @@
                 ];
             },
             contentStyle () {
-                const x = this.navList.findIndex((nav) => nav.name === this.activeKey);
+                const x = this.getTabIndex(this.activeKey);
                 const p = x === 0 ? '0%' : `-${x}00%`;
 
                 let style = {};
@@ -116,10 +150,10 @@
             },
             barStyle () {
                 let style = {
-                    display: 'none',
+                    visibility: 'hidden',
                     width: `${this.barWidth}px`
                 };
-                if (this.type === 'line') style.display = 'block';
+                if (this.type === 'line') style.visibility = 'visible';
                 if (this.animated) {
                     style.transform = `translate3d(${this.barOffset}px, 0px, 0px)`;
                 } else {
@@ -154,7 +188,7 @@
             },
             updateBar () {
                 this.$nextTick(() => {
-                    const index = this.navList.findIndex((nav) => nav.name === this.activeKey);
+                    const index = this.getTabIndex(this.activeKey);
                     if (!this.$refs.nav) return;  // 页面销毁时，这里会报错，为了解决 #2100
                     const prevTabs = this.$refs.nav.querySelectorAll(`.${prefixCls}-tab`);
                     const tab = prevTabs[index];
@@ -183,16 +217,34 @@
                     `${prefixCls}-tab`,
                     {
                         [`${prefixCls}-tab-disabled`]: item.disabled,
-                        [`${prefixCls}-tab-active`]: item.name === this.activeKey
+                        [`${prefixCls}-tab-active`]: item.name === this.activeKey,
+                        [`${prefixCls}-tab-focused`]: item.name === this.focusedKey,
                     }
                 ];
             },
             handleChange (index) {
+                if (this.transitioning) return;
+
+                this.transitioning = true;
+                setTimeout(() => this.transitioning = false, transitionTime);
+
                 const nav = this.navList[index];
                 if (nav.disabled) return;
                 this.activeKey = nav.name;
                 this.$emit('input', nav.name);
                 this.$emit('on-click', nav.name);
+            },
+            handleTabKeyNavigation(e){
+                if (e.keyCode !== 37 && e.keyCode !== 39) return;
+                const direction = e.keyCode === 39 ? 1 : -1;
+                const nextTab = getNextTab(this.navList, this.focusedKey, direction);
+                this.focusedKey = nextTab.name;
+            },
+            handleTabKeyboardSelect(init = false){
+                if (init) return;
+                const focused = this.focusedKey || 0;
+                const index = this.getTabIndex(focused);
+                this.handleChange(index);
             },
             handleRemove (index) {
                 const tabs = this.getTabs();
@@ -262,6 +314,9 @@
                     ? Number(navStyle.transform.match(/translateX\(-(\d+(\.\d+)*)px\)/)[1])
                     : 0;
             },
+            getTabIndex(name){
+                return this.navList.findIndex(nav => nav.name === name);
+            },
             setOffset(value) {
                 this.navStyle.transform = `translateX(-${value}px)`;
             },
@@ -320,19 +375,37 @@
                     parentNode = parentNode.parentNode;
                 }
                 return false;
+            },
+            updateVisibility(index){
+                [...this.$refs.panes.children].forEach((el, i) => {
+                    if (index === i) {
+                        [...el.children].forEach(child => child.style.visibility = 'visible');
+                        if (this.captureFocus) setTimeout(() => focusFirst(el, el), transitionTime);
+                    } else {
+                        setTimeout(() => {
+                            [...el.children].forEach(child => child.style.visibility = 'hidden');
+                        }, transitionTime);
+                    }
+                });
             }
         },
         watch: {
             value (val) {
                 this.activeKey = val;
+                this.focusedKey = val;
             },
-            activeKey () {
+            activeKey (val) {
+                this.focusedKey = val;
                 this.updateBar();
                 this.updateStatus();
                 this.broadcast('Table', 'on-visible-change', true);
                 this.$nextTick(() => {
                     this.scrollToActiveTab();
                 });
+
+                // update visibility
+                const nextIndex = Math.max(this.getTabIndex(this.focusedKey), 0);
+                this.updateVisibility(nextIndex);
             }
         },
         mounted () {
@@ -351,6 +424,9 @@
 
                 this.mutationObserver.observe(hiddenParentNode, { attributes: true, childList: true, characterData: true, attributeFilter: ['style'] });
             }
+
+            this.handleTabKeyboardSelect(true);
+            this.updateVisibility(this.getTabIndex(this.activeKey));
         },
         beforeDestroy() {
             this.observer.removeListener(this.$refs.navWrap, this.handleResize);

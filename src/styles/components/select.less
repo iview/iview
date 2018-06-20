@@ -25,21 +25,12 @@
         border: 1px solid @border-color-base;
         transition: all @transition-time @ease-in-out;
 
-        .@{select-prefix-cls}-arrow:nth-of-type(1) {
-            display: none;
-            cursor: pointer;
-        }
-
-        &:hover {
+        &:hover, &-focused {
             .hover();
-            .@{select-prefix-cls}-arrow:nth-of-type(1) {
+            .@{select-prefix-cls}-arrow {
                 display: inline-block;
             }
         }
-    }
-
-    &-show-clear &-selection:hover .@{select-prefix-cls}-arrow:nth-of-type(2){
-        display: none;
     }
 
     &-arrow {
@@ -51,14 +42,9 @@
             .active();
         }
 
-        .@{select-prefix-cls}-arrow:nth-of-type(2) {
+        .@{select-prefix-cls}-arrow {
             transform: rotate(180deg);
-        }
-    }
-    &:focus{
-        outline: 0;
-        .@{select-prefix-cls}-selection{
-            .active();
+            display: inline-block;
         }
     }
 
@@ -66,7 +52,7 @@
         .@{select-prefix-cls}-selection {
             .disabled();
 
-            .@{select-prefix-cls}-arrow:nth-of-type(1) {
+            .@{select-prefix-cls}-arrow {
                 display: none;
             }
 
@@ -74,7 +60,7 @@
                 border-color: @border-color-base;
                 box-shadow: none;
 
-                .@{select-prefix-cls}-arrow:nth-of-type(2) {
+                .@{select-prefix-cls}-arrow {
                     display: inline-block;
                 }
             }
@@ -236,7 +222,7 @@
     }
 
     &-dropdown-list {
-        display: inline-block;
+        //display: inline-block;
         min-width: 100%;
         list-style: none;
     }
@@ -245,6 +231,7 @@
 .select-item(@select-prefix-cls, @select-item-prefix-cls);
 
 .@{select-prefix-cls}-multiple .@{select-item-prefix-cls} {
+    position: relative;
     &-selected{
         color: @selected-color;
         background: #fff;
@@ -260,10 +247,13 @@
 
     &-selected:after{
         .ivu-icon();
-        float: right;
+        //float: right;
         font-size: 24px;
         content: '\F3FD';
         color: @selected-color;
+        position: absolute;
+        top: 2px;
+        right: 16px;
     }
 }
 

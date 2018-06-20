@@ -135,7 +135,7 @@
                     type => newDate[`set${capitalize(type)}`](date[type])
                 );
 
-                if (emit) this.$emit('on-pick', newDate, true);
+                if (emit) this.$emit('on-pick', newDate, 'time');
             },
         },
         mounted () {

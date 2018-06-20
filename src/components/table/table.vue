@@ -103,7 +103,7 @@
     import ExportCsv from './export-csv';
     import Locale from '../../mixins/locale';
     import elementResizeDetectorMaker from 'element-resize-detector';
-    import { getAllColumns, convertToRows, convertColumnOrder } from './util';
+    import { getAllColumns, convertToRows, convertColumnOrder, getRandomStr } from './util';
 
     const prefixCls = 'ivu-table';
 
@@ -178,6 +178,7 @@
             }
         },
         data () {
+            const colsWithId = this.makeColumnsId(this.columns);
             return {
                 ready: false,
                 tableWidth: 0,
@@ -186,13 +187,11 @@
                 compiledUids: [],
                 objData: this.makeObjData(),     // checkbox or highlight-row
                 rebuildData: [],    // for sort or filter
-                cloneColumns: this.makeColumns(),
-                minWidthColumns:[],
-                maxWidthColumns:[],
-                columnRows: this.makeColumnRows(false),
-                leftFixedColumnRows: this.makeColumnRows('left'),
-                rightFixedColumnRows: this.makeColumnRows('right'),
-                allColumns: getAllColumns(this.columns),  // for multiple table-head, get columns that have no children
+                cloneColumns: this.makeColumns(colsWithId),
+                columnRows: this.makeColumnRows(false, colsWithId),
+                leftFixedColumnRows: this.makeColumnRows('left', colsWithId),
+                rightFixedColumnRows: this.makeColumnRows('right', colsWithId),
+                allColumns: getAllColumns(colsWithId),  // for multiple table-head, get columns that have no children
                 showSlotHeader: true,
                 showSlotFooter: true,
                 bodyHeight: 0,
@@ -349,74 +348,43 @@
                     //let tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
                 let tableWidth = this.$el.offsetWidth - 1;
                 let columnsWidth = {};
-
+                let sumMinWidth = 0;
                 let hasWidthColumns = [];
                 let noWidthColumns = [];
-                let minWidthColumns = this.minWidthColumns;
-                let maxWidthColumns = this.maxWidthColumns;
+                let maxWidthColumns = [];
+                let noMaxWidthColumns = [];
                 this.cloneColumns.forEach((col) => {
                     if (col.width) {
                         hasWidthColumns.push(col);
                     }
                     else{
                         noWidthColumns.push(col);
+                        if (col.minWidth) {
+                            sumMinWidth += col.minWidth;
+                        }
+                        if (col.maxWidth) {
+                            maxWidthColumns.push(col);
+                        }
+                        else {
+                            noMaxWidthColumns.push(col);
+                        }
                     }
                     col._width = null;
                 });
 
 
                 let unUsableWidth = hasWidthColumns.map(cell => cell.width).reduce((a, b) => a + b, 0);
-                let usableWidth = tableWidth - unUsableWidth - (this.showVerticalScrollBar?this.scrollBarWidth:0);
+                let usableWidth = tableWidth - unUsableWidth - sumMinWidth - (this.showVerticalScrollBar?this.scrollBarWidth:0) - 1;
                 let usableLength = noWidthColumns.length;
                 let columnWidth = 0;
                 if(usableWidth > 0 && usableLength > 0){
                     columnWidth = parseInt(usableWidth / usableLength);
                 }
-                for (let i = 0; i < maxWidthColumns.length; i++) {
-                    if(columnWidth > maxWidthColumns[i].maxWidth){
-                        maxWidthColumns[i]._width = maxWidthColumns[i].maxWidth;
-                        usableWidth -= maxWidthColumns[i].maxWidth;
-                        usableLength--;
-                        if (usableWidth>0) {
-                            if (usableLength === 0) {
-                                columnWidth = 0;
-                            }
-                            else {
-                                columnWidth = parseInt(usableWidth / usableLength);
-                            }
-                        }
-                        else{
-                            columnWidth = 0;
-                        }
-                    }
-                }
-
-                for (let i = 0; i < minWidthColumns.length; i++) {
-                    if(columnWidth < minWidthColumns[i].minWidth && !minWidthColumns[i].width){
-                        if(!minWidthColumns[i]._width){
-                            minWidthColumns[i]._width = minWidthColumns[i].minWidth;
-                            usableWidth -= minWidthColumns[i].minWidth;
-                            usableLength--;
-                            if (usableWidth>0) {
-                                if (usableLength === 0) {
-                                    columnWidth = 0;
-                                }
-                                else {
-                                    columnWidth = parseInt(usableWidth / usableLength);
-                                }
-                            }
-                            else{
-                                columnWidth = 0;
-                            }
-                        }
-                            
-                    }
-                }
 
                     
                 for (let i = 0; i < this.cloneColumns.length; i++) {
                     const column = this.cloneColumns[i];
-                    let width = columnWidth;
+                    let width = columnWidth + (column.minWidth?column.minWidth:0);
                     if(column.width){
                         width = column.width;
                     }
@@ -424,17 +392,18 @@
                         if (column._width) {
                             width = column._width;
                         }
-                        else if (column.minWidth > width){
-                            width = column.minWidth;
-                        }
-                        else if (column.maxWidth < width){
-                            width = column.maxWidth;
-                        }
                         else {
+                            if (column.minWidth > width){
+                                width = column.minWidth;
+                            }
+                            else if (column.maxWidth < width){
+                                width = column.maxWidth;
+                            }
+                            
                             if (usableWidth>0) {
-                                if (usableLength > 1) {
-                                    usableLength--;
-                                    usableWidth -= width;
+                                usableWidth -= width - (column.minWidth?column.minWidth:0);
+                                usableLength--;
+                                if (usableLength > 0) {
                                     columnWidth = parseInt(usableWidth / usableLength);
                                 }
                                 else {
@@ -447,15 +416,38 @@
                         }
                     }
 
-                    this.cloneColumns[i]._width = width;
+                    column._width = width;
 
                     columnsWidth[column._index] = {
                         width: width
                     };
 
                 }
-                    //this.tableWidth = this.cloneColumns.map(cell => cell._width).reduce((a, b) => a + b, 0);
-                this.tableWidth = this.cloneColumns.map(cell => cell._width).reduce((a, b) => a + b, 0) + (this.showVerticalScrollBar?this.scrollBarWidth:0);
+                if(usableWidth>0) {
+                    usableLength = noMaxWidthColumns.length;
+                    columnWidth = parseInt(usableWidth / usableLength);
+                    for (let i = 0; i < noMaxWidthColumns.length; i++) {
+                        const column = noMaxWidthColumns[i];
+                        let width = column._width + columnWidth;
+                        if (usableLength > 1) {
+                            usableLength--;
+                            usableWidth -= columnWidth;
+                            columnWidth = parseInt(usableWidth / usableLength);
+                        }
+                        else {
+                            columnWidth = 0;
+                        }
+
+                        column._width = width;
+
+                        columnsWidth[column._index] = {
+                            width: width
+                        };
+
+                    }
+                }
+                
+                this.tableWidth = this.cloneColumns.map(cell => cell._width).reduce((a, b) => a + b, 0) + (this.showVerticalScrollBar?this.scrollBarWidth:0) + 1;
                 this.columnsWidth = columnsWidth;
                 this.fixedHeader();
             },
@@ -565,19 +557,18 @@
                         const headerHeight = parseInt(getStyle(this.$refs.header, 'height')) || 0;
                         const footerHeight = parseInt(getStyle(this.$refs.footer, 'height')) || 0;
                         this.bodyHeight = this.height - titleHeight - headerHeight - footerHeight;
-                        this.fixedBody();
+                        this.$nextTick(()=>this.fixedBody());
                     });
                 } else {
                     this.bodyHeight = 0;
-                    this.fixedBody();
+                    this.$nextTick(()=>this.fixedBody());
                 }
             },
             fixedBody (){
                 if (this.$refs.header) {
                     this.headerWidth = this.$refs.header.children[0].offsetWidth;
                     this.headerHeight = this.$refs.header.children[0].offsetHeight;
-                    this.showHorizontalScrollBar = this.headerWidth>this.$refs.header.offsetWidth;
-                    
+                    //this.showHorizontalScrollBar = this.headerWidth>this.$refs.header.offsetWidth;
                 }
 
                 if (!this.$refs.tbody || !this.data || this.data.length === 0) {
@@ -589,10 +580,7 @@
                     let bodyContentHeight = bodyContentEl.offsetHeight;
                     let bodyHeight = bodyEl.offsetHeight;
 
-                    if (!this.$refs.header) {
-                        this.showHorizontalScrollBar = bodyEl.offsetWidth < bodyContentEl.offsetWidth + (this.showVerticalScrollBar?this.scrollBarWidth:0);
-                    }
-                    
+                    this.showHorizontalScrollBar = bodyEl.offsetWidth < bodyContentEl.offsetWidth + (this.showVerticalScrollBar?this.scrollBarWidth:0);
                     this.showVerticalScrollBar = this.bodyHeight? bodyHeight - (this.showHorizontalScrollBar?this.scrollBarWidth:0) < bodyContentHeight : false;
                     
                     if(this.showVerticalScrollBar){
@@ -828,9 +816,17 @@
                 });
                 return data;
             },
-            makeColumns () {
+            // 修改列，设置一个隐藏的 id，便于后面的多级表头寻找对应的列，否则找不到
+            makeColumnsId (columns) {
+                return columns.map(item => {
+                    if ('children' in item) item.children = this.makeColumnsId(item.children);
+                    item.__id = getRandomStr(6);
+                    return item;
+                });
+            },
+            makeColumns (cols) {
                 // 在 data 时，this.allColumns 暂时为 undefined
-                let columns = deepCopy(getAllColumns(this.columns));
+                let columns = deepCopy(getAllColumns(cols));
                 let left = [];
                 let right = [];
                 let center = [];
@@ -869,27 +865,8 @@
                 return left.concat(center).concat(right);
             },
             // create a multiple table-head
-            makeColumnRows (fixedType) {
-                return convertToRows(this.columns, fixedType);
-            },
-            setMinMaxColumnRows (){
-                let minWidthColumns=[];
-                let maxWidthColumns=[];
-                this.cloneColumns.forEach((col) => {
-                    if (!col.width) {
-                        if(col.minWidth){
-                            minWidthColumns.push(col);
-                        }
-                        if(col.maxWidth){
-                            maxWidthColumns.push(col);
-                        }
-                    }
-                });
-
-                minWidthColumns.sort((a,b)=>a.minWidth > b.minWidth);
-                maxWidthColumns.sort((a,b)=>a.maxWidth < b.maxWidth);
-                this.minWidthColumns = minWidthColumns;
-                this.maxWidthColumns = maxWidthColumns;
+            makeColumnRows (fixedType, cols) {
+                return convertToRows(cols, fixedType);
             },
             exportCsv (params) {
                 if (params.filename) {
@@ -927,7 +904,6 @@
         },
         mounted () {
             this.handleResize();
-            this.setMinMaxColumnRows();
             this.$nextTick(() => this.ready = true);
 
             on(window, 'resize', this.handleResize);
@@ -964,13 +940,13 @@
             columns: {
                 handler () {
                     // todo 这里有性能问题，可能是左右固定计算属性影响的
-                    this.allColumns = getAllColumns(this.columns);
-                    this.cloneColumns = this.makeColumns();
-                    this.setMinMaxColumnRows();
+                    const colsWithId = this.makeColumnsId(this.columns);
+                    this.allColumns = getAllColumns(colsWithId);
+                    this.cloneColumns = this.makeColumns(colsWithId);
 
-                    this.columnRows = this.makeColumnRows(false);
-                    this.leftFixedColumnRows = this.makeColumnRows('left');
-                    this.rightFixedColumnRows = this.makeColumnRows('right');
+                    this.columnRows = this.makeColumnRows(false, colsWithId);
+                    this.leftFixedColumnRows = this.makeColumnRows('left', colsWithId);
+                    this.rightFixedColumnRows = this.makeColumnRows('right', colsWithId);
                     this.rebuildData = this.makeDataWithSortAndFilter();
                     this.handleResize();
                 },
