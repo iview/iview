@@ -218,6 +218,10 @@ const router = new VueRouter({
         {
             path: '/time',
             component: (resolve) => require(['./routers/time.vue'], resolve)
+        },
+        {
+            path: '/cell',
+            component: (resolve) => require(['./routers/cell.vue'], resolve)
         }
     ]
 });

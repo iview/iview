@@ -11,6 +11,7 @@ import Button from './components/button';
 import Card from './components/card';
 import Carousel from './components/carousel';
 import Cascader from './components/cascader';
+import Cell from './components/cell';
 import Checkbox from './components/checkbox';
 import Circle from './components/circle';
 import Collapse from './components/collapse';
@@ -74,6 +75,8 @@ const components = {
     Carousel,
     CarouselItem: Carousel.Item,
     Cascader,
+    Cell,
+    CellGroup: Cell.Group,
     Checkbox,
     CheckboxGroup: Checkbox.Group,
     Col,
