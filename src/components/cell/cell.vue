@@ -1,6 +1,6 @@
 <template>
     <div :class="classes">
-        <a v-if="to" :href="linkUrl" class="ivu-cell-link" @click.prevent="handleClick">
+        <a v-if="to" :href="linkUrl" class="ivu-cell-link" @click.prevent="handleClick" @click="handleClickItem">
             <CellItem :title="title" :label="label" :extra="extra">
                 <slot name="icon" slot="icon"></slot>
                 <slot slot="default"></slot>
@@ -8,7 +8,7 @@
                 <slot name="label" slot="label"></slot>
             </CellItem>
         </a>
-        <div class="ivu-cell-link" v-else>
+        <div class="ivu-cell-link" v-else @click="handleClickItem">
             <CellItem :title="title" :label="label" :extra="extra">
                 <slot name="icon" slot="icon"></slot>
                 <slot slot="default"></slot>
@@ -32,6 +32,7 @@
 
     export default {
         name: 'Cell',
+        inject: ['cellGroup'],
         mixins: [ mixinsLink ],
         components: { CellItem, Icon },
         props: {
@@ -83,5 +84,10 @@
                 ];
             },
         },
+        methods: {
+            handleClickItem () {
+                this.cellGroup.handleClick(this.name);
+            }
+        }
     }
 </script>

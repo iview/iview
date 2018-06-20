@@ -5,6 +5,16 @@
 </template>
 <script>
     export default {
-        name: 'CellGroup'
+        name: 'CellGroup',
+        provide () {
+            return {
+                cellGroup: this
+            }
+        },
+        methods: {
+            handleClick (name) {
+                this.$emit('on-click', name);
+            }
+        }
     }
 </script>
