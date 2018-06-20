@@ -1,6 +1,6 @@
 <template>
-    <div :class="classes">
-        <a v-if="to" class="ivu-cell-link" @click="handleClick">
+    <div :class="classes" tabindex="0">
+        <a v-if="to" :href="to" class="ivu-cell-link" @click.prevent="handleClick">
             <CellItem :title="title" :label="label" :extra="extra">
                 <slot name="icon" slot="icon"></slot>
                 <slot></slot>

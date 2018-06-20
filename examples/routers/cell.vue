@@ -9,7 +9,7 @@
                 <Cell title="标题二">
                     <Icon type="trash-a" slot="icon"></Icon>
                 </Cell>
-                <Cell title="标题三"></Cell>
+                <Cell title="标题三">六七十</Cell>
                 <Cell title="标题四" selected></Cell>
                 <Cell title="标题五"></Cell>
                 <Cell title="标题六" disabled></Cell>

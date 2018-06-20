@@ -57,5 +57,13 @@
         right: 16px;
         font-size: @font-size-base;
     }
+
+    &:focus{
+        background: @background-color-select-hover;
+        outline: none;
+    }
+    &-selected:focus{
+        background: shade(@selected-color, 10%);
+    }
 }
 .select-item(@cell-prefix-cls, @cell-prefix-cls);
