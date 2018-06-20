@@ -42,6 +42,7 @@ import Switch from './components/switch';
 import Table from './components/table';
 import Tabs from './components/tabs';
 import Tag from './components/tag';
+import Time from './components/time';
 import Timeline from './components/timeline';
 import TimePicker from './components/time-picker';
 import Tooltip from './components/tooltip';
@@ -114,6 +115,7 @@ const components = {
     Tabs: Tabs,
     TabPane: Tabs.Pane,
     Tag,
+    Time,
     Timeline,
     TimelineItem: Timeline.Item,
     TimePicker,
@@ -138,7 +140,8 @@ const iview = {
     iProgress: Progress,
     iSelect: Select,
     iSwitch: Switch,
-    iTable: Table
+    iTable: Table,
+    iTime: Time
 };
 
 const install = function(Vue, opts = {}) {
