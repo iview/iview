@@ -28,6 +28,10 @@ const router = new VueRouter({
             component: (resolve) => require(['./routers/affix.vue'], resolve)
         },
         {
+            path: '/anchor',
+            component: (resolve) => require(['./routers/anchor.vue'], resolve)
+        },
+        {
             path: '/grid',
             component: (resolve) => require(['./routers/grid.vue'], resolve)
         },
