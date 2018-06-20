@@ -26,7 +26,7 @@ import { oneOf } from '../../utils/assist';
 import { on, off } from '../../utils/dom';
 import Trigger from './trigger.vue'
 export default {
-  name: 'SplitPane',
+  name: 'Split',
   components: {
     Trigger
   },
