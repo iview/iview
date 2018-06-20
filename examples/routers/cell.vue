@@ -13,11 +13,13 @@
                 <Cell title="标题四" selected></Cell>
                 <Cell title="标题五"></Cell>
                 <Cell title="标题六" disabled></Cell>
-                <Cell title="标题七" extra="详细信息"></Cell>
+                <Cell title="标题七" extra="详细信息" to="/icon"></Cell>
                 <Cell title="标题七" extra="详细信息" selected></Cell>
                 <Cell title="标题七" label="附属内容" extra="详细信息"></Cell>
-                <Cell title="标题八"></Cell>
-                <Cell title="标题九"></Cell>
+                <Cell title="标题八">
+                    <i-switch v-model="switch1" slot="extra"></i-switch>
+                </Cell>
+                <Cell title="标题九" to="/button"></Cell>
             </CellGroup>
         </Card>
     </div>
@@ -26,7 +28,7 @@
     export default {
         data(){
             return {
-
+                switch1: false
             }
         }
     }
