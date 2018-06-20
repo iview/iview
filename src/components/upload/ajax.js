@@ -1,7 +1,7 @@
 // https://github.com/ElemeFE/element/blob/dev/packages/upload/src/ajax.js
 
 function getError(action, option, xhr) {
-    const msg = `fail to post ${action} ${xhr.status}'`;
+    const msg = `fail to post ${action} ${xhr.status}`;
     const err = new Error(msg);
     err.status = xhr.status;
     err.method = 'post';
