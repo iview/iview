@@ -1,6 +1,6 @@
 <template>
     <span>
-        <a v-if="to" :class="linkClasses" @click="handleClick">
+        <a v-if="to" :href="linkUrl" :class="linkClasses" @click.prevent="handleClick">
             <slot></slot>
         </a>
         <span v-else :class="linkClasses">

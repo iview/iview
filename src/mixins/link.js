@@ -1,7 +1,8 @@
 export default {
     computed: {
         linkUrl () {
-
+            const type = typeof this.to;
+            return type === 'string' ? this.to : null;
         }
     },
     methods: {
