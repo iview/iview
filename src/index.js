@@ -54,6 +54,7 @@ import Tree from './components/tree';
 import Upload from './components/upload';
 import {Row, Col} from './components/grid';
 import {Select, Option, OptionGroup} from './components/select';
+import Divider from './components/divider';
 import locale from './locale/index';
 
 const components = {
@@ -128,7 +129,8 @@ const components = {
     Tooltip,
     Transfer,
     Tree,
-    Upload
+    Upload,
+    Divider
 };
 
 const iview = {
