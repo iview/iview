@@ -3,7 +3,7 @@
         :class="classes"
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave"
-        v-clickoutside="handleClose">
+        v-click-outside="handleClose">
         <div
             :class="[prefixCls + '-rel']"
             ref="reference"
@@ -49,7 +49,7 @@
 <script>
     import Popper from '../base/popper';
     import iButton from '../button/button.vue';
-    import clickoutside from '../../directives/clickoutside';
+    import {directive as clickOutside} from 'v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
     import Locale from '../../mixins/locale';
@@ -59,7 +59,7 @@
     export default {
         name: 'Poptip',
         mixins: [ Popper, Locale ],
-        directives: { clickoutside, TransferDom },
+        directives: { clickOutside, TransferDom },
         components: { iButton },
         props: {
             trigger: {

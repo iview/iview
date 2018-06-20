@@ -21,7 +21,8 @@
         data () {
             return {
                 popper: null,
-                width: ''
+                width: '',
+                popperStatus: false
             };
         },
         computed: {
@@ -37,6 +38,7 @@
                 if (this.popper) {
                     this.$nextTick(() => {
                         this.popper.update();
+                        this.popperStatus = true;
                     });
                 } else {
                     this.$nextTick(() => {
@@ -44,7 +46,10 @@
                             placement: this.placement,
                             modifiers: {
                                 computeStyle:{
-                                    gpuAcceleration: false,
+                                    gpuAcceleration: false
+                                },
+                                preventOverflow :{
+                                    boundariesElement: 'window'
                                 }
                             },
                             onCreate:()=>{
@@ -65,16 +70,25 @@
             destroy () {
                 if (this.popper) {
                     setTimeout(() => {
-                        if (this.popper) {
+                        if (this.popper && !this.popperStatus) {
                             this.popper.destroy();
                             this.popper = null;
                         }
+                        this.popperStatus = false;
                     }, 300);
                 }
             },
             resetTransformOrigin() {
-                let placement = this.popper.popper.getAttribute('x-placement').split('-')[0];
-                this.popper.popper.style.transformOrigin = placement==='bottom'?'center top':'center bottom';
+                // 不判断，Select 会报错，不知道为什么
+                if (!this.popper) return;
+
+                let x_placement = this.popper.popper.getAttribute('x-placement');
+                let placementStart = x_placement.split('-')[0];
+                let placementEnd = x_placement.split('-')[1];
+                const leftOrRight = x_placement === 'left' || x_placement === 'right';
+                if(!leftOrRight){
+                    this.popper.popper.style.transformOrigin = placementStart==='bottom' || ( placementStart !== 'top' && placementEnd === 'start') ? 'center top' : 'center bottom';
+                }
             }
         },
         created () {

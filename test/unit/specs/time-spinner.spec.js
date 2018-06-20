@@ -11,7 +11,7 @@ describe('TimePicker.vue', () => {
       <Time-Picker></Time-Picker>
     `);
     const picker = vm.$children[0];
-    picker.handleIconClick(); // open the picker panels
+    picker.handleFocus({type: 'focus'}); // open the picker panels
 
     vm.$nextTick(() => {
       const spiners = picker.$el.querySelectorAll('.ivu-time-picker-cells-list');
@@ -28,7 +28,7 @@ describe('TimePicker.vue', () => {
       <Time-Picker format="HH:mm"></Time-Picker>
     `);
     const picker = vm.$children[0];
-    picker.handleIconClick(); // open the picker panels
+    picker.handleFocus({type: 'focus'}); // open the picker panels
 
     vm.$nextTick(() => {
       const spiners = picker.$el.querySelectorAll('.ivu-time-picker-cells-list');
@@ -44,7 +44,7 @@ describe('TimePicker.vue', () => {
 	    <Time-Picker :steps="[1, 15]"></Time-Picker>
 	  `);
     const picker = vm.$children[0];
-    picker.handleIconClick(); // open the picker panels
+    picker.handleFocus({type: 'focus'}); // open the picker panels
 
     vm.$nextTick(() => {
       const spiners = picker.$el.querySelectorAll('.ivu-time-picker-cells-list');

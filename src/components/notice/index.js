@@ -50,7 +50,7 @@ function notice (type, options) {
     if (type == 'normal') {
         withIcon = false;
         content = `
-            <div class="${prefixCls}-custom-content ${prefixCls}-with-normal${with_desc}">
+            <div class="${prefixCls}-custom-content ${prefixCls}-with-normal ${with_desc}">
                 <div class="${prefixCls}-title">${title}</div>
                 <div class="${prefixCls}-desc">${desc}</div>
             </div>
@@ -59,7 +59,7 @@ function notice (type, options) {
         const iconType = iconTypes[type];
         withIcon = true;
         content = `
-            <div class="${prefixCls}-custom-content ${prefixCls}-with-icon ${prefixCls}-with-${type}${with_desc}">
+            <div class="${prefixCls}-custom-content ${prefixCls}-with-icon ${prefixCls}-with-${type} ${with_desc}">
                 <span class="${prefixCls}-icon ${prefixCls}-icon-${type}">
                     <i class="${iconPrefixCls} ${iconPrefixCls}-${iconType}"></i>
                 </span>

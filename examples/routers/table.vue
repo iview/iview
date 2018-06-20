@@ -1,28 +1,91 @@
+<style>
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+</style>
+
 <template>
     <div>
-        <br><br><br><br><br>
-        <Table border :columns="columns1" height="500" :data="data1"></Table>
-        <br><br><br><br><br>
-        <!--<Table width="550" height="200" border :columns="columns2" :data="data4"></Table>-->
+        <!-- <br><br><br><br><br> -->
+        <!-- <Table border  :show-header='false' :columns="columns1" height="500" :data="data1"></Table> -->
+        <!-- <Table border :columns="columns1" height='300'></Table> -->
+        <!-- <br><br><br><br><br> -->
+        <!-- <Table width="550" height="200" border :columns="columns2" :data="data4"></Table> -->
         <!--<br><br><br><br><br>-->
-        <Table border :columns="columns5" height="240" :data="data5"></Table>
-        <br><br><br><br><br>
-        <Table border :columns="columns6" :data="data5"></Table>
-        <br><br><br><br><br>
-        <Table border :columns="columns7"  height="240" :data="data7"></Table>
-        <br><br><br><br><br>
+        <!-- <Table border :columns="columns5" height="240" :data="data5"></Table> -->
+        <!-- <br><br><br><br><br> -->
+        <!-- <Table border :columns="columns6" :data="data5"></Table> -->
+        <!-- <br><br><br><br><br> -->
+        <!-- <Table border  :show-header='false' :columns="columns7"  height="200" :data="data7"></Table> -->
+        <!-- <Table border :columns="columns7"  height="240" :data="data7"></Table> -->
+        <!-- <br><br><br><br><br> -->
+        <!-- <Table border :columns="columns8"  :data="data7" height="200"></Table> -->
+        <!-- <Table border :columns="columns8" height="200"></Table> -->
+        <!-- <br><br><br><br><br> -->
+
+        <div class="layout-demo-con">
+            <Button @click="change">修改Sider绑定的变量来控制收缩</Button>
+            <Layout :style="{minHeight: '80vh'}">
+                <Sider 
+                    v-model="isCollapsed"
+                    collapsed-width="0" 
+                    hide-trigger
+                    breakpoint="sm"
+                    @on-collapse="changed"
+                    collapsible
+                    ref="side"
+                    width="200">
+                    <Menu width="auto" theme="dark" active-name="1">
+                        <MenuGroup title="内容管理">
+                            <MenuItem name="1">
+                                <Icon type="document-text"></Icon>
+                                文章管理
+                            </MenuItem>
+                            <MenuItem name="2">
+                                <Icon type="chatbubbles"></Icon>
+                                评论管理
+                            </MenuItem>
+                        </MenuGroup>
+                        <MenuGroup title="统计分析">
+                            <MenuItem name="3">
+                                <Icon type="heart"></Icon>
+                                用户留存
+                            </MenuItem>
+                            <MenuItem name="4">
+                                <Icon type="heart-broken"></Icon>
+                                流失用户
+                            </MenuItem>
+                        </MenuGroup>
+                    </Menu>
+                    <!-- <div slot="trigger"><Icon type="document-text"></Icon></div> -->
+                </Sider>
+                <Layout class-name="test-class">
+                    <Header :style="{background: '#eee'}"><Button @click="toggleCollapse">菜单</Button></Header>
+                    <Content :style="{background:'#FFCF9E'}">
+                        <!-- <Table border  :columns="columns1" height="500" :data="data1"></Table> -->
+                        <!-- <br> -->
+                        <!-- <Table border :columns="columns5" :data="data5"></Table> -->
+                        <Table border :columns="columns8"  height="240" :data="data7"></Table>
+                    </Content>
+                    <Footer>sdfsdsdfsdfs</Footer>
+                </Layout>
+            </Layout>
+        </div>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
+                isCollapsed: false,
                 columns1: [
                     {
                         title: 'Name',
                         key: 'name',
                         align: 'center',
-                        width: 200,
+                        minWidth: 100,
+                        maxWidth: 200,
                         fixed: 'left',
                         filters: [
                             {
@@ -51,7 +114,8 @@
                                 title: 'Age',
                                 key: 'age',
                                 align: 'center',
-                                width: 200,
+                                minWidth: 100,
+                                maxWidth: 200,
                                 sortable: true
                             },
                             {
@@ -62,7 +126,8 @@
                                         title: 'Street',
                                         key: 'street',
                                         align: 'center',
-                                        width: 200
+                                        minWidth: 100,
+                                        maxWidth: 200,
                                     },
                                     {
                                         title: 'Block',
@@ -72,14 +137,16 @@
                                                 title: 'Building',
                                                 key: 'building',
                                                 align: 'center',
-                                                width: 200,
+                                                minWidth: 100,
+                                                maxWidth: 200,
                                                 sortable: true
                                             },
                                             {
                                                 title: 'Door No.',
                                                 key: 'door',
                                                 align: 'center',
-                                                width: 200
+                                                minWidth: 100,
+                                                maxWidth: 200,
                                             }
                                         ]
                                     }
@@ -95,13 +162,15 @@
                                 title: 'Company Address',
                                 key: 'caddress',
                                 align: 'center',
-                                width: 200
+                                minWidth: 100,
+                                maxWidth: 200,
                             },
                             {
                                 title: 'Company Name',
                                 key: 'cname',
                                 align: 'center',
-                                width: 200
+                                minWidth: 100,
+                                maxWidth: 200,
                             }
                         ]
                     },
@@ -116,8 +185,9 @@
                         title: 'Gender',
                         key: 'gender',
                         align: 'center',
-                        width: 200,
-                        //fixed: 'right'
+                        minWidth: 100,
+                        maxWidth: 200,
+                        fixed: 'right'
                     }
                 ],
                 columns2: [
@@ -360,6 +430,7 @@
                     {
                         title: 'Age',
                         key: 'age',
+                        width:200,
                     },
                     {
                         title: 'Address',
@@ -393,6 +464,34 @@
                         date: '2016-10-04'
                     }
                 ],
+                
+                columns8: [
+                    {
+                        title: 'Address',
+                        key: 'address',
+                        minWidth:200,
+                        //maxWidth:300,
+                    },
+                    {
+                        title: 'Date',
+                        key: 'date',
+                        sortable: true,
+                        minWidth:100,
+                        maxWidth:150,
+                    },
+                    {
+                        title: 'Name',
+                        key: 'name',
+                        minWidth:100,
+                        maxWidth:200,
+                    },
+                    {
+                        title: 'Age',
+                        key: 'age',
+                        minWidth:60,
+                        maxWidth:100,
+                    },
+                ],
             }
         },
         mounted () {
@@ -411,6 +510,22 @@
                 });
             }
             this.data1 = data;
+        },
+        methods: {
+            toggleCollapse () {
+                this.$refs.side.toggleCollapse();
+            },
+            change () {
+                this.isCollapsed = !this.isCollapsed;
+            },
+            changed (res) {
+                console.log(res)
+            }
+        },
+        watch: {
+            isCollapsed (val) {
+                // console.log(val)
+            }
         }
     }
 </script>

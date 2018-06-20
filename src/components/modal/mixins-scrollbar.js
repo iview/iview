@@ -13,6 +13,10 @@ export default {
                 this.scrollBarWidth = getScrollBarSize();
             }
         },
+        checkMaskInVisible () {
+            let masks = document.getElementsByClassName('ivu-modal-mask') || [];
+            return Array.from(masks).every(m => m.style.display === 'none' || m.classList.contains('fade-leave-to'));
+        },
         setScrollBar () {
             if (this.bodyIsOverflowing && this.scrollBarWidth !== undefined) {
                 document.body.style.paddingRight = `${this.scrollBarWidth}px`;
@@ -27,8 +31,10 @@ export default {
             document.body.style.overflow = 'hidden';
         },
         removeScrollEffect() {
-            document.body.style.overflow = '';
-            this.resetScrollBar();
+            if (this.checkMaskInVisible()) {
+                document.body.style.overflow = '';
+                this.resetScrollBar();
+            }
         }
     }
 };

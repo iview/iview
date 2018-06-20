@@ -39,6 +39,8 @@
                     :value="dates"
                     :selection-mode="selectionMode"
                     :disabled-date="disabledDate"
+                    :focused-date="focusedDate"
+
                     @on-pick="panelPickerHandlers"
                     @on-pick-click="handlePickClick"
                 ></component>
@@ -50,6 +52,9 @@
                     :value="dates"
                     :format="format"
                     :time-disabled="timeDisabled"
+                    :disabled-date="disabledDate"
+                    :focused-date="focusedDate"
+
                     v-bind="timePickerOptions"
                     @on-pick="handlePick"
                     @on-pick-click="handlePickClick"
@@ -149,11 +154,24 @@
             },
             currentView (currentView) {
                 this.$emit('on-selection-mode-change', currentView);
-                this.pickertable = this.getTableType(currentView);
+
+                if (this.currentView === 'time') {
+                    this.$nextTick(() => {
+                        const spinner = this.$refs.timePicker.$refs.timeSpinner;
+                        spinner.updateScroll();
+                    });
+                }
             },
             selectionMode(type){
                 this.currentView = type;
                 this.pickerTable = this.getTableType(type);
+            },
+            focusedDate(date){
+                const isDifferentYear = date.getFullYear() !== this.panelDate.getFullYear();
+                const isDifferentMonth = isDifferentYear || date.getMonth() !== this.panelDate.getMonth();
+                if (isDifferentYear || isDifferentMonth){
+                    this.panelDate = date;
+                }
             }
         },
         methods: {
@@ -180,13 +198,14 @@
                 else this.pickerTable = this.getTableType(this.currentView);
 
             },
-            handlePick (value) {
+            handlePick (value, type) {
                 const {selectionMode, panelDate} = this;
                 if (selectionMode === 'year') value = new Date(value.getFullYear(), 0, 1);
                 else if (selectionMode === 'month') value = new Date(panelDate.getFullYear(), value.getMonth(), 1);
                 else value = new Date(value);
 
-                this.$emit('on-pick', value);
+                this.dates = [value];
+                this.$emit('on-pick', value, false, type || selectionMode);
             },
         },
     };

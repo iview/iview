@@ -32,6 +32,9 @@ export default {
                     modifiers: {
                         computeStyle:{
                             gpuAcceleration: false,
+                        },
+                        preventOverflow :{
+                            boundariesElement: 'window'
                         }
                     }
                 };
@@ -83,21 +86,18 @@ export default {
             }
 
             options.placement = this.placement;
-            
-            if (options.modifiers) {
-                options.modifiers = {};
-            }
-            if (options.modifiers.offset) {
+
+            if (!options.modifiers.offset) {
                 options.modifiers.offset = {};
             }
-            options.modifiers.offset = this.offset;
+            options.modifiers.offset.offset = this.offset;
             options.onCreate =()=>{
                 this.$nextTick(this.updatePopper);
                 this.$emit('created', this);
             };
 
             this.popperJS = new Popper(reference, popper, options);
-            
+
         },
         updatePopper() {
             if (isServer) return;
@@ -109,6 +109,10 @@ export default {
             this.popperJS.destroy();
             this.popperJS = null;
         }
+    },
+    updated (){
+        this.$nextTick(()=>this.updatePopper());
+
     },
     beforeDestroy() {
         if (isServer) return;

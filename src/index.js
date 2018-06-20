@@ -1,5 +1,7 @@
 import Affix from './components/affix';
 import Alert from './components/alert';
+import Anchor from './components/anchor';
+import AnchorLink from './components/anchor-link';
 import AutoComplete from './components/auto-complete';
 import Avatar from './components/avatar';
 import BackTop from './components/back-top';
@@ -23,6 +25,7 @@ import Icon from './components/icon';
 import Input from './components/input';
 import InputNumber from './components/input-number';
 import Scroll from './components/scroll';
+import Split from './components/split';
 import Layout from './components/layout';
 import LoadingBar from './components/loading-bar';
 import Menu from './components/menu';
@@ -42,6 +45,7 @@ import Switch from './components/switch';
 import Table from './components/table';
 import Tabs from './components/tabs';
 import Tag from './components/tag';
+import Time from './components/time';
 import Timeline from './components/timeline';
 import TimePicker from './components/time-picker';
 import Tooltip from './components/tooltip';
@@ -56,6 +60,8 @@ import locale from './locale/index';
 const components = {
     Affix,
     Alert,
+    Anchor,
+    AnchorLink,
     AutoComplete,
     Avatar,
     BackTop,
@@ -87,6 +93,7 @@ const components = {
     InputNumber,
     Scroll,
     Sider: Sider,
+    Split,
     Submenu: Menu.Sub,
     Layout: Layout,
     LoadingBar,
@@ -115,6 +122,7 @@ const components = {
     Tabs: Tabs,
     TabPane: Tabs.Pane,
     Tag,
+    Time,
     Timeline,
     TimelineItem: Timeline.Item,
     TimePicker,
@@ -140,7 +148,8 @@ const iview = {
     iProgress: Progress,
     iSelect: Select,
     iSwitch: Switch,
-    iTable: Table
+    iTable: Table,
+    iTime: Time
 };
 
 const install = function(Vue, opts = {}) {

@@ -8,6 +8,7 @@
         :placeholder="placeholder"
         :size="size"
         :placement="placement"
+        :value="currentValue"
         filterable
         remote
         auto-complete
@@ -124,7 +125,9 @@
         },
         watch: {
             value (val) {
-                this.disableEmitChange = true;
+                if(this.currentValue !== val){
+                    this.disableEmitChange = true;
+                }
                 this.currentValue = val;
             },
             currentValue (val) {
@@ -144,20 +147,19 @@
             },
             handleChange (val) {
                 this.currentValue = val;
-                this.$refs.select.model = val;
                 this.$refs.input.blur();
                 this.$emit('on-select', val);
             },
-            handleFocus () {
-                this.$refs.select.visible = true;
+            handleFocus (event) {
+                this.$emit('on-focus', event);
             },
-            handleBlur () {
-                this.$refs.select.visible = false;
+            handleBlur (event) {
+                this.$emit('on-blur', event);
             },
             handleClear () {
                 if (!this.clearable) return;
                 this.currentValue = '';
-                this.$refs.select.model = '';
+                this.$refs.select.reset();
             }
         }
     };

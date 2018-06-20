@@ -7,9 +7,9 @@
         </div>
         <span
                 :class="getCellCls(cell)"
-                v-for="(cell, i) in readCells"
+                v-for="(cell, i) in cells"
                 :key="String(cell.date) + i"
-                @click="handleClick(cell)"
+                @click="handleClick(cell, $event)"
                 @mouseenter="handleMouseMove(cell)"
         >
             <em>{{ cell.desc }}</em>
@@ -36,10 +36,8 @@
             },
         },
         data () {
-            const weekStartDay = Number(this.t('i.datepicker.weekStartDay'));
             return {
                 prefixCls: prefixCls,
-                calendar: new jsCalendar.Generator({onlyDays: !this.showWeekNumbers, weekStart: weekStartDay})
             };
         },
         computed: {
@@ -51,6 +49,10 @@
                     }
                 ];
             },
+            calendar(){
+                const weekStartDay = Number(this.t('i.datepicker.weekStartDay'));
+                return new jsCalendar.Generator({onlyDays: !this.showWeekNumbers, weekStart: weekStartDay});
+            },
             headerDays () {
                 const weekStartDay = Number(this.t('i.datepicker.weekStartDay'));
                 const translatedDays = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'].map(item => {
@@ -59,7 +61,7 @@
                 const weekDays = translatedDays.splice(weekStartDay, 7 - weekStartDay).concat(translatedDays.splice(0, weekStartDay));
                 return this.showWeekNumbers ? [''].concat(weekDays) : weekDays;
             },
-            readCells () {
+            cells () {
                 const tableYear = this.tableDate.getFullYear();
                 const tableMonth = this.tableDate.getMonth();
                 const today = clearHours(new Date());    // timestamp of today
@@ -97,7 +99,9 @@
                         [`${prefixCls}-cell-prev-month`]: cell.type === 'prevMonth',
                         [`${prefixCls}-cell-next-month`]: cell.type === 'nextMonth',
                         [`${prefixCls}-cell-week-label`]: cell.type === 'weekLabel',
-                        [`${prefixCls}-cell-range`]: cell.range && !cell.start && !cell.end
+                        [`${prefixCls}-cell-range`]: cell.range && !cell.start && !cell.end,
+                        [`${prefixCls}-focused`]: clearHours(cell.date) === clearHours(this.focusedDate)
+
                     }
                 ];
             },

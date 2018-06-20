@@ -1,86 +1,101 @@
 <template>
-    <div class="ivu-color-picker-hue">
-        <div class="ivu-color-picker-hue-container" ref="container"
-             @mousedown="handleMouseDown"
-             @touchmove="handleChange"
-             @touchstart="handleChange">
-            <div class="ivu-color-picker-hue-pointer" :style="{top: 0, left: pointerLeft}">
-                <div class="ivu-color-picker-hue-picker"></div>
+    <div
+        :class="[prefixCls + '-hue']"
+        tabindex="0"
+        @click="$el.focus()"
+        @keydown.esc="handleEscape"
+        @keydown.left="handleLeft"
+        @keydown.right="handleRight"
+        @keydown.up="handleUp"
+        @keydown.down="handleDown"
+    >
+        <div
+            ref="container"
+            :class="[prefixCls + '-hue-container']"
+            @mousedown="handleMouseDown"
+            @touchmove="handleChange"
+            @touchstart="handleChange">
+            <div
+                :style="{top: 0, left: `${percent}%`}"
+                :class="[prefixCls + '-hue-pointer']">
+                <div :class="[prefixCls + '-hue-picker']"></div>
             </div>
         </div>
     </div>
 </template>
+
 <script>
-    export default {
-        name: 'Hue',
-        props: {
-            value: Object
-        },
-        data () {
-            return {
-                oldHue: 0,
-                pullDirection: ''
-            };
-        },
-        computed: {
-            colors () {
-                const h = this.value.hsl.h;
-                if (h !== 0 && h - this.oldHue > 0) this.pullDirection = 'right';
-                if (h !== 0 && h - this.oldHue < 0) this.pullDirection = 'left';
-                this.oldHue = h;
+import HASMixin from './hsaMixin';
+import Prefixes from './prefixMixin';
+import {clamp} from './utils';
 
-                return this.value;
-            },
-            pointerLeft () {
-                if (this.colors.hsl.h === 0 && this.pullDirection === 'right') return '100%';
-                return (this.colors.hsl.h * 100) / 360 + '%';
-            }
-        },
-        methods: {
-            handleChange (e, skip) {
-                !skip && e.preventDefault();
+export default {
+    name: 'Hue',
 
-                const container = this.$refs.container;
-                const containerWidth = container.clientWidth;
+    mixins: [HASMixin, Prefixes],
 
-                const xOffset = container.getBoundingClientRect().left + window.pageXOffset;
-                const pageX = e.pageX || (e.touches ? e.touches[0].pageX : 0);
-                const left = pageX - xOffset;
+    data() {
+        const normalStep = 1 / 360 * 25;
+        const jumpStep = 20 * normalStep;
 
-                let h;
-                let percent;
+        return {
+            left: -normalStep,
+            right: normalStep,
+            up: jumpStep,
+            down: -jumpStep,
+            powerKey: 'shiftKey',
+            percent: clamp(this.value.hsl.h * 100 / 360, 0, 100),
+        };
+    },
 
-                if (left < 0) {
-                    h = 0;
-                } else if (left > containerWidth) {
-                    h = 360;
-                } else {
-                    percent = left * 100 / containerWidth;
-                    h = (360 * percent / 100);
-                }
-
-                if (this.colors.hsl.h !== h) {
-                    this.$emit('change', {
-                        h: h,
-                        s: this.colors.hsl.s,
-                        l: this.colors.hsl.l,
-                        a: this.colors.hsl.a,
-                        source: 'hsl'
-                    });
-                }
-            },
-            handleMouseDown (e) {
-                this.handleChange(e, true);
-                window.addEventListener('mousemove', this.handleChange);
-                window.addEventListener('mouseup', this.handleMouseUp);
-            },
-            handleMouseUp () {
-                this.unbindEventListeners();
-            },
-            unbindEventListeners () {
-                window.removeEventListener('mousemove', this.handleChange);
-                window.removeEventListener('mouseup', this.handleMouseUp);
-            }
+    watch: {
+        value () {
+            this.percent = clamp(this.value.hsl.h * 100 / 360, 0, 100);
         }
-    };
+    },
+
+    methods: {
+        change(percent) {
+            this.percent = clamp(percent, 0, 100);
+
+            const {h, s, l, a} = this.value.hsl;
+            const newHue = clamp(percent / 100 * 360, 0, 360);
+
+            if (h !== newHue) {
+                this.$emit('change', {h: newHue, s, l, a, source: 'hsl'});
+            }
+        },
+        handleSlide(e, direction) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (e[this.powerKey]) {
+                this.change(direction < 0 ? 0 : 100);
+                return;
+            }
+
+            this.change(this.percent + direction);
+        },
+        handleChange(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const left = this.getLeft(e);
+
+            if (left < 0) {
+                this.change(0);
+                return;
+            }
+
+            const {clientWidth} = this.$refs.container;
+
+            if (left > clientWidth) {
+                this.change(100);
+                return;
+            }
+
+            this.change(left * 100 / clientWidth);
+        },
+    },
+};
 </script>

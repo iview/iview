@@ -20,12 +20,20 @@ const router = new VueRouter({
     esModule: false,
     routes: [
         {
+            path: '/split',
+            component: (resolve) => require(['./routers/split.vue'], resolve)
+        },
+        {
             path: '/layout',
             component: (resolve) => require(['./routers/layout.vue'], resolve)
         },
         {
             path: '/affix',
             component: (resolve) => require(['./routers/affix.vue'], resolve)
+        },
+        {
+            path: '/anchor',
+            component: (resolve) => require(['./routers/anchor.vue'], resolve)
         },
         {
             path: '/grid',
@@ -206,6 +214,10 @@ const router = new VueRouter({
         {
             path: '/divider',
             component: (resolve) => require(['./routers/divider.vue'], resolve)
+        },
+        {
+            path: '/time',
+            component: (resolve) => require(['./routers/time.vue'], resolve)
         }
     ]
 });
