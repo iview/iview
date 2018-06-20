@@ -1,6 +1,6 @@
 <template>
     <div :class="classes" tabindex="0">
-        <a v-if="to" :href="to" class="ivu-cell-link" @click.prevent="handleClick">
+        <a v-if="to" :href="linkUrl" class="ivu-cell-link" @click.prevent="handleClick">
             <CellItem :title="title" :label="label" :extra="extra">
                 <slot name="icon" slot="icon"></slot>
                 <slot></slot>
@@ -24,11 +24,13 @@
 <script>
     import CellItem from './cell-item.vue';
     import Icon from '../icon/icon.vue';
+    import mixinsLink from '../../mixins/link';
 
     const prefixCls = 'ivu-cell';
 
     export default {
         name: 'Cell',
+        mixins: [ mixinsLink ],
         components: { CellItem, Icon },
         props: {
             name: {
@@ -77,17 +79,7 @@
                         [`${prefixCls}-with-link`]: this.to
                     }
                 ];
-            }
+            },
         },
-        methods: {
-            handleClick () {
-                const isRoute = this.$router;
-                if (isRoute) {
-                    this.replace ? this.$router.replace(this.to) : this.$router.push(this.to);
-                } else {
-                    window.location.href = this.to;
-                }
-            }
-        }
     }
 </script>
