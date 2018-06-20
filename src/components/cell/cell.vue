@@ -1,17 +1,19 @@
 <template>
-    <div :class="classes" tabindex="0">
+    <div :class="classes">
         <a v-if="to" :href="linkUrl" class="ivu-cell-link" @click.prevent="handleClick">
             <CellItem :title="title" :label="label" :extra="extra">
                 <slot name="icon" slot="icon"></slot>
-                <slot></slot>
+                <slot slot="default"></slot>
                 <slot name="extra" slot="extra"></slot>
+                <slot name="label" slot="label"></slot>
             </CellItem>
         </a>
         <div class="ivu-cell-link" v-else>
             <CellItem :title="title" :label="label" :extra="extra">
                 <slot name="icon" slot="icon"></slot>
-                <slot></slot>
+                <slot slot="default"></slot>
                 <slot name="extra" slot="extra"></slot>
+                <slot name="label" slot="label"></slot>
             </CellItem>
         </div>
         <div class="ivu-cell-arrow" v-if="to">

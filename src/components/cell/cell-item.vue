@@ -4,13 +4,11 @@
             <slot name="icon"></slot>
         </div>
         <div class="ivu-cell-main">
-            <div class="ivu-cell-title" v-if="title !== ''">{{ title }}</div>
-            <div class="ivu-cell-label" v-if="label !== ''">{{ label }}</div>
-            <slot></slot>
+            <div class="ivu-cell-title"><slot>{{ title }}</slot></div>
+            <div class="ivu-cell-label"><slot name="label">{{ label }}</slot></div>
         </div>
         <div class="ivu-cell-footer">
-            <span class="ivu-cell-extra" v-if="extra !== ''">{{ extra }}</span>
-            <slot name="extra" v-else></slot>
+            <span class="ivu-cell-extra"><slot name="extra">{{ extra }}</slot></span>
         </div>
     </div>
 </template>
