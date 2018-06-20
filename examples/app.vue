@@ -16,6 +16,7 @@ nav {
     <div class="container">
         <nav>
             <ul>
+                <li><router-link to="/split">Split</router-link></li>
                 <li><router-link to="/layout">Layout</router-link></li>
                 <li><router-link to="/affix">Affix</router-link></li>
                 <li><router-link to="/anchor">Anchor</router-link></li>
