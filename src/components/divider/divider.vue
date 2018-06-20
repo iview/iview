@@ -23,9 +23,9 @@
             },
             orientation: {
                 type: String,
-                default: 'left',
+                default: 'center',
                 validator (value) {
-                    return oneOf(value, ['left', 'right']);
+                    return oneOf(value, ['left', 'right', 'center']);
                 }
             },
             dashed: {
