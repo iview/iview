@@ -129,6 +129,21 @@
             <Button type="ghost">Small</Button>
             <Button type="ghost">Small</Button>
         </Button-group>
+        <h4>链接</h4>
+        <br><br>
+        <Button type="primary" href="https://www.baidu.com/">
+            <Icon type="chevron-left"></Icon>
+            百度
+        </Button>
+        <Button type="primary" href="https://www.google.com/">
+            Google
+            <Icon type="chevron-right"></Icon>
+        </Button>
+        <Button type="ghost" href="https://www.google.com/" size="large" target="_blank" icon="social-googleplus-outline">跳转</Button>
+        <Button type="ghost" href="https://www.google.com/" size="large" target="_blank" icon="social-googleplus-outline">跳转</Button>
+        <Button type="ghost" href="https://www.google.com/" size="large" icon="social-googleplus-outline"></Button>
+        <Button type="ghost" href="https://www.google.com/" size="large" icon="social-googleplus-outline"></Button>
+        <Button type="ghost" href="https://www.google.com/" size="large" iconCls="ivu-icon ivu-icon-social-googleplus-outline test"></Button>
     </div>
 </template>
 <script>
