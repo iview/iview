@@ -9,12 +9,13 @@
     </span>
 </template>
 <script>
+    import { oneOf } from '../../utils/assist';
     const prefixCls = 'ivu-badge';
 
     export default {
         name: 'Badge',
         props: {
-            count: [Number, String],
+            count: Number,
             dot: {
                 type: Boolean,
                 default: false
@@ -27,6 +28,18 @@
             showZero: {
                 type: Boolean,
                 default: false
+            },
+            text: {
+                type: String,
+                default: ''
+            },
+            status: {
+                validator (value) {
+                    return oneOf(value, ['success', 'processing', 'default', 'error', 'warning']);
+                }
+            },
+            offset: {
+                type: Array
             }
         },
         computed: {
@@ -46,6 +59,7 @@
                 ];
             },
             finalCount () {
+                if (this.text !== '') return this.text;
                 return parseInt(this.count) >= parseInt(this.overflowCount) ? `${this.overflowCount}+` : this.count;
             },
             badge () {
@@ -64,10 +78,12 @@
                     }
                 }
 
+                if (this.text !== '') status = true;
+
                 return status || this.showZero;
             },
             hasCount() {
-                if(this.count) return true;
+                if(this.count || this.text !== '') return true;
                 if(this.showZero && parseInt(this.count) === 0) return true;
                 else return false;
             },

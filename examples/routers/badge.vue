@@ -14,14 +14,17 @@
 </style>
 <template>
     <div>
-        <Badge dot :count="count">
+        <Badge :count="count">
             <a href="#" class="demo-badge"></a>
         </Badge>
         <Badge :count="0" showZero>
             <a href="#" class="demo-badge"></a>
         </Badge>
         <Button @click="setCount">set count</Button>
-        
+        <br><br>
+        <Badge text="hot">
+            <Button type="ghost">Hello</Button>
+        </Badge>
     </div>
 </template>
 <script>
@@ -29,7 +32,7 @@
         props: {},
         data () {
             return {
-                count: 50
+                count: 5
             };
         },
         methods: {
