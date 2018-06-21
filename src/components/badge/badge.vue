@@ -3,6 +3,10 @@
         <slot></slot>
         <sup :class="dotClasses" v-show="badge"></sup>
     </span>
+    <span v-else-if="status" :class="classes" class="ivu-badge-status" ref="badge">
+        <span :class="statusClasses"></span>
+        <span class="ivu-badge-status-text">{{ text }}</span>
+    </span>
     <span v-else :class="classes" ref="badge">
         <slot></slot>
         <sup v-if="hasCount" :class="countClasses" v-show="badge">{{ finalCount }}</sup>
@@ -55,6 +59,14 @@
                     {
                         [`${this.className}`]: !!this.className,
                         [`${prefixCls}-count-alone`]: this.alone
+                    }
+                ];
+            },
+            statusClasses () {
+                return [
+                    `${prefixCls}-status-dot`,
+                    {
+                        [`${prefixCls}-status-${this.status}`]: !!this.status
                     }
                 ];
             },

@@ -53,4 +53,62 @@
         z-index: 10;
         box-shadow: 0 0 0 1px #fff;
     }
+
+    &-status {
+        line-height: inherit;
+        vertical-align: baseline;
+
+        &-dot {
+            width: 6px;
+            height: 6px;
+            display: inline-block;
+            border-radius: 50%;
+            vertical-align: middle;
+            position: relative;
+            top: -1px;
+        }
+        &-success {
+            background-color: @success-color;
+        }
+        &-processing {
+            background-color: @processing-color;
+            position: relative;
+            &:after {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                border: 1px solid @processing-color;
+                content: '';
+                animation: aniStatusProcessing 1.2s infinite ease-in-out;
+            }
+        }
+        &-default {
+            background-color: @normal-color;
+        }
+        &-error {
+            background-color: @error-color;
+        }
+        &-warning {
+            background-color: @warning-color;
+        }
+        &-text {
+            color: @text-color;
+            font-size: @font-size-small;
+            margin-left: 8px;
+        }
+    }
+}
+
+@keyframes aniStatusProcessing {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(2.4);
+        opacity: 0;
+    }
 }
