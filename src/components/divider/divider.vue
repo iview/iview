@@ -50,8 +50,8 @@
             slotClasses() {
                 return [
                     `${prefixCls}-inner-text`,
-                ]
+                ];
             }
         }
-    }
+    };
 </script>

@@ -70,7 +70,7 @@
         data () {
             return {
                 prefixCls: prefixCls
-            }
+            };
         },
         computed: {
             classes () {
@@ -89,5 +89,5 @@
                 this.cellGroup.handleClick(this.name);
             }
         }
-    }
+    };
 </script>
