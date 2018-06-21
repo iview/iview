@@ -14,15 +14,21 @@
         > .@{collapse-prefix-cls}-header{
             height: 38px;
             line-height: 38px;
-            padding-left: 32px;
+            padding-left: 16px;
             color: #666;
             cursor: pointer;
             position: relative;
+            border-bottom: 1px solid transparent;
+            transition: all @transition-time @ease-in-out;
 
             > i{
                 transition: transform @transition-time @ease-in-out;
+                margin-right: 14px;
             }
         }
+    }
+    &  > &-item&-item-active > &-header{
+        border-bottom: 1px solid @border-color-base;
     }
     &  > &-item&-item-active > &-header > i{
         transform: rotate(90deg);
