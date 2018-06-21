@@ -7,13 +7,23 @@
             @mousemove="handleMousemove(item, $event)"
             :key="item"
             @click="handleClick(item)">
-            <div :class="starCls(item)" v-if="!character">
+            <template v-if="!showCharacter">
                 <span :class="[prefixCls + '-star-content']" type="half"></span>
-            </div>
-            <div :class="starCls(item)" v-else>
-                <span :class="[prefixCls + '-star-first']" type="half">{{character}}</span>
-                <span :class="[prefixCls + '-star-second']">{{character}}</span>
-            </div>
+            </template>
+            <template v-else>
+                <template v-if="character !== ''">
+                    <span :class="[prefixCls + '-star-first']" type="half">{{ character }}</span>
+                    <span :class="[prefixCls + '-star-second']">{{ character }}</span>
+                </template>
+                <template v-else>
+                    <span :class="[prefixCls + '-star-first']" type="half">
+                        <i :class="iconClasses" type="half"></i>
+                    </span>
+                    <span :class="[prefixCls + '-star-second']">
+                        <i :class="iconClasses"></i>
+                    </span>
+                </template>
+            </template>
         </div>
         <div :class="[prefixCls + '-text']" v-if="showText" v-show="currentValue > 0">
             <slot><span>{{ currentValue }}</span> <span v-if="currentValue <= 1">{{ t('i.rate.star') }}</span><span v-else>{{ t('i.rate.stars') }}</span></slot>
@@ -24,11 +34,14 @@
     import Locale from '../../mixins/locale';
     import Emitter from '../../mixins/emitter';
 
+    import Icon from '../icon/icon.vue';
+
     const prefixCls = 'ivu-rate';
 
     export default {
         name: 'Rate',
         mixins: [ Locale, Emitter ],
+        components: { Icon },
         props: {
             count: {
                 type: Number,
@@ -60,6 +73,14 @@
             character: {
                 type: String,
                 default: ''
+            },
+            icon: {
+                type: String,
+                default: ''
+            },
+            customIcon: {
+                type: String,
+                default: ''
             }
         },
         data () {
@@ -79,6 +100,18 @@
                         [`${prefixCls}-disabled`]: this.disabled
                     }
                 ];
+            },
+            iconClasses () {
+                return [
+                    `ivu-icon`,
+                    {
+                        [`ivu-icon-${this.icon}`]: this.icon !== '',
+                        [`${this.customIcon}`]: this.customIcon !== '',
+                    }
+                ];
+            },
+            showCharacter () {
+                return this.character !== '' || this.icon !== '' || this.customIcon !== '';
             }
         },
         watch: {
@@ -107,8 +140,8 @@
 
                 return [
                     {   
-                        [`${prefixCls}-star`]: !this.character,
-                        [`${prefixCls}-star-chart`]: this.character,
+                        [`${prefixCls}-star`]: !this.showCharacter,
+                        [`${prefixCls}-star-chart`]: this.showCharacter,
                         [`${prefixCls}-star-full`]: (!isLast && full) || (isLast && !this.isHalf),
                         [`${prefixCls}-star-half`]: isLast && this.isHalf,
                         [`${prefixCls}-star-zero`]: !full
