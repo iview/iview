@@ -4,7 +4,7 @@
 </template>
 <script>
     import Emitter from '../../mixins/emitter';
-    import { findComponentUpward, oneOf } from '../../utils/assist';
+    import { findComponentUpward } from '../../utils/assist';
     const prefixCls = 'ivu-menu';
     import mixin from './mixin';
     import mixinsLink from '../../mixins/link';
@@ -21,20 +21,6 @@
                 type: Boolean,
                 default: false
             },
-            to: {
-                type: [Object, String]
-            },
-            replace: {
-                type: Boolean,
-                default: false
-            },
-            target: {
-                type: String,
-                validator (value) {
-                    return oneOf(value, ['_blank', '_self', '_parent', '_top']);
-                },
-                default: '_self'
-            }
         },
         data () {
             return {

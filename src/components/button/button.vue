@@ -68,20 +68,6 @@
                 type: Boolean,
                 default: false
             },
-            to: {
-                type: [Object, String]
-            },
-            replace: {
-                type: Boolean,
-                default: false
-            },
-            target: {
-                type: String,
-                validator (value) {
-                    return oneOf(value, ['_blank', '_self', '_parent', '_top']);
-                },
-                default: '_self'
-            }
         },
         data () {
             return {

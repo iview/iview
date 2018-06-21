@@ -15,26 +15,12 @@
 <script>
     import mixinsLink from '../../mixins/link';
     const prefixCls = 'ivu-breadcrumb-item';
-    import { oneOf } from '../../utils/assist';
 
     export default {
         name: 'BreadcrumbItem',
         mixins: [ mixinsLink ],
         props: {
-            to: {
-                type: [Object, String]
-            },
-            replace: {
-                type: Boolean,
-                default: false
-            },
-            target: {
-                type: String,
-                validator (value) {
-                    return oneOf(value, ['_blank', '_self', '_parent', '_top']);
-                },
-                default: '_self'
-            }
+
         },
         data () {
             return {
