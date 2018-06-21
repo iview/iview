@@ -11,18 +11,14 @@
                 <span :class="[prefixCls + '-star-content']" type="half"></span>
             </template>
             <template v-else>
-                <template v-if="character !== ''">
-                    <span :class="[prefixCls + '-star-first']" type="half">{{ character }}</span>
-                    <span :class="[prefixCls + '-star-second']">{{ character }}</span>
-                </template>
-                <template v-else>
-                    <span :class="[prefixCls + '-star-first']" type="half">
-                        <i :class="iconClasses" type="half"></i>
-                    </span>
-                    <span :class="[prefixCls + '-star-second']">
-                        <i :class="iconClasses"></i>
-                    </span>
-                </template>
+                <span :class="[prefixCls + '-star-first']" type="half">
+                    <template v-if="character !== ''">{{ character }}</template>
+                    <i v-else :class="iconClasses" type="half"></i>
+                </span>
+                <span :class="[prefixCls + '-star-second']">
+                    <template v-if="character !== ''">{{ character }}</template>
+                    <i v-else :class="iconClasses"></i>
+                </span>
             </template>
         </div>
         <div :class="[prefixCls + '-text']" v-if="showText" v-show="currentValue > 0">
