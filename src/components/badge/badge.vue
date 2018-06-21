@@ -42,6 +42,11 @@
                     return oneOf(value, ['success', 'processing', 'default', 'error', 'warning']);
                 }
             },
+            type: {
+                validator (value) {
+                    return oneOf(value, ['success', 'primary', 'normal', 'error', 'warning', 'info']);
+                }
+            },
             offset: {
                 type: Array
             }
@@ -58,7 +63,8 @@
                     `${prefixCls}-count`,
                     {
                         [`${this.className}`]: !!this.className,
-                        [`${prefixCls}-count-alone`]: this.alone
+                        [`${prefixCls}-count-alone`]: this.alone,
+                        [`${prefixCls}-count-${this.type}`]: !!this.type
                     }
                 ];
             },

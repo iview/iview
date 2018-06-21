@@ -52,6 +52,29 @@
                 <a href="//iviewui.com">我是一个链接</a>
             </Badge>
         </div>
+        <div>
+            <Badge :count="count" type="primary">
+                <a href="#" class="demo-badge"></a>
+            </Badge>
+            <Badge :count="count" type="success">
+                <a href="#" class="demo-badge"></a>
+            </Badge>
+            <Badge :count="count" type="normal">
+                <a href="#" class="demo-badge"></a>
+            </Badge>
+            <Badge :count="count" type="info">
+                <a href="#" class="demo-badge"></a>
+            </Badge>
+            <Badge :count="count" type="error">
+                <a href="#" class="demo-badge"></a>
+            </Badge>
+            <Badge :count="count" type="warning">
+                <a href="#" class="demo-badge"></a>
+            </Badge>
+            <Badge :count="count">
+                <a href="#" class="demo-badge"></a>
+            </Badge>
+        </div>
     </div>
 </template>
 <script>
