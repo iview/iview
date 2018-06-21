@@ -1,6 +1,6 @@
 <template>
     <span>
-        <a v-if="to" :href="linkUrl" :class="linkClasses" @click.prevent="handleClick">
+        <a v-if="to" :href="linkUrl" :target="target" :class="linkClasses" @click="handleCheckClick">
             <slot></slot>
         </a>
         <span v-else :class="linkClasses">
@@ -15,6 +15,7 @@
 <script>
     import mixinsLink from '../../mixins/link';
     const prefixCls = 'ivu-breadcrumb-item';
+    import { oneOf } from '../../utils/assist';
 
     export default {
         name: 'BreadcrumbItem',
@@ -26,6 +27,13 @@
             replace: {
                 type: Boolean,
                 default: false
+            },
+            target: {
+                type: String,
+                validator (value) {
+                    return oneOf(value, ['_blank', '_self', '_parent', '_top']);
+                },
+                default: '_self'
             }
         },
         data () {
