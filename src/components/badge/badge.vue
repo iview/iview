@@ -5,7 +5,7 @@
     </span>
     <span v-else :class="classes" ref="badge">
         <slot></slot>
-        <sup v-if="count" :class="countClasses" v-show="badge">{{ finalCount }}</sup>
+        <sup v-if="hasCount" :class="countClasses" v-show="badge">{{ finalCount }}</sup>
     </span>
 </template>
 <script>
@@ -23,7 +23,11 @@
                 type: [Number, String],
                 default: 99
             },
-            className: String
+            className: String,
+            showZero: {
+                type: Boolean,
+                default: false
+            }
         },
         computed: {
             classes () {
@@ -60,7 +64,12 @@
                     }
                 }
 
-                return status;
+                return status || this.showZero;
+            },
+            hasCount() {
+                if(this.count) return true;
+                if(this.showZero && parseInt(this.count) === 0) return true;
+                else return false;
             },
             alone () {
                 return this.$slots.default === undefined;
