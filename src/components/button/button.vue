@@ -107,14 +107,7 @@
             handleClickLink (event) {
                 this.$emit('click', event);
 
-                if (this.to) {
-                    if (this.target === '_blank') {
-                        return false;
-                    } else {
-                        event.preventDefault();
-                        this.handleClick();
-                    }
-                }
+                this.handleCheckClick(event);
             }
         },
         mounted () {

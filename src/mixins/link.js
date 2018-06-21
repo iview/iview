@@ -13,6 +13,16 @@ export default {
             } else {
                 window.location.href = this.to;
             }
+        },
+        handleCheckClick (event) {
+            if (this.to) {
+                if (this.target === '_blank') {
+                    return false;
+                } else {
+                    event.preventDefault();
+                    this.handleClick();
+                }
+            }
         }
     }
 };
