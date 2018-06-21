@@ -1,7 +1,7 @@
 <template>
     <span v-if="dot" :class="classes" ref="badge">
         <slot></slot>
-        <sup :class="dotClasses" v-show="badge"></sup>
+        <sup :class="dotClasses" :style="styles" v-show="badge"></sup>
     </span>
     <span v-else-if="status" :class="classes" class="ivu-badge-status" ref="badge">
         <span :class="statusClasses"></span>
@@ -9,7 +9,7 @@
     </span>
     <span v-else :class="classes" ref="badge">
         <slot></slot>
-        <sup v-if="hasCount" :class="countClasses" v-show="badge">{{ finalCount }}</sup>
+        <sup v-if="hasCount" :style="styles" :class="countClasses" v-show="badge">{{ finalCount }}</sup>
     </span>
 </template>
 <script>
@@ -69,6 +69,14 @@
                         [`${prefixCls}-status-${this.status}`]: !!this.status
                     }
                 ];
+            },
+            styles () {
+                const style = {};
+                if (this.offset && this.offset.length === 2) {
+                    style['margin-top'] = `${this.offset[0]}px`;
+                    style['margin-right'] = `${this.offset[1]}px`;
+                }
+                return style;
             },
             finalCount () {
                 if (this.text !== '') return this.text;
