@@ -1,9 +1,21 @@
 <template>
+    <a
+        v-if="to"
+        :class="classes"
+        :disabled="disabled"
+        :href="linkUrl"
+        :target="target"
+        @click="handleClickLink">
+        <Icon class="ivu-load-loop" type="load-c" v-if="loading"></Icon>
+        <Icon :type="icon" :custom="customIcon" v-if="(icon || customIcon) && !loading"></Icon>
+        <span v-if="showSlot" ref="slot"><slot></slot></span>
+    </a>
     <button
+        v-else
         :type="htmlType"
         :class="classes"
         :disabled="disabled"
-        @click="handleClick">
+        @click="handleClickLink">
         <Icon class="ivu-load-loop" type="load-c" v-if="loading"></Icon>
         <Icon :type="icon" :custom="customIcon" v-if="(icon || customIcon) && !loading"></Icon>
         <span v-if="showSlot" ref="slot"><slot></slot></span>
@@ -12,11 +24,13 @@
 <script>
     import Icon from '../icon';
     import { oneOf } from '../../utils/assist';
+    import mixinsLink from '../../mixins/link';
 
     const prefixCls = 'ivu-btn';
 
     export default {
         name: 'Button',
+        mixins: [ mixinsLink ],
         components: { Icon },
         props: {
             type: {
@@ -53,6 +67,20 @@
             long: {
                 type: Boolean,
                 default: false
+            },
+            to: {
+                type: [Object, String]
+            },
+            replace: {
+                type: Boolean,
+                default: false
+            },
+            target: {
+                type: String,
+                validator (value) {
+                    return oneOf(value, ['_blank', '_self', '_parent', '_top']);
+                },
+                default: '_self'
             }
         },
         data () {
@@ -76,8 +104,17 @@
             }
         },
         methods: {
-            handleClick (event) {
+            handleClickLink (event) {
                 this.$emit('click', event);
+
+                if (this.to) {
+                    if (this.target === '_blank') {
+                        return false;
+                    } else {
+                        event.preventDefault();
+                        this.handleClick();
+                    }
+                }
             }
         },
         mounted () {
