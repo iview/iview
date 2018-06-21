@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Button to="/menu">Open Menu</Button>
+        <Button to="/menu" @click="hc">Open Menu</Button>
         <Button to="/menu" replace>Open Menu Replace</Button>
         <Button to="//iviewui.com" target="_blank">Open iView</Button>
         <hr>
@@ -146,7 +146,11 @@
 </template>
 <script>
     export default {
-
+        methods: {
+            hc (data) {
+                console.log(data);
+            }
+        }
     }
 </script>
 <style>
