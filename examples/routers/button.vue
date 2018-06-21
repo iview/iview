@@ -15,7 +15,6 @@
         line-height: 1;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        vertical-align: middle;
     }
     .i-icon-accessory:before { content: "\e6dd"; }
 
@@ -297,6 +296,10 @@
         <Icon custom="i-icon i-icon-video" size="24" color="#ff6600" />
         <Icon custom="i-icon i-icon-time" />
         <Icon type="ionic" />
+        <Button icon="ionic">Default</Button>
+        <Button custom-icon="i-icon i-icon-search">Default</Button>
+        <Button icon="ionic" shape="circle"></Button>
+        <Button custom-icon="i-icon i-icon-video" shape="circle"></Button>
         <hr>
         <Button>Default</Button>
         <Button type="primary">Primary</Button>

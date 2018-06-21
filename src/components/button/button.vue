@@ -5,7 +5,7 @@
         :disabled="disabled"
         @click="handleClick">
         <Icon class="ivu-load-loop" type="load-c" v-if="loading"></Icon>
-        <Icon :type="icon" v-if="icon && !loading"></Icon>
+        <Icon :type="icon" :custom="customIcon" v-if="(icon || customIcon) && !loading"></Icon>
         <span v-if="showSlot" ref="slot"><slot></slot></span>
     </button>
 </template>
@@ -42,7 +42,14 @@
                     return oneOf(value, ['button', 'submit', 'reset']);
                 }
             },
-            icon: String,
+            icon: {
+                type: String,
+                default: ''
+            },
+            customIcon: {
+                type: String,
+                default: ''
+            },
             long: {
                 type: Boolean,
                 default: false
@@ -63,7 +70,7 @@
                         [`${prefixCls}-${this.shape}`]: !!this.shape,
                         [`${prefixCls}-${this.size}`]: !!this.size,
                         [`${prefixCls}-loading`]: this.loading != null && this.loading,
-                        [`${prefixCls}-icon-only`]: !this.showSlot && (!!this.icon || this.loading)
+                        [`${prefixCls}-icon-only`]: !this.showSlot && (!!this.icon || !!this.customIcon || this.loading)
                     }
                 ];
             }
