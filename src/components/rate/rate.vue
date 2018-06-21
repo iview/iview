@@ -5,8 +5,15 @@
             v-for="item in count"
             :class="starCls(item)"
             @mousemove="handleMousemove(item, $event)"
+            :key="item"
             @click="handleClick(item)">
-            <span :class="[prefixCls + '-star-content']" type="half"></span>
+            <div :class="starCls(item)" v-if="!character">
+                <span :class="[prefixCls + '-star-content']" type="half"></span>
+            </div>
+            <div :class="starCls(item)" v-else>
+                <span :class="[prefixCls + '-star-first']" type="half">{{character}}</span>
+                <span :class="[prefixCls + '-star-second']">{{character}}</span>
+            </div>
         </div>
         <div :class="[prefixCls + '-text']" v-if="showText" v-show="currentValue > 0">
             <slot><span>{{ currentValue }}</span> <span v-if="currentValue <= 1">{{ t('i.rate.star') }}</span><span v-else>{{ t('i.rate.stars') }}</span></slot>
@@ -49,6 +56,10 @@
             clearable: {
                 type: Boolean,
                 default: false
+            },
+            character: {
+                type: String,
+                default: ''
             }
         },
         data () {
@@ -95,8 +106,9 @@
                 }
 
                 return [
-                    `${prefixCls}-star`,
-                    {
+                    {   
+                        [`${prefixCls}-star`]: !this.character,
+                        [`${prefixCls}-star-chart`]: this.character,
                         [`${prefixCls}-star-full`]: (!isLast && full) || (isLast && !this.isHalf),
                         [`${prefixCls}-star-half`]: isLast && this.isHalf,
                         [`${prefixCls}-star-zero`]: !full
