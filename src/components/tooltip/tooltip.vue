@@ -69,7 +69,7 @@
                 default: 'dark'
             },
             maxWidth: {
-                type: Number
+                type: [String, Number]
             }
         },
         data () {

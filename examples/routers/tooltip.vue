@@ -7,7 +7,7 @@
             <Button @click="handleChange">change</Button>
         </Tooltip>
         <Button @click="handleChange">change</Button>
-        <Poptip title="Title" content="content">
+        <Poptip title="Title" transfer width="250" content="我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长">
             <Button>Click</Button>
         </Poptip>
     </div>
