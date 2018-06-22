@@ -28,19 +28,19 @@
     }
 
     &-color{
-        &-red{
+        &-error{
             color: @error-color !important;
             border-color: @error-color;
         }
-        &-green{
+        &-success{
             color: @success-color !important;
             border-color: @success-color;
         }
-        &-blue{
+        &-primary{
             color: @link-color !important;
             border-color: @link-color;
         }
-        &-yellow{
+        &-warning{
             color: @warning-color !important;
             border-color: @warning-color;
         }
@@ -106,7 +106,7 @@
             }
         }
 
-        &.@{tag-prefix-cls}-blue {
+        &.@{tag-prefix-cls}-primary {
             color: @link-color !important;
             border: 1px solid @link-color !important;
 
@@ -117,7 +117,7 @@
                 color: @link-color !important;
             }
         }
-        &.@{tag-prefix-cls}-green {
+        &.@{tag-prefix-cls}-success {
             color: @success-color !important;
             border: 1px solid @success-color !important;
 
@@ -128,7 +128,7 @@
                 color: @success-color !important;
             }
         }
-        &.@{tag-prefix-cls}-yellow {
+        &.@{tag-prefix-cls}-warning {
             color: @warning-color !important;
             border: 1px solid @warning-color !important;
 
@@ -139,7 +139,7 @@
                 color: @warning-color !important;
             }
         }
-        &.@{tag-prefix-cls}-red {
+        &.@{tag-prefix-cls}-error {
             color: @error-color !important;
             border: 1px solid @error-color !important;
 
@@ -186,10 +186,10 @@
         }
     }
 
-    &-blue,
-    &-green,
-    &-yellow,
-    &-red {
+    &-primary,
+    &-success,
+    &-warning,
+    &-error {
         border: 0;
         &,
         a,
@@ -200,27 +200,47 @@
         }
     }
 
-    &-blue,
-    &-blue&-dot &-dot-inner
+    &-primary,
+    &-primary&-dot &-dot-inner
     {
         background: @link-color;
     }
 
-    &-green,
-    &-green&-dot &-dot-inner
+    &-success,
+    &-success&-dot &-dot-inner
     {
         background: @success-color;
     }
 
-    &-yellow,
-    &-yellow&-dot &-dot-inner
+    &-warning,
+    &-warning&-dot &-dot-inner
     {
         background: @warning-color;
     }
 
-    &-red,
-    &-red&-dot &-dot-inner
+    &-error,
+    &-error&-dot &-dot-inner
     {
         background: @error-color;
     }
+
+    @colors: pink, magenta, red, volcano, orange, yellow, gold, cyan, lime, green, blue, geekblue, purple;
+
+    .make-color-classes(@i: length(@colors)) when (@i > 0) {
+        .make-color-classes(@i - 1);
+        @color: extract(@colors, @i);
+        @lightColor: "@{color}-1";
+        @lightBorderColor: "@{color}-3";
+        @darkColor: "@{color}-6";
+        &-@{color} {
+            line-height: 20px;
+            background: @@lightColor;
+            border-color: @@lightBorderColor;
+            .@{tag-prefix-cls}-text{
+                color: @@darkColor !important;
+            }
+        }
+    }
+
+    .make-color-classes();
 }

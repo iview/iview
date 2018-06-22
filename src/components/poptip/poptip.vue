@@ -168,7 +168,7 @@
             },
             contentPaddingStyle () {
                 const styles = {};
-                if (!!this.padding) styles['padding'] = this.padding;
+                if (this.padding !== '') styles['padding'] = this.padding;
                 return styles;
             }
         },
