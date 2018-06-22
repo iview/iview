@@ -103,6 +103,7 @@
     &-item-jump-next {
         display: inline-block;
         vertical-align: middle;
+        user-select: none;
         //float: left;
         min-width: @btn-circle-size;
         height: @btn-circle-size;
@@ -223,6 +224,10 @@
         span{
             padding: 0 8px 0 2px;
         }
+    }
+
+    &-custom-text, &-custom-text:hover{
+        border-color: transparent;
     }
 }
 

@@ -33,7 +33,7 @@
             :title="t('i.page.prev')"
             :class="prevClasses"
             @click="prev">
-            <a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a>
+            <a><template v-if="prevText !== ''">{{ prevText }}</template><i v-else class="ivu-icon ivu-icon-ios-arrow-left"></i></a>
         </li>
         <li title="1" :class="firstPageClasses" @click="changePage(1)"><a>1</a></li>
         <li :title="t('i.page.prev5')" v-if="currentPage - 3 > 1" :class="[prefixCls + '-item-jump-prev']" @click="fastPrev"><a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a></li>
@@ -48,7 +48,7 @@
             :title="t('i.page.next')"
             :class="nextClasses"
             @click="next">
-            <a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a>
+            <a><template v-if="nextText !== ''">{{ nextText }}</template><i v-else class="ivu-icon ivu-icon-ios-arrow-right"></i></a>
         </li>
         <Options
             :show-sizer="showSizer"
@@ -132,6 +132,14 @@
             },
             styles: {
                 type: Object
+            },
+            prevText: {
+                type: String,
+                default: ''
+            },
+            nextText: {
+                type: String,
+                default: ''
             }
         },
         data () {
@@ -188,7 +196,8 @@
                 return [
                     `${prefixCls}-prev`,
                     {
-                        [`${prefixCls}-disabled`]: this.currentPage === 1
+                        [`${prefixCls}-disabled`]: this.currentPage === 1,
+                        [`${prefixCls}-custom-text`]: this.prevText !== ''
                     }
                 ];
             },
@@ -196,7 +205,8 @@
                 return [
                     `${prefixCls}-next`,
                     {
-                        [`${prefixCls}-disabled`]: this.currentPage === this.allPages
+                        [`${prefixCls}-disabled`]: this.currentPage === this.allPages,
+                        [`${prefixCls}-custom-text`]: this.nextText !== ''
                     }
                 ];
             },

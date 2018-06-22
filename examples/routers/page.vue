@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Page :total="total" show-sizer show-elevator show-total transfer :current.sync="current"></Page>
+        <Page prev-text="上一页" next-text="下一页" :total="total" show-sizer show-elevator show-total transfer :current.sync="current"></Page>
         {{ current }}
         <Button type="primary" @click="subject">- 1</Button>
         <Button type="primary" @click="change">Change</Button>
