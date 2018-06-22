@@ -1,9 +1,9 @@
 <template>
-    <div>
-        <Tooltip always placement="top" transfer :content="text" :delay="1000" theme="light">
+    <div style="margin: 200px;">
+        <Tooltip always placement="top-end" transfer :content="text" :delay="1000" theme="light">
             <Button @click="disabled = true">延时1秒显示</Button>
         </Tooltip>
-        <Tooltip placement="top" transfer :content="text">
+        <Tooltip always transfer :max-width="200" content="我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长">
             <Button @click="handleChange">change</Button>
         </Tooltip>
         <Button @click="handleChange">change</Button>

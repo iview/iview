@@ -14,7 +14,7 @@
                 v-transfer-dom>
                 <div :class="[prefixCls + '-content']">
                     <div :class="[prefixCls + '-arrow']"></div>
-                    <div :class="[prefixCls + '-inner']"><slot name="content">{{ content }}</slot></div>
+                    <div :class="innerClasses" :style="innerStyles"><slot name="content">{{ content }}</slot></div>
                 </div>
             </div>
         </transition>
@@ -67,12 +67,30 @@
                     return oneOf(value, ['dark', 'light']);
                 },
                 default: 'dark'
+            },
+            maxWidth: {
+                type: Number
             }
         },
         data () {
             return {
                 prefixCls: prefixCls
             };
+        },
+        computed: {
+            innerStyles () {
+                const styles = {};
+                if (this.maxWidth) styles['max-width'] = `${this.maxWidth}px`;
+                return styles;
+            },
+            innerClasses () {
+                return [
+                    `${prefixCls}-inner`,
+                    {
+                        [`${prefixCls}-inner-with-width`]: !!this.maxWidth
+                    }
+                ];
+            }
         },
         watch: {
             content () {
