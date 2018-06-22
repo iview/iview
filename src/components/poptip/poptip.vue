@@ -38,7 +38,7 @@
                     <div :class="[prefixCls + '-inner']" v-if="!confirm">
                         <div :class="[prefixCls + '-title']" v-if="showTitle" ref="title"><slot name="title"><div :class="[prefixCls + '-title-inner']">{{ title }}</div></slot></div>
                         <div :class="[prefixCls + '-body']">
-                            <div :class="[prefixCls + '-body-content']"><slot name="content"><div :class="[prefixCls + '-body-content-inner']">{{ content }}</div></slot></div>
+                            <div :class="contentClasses"><slot name="content"><div :class="[prefixCls + '-body-content-inner']">{{ content }}</div></slot></div>
                         </div>
                     </div>
                 </div>
@@ -100,6 +100,10 @@
             },
             popperClass: {
                 type: String
+            },
+            wordWrap: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -149,6 +153,14 @@
                 } else {
                     return this.cancelText;
                 }
+            },
+            contentClasses () {
+                return [
+                    `${prefixCls}-body-content`,
+                    {
+                        [`${prefixCls}-body-content-word-wrap`]: this.wordWrap
+                    }
+                ];
             }
         },
         methods: {
