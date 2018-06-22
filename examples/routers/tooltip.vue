@@ -7,7 +7,7 @@
             <Button @click="handleChange">change</Button>
         </Tooltip>
         <Button @click="handleChange">change</Button>
-        <Poptip title="Title" transfer width="250" word-wrap content="我的文本超级，无敌,长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长">
+        <Poptip title="Title" transfer padding="0" width="250" word-wrap content="我的文本超级，无敌,长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长">
             <Button>Click</Button>
         </Poptip>
     </div>

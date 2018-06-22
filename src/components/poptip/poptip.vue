@@ -36,8 +36,8 @@
                         </div>
                     </div>
                     <div :class="[prefixCls + '-inner']" v-if="!confirm">
-                        <div :class="[prefixCls + '-title']" v-if="showTitle" ref="title"><slot name="title"><div :class="[prefixCls + '-title-inner']">{{ title }}</div></slot></div>
-                        <div :class="[prefixCls + '-body']">
+                        <div :class="[prefixCls + '-title']" :style="contentPaddingStyle" v-if="showTitle" ref="title"><slot name="title"><div :class="[prefixCls + '-title-inner']">{{ title }}</div></slot></div>
+                        <div :class="[prefixCls + '-body']" :style="contentPaddingStyle">
                             <div :class="contentClasses"><slot name="content"><div :class="[prefixCls + '-body-content-inner']">{{ content }}</div></slot></div>
                         </div>
                     </div>
@@ -104,6 +104,10 @@
             wordWrap: {
                 type: Boolean,
                 default: false
+            },
+            // default by css: 8px 16px
+            padding: {
+                type: String
             }
         },
         data () {
@@ -161,6 +165,11 @@
                         [`${prefixCls}-body-content-word-wrap`]: this.wordWrap
                     }
                 ];
+            },
+            contentPaddingStyle () {
+                const styles = {};
+                if (!!this.padding) styles['padding'] = this.padding;
+                return styles;
             }
         },
         methods: {
