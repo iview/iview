@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Tooltip always placement="top" transfer :content="text" :delay="1000" theme="dark">
+        <Tooltip always placement="top" transfer :content="text" :delay="1000" theme="light">
             <Button @click="disabled = true">延时1秒显示</Button>
         </Tooltip>
         <Tooltip placement="top" transfer :content="text">
