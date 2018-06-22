@@ -3,6 +3,7 @@
 @tooltip-max-width: 250px;
 @tooltip-arrow-width: 5px;
 @tooltip-distance: @tooltip-arrow-width - 1 + 4;
+@poptip-arrow-color: hsla(0,0%,85%,.5);
 
 .@{tooltip-prefix-cls} {
     display: inline-block;
@@ -15,6 +16,10 @@
     &-popper{
         .popper(@tooltip-arrow, @tooltip-arrow-width, @tooltip-distance, @tooltip-bg);
     }
+    &-light&-popper{
+        .popper(@tooltip-arrow, @tooltip-arrow-width, @tooltip-distance, @poptip-arrow-color);
+    }
+
 
     &-inner{
         max-width: @tooltip-max-width;
@@ -27,6 +32,11 @@
         border-radius: @border-radius-small;
         box-shadow: @shadow-base;
         white-space: nowrap;
+    }
+
+    &-light &-inner{
+        background-color: #fff;
+        color: @text-color;
     }
 
     &-arrow{

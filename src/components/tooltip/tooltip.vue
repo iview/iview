@@ -5,7 +5,7 @@
         </div>
         <transition name="fade">
             <div
-                :class="[prefixCls + '-popper']"
+                :class="[prefixCls + '-popper', prefixCls + '-' + theme]"
                 ref="popper"
                 v-show="!disabled && (visible || always)"
                 @mouseenter="handleShowPopper"
@@ -61,6 +61,12 @@
             transfer: {
                 type: Boolean,
                 default: false
+            },
+            theme: {
+                validator (value) {
+                    return oneOf(value, ['dark', 'light']);
+                },
+                default: 'dark'
             }
         },
         data () {
