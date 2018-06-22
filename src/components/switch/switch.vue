@@ -45,6 +45,10 @@
             },
             name: {
                 type: String
+            },
+            loading: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -59,7 +63,8 @@
                     {
                         [`${prefixCls}-checked`]: this.currentValue === this.trueValue,
                         [`${prefixCls}-disabled`]: this.disabled,
-                        [`${prefixCls}-${this.size}`]: !!this.size
+                        [`${prefixCls}-${this.size}`]: !!this.size,
+                        [`${prefixCls}-loading`]: this.loading,
                     }
                 ];
             },
@@ -70,7 +75,7 @@
         methods: {
             toggle (event) {
                 event.preventDefault();
-                if (this.disabled) {
+                if (this.disabled || this.loading) {
                     return false;
                 }
 
