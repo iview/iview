@@ -24,6 +24,7 @@
         user-select: none;
         cursor: pointer;
         font-family: Arial;
+        font-weight: 500;
         border: 1px solid @border-color-base;
         border-radius: @btn-border-radius;
         //transition: all @transition-time @ease-in-out;
@@ -44,11 +45,10 @@
         }
 
         &-active {
-            background-color: @primary-color;
             border-color: @primary-color;
 
             a, &:hover a {
-                color: #fff;
+                color: @primary-color;
             }
         }
     }
@@ -89,16 +89,12 @@
     }
 
     &-prev{
-        margin-right: 8px;
+        margin-right: 4px;
     }
 
     &-item-jump-prev,
     &-item-jump-next{
         margin-right: 4px;
-    }
-
-    &-next{
-        margin-left: 4px;
     }
 
     &-prev,
@@ -119,6 +115,10 @@
         border: 1px solid @border-color-base;
         border-radius: @btn-border-radius;
         transition: all @transition-time @ease-in-out;
+    }
+    &-item-jump-prev,
+    &-item-jump-next{
+        border-color: transparent;
     }
 
     &-prev,

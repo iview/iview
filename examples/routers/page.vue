@@ -24,6 +24,14 @@
         <div style="margin:10px 0px">
             <Page :total="500" show-sizer transfer ></Page>
         </div>
+        <div style="margin: 10px 0px">
+            <Page :total="40" size="small"></Page>
+            <br><br>
+            <Page :total="40" size="small" show-elevator show-sizer></Page>
+            <br><br>
+            <Page :total="40" size="small" show-total></Page>
+            <br><br>
+        </div>
     </div>
 </template>
 <script>
