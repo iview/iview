@@ -1,7 +1,7 @@
 <template>
     <div :class="classes">
         <button type="button" :class="arrowClasses" class="left" @click="arrowEvent(-1)">
-            <Icon type="chevron-left"></Icon>
+            <Icon type="ios-arrow-back"></Icon>
         </button>
         <div :class="[prefixCls + '-list']">
             <div :class="[prefixCls + '-track', showCopyTrack ? '' : 'higher']" :style="trackStyles" ref="originTrack">
@@ -11,7 +11,7 @@
             </div>
         </div>
         <button type="button" :class="arrowClasses" class="right" @click="arrowEvent(1)">
-            <Icon type="chevron-right"></Icon>
+            <Icon type="ios-arrow-forward"></Icon>
         </button>
         <ul :class="dotsClasses">
             <template v-for="n in slides.length">
