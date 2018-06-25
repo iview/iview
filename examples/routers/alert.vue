@@ -46,9 +46,11 @@
         </Alert>
         <Alert show-icon closable>
             自定义图标
-            <Icon type="ios-lightbulb-outline" slot="icon"></Icon>
+            <Icon type="ios-bulb-outline" slot="icon"></Icon>
             <template slot="desc">自定义图标文案自定义图标文案自定义图标文案自定义图标文案自定义图标文案</template>
         </Alert>
+        <Alert banner type="warning">Notice: notification contents...</Alert>
+        <Alert banner closable type="warning">Notice: notification contents...</Alert>
     </div>
 </template>
 <script>

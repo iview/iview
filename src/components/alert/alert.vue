@@ -10,7 +10,7 @@
             <span :class="descClasses"><slot name="desc"></slot></span>
             <a :class="closeClasses" v-if="closable" @click="close">
                 <slot name="close">
-                    <Icon type="ios-close-empty"></Icon>
+                    <Icon type="ios-close"></Icon>
                 </slot>
             </a>
         </div>
