@@ -9,7 +9,7 @@
                     <div :class="[prefixCls + '-content']">
                         <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
                             <slot name="close">
-                                <Icon type="ios-close-empty"></Icon>
+                                <Icon type="ios-close"></Icon>
                             </slot>
                         </a>
                         <div :class="[prefixCls + '-header']" v-if="showHead"><slot name="header"><div :class="[prefixCls + '-header-inner']">{{ title }}</div></slot></div>
