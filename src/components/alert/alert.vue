@@ -80,19 +80,20 @@
 
                 switch (this.type) {
                     case 'success':
-                        type = 'checkmark-circled';
+                        type = 'ios-checkmark';
                         break;
                     case 'info':
-                        type = 'information-circled';
+                        type = 'ios-information';
                         break;
                     case 'warning':
                         type = 'android-alert';
                         break;
                     case 'error':
-                        type = 'close-circled';
+                        type = 'ios-close';
                         break;
                 }
 
+                if (this.desc) type += '-outline';
                 return type;
             }
         },
