@@ -29,3 +29,21 @@
 .ivu-icon {
     .ivu-icon();
 }
+
+.ivu-icon-loading{
+    position: relative;
+    &::before{
+        content: "\F1F6";
+    }
+    &::after{
+        content: "";
+        display: block;
+        width: 50%;
+        height: 50%;
+        background: #fff;
+        position: absolute;
+        top: 1px;
+        left: 50%;
+    }
+
+}
