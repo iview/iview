@@ -80,16 +80,16 @@
 
                 switch (this.type) {
                     case 'success':
-                        type = 'ios-checkmark';
+                        type = 'ios-checkmark-circle';
                         break;
                     case 'info':
-                        type = 'ios-information';
+                        type = 'ios-information-circle';
                         break;
                     case 'warning':
-                        type = 'android-alert';
+                        type = 'ios-alert';
                         break;
                     case 'error':
-                        type = 'ios-close';
+                        type = 'ios-close-circle';
                         break;
                 }
 
