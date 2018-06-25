@@ -2,7 +2,7 @@
     <div :class="wrapperClasses">
         <div :class="spinnerClasses">
             <Spin fix>
-                <Icon type="ios-sync" size="18" :class="iconClasses"></Icon>
+                <Icon type="loading" size="18" :class="iconClasses"></Icon>
                 <div v-if="text" :class="textClasses">{{text}}</div>
             </Spin>
 
