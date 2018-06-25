@@ -62,10 +62,10 @@
                 let type = '';
                 switch (this.currentStatus) {
                     case 'wrong':
-                        type = 'ios-close';
+                        type = 'ios-close-circle';
                         break;
                     case 'success':
-                        type = 'ios-checkmark';
+                        type = 'ios-checkmark-circle';
                         break;
                 }
 
