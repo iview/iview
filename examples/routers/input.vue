@@ -26,7 +26,7 @@
         <Icon class="ivu-load-loop" type="ios-loading" size="30" color="#ff6600" />
 
         <Icon type="ios-alert" size="30" color="#ff6600" />
-        <Icon class="ivu-load-loop" type="ios-sync" size="30" color="#ff6600" />
+        <Icon class="ivu-load-loop" type="ios-loading" size="30" color="#ff6600" />
     </Form>
 </template>
 <script>

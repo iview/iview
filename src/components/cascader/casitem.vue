@@ -2,7 +2,7 @@
     <li :class="classes">
         {{ data.label }}
         <i v-if="showArrow" class="ivu-icon ivu-icon-ios-arrow-forward"></i>
-        <i v-if="showLoading" class="ivu-icon ivu-icon-ios-sync ivu-load-loop"></i>
+        <i v-if="showLoading" class="ivu-icon ivu-icon-ios-loading ivu-load-loop"></i>
     </li>
 </template>
 <script>

@@ -4,7 +4,7 @@
             <li>
                 <span :class="arrowClasses" @click="handleExpand">
                     <Icon v-if="showArrow" type="md-arrow-dropright"></Icon>
-                    <Icon v-if="showLoading" type="ios-sync" class="ivu-load-loop"></Icon>
+                    <Icon v-if="showLoading" type="ios-loading" class="ivu-load-loop"></Icon>
                 </span>
                 <Checkbox
                         v-if="showCheckbox"

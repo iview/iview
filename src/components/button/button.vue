@@ -6,7 +6,7 @@
         :href="linkUrl"
         :target="target"
         @click="handleClickLink">
-        <Icon class="ivu-load-loop" type="ios-sync" v-if="loading"></Icon>
+        <Icon class="ivu-load-loop" type="ios-loading" v-if="loading"></Icon>
         <Icon :type="icon" :custom="customIcon" v-if="(icon || customIcon) && !loading"></Icon>
         <span v-if="showSlot" ref="slot"><slot></slot></span>
     </a>
@@ -16,7 +16,7 @@
         :class="classes"
         :disabled="disabled"
         @click="handleClickLink">
-        <Icon class="ivu-load-loop" type="ios-sync" v-if="loading"></Icon>
+        <Icon class="ivu-load-loop" type="ios-loading" v-if="loading"></Icon>
         <Icon :type="icon" :custom="customIcon" v-if="(icon || customIcon) && !loading"></Icon>
         <span v-if="showSlot" ref="slot"><slot></slot></span>
     </button>
