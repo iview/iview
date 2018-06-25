@@ -10,10 +10,10 @@ let noticeInstance;
 let name = 1;
 
 const iconTypes = {
-    'info': 'information-circled',
-    'success': 'checkmark-circled',
-    'warning': 'android-alert',
-    'error': 'close-circled'
+    'info': 'ios-information-circle',
+    'success': 'ios-checkmark-circle',
+    'warning': 'ios-alert',
+    'error': 'ios-close-circle'
 };
 
 function getNoticeInstance () {
