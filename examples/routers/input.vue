@@ -14,16 +14,16 @@
             <Button type="ghost" @click="handleReset('formCustom')" style="margin-left: 8px">Reset</Button>
         </FormItem>
         <br><br>
-        <Icon class="ivu-load-loop" type="loading" size="14" color="#ff6600" />
+        <Icon class="ivu-load-loop" type="ios-loading" size="14" color="#ff6600" />
 
-        <Icon class="ivu-load-loop" type="loading" size="12" color="#ff6600" />
-        <Icon class="ivu-load-loop" type="loading" size="13" color="#ff6600" />
+        <Icon class="ivu-load-loop" type="ios-loading" size="12" color="#ff6600" />
+        <Icon class="ivu-load-loop" type="ios-loading" size="13" color="#ff6600" />
 
-        <Icon class="ivu-load-loop" type="loading" size="16" color="#ff6600" />
-        <Icon class="ivu-load-loop" type="loading" size="18" color="#ff6600" />
-        <Icon class="ivu-load-loop" type="loading" size="20" color="#ff6600" />
-        <Icon class="ivu-load-loop" type="loading" size="30" color="#ff6600" />
-        <Icon class="ivu-load-loop" type="loading" size="30" color="#ff6600" />
+        <Icon class="ivu-load-loop" type="ios-loading" size="16" color="#ff6600" />
+        <Icon class="ivu-load-loop" type="ios-loading" size="18" color="#ff6600" />
+        <Icon class="ivu-load-loop" type="ios-loading" size="20" color="#ff6600" />
+        <Icon class="ivu-load-loop" type="ios-loading" size="30" color="#ff6600" />
+        <Icon class="ivu-load-loop" type="ios-loading" size="30" color="#ff6600" />
 
         <Icon type="ios-alert" size="30" color="#ff6600" />
         <Icon class="ivu-load-loop" type="ios-sync" size="30" color="#ff6600" />

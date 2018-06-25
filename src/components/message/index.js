@@ -17,7 +17,7 @@ const iconTypes = {
     'success': 'ios-checkmark-circle',
     'warning': 'ios-alert',
     'error': 'ios-close-circle',
-    'loading': 'loading'
+    'loading': 'ios-loading'
 };
 
 function getMessageInstance () {
