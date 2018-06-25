@@ -192,19 +192,19 @@ Modal.newInstance = properties => {
 
             switch (props.icon) {
                 case 'info':
-                    modal.$parent.iconName = 'information-circled';
+                    modal.$parent.iconName = 'ios-information-circle';
                     break;
                 case 'success':
-                    modal.$parent.iconName = 'checkmark-circled';
+                    modal.$parent.iconName = 'ios-checkmark-circle';
                     break;
                 case 'warning':
-                    modal.$parent.iconName = 'android-alert';
+                    modal.$parent.iconName = 'ios-alert';
                     break;
                 case 'error':
-                    modal.$parent.iconName = 'close-circled';
+                    modal.$parent.iconName = 'ios-close-circle';
                     break;
                 case 'confirm':
-                    modal.$parent.iconName = 'help-circled';
+                    modal.$parent.iconName = 'ios-help-circle';
                     break;
             }
 
