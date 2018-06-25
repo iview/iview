@@ -3,13 +3,13 @@
         <div :class="classes" @click.stop="check" :style="wraperStyles">
             <span :class="dotClasses" v-if="showDot" :style="bgColorStyle"></span>
             <span :class="textClasses" :style="textColorStyle"><slot></slot></span>
-            <Icon v-if="closable" :class="iconClass" :color="lineColor" type="ios-close-empty" @click.native.stop="close"></Icon>
+            <Icon v-if="closable" :class="iconClass" :color="lineColor" type="ios-close" @click.native.stop="close"></Icon>
         </div>
     </transition>
     <div v-else :class="classes" @click.stop="check" :style="wraperStyles">
         <span :class="dotClasses" v-if="showDot" :style="bgColorStyle"></span>
         <span :class="textClasses" :style="textColorStyle"><slot></slot></span>
-        <Icon v-if="closable" :class="iconClass" :color="lineColor" type="ios-close-empty" @click.native.stop="close"></Icon>
+        <Icon v-if="closable" :class="iconClass" :color="lineColor" type="ios-close" @click.native.stop="close"></Icon>
     </div>
 </template>
 <script>
