@@ -51,6 +51,15 @@
         </Alert>
         <Alert banner type="warning">Notice: notification contents...</Alert>
         <Alert banner closable type="warning">Notice: notification contents...</Alert>
+        <Alert closable>An info prompt</Alert>
+        <Alert type="success" show-icon closable>
+            A success prompt
+            <span slot="desc">Content of prompt. Content of prompt. Content of prompt. Content of prompt. </span>
+        </Alert>
+        <Alert type="warning" closable>
+            Custom closing content
+            <span slot="close">No longer prompt</span>
+        </Alert>
     </div>
 </template>
 <script>
