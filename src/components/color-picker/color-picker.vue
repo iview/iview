@@ -25,7 +25,7 @@
                     <div
                         v-show="value === '' && !visible"
                         :class="[prefixCls + '-color-empty']">
-                        <i :class="[iconPrefixCls, iconPrefixCls + '-ios-close-empty']"></i>
+                        <i :class="[iconPrefixCls, iconPrefixCls + '-ios-close']"></i>
                     </div>
                     <div
                         v-show="value || visible"
@@ -248,7 +248,7 @@ export default {
         arrowClasses() {
             return [
                 this.iconPrefixCls,
-                `${this.iconPrefixCls}-arrow-down-b`,
+                `${this.iconPrefixCls}-ios-arrow-down`,
                 `${this.inputPrefixCls}-icon`,
                 `${this.inputPrefixCls}-icon-normal`,
             ];
