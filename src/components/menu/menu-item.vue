@@ -5,9 +5,10 @@
 <script>
     import Emitter from '../../mixins/emitter';
     import { findComponentUpward } from '../../utils/assist';
-    const prefixCls = 'ivu-menu';
     import mixin from './mixin';
     import mixinsLink from '../../mixins/link';
+
+    const prefixCls = 'ivu-menu';
 
     export default {
         name: 'MenuItem',
