@@ -71,7 +71,6 @@
     </div>
 </template>
 <script>
-    import Icon from '../icon';
     import Drop from './dropdown.vue';
     import {directive as clickOutside} from 'v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
@@ -141,7 +140,7 @@
     export default {
         name: 'iSelect',
         mixins: [ Emitter, Locale ],
-        components: { FunctionalOptions, Drop, Icon, SelectHead },
+        components: { FunctionalOptions, Drop, SelectHead },
         directives: { clickOutside, TransferDom },
         props: {
             value: {
