@@ -29,7 +29,7 @@
 
         <br/>
         <br/>
-        <Collapse v-model="value5" simple>
+        <Collapse v-model="value5">
             <Panel name="21">
                 斯蒂夫·盖瑞·沃兹尼亚克
                 <p slot="content">斯蒂夫·盖瑞·沃兹尼亚克（Stephen Gary Wozniak），美国电脑工程师，曾与史蒂夫·乔布斯合伙创立苹果电脑（今之苹果公司）。斯蒂夫·盖瑞·沃兹尼亚克曾就读于美国科罗拉多大学，后转学入美国著名高等学府加州大学伯克利分校（UC Berkeley）并获得电机工程及计算机（EECS）本科学位（1987年）。</p>
