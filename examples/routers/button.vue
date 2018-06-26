@@ -1,5 +1,9 @@
 <template>
     <div>
+        <Button type="primary" icon="ios-information-circle" size="small">Search</Button>
+        <Button type="primary" icon="ios-information-circle" size="default">Search</Button>
+        <Button type="primary" icon="ios-information-circle" size="large">Search</Button>
+        <br><br><br>
         <Button to="/menu" @click="hc">Open Menu</Button>
         <Button to="/menu" replace>Open Menu Replace</Button>
         <Button to="//iviewui.com" target="_blank">Open iView</Button>
