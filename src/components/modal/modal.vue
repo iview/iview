@@ -292,7 +292,7 @@
                 this.dragData.dragX = distance.x;
                 this.dragData.dragY = distance.y;
             },
-            handleMoveEnd (event) {
+            handleMoveEnd () {
                 this.dragData.dragging = false;
                 off(window, 'mousemove', this.handleMoveMove);
                 off(window, 'mouseup', this.handleMoveEnd);
