@@ -1,12 +1,12 @@
 <template>
     <div v-transfer-dom :data-transfer="transfer">
         <transition :name="transitionNames[1]">
-            <div :class="maskClasses" v-show="visible" @click="mask"></div>
+            <div :class="maskClasses" v-show="visible" v-if="showMask" @click="handleMask"></div>
         </transition>
         <div :class="wrapClasses" @click="handleWrapClick">
             <transition :name="transitionNames[0]" @after-leave="animationFinish">
                 <div :class="classes" :style="mainStyles" v-show="visible">
-                    <div :class="[prefixCls + '-content']">
+                    <div :class="contentClasses">
                         <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
                             <slot name="close">
                                 <Icon type="ios-close"></Icon>
@@ -99,6 +99,14 @@
             fullscreen: {
                 type: Boolean,
                 default: false
+            },
+            mask: {
+                type: Boolean,
+                default: true
+            },
+            dragable: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -116,7 +124,8 @@
                     `${prefixCls}-wrap`,
                     {
                         [`${prefixCls}-hidden`]: !this.wrapShow,
-                        [`${this.className}`]: !!this.className
+                        [`${this.className}`]: !!this.className,
+                        [`${prefixCls}-no-mask`]: !this.showMask
                     }
                 ];
             },
@@ -130,7 +139,14 @@
                         [`${prefixCls}-fullscreen`]: this.fullscreen,
                         [`${prefixCls}-fullscreen-no-header`]: this.fullscreen && !this.showHead,
                         [`${prefixCls}-fullscreen-no-footer`]: this.fullscreen && this.footerHide
-
+                    }
+                ];
+            },
+            contentClasses () {
+                return [
+                    `${prefixCls}-content`,
+                    {
+                        [`${prefixCls}-content-no-mask`]: !this.showMask
                     }
                 ];
             },
@@ -161,6 +177,9 @@
                 } else {
                     return this.cancelText;
                 }
+            },
+            showMask () {
+                return this.dragable ? false : this.mask;
             }
         },
         methods: {
@@ -169,15 +188,15 @@
                 this.$emit('input', false);
                 this.$emit('on-cancel');
             },
-            mask () {
-                if (this.maskClosable) {
+            handleMask () {
+                if (this.maskClosable && this.showMask) {
                     this.close();
                 }
             },
             handleWrapClick (event) {
                 // use indexOf,do not use === ,because ivu-modal-wrap can have other custom className
                 const className = event.target.getAttribute('class');
-                if (className && className.indexOf(`${prefixCls}-wrap`) > -1) this.mask();
+                if (className && className.indexOf(`${prefixCls}-wrap`) > -1) this.handleMask();
             },
             cancel () {
                 this.close();
