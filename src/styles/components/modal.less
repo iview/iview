@@ -44,6 +44,17 @@
         &-no-mask{
             pointer-events: auto;
         }
+        &-drag{
+            position: absolute;
+            .@{modal-prefix-cls}-header{
+                cursor: move;
+            }
+        }
+        &-dragging{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
     }
 
     &-header {

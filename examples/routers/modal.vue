@@ -5,7 +5,7 @@
         <Modal
                 v-model="modal1"
                 title="Common Modal dialog box title"
-                :mask="false"
+                dragable
                 @on-ok="ok"
                 @on-cancel="cancel">
             <p>Content of dialog</p>

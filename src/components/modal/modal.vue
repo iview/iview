@@ -6,13 +6,16 @@
         <div :class="wrapClasses" @click="handleWrapClick">
             <transition :name="transitionNames[0]" @after-leave="animationFinish">
                 <div :class="classes" :style="mainStyles" v-show="visible">
-                    <div :class="contentClasses">
+                    <div :class="contentClasses" ref="content" :style="contentStyles">
                         <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
                             <slot name="close">
                                 <Icon type="ios-close"></Icon>
                             </slot>
                         </a>
-                        <div :class="[prefixCls + '-header']" v-if="showHead"><slot name="header"><div :class="[prefixCls + '-header-inner']">{{ title }}</div></slot></div>
+                        <div :class="[prefixCls + '-header']"
+                             @mousedown="handleMoveStart"
+                             v-if="showHead"
+                        ><slot name="header"><div :class="[prefixCls + '-header-inner']">{{ title }}</div></slot></div>
                         <div :class="[prefixCls + '-body']"><slot></slot></div>
                         <div :class="[prefixCls + '-footer']" v-if="!footerHide">
                             <slot name="footer">
@@ -33,6 +36,8 @@
     import Locale from '../../mixins/locale';
     import Emitter from '../../mixins/emitter';
     import ScrollbarMixins from './mixins-scrollbar';
+
+    import { on, off } from '../../utils/dom';
 
     const prefixCls = 'ivu-modal';
 
@@ -115,7 +120,14 @@
                 wrapShow: false,
                 showHead: true,
                 buttonLoading: false,
-                visible: this.value
+                visible: this.value,
+                dragData: {
+                    x: null,
+                    y: null,
+                    dragX: null,
+                    dragY: null,
+                    dragging: false
+                }
             };
         },
         computed: {
@@ -146,7 +158,9 @@
                 return [
                     `${prefixCls}-content`,
                     {
-                        [`${prefixCls}-content-no-mask`]: !this.showMask
+                        [`${prefixCls}-content-no-mask`]: !this.showMask,
+                        [`${prefixCls}-content-drag`]: this.dragable,
+                        [`${prefixCls}-content-dragging`]: this.dragable && this.dragData.dragging
                     }
                 ];
             },
@@ -154,13 +168,31 @@
                 let style = {};
 
                 const width = parseInt(this.width);
-                const styleWidth = {
+                const styleWidth = this.dragData.x !== null ? {
+                    top: 0
+                } : {
                     width: width <= 100 ? `${width}%` : `${width}px`
                 };
 
                 const customStyle = this.styles ? this.styles : {};
 
                 Object.assign(style, styleWidth, customStyle);
+
+                return style;
+            },
+            contentStyles () {
+                let style = {};
+
+                if (this.dragable) {
+                    if (this.dragData.x !== null) style.left = `${this.dragData.x}px`;
+                    if (this.dragData.y !== null) style.top = `${this.dragData.y}px`;
+                    const width = parseInt(this.width);
+                    const styleWidth = {
+                        width: width <= 100 ? `${width}%` : `${width}px`
+                    };
+
+                    Object.assign(style, styleWidth);
+                }
 
                 return style;
             },
@@ -219,6 +251,51 @@
             },
             animationFinish() {
                 this.$emit('on-hidden');
+            },
+            handleMoveStart (event) {
+                if (!this.dragable) return false;
+
+                const $content = this.$refs.content;
+                const rect = $content.getBoundingClientRect();
+                this.dragData.x = rect.x;
+                this.dragData.y = rect.y;
+
+                const distance = {
+                    x: event.clientX,
+                    y: event.clientY
+                };
+
+                this.dragData.dragX = distance.x;
+                this.dragData.dragY = distance.y;
+
+                this.dragData.dragging = true;
+
+                on(window, 'mousemove', this.handleMoveMove);
+                on(window, 'mouseup', this.handleMoveEnd);
+            },
+            handleMoveMove (event) {
+                if (!this.dragData.dragging) return false;
+
+                const distance = {
+                    x: event.clientX,
+                    y: event.clientY
+                };
+
+                const diff_distance = {
+                    x: distance.x - this.dragData.dragX,
+                    y: distance.y - this.dragData.dragY
+                };
+
+                this.dragData.x += diff_distance.x;
+                this.dragData.y += diff_distance.y;
+
+                this.dragData.dragX = distance.x;
+                this.dragData.dragY = distance.y;
+            },
+            handleMoveEnd (event) {
+                this.dragData.dragging = false;
+                off(window, 'mousemove', this.handleMoveMove);
+                off(window, 'mouseup', this.handleMoveEnd);
             }
         },
         mounted () {
