@@ -177,4 +177,14 @@
             background: fade(tint(@error-color, 95%), 50%);
         }
     }
+
+    &-ghost&-default[disabled], &-ghost&-dashed[disabled], &-ghost&-primary[disabled], &-ghost&-info[disabled], &-ghost&-success[disabled], &-ghost&-warning[disabled], &-ghost&-error[disabled]{
+        background: transparent;
+        color: fade(#000, 25%);
+        border-color: @btn-disable-border;
+    }
+    &-ghost&-text[disabled]{
+        background: transparent;
+        color: fade(#000, 25%);
+    }
 }
