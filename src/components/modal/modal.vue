@@ -95,6 +95,10 @@
             transfer: {
                 type: Boolean,
                 default: true
+            },
+            fullscreen: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -120,7 +124,15 @@
                 return `${prefixCls}-mask`;
             },
             classes () {
-                return `${prefixCls}`;
+                return [
+                    `${prefixCls}`,
+                    {
+                        [`${prefixCls}-fullscreen`]: this.fullscreen,
+                        [`${prefixCls}-fullscreen-no-header`]: this.fullscreen && !this.showHead,
+                        [`${prefixCls}-fullscreen-no-footer`]: this.fullscreen && this.footerHide
+
+                    }
+                ];
             },
             mainStyles () {
                 let style = {};

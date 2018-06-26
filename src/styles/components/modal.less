@@ -46,6 +46,7 @@
     }
 
     &-close {
+        z-index: 1;
         .content-close(1px, 31px);
     }
 
@@ -62,6 +63,43 @@
         button + button {
             margin-left: 8px;
             margin-bottom: 0;
+        }
+    }
+
+    &-fullscreen{
+        width: 100% !important;
+        top: 0;
+        bottom: 0;
+        position: absolute;
+
+        @modal-header-height: 51px;
+        @modal-footer-height: 61px;
+
+        .@{modal-prefix-cls}-content{
+            width: 100%;
+            border-radius: 0;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+        }
+
+        .@{modal-prefix-cls}-body{
+            width: 100%;
+            overflow: auto;
+            position: absolute;
+            top: @modal-header-height;
+            bottom: @modal-footer-height;
+        }
+        &-no-header .@{modal-prefix-cls}-body{
+            top: 0;
+        }
+        &-no-footer .@{modal-prefix-cls}-body{
+            bottom: 0;
+        }
+        .@{modal-prefix-cls}-footer{
+            position: absolute;
+            width: 100%;
+            bottom: 0;
         }
     }
 }

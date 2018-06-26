@@ -3,12 +3,67 @@
         <Button type="primary" @click="modal1 = true">Display dialog box</Button>
         <Modal
                 v-model="modal1"
-                title="Common Modal dialog box title"
+                :fullscreen="true"
+                footerHide
                 @on-ok="ok"
                 @on-cancel="cancel">
+            <p>Content of dialog1111</p>
             <p>Content of dialog</p>
             <p>Content of dialog</p>
             <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog</p>-->
+            <!--<p>Content of dialog2222</p>-->
         </Modal>
     </div>
 </template>
