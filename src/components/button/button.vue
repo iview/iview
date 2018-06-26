@@ -35,8 +35,9 @@
         props: {
             type: {
                 validator (value) {
-                    return oneOf(value, ['primary', 'ghost', 'dashed', 'text', 'info', 'success', 'warning', 'error', 'default']);
-                }
+                    return oneOf(value, ['default', 'primary', 'dashed', 'text', 'info', 'success', 'warning', 'error']);
+                },
+                default: 'default'
             },
             shape: {
                 validator (value) {
@@ -68,6 +69,10 @@
                 type: Boolean,
                 default: false
             },
+            ghost: {
+                type: Boolean,
+                default: false
+            }
         },
         data () {
             return {
@@ -84,7 +89,8 @@
                         [`${prefixCls}-${this.shape}`]: !!this.shape,
                         [`${prefixCls}-${this.size}`]: !!this.size,
                         [`${prefixCls}-loading`]: this.loading != null && this.loading,
-                        [`${prefixCls}-icon-only`]: !this.showSlot && (!!this.icon || !!this.customIcon || this.loading)
+                        [`${prefixCls}-icon-only`]: !this.showSlot && (!!this.icon || !!this.customIcon || this.loading),
+                        [`${prefixCls}-ghost`]: this.ghost
                     }
                 ];
             }

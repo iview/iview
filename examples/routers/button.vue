@@ -1,5 +1,25 @@
 <template>
     <div>
+        <Button type="default">Default</Button>
+        <Button type="primary">Primary</Button>
+        <Button type="dashed">Dashed</Button>
+        <Button type="info">Info</Button>
+        <Button type="success">Success</Button>
+        <Button type="warning">Warning</Button>
+        <Button type="error">Error</Button>
+        <Button type="text">Text</Button>
+        <br><br><br>
+        <div style="padding: 20px;background: #dddee1">
+            <Button type="default" ghost>Default</Button>
+            <Button type="primary" ghost>Primary</Button>
+            <Button type="dashed" ghost>Dashed</Button>
+            <Button type="info" ghost>Info</Button>
+            <Button type="success" ghost>Success</Button>
+            <Button type="warning" ghost>Warning</Button>
+            <Button type="error" ghost>Error</Button>
+            <Button type="text" ghost>Text</Button>
+        </div>
+        <br><br><br>
         <Button type="primary" icon="ios-information-circle" size="small">Search</Button>
         <Button type="primary" icon="ios-information-circle" size="default">Search</Button>
         <Button type="primary" icon="ios-information-circle" size="large">Search</Button>
@@ -19,7 +39,7 @@
         <hr>
         <Button>Default</Button>
         <Button type="primary">Primary</Button>
-        <Button type="ghost">Ghost</Button>
+        <Button type="default">Ghost</Button>
         <Button type="dashed">Dashed</Button>
         <Button type="text">Text</Button>
         <br><br>
@@ -33,10 +53,10 @@
         <Button type="primary" shape="circle" icon="ios-search">Search</Button>
         <Button type="primary" shape="circle">Circle</Button>
         <br><br>
-        <Button type="ghost" shape="circle" icon="ios-search"></Button>
-        <Button type="ghost" icon="ios-search">Search</Button>
-        <Button type="ghost" shape="circle" icon="ios-search">Search</Button>
-        <Button type="ghost" shape="circle">Circle</Button>
+        <Button type="default" shape="circle" icon="ios-search"></Button>
+        <Button type="default" icon="ios-search">Search</Button>
+        <Button type="default" shape="circle" icon="ios-search">Search</Button>
+        <Button type="default" shape="circle">Circle</Button>
         <br><br>
         <Button>Default</Button>
         <Button disabled>Default(Disabled)</Button>
@@ -44,8 +64,8 @@
         <Button type="primary">Primary</Button>
         <Button type="primary" disabled>Primary(Disabled)</Button>
         <br>
-        <Button type="ghost">Ghost</Button>
-        <Button type="ghost" disabled>Ghost(Disabled)</Button>
+        <Button type="default">Ghost</Button>
+        <Button type="default" disabled>Ghost(Disabled)</Button>
         <br>
         <Button type="dashed">Dashed</Button>
         <Button type="dashed" disabled>Dashed(Disabled)</Button>
@@ -69,7 +89,7 @@
         <Button-group>
             <Button type="primary">L</Button>
             <Button>M</Button>
-            <Button type="ghost">M</Button>
+            <Button type="default">M</Button>
             <Button type="dashed">R</Button>
         </Button-group>
         <br><br>
@@ -90,10 +110,10 @@
             <Button type="primary" icon="ios-skipforward"></Button>
         </Button-group>
         <Button-group>
-            <Button type="ghost" icon="ios-color-wand-outline"></Button>
-            <Button type="ghost" icon="ios-sunny-outline"></Button>
-            <Button type="ghost" icon="ios-crop"></Button>
-            <Button type="ghost" icon="ios-color-filter-outline"></Button>
+            <Button type="default" icon="ios-color-wand-outline"></Button>
+            <Button type="default" icon="ios-sunny-outline"></Button>
+            <Button type="default" icon="ios-crop"></Button>
+            <Button type="default" icon="ios-color-filter-outline"></Button>
         </Button-group>
         <br><br>
         <h4>圆角</h4>
@@ -113,38 +133,38 @@
             <Button type="primary" icon="ios-skipforward"></Button>
         </Button-group>
         <Button-group shape="circle">
-            <Button type="ghost" icon="ios-color-wand-outline"></Button>
-            <Button type="ghost" icon="ios-sunny-outline"></Button>
-            <Button type="ghost" icon="ios-crop"></Button>
-            <Button type="ghost" icon="ios-color-filter-outline"></Button>
+            <Button type="default" icon="ios-color-wand-outline"></Button>
+            <Button type="default" icon="ios-sunny-outline"></Button>
+            <Button type="default" icon="ios-crop"></Button>
+            <Button type="default" icon="ios-color-filter-outline"></Button>
         </Button-group>
         <br><br>
         <h4>尺寸</h4>
         <br><br>
         <Button-group size="large">
-            <Button type="ghost">Large</Button>
-            <Button type="ghost">Large</Button>
+            <Button type="default">Large</Button>
+            <Button type="default">Large</Button>
         </Button-group>
         <Button-group>
-            <Button type="ghost">Default</Button>
-            <Button type="ghost">Default</Button>
+            <Button type="default">Default</Button>
+            <Button type="default">Default</Button>
         </Button-group>
         <Button-group size="small">
-            <Button type="ghost">Small</Button>
-            <Button type="ghost">Small</Button>
+            <Button type="default">Small</Button>
+            <Button type="default">Small</Button>
         </Button-group>
         <br><br>
         <Button-group size="large" shape="circle">
-            <Button type="ghost">Large</Button>
-            <Button type="ghost">Large</Button>
+            <Button type="default">Large</Button>
+            <Button type="default">Large</Button>
         </Button-group>
         <Button-group shape="circle">
-            <Button type="ghost">Default</Button>
-            <Button type="ghost">Default</Button>
+            <Button type="default">Default</Button>
+            <Button type="default">Default</Button>
         </Button-group>
         <Button-group size="small" shape="circle">
-            <Button type="ghost">Small</Button>
-            <Button type="ghost">Small</Button>
+            <Button type="default">Small</Button>
+            <Button type="default">Small</Button>
         </Button-group>
     </div>
 </template>
