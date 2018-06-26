@@ -87,7 +87,6 @@
                                 ref="clear"
                                 :tabindex="0"
                                 size="small"
-                                type="ghost"
                                 @click.native="handleClear"
                                 @keydown.enter="handleClear"
                                 @keydown.native.esc="closer"
