@@ -48,7 +48,6 @@
 - [DiDi 滴滴](http://www.didichuxing.com/)
 - [Meituan 美团](http://www.meituan.com/)
 - [Sina 新浪](http://www.sina.com.cn/)
-- [Lenovo 联想](https://www.lenovo.com.cn/)
 
 > If your company or products use iView, welcome to click [here](https://github.com/iview/iview/issues/2143) to leave a message.
 
