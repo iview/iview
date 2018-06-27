@@ -1,8 +1,10 @@
 <template>
-    <div>
-        <Progress :percent="25"></Progress>
-        <br><br>
-        <Progress :percent="25" :success-percent="10"></Progress>
+    <div style="height: 300px;">
+        <Progress vertical :percent="25"></Progress>
+        <Progress vertical :percent="45" status="active"></Progress>
+        <Progress vertical :percent="65" status="wrong"></Progress>
+        <Progress vertical :percent="100"></Progress>
+        <Progress vertical :percent="25" hide-info></Progress>
     </div>
 </template>
 <script>
