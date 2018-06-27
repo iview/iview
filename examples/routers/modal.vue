@@ -1,47 +1,43 @@
 <template>
     <div>
-        <Button type="primary" @click="modal1 = true">Display dialog box</Button>
-        <Button type="primary" @click="modal2 = true">Display dialog box</Button>
-        <Button @click="hc">Click Me</Button>
-        <Modal
-                v-model="modal1"
-                title="Common Modal dialog box title"
-                dragable
-                @on-ok="ok"
-                @on-cancel="cancel">
-            <p>Content of dialog</p>
-            <p>Content of dialog</p>
-            <p>Content of dialog</p>
-        </Modal>
-        <Modal
-                v-model="modal2"
-                title="Common Modal dialog box title2"
-                dragable
-                @on-ok="ok"
-                @on-cancel="cancel">
-            <p>Content of dialog</p>
-            <p>Content of dialog</p>
-            <p>Content of dialog</p>
-        </Modal>
+        <Button @click="instance('info')">Info</Button>
+        <Button @click="instance('success')">Success</Button>
+        <Button @click="instance('warning')">Warning</Button>
+        <Button @click="instance('error')">Error</Button>
     </div>
 </template>
 <script>
     export default {
-        data () {
-            return {
-                modal1: false,
-                modal2: false
-            }
-        },
         methods: {
-            ok () {
-                this.$Message.info('Clicked ok');
-            },
-            cancel () {
-                this.$Message.info('Clicked cancel');
-            },
-            hc () {
-                this.$Message.info('Hello');
+            instance (type) {
+                const title = '对话框的标题';
+                const content = '<p>一些对话框内容</p><p>一些对话框内容</p>';
+                switch (type) {
+                    case 'info':
+                        this.$Modal.info({
+                            title: title,
+                            content: content
+                        });
+                        break;
+                    case 'success':
+                        this.$Modal.success({
+                            title: title,
+                            content: content
+                        });
+                        break;
+                    case 'warning':
+                        this.$Modal.warning({
+                            title: title,
+                            content: content
+                        });
+                        break;
+                    case 'error':
+                        this.$Modal.error({
+                            title: title,
+                            content: content
+                        });
+                        break;
+                }
             }
         }
     }

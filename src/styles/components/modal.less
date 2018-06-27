@@ -138,33 +138,13 @@
 .@{confirm-prefix-cls} {
     padding: 0 4px;
     &-head {
-
-        &-title {
-            display: inline-block;
-            font-size: @font-size-base;
-            color: @title-color;
-            font-weight: 700;
-        }
-    }
-
-    &-body{
-        margin-top: 6px;
-        padding-left: 48px;
-        padding-top: 18px;
-        font-size: @font-size-small;
-        color: @text-color;
-        position: relative;
-
-        &-render{
-            margin: 0;
-            padding: 0;
-        }
-
+        padding: 0 12px 0 0;
         &-icon {
-            font-size: 36px;
-            position: absolute;
-            top: 0;
-            left: 0;
+            display: inline-block;
+            font-size: 28px;
+            vertical-align: middle;
+            position: relative;
+            top: 3px;
 
             &-info {
                 color: @primary-color;
@@ -182,10 +162,31 @@
                 color: @warning-color;
             }
         }
+
+        &-title {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 12px;
+            font-size: @font-size-large;
+            color: @title-color;
+            font-weight: 700;
+        }
+    }
+
+    &-body{
+        padding-left: 42px;
+        font-size: @font-size-base;
+        color: @text-color;
+        position: relative;
+
+        &-render{
+            margin: 0;
+            padding: 0;
+        }
     }
 
     &-footer{
-        margin-top: 40px;
+        margin-top: 20px;
         text-align: right;
 
         button + button {
