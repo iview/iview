@@ -2,8 +2,7 @@
     <div :class="wrapClasses">
         <div :class="outerClasses">
             <div :class="innerClasses">
-                <div :class="bgClasses" :style="bgStyle"></div>
-                <div :class="successBgClasses" :style="successBgStyle"></div>
+                <div :class="bgClasses" :style="bgStyle"></div><div :class="successBgClasses" :style="successBgStyle"></div>
             </div>
         </div>
         <span v-if="!hideInfo" :class="textClasses">
