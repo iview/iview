@@ -101,6 +101,53 @@
     &-with-suffix{
         padding-right: 32px;
     }
+
+    // search
+    &-search{
+        cursor: pointer;
+        padding: 0 16px !important;
+        background: @primary-color !important;
+        color: #fff !important;
+        border-color: @primary-color !important;
+        transition: all @transition-time @ease-in-out;
+        position: relative;
+        z-index: 2;
+
+        &:hover{
+            background: tint(@primary-color, 20%) !important;
+            border-color: tint(@primary-color, 20%) !important;
+        }
+        &:active{
+            background: shade(@primary-color, 5%) !important;
+            border-color: shade(@primary-color, 5%) !important;
+        }
+
+        &-icon{
+            cursor: pointer;
+            transition: color @transition-time @ease-in-out;
+            &:hover{
+                color: inherit;
+            }
+        }
+
+        &:before{
+            content: '';
+            display: block;
+            width: 1px;
+            position: absolute;
+            top: -1px;
+            bottom: -1px;
+            left: -1px;
+            background: inherit;
+        }
+    }
+    &-with-search{
+        &:hover{
+            .@{input-prefix-cls} {
+                border-color: tint(@primary-color, 20%);
+            }
+        }
+    }
 }
 
 .@{input-prefix-cls}-group{

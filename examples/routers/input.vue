@@ -128,14 +128,19 @@
             <Icon type="ios-alarm-outline" slot="suffix" />
             <Icon type="ios-aperture" slot="prefix" />
         </Input>
-        <br>
+        <br><br><br><br>
+        <Input v-model="value" search enter-button style="width: 300px" />
+        <br><br>
+        <Input v-model="value" search style="width: 300px" />
+        <br><br>
+        <Input v-model="value" search enter-button="搜索" style="width: 300px" />
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                value: '你好你好你真好你好你好你真好你好你好你真好你好你好你真好',
+                value: '',
                 value11: '',
                 value12: '',
                 value13: '',
