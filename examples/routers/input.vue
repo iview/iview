@@ -129,11 +129,11 @@
             <Icon type="ios-aperture" slot="prefix" />
         </Input>
         <br><br><br><br>
-        <Input v-model="value" search enter-button style="width: 300px" />
+        <Input v-model="value" search enter-button style="width: 300px" @on-search="hs" />
         <br><br>
-        <Input v-model="value" search style="width: 300px" />
+        <Input v-model="value" search style="width: 300px" @on-search="hs" />
         <br><br>
-        <Input v-model="value" search enter-button="搜索" style="width: 300px" />
+        <Input v-model="value" search enter-button="Search" style="width: 300px" @on-search="hs" />
     </div>
 </template>
 <script>
@@ -147,6 +147,11 @@
                 select1: 'http',
                 select2: 'com',
                 select3: 'day'
+            }
+        },
+        methods: {
+            hs (val) {
+                console.log(val);
             }
         }
     }

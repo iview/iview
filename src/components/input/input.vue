@@ -218,6 +218,7 @@
         methods: {
             handleEnter (event) {
                 this.$emit('on-enter', event);
+                if (this.search) this.$emit('on-search', this.currentValue);
             },
             handleKeydown (event) {
                 this.$emit('on-keydown', event);
@@ -292,8 +293,9 @@
                 this.$emit('on-change', e);
             },
             handleSearch () {
-                if (this.disable) return false;
+                if (this.disabled) return false;
                 this.$refs.input.focus();
+                this.$emit('on-search', this.currentValue);
             }
         },
         watch: {
