@@ -1,57 +1,44 @@
-<style lang="less">
-    .demo-circle-custom{
-    & h1{
-          color: #3f414d;
-          font-size: 28px;
-          font-weight: normal;
-      }
-    & p{
-          color: #657180;
-          font-size: 14px;
-          margin: 10px 0 15px;
-      }
-    & span{
-          display: block;
-          padding-top: 15px;
-          color: #657180;
-          font-size: 14px;
-    &:before{
-         content: '';
-         display: block;
-         width: 50px;
-         height: 1px;
-         margin: 0 auto;
-         background: #e0e3e6;
-         position: relative;
-         top: -15px;
-     };
-    }
-    & span i{
-          font-style: normal;
-          color: #3f414d;
-      }
-    }
-</style>
 <template>
-    <i-circle
-            :size="250"
-            :trail-width="4"
-            :stroke-width="5"
-            :percent="75"
-            stroke-linecap="square"
-            stroke-color="#43a3fb">
-        <div class="demo-circle-custom">
-            <h1>{{ 42001776 }}</h1>
-            <p>消费人群规模</p>
-            <span>
-                总占人数
-                <i>75%</i>
-            </span>
-        </div>
-    </i-circle>
+    <div>
+        <i-circle :percent="percent" dashboard :stroke-color="color">
+            <Icon v-if="percent == 100" type="ios-checkmark" size="60" style="color:#5cb85c"></Icon>
+            <span v-else style="font-size:24px">{{ percent }}%</span>
+        </i-circle>
+        <ButtonGroup size="large">
+            <Button icon="ios-add" @click="add"></Button>
+            <Button icon="ios-remove" @click="minus"></Button>
+        </ButtonGroup>
+    </div>
 </template>
 <script>
     export default {
-
+        data () {
+            return {
+                percent: 0
+            }
+        },
+        computed: {
+            color () {
+                let color = '#2db7f5';
+                if (this.percent == 100) {
+                    color = '#5cb85c';
+                }
+                return color;
+            }
+        },
+        methods: {
+            add () {
+                if (this.percent >= 100) {
+                    return false;
+                }
+                this.percent += 10;
+            },
+            minus () {
+                if (this.percent <= 0) {
+                    return false;
+                }
+                this.percent -= 10;
+            }
+        }
     }
 </script>
