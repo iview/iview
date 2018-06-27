@@ -71,6 +71,32 @@ Modal.newInstance = properties => {
                 ]);
             }
 
+            // when render with no title, hide head
+            let head_render;
+            if (this.title) {
+                head_render = h('div', {
+                    attrs: {
+                        class: `${prefixCls}-head`
+                    }
+                }, [
+                    h('div', {
+                        class: this.iconTypeCls
+                    }, [
+                        h('i', {
+                            class: this.iconNameCls
+                        })
+                    ]),
+                    h('div', {
+                        attrs: {
+                            class: `${prefixCls}-head-title`
+                        },
+                        domProps: {
+                            innerHTML: this.title
+                        }
+                    })
+                ]);
+            }
+
             return h(Modal, {
                 props: Object.assign({}, _props, {
                     width: this.width,
@@ -91,27 +117,7 @@ Modal.newInstance = properties => {
                         class: prefixCls
                     }
                 }, [
-                    h('div', {
-                        attrs: {
-                            class: `${prefixCls}-head`
-                        }
-                    }, [
-                        h('div', {
-                            class: this.iconTypeCls
-                        }, [
-                            h('i', {
-                                class: this.iconNameCls
-                            })
-                        ]),
-                        h('div', {
-                            attrs: {
-                                class: `${prefixCls}-head-title`
-                            },
-                            domProps: {
-                                innerHTML: this.title
-                            }
-                        })
-                    ]),
+                    head_render,
                     body_render,
                     h('div', {
                         attrs: {
