@@ -123,6 +123,11 @@
                 icon="ios-search"
                 placeholder="Enter something..."
                 style="width: 300px"></Input>
+        <br><br><br>
+        <Input v-model="value" placeholder="Enter something..." style="width: 300px">
+            <Icon type="ios-alarm-outline" slot="suffix" />
+            <Icon type="ios-aperture" slot="prefix" />
+        </Input>
         <br>
     </div>
 </template>
