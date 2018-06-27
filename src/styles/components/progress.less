@@ -89,6 +89,13 @@
         }
     }
 
+    &-vertical&-active{
+        .@{progress-prefix-cls}-bg:before {
+            top: auto;
+            animation: ivu-progress-active-vertical 2s @ease-in-out infinite;
+        }
+    }
+
     &-wrong {
         .@{progress-prefix-cls}-bg {
             background-color: @error-color;
@@ -116,5 +123,16 @@
     100% {
         opacity: 0;
         width: 100%;
+    }
+}
+
+@keyframes ivu-progress-active-vertical {
+    0% {
+        opacity: .3;
+        height: 0;
+    }
+    100% {
+        opacity: 0;
+        height: 100%;
     }
 }
