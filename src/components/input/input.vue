@@ -4,6 +4,7 @@
             <div :class="[prefixCls + '-group-prepend']" v-if="prepend" v-show="slotReady"><slot name="prepend"></slot></div>
             <i class="ivu-icon" :class="['ivu-icon-ios-close-circle', prefixCls + '-icon', prefixCls + '-icon-clear' , prefixCls + '-icon-normal']" v-if="clearable && currentValue" @click="handleClear"></i>
             <i class="ivu-icon" :class="['ivu-icon-' + icon, prefixCls + '-icon', prefixCls + '-icon-normal']" v-else-if="icon" @click="handleIconClick"></i>
+            <span class="ivu-input-suffix" v-else-if="showSuffix"><slot name="suffix"><i class="ivu-icon" :class="['ivu-icon-' + suffix]" v-if="suffix"></i></slot></span>
             <transition name="fade">
                 <i class="ivu-icon ivu-icon-ios-loading ivu-load-loop" :class="[prefixCls + '-icon', prefixCls + '-icon-validate']" v-if="!icon"></i>
             </transition>
@@ -31,6 +32,7 @@
                 @input="handleInput"
                 @change="handleChange">
             <div :class="[prefixCls + '-group-append']" v-if="append" v-show="slotReady"><slot name="append"></slot></div>
+            <span class="ivu-input-prefix" v-else-if="showPrefix"><slot name="prefix"><i class="ivu-icon" :class="['ivu-icon-' + prefix]" v-if="prefix"></i></slot></span>
         </template>
         <textarea
             v-else
@@ -142,6 +144,14 @@
                     return oneOf(value, ['hard', 'soft']);
                 },
                 default: 'soft'
+            },
+            prefix: {
+                type: String,
+                default: ''
+            },
+            suffix: {
+                type: String,
+                default: ''
             }
         },
         data () {
@@ -151,7 +161,9 @@
                 prepend: true,
                 append: true,
                 slotReady: false,
-                textareaStyles: {}
+                textareaStyles: {},
+                showPrefix: false,
+                showSuffix: false
             };
         },
         computed: {
@@ -174,7 +186,9 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-${this.size}`]: !!this.size,
-                        [`${prefixCls}-disabled`]: this.disabled
+                        [`${prefixCls}-disabled`]: this.disabled,
+                        [`${prefixCls}-with-prefix`]: this.showPrefix,
+                        [`${prefixCls}-with-suffix`]: this.showSuffix
                     }
                 ];
             },
@@ -273,6 +287,8 @@
             if (this.type !== 'textarea') {
                 this.prepend = this.$slots.prepend !== undefined;
                 this.append = this.$slots.append !== undefined;
+                this.showPrefix = this.prefix !== '' || this.$slots.prefix !== undefined;
+                this.showSuffix = this.suffix !== '' || this.$slots.suffix !== undefined;
             } else {
                 this.prepend = false;
                 this.append = false;
