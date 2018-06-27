@@ -129,7 +129,11 @@
             <Icon type="ios-aperture" slot="prefix" />
         </Input>
         <br><br><br><br>
+        <Input v-model="value" search enter-button style="width: 300px" @on-search="hs" size="small" />
+        <br>
         <Input v-model="value" search enter-button style="width: 300px" @on-search="hs" />
+        <br>
+        <Input v-model="value" search enter-button style="width: 300px" @on-search="hs" size="large" />
         <br><br>
         <Input v-model="value" search style="width: 300px" @on-search="hs" />
         <br><br>

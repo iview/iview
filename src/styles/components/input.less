@@ -113,6 +113,10 @@
         position: relative;
         z-index: 2;
 
+        i{
+            font-size: 16px;
+        }
+
         &:hover{
             background: tint(@primary-color, 20%) !important;
             border-color: tint(@primary-color, 20%) !important;
@@ -139,6 +143,18 @@
             bottom: -1px;
             left: -1px;
             background: inherit;
+        }
+    }
+    &-wrapper-small &-search{
+        padding: 0 12px !important;
+        i{
+            font-size: 14px;
+        }
+    }
+    &-wrapper-large &-search{
+        padding: 0 20px !important;
+        i{
+            font-size: 18px;
         }
     }
     &-with-search{
