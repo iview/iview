@@ -1,7 +1,8 @@
 <template>
     <div>
-        <Table :columns="columns8" :data="data7" size="small" ref="table"></Table>
+        <Table :columns="columns8" :data="data7" :page-size="pageSizeNumber" :current-page="pageNumber" size="small" ref="table"></Table>
         <br>
+        <Page :current="page" :page-size="pageSizeNumber" :total="data7.length" @on-change="changePage" @on-page-size-change="changePageSize" show-elevator show-sizer show-total></Page>
         <Button type="primary" size="large" @click="exportData(1)"><Icon type="ios-download-outline"></Icon> Export source data</Button>
         <Button type="primary" size="large" @click="exportData(2)"><Icon type="ios-download-outline"></Icon> Export sorting and filtered data</Button>
         <Button type="primary" size="large" @click="exportData(3)"><Icon type="ios-download-outline"></Icon> Export custom data</Button>
@@ -253,8 +254,33 @@
                         "day": 9768,
                         "week": 2864,
                         "month": 5811
+                    },
+                    {
+                        "name": "Name11",
+                        "fav": 0,
+                        "show": 2387,
+                        "weak": 2348,
+                        "signin": 3428,
+                        "click": 4554,
+                        "active": 8971,
+                        "day7": 3254,
+                        "day30": 5341,
+                        "tomorrow": 455,
+                        "day": 5315,
+                        "week": 3548,
+                        "month": 8915
                     }
-                ]
+                ],
+                pageSize: 10,
+                page: 1,
+            }
+        },
+        computed: {
+            pageSizeNumber: function () {
+                return Number(this.pageSize);
+            },
+            pageNumber: function () {
+                return Number(this.page);
             }
         },
         methods: {
@@ -275,6 +301,12 @@
                         data: this.data7.filter((data, index) => index < 4)
                     });
                 }
+            },
+            changePage(page) {
+                this.page = page;
+            },
+            changePageSize(size) {
+                this.pageSize = size;
             }
         }
     }

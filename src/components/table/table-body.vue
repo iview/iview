@@ -4,7 +4,7 @@
             <col v-for="(column, index) in columns" :width="setCellWidth(column)">
         </colgroup>
         <tbody :class="[prefixCls + '-tbody']">
-            <template v-for="(row, index) in data">
+            <template v-for="(row, index) in pagedData">
                 <table-tr
                     :row="row"
                     :key="row._rowKey"
@@ -58,7 +58,20 @@
             fixed: {
                 type: [Boolean, String],
                 default: false
+            },
+            pageSize: {
+                type: Number,
+                default: Number.MAX_VALUE,
+            },
+            currentPage: {
+                type: Number,
+                default: 1,
             }
+        },
+        data () {
+            return {
+                pagedData: [],
+            };
         },
         computed: {
             expandRender () {
@@ -72,6 +85,23 @@
                     }
                 }
                 return render;
+            },
+            actualPageSize () {
+                return Math.min(Math.max(this.pageSize, 1), this.data.length);
+            },
+            actualCurrentPage() {
+                return this.currentPage < 1 ? 1 : this.currentPage;
+            },
+            start () {
+                let start = (this.actualPageSize * this.actualCurrentPage) - this.actualPageSize;
+                start = Math.min(start, this.data.length);
+                return start;
+            },
+            stop () {
+                let stop = (this.actualPageSize * this.actualCurrentPage) - this.actualPageSize;
+                stop = Math.min(stop, this.data.length);
+                stop = stop + this.actualPageSize;
+                return stop;
             }
         },
         methods: {
@@ -95,7 +125,27 @@
             },
             dblclickCurrentRow (_index) {
                 this.$parent.dblclickCurrentRow(_index);
+            },
+            buildData() {
+                this.pagedData = [];
+
+                this.data.forEach((row, index) => {
+                    if (index >= this.start && index < this.stop) {
+                        this.pagedData.push(row);
+                    }
+                });
             }
+        },
+        watch: {
+            actualCurrentPage: function () {
+                this.buildData();
+            },
+            data: function () {
+                this.buildData();
+            }
+        },
+        created() {
+            this.buildData();
         }
     };
 </script>
