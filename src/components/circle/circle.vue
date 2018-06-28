@@ -86,7 +86,7 @@
                         'stroke-dasharray': `${this.len - 75}px ${this.len}px`,
                         'stroke-dashoffset': `-${75 / 2}px`,
                         'transition': 'stroke-dashoffset .3s ease 0s, stroke-dasharray .3s ease 0s, stroke .3s'
-                    }
+                    };
                 }
                 return style;
             },

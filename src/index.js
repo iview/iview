@@ -18,6 +18,7 @@ import Collapse from './components/collapse';
 import ColorPicker from './components/color-picker';
 import Content from './components/content';
 import DatePicker from './components/date-picker';
+import Divider from './components/divider';
 import Dropdown from './components/dropdown';
 import Footer from './components/footer';
 import Form from './components/form';
@@ -55,7 +56,6 @@ import Tree from './components/tree';
 import Upload from './components/upload';
 import {Row, Col} from './components/grid';
 import {Select, Option, OptionGroup} from './components/select';
-import Divider from './components/divider';
 import locale from './locale/index';
 
 const components = {
@@ -84,6 +84,7 @@ const components = {
     ColorPicker,
     Content: Content,
     DatePicker,
+    Divider,
     Dropdown,
     DropdownItem: Dropdown.Item,
     DropdownMenu: Dropdown.Menu,
@@ -132,8 +133,7 @@ const components = {
     Tooltip,
     Transfer,
     Tree,
-    Upload,
-    Divider
+    Upload
 };
 
 const iview = {
