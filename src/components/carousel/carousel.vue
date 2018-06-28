@@ -307,8 +307,10 @@
                 this.updatePos();
             },
             value (val) {
-                this.currentIndex = val;
-                this.trackIndex = val;
+//                this.currentIndex = val;
+//                this.trackIndex = val;
+                this.updateTrackIndex(val);
+                this.setAutoplay();
             }
         },
         mounted () {

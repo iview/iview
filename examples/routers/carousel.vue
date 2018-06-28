@@ -10,7 +10,7 @@
 </style>
 <template>
     <div style="width: 400px;">
-        <Carousel loop arrow="always" @on-change="handleChange">
+        <Carousel v-model="value1" loop arrow="always" @on-change="handleChange">
             <CarouselItem>
                 <div class="demo-carousel">1</div>
             </CarouselItem>
@@ -24,6 +24,7 @@
                 <div class="demo-carousel">4</div>
             </CarouselItem>
         </Carousel>
+        <Button @click="value1 = 2">change</Button>
     </div>
 </template>
 <script>
