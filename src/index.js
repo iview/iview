@@ -166,7 +166,7 @@ const install = function(Vue, opts = {}) {
 
     Vue.prototype.$IVIEW = {
         size: opts.size || '',
-        transfer: opts.transfer || ''
+        transfer: 'transfer' in opts ? opts.transfer : ''
     };
 
     Vue.prototype.$Loading = LoadingBar;

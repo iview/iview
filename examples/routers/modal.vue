@@ -1,39 +1,30 @@
 <template>
     <div>
-        <p>
-            Name: {{ value }}
-    </p>
-        <p>
-            <Button @click="handleRender">Custom content</Button>
-        </p>
+        <Button type="primary" @click="modal1 = true">Display dialog box</Button>
+        <Modal
+                v-model="modal1"
+                title="Common Modal dialog box title"
+                @on-ok="ok"
+                @on-cancel="cancel">
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+            <p>Content of dialog</p>
+        </Modal>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                value: ''
+                modal1: false
             }
         },
         methods: {
-            handleRender () {
-                this.$Modal.confirm({
-                    title: '真不错呀',
-                    render: (h) => {
-                        return h('Input', {
-                            props: {
-                                value: this.value,
-                                autofocus: true,
-                                placeholder: 'Please enter your name...'
-                            },
-                            on: {
-                                input: (val) => {
-                                    this.value = val;
-                                }
-                            }
-                        })
-                    }
-                })
+            ok () {
+                this.$Message.info('Clicked ok');
+            },
+            cancel () {
+                this.$Message.info('Clicked cancel');
             }
         }
     }

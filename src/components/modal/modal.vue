@@ -99,7 +99,9 @@
             },
             transfer: {
                 type: Boolean,
-                default: true
+                default () {
+                    return this.$IVIEW.transfer === '' ? true : this.$IVIEW.transfer;
+                }
             },
             fullscreen: {
                 type: Boolean,
