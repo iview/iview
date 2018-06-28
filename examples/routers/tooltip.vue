@@ -1,13 +1,13 @@
 <template>
     <div style="margin: 200px;">
-        <Tooltip always placement="top-end" transfer :content="text" :delay="1000" theme="light">
+        <Tooltip always placement="top-end" :content="text" :delay="1000" theme="light">
             <Button @click="disabled = true">延时1秒显示</Button>
         </Tooltip>
-        <Tooltip always transfer :max-width="200" content="我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长">
+        <Tooltip always :max-width="200" content="我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长">
             <Button @click="handleChange">change</Button>
         </Tooltip>
         <Button @click="handleChange">change</Button>
-        <Poptip title="Title" transfer padding="0" width="250" word-wrap content="我的文本超级，无敌,长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长">
+        <Poptip title="Title" padding="0" width="250" word-wrap content="我的文本超级，无敌,长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长我的文本超级无敌长">
             <Button>Click</Button>
         </Poptip>
     </div>
