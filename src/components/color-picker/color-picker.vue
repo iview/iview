@@ -168,11 +168,12 @@ export default {
             default: false,
         },
         size: {
-            type: String,
             validator(value) {
                 return oneOf(value, ['small', 'large', 'default']);
             },
-            default: 'default',
+            default () {
+                return this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
+            }
         },
         hideDropDown: {
             type: Boolean,
@@ -200,7 +201,9 @@ export default {
         },
         transfer: {
             type: Boolean,
-            default: false,
+            default () {
+                return this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+            }
         },
         name: {
             type: String,

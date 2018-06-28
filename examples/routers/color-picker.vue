@@ -5,18 +5,15 @@
         <color-picker
             v-model="color"
             placement="bottom-start"
-            size="large"
             @on-change="c1"
             @on-active-change="c2"></color-picker>
         <Input value="hello" style="display: inline-block" />
         <Date-picker
-            transfer
             type="date"
             placeholder="选择日期"
             style="width: 200px"></Date-picker>
         <color-picker
             ref="xxx"
-            :transfer="true"
             v-model="color"
             :recommend="true"
             format="rgb"
@@ -32,17 +29,15 @@
         <color-picker
             v-model="color"
             placement="bottom-start"
-            size="small"></color-picker>
+            ></color-picker>
         <Date-picker
             type="date"
             placeholder="选择日期"
-            size="small"
             style="width: 200px"></Date-picker>
         <color-picker
             ref="yyy"
             :colors="colors"
             v-model="color"
-            transfer
             format="rgb"
             alpha></color-picker>
         <Button @click="setColor">set color</Button>
@@ -57,7 +52,6 @@
             v-model="color7"
             :hue="false"
             :hide-drop-down="hideDropDown"
-            transfer
             @on-open-change="onOpenChange"></ColorPicker>
 
         <br><br><br><br>
