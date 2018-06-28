@@ -164,6 +164,11 @@ const install = function(Vue, opts = {}) {
         Vue.component(key, iview[key]);
     });
 
+    Vue.prototype.$IVIEW = {
+        size: opts.size || '',
+        transfer: opts.transfer || ''
+    };
+
     Vue.prototype.$Loading = LoadingBar;
     Vue.prototype.$Message = Message;
     Vue.prototype.$Modal = Modal;

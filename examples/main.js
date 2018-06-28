@@ -10,7 +10,10 @@ import iView from '../src/index';
 import locale from '../src/locale/lang/zh-CN';
 
 Vue.use(VueRouter);
-Vue.use(iView, { locale });
+Vue.use(iView, {
+    locale,
+    transfer: true
+});
 
 // 开启debug模式
 Vue.config.debug = true;
