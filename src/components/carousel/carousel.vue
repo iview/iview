@@ -227,6 +227,7 @@
                 } else {
                     this.trackIndex = index;
                 }
+                this.currentIndex = index;
             },
             add (offset) {
                 // 获取单个轨道的图片数
