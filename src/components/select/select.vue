@@ -372,6 +372,8 @@
                                 return applyProp(node, 'visiable', this.validateOption(node.componentOptions));
                             });
                             this.broadcast('OptionGroup', 'on-query-change');
+                        }else{
+                            this.hasVisibleGroupOption = true;
                         }
 
                         cOptions.children = children.map(opt => {
