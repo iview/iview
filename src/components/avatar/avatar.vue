@@ -25,7 +25,9 @@
                 validator (value) {
                     return oneOf(value, ['small', 'large', 'default']);
                 },
-                default: 'default'
+                default () {
+                    return this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
+                }
             },
             src: {
                 type: String
