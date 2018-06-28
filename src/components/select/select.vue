@@ -254,6 +254,7 @@
                 unchangedQuery: true,
                 hasExpectedValue: false,
                 preventRemoteCall: false,
+                hasVisibleGroupOption: true,
             };
         },
         computed: {
@@ -309,7 +310,7 @@
             dropVisible () {
                 let status = true;
                 const noOptions = !this.selectOptions || this.selectOptions.length === 0;
-                if (!this.loading && this.remote && this.query === '' && noOptions) status = false;
+                if (!this.loading && this.remote && this.query === '') status = false;
 
                 if (this.autoComplete && noOptions) status = false;
 
@@ -317,7 +318,7 @@
             },
             showNotFoundLabel () {
                 const {loading, remote, selectOptions} = this;
-                return selectOptions && selectOptions.length === 0 && (!remote || (remote && !loading));
+                return selectOptions && selectOptions.length === 0 && (!remote || (remote && !loading)) || !this.hasVisibleGroupOption;
             },
             publicValue(){
                 if (this.labelInValue){
@@ -356,6 +357,7 @@
                     });
                 }
                 let hasDefaultSelected = slotOptions.some(option => this.query === option.key);
+                this.hasVisibleGroupOption = false;
                 for (let option of slotOptions) {
 
                     const cOptions = option.componentOptions;
@@ -363,11 +365,13 @@
                     if (cOptions.tag.match(optionGroupRegexp)){
                         let children = cOptions.children;
 
-                        // remove filtered children
+                        // set children visiable
                         if (this.filterable){
-                            children = children.filter(
-                                ({componentOptions}) => this.validateOption(componentOptions)
-                            );
+                            children = children.map( node => {
+                                if(this.validateOption(node.componentOptions)) this.hasVisibleGroupOption = true;
+                                return applyProp(node, 'visiable', this.validateOption(node.componentOptions));
+                            });
+                            this.broadcast('OptionGroup', 'on-query-change');
                         }
 
                         cOptions.children = children.map(opt => {
@@ -378,6 +382,7 @@
                         // keep the group if it still has children
                         if (cOptions.children.length > 0) selectOptions.push({...option});
                     } else {
+                        this.hasVisibleGroupOption = true;
                         // ignore option if not passing filter
                         if (!hasDefaultSelected) {
                             const optionPassesFilter = this.filterable ? this.validateOption(cOptions) : option;

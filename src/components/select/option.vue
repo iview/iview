@@ -1,5 +1,6 @@
 <template>
     <li
+        v-show="visiable"
         :class="classes"
         @click.stop="select"
         @touchend.stop="select"
@@ -36,6 +37,10 @@
             isFocused: {
                 type: Boolean,
                 default: false
+            },
+            visiable:{
+                type:Boolean,
+                default:true
             }
         },
         data () {
