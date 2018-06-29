@@ -26,7 +26,7 @@ export default {
     methods: {
         handleClick () {
             const isRoute = this.$router;
-            let href = this.to || this.href;
+            const href = this.to || this.href;
             if (isRoute) {
                 this.replace ? this.$router.replace(href) : this.$router.push(href);
             } else {
