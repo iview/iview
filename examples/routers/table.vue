@@ -1,20 +1,21 @@
 <template>
     <div>
-        <Table border ref="selection" :columns="columns4" :data="data1"></Table>
-        <br><br>
-        <Button @click="handleSelectAll(true)">Set all selected</Button>
-        <Button @click="handleSelectAll(false)">Cancel all selected</Button>
+        <Table highlight-row ref="currentRowTable" :columns="columns3" :data="data1"></Table>
+        <Button @click="handleClearCurrentRow">Clear</Button>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                columns4: [
+                columns3: [
                     {
-                        type: 'selection',
+                        type: 'index',
                         width: 60,
-                        align: 'center'
+                        align: 'center',
+                        indexMethod (row) {
+                            return row._index;
+                        }
                     },
                     {
                         title: 'Name',
@@ -58,8 +59,8 @@
             }
         },
         methods: {
-            handleSelectAll (status) {
-                this.$refs.selection.selectAll(status);
+            handleClearCurrentRow () {
+                this.$refs.currentRowTable.clearCurrentRow();
             }
         }
     }
