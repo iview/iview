@@ -26,14 +26,15 @@ export default {
     methods: {
         handleClick () {
             const isRoute = this.$router;
+            let href = this.to || this.href;
             if (isRoute) {
-                this.replace ? this.$router.replace(this.to) : this.$router.push(this.to);
+                this.replace ? this.$router.replace(href) : this.$router.push(href);
             } else {
-                window.location.href = this.to;
+                window.location.href = href;
             }
         },
         handleCheckClick (event) {
-            if (this.to) {
+            if (this.to || this.href) {
                 if (this.target === '_blank') {
                     return false;
                 } else {

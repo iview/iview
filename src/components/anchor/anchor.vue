@@ -25,7 +25,6 @@ export default {
             prefix: 'ivu-anchor',
             isAffixed: false, // current affixed state
             inkTop: 0,
-            linkHeight: 0,
             animating: false, // if is scrolling now
             currentLink: '', // current show link =>  #href -> currentLink = #href
             currentId: '', // current show title id =>  #href -> currentId = href
@@ -82,13 +81,6 @@ export default {
             this.updateTitleOffset();
             const scrollTop = document.documentElement.scrollTop || document.body.scrollTop || e.target.scrollTop;
             this.getCurrentScrollAtTitleId(scrollTop);
-        },
-        turnTo (href) {
-            this.currentLink = href;
-            this.$router.push({
-                path: href
-            });
-            this.$emit('on-select', href);
         },
         handleHashChange () {
             const url = window.location.href;
@@ -159,8 +151,7 @@ export default {
             off(window, 'hashchange', this.handleHashChange);
         },
         init () {
-            const anchorLink = findComponentDownward(this, 'AnchorLink');
-            this.linkHeight = anchorLink ? anchorLink.$el.getBoundingClientRect().height : 0;
+            // const anchorLink = findComponentDownward(this, 'AnchorLink');
             this.handleHashChange();
             this.$nextTick(() => {
                 this.removeListener();
@@ -178,7 +169,9 @@ export default {
     watch: {
         '$route' () {
             this.handleHashChange();
-            this.handleScrollTo();
+            this.$nextTick(() => {
+                this.handleScrollTo();
+            })
         },
         container () {
             this.init();
