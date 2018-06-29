@@ -1,6 +1,6 @@
 <template>
 	<div :class="anchorLinkClasses">
-        <a :class="linkTitleClasses" href="javascript:void(0)" :data-href="href" @click="goAnchor" :title="title">{{ title }}</a>
+        <a :class="linkTitleClasses" :href="href" :data-href="href" @click.prevent="goAnchor" :title="title">{{ title }}</a>
         <slot></slot>
     </div>
 </template>
