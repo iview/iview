@@ -11,7 +11,7 @@
 	</component>
 </template>
 <script>
-import { scrollTop, findComponentDownward, findComponentsDownward, sharpMatcherRegx } from '../../utils/assist';
+import { scrollTop, findComponentsDownward, sharpMatcherRegx } from '../../utils/assist';
 import { on, off } from '../../utils/dom';
 export default {
     name: 'Anchor',
@@ -171,7 +171,7 @@ export default {
             this.handleHashChange();
             this.$nextTick(() => {
                 this.handleScrollTo();
-            })
+            });
         },
         container () {
             this.init();
