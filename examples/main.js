@@ -20,6 +20,7 @@ Vue.config.debug = true;
 // 路由配置
 const router = new VueRouter({
     esModule: false,
+    mode: 'history',
     routes: [
         {
             path: '/split',
