@@ -5,11 +5,9 @@
     </div>
 </template>
 <script>
-import mixinsLink from '../../mixins/link';
 export default {
     name: 'AnchorLink',
     inject: ['anchorCom'],
-    mixins: [ mixinsLink ],
     props: {
         href: String,
         title: String
@@ -33,10 +31,15 @@ export default {
         }
     },
     methods: {
-        goAnchor (event) {
+        goAnchor () {
             this.currentLink = this.href;
-            this.$emit('on-select', this.href);
-            this.handleCheckClick(event);
+            this.anchorCom.$emit('on-select', this.href);
+            const isRoute = this.$router;
+            if (isRoute) {
+                this.$router.push(this.href);
+            } else {
+                window.location.href = this.href;
+            }
         }
     },
     mounted () {
