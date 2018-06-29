@@ -107,7 +107,6 @@
 
     const prefixCls = 'ivu-table';
 
-    let rowKey = 1;
     let columnKey = 1;
 
     export default {
@@ -756,6 +755,7 @@
                 this.$emit('on-filter-change', this.cloneColumns[index]);
             },
             makeData () {
+                let rowKey = 1;
                 let data = deepCopy(this.data);
                 data.forEach((row, index) => {
                     row._index = index;
