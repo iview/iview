@@ -60,9 +60,9 @@
         }
     }
 
-    &-ghost {
-        .btn-ghost;
-    }
+    //&-ghost {
+    //    .btn-ghost;
+    //}
 
     &-dashed{
         .btn-dashed;
@@ -124,5 +124,67 @@
 
     &-group-vertical {
         .btn-group-vertical(@btn-prefix-cls);
+    }
+
+    // The new ghost in 3.0
+    &-ghost{
+        color: #fff;
+        background: transparent;
+        &:hover{
+            background: transparent;
+        }
+    }
+    &-ghost&-dashed, &-ghost&-default{
+        color: #fff;
+        border-color: #fff;
+        &:hover{
+            color: tint(@primary-color, 20%);
+            border-color: tint(@primary-color, 20%);
+        }
+    }
+    &-ghost&-primary{
+        color: @primary-color;
+        &:hover{
+            color: tint(@primary-color, 20%);
+            background: fade(tint(@primary-color, 95%), 50%);
+        }
+    }
+    &-ghost&-info{
+        color: @info-color;
+        &:hover{
+            color: tint(@info-color, 20%);
+            background: fade(tint(@info-color, 95%), 50%);
+        }
+    }
+    &-ghost&-success{
+        color: @success-color;
+        &:hover{
+            color: tint(@success-color, 20%);
+            background: fade(tint(@success-color, 95%), 50%);
+        }
+    }
+    &-ghost&-warning{
+        color: @warning-color;
+        &:hover{
+            color: tint(@warning-color, 20%);
+            background: fade(tint(@warning-color, 95%), 50%);
+        }
+    }
+    &-ghost&-error{
+        color: @error-color;
+        &:hover{
+            color: tint(@error-color, 20%);
+            background: fade(tint(@error-color, 95%), 50%);
+        }
+    }
+
+    &-ghost&-default[disabled], &-ghost&-dashed[disabled], &-ghost&-primary[disabled], &-ghost&-info[disabled], &-ghost&-success[disabled], &-ghost&-warning[disabled], &-ghost&-error[disabled]{
+        background: transparent;
+        color: fade(#000, 25%);
+        border-color: @btn-disable-border;
+    }
+    &-ghost&-text[disabled]{
+        background: transparent;
+        color: fade(#000, 25%);
     }
 }

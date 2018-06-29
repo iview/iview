@@ -15,6 +15,10 @@
             },
             value: {
                 type: [Array, String]
+            },
+            simple: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -24,7 +28,12 @@
         },
         computed: {
             classes () {
-                return `${prefixCls}`;
+                return [
+                    `${prefixCls}`,
+                    {
+                        [`${prefixCls}-simple`]: this.simple
+                    }
+                ];
             }
         },
         mounted () {

@@ -5,9 +5,9 @@
     </div>
 </template>
 <script>
-import { findComponentUpward } from '../../utils/assist';
 export default {
     name: 'AnchorLink',
+    inject: ['anchorCom'],
     props: {
         href: String,
         title: String
@@ -21,29 +21,23 @@ export default {
         anchorLinkClasses () {
             return [
                 this.prefix,
-                this.currentLink === this.href ? `${this.prefix}-active` : ''
+                this.anchorCom.currentLink === this.href ? `${this.prefix}-active` : ''
             ];
         },
         linkTitleClasses () {
             return [
                 `${this.prefix}-title`
             ];
-        },
-        parentAnchor () {
-            return findComponentUpward(this, 'Anchor');
-        },
-        currentLink () {
-            return this.parentAnchor.currentLink;
         }
     },
     methods: {
         goAnchor () {
-            this.parentAnchor.turnTo(this.href);
+            this.anchorCom.turnTo(this.href);
         }
     },
     mounted () {
         this.$nextTick(() => {
-            this.parentAnchor.init();
+            this.anchorCom.init();
         });
     }
 };

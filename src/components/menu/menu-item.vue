@@ -1,15 +1,18 @@
 <template>
-    <li :class="classes" @click.stop="handleClick" :style="itemStyle"><slot></slot></li>
+    <a v-if="to" :href="linkUrl" :target="target" :class="classes" @click="handleClickItem" :style="itemStyle"><slot></slot></a>
+    <li v-else :class="classes" @click.stop="handleClickItem" :style="itemStyle"><slot></slot></li>
 </template>
 <script>
     import Emitter from '../../mixins/emitter';
     import { findComponentUpward } from '../../utils/assist';
-    const prefixCls = 'ivu-menu';
     import mixin from './mixin';
+    import mixinsLink from '../../mixins/link';
+
+    const prefixCls = 'ivu-menu';
 
     export default {
         name: 'MenuItem',
-        mixins: [ Emitter, mixin ],
+        mixins: [ Emitter, mixin, mixinsLink ],
         props: {
             name: {
                 type: [String, Number],
@@ -18,7 +21,7 @@
             disabled: {
                 type: Boolean,
                 default: false
-            }
+            },
         },
         data () {
             return {
@@ -43,7 +46,7 @@
             }
         },
         methods: {
-            handleClick () {
+            handleClickItem (event) {
                 if (this.disabled) return;
 
                 let parent = findComponentUpward(this, 'Submenu');
@@ -53,6 +56,8 @@
                 } else {
                     this.dispatch('Menu', 'on-menu-item-select', this.name);
                 }
+
+                this.handleCheckClick(event);
             }
         },
         mounted () {

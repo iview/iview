@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Menu ref="menu" active-name="1-2" :open-names="openNames" theme="dark" accordion @on-open-change="handleOpenChange">
+        <Menu ref="menu" active-name="1-2" :open-names="openNames" theme="light" accordion @on-open-change="handleOpenChange">
             <Submenu name="1">
                 <template slot="title">
                     <Icon type="ios-analytics"></Icon>
@@ -20,8 +20,8 @@
                     <Icon type="ios-filing"></Icon>
                     Navigation Two
                 </template>
-                <MenuItem name="2-1">Option 5</MenuItem>
-                <MenuItem name="2-2">Option 6</MenuItem>
+                <MenuItem name="2-1" to="/button">Option 5</MenuItem>
+                <MenuItem name="2-2" to="//iviewui.com" target="_blank">Option 6</MenuItem>
                 <Submenu name="3">
                     <template slot="title">Submenu</template>
                     <MenuItem name="3-1">Option 7</MenuItem>

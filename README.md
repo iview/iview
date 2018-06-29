@@ -40,13 +40,14 @@
 ## Who's using iView
 
 - [TalkingData](http://www.talkingdata.com/)
-- [Alibaba](http://www.alibaba.com/)
-- [Tencent](https://www.tencent.com/)
-- [JD](http://www.jd.com/)
-- [DiDi](http://www.didichuxing.com/)
-- [Meituan](http://www.meituan.com/)
-- [Sina](http://www.sina.com.cn/)
-- [Lenovo](https://www.lenovo.com.cn/)
+- [Alibaba 阿里巴巴](http://www.alibaba.com/)
+- [Baidu 百度](https://www.baidu.com/)
+- [Tencent 腾讯](https://www.tencent.com/)
+- [Toutiao 今日头条](https://www.toutiao.com/)
+- [JD 京东](http://www.jd.com/)
+- [DiDi 滴滴](http://www.didichuxing.com/)
+- [Meituan 美团](http://www.meituan.com/)
+- [Sina 新浪](http://www.sina.com.cn/)
 
 > If your company or products use iView, welcome to click [here](https://github.com/iview/iview/issues/2143) to leave a message.
 

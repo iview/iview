@@ -2,7 +2,9 @@
     <div>
         <p>带描述信息</p>
         <Button @click="normal(false)">普通</Button>
+        <Button @click="normal(true)">普通</Button>
         <Button @click="info(false)">消息</Button>
+        <Button @click="info(true)">消息</Button>
         <Button @click="success(false)">成功</Button>
         <Button @click="warning(false)">警告</Button>
         <Button @click="error(false)">错误</Button>
@@ -23,19 +25,19 @@
                     title: 'google',
                     duration: 0,
                     desc: nodesc ? '' : '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描述这里是通知描述',
-                    render (h) {
-                        return h('span', {}, 'sdsdfsdf');
-                    }
+//                    render (h) {
+//                        return h('span', {}, 'sdsdfsdf');
+//                    }
                 });
             },
             info (nodesc) {
                 this.$Notice.info({
-                    // title: '这是通知标题',
+                     title: '这是通知标题',
                     duration: 0,
                     desc: nodesc ? '' : '这里是通知描述这里,是通知描述这里是通知描述这里,是通知描述这里,是通知描述这里是通知描述这里是通知描述',
-                    render (h) {
-                        return h('span', {}, 'sdsdfsdf');
-                    }
+//                    render (h) {
+//                        return h('span', {}, 'sdsdfsdf');
+//                    }
                 });
             },
             success () {

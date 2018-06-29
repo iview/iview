@@ -171,6 +171,9 @@
             size: {
                 validator (value) {
                     return oneOf(value, ['small', 'large', 'default']);
+                },
+                default () {
+                    return this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             placeholder: {
@@ -185,7 +188,9 @@
             },
             transfer: {
                 type: Boolean,
-                default: false
+                default () {
+                    return this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+                }
             },
             name: {
                 type: String
@@ -259,8 +264,8 @@
             },
             iconType () {
                 let icon = 'ios-calendar-outline';
-                if (this.type === 'time' || this.type === 'timerange') icon = 'ios-clock-outline';
-                if (this.showClose) icon = 'ios-close';
+                if (this.type === 'time' || this.type === 'timerange') icon = 'ios-time-outline';
+                if (this.showClose) icon = 'ios-close-circle';
                 return icon;
             },
             transition () {

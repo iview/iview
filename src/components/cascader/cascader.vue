@@ -16,8 +16,8 @@
                     :class="[prefixCls + '-label']"
                     v-show="filterable && query === ''"
                     @click="handleFocus">{{ displayRender }}</div>
-                <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSelect"></Icon>
-                <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']"></Icon>
+                <Icon type="ios-close-circle" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSelect"></Icon>
+                <Icon type="ios-arrow-down" :class="[prefixCls + '-arrow']"></Icon>
             </slot>
         </div>
         <transition name="transition-drop">
@@ -97,7 +97,10 @@
             },
             size: {
                 validator (value) {
-                    return oneOf(value, ['small', 'large']);
+                    return oneOf(value, ['small', 'large', 'default']);
+                },
+                default () {
+                    return this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             trigger: {
@@ -128,7 +131,9 @@
             },
             transfer: {
                 type: Boolean,
-                default: false
+                default () {
+                    return this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+                }
             },
             name: {
                 type: String

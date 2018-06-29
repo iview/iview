@@ -25,7 +25,7 @@
                     <div
                         v-show="value === '' && !visible"
                         :class="[prefixCls + '-color-empty']">
-                        <i :class="[iconPrefixCls, iconPrefixCls + '-ios-close-empty']"></i>
+                        <i :class="[iconPrefixCls, iconPrefixCls + '-ios-close']"></i>
                     </div>
                     <div
                         v-show="value || visible"
@@ -87,7 +87,6 @@
                                 ref="clear"
                                 :tabindex="0"
                                 size="small"
-                                type="ghost"
                                 @click.native="handleClear"
                                 @keydown.enter="handleClear"
                                 @keydown.native.esc="closer"
@@ -169,11 +168,12 @@ export default {
             default: false,
         },
         size: {
-            type: String,
             validator(value) {
                 return oneOf(value, ['small', 'large', 'default']);
             },
-            default: 'default',
+            default () {
+                return this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
+            }
         },
         hideDropDown: {
             type: Boolean,
@@ -201,7 +201,9 @@ export default {
         },
         transfer: {
             type: Boolean,
-            default: false,
+            default () {
+                return this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+            }
         },
         name: {
             type: String,
@@ -248,7 +250,7 @@ export default {
         arrowClasses() {
             return [
                 this.iconPrefixCls,
-                `${this.iconPrefixCls}-arrow-down-b`,
+                `${this.iconPrefixCls}-ios-arrow-down`,
                 `${this.inputPrefixCls}-icon`,
                 `${this.inputPrefixCls}-icon-normal`,
             ];

@@ -5,7 +5,7 @@
         </div>
         <transition name="fade">
             <div
-                :class="[prefixCls + '-popper']"
+                :class="[prefixCls + '-popper', prefixCls + '-' + theme]"
                 ref="popper"
                 v-show="!disabled && (visible || always)"
                 @mouseenter="handleShowPopper"
@@ -14,7 +14,7 @@
                 v-transfer-dom>
                 <div :class="[prefixCls + '-content']">
                     <div :class="[prefixCls + '-arrow']"></div>
-                    <div :class="[prefixCls + '-inner']"><slot name="content">{{ content }}</slot></div>
+                    <div :class="innerClasses" :style="innerStyles"><slot name="content">{{ content }}</slot></div>
                 </div>
             </div>
         </transition>
@@ -60,13 +60,39 @@
             },
             transfer: {
                 type: Boolean,
-                default: false
+                default () {
+                    return this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+                }
+            },
+            theme: {
+                validator (value) {
+                    return oneOf(value, ['dark', 'light']);
+                },
+                default: 'dark'
+            },
+            maxWidth: {
+                type: [String, Number]
             }
         },
         data () {
             return {
                 prefixCls: prefixCls
             };
+        },
+        computed: {
+            innerStyles () {
+                const styles = {};
+                if (this.maxWidth) styles['max-width'] = `${this.maxWidth}px`;
+                return styles;
+            },
+            innerClasses () {
+                return [
+                    `${prefixCls}-inner`,
+                    {
+                        [`${prefixCls}-inner-with-width`]: !!this.maxWidth
+                    }
+                ];
+            }
         },
         watch: {
             content () {

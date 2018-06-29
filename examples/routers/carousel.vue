@@ -1,44 +1,43 @@
+<style>
+    .demo-carousel{
+        height: 200px;
+        line-height: 200px;
+        text-align: center;
+        color: #fff;
+        font-size: 20px;
+        background: #506b9e;
+    }
+</style>
 <template>
-    <div>
-        <Carousel v-model="v1" dots="outside" @on-change="hc" :autoplay="false">
-            <Carousel-item>
-                <div class="demo-case-img">
-                    <img src="https://file.iviewui.com/dist/84b3cded4163febf9dae090e76129322.png">
-                </div>
-            </Carousel-item>
-            <Carousel-item>
-                <div class="demo-case-img">
-                    <img src="https://file.iviewui.com/dist/84b3cded4163febf9dae090e76129322.png">
-                </div>
-            </Carousel-item>
-            <Carousel-item>
-                <div class="demo-case-img">
-                    <img src="https://file.iviewui.com/dist/84b3cded4163febf9dae090e76129322.png">
-                </div>
-            </Carousel-item>
+    <div style="width: 400px;">
+        <Carousel v-model="value1" loop arrow="always" @on-change="handleChange">
+            <CarouselItem>
+                <div class="demo-carousel">1</div>
+            </CarouselItem>
+            <CarouselItem>
+                <div class="demo-carousel">2</div>
+            </CarouselItem>
+            <CarouselItem>
+                <div class="demo-carousel">3</div>
+            </CarouselItem>
+            <CarouselItem>
+                <div class="demo-carousel">4</div>
+            </CarouselItem>
         </Carousel>
-        <Button @click="v1 = 2">change</Button>
+        <Button @click="value1 = 2">change</Button>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                v1: 0
+                value1: 0
             }
         },
         methods: {
-            hc (...args) {
-                console.log(args);
+            handleChange (old, newval) {
+                console.log(old, newval);
             }
         }
     }
 </script>
-<style lang="less">
-    .demo-case-img {
-        img{
-            width: 500px;
-        }
-    }
-</style>
-
