@@ -93,6 +93,7 @@ export default {
         handleHashChange () {
             const url = window.location.href;
             const sharpLinkMatch = sharpMatcherRegx.exec(url);
+            if (!sharpLinkMatch) return;
             this.currentLink = sharpLinkMatch[0];
             this.currentId = sharpLinkMatch[1];
         },
