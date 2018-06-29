@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Table highlight-row ref="currentRowTable" :columns="columns3" :data="data1"></Table>
+        <Table ref="currentRowTable" :columns="columns3" :data="data1"></Table>
         <Button @click="handleClearCurrentRow">Clear</Button>
     </div>
 </template>
@@ -27,20 +27,21 @@
                     },
                     {
                         title: 'Address',
-                        key: 'address'
+                        key: 'address',
+                        tooltip: true
                     }
                 ],
                 data1: [
                     {
                         name: 'John Brown',
                         age: 18,
-                        address: 'New York No. 1 Lake Park',
+                        address: '自定义渲染列，使用 Vue 的 Render 函数。传入两个参数，第一个是 h，第二个为对象，包含 row、column 和 index，分别指当前行数据，当前列数据，当前行索引，详见示例。自定义渲染列，使用 Vue 的 Render 函数。传入两个参数，第一个是 h，第二个为对象，包含 row、column 和 index，分别指当前行数据，当前列数据，当前行索引，详见示例。自定义渲染列，使用 Vue 的 Render 函数。传入两个参数，第一个是 h，第二个为对象，包含 row、column 和 index，分别指当前行数据，当前列数据，当前行索引，详见示例。',
                         date: '2016-10-03'
                     },
                     {
                         name: 'Jim Green',
                         age: 24,
-                        address: 'London No. 1 Lake Park',
+                        address: 'London No. 1 Lake Park自定义渲染列，使用 Vue 的 Render 函',
                         date: '2016-10-01'
                     },
                     {
