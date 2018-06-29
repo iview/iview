@@ -15,6 +15,11 @@ import { scrollTop, findComponentDownward, findComponentsDownward, sharpMatcherR
 import { on, off } from '../../utils/dom';
 export default {
     name: 'Anchor',
+    provide () {
+        return {
+            anchorCom: this
+        };
+    },
     data () {
         return {
             prefix: 'ivu-anchor',
