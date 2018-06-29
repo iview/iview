@@ -21,7 +21,7 @@
                 <Cell title="标题八">
                     <i-switch v-model="switch1" slot="extra"></i-switch>
                 </Cell>
-                <Cell title="标题九" to="/button"></Cell>
+                <Cell title="标题九" to="/button" target="_blank"></Cell>
             </CellGroup>
         </Card>
     </div>

@@ -1,6 +1,6 @@
 <template>
     <div :class="classes">
-        <a v-if="to" :href="linkUrl" class="ivu-cell-link" @click.prevent="handleClick" @click="handleClickItem">
+        <a v-if="to" :href="linkUrl" :target="target" class="ivu-cell-link" @click="handleClickItem">
             <CellItem :title="title" :label="label" :extra="extra">
                 <slot name="icon" slot="icon"></slot>
                 <slot slot="default"></slot>
@@ -58,13 +58,6 @@
             selected: {
                 type: Boolean,
                 default: false
-            },
-            to: {
-                type: [Object, String]
-            },
-            replace: {
-                type: Boolean,
-                default: false
             }
         },
         data () {
@@ -85,8 +78,10 @@
             },
         },
         methods: {
-            handleClickItem () {
+            handleClickItem (event) {
                 this.cellGroup.handleClick(this.name);
+
+                this.handleCheckClick(event);
             }
         }
     };
