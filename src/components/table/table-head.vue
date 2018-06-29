@@ -128,7 +128,8 @@
                 return [
                     `${this.prefixCls}-cell`,
                     {
-                        [`${this.prefixCls}-hidden`]: !this.fixed && column.fixed && (column.fixed === 'left' || column.fixed === 'right')
+                        [`${this.prefixCls}-hidden`]: !this.fixed && column.fixed && (column.fixed === 'left' || column.fixed === 'right'),
+                        [`${this.prefixCls}-cell-with-selection`]: column.type === 'selection'
                     }
                 ];
             },

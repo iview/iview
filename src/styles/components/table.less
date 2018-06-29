@@ -179,6 +179,13 @@
             cursor: pointer;
             user-select: none;
         }
+
+        // #3159
+        &-with-selection{
+            .@{checkbox-prefix-cls}-wrapper{
+                margin-right: 0;
+            }
+        }
     }
     &-hidden{
         visibility: hidden;
