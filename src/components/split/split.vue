@@ -1,7 +1,7 @@
 <template>
     <div ref="outerWrapper" :class="wrapperClasses">
         <div v-if="isHorizontal" :class="`${prefix}-horizontal`">
-            <div :style="{right: `${anotherOffset}%`}" :class="[`${prefix}-pane`, 'left-pane']">
+            <div :style="{right: `${anotherOffset}%`}" class="left-pane" :class="paneClasses">
                 <slot name="left"/>
             </div>
             <div :class="`${prefix}-trigger-con`" :style="{left: `${offset}%`}" @mousedown="handleMousedown">
@@ -9,12 +9,12 @@
                     <trigger mode="vertical"/>
                 </slot>
             </div>
-            <div :style="{left: `${offset}%`}" :class="[`${prefix}-pane`, 'right-pane']">
+            <div :style="{left: `${offset}%`}" class="right-pane" :class="paneClasses">
                 <slot name="right"/>
             </div>
         </div>
         <div v-else :class="`${prefix}-vertical`">
-            <div :style="{bottom: `${anotherOffset}%`}" :class="[`${prefix}-pane`, 'top-pane']">
+            <div :style="{bottom: `${anotherOffset}%`}" class="top-pane" :class="paneClasses">
                 <slot name="top"/>
             </div>
             <div :class="`${prefix}-trigger-con`" :style="{top: `${offset}%`}" @mousedown="handleMousedown">
@@ -22,7 +22,7 @@
                     <trigger mode="horizontal"/>
                 </slot>
             </div>
-            <div :style="{top: `${offset}%`}" :class="[`${prefix}-pane`, 'bottom-pane']">
+            <div :style="{top: `${offset}%`}" class="bottom-pane" :class="paneClasses">
                 <slot name="bottom"/>
             </div>
         </div>
@@ -77,6 +77,14 @@
                 return [
                     `${this.prefix}-wrapper`,
                     this.isMoving ? 'no-select' : ''
+                ];
+            },
+            paneClasses () {
+                return [
+                    `${this.prefix}-pane`,
+                    {
+                        [`${this.prefix}-pane-moving`]: this.isMoving
+                    }
                 ];
             },
             isHorizontal () {

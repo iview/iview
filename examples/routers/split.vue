@@ -1,16 +1,12 @@
 <template>
-    <div class="split-pane-page-wrapper">
-        <Split v-model="offset" @on-moving="handleMoving">
-            <div slot="left" class="pane left-pane">
-                <Split v-model="offsetVertical" mode="vertical" @on-moving="handleMoving">
-                    <div slot="top" class="pane top-pane"></div>
-                    <div slot="bottom" class="pane bottom-pane"></div>
-                    <div slot="trigger" class="custom-trigger">
-                        <Icon class="trigger-icon" :size="22" type="android-more-vertical" color="#000000"/>
-                    </div>
-                </Split>
+    <div class="demo-split">
+        <Split v-model="split1">
+            <div slot="left" class="demo-split-pane">
+                左边面板
             </div>
-            <div slot="right" class="pane right-pane"></div>
+            <div slot="right" class="demo-split-pane">
+                右边面板
+            </div>
         </Split>
     </div>
 </template>
@@ -21,7 +17,8 @@
         data () {
             return {
                 offset: 0.6,
-                offsetVertical: '250px'
+                offsetVertical: '250px',
+                split1: 0.5
             }
         },
         methods: {
@@ -71,5 +68,11 @@
                 .center-middle;
             }
         }
+    }
+</style>
+<style>
+    .demo-split{
+        height: 300px;
+        border: 1px solid #dddee1;
     }
 </style>
