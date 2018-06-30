@@ -32,7 +32,14 @@ export default {
     },
     methods: {
         goAnchor () {
-            this.anchorCom.turnTo(this.href);
+            this.currentLink = this.href;
+            this.anchorCom.$emit('on-select', this.href);
+            const isRoute = this.$router;
+            if (isRoute) {
+                this.$router.push(this.href);
+            } else {
+                window.location.href = this.href;
+            }
         }
     },
     mounted () {
