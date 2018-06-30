@@ -1,13 +1,25 @@
 <template>
-    <div class="demo-split">
-        <Split v-model="split1">
-            <div slot="left" class="demo-split-pane">
-                左边面板
-            </div>
-            <div slot="right" class="demo-split-pane">
-                右边面板
-            </div>
-        </Split>
+    <div>
+        <div class="demo-split">
+            <Split v-model="split1">
+                <div slot="left" class="demo-split-pane">
+                    左边面板
+                </div>
+                <div slot="right" class="demo-split-pane">
+                    右边面板
+                </div>
+            </Split>
+        </div>
+        <div class="demo-split">
+            <Split v-model="split1" mode="vertical">
+                <div slot="left" class="demo-split-pane">
+                    左边面板
+                </div>
+                <div slot="right" class="demo-split-pane">
+                    右边面板
+                </div>
+            </Split>
+        </div>
     </div>
 </template>
 
