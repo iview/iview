@@ -86,11 +86,11 @@
             classes () {
                 return [
                     `${prefixCls}`,
+                    `${prefixCls}-${this.type}`,
                     {
-                        [`${prefixCls}-${this.type}`]: !!this.type,
                         [`${prefixCls}-long`]: this.long,
                         [`${prefixCls}-${this.shape}`]: !!this.shape,
-                        [`${prefixCls}-${this.size}`]: !!this.size,
+                        [`${prefixCls}-${this.size}`]: this.size !== 'default',
                         [`${prefixCls}-loading`]: this.loading != null && this.loading,
                         [`${prefixCls}-icon-only`]: !this.showSlot && (!!this.icon || !!this.customIcon || this.loading),
                         [`${prefixCls}-ghost`]: this.ghost
