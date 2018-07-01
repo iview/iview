@@ -5,7 +5,9 @@
         :disabled="disabled"
         :href="linkUrl"
         :target="target"
-        @click="handleClickLink">
+        @click.exact="handleClickLink($event, false)"
+        @click.ctrl="handleClickLink($event, true)"
+        @click.meta="handleClickLink($event, true)">
         <Icon class="ivu-load-loop" type="ios-loading" v-if="loading"></Icon>
         <Icon :type="icon" :custom="customIcon" v-if="(icon || customIcon) && !loading"></Icon>
         <span v-if="showSlot" ref="slot"><slot></slot></span>
@@ -99,10 +101,11 @@
             }
         },
         methods: {
-            handleClickLink (event) {
+            // Ctrl or CMD and click, open in new window when use `to`
+            handleClickLink (event, new_window) {
                 this.$emit('click', event);
 
-                this.handleCheckClick(event);
+                this.handleCheckClick(event, new_window);
             }
         },
         mounted () {
