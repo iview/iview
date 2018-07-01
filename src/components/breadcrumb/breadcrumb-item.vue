@@ -1,6 +1,13 @@
 <template>
     <span>
-        <a v-if="to" :href="linkUrl" :target="target" :class="linkClasses" @click="handleCheckClick">
+        <a
+            v-if="to"
+            :href="linkUrl"
+            :target="target"
+            :class="linkClasses"
+            @click.exact="handleCheckClick($event, false)"
+            @click.ctrl="handleCheckClick($event, true)"
+            @click.meta="handleCheckClick($event, true)">
             <slot></slot>
         </a>
         <span v-else :class="linkClasses">
