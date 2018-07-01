@@ -89,7 +89,7 @@
 
     &-icon {
         position: absolute;
-        left: 16px;
+        top: -2px;
         font-size: @font-size-large;
 
         &-success {
@@ -107,17 +107,10 @@
     }
     &-with-desc &-icon{
         font-size: 36px;
+        top: -6px;
     }
 
     &-custom-content{
-        &:after{
-            content: "";
-            display: block;
-            width: 4px;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-        }
+        position: relative;
     }
 }
