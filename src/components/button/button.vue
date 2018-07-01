@@ -102,7 +102,7 @@
         },
         methods: {
             // Ctrl or CMD and click, open in new window when use `to`
-            handleClickLink (event, new_window) {
+            handleClickLink (event, new_window = false) {
                 this.$emit('click', event);
 
                 this.handleCheckClick(event, new_window);

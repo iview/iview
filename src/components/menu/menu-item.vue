@@ -1,5 +1,13 @@
 <template>
-    <a v-if="to" :href="linkUrl" :target="target" :class="classes" @click="handleClickItem" :style="itemStyle"><slot></slot></a>
+    <a
+        v-if="to"
+        :href="linkUrl"
+        :target="target"
+        :class="classes"
+        @click.exact="handleClickItem($event, false)"
+        @click.ctrl="handleClickItem($event, true)"
+        @click.meta="handleClickItem($event, true)"
+        :style="itemStyle"><slot></slot></a>
     <li v-else :class="classes" @click.stop="handleClickItem" :style="itemStyle"><slot></slot></li>
 </template>
 <script>
@@ -46,18 +54,23 @@
             }
         },
         methods: {
-            handleClickItem (event) {
+            handleClickItem (event, new_window = false) {
                 if (this.disabled) return;
 
-                let parent = findComponentUpward(this, 'Submenu');
-
-                if (parent) {
-                    this.dispatch('Submenu', 'on-menu-item-select', this.name);
+                if (new_window) {
+                    // 如果是 new_window，直接新开窗口就行，无需发送状态
+                    this.handleCheckClick(event, new_window);
                 } else {
-                    this.dispatch('Menu', 'on-menu-item-select', this.name);
-                }
+                    let parent = findComponentUpward(this, 'Submenu');
 
-                this.handleCheckClick(event);
+                    if (parent) {
+                        this.dispatch('Submenu', 'on-menu-item-select', this.name);
+                    } else {
+                        this.dispatch('Menu', 'on-menu-item-select', this.name);
+                    }
+
+                    this.handleCheckClick(event, new_window);
+                }
             }
         },
         mounted () {
