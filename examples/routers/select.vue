@@ -1,5 +1,5 @@
 <template>
-    <Select v-model="model1" style="width:200px">
+    <Select v-model="model10" multiple style="width:260px">
         <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
     </Select>
 </template>
@@ -33,7 +33,7 @@
                         label: 'Canberra'
                     }
                 ],
-                model1: ''
+                model10: []
             }
         }
     }
