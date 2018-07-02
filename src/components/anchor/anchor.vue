@@ -3,7 +3,7 @@
 		<div :class="`${prefix}-wrapper`" :style="wrapperStyle">
             <div :class="`${prefix}`">
                 <div :class="`${prefix}-ink`">
-                    <span v-show="showInkBall" :class="`${prefix}-ink-ball`" :style="{top: `${inkTop}px`}"></span>
+                    <span v-show="showInk" :class="`${prefix}-ink-ball`" :style="{top: `${inkTop}px`}"></span>
                 </div>
                 <slot></slot>
             </div>
@@ -50,7 +50,7 @@ export default {
             default: 5
         },
         container: [String, HTMLElement],
-        showInkInFixed: {
+        showInk: {
             type: Boolean,
             default: false
         },
@@ -70,9 +70,6 @@ export default {
         },
         containerIsWindow () {
             return this.scrollContainer === window;
-        },
-        showInkBall () {
-            return this.showInkInFixed && (this.isAffixed || (!this.isAffixed && !this.upperFirstTitle && this.scrollContainer !== window));
         }
     },
     methods: {
