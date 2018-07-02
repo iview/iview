@@ -53,6 +53,10 @@ export default {
         showInkInFixed: {
             type: Boolean,
             default: false
+        },
+        scrollOffset: {
+            type: Number,
+            default: 0
         }
     },
     computed: {
@@ -92,7 +96,7 @@ export default {
         handleScrollTo () {
             const anchor = document.getElementById(this.currentId);
             if (!anchor) return;
-            const offsetTop = anchor.offsetTop - this.wrapperTop;
+            const offsetTop = anchor.offsetTop - this.wrapperTop - this.scrollOffset;
             this.animating = true;
             scrollTop(this.scrollContainer, this.scrollElement.scrollTop, offsetTop, 600, () => {
                 this.animating = false;
