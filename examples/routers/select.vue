@@ -1,7 +1,13 @@
 <template>
-    <Select v-model="model10" multiple style="width:260px">
-        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-    </Select>
+    <div>
+        <Select v-model="model1" style="width:200px">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+
+        <Select v-model="model2" multiple style="width:200px">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+    </div>
 </template>
 <script>
     export default {
@@ -33,7 +39,8 @@
                         label: 'Canberra'
                     }
                 ],
-                model10: []
+                model1: '',
+                model2: []
             }
         }
     }
