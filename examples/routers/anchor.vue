@@ -5,9 +5,9 @@
             <Button @click="andLink">添加一个连接</Button>
 			<Anchor :bounds="100" @on-change="handleChange" @on-select="handleSelect" :style="{right: '100px'}" :affix="true" :offset-top="30" :scroll-offset="100" :container="scrollCon" show-ink-in-fixed>
 				<AnchorLink v-if="(link - 1) % 30 === 0" v-for="link in 300" :key="`link${link}`" :href="`#title-${link}`" :title="`title-${link}`">
-                    <AnchorLink v-if="link === 61" href="#title-child-69" title="title-child-69"/>
+                    <AnchorLink :scroll-offset="20" v-if="link === 61" href="#title-child-69" title="title-child-69"/>
                 </AnchorLink>
-                <AnchorLink href="#lishi" title="李氏专跳"/>
+                <AnchorLink :scroll-offset="200" href="#lishi" title="李氏专跳"/>
                 <AnchorLink v-if="showNewLink" href="#new-link" title="这是动态添加的连接"/>
 			</Anchor>
 		</div>

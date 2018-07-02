@@ -1,6 +1,6 @@
 <template>
 	<div :class="anchorLinkClasses">
-        <a :class="linkTitleClasses" :href="href" :data-href="href" @click.prevent="goAnchor" :title="title">{{ title }}</a>
+        <a :class="linkTitleClasses" :href="href" :data-scroll-offset="scrollOffset" :data-href="href" @click.prevent="goAnchor" :title="title">{{ title }}</a>
         <slot></slot>
     </div>
 </template>
@@ -10,7 +10,13 @@ export default {
     inject: ['anchorCom'],
     props: {
         href: String,
-        title: String
+        title: String,
+        scrollOffset: {
+            type: Number,
+            default () {
+                return this.anchorCom.scrollOffset
+            }
+        }
     },
     data () {
         return {
