@@ -95,8 +95,14 @@ export default {
         },
         handleScrollTo () {
             const anchor = document.getElementById(this.currentId);
+            const currentLinkElementA = document.querySelector(`a[data-href="${this.currentLink}"]`);
+            let offset = this.scrollOffset;
+            if (currentLinkElementA) {
+                offset = parseFloat(currentLinkElementA.getAttribute('data-scroll-offset'));
+            }
+
             if (!anchor) return;
-            const offsetTop = anchor.offsetTop - this.wrapperTop - this.scrollOffset;
+            const offsetTop = anchor.offsetTop - this.wrapperTop - offset;
             this.animating = true;
             scrollTop(this.scrollContainer, this.scrollElement.scrollTop, offsetTop, 600, () => {
                 this.animating = false;
