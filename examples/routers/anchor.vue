@@ -3,7 +3,7 @@
 		<div class="link-wrapper">
             <Button @click="changeCon">修改为Window</Button>
             <Button @click="andLink">添加一个连接</Button>
-			<Anchor @on-change="handleChange" @on-select="handleSelect" :style="{right: '100px'}" :affix="true" :offset-top="30" :container="scrollCon" show-ink-in-fixed>
+			<Anchor :bounds="100" @on-change="handleChange" @on-select="handleSelect" :style="{right: '100px'}" :affix="true" :offset-top="30" :scroll-offset="100" :container="scrollCon" show-ink-in-fixed>
 				<AnchorLink v-if="(link - 1) % 30 === 0" v-for="link in 300" :key="`link${link}`" :href="`#title-${link}`" :title="`title-${link}`">
                     <AnchorLink v-if="link === 61" href="#title-child-69" title="title-child-69"/>
                 </AnchorLink>
