@@ -68,17 +68,17 @@
     & .@{btnClassName}-icon-only .ivu-icon {
         font-size: 14px;
         position: relative;
-        top: 1px;
+        //top: 1px;
     }
 
     &-large .@{btnClassName}-icon-only .ivu-icon{
         font-size: 16px;
-        top: 2px;
+        //top: 2px;
     }
 
     &-small .@{btnClassName}-icon-only .ivu-icon{
         font-size: 12px;
-        top: 0;
+        //top: 0;
     }
 
     &-circle .@{btnClassName} {
@@ -105,6 +105,13 @@
                 font-size: @btn-font-size;
             }
         }
+    }
+
+    &-small .@{btnClassName}-icon-only{
+        .button-size(@btn-padding-small-icon; @btn-font-size; @btn-border-radius-small);
+    }
+    &-large .@{btnClassName}-icon-only{
+        .button-size(@btn-padding-large-icon; @btn-font-size-large; @btn-border-radius);
     }
 }
 
@@ -142,7 +149,7 @@
         vertical-align: middle;
     }
 
-    &-icon-only > .@{css-prefix-iconfont}{
+    &-icon-only&-circle > .@{css-prefix-iconfont}{
         vertical-align: baseline;
     }
 
@@ -179,6 +186,16 @@
 
     &-small {
         .button-size(@btn-padding-small; @btn-font-size; @btn-border-radius-small);
+    }
+
+    &-icon-only{
+        .button-size(@btn-padding-base-icon; @btn-font-size; @btn-border-radius);
+    }
+    &-icon-only&-small{
+        .button-size(@btn-padding-small-icon; @btn-font-size; @btn-border-radius-small);
+    }
+    &-icon-only&-large{
+        .button-size(@btn-padding-large-icon; @btn-font-size-large; @btn-border-radius);
     }
 }
 

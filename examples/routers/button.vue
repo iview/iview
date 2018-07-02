@@ -1,5 +1,36 @@
 <template>
     <div>
+        <Button icon="logo-github" size="small" shape="circle"></Button>
+        <Button icon="logo-github" size="large" shape="circle"></Button>
+        <Button icon="logo-github" shape="circle"></Button>
+        <Button icon="logo-github" size="small"></Button>
+        <Button size="small">EN</Button>
+        <Button icon="logo-github"></Button>
+        <Button>EN</Button>
+        <Button icon="logo-github" size="large"></Button>
+        <Button size="large">EN</Button>
+        <ButtonGroup size="small">
+            <Button icon="logo-github"></Button>
+            <Button icon="logo-twitter"></Button>
+            <Button>
+                EN
+            </Button>
+        </ButtonGroup>
+        <ButtonGroup>
+            <Button icon="logo-github"></Button>
+            <Button icon="logo-twitter"></Button>
+            <Button>
+                EN
+            </Button>
+        </ButtonGroup>
+        <ButtonGroup size="large">
+            <Button icon="logo-github"></Button>
+            <Button icon="logo-twitter"></Button>
+            <Button >
+                EN
+            </Button>
+        </ButtonGroup>
+        <br><br><br>
         <Button type="default">Default</Button>
         <Button type="primary">Primary</Button>
         <Button type="dashed">Dashed</Button>
