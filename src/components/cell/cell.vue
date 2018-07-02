@@ -1,6 +1,13 @@
 <template>
     <div :class="classes">
-        <a v-if="to" :href="linkUrl" :target="target" class="ivu-cell-link" @click="handleClickItem">
+        <a
+            v-if="to"
+            :href="linkUrl"
+            :target="target"
+            class="ivu-cell-link"
+            @click.exact="handleClickItem($event, false)"
+            @click.ctrl="handleClickItem($event, true)"
+            @click.meta="handleClickItem($event, true)">
             <CellItem :title="title" :label="label" :extra="extra">
                 <slot name="icon" slot="icon"></slot>
                 <slot slot="default"></slot>
@@ -78,10 +85,10 @@
             },
         },
         methods: {
-            handleClickItem (event) {
+            handleClickItem (event, new_window) {
                 this.cellGroup.handleClick(this.name);
 
-                this.handleCheckClick(event);
+                this.handleCheckClick(event, new_window);
             }
         }
     };
