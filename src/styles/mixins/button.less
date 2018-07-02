@@ -66,13 +66,13 @@
     }
 
     & .@{btnClassName}-icon-only .ivu-icon {
-        font-size: 14px;
+        font-size: 13px;
         position: relative;
         //top: 1px;
     }
 
     &-large .@{btnClassName}-icon-only .ivu-icon{
-        font-size: 16px;
+        font-size: 15px;
         //top: 2px;
     }
 
@@ -107,12 +107,12 @@
         }
     }
 
-    &-small .@{btnClassName}-icon-only{
-        .button-size(@btn-padding-small-icon; @btn-font-size; @btn-border-radius-small);
-    }
-    &-large .@{btnClassName}-icon-only{
-        .button-size(@btn-padding-large-icon; @btn-font-size-large; @btn-border-radius);
-    }
+    //&-small .@{btnClassName}-icon-only{
+    //    .button-size(@btn-padding-small-icon; @btn-font-size; @btn-border-radius-small);
+    //}
+    //&-large .@{btnClassName}-icon-only{
+    //    .button-size(@btn-padding-large-icon; @btn-font-size-large; @btn-border-radius);
+    //}
 }
 
 .button-group-vertical-base(@btnClassName) {
@@ -145,7 +145,7 @@
     transition: color @transition-time linear, background-color @transition-time linear, border @transition-time linear, box-shadow @transition-time linear;
 
     > .@{css-prefix-iconfont} {
-        line-height: 1;
+        line-height: @line-height-base;
         vertical-align: middle;
     }
 
