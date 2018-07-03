@@ -30,6 +30,9 @@
     &-transfer{
         width: auto;
     }
+    &-item-selected, &-item&-item-selected:hover{
+        background:  ~`colorPalette("@{primary-color}", 1)`;
+    }
 }
 
 .select-item(@dropdown-prefix-cls, @dropdown-item-prefix-cls);
