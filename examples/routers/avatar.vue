@@ -30,6 +30,8 @@
                 <Avatar shape="square" icon="ios-person" />
             </Badge>
         </div>
+        <br><br><br>
+        <Avatar custom-icon="ivu-icon-ios-person" />
     </div>
 </template>
 <script>
