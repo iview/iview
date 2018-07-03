@@ -13,7 +13,7 @@
         name: 'Time',
         props: {
             time: {
-                type: [Number, Date],
+                type: [Number, Date, String],
                 required: true
             },
             type: {
@@ -60,6 +60,8 @@
                     time = (new Date(timestamp)).getTime();
                 } else if (type === 'object') {
                     time = this.time.getTime();
+                } else if (type === 'string') {
+                    time = (new Date(this.time)).getTime();
                 }
 
                 if (this.type === 'relative') {
