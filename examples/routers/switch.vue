@@ -17,8 +17,8 @@
             <span slot="close">关</span>
         </i-switch>
         <i-switch>
-            <Icon type="android-done" slot="open"></Icon>
-            <Icon type="android-close" slot="close"></Icon>
+            <Icon type="md-checkmark" slot="open"></Icon>
+            <Icon type="md-close" slot="close"></Icon>
         </i-switch>
         <br><br>
         <i-switch size="large">
