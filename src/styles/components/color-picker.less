@@ -46,14 +46,14 @@
         width: 18px;
         height: 18px;
         background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==);
-        border-radius: 2px;
+        border-radius: @border-radius-small;
         position: relative;
         top: 2px;
         div {
             width: 100%;
             height: 100%;
             box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
-            border-radius: 2px;
+            border-radius: @border-radius-small;
         }
         &-empty {
             background: #fff;
@@ -108,7 +108,7 @@
         &-colors {
             margin-top: 8px;
             overflow: hidden;
-            border-radius: 2px;
+            border-radius: @border-radius-small;
             transition: border @transition-time @ease-in-out, box-shadow @transition-time @ease-in-out;
             &:focus {
                 .active();
@@ -127,7 +127,7 @@
                     height: 16px;
                     margin: 2px;
                     cursor: pointer;
-                    border-radius: 2px;
+                    border-radius: @border-radius-small;
                     box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
                 }
                 &-circle {
@@ -187,7 +187,7 @@
         right: 0;
         bottom: 0;
         left: 0;
-        border-radius: 2px;
+        border-radius: @border-radius-small;
         background: linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%);
 
         transition: border @transition-time @ease-in-out, box-shadow @transition-time @ease-in-out;
@@ -209,7 +209,7 @@
             cursor: pointer;
             margin-top: 1px;
             width: 4px;
-            border-radius: 1px;
+            border-radius: @border-radius-small;
             height: 8px;
             box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
             background: #fff;
@@ -223,7 +223,7 @@
         right: 0;
         bottom: 0;
         left: 0;
-        border-radius: 2px;
+        border-radius: @border-radius-small;
 
         transition: border @transition-time @ease-in-out, box-shadow @transition-time @ease-in-out;
 
@@ -237,7 +237,7 @@
             bottom: 0;
             left: 0;
             overflow: hidden;
-            border-radius: 2px;
+            border-radius: @border-radius-small;
         }
         &-checkerboard {
             position: absolute;
@@ -253,7 +253,7 @@
             right: 0;
             bottom: 0;
             left: 0;
-            border-radius: 2px;
+            border-radius: @border-radius-small;
         }
         &-container {
             cursor: pointer;
@@ -269,7 +269,7 @@
         &-picker {
             cursor: pointer;
             width: 4px;
-            border-radius: 1px;
+            border-radius: @border-radius-small;
             height: 8px;
             box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
             background: #fff;

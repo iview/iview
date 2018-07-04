@@ -13,8 +13,8 @@
     z-index: @zindex-select;
 
     &-horizontal{
-        height: 60px;
-        line-height: 60px;
+        height: @menu-item-height;
+        line-height: @menu-item-height;
 
         &.@{menu-prefix-cls}-light{
             &:after{
@@ -178,7 +178,7 @@
         .@{menu-prefix-cls}-item{
             padding-left: 43px;
         }
-    } 
+    }
     &-vertical &-item-group{
         &-title{
             height: 48px;

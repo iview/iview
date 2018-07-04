@@ -5,7 +5,7 @@
     flex-direction: column;
     flex: auto;
     background: @layout-body-background;
-    
+
     &&-has-sider {
         flex-direction: row;
         > .@{layout-prefix-cls},
@@ -83,10 +83,10 @@
                 background: @layout-sider-background;
                 color: #fff;
                 font-size: @layout-zero-trigger-width / 2;
-                border-radius: 0 @border-radius-base @border-radius-base 0;
+                border-radius: 0 @border-radius-large @border-radius-large 0;
                 cursor: pointer;
                 transition: background .3s ease;
-        
+
                 &:hover {
                   background: tint(@layout-sider-background, 10%);
                 }
@@ -94,7 +94,7 @@
                 &&-left {
                     right: 0;
                     left: -@layout-zero-trigger-width;
-                    border-radius: @border-radius-base 0 0 @border-radius-base;
+                    border-radius: @border-radius-large 0 0 @border-radius-large;
                 }
             }
         }
