@@ -49,7 +49,8 @@ export default {
             type: Number,
             default: 5
         },
-        container: [String, HTMLElement],
+//        container: [String, HTMLElement],  // HTMLElement 在 SSR 下不支持
+        container: null,
         showInk: {
             type: Boolean,
             default: false
