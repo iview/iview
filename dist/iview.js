@@ -39217,11 +39217,7 @@ var getRelativeTime = exports.getRelativeTime = function (timeStamp) {
 
     var IS_MILLISECOND = true;
 
-    if (IS_MILLISECOND) Math.floor(timeStamp /= 1000);
-
-    timeStamp = Number(timeStamp);
-
-    var currentTime = Math.floor(Date.parse(new Date()) / 1000);
+    var currentTime = new Date().getTime();
 
     var IS_EARLY = isEarly(timeStamp, currentTime);
 
@@ -39231,7 +39227,7 @@ var getRelativeTime = exports.getRelativeTime = function (timeStamp) {
     var resStr = '';
     var dirStr = IS_EARLY ? '前' : '后';
 
-    if (diff < 1) resStr = '刚刚';else if (diff <= 59) resStr = parseInt(diff) + '秒' + dirStr;else if (diff > 59 && diff <= 3599) resStr = Math.ceil(diff / 60) + '分钟' + dirStr;else if (diff > 3599 && diff <= 86399) resStr = Math.ceil(diff / 3600) + '小时' + dirStr;else if (diff > 86399 && diff <= 2623859) resStr = Math.ceil(diff / 86400) + '天' + dirStr;else if (diff > 2623859 && diff <= 31567859 && IS_EARLY) resStr = getDate(timeStamp);else resStr = getDate(timeStamp, 'year');
+    if (diff < 1000) resStr = '刚刚';else if (diff < 60000) resStr = parseInt(diff / 1000) + '秒' + dirStr;else if (diff >= 60000 && diff < 3600000) resStr = Math.floor(diff / 60000) + '分钟' + dirStr;else if (diff >= 3600000 && diff < 86400000) resStr = Math.floor(diff / 3600000) + '小时' + dirStr;else if (diff >= 86400000 && diff < 2623860000) resStr = Math.floor(diff / 86400000) + '天' + dirStr;else if (diff >= 2623860000 && diff <= 31567860000 && IS_EARLY) resStr = getDate(timeStamp);else resStr = getDate(timeStamp, 'year');
     return resStr;
 }.bind(undefined);
 
