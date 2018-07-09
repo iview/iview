@@ -13,7 +13,7 @@
  * @returns {Boolean} 传入的时间戳是否早于当前时间戳
  */
 const isEarly = (timeStamp, currentTime) => {
-    return timeStamp < currentTime;
+    return timeStamp <= currentTime;
 };
 
 /**
@@ -65,13 +65,14 @@ export const getRelativeTime = timeStamp => {
     let resStr = '';
     const dirStr = IS_EARLY ? '前' : '后';
     // 少于等于59秒
-    if (diff <= 59) resStr = parseInt(diff) + '秒' + dirStr;
+    if (diff < 1) resStr = '刚刚';
+    else if (diff <= 59) resStr = parseInt(diff) + '秒' + dirStr;
     // 多于59秒，少于等于59分钟59秒
-    else if (diff > 59 && diff <= 3599) resStr = Math.floor(diff / 60) + '分钟' + dirStr;
+    else if (diff > 59 && diff <= 3599) resStr = Math.ceil(diff / 60) + '分钟' + dirStr;
     // 多于59分钟59秒，少于等于23小时59分钟59秒
-    else if (diff > 3599 && diff <= 86399) resStr = Math.floor(diff / 3600) + '小时' + dirStr;
+    else if (diff > 3599 && diff <= 86399) resStr = Math.ceil(diff / 3600) + '小时' + dirStr;
     // 多于23小时59分钟59秒，少于等于29天59分钟59秒
-    else if (diff > 86399 && diff <= 2623859) resStr = Math.floor(diff / 86400) + '天' + dirStr;
+    else if (diff > 86399 && diff <= 2623859) resStr = Math.ceil(diff / 86400) + '天' + dirStr;
     // 多于29天59分钟59秒，少于364天23小时59分钟59秒，且传入的时间戳早于当前
     else if (diff > 2623859 && diff <= 31567859 && IS_EARLY) resStr = getDate(timeStamp);
     else resStr = getDate(timeStamp, 'year');
