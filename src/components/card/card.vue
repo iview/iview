@@ -3,7 +3,7 @@
         <div :class="headClasses" v-if="showHead"><slot name="title">
             <p v-if="title">
                 <Icon v-if="icon" :type="icon"></Icon>
-                {{title}}
+                <span>{{title}}</span>
             </p>
         </slot></div>
         <div :class="extraClasses" v-if="showExtra"><slot name="extra"></slot></div>
