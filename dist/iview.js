@@ -39188,7 +39188,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var isEarly = function (timeStamp, currentTime) {
     (0, _newArrowCheck3.default)(undefined, undefined);
 
-    return timeStamp < currentTime;
+    return timeStamp <= currentTime;
 }.bind(undefined);
 
 var getHandledValue = function (num) {
@@ -39231,7 +39231,7 @@ var getRelativeTime = exports.getRelativeTime = function (timeStamp) {
     var resStr = '';
     var dirStr = IS_EARLY ? '前' : '后';
 
-    if (diff <= 59) resStr = parseInt(diff) + '秒' + dirStr;else if (diff > 59 && diff <= 3599) resStr = Math.floor(diff / 60) + '分钟' + dirStr;else if (diff > 3599 && diff <= 86399) resStr = Math.floor(diff / 3600) + '小时' + dirStr;else if (diff > 86399 && diff <= 2623859) resStr = Math.floor(diff / 86400) + '天' + dirStr;else if (diff > 2623859 && diff <= 31567859 && IS_EARLY) resStr = getDate(timeStamp);else resStr = getDate(timeStamp, 'year');
+    if (diff < 1) resStr = '刚刚';else if (diff <= 59) resStr = parseInt(diff) + '秒' + dirStr;else if (diff > 59 && diff <= 3599) resStr = Math.ceil(diff / 60) + '分钟' + dirStr;else if (diff > 3599 && diff <= 86399) resStr = Math.ceil(diff / 3600) + '小时' + dirStr;else if (diff > 86399 && diff <= 2623859) resStr = Math.ceil(diff / 86400) + '天' + dirStr;else if (diff > 2623859 && diff <= 31567859 && IS_EARLY) resStr = getDate(timeStamp);else resStr = getDate(timeStamp, 'year');
     return resStr;
 }.bind(undefined);
 
