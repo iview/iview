@@ -14,7 +14,7 @@ export default {
         scrollOffset: {
             type: Number,
             default () {
-                return this.anchorCom.scrollOffset
+                return this.anchorCom.scrollOffset;
             }
         }
     },

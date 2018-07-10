@@ -49,7 +49,7 @@ const getDate = (timeStamp, startType) => {
  */
 export const getRelativeTime = timeStamp => {
     // 判断当前传入的时间戳是秒格式还是毫秒
-    const IS_MILLISECOND = true;
+    // const IS_MILLISECOND = true;
     // 如果是毫秒格式则转为秒格式
     // if (IS_MILLISECOND) Math.floor(timeStamp /= 1000);
     // 传入的时间戳可以是数值或字符串类型，这里统一转为数值类型
