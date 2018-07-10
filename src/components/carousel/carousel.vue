@@ -115,14 +115,14 @@
             trackStyles () {
                 return {
                     width: `${this.trackWidth}px`,
-                    transform: `translate3d(${-this.trackOffset}px, 0px, 0px)`,
+                    transform: `translate(${-this.trackOffset}px, 0px)`,
                     transition: `transform 500ms ${this.easing}`
                 };
             },
             copyTrackStyles () {
                 return {
                     width: `${this.trackWidth}px`,
-                    transform: `translate3d(${-this.trackCopyOffset}px, 0px, 0px)`,
+                    transform: `translate(${-this.trackCopyOffset}px, 0px)`,
                     transition: `transform 500ms ${this.easing}`,
                     position: 'absolute',
                     top: 0
