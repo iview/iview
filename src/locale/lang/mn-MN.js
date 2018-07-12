@@ -9,7 +9,7 @@ const lang = {
             loading: 'Ачааллаж байна'
         },
         table: {
-            noDataText: 'Өгөдөл алга',
+            noDataText: 'Өгөгдөл алга',
             noFilteredDataText: 'No filter data',
             confirmFilter: 'Батлах',
             resetFilter: 'Шинээр тохируулах',
