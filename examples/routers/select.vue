@@ -3,10 +3,10 @@
         <Select v-model="model1" style="width:200px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
-
-        <Select v-model="model2" multiple style="width:200px">
+        <Button @click="model1=''">Click</Button>
+        <!-- <Select v-model="model2" multiple style="width:200px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-        </Select>
+        </Select> -->
     </div>
 </template>
 <script>

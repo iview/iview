@@ -254,6 +254,7 @@
                 unchangedQuery: true,
                 hasExpectedValue: false,
                 preventRemoteCall: false,
+                hasDefaultSelected: false
             };
         },
         computed: {
@@ -355,7 +356,7 @@
                         });
                     });
                 }
-                let hasDefaultSelected = slotOptions.some(option => this.query === option.key);
+                
                 for (let option of slotOptions) {
 
                     const cOptions = option.componentOptions;
@@ -379,7 +380,7 @@
                         if (cOptions.children.length > 0) selectOptions.push({...option});
                     } else {
                         // ignore option if not passing filter
-                        if (!hasDefaultSelected) {
+                        if (!this.hasDefaultSelected) {
                             const optionPassesFilter = this.filterable ? this.validateOption(cOptions) : option;
                             if (!optionPassesFilter) continue;
                         }
@@ -677,6 +678,15 @@
                 const {remoteMethod, lastRemoteQuery} = this;
                 const hasValidQuery = query !== '' && (query !== lastRemoteQuery || !lastRemoteQuery);
                 const shouldCallRemoteMethod = remoteMethod && hasValidQuery && !this.preventRemoteCall;
+                const slotOptions = (this.slotOptions || []);
+                this.hasDefaultSelected = slotOptions.some((option) => {
+                    let label = '',
+                        opt = this.getOptionData(option.key) || {};
+                    if (opt.hasOwnProperty('label')) {
+                        label = opt.label;
+                    }
+                    return query === label;
+                });
                 this.preventRemoteCall = false; // remove the flag
 
                 if (shouldCallRemoteMethod){
