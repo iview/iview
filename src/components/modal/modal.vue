@@ -111,7 +111,7 @@
                 type: Boolean,
                 default: true
             },
-            dragable: {
+            draggable: {
                 type: Boolean,
                 default: false
             }
@@ -161,8 +161,8 @@
                     `${prefixCls}-content`,
                     {
                         [`${prefixCls}-content-no-mask`]: !this.showMask,
-                        [`${prefixCls}-content-drag`]: this.dragable,
-                        [`${prefixCls}-content-dragging`]: this.dragable && this.dragData.dragging
+                        [`${prefixCls}-content-drag`]: this.draggable,
+                        [`${prefixCls}-content-dragging`]: this.draggable && this.dragData.dragging
                     }
                 ];
             },
@@ -185,7 +185,7 @@
             contentStyles () {
                 let style = {};
 
-                if (this.dragable) {
+                if (this.draggable) {
                     if (this.dragData.x !== null) style.left = `${this.dragData.x}px`;
                     if (this.dragData.y !== null) style.top = `${this.dragData.y}px`;
                     const width = parseInt(this.width);
@@ -213,7 +213,7 @@
                 }
             },
             showMask () {
-                return this.dragable ? false : this.mask;
+                return this.draggable ? false : this.mask;
             }
         },
         methods: {
@@ -255,7 +255,7 @@
                 this.$emit('on-hidden');
             },
             handleMoveStart (event) {
-                if (!this.dragable) return false;
+                if (!this.draggable) return false;
 
                 const $content = this.$refs.content;
                 const rect = $content.getBoundingClientRect();

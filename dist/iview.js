@@ -18794,7 +18794,7 @@ exports.default = {
             type: Boolean,
             default: true
         },
-        dragable: {
+        draggable: {
             type: Boolean,
             default: false
         }
@@ -18833,7 +18833,7 @@ exports.default = {
         contentClasses: function contentClasses() {
             var _ref3;
 
-            return [prefixCls + '-content', (_ref3 = {}, (0, _defineProperty3.default)(_ref3, prefixCls + '-content-no-mask', !this.showMask), (0, _defineProperty3.default)(_ref3, prefixCls + '-content-drag', this.dragable), (0, _defineProperty3.default)(_ref3, prefixCls + '-content-dragging', this.dragable && this.dragData.dragging), _ref3)];
+            return [prefixCls + '-content', (_ref3 = {}, (0, _defineProperty3.default)(_ref3, prefixCls + '-content-no-mask', !this.showMask), (0, _defineProperty3.default)(_ref3, prefixCls + '-content-drag', this.draggable), (0, _defineProperty3.default)(_ref3, prefixCls + '-content-dragging', this.draggable && this.dragData.dragging), _ref3)];
         },
         mainStyles: function mainStyles() {
             var style = {};
@@ -18854,7 +18854,7 @@ exports.default = {
         contentStyles: function contentStyles() {
             var style = {};
 
-            if (this.dragable) {
+            if (this.draggable) {
                 if (this.dragData.x !== null) style.left = String(this.dragData.x) + 'px';
                 if (this.dragData.y !== null) style.top = String(this.dragData.y) + 'px';
                 var width = parseInt(this.width);
@@ -18882,7 +18882,7 @@ exports.default = {
             }
         },
         showMask: function showMask() {
-            return this.dragable ? false : this.mask;
+            return this.draggable ? false : this.mask;
         }
     },
     methods: {
@@ -18923,7 +18923,7 @@ exports.default = {
             this.$emit('on-hidden');
         },
         handleMoveStart: function handleMoveStart(event) {
-            if (!this.dragable) return false;
+            if (!this.draggable) return false;
 
             var $content = this.$refs.content;
             var rect = $content.getBoundingClientRect();
@@ -35655,8 +35655,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_modal_vue__ = __webpack_require__(193);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_modal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_modal_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_modal_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_modal_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_12bc065e_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_modal_vue__ = __webpack_require__(471);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_12bc065e_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_modal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_12bc065e_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_modal_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_64e047ab_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_modal_vue__ = __webpack_require__(471);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_64e047ab_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_modal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_64e047ab_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_modal_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 /* script */
 
@@ -35674,8 +35674,8 @@ var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_modal_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_12bc065e_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_modal_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_12bc065e_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_modal_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_64e047ab_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_modal_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_64e047ab_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_modal_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
