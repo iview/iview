@@ -12,6 +12,8 @@
 ![JS gzip size](http://img.badgesize.io/https://unpkg.com/iview/dist/iview.min.js?compression=gzip&label=gzip%20size:%20JS&style=flat-square)
 ![CSS gzip size](http://img.badgesize.io/https://unpkg.com/iview/dist/styles/iview.css?compression=gzip&label=gzip%20size:%20CSS&style=flat-square)
 [![Join the chat at https://gitter.im/iview/iview](https://img.shields.io/badge/chat-on_gitter-30b392.svg?style=flat-square)](https://gitter.im/iview/iview?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Backers on Open Collective](https://opencollective.com/iview/backers/badge.svg)](#backers)
+[![Sponsors on Open Collective](https://opencollective.com/iview/sponsors/badge.svg)](#sponsors) 
 
 ### A high quality UI Toolkit built on Vue.js.
 
@@ -120,6 +122,23 @@ If you want to contribute or have questions or bugs to report:
 |[lcx960324](https://github.com/lcx960324)           |  ![](https://avatars3.githubusercontent.com/u/9768245?v=3&s=60)  |[GITleonine1989](https://github.com/GITleonine1989) |  ![](https://avatars1.githubusercontent.com/u/7582490?v=3&s=60)  |[huixisheng](https://github.com/huixisheng)         |  ![](https://avatars1.githubusercontent.com/u/1518967?v=3&s=60)  |
 |[Sergio Crisostomo](https://github.com/SergioCrisostomo)           |  ![](https://avatars3.githubusercontent.com/u/5614559?v=3&s=60)  |  [lison16](https://github.com/lison16)           |  ![](https://avatars3.githubusercontent.com/u/20942571?v=3&s=60) |  [Xotic750](https://github.com/Xotic750)    | ![](https://avatars3.githubusercontent.com/u/216041?v=3&s=60)   | 
 [huanghong1125](https://github.com/huanghong1125) | ![](https://avatars3.githubusercontent.com/u/12794817?v=3&s=60) |
+
+### All Contributors
+
+This project exists thanks to all the people who contribute. 
+<a href="graphs/contributors"><img src="https://opencollective.com/iview/contributors.svg?width=890&button=false" /></a>
+
+### Backers
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/iview#backer)]
+
+<a href="https://opencollective.com/iview#backers" target="_blank"><img src="https://opencollective.com/iview/backers.svg?width=890”></a>
+
+### Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/iview#sponsor)]
+
+<a href="https://opencollective.com/iview/sponsor/0/website" target="_blank"><img src="https://opencollective.com/iview/sponsor/0/avatar.svg"></a>
+
 
 
 ## Ecosystem Links
