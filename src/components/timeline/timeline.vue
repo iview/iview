@@ -20,8 +20,8 @@
                     {
                         [`${prefixCls}-pending`]: this.pending
                     }
-                ];
+                ]
             }
         }
-    };
+    }
 </script>

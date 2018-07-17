@@ -8,7 +8,8 @@
                 :disabled="disabled"
                 :checked="selected"
                 @change="change">
-        </span><slot>{{ value }}</slot>
+        </span>
+        <slot>{{ value }}</slot>
     </label>
 </template>
 <script>
@@ -32,7 +33,7 @@
             return {
                 selected: false,
                 group: false
-            };
+            }
         },
         computed: {
             wrapClasses () {
@@ -43,7 +44,7 @@
                         [`${prefixCls}-wrapper-checked`]: this.selected,
                         [`${prefixCls}-wrapper-disabled`]: this.disabled
                     }
-                ];
+                ]
             },
             radioClasses () {
                 return [
@@ -52,7 +53,7 @@
                         [`${prefixCls}-checked`]: this.selected,
                         [`${prefixCls}-disabled`]: this.disabled
                     }
-                ];
+                ]
             },
             innerClasses () {
                 return `${prefixCls}-inner`;
@@ -62,7 +63,6 @@
             }
         },
         ready () {
-            if (this.$parent && this.$parent.$options.name === 'radioGroup') this.group = true;
             if (!this.group) {
                 this.updateModel();
             }
@@ -82,8 +82,6 @@
                         checked: this.checked
                     });
                 }
-
-                if (!this.group) this.$dispatch('on-form-change', this.selected);
             },
             updateModel () {
                 this.selected = this.checked;
@@ -94,5 +92,5 @@
                 this.updateModel();
             }
         }
-    };
+    }
 </script>

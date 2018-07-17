@@ -2,10 +2,10 @@
 
 ## 目录
 
-|-- animation  (动画)
+|-- components  (组件样式)
 
 |-- common  (全局样式)
 
-|-- components  (组件样式)
+|-- packages  (套装)
 
-|-- mixins  (混入)
+|-- themes  (皮肤)

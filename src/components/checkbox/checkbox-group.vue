@@ -7,13 +7,10 @@
     const prefixCls = 'ivu-checkbox-group';
 
     export default {
-        name: 'checkboxGroup',
         props: {
             model: {
                 type: Array,
-                default () {
-                    return [];
-                }
+                default: []
             }
         },
         computed: {
@@ -40,13 +37,16 @@
             change (data) {
                 this.model = data;
                 this.$emit('on-change', data);
-                this.$dispatch('on-form-change', data);
             }
         },
         watch: {
-            model () {
-                this.updateModel(true);
+            model (val, oldVal) {
+                if (val == oldVal) {
+                    this.updateModel();
+                } else {
+                    this.updateModel(true);
+                }
             }
         }
-    };
+    }
 </script>

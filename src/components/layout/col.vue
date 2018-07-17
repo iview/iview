@@ -4,6 +4,8 @@
     </div>
 </template>
 <script>
+    import { oneOf } from '../../utils/assist';
+
     const prefixCls = 'ivu-col';
 
     export default {
@@ -13,20 +15,16 @@
             offset: [Number, String],
             push: [Number, String],
             pull: [Number, String],
-            className: String,
-            xs: [Number, Object],
-            sm: [Number, Object],
-            md: [Number, Object],
-            lg: [Number, Object]
+            className: String
         },
         data () {
             return {
                 gutter: 0
-            };
+            }
         },
         computed: {
             classes () {
-                let classList = [
+                return [
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-span-${this.span}`]: this.span,
@@ -36,24 +34,7 @@
                         [`${prefixCls}-pull-${this.pull}`]: this.pull,
                         [`${this.className}`]: !!this.className
                     }
-                ];
-
-                ['xs', 'sm', 'md', 'lg'].forEach(size => {
-                    if (typeof this[size] === 'number') {
-                        classList.push(`${prefixCls}-span-${size}-${this[size]}`);
-                    } else if (typeof this[size] === 'object') {
-                        let props = this[size];
-                        Object.keys(props).forEach(prop => {
-                            classList.push(
-                                prop !== 'span'
-                                    ? `${prefixCls}-${size}-${prop}-${props[prop]}`
-                                    : `${prefixCls}-span-${size}-${props[prop]}`
-                            );
-                        });
-                    }
-                });
-
-                return classList;
+                ]
             },
             styles () {
                 let style = {};
@@ -61,11 +42,11 @@
                     style = {
                         paddingLeft: this.gutter / 2 + 'px',
                         paddingRight: this.gutter / 2 + 'px'
-                    };
+                    }
                 }
 
                 return style;
             }
         }
-    };
+    }
 </script>

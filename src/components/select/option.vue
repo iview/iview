@@ -26,7 +26,7 @@
                 isFocus: false,
                 hidden: false,    // for search
                 searchLabel: ''    // the value is slot,only for search
-            };
+            }
         },
         computed: {
             classes () {
@@ -37,10 +37,10 @@
                         [`${prefixCls}-selected`]: this.selected,
                         [`${prefixCls}-focus`]: this.isFocus
                     }
-                ];
+                ]
             },
             showLabel () {
-                return (this.label) ? this.label : this.value;
+                return (!!this.label) ? this.label : this.value;
             }
         },
         methods: {
@@ -55,11 +55,10 @@
                 this.isFocus = false;
             },
             queryChange (val) {
-                const parsedQuery = val.replace(/(\^|\(|\)|\[|\]|\$|\*|\+|\.|\?|\\|\{|\}|\|)/g, '\\$1');
-                this.hidden = !new RegExp(parsedQuery, 'i').test(this.searchLabel);
+                this.hidden = !new RegExp(val, 'i').test(this.searchLabel);
             }
         },
-        compiled () {
+        ready () {
             this.searchLabel = this.$el.innerHTML;
         },
         events: {
@@ -70,5 +69,5 @@
                 this.queryChange(val);
             }
         }
-    };
+    }
 </script>

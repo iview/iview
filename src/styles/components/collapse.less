@@ -20,12 +20,12 @@
             position: relative;
 
             > i{
-                transition: transform @transition-time @ease-in-out;
+                .transition(transform @transition-time @ease-in-out);
             }
         }
     }
     &  > &-item&-item-active > &-header > i{
-        transform: rotate(90deg);
+        .transform(rotate(90deg));
     }
 
     &-content{

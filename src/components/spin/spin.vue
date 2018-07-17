@@ -26,7 +26,7 @@
         data () {
             return {
                 showText: false
-            };
+            }
         },
         computed: {
             classes () {
@@ -37,7 +37,7 @@
                         [`${prefixCls}-fix`]: this.fix,
                         [`${prefixCls}-show-text`]: this.showText,
                     }
-                ];
+                ]
             },
             mainClasses () {
                 return `${prefixCls}-main`;
@@ -56,5 +56,5 @@
                 this.showText = true;
             }
         }
-    };
+    }
 </script>

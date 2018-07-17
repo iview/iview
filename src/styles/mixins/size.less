@@ -13,7 +13,7 @@
     @font-scale: unit(@size / @font-size-base);
     font-size: @font-size-base;
     font-size: ~"@{size} \9"; // ie8-9
-    transform: scale(@font-scale) rotate(@rotate);
+    .transform(scale(@font-scale) rotate(@rotate));
     :root & {
         font-size: @font-size-base; // reset ie9 and above
     }

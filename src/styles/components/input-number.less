@@ -13,8 +13,8 @@
     margin: 0;
     padding: 0;
     width: 80px;
-    height: @input-height-base;
-    line-height: @input-height-base;
+    height: 28px;
+    line-height: 28px;
     vertical-align: middle;
     border: 1px solid @border-color-base;
     border-radius: @btn-border-radius;
@@ -30,7 +30,7 @@
         top: 0;
         right: 0;
         opacity: 0;
-        transition: opacity @transition-time @ease-in-out;
+        .transition(opacity @transition-time @ease-in-out);
     }
 
     &:hover &-handler-wrap {
@@ -53,7 +53,7 @@
     &-handler {
         display: block;
         width: 100%;
-        height: @input-height-base / 2;
+        height: 14px;
         line-height: 0;
         text-align: center;
         overflow: hidden;
@@ -76,7 +76,7 @@
         user-select: none;
         position: absolute;
         right: 4px;
-        transition: all @transition-time linear;
+        .transition(all @transition-time linear);
     }
 
     &:hover {
@@ -93,13 +93,13 @@
 
     &-input-wrap {
         overflow: hidden;
-        height: @input-height-base;
+        height: 28px;
     }
 
     &-input {
         width: 100%;
-        height: @input-height-base;
-        line-height: @input-height-base;
+        height: 28px;
+        line-height: 28px;
         padding: 0 7px;
         text-align: left;
         outline: 0;
@@ -107,7 +107,7 @@
         color: #666;
         border: 0;
         border-radius: @btn-border-radius;
-        transition: all @transition-time linear;
+        .transition(all @transition-time linear);
 
         &[disabled] {
             .disabled();
@@ -117,15 +117,15 @@
     &-large {
         padding: 0;
         .@{input-number-prefix-cls}-input-wrap {
-            height: @input-height-large;
+            height: 32px;
         }
         .@{input-number-prefix-cls}-handler {
-            height: @input-height-large / 2;
+            height: 16px;
         }
 
         input {
-            height: @input-height-large;
-            line-height: @input-height-large;
+            height: 32px;
+            line-height: 32px;
         }
 
         .@{input-number-prefix-cls}-handler-up-inner {
@@ -139,15 +139,15 @@
     &-small {
         padding: 0;
         .@{input-number-prefix-cls}-input-wrap {
-            height: @input-height-small;
+            height: 22px;
         }
         .@{input-number-prefix-cls}-handler {
-            height: @input-height-small / 2;
+            height: 11px;
         }
 
         input {
-            height: @input-height-small;
-            line-height: @input-height-small;
+            height: 22px;
+            line-height: 22px;
             margin-top: -1px;
             vertical-align: top;
         }
@@ -181,15 +181,6 @@
         }
         .@{input-number-prefix-cls}-handler {
             .handler-disabled();
-        }
-    }
-}
-
-.@{form-item-prefix-cls}-error {
-    .@{input-number-prefix-cls}{
-        .input-error;
-        &-focused {
-            .active-error;
         }
     }
 }

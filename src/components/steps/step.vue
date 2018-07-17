@@ -43,7 +43,7 @@
                 stepNumber: '',
                 nextError: false,
                 total: 1
-            };
+            }
         },
         computed: {
             wrapClasses () {
@@ -54,12 +54,12 @@
                         [`${prefixCls}-custom`]: !!this.icon,
                         [`${prefixCls}-next-error`]: this.nextError
                     }
-                ];
+                ]
             },
             iconClasses () {
                 let icon = '';
 
-                if (this.icon) {
+                if (!!this.icon) {
                     icon = this.icon;
                 } else {
                     if (this.status == 'finish') {
@@ -75,12 +75,12 @@
                     {
                         [`${iconPrefixCls}-${icon}`]: icon != ''
                     }
-                ];
+                ]
             },
             styles () {
                 return {
                     width: `${1/this.total*100}%`
-                };
+                }
             }
         },
         watch: {
@@ -90,5 +90,5 @@
                 }
             }
         }
-    };
+    }
 </script>

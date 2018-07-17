@@ -8,8 +8,20 @@
     </div>
 </template>
 <script>
-    import { scrollTop } from '../../utils/assist';
     const prefixCls = 'ivu-back-top';
+
+    function getScroll(target, top) {
+        const prop = top ? 'pageYOffset' : 'pageXOffset';
+        const method = top ? 'scrollTop' : 'scrollLeft';
+
+        let ret = target[prop];
+
+        if (typeof ret !== 'number') {
+            ret = window.document.documentElement[method];
+        }
+
+        return ret;
+    }
 
     export default {
         props: {
@@ -24,16 +36,12 @@
             right: {
                 type: Number,
                 default: 30
-            },
-            duration: {
-                type: Number,
-                default: 1000
             }
         },
         data () {
             return {
                 backTop: false
-            };
+            }
         },
         ready () {
             window.addEventListener('scroll', this.handleScroll, false);
@@ -50,13 +58,13 @@
                     {
                         [`${prefixCls}-show`]: this.backTop
                     }
-                ];
+                ]
             },
             styles () {
                 return {
                     bottom: `${this.bottom}px`,
                     right: `${this.right}px`
-                };
+                }
             },
             innerClasses () {
                 return `${prefixCls}-inner`;
@@ -64,12 +72,19 @@
         },
         methods: {
             handleScroll () {
-                this.backTop = window.pageYOffset >= this.height;
+                const backTop = this.backTop;
+                const scrollTop = getScroll(window, true);
+
+                if (this.height <= scrollTop && !backTop) {
+                    this.backTop = true;
+                } else if (this.height > scrollTop && backTop) {
+                    this.backTop = false;
+                }
             },
             back () {
-                scrollTop(window, document.body.scrollTop, 0, this.duration);
+                window.scrollTo(0, 0);
                 this.$emit('on-click');
             }
         }
-    };
+    }
 </script>

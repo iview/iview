@@ -31,7 +31,7 @@ function hide() {
             update({
                 percent: 0
             });
-        }, 200);
+        }, 200)
     }, 800);
 }
 
@@ -44,8 +44,6 @@ function clearTimer() {
 
 export default {
     start () {
-        if (timer) return;
-
         let percent = 0;
 
         update({
@@ -109,4 +107,4 @@ export default {
         loadingBarInstance = null;
         instance.destroy();
     }
-};
+}

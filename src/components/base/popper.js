@@ -26,7 +26,7 @@ export default {
                 return {
                     gpuAcceleration: false,
                     boundariesElement: 'body'
-                };
+                }
             }
         },
         visible: {
@@ -43,12 +43,7 @@ export default {
             }
         },
         visible(val) {
-            if (val) {
-                this.updatePopper();
-            } else {
-                this.destroyPopper();
-                this.$emit('on-popper-hide');
-            }
+            val ? this.updatePopper() : this.destroyPopper();
             this.$emit('input', val);
         }
     },

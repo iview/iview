@@ -33,5 +33,5 @@
                 this.updateChildren();
             }
         }
-    };
+    }
 </script>

@@ -20,7 +20,7 @@
         data () {
             return {
                 dot: false
-            };
+            }
         },
         ready () {
             this.dot = this.$els.dot.innerHTML.length ? true : false;
@@ -39,7 +39,7 @@
                         [`${prefixCls}-item-head-custom`]: this.dot,
                         [`${prefixCls}-item-head-${this.color}`]: this.headColorShow
                     }
-                ];
+                ]
             },
             headColorShow () {
                 return this.color == 'blue' || this.color == 'red' || this.color == 'green';
@@ -51,7 +51,7 @@
                         style = {
                             'color': this.color,
                             'border-color': this.color
-                        };
+                        }
                     }
                 }
 
@@ -61,5 +61,5 @@
                 return `${prefixCls}-item-content`;
             }
         }
-    };
+    }
 </script>

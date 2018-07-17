@@ -31,7 +31,7 @@ Notification.newInstance = properties => {
         destroy () {
             document.body.removeChild(div);
         }
-    };
+    }
 };
 
 export default Notification;

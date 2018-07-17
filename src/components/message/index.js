@@ -32,7 +32,7 @@ function notice (content, duration = defaultDuration, type, onClose) {
     if (!onClose) {
         onClose = function () {
 
-        };
+        }
     }
     const iconType = iconTypes[type];
 
@@ -61,7 +61,7 @@ function notice (content, duration = defaultDuration, type, onClose) {
 
         return function () {
             instance.remove(`${prefixKey}${target}`);
-        };
+        }
     })();
 }
 
@@ -94,4 +94,4 @@ export default {
         messageInstance = null;
         instance.destroy();
     }
-};
+}

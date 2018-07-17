@@ -40,7 +40,7 @@
 
                     child.isActive = isActive;
                     child.index = index;
-                });
+                })
             },
             getActiveKey () {
                 let activeKey = this.activeKey || [];
@@ -94,5 +94,5 @@
                 this.setActive();
             }
         }
-    };
+    }
 </script>

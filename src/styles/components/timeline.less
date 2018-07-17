@@ -14,9 +14,9 @@
 
         &-tail {
             height: 100%;
-            border-left: 1px solid @timeline-color;
+            border-left: 2px solid @timeline-color;
             position: absolute;
-            left: 6px;
+            left: 5px;
             top: 0;
         }
 
@@ -25,11 +25,11 @@
         }
 
         &-head {
-            width: 13px;
-            height: 13px;
+            width: 12px;
+            height: 12px;
             background-color: #fff;
-            border-radius: 50%;
-            border: 1px solid transparent;
+            border-radius: 100px;
+            border: 2px solid transparent;
             position: absolute;
 
             &-blue {
@@ -55,17 +55,17 @@
             line-height: 1;
             border: 0;
             border-radius: 0;
-            font-size: @font-size-base;
+            font-size: 14px;
             position: absolute;
-            left: -13px;
-            transform: translateY(-50%);
+            left: -14px;
+            .transform(translateY(-50%));
         }
 
         &-content {
             padding: 1px 1px 10px 24px;
-            font-size: @font-size-small;
+            font-size: @font-size-base;
             position: relative;
-            top: -3px;
+            top: -5px;
         }
 
         &:last-child {
@@ -78,7 +78,7 @@
     &&-pending &-item:nth-last-of-type(2) {
 
         .@{timeline-prefix-cls}-item-tail {
-            border-left: 1px dotted @timeline-color;
+            border-left: 2px dotted @timeline-color;
         }
         .@{timeline-prefix-cls}-item-content {
             min-height: 48px;

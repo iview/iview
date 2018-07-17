@@ -18,7 +18,7 @@
             <input
                 :class="inputClasses"
                 :disabled="disabled"
-                autocomplete="off"
+                autoComplete="off"
                 @focus="focus"
                 @blur="blur"
                 @keydown.stop="keyDown"
@@ -34,18 +34,18 @@
     const iconPrefixCls = 'ivu-icon';
 
     function isValueNumber (value) {
-        return (/(^-?[0-9]+\.{1}\d+$)|(^-?[1-9][0-9]*$)|(^-?0{1}$)/).test(value + '');
+        return (/(^-?[0-9]+\.{1}\d+$)|(^-?[1-9][0-9]*$)/).test(value + '');
     }
     function addNum (num1, num2) {
-        let sq1, sq2, m;
+        var sq1, sq2, m;
         try {
-            sq1 = num1.toString().split('.')[1].length;
+            sq1 = num1.toString().split(".")[1].length;
         }
         catch (e) {
             sq1 = 0;
         }
         try {
-            sq2 = num2.toString().split('.')[1].length;
+            sq2 = num2.toString().split(".")[1].length;
         }
         catch (e) {
             sq2 = 0;
@@ -93,7 +93,7 @@
                 focused: false,
                 upDisabled: false,
                 downDisabled: false
-            };
+            }        
         },
         computed: {
             wrapClasses () {
@@ -104,7 +104,7 @@
                         [`${prefixCls}-disabled`]: this.disabled,
                         [`${prefixCls}-focused`]: this.focused
                     }
-                ];
+                ]
             },
             handlerClasses () {
                 return `${prefixCls}-handler-wrap`;
@@ -116,7 +116,7 @@
                     {
                         [`${prefixCls}-handler-up-disabled`]: this.upDisabled
                     }
-                ];
+                ]
             },
             innerUpClasses () {
                 return `${prefixCls}-handler-up-inner ${iconPrefixCls} ${iconPrefixCls}-ios-arrow-up`;
@@ -128,7 +128,7 @@
                     {
                         [`${prefixCls}-handler-down-disabled`]: this.downDisabled
                     }
-                ];
+                ]
             },
             innerDownClasses () {
                 return `${prefixCls}-handler-down-inner ${iconPrefixCls} ${iconPrefixCls}-ios-arrow-down`;
@@ -144,52 +144,32 @@
             preventDefault (e) {
                 e.preventDefault();
             },
-            up (e) {
-                const targetVal = Number(e.target.value);
-                if (this.upDisabled && isNaN(targetVal)) {
+            up () {
+                if (this.upDisabled) {
                     return false;
                 }
-                this.changeStep('up', e);
+                this.changeStep('up');
             },
-            down (e) {
-                const targetVal = Number(e.target.value);
-                if (this.downDisabled && isNaN(targetVal)) {
+            down () {
+                if (this.downDisabled) {
                     return false;
                 }
-                this.changeStep('down', e);
+                this.changeStep('down');
             },
-            changeStep (type, e) {
+            changeStep (type) {
                 if (this.disabled) {
                     return false;
                 }
 
-                const targetVal = Number(e.target.value);
                 let val = Number(this.value);
                 const step = Number(this.step);
                 if (isNaN(val)) {
                     return false;
                 }
 
-                // input a number, and key up or down
-                if (!isNaN(targetVal)) {
-                    if (type === 'up') {
-                        if (addNum(targetVal, step) <= this.max) {
-                            val = targetVal;
-                        } else {
-                            return false;
-                        }
-                    } else if (type === 'down') {
-                        if (addNum(targetVal, -step) >= this.min) {
-                            val = targetVal;
-                        } else {
-                            return false;
-                        }
-                    }
-                }
-
-                if (type === 'up') {
+                if (type == 'up') {
                     val = addNum(val, step);
-                } else if (type === 'down') {
+                } else if (type == 'down') {
                     val = addNum(val, -step);
                 }
                 this.setValue(val);
@@ -197,9 +177,9 @@
             setValue (val) {
                 this.$nextTick(() => {
                     this.value = val;
-                    this.$emit('on-change', val);
-                    this.$dispatch('on-form-change', val);
                 });
+
+                this.$emit('on-change', val);
             },
             focus () {
                 this.focused = true;
@@ -210,10 +190,10 @@
             keyDown (e) {
                 if (e.keyCode === 38) {
                     e.preventDefault();
-                    this.up(e);
+                    this.up()
                 } else if (e.keyCode === 40) {
                     e.preventDefault();
-                    this.down(e);
+                    this.down()
                 }
             },
             change (event) {
@@ -250,7 +230,7 @@
                 }
             }
         },
-        compiled () {
+        ready () {
             this.changeVal(this.value);
         },
         watch: {
@@ -258,5 +238,5 @@
                 this.changeVal(val);
             }
         }
-    };
+    }
 </script>

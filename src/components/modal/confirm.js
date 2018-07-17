@@ -3,7 +3,6 @@ import Modal from './modal.vue';
 import Icon from '../icon/icon.vue';
 import iButton from '../button/button.vue';
 import { camelcaseToHyphen } from '../../utils/assist';
-import { t } from '../../locale';
 
 const prefixCls = 'ivu-modal-confirm';
 
@@ -17,17 +16,17 @@ Modal.newInstance = properties => {
 
     const div = document.createElement('div');
     div.innerHTML = `
-        <Modal${props} :visible.sync="visible" :width="width" :scrollable.sync="scrollable">
+        <Modal${props} :visible.sync="visible" :width="width">
             <div class="${prefixCls}">
                 <div class="${prefixCls}-head">
+                    <div :class="iconTypeCls"><i :class="iconNameCls"></i></div>
                     <div class="${prefixCls}-head-title">{{{ title }}}</div>
                 </div>
                 <div class="${prefixCls}-body">
-                    <div :class="iconTypeCls"><i :class="iconNameCls"></i></div>
                     {{{ body }}}
                 </div>
                 <div class="${prefixCls}-footer">
-                    <i-button type="text" size="large" v-if="showCancel" @click="cancel">{{ cancelText }}</i-button>
+                    <i-button type="ghost" size="large" v-if="showCancel" @click="cancel">{{ cancelText }}</i-button>
                     <i-button type="primary" size="large" :loading="buttonLoading" @click="ok">{{ okText }}</i-button>
                 </div>
             </div>
@@ -45,25 +44,24 @@ Modal.newInstance = properties => {
             body: '',
             iconType: '',
             iconName: '',
-            okText: t('i.modal.okText'),
-            cancelText: t('i.modal.cancelText'),
+            okText: '确定',
+            cancelText: '取消',
             showCancel: false,
             loading: false,
-            buttonLoading: false,
-            scrollable: false
+            buttonLoading: false
         }),
         computed: {
             iconTypeCls () {
                 return [
-                    `${prefixCls}-body-icon`,
-                    `${prefixCls}-body-icon-${this.iconType}`
-                ];
+                    `${prefixCls}-head-icon`,
+                    `${prefixCls}-head-icon-${this.iconType}`
+                ]
             },
             iconNameCls () {
                 return [
                     'ivu-icon',
                     `ivu-icon-${this.iconName}`
-                ];
+                ]
             }
         },
         methods: {
@@ -154,10 +152,6 @@ Modal.newInstance = properties => {
                 modal.$parent.loading = props.loading;
             }
 
-            if ('scrollable' in props) {
-                modal.$parent.scrollable = props.scrollable;
-            }
-
             // notice when component destroy
             modal.$parent.onRemove = props.onRemove;
 
@@ -169,7 +163,7 @@ Modal.newInstance = properties => {
             modal.$parent.remove();
         },
         component: modal
-    };
+    }
 };
 
 export default Modal;

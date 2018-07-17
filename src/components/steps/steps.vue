@@ -40,7 +40,7 @@
                     {
                         [`${prefixCls}-${this.size}`]: !!this.size
                     }
-                ];
+                ]
             }
         },
         ready () {
@@ -103,5 +103,5 @@
                 this.updateCurrent();
             }
         }
-    };
+    }
 </script>

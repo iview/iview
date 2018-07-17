@@ -36,7 +36,7 @@
                         [`${prefixCls}-disabled`]: this.disabled,
                         [`${prefixCls}-${this.size}`]: !!this.size
                     }
-                ];
+                ]
             },
             innerClasses () {
                 return `${prefixCls}-inner`;
@@ -50,8 +50,7 @@
 
                 this.checked = !this.checked;
                 this.$emit('on-change', this.checked);
-                this.$dispatch('on-form-change', this.checked);
             }
         }
-    };
+    }
 </script>

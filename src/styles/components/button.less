@@ -4,10 +4,6 @@
     .btn;
     .btn-default;
 
-    &-long{
-        width: 100%;
-    }
-
     & > .ivu-icon + span, & > span + .ivu-icon{
         margin-left: 4px;
     }
@@ -15,12 +11,12 @@
     &-primary {
         .btn-primary;
 
-        .@{btn-prefix-cls}-group:not(.@{btn-prefix-cls}-group-vertical) &:not(:first-child):not(:last-child) {
+        .@{btn-prefix-cls}-group &:not(:first-child):not(:last-child) {
             border-right-color: @btn-group-border;
             border-left-color: @btn-group-border;
         }
 
-        .@{btn-prefix-cls}-group:not(.@{btn-prefix-cls}-group-vertical) &:first-child {
+        .@{btn-prefix-cls}-group &:first-child {
             &:not(:last-child) {
                 border-right-color: @btn-group-border;
                 &[disabled] {
@@ -29,33 +25,11 @@
             }
         }
 
-        .@{btn-prefix-cls}-group:not(.@{btn-prefix-cls}-group-vertical) &:last-child:not(:first-child),
-        .@{btn-prefix-cls}-group:not(.@{btn-prefix-cls}-group-vertical) & + .@{btn-prefix-cls} {
+        .@{btn-prefix-cls}-group &:last-child:not(:first-child),
+        .@{btn-prefix-cls}-group & + .@{btn-prefix-cls} {
             border-left-color: @btn-group-border;
             &[disabled] {
                 border-left-color: @btn-default-border;
-            }
-        }
-
-        .@{btn-prefix-cls}-group-vertical &:not(:first-child):not(:last-child) {
-            border-top-color: @btn-group-border;
-            border-bottom-color: @btn-group-border;
-        }
-
-        .@{btn-prefix-cls}-group-vertical &:first-child {
-            &:not(:last-child) {
-                border-bottom-color: @btn-group-border;
-                &[disabled] {
-                    border-top-color: @btn-default-border;
-                }
-            }
-        }
-
-        .@{btn-prefix-cls}-group-vertical &:last-child:not(:first-child),
-        .@{btn-prefix-cls}-group-vertical & + .@{btn-prefix-cls} {
-            border-top-color: @btn-group-border;
-            &[disabled] {
-                border-bottom-color: @btn-default-border;
             }
         }
     }
@@ -72,21 +46,9 @@
         .btn-text;
     }
 
-    &-success {
-        .btn-color(@success-color);
-    }
-
-    &-warning {
-        .btn-color(@warning-color);
-    }
-
-    &-error {
-        .btn-color(@error-color);
-    }
-
-    &-info {
-        .btn-color(@info-color);
-    }
+    //&-dashed {
+    //    .btn-dashed;
+    //}
 
     &-circle,
     &-circle-outline {
@@ -104,7 +66,7 @@
         content: '';
         border-radius: inherit;
         z-index: 1;
-        transition: opacity @transition-time;
+        .transition(opacity @transition-time);
         pointer-events: none;
         display: none;
     }
@@ -120,9 +82,5 @@
 
     &-group {
         .btn-group(@btn-prefix-cls);
-    }
-
-    &-group-vertical {
-        .btn-group-vertical(@btn-prefix-cls);
     }
 }

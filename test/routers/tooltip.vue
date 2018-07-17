@@ -16,7 +16,7 @@
 </style>
 <template>
     <div class="top">
-        <Tooltip content="Top Left 文字提示" placement="top-start" @on-popper-hide="hide">
+        <Tooltip content="Top Left 文字提示" placement="top-start">
             <i-button>上左</i-button>
         </Tooltip>
         <Tooltip content="Top Center 文字提示" placement="top">
@@ -63,13 +63,8 @@
     </div>
 </template>
 <script>
-    import { Tooltip, iButton, Message } from 'iview';
+    import { Tooltip, iButton } from 'iview';
     export default {
-        components: { Tooltip, iButton },
-        methods: {
-            hide () {
-                Message.info('hide')
-            }
-        }
+        components: { Tooltip, iButton }
     }
 </script>

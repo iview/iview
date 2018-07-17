@@ -32,5 +32,5 @@
                 return `${prefixCls}-separator`;
             }
         }
-    };
+    }
 </script>

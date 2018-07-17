@@ -12,9 +12,9 @@
 
     &-item {
         float: left;
-        min-width: @btn-circle-size;
-        height: @btn-circle-size;
-        line-height: @btn-circle-size - 2px;
+        min-width: 28px;
+        height: 28px;
+        line-height: 26px;
         margin-right: 4px;
         text-align: center;
         list-style: none;
@@ -24,13 +24,13 @@
         font-family: Arial;
         border: 1px solid @border-color-base;
         border-radius: @btn-border-radius;
-        transition: all @transition-time @ease-in-out;
+        .transition(all @transition-time @ease-in-out);
 
         a {
             margin: 0 6px;
             text-decoration: none;
             color: @text-color;
-            //transition: none;
+            //.transition(none);
         }
 
         &:hover {
@@ -104,9 +104,9 @@
     &-item-jump-next {
         display: inline-block;
         float: left;
-        min-width: @btn-circle-size;
-        height: @btn-circle-size;
-        line-height: @btn-circle-size - 2px;
+        min-width: 28px;
+        height: 28px;
+        line-height: 26px;
         list-style: none;
         text-align: center;
         cursor: pointer;
@@ -114,7 +114,7 @@
         font-family: Arial;
         border: 1px solid @border-color-base;
         border-radius: @btn-border-radius;
-        transition: all @transition-time @ease-in-out;
+        .transition(all @transition-time @ease-in-out);
     }
 
     &-prev,
@@ -123,7 +123,6 @@
 
         a {
             color: #666;
-            font-size: 14px;
         }
 
         &:hover {
@@ -159,8 +158,8 @@
 
         &-elevator {
             float: left;
-            height: @btn-circle-size;
-            line-height: @btn-circle-size;
+            height: 28px;
+            line-height: 28px;
 
             input {
                 .input;
@@ -173,8 +172,8 @@
 
     &-total {
         float: left;
-        height: @btn-circle-size;
-        line-height: @btn-circle-size;
+        height: 30px;
+        line-height: 30px;
         margin-right: 10px;
     }
 
@@ -202,54 +201,50 @@
             outline: none;
             border: 1px solid @border-color-base;
             border-radius: @btn-border-radius;
-            transition: border-color @transition-time @ease-in-out;
+            .transition(border-color @transition-time @ease-in-out);
 
             &:hover {
                 border-color: @primary-color;
             }
-        }
-
-        span{
-            padding: 0 8px 0 2px;
         }
     }
 }
 
 .@{page-prefix-cls} {
     &.mini &-total {
-        height: @btn-circle-size-small;
-        line-height: @btn-circle-size-small;
+        height: 20px;
+        line-height: 20px;
     }
 
     &.mini &-item {
         border: 0;
         margin: 0;
-        min-width: @btn-circle-size-small;
-        height: @btn-circle-size-small;
-        line-height: @btn-circle-size-small;
+        min-width: 20px;
+        height: 20px;
+        line-height: 20px;
         border-radius: @btn-border-radius-small;
     }
 
     &.mini &-prev,
     &.mini &-next {
         margin: 0;
-        min-width: @btn-circle-size-small;
-        height: @btn-circle-size-small;
-        line-height: @btn-circle-size-small;
+        min-width: 20px;
+        height: 20px;
+        line-height: 20px;
         border: 0;
 
         a {
             i:after {
-                height: @btn-circle-size-small;
-                line-height: @btn-circle-size-small;
+                height: 20px;
+                line-height: 20px;
             }
         }
     }
 
     &.mini &-item-jump-prev,
     &.mini &-item-jump-next {
-        height: @btn-circle-size-small;
-        line-height: @btn-circle-size-small;
+        height: 20px;
+        line-height: 20px;
         border: none;
         margin-right: 0;
     }
@@ -257,8 +252,8 @@
     &.mini &-options {
         margin-left: 8px;
         &-elevator {
-            height: @btn-circle-size-small;
-            line-height: @btn-circle-size-small;
+            height: 20px;
+            line-height: 20px;
 
             input {
                 .input-small;

@@ -3,5 +3,5 @@
 *.yml
 build/
 node_modules/
-test/
+local/
 gulpfile.js

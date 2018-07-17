@@ -27,7 +27,7 @@
             return {
                 showHead: true,
                 showExtra: true
-            };
+            }
         },
         computed: {
             classes () {
@@ -38,7 +38,7 @@
                         [`${prefixCls}-dis-hover`]: this.disHover || this.shadow,
                         [`${prefixCls}-shadow`]: this.shadow
                     }
-                ];
+                ]
             },
             headClasses () {
                 return `${prefixCls}-head`;
@@ -54,5 +54,5 @@
             this.showHead = this.$els.head.innerHTML != '';
             this.showExtra = this.$els.extra.innerHTML != '';
         }
-    };
+    }
 </script>

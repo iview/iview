@@ -35,7 +35,7 @@
         return {
             top: rect.top + scrollTop - clientTop,
             left: rect.left + scrollLeft - clientLeft
-        };
+        }
     }
 
     export default {
@@ -52,7 +52,7 @@
             return {
                 affix: false,
                 styles: {}
-            };
+            }
         },
         computed: {
             offsetType () {
@@ -68,7 +68,7 @@
                     {
                         [`${prefixCls}`]: this.affix
                     }
-                ];
+                ]
             }
         },
         ready () {
@@ -117,10 +117,10 @@
                 } else if ((elOffset.top + this.offsetBottom + elHeight) < (scrollTop + windowHeight) && this.offsetType == 'bottom' && affix) {
                     this.affix = false;
                     this.styles = null;
-
+                    
                     this.$emit('on-change', false);
                 }
             }
         }
-    };
+    }
 </script>

@@ -16,4 +16,4 @@ export default {
     unbind () {
         document.removeEventListener('click', this.documentHandler);
     }
-};
+}

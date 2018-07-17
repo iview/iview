@@ -9,13 +9,13 @@
     .clearfix;
 }
 
-.float-grid-columns(@class) {
+.float-grid-columns() {
     .col(@index) { // initial
-        @item: ~".@{col-prefix-cls}-span@{class}-@{index}";
+        @item: ~".@{col-prefix-cls}-span-@{index}";
         .col((@index + 1), @item);
     }
     .col(@index, @list) when (@index =< @grid-columns) { // general
-        @item: ~".@{col-prefix-cls}-span@{class}-@{index}";
+        @item: ~".@{col-prefix-cls}-span-@{index}";
         .col((@index + 1), ~"@{list}, @{item}");
     }
     .col(@index, @list) when (@index > @grid-columns) { // terminal
@@ -27,39 +27,39 @@
     .col(1); // kickstart it
 }
 
-.loop-grid-columns(@index, @class) when (@index > 0) {
-    .@{col-prefix-cls}-span@{class}-@{index} {
+.loop-grid-columns(@index) when (@index > 0) {
+    .@{col-prefix-cls}-span-@{index} {
         display: block;
         width: percentage((@index / @grid-columns));
     }
-    .@{col-prefix-cls}@{class}-push-@{index} {
+    .@{col-prefix-cls}-push-@{index} {
         left: percentage((@index / @grid-columns));
     }
-    .@{col-prefix-cls}@{class}-pull-@{index} {
+    .@{col-prefix-cls}-pull-@{index} {
         right: percentage((@index / @grid-columns));
     }
-    .@{col-prefix-cls}@{class}-offset-@{index} {
+    .@{col-prefix-cls}-offset-@{index} {
         margin-left: percentage((@index / @grid-columns));
     }
-    .@{col-prefix-cls}@{class}-order-@{index} {
+    .@{col-prefix-cls}-order-@{index} {
         order: @index;
     }
-    .loop-grid-columns((@index - 1), @class);
+    .loop-grid-columns((@index - 1));
 }
 
-.loop-grid-columns(@index, @class) when (@index = 0) {
-    .@{col-prefix-cls}-span@{class}-@{index} {
+.loop-grid-columns(@index) when (@index = 0) {
+    .@{col-prefix-cls}-@{index} {
         display: none;
     }
-    .@{col-prefix-cls}@{class}-push-@{index} {
+    .@{col-prefix-cls}-push-@{index} {
         left: auto;
     }
-    .@{col-prefix-cls}@{class}-pull-@{index} {
+    .@{col-prefix-cls}-pull-@{index} {
         right: auto;
     }
 }
 
-.make-grid(@class: ~'') {
-    .float-grid-columns(@class);
-    .loop-grid-columns(@grid-columns, @class);
+.make-grid() {
+    .float-grid-columns();
+    .loop-grid-columns(@grid-columns);
 }
