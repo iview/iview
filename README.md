@@ -131,7 +131,7 @@ This project exists thanks to all the people who contribute.
 ### Backers
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/iview#backer)]
 
-<a href="https://opencollective.com/iview#backers" target="_blank"><img src="https://opencollective.com/iview/backers.svg?width=890”></a>
+<a href="https://opencollective.com/iview#backers" target="_blank"><img src="https://opencollective.com/iview/backers.svg?width=890"></a>
 
 ### Sponsors
 
