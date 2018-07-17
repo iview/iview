@@ -36,6 +36,10 @@
             checked: {
                 type: Boolean,
                 default: false
+            },
+            indeterminate: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -44,7 +48,7 @@
                 selected: false,
                 group: false,
                 showSlot: true
-            }
+            };
         },
         computed: {
             wrapClasses () {
@@ -55,16 +59,17 @@
                         [`${prefixCls}-wrapper-checked`]: this.selected,
                         [`${prefixCls}-wrapper-disabled`]: this.disabled
                     }
-                ]
+                ];
             },
             checkboxClasses () {
                 return [
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-checked`]: this.selected,
-                        [`${prefixCls}-disabled`]: this.disabled
+                        [`${prefixCls}-disabled`]: this.disabled,
+                        [`${prefixCls}-indeterminate`]: this.indeterminate
                     }
-                ]
+                ];
             },
             innerClasses () {
                 return `${prefixCls}-inner`;
@@ -74,6 +79,7 @@
             }
         },
         ready () {
+            if (this.$parent && this.$parent.$options.name === 'checkboxGroup') this.group = true;
             if (!this.group) {
                 this.updateModel();
                 if (this.$els.slot && this.$els.slot.innerHTML === '') {
@@ -93,6 +99,7 @@
                     this.$parent.change(this.model);
                 } else {
                     this.$emit('on-change', this.checked);
+                    this.$dispatch('on-form-change', this.checked);
                 }
             },
             updateModel () {
@@ -104,5 +111,5 @@
                 this.updateModel();
             }
         }
-    }
+    };
 </script>

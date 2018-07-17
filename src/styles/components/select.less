@@ -9,7 +9,8 @@
     vertical-align: middle;
     color: @text-color;
     font-size: @font-size-base;
-    position: relative;
+    //position: relative;
+    line-height: normal;
 
     &-selection {
         display: block;
@@ -17,11 +18,12 @@
         outline: none;
         user-select: none;
         cursor: pointer;
+        position: relative;
 
         background-color: #fff;
         border-radius: @btn-border-radius;
         border: 1px solid @border-color-base;
-        .transition(all @transition-time @ease-in-out);
+        transition: all @transition-time @ease-in-out;
 
         .@{select-prefix-cls}-arrow:nth-of-type(1) {
             display: none;
@@ -41,13 +43,7 @@
     }
 
     &-arrow {
-        position: absolute;
-        top: 50%;
-        right: 8px;
-        line-height: 1;
-        margin-top: -6px;
-        color: @border-color-base;
-        .transition(all @transition-time @ease-in-out);
+        .inner-arrow();
     }
 
     &-visible{
@@ -56,7 +52,7 @@
         }
 
         .@{select-prefix-cls}-arrow:nth-of-type(2) {
-            .transform(rotate(180deg));
+            transform: rotate(180deg);
         }
     }
 
@@ -80,7 +76,7 @@
     }
 
     &-single &-selection{
-        height: 28px;
+        height: @input-height-base;
         position: relative;
 
         .@{select-prefix-cls}-placeholder{
@@ -89,8 +85,9 @@
 
         .@{select-prefix-cls}-placeholder, .@{select-prefix-cls}-selected-value{
             display: block;
-            height: 26px;
-            line-height: 26px;
+            height: @input-height-base - 2px;
+            line-height: @input-height-base - 2px;
+            font-size: @font-size-small;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -100,37 +97,39 @@
     }
 
     &-large&-single &-selection{
-        height: 36px;
+        height: @input-height-large;
 
         .@{select-prefix-cls}-placeholder, .@{select-prefix-cls}-selected-value{
-            height: 34px;
-            line-height: 34px;
+            height: @input-height-large - 2px;
+            line-height: @input-height-large - 2px;
+            font-size: @font-size-base;
         }
     }
 
     &-small&-single &-selection{
-        height: 24px;
+        height: @input-height-small;
         border-radius: @btn-border-radius-small;
 
         .@{select-prefix-cls}-placeholder, .@{select-prefix-cls}-selected-value{
-            height: 22px;
-            line-height: 22px;
+            height: @input-height-small - 2px;
+            line-height: @input-height-small - 2px;
         }
     }
 
     &-multiple &-selection{
-        padding: 0 24px 0 2px;
-        min-height: 28px;
+        padding: 0 24px 0 4px;
+        min-height: @input-height-base;
 
         .@{select-prefix-cls}-placeholder{
             display: block;
-            height: 26px;
-            line-height: 26px;
+            height: @input-height-base - 2px;
+            line-height: @input-height-base - 2px;
             color: @input-placeholder-color;
+            font-size: @font-size-small;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            padding-left: 8px;
+            padding-left: 4px;
             padding-right: 22px;
         }
     }
@@ -141,7 +140,7 @@
         height: @input-height-base;
         line-height: @input-height-base;
         padding: 0 24px 0 8px;
-        font-size: @font-size-base;
+        font-size: @font-size-small;
         outline: none;
         border: none;
         box-sizing: border-box;
@@ -157,6 +156,7 @@
     }
 
     &-large &-input{
+        font-size: @font-size-base;
         height: @input-height-large;
     }
 
@@ -165,55 +165,22 @@
     }
 
     &-multiple &-input{
-        height: 25px;
-        line-height: 28px;
-        padding: 0 0 0 6px;
+        height: @input-height-base - 3px;
+        line-height: @input-height-base;
+        padding: 0 0 0 4px;
     }
 
     &-not-found{
         text-align: center;
         color: @btn-disable-color;
     }
-}
 
-.@{select-item-prefix-cls} {
-    margin: 0;
-    padding: 7px 16px 8px;
-    clear: both;
-    color: @text-color;
-    //border-radius: @btn-border-radius-small;
-    white-space: nowrap;
-    cursor: pointer;
-    .transition(background @transition-time @ease-in-out);
-
-    &:hover{
-        background: @background-color-select-hover;
-    }
-
-    &-focus {
-        background: @background-color-select-hover;
-    }
-
-    &-disabled {
-        color: @btn-disable-color;
-        cursor: @cursor-disabled;
-
-        &:hover {
-            color: @btn-disable-color;
-            background-color: #fff;
-            cursor: @cursor-disabled;
-        }
-    }
-
-    &-selected ,&-selected:hover{
-        color: #fff;
-        background: @selected-color;
-    }
-
-    &-selected&-focus {
-        background: shade(@selected-color, 10%);
+    &-multiple .@{css-prefix}tag{
+        margin: 3px 4px 2px 0;
     }
 }
+
+.select-item(@select-prefix-cls, @select-item-prefix-cls);
 
 .@{select-prefix-cls}-multiple .@{select-item-prefix-cls} {
     &-selected{
@@ -249,5 +216,19 @@
         color: @legend-color;
         height: 30px;
         line-height: 30px;
+    }
+}
+
+.@{form-item-prefix-cls}-error{
+    .@{select-prefix-cls}{
+        &-selection{
+            border: 1px solid @error-color;
+        }
+        &-arrow{
+            color: @error-color;
+        }
+        &-visible .@{select-prefix-cls}-selection{
+            .active-error;
+        }
     }
 }

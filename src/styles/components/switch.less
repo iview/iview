@@ -12,15 +12,15 @@
     position: relative;
     cursor: pointer;
     user-select: none;
-    .transition(all @transition-time @ease-in-out);
+    transition: all @transition-time @ease-in-out;
 
     &-inner {
         color: #fff;
-        font-size: 12px;
+        font-size: @font-size-small;
         position: absolute;
         left: 25px;
 
-        i{
+        i {
             width: 12px;
             height: 12px;
             text-align: center;
@@ -37,7 +37,7 @@
         left: 1px;
         top: 1px;
         cursor: pointer;
-        .transition2(left @transition-time @ease-in-out, width @transition-time @ease-in-out);
+        transition: left @transition-time @ease-in-out, width @transition-time @ease-in-out;
     }
 
     &:active:after {

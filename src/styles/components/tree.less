@@ -1,0 +1,139 @@
+@tree-prefix-cls: ~"@{css-prefix}tree";
+
+.@{tree-prefix-cls} {
+    margin: 0;
+    padding: 5px;
+    font-size: @font-size-small;
+    li {
+        padding: 0;
+        margin: 8px 0;
+        list-style: none;
+        white-space: nowrap;
+        outline: 0;
+        a[draggable],
+        a[draggable="true"] {
+            user-select: none;
+            /* Required to make elements draggable in old WebKit */
+            -khtml-user-drag: element;
+            -webkit-user-drag: element;
+        }
+        &.drag-over {
+            > a[draggable] {
+                background-color: @primary-color;
+                color: white;
+                opacity: 0.8;
+            }
+        }
+        &.drag-over-gap-top {
+            > a[draggable] {
+                border-top: 2px @primary-color solid;
+            }
+        }
+        &.drag-over-gap-bottom {
+            > a[draggable] {
+                border-bottom: 2px @primary-color solid;
+            }
+        }
+        &.filter-node {
+            > a {
+                color: @error-color!important;
+                font-weight: bold!important;
+            }
+        }
+        ul {
+            margin: 0;
+            padding: 0 0 0 18px;
+        }
+        a {
+            display: inline-block;
+            margin: 0;
+            padding: 0 4px;
+            border-radius: @btn-border-radius-small;
+            cursor: pointer;
+            text-decoration: none;
+            vertical-align: top;
+            color: @text-color;
+            transition: all @transition-time @ease-in-out;
+            &:hover {
+                background-color: tint(@primary-color, 90%);
+            }
+            &.@{tree-prefix-cls}-node-selected {
+                background-color: tint(@primary-color, 80%);
+            }
+        }
+        .@{checkbox-prefix-cls}-wrapper{
+            margin-right: 4px;
+        }
+        span {
+            &.@{tree-prefix-cls}-switcher,
+            &.@{tree-prefix-cls}-iconEle {
+                display: inline-block;
+                text-align: center;
+                width: 16px;
+                height: 16px;
+                line-height: 16px;
+                margin: 0;
+                vertical-align: middle;
+                border: 0 none;
+                cursor: pointer;
+                outline: none;
+            }
+            //&.@{tree-prefix-cls}-icon_loading {
+            //    &:after {
+            //        display: inline-block;
+            //        //.iconfont-font("\e6a1");
+            //        animation: loadingCircle 1s infinite linear;
+            //        color: @primary-color;
+            //    }
+            //}
+            &.@{tree-prefix-cls}-switcher {
+                i{
+                    transition: all @transition-time @ease-in-out;
+                }
+                &.@{tree-prefix-cls}-switcher-noop {
+                    display: none;
+                    cursor: auto;
+                    i{
+                        display: none;
+                    }
+                }
+                &.@{tree-prefix-cls}-roots_open,
+                &.@{tree-prefix-cls}-center_open,
+                &.@{tree-prefix-cls}-bottom_open,
+                &.@{tree-prefix-cls}-noline_open {
+                    i {
+                        transform: rotate(90deg);
+                    }
+                }
+                &.@{tree-prefix-cls}-roots_close,
+                &.@{tree-prefix-cls}-center_close,
+                &.@{tree-prefix-cls}-bottom_close,
+                &.@{tree-prefix-cls}-noline_close {
+
+                }
+            }
+        }
+    }
+    &-child-tree {
+        display: none;
+        &-open {
+            display: block;
+        }
+    }
+    &-treenode-disabled {
+        >span,
+        >a,
+        >a span {
+            color: @input-disabled-bg;
+            cursor: not-allowed;
+        }
+    }
+    &-icon__open {
+        margin-right: 2px;
+        vertical-align: top;
+    }
+    &-icon__close {
+        margin-right: 2px;
+        vertical-align: top;
+    }
+}

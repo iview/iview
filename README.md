@@ -8,9 +8,12 @@
 
 ### A high quality  UI Components Library with Vue.js
 
+> iView works only with Vue 1.0 currently. We have been in developing. English document is coming soon. Please pay attention to the iView.
+
 ## Docs
 
 ### [中文文档](https://www.iviewui.com)
+### English (Coming soon)
 
 ## Overview
 
@@ -18,10 +21,12 @@
 
 ## Features
 
-- Using .vue file development mode
-- Based on npm + webpack + babel, support ES2015
 - High quality and rich functions
 - Friendly APIs,free and flexible
+- Great Documentation
+- It is quite beautiful
+- Using .vue file development mode
+- Based on npm + webpack + babel, using ES2015
 
 ## Programming 
 
@@ -31,36 +36,32 @@
 
 ### Install vue-webpack project in the first place 
 
-Use [vue-vueRouter-webpack](https://github.com/icarusion/vue-vueRouter-webpack)(Recommended) Or [vue-cli](https://github.com/vuejs/vue-cli)
+Use [iview-project](https://github.com/iview/iview-project)(Recommended) Or [vue-cli](https://github.com/vuejs/vue-cli)
 
 ### Install iView
 
-```bash
+using npm
+```
 npm install iview --save
 ```
-
-### Babel support for iView in webpack
-```js
-module: {
-    loaders: [
-        { test: /iview.src.*?js$/, loader: 'babel' },
-        { test: /\.js$/, loader: 'babel', exclude: /node_modules/ }
-    ]
-}
+Or using script tag for global use
+```
+<script type="text/javascript" src="iview.min.js"></script>
 ```
 
 ## Usage
 
-Use component as required
-
 ```html
 <template>
-    <Page :current="1" :total="100"></Page>
+    <Slider :value.sync="value" range></Slider>
 </template>
 <script>
-    import { Page } from 'iview';
     export default {
-        components: { Page }
+        data () {
+            return {
+                value: [20, 50]
+            }
+        }
     }
 </script>
 ```
@@ -75,9 +76,8 @@ Normal browsers and Internet Explorer 9+.
 
 ## Links
 
+- [TalkingData](https://github.com/TalkingData)
 - [Vue](https://github.com/vuejs/vue)
 - [Webpack](https://github.com/webpack/webpack)
 - [ionicons](https://github.com/driftyco/ionicons)
 - [Ant Design](https://github.com/ant-design/ant-design)
-
-# We have been in developing, please pay attention to the iView.

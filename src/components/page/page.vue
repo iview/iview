@@ -1,7 +1,7 @@
 <template>
-    <ul :class="simpleWrapClasses" v-if="simple">
+    <ul :class="simpleWrapClasses" :style="style" v-if="simple">
         <li
-            title="上一页"
+            :title="t('i.page.prev')"
             :class="prevClasses"
             @click="prev">
             <a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a>
@@ -17,33 +17,33 @@
             {{ allPages }}
         </div>
         <li
-            title="下一页"
+            :title="t('i.page.next')"
             :class="nextClasses"
             @click="next">
             <a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a>
         </li>
     </ul>
-    <ul :class="wrapClasses" v-else>
+    <ul :class="wrapClasses" :style="style" v-else>
         <span :class="[prefixCls + '-total']" v-if="showTotal">
-            <slot>共 {{ total }} 条</slot>
+            <slot>{{ t('i.page.total') }} {{ total }} <template v-if="total <= 1">{{ t('i.page.item') }}</template><template v-else>{{ t('i.page.items') }}</template></slot>
         </span>
         <li
-            title="上一页"
+            :title="t('i.page.prev')"
             :class="prevClasses"
             @click="prev">
             <a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a>
         </li>
-        <li title="第一页" :class="firstPageClasses" @click="changePage(1)"><a>1</a></li>
-        <li title="向前 5 页" v-if="current - 3 > 1" :class="[prefixCls + '-item-jump-prev']" @click="fastPrev"><a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a></li>
+        <li title="1" :class="firstPageClasses" @click="changePage(1)"><a>1</a></li>
+        <li :title="t('i.page.prev5')" v-if="current - 3 > 1" :class="[prefixCls + '-item-jump-prev']" @click="fastPrev"><a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a></li>
         <li :title="current - 2" v-if="current - 2 > 1" :class="[prefixCls + '-item']" @click="changePage(current - 2)"><a>{{ current - 2 }}</a></li>
         <li :title="current - 1" v-if="current - 1 > 1" :class="[prefixCls + '-item']" @click="changePage(current - 1)"><a>{{ current - 1 }}</a></li>
         <li :title="current" v-if="current != 1 && current != allPages" :class="[prefixCls + '-item',prefixCls + '-item-active']"><a>{{ current }}</a></li>
         <li :title="current + 1" v-if="current + 1 < allPages" :class="[prefixCls + '-item']" @click="changePage(current + 1)"><a>{{ current + 1 }}</a></li>
         <li :title="current + 2" v-if="current + 2 < allPages" :class="[prefixCls + '-item']" @click="changePage(current + 2)"><a>{{ current + 2 }}</a></li>
-        <li title="向后 5 页" v-if="current + 3 < allPages" :class="[prefixCls + '-item-jump-next']" @click="fastNext"><a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a></li>
-        <li :title="'最后一页:' + allPages" v-if="allPages > 1" :class="lastPageClasses" @click="changePage(allPages)"><a>{{ allPages }}</a></li>
+        <li :title="t('i.page.next5')" v-if="current + 3 < allPages" :class="[prefixCls + '-item-jump-next']" @click="fastNext"><a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a></li>
+        <li :title="allPages" v-if="allPages > 1" :class="lastPageClasses" @click="changePage(allPages)"><a>{{ allPages }}</a></li>
         <li
-            title="下一页"
+            :title="t('i.page.next')"
             :class="nextClasses"
             @click="next">
             <a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a>
@@ -65,10 +65,12 @@
 <script>
     import { oneOf } from '../../utils/assist';
     import Options from './options.vue';
+    import Locale from '../../mixins/locale';
 
     const prefixCls = 'ivu-page';
 
     export default {
+        mixins: [ Locale ],
         components: { Options },
         props: {
             current: {
@@ -86,7 +88,7 @@
             pageSizeOpts: {
                 type: Array,
                 default () {
-                    return [10, 20, 30, 40]
+                    return [10, 20, 30, 40];
                 }
             },
             size: {
@@ -109,12 +111,18 @@
             showSizer: {
                 type: Boolean,
                 default: false
+            },
+            class: {
+                type: String
+            },
+            style: {
+                type: Object
             }
         },
         data () {
             return {
                 prefixCls: prefixCls
-            }
+            };
         },
         computed: {
             isSmall () {
@@ -127,8 +135,11 @@
             simpleWrapClasses () {
                 return [
                     `${prefixCls}`,
-                    `${prefixCls}-simple`
-                ]
+                    `${prefixCls}-simple`,
+                    {
+                        [`${this.class}`]: !!this.class
+                    }
+                ];
             },
             simplePagerClasses () {
                 return `${prefixCls}-simple-pager`;
@@ -137,9 +148,10 @@
                 return [
                     `${prefixCls}`,
                     {
+                        [`${this.class}`]: !!this.class,
                         'mini': !!this.size
                     }
-                ]
+                ];
             },
             prevClasses () {
                 return [
@@ -147,7 +159,7 @@
                     {
                         [`${prefixCls}-disabled`]: this.current === 1
                     }
-                ]
+                ];
             },
             nextClasses () {
                 return [
@@ -155,7 +167,7 @@
                     {
                         [`${prefixCls}-disabled`]: this.current === this.allPages
                     }
-                ]
+                ];
             },
             firstPageClasses () {
                 return [
@@ -163,7 +175,7 @@
                     {
                         [`${prefixCls}-item-active`]: this.current === 1
                     }
-                ]
+                ];
             },
             lastPageClasses () {
                 return [
@@ -171,7 +183,7 @@
                     {
                         [`${prefixCls}-item-active`]: this.current === this.allPages
                     }
-                ]
+                ];
             }
         },
         methods: {
@@ -214,6 +226,7 @@
             onSize (pageSize) {
                 this.pageSize = pageSize;
                 this.changePage(1);
+                this.$emit('on-page-size-change', pageSize);
             },
             onPage (page) {
                 this.changePage(page);
@@ -231,9 +244,9 @@
                 const val = parseInt(e.target.value);
 
                 if (key === 38) {
-                    this.prev()
+                    this.prev();
                 } else if (key === 40) {
-                    this.next()
+                    this.next();
                 } else if (key == 13) {
                     let page = 1;
 
@@ -250,5 +263,5 @@
                 }
             }
         }
-    }
+    };
 </script>

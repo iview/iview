@@ -1,13 +1,28 @@
 <template>
-    <div class="ivu-select-dropdown"><slot></slot></div>
+    <div class="ivu-select-dropdown" :style="styles"><slot></slot></div>
 </template>
 <script>
+    import { getStyle } from '../../utils/assist';
     import Popper from 'popper.js';
 
     export default {
+        props: {
+            placement: {
+                type: String,
+                default: 'bottom-start'
+            }
+        },
         data () {
             return {
-                popper: null
+                popper: null,
+                width: '',
+            };
+        },
+        computed: {
+            styles () {
+                let style = {};
+                if (this.width) style.width = `${this.width}px`;
+                return style;
             }
         },
         methods: {
@@ -20,7 +35,7 @@
                     this.$nextTick(() => {
                         this.popper = new Popper(this.$parent.$els.reference, this.$el, {
                             gpuAcceleration: false,
-                            placement: 'bottom-start',
+                            placement: this.placement,
                             boundariesPadding: 0,
                             forceAbsolute: true,
                             boundariesElement: 'body'
@@ -29,6 +44,10 @@
                             this.resetTransformOrigin(popper);
                         });
                     });
+                }
+                // set a height for parent is Modal and Select's width is 100%
+                if (this.$parent.$options.name === 'iSelect') {
+                    this.width = parseInt(getStyle(this.$parent.$el, 'width'));
                 }
             },
             destroy () {
@@ -47,7 +66,7 @@
                 popper._popper.style.transformOrigin = `center ${ origin }`;
             }
         },
-        ready () {
+        compiled () {
             this.$on('on-update-popper', this.update);
             this.$on('on-destroy-popper', this.destroy);
         },
@@ -56,5 +75,5 @@
                 this.popper.destroy();
             }
         }
-    }
+    };
 </script>

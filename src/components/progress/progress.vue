@@ -56,7 +56,7 @@
                         type = 'ios-close';
                         break;
                     case 'success':
-                         type = 'ios-checkmark';
+                        type = 'ios-checkmark';
                         break;
                 }
 
@@ -66,7 +66,7 @@
                 return {
                     width: `${this.percent}%`,
                     height: `${this.strokeWidth}px`
-                }
+                };
             },
             wrapClasses () {
                 return [
@@ -76,7 +76,7 @@
                         [`${prefixCls}-show-info`]: !this.hideInfo,
 
                     }
-                ]
+                ];
             },
             textClasses () {
                 return `${prefixCls}-text`;
@@ -117,5 +117,5 @@
                 }
             }
         }
-    }
+    };
 </script>

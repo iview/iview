@@ -1,0 +1,75 @@
+@upload-prefix-cls: ~"@{css-prefix}upload";
+
+.@{upload-prefix-cls} {
+    input[type="file"]{
+        display: none;
+    }
+
+    &-list{
+        margin-top: 8px;
+
+        &-file{
+            padding: 4px;
+            color: @text-color;
+            border-radius: @border-radius-small;
+            transition: background-color @transition-time @ease-in-out;
+            overflow: hidden;
+            position: relative;
+
+            & > span{
+                cursor: pointer;
+                transition: color @transition-time @ease-in-out;
+                i{
+                    display: inline-block;
+                    width: @font-size-small;
+                    height: @font-size-small;
+                    color: @text-color;
+                    text-align: center;
+                }
+            }
+
+            &:hover{
+                background: @input-disabled-bg;
+                & > span{
+                    color: @primary-color;
+                    i{
+                        color: @text-color;
+                    }
+                }
+                .@{upload-prefix-cls}-list-remove{
+                    opacity: 1;
+                }
+            }
+        }
+        &-remove{
+            opacity: 0;
+            font-size: 18px;
+            cursor: pointer;
+            float: right;
+            margin-right: 4px;
+            color: @legend-color;
+            transition: all @transition-time ease;
+            &:hover{
+                color: #444;
+            }
+        }
+    }
+
+    &-drag{
+        background: #fff;
+        border: 1px dashed @border-color-base;
+        border-radius: @border-radius-small;
+        text-align: center;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: border-color @transition-time ease;
+
+        &:hover{
+            border: 1px dashed @primary-color;
+        }
+    }
+    &-dragOver{
+        border: 2px dashed @primary-color;
+    }
+}

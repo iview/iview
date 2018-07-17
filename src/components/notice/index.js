@@ -68,7 +68,7 @@ function notice (type, options) {
         key: noticeKey.toString(),
         duration: duration,
         style: {},
-        transitionName: 'move-right',
+        transitionName: 'move-notice',
         content: content,
         onClose: onClose,
         closable: true
@@ -114,4 +114,4 @@ export default {
         noticeInstance = null;
         instance.destroy();
     }
-}
+};

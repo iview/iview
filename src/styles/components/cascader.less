@@ -1,0 +1,99 @@
+@cascader-prefix-cls: ~"@{css-prefix}cascader";
+@cascader-item-prefix-cls: ~"@{css-prefix}cascader-menu-item";
+
+.@{cascader-prefix-cls} {
+    //position: relative;
+    line-height: normal;
+
+    &-rel{
+        position: relative;
+    }
+
+    .@{css-prefix}input{
+        display: block;
+        cursor: pointer;
+    }
+    &-disabled .@{css-prefix}input{
+        cursor: @cursor-disabled;
+    }
+
+    .@{cascader-prefix-cls}-arrow:nth-of-type(1) {
+        display: none;
+        cursor: pointer;
+    }
+
+    &:hover {
+        .@{cascader-prefix-cls}-arrow:nth-of-type(1) {
+            display: inline-block;
+        }
+    }
+    &-show-clear:hover .@{cascader-prefix-cls}-arrow:nth-of-type(2){
+        display: none;
+    }
+
+    &-arrow {
+        .inner-arrow();
+    }
+    &-visible &-arrow:nth-of-type(2) {
+        transform: rotate(180deg);
+    }
+
+    .@{select-dropdown-prefix-cls} {
+        width: auto;
+        padding: 0;
+        white-space: nowrap;
+        overflow: visible;
+    }
+
+    .select-item(@cascader-prefix-cls, @cascader-item-prefix-cls);
+
+    &-menu{
+        display: inline-block;
+        min-width: 100px;
+        height: 180px;
+        margin: 0;
+        padding: 5px 0 !important;
+        vertical-align: top;
+        list-style: none;
+        border-right: 1px solid @border-color-split;
+        overflow: auto;
+
+        &:first-child {
+
+        }
+        &:last-child {
+            border-right-color: transparent;
+            margin-right: -1px;
+        }
+        &:only-child {
+
+        }
+
+        & &-item{
+            position: relative;
+            padding-right: 24px;
+            transition: all @transition-time @ease-in-out;
+
+            i{
+                font-size: @font-size-small;
+                position: absolute;
+                right: 15px;
+                top: 50%;
+                margin-top: -6px;
+            }
+
+            &-active{
+                background-color: @background-color-select-hover;
+                color: @primary-color;
+            }
+        }
+    }
+}
+
+.@{form-item-prefix-cls}-error{
+    .@{cascader-prefix-cls} {
+        &-arrow{
+            color: @error-color;
+        }
+    }
+}

@@ -1,0 +1,37 @@
+// sortable
+.sortable() {
+    display: inline-block;
+    width: 9px;
+    height: 12px;
+    margin-left: 4px;
+    margin-top: -1px;
+    vertical-align: middle;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+
+    i {
+        display: block;
+        height: 6px;
+        line-height: 6px;
+        overflow: hidden;
+        position: absolute;
+        color: @btn-disable-color;
+        transition: color @transition-time @ease-in-out;
+
+        &:hover{
+            color: inherit;
+        }
+
+        &.on{
+            color: @primary-color;
+        }
+
+        &:first-child{
+            top: 0;
+        }
+        &:last-child{
+            bottom: 0;
+        }
+    }
+}

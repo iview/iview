@@ -35,10 +35,12 @@
     import Dropdown from './dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
     import { oneOf, MutationObserver } from '../../utils/assist';
+    import { t } from '../../locale';
 
     const prefixCls = 'ivu-select';
 
     export default {
+        name: 'iSelect',
         components: { Icon, Dropdown },
         directives: { clickoutside },
         props: {
@@ -60,7 +62,9 @@
             },
             placeholder: {
                 type: String,
-                default: '请选择'
+                default () {
+                    return t('i.select.placeholder');
+                }
             },
             filterable: {
                 type: Boolean,
@@ -80,7 +84,9 @@
             },
             notFoundText: {
                 type: String,
-                default: '无匹配数据'
+                default () {
+                    return t('i.select.noMatch');
+                }
             }
         },
         data () {
@@ -96,7 +102,7 @@
                 inputLength: 20,
                 notFound: false,
                 slotChangeDuration: false    // if slot change duration and in multiple, set true and after slot change, set false
-            }
+            };
         },
         computed: {
             classes () {
@@ -110,7 +116,7 @@
                         [`${prefixCls}-show-clear`]: this.showCloseIcon,
                         [`${prefixCls}-${this.size}`]: !!this.size
                     }
-                ]
+                ];
             },
             showPlaceholder () {
                 let status = false;
@@ -174,7 +180,7 @@
                 if (this.optionInstances.length) {
                     this.optionInstances.forEach((child) => {
                         find(child);
-                    })
+                    });
                 } else {
                     this.$children.forEach((child) => {
                         find(child);
@@ -252,7 +258,7 @@
                                 selected.push({
                                     value: option.value,
                                     label: option.label
-                                })
+                                });
                             }
                         }
                     }
@@ -310,8 +316,13 @@
                                 value: value,
                                 label: label
                             });
+                            this.$dispatch('on-form-change', {
+                                value: value,
+                                label: label
+                            });
                         } else {
                             this.$emit('on-change', value);
+                            this.$dispatch('on-form-change', value);
                         }
                     }
                 }
@@ -340,8 +351,10 @@
                     if (!init) {
                         if (this.labelInValue) {
                             this.$emit('on-change', hybridValue);
+                            this.$dispatch('on-form-change', hybridValue);
                         } else {
                             this.$emit('on-change', value);
+                            this.$dispatch('on-form-change', value);
                         }
                     }
                 }
@@ -435,14 +448,16 @@
                     const model = this.model;
 
                     if (this.multiple) {
-
+                        this.query = '';
                     } else {
                         if (model !== '') {
                             this.findChild((child) => {
                                 if (child.value === model) {
-                                    this.query = child.searchLabel;
+                                    this.query = child.label === undefined ? child.searchLabel : child.label;
                                 }
                             });
+                        } else {
+                            this.query = '';
                         }
                     }
                 }, 300);
@@ -459,15 +474,37 @@
             slotChange () {
                 this.options = [];
                 this.optionInstances = [];
+            },
+            setQuery (query) {
+                if (!this.filterable) return;
+                this.query = query;
+            },
+            modelToQuery() {
+                if (!this.multiple && this.filterable && this.model) {
+                    this.findChild((child) => {
+                        if (this.model === child.value) {
+                            if (child.label) {
+                                this.query = child.label;
+                            } else if (child.searchLabel) {
+                                this.query = child.searchLabel;
+                            } else {
+                                this.query = child.value;
+                            }
+                        }
+                    });
+                }
             }
         },
-        ready () {
+        compiled () {
+            this.modelToQuery();
+
             this.updateOptions(true);
             document.addEventListener('keydown', this.handleKeydown);
 
             // watch slot changed
             if (MutationObserver) {
                 this.observer = new MutationObserver(() => {
+                    this.modelToQuery();
                     this.slotChange();
                     this.updateOptions(true, true);
                 });
@@ -487,7 +524,9 @@
             }
         },
         watch: {
-            model () {
+            model (val) {
+                if (val === '') this.query = '';
+                this.modelToQuery();
                 if (this.multiple) {
                     if (this.slotChangeDuration) {
                         this.slotChangeDuration = false;
@@ -523,6 +562,7 @@
                     });
                     this.notFound = is_hidden;
                 });
+                this.$broadcast('on-update-popper');
             }
         },
         events: {
@@ -549,7 +589,7 @@
                         if (this.filterable) {
                             this.findChild((child) => {
                                 if (child.value === value) {
-                                    this.query = child.searchLabel;
+                                    this.query = child.label === undefined ? child.searchLabel : child.label;
                                 }
                             });
                         }
@@ -557,5 +597,5 @@
                 }
             }
         }
-    }
+    };
 </script>

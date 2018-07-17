@@ -6,7 +6,7 @@
     padding: 8px 48px 8px 16px;
     border-radius: @border-radius-base;
     color: @text-color;
-    font-size: 12px;
+    font-size: @font-size-small;
     line-height: 16px;
     margin-bottom: 10px;
 
@@ -15,14 +15,14 @@
     }
 
     &-icon {
-        font-size: 14px;
+        font-size: @font-size-base;
         top: 8px;
         left: 16px;
         position: absolute;
     }
 
     &-desc {
-        font-size: 12px;
+        font-size: @font-size-small;
         color: @text-color;
         line-height: 21px;
         display: none;
@@ -93,5 +93,9 @@
         left: 24px;
         margin-top: -21px;
         font-size: 28px;
+    }
+
+    &-with-banner{
+        border-radius: 0;
     }
 }

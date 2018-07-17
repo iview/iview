@@ -31,11 +31,17 @@
     <i-button type="primary" @click="modal1 = true">显示对话框</i-button>
     <Modal
             :visible.sync="modal1"
-            title="普通的Modal对话框标题">
+            title="普通的Modal对话框标题"
+            :loading="loading" @on-ok="ok">
         <p>对话框内容</p>
         <p>对话框内容</p>
         <p>对话框内容</p>
+        {{ loading }}
+        <i-button @click="loading = true">true</i-button>
+        <i-button @click="loading = false">false</i-button>
     </Modal>
+    <br><br>
+    <Tag type="border" color="yellow" closable @click="clickTag" @on-close="clickTagClose">标签一</Tag>
 </template>
 <script>
     import { Tag, Modal, iButton } from 'iview';
@@ -43,7 +49,21 @@
         components: { Tag, Modal, iButton },
         data () {
             return {
-                modal1: false
+                modal1: false,
+                loading: true
+            }
+        },
+        methods: {
+            ok () {
+                setTimeout(() => {
+                    this.modal1 = false;
+                }, 2000);
+            },
+            clickTag() {
+                console.log('click tag');
+            },
+            clickTagClose() {
+                console.log('click tag close-icon');
             }
         }
     }

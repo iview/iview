@@ -10,7 +10,7 @@
     </div>
 </template>
 <script>
-    import Icon from '../icon';
+    import Icon from '../icon/icon.vue';
     const prefixCls = 'ivu-collapse';
 
     export default {
@@ -24,7 +24,7 @@
             return {
                 index: 0, // use index for default when key is null
                 isActive: false
-            }
+            };
         },
         computed: {
             itemClasses () {
@@ -33,7 +33,7 @@
                     {
                         [`${prefixCls}-item-active`]: this.isActive
                     }
-                ]
+                ];
             },
             headerClasses () {
                 return `${prefixCls}-header`;
@@ -53,5 +53,5 @@
                 });
             }
         }
-    }
+    };
 </script>

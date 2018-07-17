@@ -2,19 +2,20 @@
     <div v-if="showSizer || showElevator" :class="optsClasses">
         <div v-if="showSizer" :class="sizerClasses">
             <i-select :model.sync="pageSize" :size="size" @on-change="changeSize">
-                <i-option v-for="item in pageSizeOpts" :value="item" style="text-align:center;">{{ item }} 条/页</i-option>
+                <i-option v-for="item in pageSizeOpts" :value="item" style="text-align:center;">{{ item }} {{ t('i.page.page') }}</i-option>
             </i-select>
         </div>
         <div v-if="showElevator" :class="ElevatorClasses">
-            跳至
+            {{ t('i.page.goto') }}
             <input type="text" :value="_current" @keyup.enter="changePage">
-            页
+            {{ t('i.page.p') }}
         </div>
     </div>
 </template>
 <script>
     import iSelect from '../../components/select/select.vue';
     import iOption from '../../components/select/option.vue';
+    import Locale from '../../mixins/locale';
 
     const prefixCls = 'ivu-page';
 
@@ -23,6 +24,7 @@
     }
 
     export default {
+        mixins: [ Locale ],
         components: { iSelect, iOption },
         props: {
             pageSizeOpts: Array,
@@ -41,17 +43,17 @@
             optsClasses () {
                 return [
                     `${prefixCls}-options`
-                ]
+                ];
             },
             sizerClasses () {
                 return [
                     `${prefixCls}-options-sizer`
-                ]
+                ];
             },
             ElevatorClasses () {
                 return [
                     `${prefixCls}-options-elevator`
-                ]
+                ];
             }
         },
         methods: {
@@ -83,5 +85,5 @@
                 }
             }
         }
-    }
+    };
 </script>

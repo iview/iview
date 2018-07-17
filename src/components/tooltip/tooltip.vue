@@ -3,7 +3,7 @@
         <div :class="[prefixCls + '-rel']" v-el:reference>
             <slot></slot>
         </div>
-        <div :class="[prefixCls + '-popper']" transition="fade" v-el:popper v-show="!disabled && visible">
+        <div :class="[prefixCls + '-popper']" transition="fade" v-el:popper v-show="!disabled && (visible || always)">
             <div :class="[prefixCls + '-content']">
                 <div :class="[prefixCls + '-arrow']"></div>
                 <div :class="[prefixCls + '-inner']"><slot name="content">{{ content }}</slot></div>
@@ -37,12 +37,20 @@
             disabled: {
                 type: Boolean,
                 default: false
+            },
+            controlled: {    // under this prop,Tooltip will not close when mouseleave
+                type: Boolean,
+                default: false
+            },
+            always: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
             return {
                 prefixCls: prefixCls
-            }
+            };
         },
         methods: {
             handleShowPopper() {
@@ -52,8 +60,10 @@
             },
             handleClosePopper() {
                 clearTimeout(this.timeout);
-                this.visible = false;
+                if (!this.controlled) {
+                    this.visible = false;
+                }
             }
         }
-    }
+    };
 </script>

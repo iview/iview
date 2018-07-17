@@ -36,13 +36,17 @@
             showIcon: {
                 type: Boolean,
                 default: false
-            }
+            },
+            banner: {
+                type: Boolean,
+                default: false
+            },
         },
         data () {
             return {
                 closed: false,
                 desc: false
-            }
+            };
         },
         computed: {
             wrapClasses () {
@@ -51,9 +55,10 @@
                     `${prefixCls}-${this.type}`,
                     {
                         [`${prefixCls}-with-icon`]: this.showIcon,
-                        [`${prefixCls}-with-desc`]: this.desc
+                        [`${prefixCls}-with-desc`]: this.desc,
+                        [`${prefixCls}-with-banner`]: this.banner
                     }
-                ]
+                ];
             },
             messageClasses () {
                 return `${prefixCls}-message`;
@@ -97,5 +102,5 @@
         compiled () {
             this.desc = this.$els.desc.innerHTML != '';
         }
-    }
+    };
 </script>

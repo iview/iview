@@ -1,0 +1,68 @@
+@input-prefix-cls: ~"@{css-prefix}input";
+
+.@{input-prefix-cls} {
+    .input;
+    &-wrapper{
+        display: inline-block;
+        width: 100%;
+        position: relative;
+        vertical-align: middle;
+    }
+    &-icon {
+        width: 32px;
+        height: @input-height-base;
+        line-height: @input-height-base;
+        font-size: 16px;
+        text-align: center;
+        color: @subsidiary-color;
+        position: absolute;
+        right: 0;
+        z-index: 1;
+    }
+    &-icon-validate{
+        display: none;
+    }
+
+    &-icon + &{
+        padding-right: 32px;
+    }
+
+    &-wrapper-large &-icon{
+        font-size: 18px;
+        height: @input-height-large;
+        line-height: @input-height-large;
+    }
+    &-wrapper-small &-icon{
+        width: 24px;
+        font-size: 14px;
+        height: @input-height-small;
+        line-height: @input-height-small;
+
+        + .@{input-prefix-cls} {
+            padding-right: 24px;
+        }
+    }
+}
+
+.@{input-prefix-cls}-group{
+    .input-group(~"@{input-prefix-cls}");
+}
+
+.@{form-item-prefix-cls}-error{
+    .@{input-prefix-cls}{
+        .input-error;
+        &-icon{
+            color: @error-color;
+        }
+    }
+    .@{input-prefix-cls}-group{
+        .input-group-error;
+    }
+}
+.@{form-item-prefix-cls}-validating{
+    .@{input-prefix-cls}{
+        &-icon-validate{
+            display: inline-block;
+        }
+    }
+}
