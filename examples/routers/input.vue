@@ -80,64 +80,67 @@
         <!--<br>-->
     <!--</div>-->
 
-    <div>
-        <Input
-                v-model="value"
-                size="small"
-                prefix="ios-contact"
-                suffix="ios-search"
-                placeholder="Enter something..."
-                style="width: 300px"></Input>
-        <br>
-        <Input
-                v-model="value"
-                prefix="ios-contact"
-                suffix="ios-search"
-                placeholder="Enter something..."
-                style="width: 300px"></Input>
-        <br>
-        <Input
-                v-model="value"
-                size="large"
-                prefix="ios-contact"
-                suffix="ios-search"
-                placeholder="Enter something..."
-                style="width: 300px"></Input>
-        <br><br>
-        <Input
-                v-model="value"
-                size="small"
-                icon="ios-search"
-                placeholder="Enter something..."
-                style="width: 300px"></Input>
-        <br>
-        <Input
-                v-model="value"
-                icon="ios-search"
-                placeholder="Enter something..."
-                style="width: 300px"></Input>
-        <br>
-        <Input
-                v-model="value"
-                size="large"
-                icon="ios-search"
-                placeholder="Enter something..."
-                style="width: 300px"></Input>
-        <br><br><br>
-        <Input v-model="value" placeholder="Enter something..." style="width: 300px">
-            <Icon type="ios-alarm-outline" slot="suffix" />
-            <Icon type="ios-aperture" slot="prefix" />
-        </Input>
-        <br><br><br><br>
-        <Input v-model="value" search enter-button style="width: 300px" @on-search="hs" size="small" />
-        <br>
-        <Input v-model="value" search enter-button style="width: 300px" @on-search="hs" />
-        <br>
-        <Input v-model="value" search enter-button style="width: 300px" @on-search="hs" size="large" />
-        <br><br>
-        <Input v-model="value" search style="width: 300px" @on-search="hs" />
-        <br><br>
-        <Input v-model="value" search enter-button="Search" style="width: 300px" @on-search="hs" />
+    <!--<div>-->
+        <!--<Input-->
+                <!--v-model="value"-->
+                <!--size="small"-->
+                <!--prefix="ios-contact"-->
+                <!--suffix="ios-search"-->
+                <!--placeholder="Enter something..."-->
+                <!--style="width: 300px"></Input>-->
+        <!--<br>-->
+        <!--<Input-->
+                <!--v-model="value"-->
+                <!--prefix="ios-contact"-->
+                <!--suffix="ios-search"-->
+                <!--placeholder="Enter something..."-->
+                <!--style="width: 300px"></Input>-->
+        <!--<br>-->
+        <!--<Input-->
+                <!--v-model="value"-->
+                <!--size="large"-->
+                <!--prefix="ios-contact"-->
+                <!--suffix="ios-search"-->
+                <!--placeholder="Enter something..."-->
+                <!--style="width: 300px"></Input>-->
+        <!--<br><br>-->
+        <!--<Input-->
+                <!--v-model="value"-->
+                <!--size="small"-->
+                <!--icon="ios-search"-->
+                <!--placeholder="Enter something..."-->
+                <!--style="width: 300px"></Input>-->
+        <!--<br>-->
+        <!--<Input-->
+                <!--v-model="value"-->
+                <!--icon="ios-search"-->
+                <!--placeholder="Enter something..."-->
+                <!--style="width: 300px"></Input>-->
+        <!--<br>-->
+        <!--<Input-->
+                <!--v-model="value"-->
+                <!--size="large"-->
+                <!--icon="ios-search"-->
+                <!--placeholder="Enter something..."-->
+                <!--style="width: 300px"></Input>-->
+        <!--<br><br><br>-->
+        <!--<Input v-model="value" placeholder="Enter something..." style="width: 300px">-->
+            <!--<Icon type="ios-alarm-outline" slot="suffix" />-->
+            <!--<Icon type="ios-aperture" slot="prefix" />-->
+        <!--</Input>-->
+        <!--<br><br><br><br>-->
+        <!--<Input v-model="value" search enter-button style="width: 300px" @on-search="hs" size="small" />-->
+        <!--<br>-->
+        <!--<Input v-model="value" search enter-button style="width: 300px" @on-search="hs" />-->
+        <!--<br>-->
+        <!--<Input v-model="value" search enter-button style="width: 300px" @on-search="hs" size="large" />-->
+        <!--<br><br>-->
+        <!--<Input v-model="value" search style="width: 300px" @on-search="hs" />-->
+        <!--<br><br>-->
+        <!--<Input v-model="value" search enter-button="Search" style="width: 300px" @on-search="hs" />-->
+    <!--</div>-->
+    <div style="width: 200px">
+        <Input v-model="value7" type="textarea" :autosize="true" placeholder="Enter something..."></Input>
     </div>
 </template>
 <script>
@@ -150,7 +153,8 @@
                 value13: '',
                 select1: 'http',
                 select2: 'com',
-                select3: 'day'
+                select3: 'day',
+                value7: ``
             }
         },
         methods: {
