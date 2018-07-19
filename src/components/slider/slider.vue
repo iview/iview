@@ -254,6 +254,12 @@
             },
             valueRange(){
                 return this.max - this.min;
+            },
+            firstPosition(){
+                return this.currentValue[0]
+            },
+            secondPosition(){
+                return this.currentValue[1]
             }
         },
         methods: {
@@ -373,8 +379,8 @@
                 const sliderOffsetLeft = this.$refs.slider.getBoundingClientRect().left;
                 let newPos = ((currentX - sliderOffsetLeft) / this.sliderWidth * this.valueRange) + this.min;
 
-                if (!this.range || newPos <= this.minPosition) this.changeButtonPosition(newPos, 'min');
-                else if (newPos >= this.maxPosition) this.changeButtonPosition(newPos, 'max');
+                if (!this.range || newPos <= this.firstPosition) this.changeButtonPosition(newPos, 'min');
+                else if (newPos >= this.firstPosition) this.changeButtonPosition(newPos, 'max');
                 else this.changeButtonPosition(newPos, ((newPos - this.firstPosition) <= (this.secondPosition - newPos)) ? 'min' : 'max');
             },
 
