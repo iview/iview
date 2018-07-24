@@ -1455,7 +1455,7 @@ var directive = {
     inserted: function inserted(el, _ref, vnode) {
         var value = _ref.value;
 
-        if (el.dataset && el.dataset.transfer !== 'true') return false;
+        if (el.getAttribute('data-transfer') && el.dataset && el.dataset.transfer !== 'true') return false;
         el.className = el.className ? el.className + ' v-transfer-dom' : 'v-transfer-dom';
         var parentNode = el.parentNode;
         if (!parentNode) return;
@@ -1479,7 +1479,7 @@ var directive = {
     componentUpdated: function componentUpdated(el, _ref2) {
         var value = _ref2.value;
 
-        if (el.dataset && el.dataset.transfer !== 'true') return false;
+        if (el.getAttribute('data-transfer') && el.dataset && el.dataset.transfer !== 'true') return false;
 
         var ref$1 = el.__transferDomData;
         if (!ref$1) return;
@@ -1501,7 +1501,7 @@ var directive = {
         }
     },
     unbind: function unbind(el) {
-        if (el.dataset && el.dataset.transfer !== 'true') return false;
+        if (el.getAttribute('data-transfer') && el.dataset && el.dataset.transfer !== 'true') return false;
         el.className = el.className.replace('v-transfer-dom', '');
         var ref$1 = el.__transferDomData;
         if (!ref$1) return;
