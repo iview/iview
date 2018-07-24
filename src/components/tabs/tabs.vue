@@ -379,7 +379,9 @@
             updateVisibility(index){
                 [...this.$refs.panes.children].forEach((el, i) => {
                     if (index === i) {
-                        [...el.children].forEach(child => child.style.visibility = 'visible');
+                        setTimeout(() => {
+                            [...el.children].forEach(child => child.style.visibility = 'visible');
+                        }, transitionTime);
                         if (this.captureFocus) setTimeout(() => focusFirst(el, el), transitionTime);
                     } else {
                         setTimeout(() => {
