@@ -42,6 +42,7 @@
                     });
                 } else {
                     this.$nextTick(() => {
+                        this.$parent.$refs.reference.parentNode.style.position = 'relative';
                         this.popper = new Popper(this.$parent.$refs.reference, this.$el, {
                             placement: this.placement,
                             modifiers: {
