@@ -250,7 +250,7 @@
                 const tabs = this.getTabs();
                 const tab = tabs[index];
                 tab.$destroy();
-
+                
                 if (tab.currentName === this.activeKey) {
                     const newTabs = this.getTabs();
                     let activeKey = -1;
@@ -407,7 +407,9 @@
 
                 // update visibility
                 const nextIndex = Math.max(this.getTabIndex(this.focusedKey), 0);
-                this.updateVisibility(nextIndex);
+                this.$nextTick(() => {
+                    this.updateVisibility(nextIndex);
+                });
             }
         },
         mounted () {
