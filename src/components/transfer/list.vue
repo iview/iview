@@ -118,8 +118,8 @@
             },
             toggleSelectAll (status) {
                 const keys = status ?
-                        this.data.filter(data => !data.disabled || this.checkedKeys.indexOf(data.key) > -1).map(data => data.key) :
-                        this.data.filter(data => data.disabled && this.checkedKeys.indexOf(data.key) > -1).map(data => data.key);
+                        this.filterData.filter(data => !data.disabled || this.checkedKeys.indexOf(data.key) > -1).map(data => data.key) :
+                        this.filterData.filter(data => data.disabled && this.checkedKeys.indexOf(data.key) > -1).map(data => data.key);
                 this.$emit('on-checked-keys-change', keys);
             },
             handleQueryClear () {
