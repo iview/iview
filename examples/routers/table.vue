@@ -1,7 +1,16 @@
 <template>
     <div>
-        <Table ref="currentRowTable" :columns="columns3" :data="data1"></Table>
+        <Table ref="currentRowTable" :columns="columns3" :data="data1" @on-row-contextmenu="onRowContextMenu"></Table>
         <Button @click="handleClearCurrentRow">Clear</Button>
+        <p v-if="contextMenuEvent">
+            Context Menu Event:<br>
+            &nbsp;&nbsp;x:{{contextMenuEvent.x}}, y: {{contextMenuEvent.y}}<br>
+            &nbsp;&nbsp;pageX: {{contextMenuEvent.pageX}}, pageY: {{contextMenuEvent.pageY}} <br>
+            &nbsp;&nbsp;clientX:{{contextMenuEvent.clientX}}, clientY: {{contextMenuEvent.clientY}}<br>
+            &nbsp;&nbsp;screenX:{{contextMenuEvent.screenX}}, screenY: {{contextMenuEvent.screenY}}<br>
+            &nbsp;&nbsp;offsetX:{{contextMenuEvent.offsetX}}, offsetY: {{contextMenuEvent.offsetY}}<br>
+            &nbsp;&nbsp;layerX:{{contextMenuEvent.layerX}}, layerY: {{contextMenuEvent.layerY}}<br>
+        </p>
     </div>
 </template>
 <script>
@@ -56,12 +65,17 @@
                         address: 'Ottawa No. 2 Lake Park',
                         date: '2016-10-04'
                     }
-                ]
+                ],
+                contextMenuEvent: null
             }
         },
         methods: {
             handleClearCurrentRow () {
                 this.$refs.currentRowTable.clearCurrentRow();
+                this.contextMenuEvent = null;
+            },
+            onRowContextMenu (row, index, event) {
+                this.contextMenuEvent = event;
             }
         }
     }

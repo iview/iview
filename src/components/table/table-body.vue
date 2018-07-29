@@ -12,7 +12,8 @@
                     @mouseenter.native.stop="handleMouseIn(row._index)"
                     @mouseleave.native.stop="handleMouseOut(row._index)"
                     @click.native="clickCurrentRow(row._index)"
-                    @dblclick.native.stop="dblclickCurrentRow(row._index)">
+                    @dblclick.native.stop="dblclickCurrentRow(row._index)"
+                    @contextmenu.native="contextmenuCurrentRow(row._index, $event)">
                     <td v-for="column in columns" :class="alignCls(column, row)">
                         <Cell
                             :fixed="fixed"
@@ -95,6 +96,9 @@
             },
             dblclickCurrentRow (_index) {
                 this.$parent.dblclickCurrentRow(_index);
+            },
+            contextmenuCurrentRow (_index, event) {
+                this.$parent.contextmenuCurrentRow(_index, event);
             }
         }
     };
