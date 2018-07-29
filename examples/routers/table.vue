@@ -1,15 +1,9 @@
 <template>
     <div>
-        <Table ref="currentRowTable" :columns="columns3" :data="data1" @on-row-contextmenu="onRowContextMenu"></Table>
+        <Table ref="currentRowTable" :columns="columns3" :data="data1" :context-menu="contextMenu"></Table>
         <Button @click="handleClearCurrentRow">Clear</Button>
         <p v-if="contextMenuEvent">
-            Context Menu Event:<br>
-            &nbsp;&nbsp;x:{{contextMenuEvent.x}}, y: {{contextMenuEvent.y}}<br>
-            &nbsp;&nbsp;pageX: {{contextMenuEvent.pageX}}, pageY: {{contextMenuEvent.pageY}} <br>
-            &nbsp;&nbsp;clientX:{{contextMenuEvent.clientX}}, clientY: {{contextMenuEvent.clientY}}<br>
-            &nbsp;&nbsp;screenX:{{contextMenuEvent.screenX}}, screenY: {{contextMenuEvent.screenY}}<br>
-            &nbsp;&nbsp;offsetX:{{contextMenuEvent.offsetX}}, offsetY: {{contextMenuEvent.offsetY}}<br>
-            &nbsp;&nbsp;layerX:{{contextMenuEvent.layerX}}, layerY: {{contextMenuEvent.layerY}}<br>
+            Context Menu Event: {{contextMenuEvent}}
         </p>
     </div>
 </template>
@@ -73,9 +67,22 @@
             handleClearCurrentRow () {
                 this.$refs.currentRowTable.clearCurrentRow();
                 this.contextMenuEvent = null;
-            },
-            onRowContextMenu (row, index, event) {
-                this.contextMenuEvent = event;
+            }
+        },
+        computed: {
+            contextMenu () {
+                return {
+                    render (h, {row, index}) {
+                        return h('DropdownMenu', [
+                            h('DropdownItem', {props: {name: `${index} - Some Title`}}, 'Some Title'),
+                            h('DropdownItem', {props: {name: `${index} - Yo, ${row.name}`}}, `Yo, ${row.name}`),
+                            h('DropdownItem', {props: {name: `${index} - Yo, No.${index}`}}, `Yo, No.${index}`)
+                        ]);
+                    },
+                    onClick: (name) => {
+                        this.contextMenuEvent = name;
+                    }
+                };
             }
         }
     }

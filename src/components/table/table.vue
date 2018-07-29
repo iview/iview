@@ -88,6 +88,23 @@
             <div :class="[prefixCls + '-fixed-right-header']" :style="fixedRightHeaderStyle" v-if="isRightFixed"></div>
             <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" ref="footer"><slot name="footer"></slot></div>
         </div>
+        <transition name="transition-drop">
+            <Drop
+                :class="contextMenuClasses"
+                v-if="!!contextMenuProps"
+                :placement="contextMenuPlacement"
+                v-click-outside="onContextMenuClickoutside"
+                :data-transfer="true"
+                :style="contextMenuProps.style"
+                v-transfer-dom>
+                <table-context-menu
+                    :row="contextMenuProps.row"
+                    :index="contextMenuProps.index"
+                    :render="contextMenuProps.render"
+                    @on-click="contextMenuProps.onClick($event)"
+                />
+            </Drop>
+        </transition>
         <Spin fix size="large" v-if="loading">
             <slot name="loading"></slot>
         </Spin>
@@ -96,6 +113,7 @@
 <script>
     import tableHead from './table-head.vue';
     import tableBody from './table-body.vue';
+    import tableContextMenu from './context-menu';
     import Spin from '../spin/spin.vue';
     import { oneOf, getStyle, deepCopy, getScrollBarSize } from '../../utils/assist';
     import { on, off } from '../../utils/dom';
@@ -104,6 +122,9 @@
     import Locale from '../../mixins/locale';
     import elementResizeDetectorMaker from 'element-resize-detector';
     import { getAllColumns, convertToRows, convertColumnOrder, getRandomStr } from './util';
+    import Drop from '../select/dropdown';
+    import {directive as clickOutside} from 'v-click-outside-x';
+    import TransferDom from '../../directives/transfer-dom';
 
     const prefixCls = 'ivu-table';
 
@@ -113,7 +134,8 @@
     export default {
         name: 'Table',
         mixins: [ Locale ],
-        components: { tableHead, tableBody, Spin },
+        directives: { clickOutside, TransferDom },
+        components: {tableHead, tableBody, tableContextMenu, Spin, Drop },
         props: {
             data: {
                 type: Array,
@@ -178,6 +200,19 @@
             loading: {
                 type: Boolean,
                 default: false
+            },
+            contextMenu: {
+                validator (value) {
+                    if (value) {
+                        return typeof value.render === 'function' && typeof value.onClick === 'function';
+                    }
+                }
+            },
+            contextMenuPlacement: {
+                validator (value) {
+                    return oneOf(value, ['top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left', 'left-start', 'left-end', 'right', 'right-start', 'right-end']);
+                },
+                default: 'bottom'
             }
         },
         data () {
@@ -205,6 +240,7 @@
                 showHorizontalScrollBar:false,
                 headerWidth:0,
                 headerHeight:0,
+                contextMenuProps: null
             };
         },
         computed: {
@@ -241,6 +277,11 @@
                         [`${prefixCls}-stripe`]: this.stripe,
                         [`${prefixCls}-with-fixed-top`]: !!this.height
                     }
+                ];
+            },
+            contextMenuClasses () {
+                return [
+                    `${prefixCls}-context-menu`
                 ];
             },
             fixedHeaderClasses () {
@@ -498,7 +539,23 @@
                 this.$emit('on-row-contextmenu', this.cloneData[_index], _index, rawEvent);
                 if ('on-row-contextmenu' in this.$listeners) {
                     rawEvent.preventDefault();
+                } else if (!!this.contextMenu || !!this.cloneData[_index].contextMenu) {
+                    rawEvent.preventDefault();
+                    const contextMenu = this.cloneData[_index].contextMenu || this.contextMenu;
+                    this.contextMenuProps = {
+                        row: this.cloneData[_index],
+                        index: _index,
+                        ...contextMenu,
+                        style: {
+                            left: (rawEvent.pageX || rawEvent.screenX) + 'px',
+                            top: (rawEvent.pageY || rawEvent.screenY) + 'px'
+                        }
+                    };
                 }
+            },
+            onContextMenuClickoutside () {
+                this.clearCurrentRow();
+                this.contextMenuProps = null;
             },
             getSelection () {
                 let selectionIndexes = [];
