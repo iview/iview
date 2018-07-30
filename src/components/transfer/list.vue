@@ -83,10 +83,10 @@
                 return (validKeysCount > 0 ? `${validKeysCount}/` : '') + `${this.data.length}`;
             },
             checkedAll () {
-                return this.data.filter(data => !data.disabled).length === this.validKeysCount && this.validKeysCount !== 0;
+                return this.filterData.filter(data => !data.disabled).length === this.validKeysCount && this.validKeysCount !== 0;
             },
             checkedAllDisabled () {
-                return this.data.filter(data => !data.disabled).length <= 0;
+                return this.filterData.filter(data => !data.disabled).length <= 0;
             },
             filterData () {
                 return this.showItems.filter(item => this.filterMethod(item, this.query));
