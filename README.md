@@ -17,10 +17,6 @@
 
 ### A high quality UI Toolkit built on Vue.js.
 
-> This branch is for Vue.js 2.x.
->
-> The branch for Vue.js 1.x can be found [here](https://github.com/iview/iview/tree/master).
-
 ## Docs
 
 ### [English (2.0)](https://www.iviewui.com)
