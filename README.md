@@ -25,10 +25,6 @@
 
 [1.0](http://v1.iviewui.com)
 
-## Overview
-
-### [Component Overview](https://www.iviewui.com/overview)
-
 ## Features
 
 - Dozens of useful and beautiful components.
