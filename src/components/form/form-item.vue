@@ -90,6 +90,9 @@
             },
             validateStatus (val) {
                 this.validateState = val;
+            },
+            rules (val){
+                this.setRules();
             }
         },
         inject: ['form'],
@@ -143,6 +146,18 @@
             }
         },
         methods: {
+            setRules() {
+                let rules = this.getRules();
+                if (rules.length) {
+                    rules.every((rule) => {
+                        this.isRequired = rule.required;
+                    });
+                    this.$off('on-form-blur', this.onFieldBlur);
+                    this.$off('on-form-change', this.onFieldChange);
+                    this.$on('on-form-blur', this.onFieldBlur);
+                    this.$on('on-form-change', this.onFieldChange);
+                }
+            },
             getRules () {
                 let formRules = this.form.rules;
                 const selfRules = this.rules;
@@ -229,18 +244,7 @@
                     value: this.fieldValue
                 });
 
-                let rules = this.getRules();
-
-                if (rules.length) {
-                    rules.every(rule => {
-                        if (rule.required) {
-                            this.isRequired = true;
-                            return false;
-                        }
-                    });
-                    this.$on('on-form-blur', this.onFieldBlur);
-                    this.$on('on-form-change', this.onFieldChange);
-                }
+                this.setRules();
             }
         },
         beforeDestroy () {
