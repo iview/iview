@@ -14,7 +14,7 @@
                         @click.native.prevent="handleCheck"></Checkbox>
                 <Render v-if="data.render" :render="data.render" :data="data" :node="node"></Render>
                 <Render v-else-if="isParentRender" :render="parentRender" :data="data" :node="node"></Render>
-                <span v-else :class="titleClasses" @click="handleSelect">{{ data.title }}</span>
+                <span v-else :class="titleClasses" @click="handleSelect" @click.right.prevent="handleContextMenu">{{ data.title }}</span>
                 <Tree-node
                         v-if="data.expand"
                         v-for="(item, i) in children"
@@ -157,6 +157,9 @@
             handleSelect () {
                 if (this.data.disabled) return;
                 this.dispatch('Tree', 'on-selected', this.data.nodeKey);
+            },
+            handleContextMenu () {
+                this.dispatch('Tree', 'on-context-menu', this.data);
             },
             handleCheck () {
                 if (this.data.disabled) return;
