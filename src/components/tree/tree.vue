@@ -38,6 +38,10 @@
                 type: Boolean,
                 default: false
             },
+            checkStrictly: {
+                type: Boolean,
+                default: false
+            },
             emptyText: {
                 type: String
             },
@@ -103,7 +107,7 @@
             },
             updateTreeUp(nodeKey){
                 const parentKey = this.flatState[nodeKey].parent;
-                if (typeof parentKey == 'undefined') return;
+                if (typeof parentKey == 'undefined' || this.checkStrictly) return;
 
                 const node = this.flatState[nodeKey].node;
                 const parent = this.flatState[parentKey].node;
@@ -145,7 +149,7 @@
                 for (let key in changes) {
                     this.$set(node, key, changes[key]);
                 }
-                if (node[this.childrenKey]) {
+                if (node[this.childrenKey] && !this.checkStrictly) {
                     node[this.childrenKey].forEach(child => {
                         this.updateTreeDown(child, changes);
                     });
