@@ -91,7 +91,7 @@
             validateStatus (val) {
                 this.validateState = val;
             },
-            rules (val){
+            rules (){
                 this.setRules();
             }
         },
