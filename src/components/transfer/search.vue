@@ -34,7 +34,7 @@
         },
         computed: {
             icon () {
-                return this.query === '' ? 'ios-search' : 'ios-close';
+                return this.query === '' ? 'ios-search' : 'ios-close-circle';
             }
         },
         methods: {

@@ -1,17 +1,17 @@
 <template>
-    <Menu active-name="1-2" :open-names="['1']" theme="dark">
+    <Menu active-name="1-2" :open-names="['1']">
         <Submenu name="1">
             <template slot="title">
                 <Icon type="ios-analytics"></Icon>
                 Navigation One
             </template>
             <MenuGroup title="Item 1">
-                <MenuItem name="1-1">Option 1</MenuItem>
-                <MenuItem name="1-2">Option 2</MenuItem>
+                <MenuItem name="1-1">我是菜单一</MenuItem>
+                <MenuItem name="1-2">我是菜单二</MenuItem>
             </MenuGroup>
             <MenuGroup title="Item 2">
-                <MenuItem name="1-3">Option 3</MenuItem>
-                <MenuItem name="1-4">Option 4</MenuItem>
+                <MenuItem name="1-3">我是菜单三</MenuItem>
+                <MenuItem name="1-4">我是菜单四</MenuItem>
             </MenuGroup>
         </Submenu>
         <Submenu name="2">
@@ -19,12 +19,12 @@
                 <Icon type="ios-filing"></Icon>
                 Navigation Two
             </template>
-            <MenuItem name="2-1">Option 5</MenuItem>
-            <MenuItem name="2-2">Option 6</MenuItem>
+            <MenuItem name="2-1">我是菜单五</MenuItem>
+            <MenuItem name="2-2">我是菜单六</MenuItem>
             <Submenu name="3">
                 <template slot="title">Submenu</template>
-                <MenuItem name="3-1">Option 7</MenuItem>
-                <MenuItem name="3-2">Option 8</MenuItem>
+                <MenuItem name="3-1">我是菜单七</MenuItem>
+                <MenuItem name="3-2">我是菜单八</MenuItem>
             </Submenu>
         </Submenu>
         <Submenu name="4">

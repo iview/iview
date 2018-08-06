@@ -41,8 +41,20 @@
 
 <template>
     <div>
-        <InputNumber :max="1000000000" :min="1" v-model="value1" :formatter="formatter" :parser="parser" @on-change="change" style="width: 200px"></InputNumber>
+        <!-- <InputNumber :max="1000000000" :min="1" v-model="value1" :formatter="formatter" :parser="parser" @on-change="change" style="width: 200px"></InputNumber>
         <InputNumber :max="1000000000" :min="1" v-model="value2" :formatter="formatter2" :parser="parser2" @on-change="change" style="width: 200px"></InputNumber>
+        
+        <InputNumber @on-change="change" style="width: 200px"></InputNumber>
+        
+        <InputNumber v-model="valueNull" @on-change="change" style="width: 200px"></InputNumber>
+        <InputNumber v-model="valueNull" @on-change="change" :formatter="formatter" :parser="parser" style="width: 200px"></InputNumber>
+                
+        <InputNumber v-model="value2" @on-focus="focus" style="width: 200px"></InputNumber>
+
+        <InputNumber v-model="value3" style="width: 200px" placeholder="Enter something..."></InputNumber> -->
+
+        
+        <InputNumber v-model="valueNull" style="width: 200px" :min='0' :max='10000'  :precision='2' ></InputNumber>
     </div>
 </template>
 <script>
@@ -51,6 +63,8 @@
             return {
                 value1: 1800000,
                 value2: 55,
+                value3: 100,
+                valueNull:null,
                 formatter: (value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
                 parser: (value) => value.replace(/\$\s?|(,*)/g, ''),
                 formatter2: (value) => `${value}%`,
@@ -58,6 +72,9 @@
             }
         },
         methods: {
+            focus (e) {
+                e.target.select()
+            },
             change (v) {
                 console.log(v)
             }

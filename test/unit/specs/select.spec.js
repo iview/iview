@@ -26,34 +26,40 @@ describe('Select.vue', () => {
         const placeholderSpan = vm.$el.querySelector('.ivu-select-placeholder');
         expect(placeholderSpan.textContent).to.equal(placeholder);
         expect(placeholderSpan.style.display).to.not.equal('none');
-
-        expect(vm.$children[0].showPlaceholder).to.equal(true);
         done();
       });
     });
 
     it('should create a Select component and take a pre-selected value', done => {
       vm = createVue({
-        template: `
-          <Select :value="2">
-            <Option v-for="item in options" :value="item.value" :key="item.value">{{ item.label }}</Option>
-          </Select>
-        `,
-        data() {
-          return {
-            value: '',
-            options: [{value: 1, label: 'Foo'}, {value: 2, label: 'Bar'}]
-          };
-        }
+          template: `
+              <Select :value="value">
+                <Option v-for="item in options" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              </Select>
+           `,
+          data() {
+              return {
+                  value: 2,
+                  options: [{value: 1, label: 'Foo'}, {value: 2, label: 'Bar'}]
+              };
+          }
       });
-      vm.$nextTick(() => {
-        const selectedValueSpan = vm.$el.querySelector('.ivu-select-selected-value');
-        expect(selectedValueSpan.textContent).to.equal('Bar');
-        expect(selectedValueSpan.style.display).to.not.equal('none');
-        expect(vm.$children[0].selectedSingle).to.equal('Bar');
-        expect(vm.$children[0].model).to.equal(2);
-        done();
-      });
+      waitForIt(
+          () => {
+              const selectedValueSpan = vm.$el.querySelector('.ivu-select-selected-value');
+              return selectedValueSpan && selectedValueSpan.textContent === 'Bar';
+          },
+          () => {
+              const selectedValueSpan = vm.$el.querySelector('.ivu-select-selected-value');
+              const {label, value} = vm.$children[0].values[0];
+
+              expect(selectedValueSpan.textContent).to.equal('Bar');
+              expect(selectedValueSpan.style.display).to.not.equal('none');
+              expect(label).to.equal('Bar');
+              expect(value).to.equal(2);
+              done();
+          }
+      );
     });
 
     it('should accept normal characters', done => {
@@ -112,13 +118,20 @@ describe('Select.vue', () => {
           };
         }
       });
-      vm.$nextTick(() => {
-        const placeholderSpan = vm.$el.querySelector('.ivu-select-placeholder');
-        const selectedValueSpan = vm.$el.querySelector('.ivu-select-selected-value');
-        expect(placeholderSpan.style.display).to.equal('none');
-        expect(selectedValueSpan.style.display).to.not.equal('none');
-        done();
-      });
+        waitForIt(
+            () => {
+                const selectedValueSpan = vm.$el.querySelector('.ivu-select-selected-value');
+                return selectedValueSpan && selectedValueSpan.textContent === 'Bar';
+            },
+            () => {
+                const placeholderSpan = vm.$el.querySelector('.ivu-select-placeholder');
+                const selectedValueSpan = vm.$el.querySelector('.ivu-select-selected-value');
+                expect(placeholderSpan).to.equal(null);
+                expect(!!selectedValueSpan.style.display).to.not.equal('none');
+                expect(selectedValueSpan.textContent).to.equal('Bar');
+                done();
+            }
+        );
     });
 
     it('should set different classes for different sizes', done => {
@@ -131,7 +144,7 @@ describe('Select.vue', () => {
 	  `);
       vm.$nextTick(() => {
         const [defaultSelect, largeSelect, smallSelect] = [...vm.$el.querySelectorAll('.ivu-select')];
-        expect(defaultSelect.className).to.equal('ivu-select ivu-select-single');
+        expect(defaultSelect.className).to.equal('ivu-select ivu-select-single ivu-select-default');
         expect(largeSelect.classList.contains('ivu-select-large')).to.equal(true);
         expect(smallSelect.classList.contains('ivu-select-small')).to.equal(true);
         done();
@@ -158,12 +171,10 @@ describe('Select.vue', () => {
         }
       });
       const condition = function() {
-        return vm.$children[0].options.length > 0;
+        const componentOptions = vm.$children[0].flatOptions;
+        return componentOptions && componentOptions.length > 0;
       };
       const callback = function() {
-        if (vm.$children[0].options == 0) return setTimeout(waitForIt.bind(null, done), 50);
-        expect(JSON.stringify(vm.$children[0].options)).to.equal(JSON.stringify(laterOptions));
-
         const renderedOptions = vm.$el.querySelectorAll('.ivu-select-dropdown-list li');
         expect(renderedOptions.length).to.equal(laterOptions.length);
 
@@ -177,79 +188,234 @@ describe('Select.vue', () => {
   });
 
   describe('Behavior tests', () => {
-    it('should create different and independent instances', done => {
-      const options = [
-        {value: 'beijing', label: 'Beijing'},
-        {value: 'stockholm', label: 'Stockholm'},
-        {value: 'lisboa', label: 'Lisboa'}
-      ];
+      it('should create different and independent instances', done => {
+          const options = [
+              {value: 'beijing', label: 'Beijing'},
+              {value: 'stockholm', label: 'Stockholm'},
+              {value: 'lisboa', label: 'Lisboa'}
+          ];
 
-      vm = createVue({
-        template: `
-          <div>
-            <i-select v-model="modelA" multiple style="width:260px">
-              <i-option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</i-option>
-            </i-select>
-            <i-select v-model="modelB" multiple style="width:260px">
-              <i-option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</i-option>
-            </i-select>
-          </div>
-        `,
-        data() {
-          return {
-            cityList: [],
-            modelA: [],
-            modelB: []
-          };
-        },
-        mounted() {
-          setTimeout(() => (this.cityList = options), 200);
-        }
+          vm = createVue({
+              template: `
+      <div>
+        <i-select v-model="modelA" multiple style="width:260px">
+          <i-option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</i-option>
+        </i-select>
+        <i-select v-model="modelB" multiple style="width:260px">
+          <i-option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</i-option>
+        </i-select>
+      </div>
+    `,
+              data() {
+                  return {
+                      cityList: [],
+                      modelA: [],
+                      modelB: []
+                  };
+              },
+              mounted() {
+                  setTimeout(() => (this.cityList = options), 200);
+              }
+          });
+          const [SelectA, SelectB] = vm.$children;
+          SelectA.toggleMenu(null, true);
+          SelectB.toggleMenu(null, true);
+
+          new Promise(resolve => {
+              const condition = function() {
+                  const optionsA = SelectA.$el.querySelectorAll('.ivu-select-item');
+                  const optionsB = SelectB.$el.querySelectorAll('.ivu-select-item');
+                  return optionsA.length > 0 && optionsB.length > 0;
+              };
+              waitForIt(condition, resolve);
+          })
+              .then(() => {
+                  // click in A options
+                  const optionsA = SelectA.$el.querySelectorAll('.ivu-select-item');
+                  optionsA[0].click();
+                  return promissedTick(SelectA);
+              })
+              .then(() => {
+                  expect(SelectA.value[0]).to.equal(options[0].value);
+                  expect(SelectA.value.length).to.equal(1);
+                  expect(SelectB.value.length).to.equal(0);
+
+                  // click in B options
+                  const optionsB = SelectB.$el.querySelectorAll('.ivu-select-item');
+                  optionsB[1].click();
+                  optionsB[2].click();
+                  return promissedTick(SelectB);
+              })
+              .then(() => {
+                  // lets check the values!
+                  const getSelections = component => {
+                      const tags = component.$el.querySelectorAll('.ivu-select-selection .ivu-tag');
+                      return [...tags].map(el => el.textContent.trim()).join(',');
+                  };
+                  const selectAValue = getSelections(SelectA);
+                  const selectBValue = getSelections(SelectB);
+
+                  expect(selectAValue).to.equal(options[0].label);
+                  expect(selectBValue).to.equal(options.slice(1, 3).map(obj => obj.label.trim()).join(','));
+
+                  done();
+              }).catch(err => {
+              console.log(err);
+              done(false);
+          });
       });
-      const [SelectA, SelectB] = vm.$children;
-      SelectA.toggleMenu();
-      SelectB.toggleMenu();
 
-      new Promise(resolve => {
-        const condition = function() {
-          const optionsA = SelectA.$el.querySelectorAll('.ivu-select-item');
-          const optionsB = SelectB.$el.querySelectorAll('.ivu-select-item');
-          return optionsA.length > 0 && optionsB.length > 0;
-        };
-        waitForIt(condition, resolve);
-      })
-        .then(() => {
-          // click in A options
-          const optionsA = SelectA.$el.querySelectorAll('.ivu-select-item');
-          optionsA[0].click();
-          return promissedTick(SelectA);
-        })
-        .then(() => {
-          expect(SelectA.value[0]).to.equal(options[0].value);
-          expect(SelectA.value.length).to.equal(1);
-          expect(SelectB.value.length).to.equal(0);
+      it('should create update model with value, and label when asked', done => {
+          const options = [
+              {value: 'beijing', label: 'Beijing'},
+              {value: 'stockholm', label: 'Stockholm'},
+              {value: 'lisboa', label: 'Lisboa'}
+          ];
+          let onChangeValueA, onChangeValueB;
 
-          // click in B options
-          const optionsB = SelectB.$el.querySelectorAll('.ivu-select-item');
-          optionsB[1].click();
-          optionsB[2].click();
-          return promissedTick(SelectB);
-        })
-        .then(() => {
-          // lets check the values!
-          const getSelections = component => {
-            const tags = component.$el.querySelectorAll('.ivu-select-selection .ivu-tag');
-            return [...tags].map(el => el.textContent.trim()).join(',');
-          };
-          const selectAValue = getSelections(SelectA);
-          const selectBValue = getSelections(SelectB);
 
-          expect(selectAValue).to.equal(options[0].label);
-          expect(selectBValue).to.equal(options.slice(1, 3).map(obj => obj.label.trim()).join(','));
+          vm = createVue({
+              template: `
+                  <div>
+                    <i-select v-model="modelA" style="width:260px" @on-change="onChangeA">
+                      <i-option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</i-option>
+                    </i-select>
+                    <i-select v-model="modelB" label-in-value style="width:260px" @on-change="onChangeB">
+                      <i-option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</i-option>
+                    </i-select>
+                  </div>
+                `,
+              data() {
+                  return {
+                      cityList: options,
+                      modelA: [],
+                      modelB: []
+                  };
+              },
+              methods: {
+                  onChangeA(val){
+                      onChangeValueA = val;
+                  },
+                  onChangeB(val){
+                      onChangeValueB = val;
+                  }
+              }
+          });
+          const [SelectA, SelectB] = vm.$children;
+          SelectA.toggleMenu(null, true);
+          SelectB.toggleMenu(null, true);
 
-          done();
-        });
-    });
+
+          new Promise(resolve => {
+              const condition = function() {
+                  const optionsA = SelectA.$el.querySelectorAll('.ivu-select-item');
+                  const optionsB = SelectB.$el.querySelectorAll('.ivu-select-item');
+                  return optionsA.length > 0 && optionsB.length > 0;
+              };
+              waitForIt(condition, resolve);
+          })
+          .then(() => {
+              // click in A options
+              const optionsA = SelectA.$el.querySelectorAll('.ivu-select-item');
+              optionsA[0].click();
+              return promissedTick(SelectA);
+          })
+          .then(() => {
+              expect(vm.modelA).to.equal(options[0].value);
+              expect(onChangeValueA).to.equal(options[0].value);
+
+              // click in B options
+              const optionsB = SelectB.$el.querySelectorAll('.ivu-select-item');
+              optionsB[2].click();
+              return promissedTick(SelectB);
+          })
+          .then(() => {
+              expect(vm.modelB).to.equal(options[2].value);
+              expect(JSON.stringify(onChangeValueB)).to.equal(JSON.stringify(options[2]));
+              done();
+          });
+      });
+  });
+
+  describe('Public API', () => {
+      it('The "setQuery" method should behave as expected', (done) => {
+
+          const options = [
+              {value: 'beijing', label: 'Beijing'},
+              {value: 'stockholm', label: 'Stockholm'},
+              {value: 'lisboa', label: 'Lisboa'}
+          ];
+
+          vm = createVue({
+              template: `
+                <Select v-model="value" filterable>
+                    <Option v-for="item in options" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                </Select>
+                `,
+              data() {
+                  return {
+                      value: '',
+                      options: options
+                  };
+              }
+          });
+          const [Select] = vm.$children;
+          Select.setQuery('i');
+          vm.$nextTick(() => {
+              const query = 'i';
+              const input = vm.$el.querySelector('.ivu-select-input');
+              expect(input.value).to.equal(query);
+
+              const renderedOptions = [...vm.$el.querySelectorAll('.ivu-select-item')].map(el => el.textContent);
+              const filteredOptions = options.filter(option => JSON.stringify(option).includes(query)).map(({label}) => label);
+              expect(JSON.stringify(renderedOptions)).to.equal(JSON.stringify(filteredOptions));
+
+              // reset query
+              // setQuery(null) should clear the select
+              Select.setQuery(null);
+              vm.$nextTick(() => {
+                  const input = vm.$el.querySelector('.ivu-select-input');
+                  expect(input.value).to.equal('');
+
+                  const renderedOptions = [...vm.$el.querySelectorAll('.ivu-select-item')].map(el => el.textContent);
+                  expect(JSON.stringify(renderedOptions)).to.equal(JSON.stringify(options.map(({label}) => label)));
+                  done();
+              });
+          });
+
+      });
+
+      it('The "clearSingleSelect" method should behave as expected', (done) => {
+
+          // clearSingleSelect
+          const options = [
+              {value: 'beijing', label: 'Beijing'},
+              {value: 'stockholm', label: 'Stockholm'},
+              {value: 'lisboa', label: 'Lisboa'}
+          ];
+          const preSelected = 'lisboa';
+
+          vm = createVue({
+              template: `
+                <Select v-model="value" clearable>
+                    <Option v-for="item in options" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                </Select>
+                `,
+              data() {
+                  return {
+                      value: preSelected,
+                      options: options
+                  };
+              }
+          });
+          const [Select] = vm.$children;
+          vm.$nextTick(() => {
+              expect(Select.publicValue).to.equal(preSelected);
+              Select.clearSingleSelect();
+              expect(typeof Select.publicValue).to.equal('undefined');
+              done();
+          });
+      });
   });
 
   describe('Performance tests', () => {
@@ -278,7 +444,8 @@ describe('Select.vue', () => {
         }
       });
       const condition = function() {
-        return vm.$children[0].options.length == manyLaterOptions.length;
+        const componentOptions = vm.$children[0].flatOptions;
+        return componentOptions && componentOptions.length === manyLaterOptions.length;
       };
       const callback = function() {
         const end = +new Date();

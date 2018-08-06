@@ -8,7 +8,7 @@
                 <Icon :type="format(file)"></Icon> {{ file.name }}
             </span>
             <Icon
-                type="ios-close-empty"
+                type="ios-close"
                 :class="[prefixCls + '-list-remove']"
                 v-show="file.status === 'finished'"
                 @click.native="handleRemove(file)"></Icon>
@@ -63,10 +63,10 @@
             },
             format (file) {
                 const format = file.name.split('.').pop().toLocaleLowerCase() || '';
-                let type = 'document';
+                let type = 'ios-document-outline';
 
                 if (['gif','jpg','jpeg','png','bmp','webp'].indexOf(format) > -1) {
-                    type = 'image';
+                    type = 'ios-image';
                 }
                 if (['mp4','m3u8','rmvb','avi','swf','3gp','mkv','flv'].indexOf(format) > -1) {
                     type = 'ios-film';
@@ -75,10 +75,10 @@
                     type = 'ios-musical-notes';
                 }
                 if (['doc','txt','docx','pages','epub','pdf'].indexOf(format) > -1) {
-                    type = 'document-text';
+                    type = 'md-document';
                 }
                 if (['numbers','csv','xls','xlsx'].indexOf(format) > -1) {
-                    type = 'stats-bars';
+                    type = 'ios-stats';
                 }
                 if (['keynote','ppt','pptx'].indexOf(format) > -1) {
                     type = 'ios-videocam';

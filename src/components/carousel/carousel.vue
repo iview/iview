@@ -1,7 +1,7 @@
 <template>
     <div :class="classes">
-        <button :class="arrowClasses" class="left" @click="arrowEvent(-1)">
-            <Icon type="chevron-left"></Icon>
+        <button type="button" :class="arrowClasses" class="left" @click="arrowEvent(-1)">
+            <Icon type="ios-arrow-back"></Icon>
         </button>
         <div :class="[prefixCls + '-list']">
             <div :class="[prefixCls + '-track', showCopyTrack ? '' : 'higher']" :style="trackStyles" ref="originTrack">
@@ -10,15 +10,15 @@
             <div :class="[prefixCls + '-track', showCopyTrack ? 'higher' : '']" :style="copyTrackStyles" ref="copyTrack" v-if="loop">
             </div>
         </div>
-        <button :class="arrowClasses" class="right" @click="arrowEvent(1)">
-            <Icon type="chevron-right"></Icon>
+        <button type="button" :class="arrowClasses" class="right" @click="arrowEvent(1)">
+            <Icon type="ios-arrow-forward"></Icon>
         </button>
         <ul :class="dotsClasses">
             <template v-for="n in slides.length">
                 <li :class="[n - 1 === currentIndex ? prefixCls + '-active' : '']"
                     @click="dotsEvent('click', n - 1)"
                     @mouseover="dotsEvent('hover', n - 1)">
-                    <button :class="[radiusDot ? 'radius' : '']"></button>
+                    <button type="button" :class="[radiusDot ? 'radius' : '']"></button>
                 </li>
             </template>
         </ul>
@@ -227,6 +227,7 @@
                 } else {
                     this.trackIndex = index;
                 }
+                this.currentIndex = index;
             },
             add (offset) {
                 // 获取单个轨道的图片数
@@ -306,8 +307,10 @@
                 this.updatePos();
             },
             value (val) {
-                this.currentIndex = val;
-                this.trackIndex = val;
+//                this.currentIndex = val;
+//                this.trackIndex = val;
+                this.updateTrackIndex(val);
+                this.setAutoplay();
             }
         },
         mounted () {

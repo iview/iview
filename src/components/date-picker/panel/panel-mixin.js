@@ -44,8 +44,8 @@ export default {
             this.handleConfirm();
             //  if (this.showTime) this.$refs.timePicker.handleClear();
         },
-        handleConfirm(visible) {
-            this.$emit('on-pick', this.dates, visible);
+        handleConfirm(visible, type) {
+            this.$emit('on-pick', this.dates, visible, type || this.type);
         },
         onToggleVisibility(open){
             const {timeSpinner, timeSpinnerEnd} = this.$refs;

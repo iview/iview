@@ -39,6 +39,22 @@
         border: 0;
         border-radius: @border-radius-base;
         background-clip: padding-box;
+        box-shadow: 0 4px 12px rgba(0,0,0,.15);
+
+        &-no-mask{
+            pointer-events: auto;
+        }
+        &-drag{
+            position: absolute;
+            .@{modal-prefix-cls}-header{
+                cursor: move;
+            }
+        }
+        &-dragging{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
     }
 
     &-header {
@@ -46,6 +62,7 @@
     }
 
     &-close {
+        z-index: 1;
         .content-close(1px, 31px);
     }
 
@@ -64,6 +81,46 @@
             margin-bottom: 0;
         }
     }
+
+    &-fullscreen{
+        width: 100% !important;
+        top: 0;
+        bottom: 0;
+        position: absolute;
+
+        @modal-header-height: 51px;
+        @modal-footer-height: 61px;
+
+        .@{modal-prefix-cls}-content{
+            width: 100%;
+            border-radius: 0;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+        }
+
+        .@{modal-prefix-cls}-body{
+            width: 100%;
+            overflow: auto;
+            position: absolute;
+            top: @modal-header-height;
+            bottom: @modal-footer-height;
+        }
+        &-no-header .@{modal-prefix-cls}-body{
+            top: 0;
+        }
+        &-no-footer .@{modal-prefix-cls}-body{
+            bottom: 0;
+        }
+        .@{modal-prefix-cls}-footer{
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+        }
+    }
+    &-no-mask{
+        pointer-events: none;
+    }
 }
 
 @media (max-width: 768px) {
@@ -81,33 +138,13 @@
 .@{confirm-prefix-cls} {
     padding: 0 4px;
     &-head {
-
-        &-title {
-            display: inline-block;
-            font-size: @font-size-base;
-            color: @title-color;
-            font-weight: 700;
-        }
-    }
-
-    &-body{
-        margin-top: 6px;
-        padding-left: 48px;
-        padding-top: 18px;
-        font-size: @font-size-small;
-        color: @text-color;
-        position: relative;
-
-        &-render{
-            margin: 0;
-            padding: 0;
-        }
-
+        padding: 0 12px 0 0;
         &-icon {
-            font-size: 36px;
-            position: absolute;
-            top: 0;
-            left: 0;
+            display: inline-block;
+            font-size: 28px;
+            vertical-align: middle;
+            position: relative;
+            top: -2px;
 
             &-info {
                 color: @primary-color;
@@ -125,10 +162,31 @@
                 color: @warning-color;
             }
         }
+
+        &-title {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 12px;
+            font-size: @font-size-large;
+            color: @title-color;
+            font-weight: 700;
+        }
+    }
+
+    &-body{
+        padding-left: 42px;
+        font-size: @font-size-base;
+        color: @text-color;
+        position: relative;
+
+        &-render{
+            margin: 0;
+            padding: 0;
+        }
     }
 
     &-footer{
-        margin-top: 40px;
+        margin-top: 20px;
         text-align: right;
 
         button + button {

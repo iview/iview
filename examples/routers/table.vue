@@ -1,21 +1,21 @@
 <template>
     <div>
-        <Table border ref="selection" :columns="columns4" :data="data1"></Table>
-        <Button @click="handleSetData">Set Data</Button>
-        <Button @click="handleClearData">Clear Data</Button>
-        <Button @click="handleSelectAll(true)">Set all selected</Button>
-        <Button @click="handleSelectAll(false)">Cancel all selected</Button>
+        <Table ref="currentRowTable" :columns="columns3" :data="data1"></Table>
+        <Button @click="handleClearCurrentRow">Clear</Button>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                columns4: [
+                columns3: [
                     {
-                        type: 'selection',
+                        type: 'index',
                         width: 60,
-                        align: 'center'
+                        align: 'center',
+                        indexMethod (row) {
+                            return row._index;
+                        }
                     },
                     {
                         title: 'Name',
@@ -27,30 +27,21 @@
                     },
                     {
                         title: 'Address',
-                        key: 'address'
+                        key: 'address',
+                        tooltip: true
                     }
                 ],
                 data1: [
-
-                ]
-            }
-        },
-        methods: {
-            handleSelectAll (status) {
-                this.$refs.selection.selectAll(status);
-            },
-            handleSetData () {
-                this.data1 = [
                     {
                         name: 'John Brown',
                         age: 18,
-                        address: 'New York No. 1 Lake Park',
+                        address: '自定义渲染列，使用 Vue 的 Render 函数。传入两个参数，第一个是 h，第二个为对象，包含 row、column 和 index，分别指当前行数据，当前列数据，当前行索引，详见示例。自定义渲染列，使用 Vue 的 Render 函数。传入两个参数，第一个是 h，第二个为对象，包含 row、column 和 index，分别指当前行数据，当前列数据，当前行索引，详见示例。自定义渲染列，使用 Vue 的 Render 函数。传入两个参数，第一个是 h，第二个为对象，包含 row、column 和 index，分别指当前行数据，当前列数据，当前行索引，详见示例。',
                         date: '2016-10-03'
                     },
                     {
                         name: 'Jim Green',
                         age: 24,
-                        address: 'London No. 1 Lake Park',
+                        address: 'London No. 1 Lake Park自定义渲染列，使用 Vue 的 Render 函',
                         date: '2016-10-01'
                     },
                     {
@@ -65,10 +56,12 @@
                         address: 'Ottawa No. 2 Lake Park',
                         date: '2016-10-04'
                     }
-                ];
-            },
-            handleClearData () {
-                this.data1 = [];
+                ]
+            }
+        },
+        methods: {
+            handleClearCurrentRow () {
+                this.$refs.currentRowTable.clearCurrentRow();
             }
         }
     }
