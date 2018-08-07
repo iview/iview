@@ -100,7 +100,7 @@
                     return oneOf(value, ['small', 'large', 'default']);
                 },
                 default () {
-                    return this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             trigger: {
@@ -132,7 +132,7 @@
             transfer: {
                 type: Boolean,
                 default () {
-                    return this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+                    return !this.$IVIEW || this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
                 }
             },
             name: {
