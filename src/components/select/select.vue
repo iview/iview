@@ -189,7 +189,7 @@
                     return oneOf(value, ['small', 'large', 'default']);
                 },
                 default () {
-                    return this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             labelInValue: {
@@ -201,14 +201,14 @@
             },
             placement: {
                 validator (value) {
-                    return oneOf(value, ['top', 'bottom']);
+                    return oneOf(value, ['top', 'bottom', 'top-start', 'bottom-start', 'top-end', 'bottom-end']);
                 },
-                default: 'bottom'
+                default: 'bottom-start'
             },
             transfer: {
                 type: Boolean,
                 default () {
-                    return this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+                    return !this.$IVIEW || this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
                 }
             },
             // Use for AutoComplete

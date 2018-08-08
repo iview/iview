@@ -172,7 +172,7 @@ export default {
                 return oneOf(value, ['small', 'large', 'default']);
             },
             default () {
-                return this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
+                return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
             }
         },
         hideDropDown: {
@@ -202,7 +202,7 @@ export default {
         transfer: {
             type: Boolean,
             default () {
-                return this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+                return !this.$IVIEW || this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
             }
         },
         name: {

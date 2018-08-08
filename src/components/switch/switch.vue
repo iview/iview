@@ -43,7 +43,7 @@
                     return oneOf(value, ['large', 'small', 'default']);
                 },
                 default () {
-                    return this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             name: {

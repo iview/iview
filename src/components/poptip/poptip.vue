@@ -97,7 +97,7 @@
             transfer: {
                 type: Boolean,
                 default () {
-                    return this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+                    return !this.$IVIEW || this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
                 }
             },
             popperClass: {

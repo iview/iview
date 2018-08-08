@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://www.iviewui.com">
-        <img width="200" src="https://file.iviewui.com/logo.svg">
+        <img width="200" src="https://file.iviewui.com/logo-new.svg">
     </a>
 </p>
 
@@ -17,19 +17,13 @@
 
 ### A high quality UI Toolkit built on Vue.js.
 
-> This branch is for Vue.js 2.x.
->
-> The branch for Vue.js 1.x can be found [here](https://github.com/iview/iview/tree/master).
-
 ## Docs
 
-### [English (2.0)](https://www.iviewui.com)
-### [中文文档 (2.0)](https://www.iviewui.com)
-[中文文档 (1.0)](http://v1.iviewui.com)
+### [3.0](https://www.iviewui.com)
 
-## Overview
+[2.0](http://v2.iviewui.com)
 
-### [Component Overview](https://www.iviewui.com/overview)
+[1.0](http://v1.iviewui.com)
 
 ## Features
 

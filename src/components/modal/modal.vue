@@ -100,7 +100,7 @@
             transfer: {
                 type: Boolean,
                 default () {
-                    return this.$IVIEW.transfer === '' ? true : this.$IVIEW.transfer;
+                    return !this.$IVIEW || this.$IVIEW.transfer === '' ? true : this.$IVIEW.transfer;
                 }
             },
             fullscreen: {
