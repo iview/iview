@@ -24,6 +24,7 @@
     const prefixCls = 'ivu-progress';
 
     export default {
+        name: 'Progress',
         components: { Icon },
         props: {
             percent: {
