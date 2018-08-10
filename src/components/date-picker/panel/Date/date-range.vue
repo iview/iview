@@ -312,9 +312,18 @@
                 } else {
                     // keep the panels together
                     const otherPanel = panel === 'left' ? 'right' : 'left';
-                    const otherCurrent = new Date(this[`${otherPanel}PanelDate`]);
-                    otherCurrent[`set${type}`](otherCurrent[`get${type}`]() + increment);
-                    this[`${otherPanel}PanelDate`] = otherCurrent;
+                    const currentDate = this[`${otherPanel}PanelDate`];
+                    const temp = new Date(currentDate);
+
+                    if (type === 'Month') {
+                        const nextMonthLastDate = new Date(
+                            temp.getFullYear(), temp.getMonth() + increment + 1, 0
+                        ).getDate();
+                        temp.setDate(Math.min(nextMonthLastDate, temp.getDate()));
+                    }
+
+                    temp[`set${type}`](temp[`get${type}`]() + increment);
+                    this[`${otherPanel}PanelDate`] = temp;
                 }
             },
             showYearPicker (panel) {
