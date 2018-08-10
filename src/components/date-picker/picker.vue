@@ -646,6 +646,7 @@
                 }
             },
             onPick(dates, visible = false, type) {
+                dates = this.parseDate(dates);
                 if (this.multiple){
                     const pickedTimeStamp = dates.getTime();
                     const indexOfPickedDate = this.internalValue.findIndex(date => date && date.getTime() === pickedTimeStamp);
