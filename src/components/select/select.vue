@@ -485,6 +485,7 @@
                     this.hideMenu();
                     this.isFocused = true;
                 } else {
+                    this.query = '';
                     this.caretPosition = -1;
                     this.isFocused = false;
                 }
