@@ -803,6 +803,7 @@
 <template>
     <div>
         <Select
+            filterable
             v-model="model1"
             size="small"
             style="width:200px;" >
@@ -811,6 +812,7 @@
                 :value="item.value"
                 :key="item.value">{{item.label}}</Option>
         </Select>
+        <Button @click="model1=''">Click</Button>
         <Select
             v-model="model10"
             size="small"

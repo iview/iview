@@ -1,7 +1,7 @@
 <template>
     <div
         :class="classes"
-        v-click-outside.capture="onClickOutside"
+        v-click-outside="onClickOutside"
         v-click-outside:mousedown.capture="onClickOutside"
     >
         <div
@@ -485,6 +485,7 @@
                     this.hideMenu();
                     this.isFocused = true;
                 } else {
+                    this.query = '';
                     this.caretPosition = -1;
                     this.isFocused = false;
                 }
