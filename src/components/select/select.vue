@@ -1,7 +1,7 @@
 <template>
     <div
         :class="classes"
-        v-click-outside.capture="onClickOutside"
+        v-click-outside="onClickOutside"
         v-click-outside:mousedown.capture="onClickOutside"
     >
         <div
