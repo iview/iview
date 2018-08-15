@@ -54,7 +54,8 @@
         <InputNumber v-model="value3" style="width: 200px" placeholder="Enter something..."></InputNumber> -->
 
         
-        <InputNumber v-model="valueNull" style="width: 200px" :min='0' :max='10000'  :precision='2' ></InputNumber>
+        <InputNumber v-model="valueNull" style="width: 200px" :min='-1000' :max='10000'  :precision='2' ></InputNumber>
+        <InputNumber v-model="valueNull" style="width: 200px" ></InputNumber>
     </div>
 </template>
 <script>
