@@ -127,8 +127,9 @@
             },
             labelStyles () {
                 let style = {};
-                const labelWidth = this.labelWidth || this.form.labelWidth;
-                if (labelWidth) {
+                let labelWidth
+                this.labelWidth === 0 || this.labelWidth ? labelWidth = this.labelWidth : labelWidth = this.form.labelWidth
+                if (labelWidth || labelWidth === 0) {
                     style.width = `${labelWidth}px`;
                 }
                 return style;
