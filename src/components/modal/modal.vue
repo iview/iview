@@ -259,8 +259,8 @@
 
                 const $content = this.$refs.content;
                 const rect = $content.getBoundingClientRect();
-                this.dragData.x = rect.x;
-                this.dragData.y = rect.y;
+                this.dragData.x = rect.left;
+                this.dragData.y = rect.top;
 
                 const distance = {
                     x: event.clientX,

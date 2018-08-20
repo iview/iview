@@ -250,7 +250,7 @@
                 const tabs = this.getTabs();
                 const tab = tabs[index];
                 tab.$destroy();
-
+                
                 if (tab.currentName === this.activeKey) {
                     const newTabs = this.getTabs();
                     let activeKey = -1;
@@ -379,7 +379,9 @@
             updateVisibility(index){
                 [...this.$refs.panes.children].forEach((el, i) => {
                     if (index === i) {
-                        [...el.children].forEach(child => child.style.visibility = 'visible');
+                        setTimeout(() => {
+                            [...el.children].forEach(child => child.style.visibility = 'visible');
+                        }, transitionTime);
                         if (this.captureFocus) setTimeout(() => focusFirst(el, el), transitionTime);
                     } else {
                         setTimeout(() => {
@@ -405,7 +407,9 @@
 
                 // update visibility
                 const nextIndex = Math.max(this.getTabIndex(this.focusedKey), 0);
-                this.updateVisibility(nextIndex);
+                this.$nextTick(() => {
+                    this.updateVisibility(nextIndex);
+                });
             }
         },
         mounted () {
