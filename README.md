@@ -19,11 +19,7 @@
 
 ## Docs
 
-### [3.0](https://www.iviewui.com)
-
-[2.0](http://v2.iviewui.com)
-
-[1.0](http://v1.iviewui.com)
+**[3.x](https://www.iviewui.com)** | [2.x](http://v2.iviewui.com) | [1.x](http://v1.iviewui.com)
 
 ## Features
 
