@@ -646,7 +646,6 @@
                 }
             },
             onPick(dates, visible = false, type) {
-                dates = this.parseDate(dates);
                 if (this.multiple){
                     const pickedTimeStamp = dates.getTime();
                     const indexOfPickedDate = this.internalValue.findIndex(date => date && date.getTime() === pickedTimeStamp);
@@ -654,6 +653,7 @@
                     const timeStamps = allDates.map(date => date.getTime()).filter((ts, i, arr) => arr.indexOf(ts) === i && i !== indexOfPickedDate); // filter away duplicates
                     this.internalValue = timeStamps.map(ts => new Date(ts));
                 } else {
+                    dates = this.parseDate(dates);
                     this.internalValue = Array.isArray(dates) ? dates : [dates];
                 }
 
