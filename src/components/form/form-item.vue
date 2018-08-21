@@ -130,16 +130,18 @@
             },
             labelStyles () {
                 let style = {};
-                const labelWidth = this.labelWidth || this.form.labelWidth;
-                if (labelWidth) {
+                const labelWidth = this.labelWidth === 0 || this.labelWidth ? this.labelWidth : this.form.labelWidth;
+
+                if (labelWidth || labelWidth === 0) {
                     style.width = `${labelWidth}px`;
                 }
                 return style;
             },
             contentStyles () {
                 let style = {};
-                const labelWidth = this.labelWidth || this.form.labelWidth;
-                if (labelWidth) {
+                const labelWidth = this.labelWidth === 0 || this.labelWidth ? this.labelWidth : this.form.labelWidth;
+
+                if (labelWidth || labelWidth === 0) {
                     style.marginLeft = `${labelWidth}px`;
                 }
                 return style;

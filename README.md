@@ -19,11 +19,7 @@
 
 ## Docs
 
-### [3.0](https://www.iviewui.com)
-
-[2.0](http://v2.iviewui.com)
-
-[1.0](http://v1.iviewui.com)
+**[3.x](https://www.iviewui.com)** | [2.x](http://v2.iviewui.com) | [1.x](http://v1.iviewui.com)
 
 ## Features
 
@@ -44,6 +40,8 @@
 - [DiDi 滴滴](http://www.didichuxing.com/)
 - [Meituan 美团](http://www.meituan.com/)
 - [Sina 新浪](http://www.sina.com.cn/)
+- [iFLYTEK 科大讯飞](http://www.iflytek.com/)
+- [同程艺龙](https://www.ly.com/)
 
 > If your company or products use iView, welcome to click [here](https://github.com/iview/iview/issues/2143) to leave a message.
 
