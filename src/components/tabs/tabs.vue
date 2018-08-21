@@ -379,11 +379,11 @@
             updateVisibility(index){
                 [...this.$refs.panes.children].forEach((el, i) => {
                     if (index === i) {
-                        [...el.children].forEach(child => child.style.visibility = 'visible');
+                        [...el.children].filter(child=> child.classList.contains(`${prefixCls}-tabpane`)).forEach(child => child.style.visibility = 'visible');
                         if (this.captureFocus) setTimeout(() => focusFirst(el, el), transitionTime);
                     } else {
                         setTimeout(() => {
-                            [...el.children].forEach(child => child.style.visibility = 'hidden');
+                            [...el.children].filter(child=> child.classList.contains(`${prefixCls}-tabpane`)).forEach(child => child.style.visibility = 'hidden');
                         }, transitionTime);
                     }
                 });
