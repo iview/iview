@@ -34,6 +34,13 @@
                         this.$parent.initCopyTrackDom();
                     });
                 }
+            },
+            height (val) {
+                if (val && this.$parent.loop) {
+                    this.$nextTick(() => {
+                        this.$parent.initCopyTrackDom();
+                    });
+                }
             }
         },
         beforeDestroy () {
