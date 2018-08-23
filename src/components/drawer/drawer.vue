@@ -6,16 +6,13 @@
         <div :class="wrapClasses" @click="handleWrapClick">
             <transition name="fade">
                 <div class="ivu-drawer" :style="mainStyles" v-show="visible">
-                    <div :class="contentClasses" ref="content" :style="contentStyles">
+                    <div :class="contentClasses" ref="content">
                         <a class="ivu-drawer-close" v-if="closable" @click="close">
                             <slot name="close">
                                 <Icon type="ios-close"></Icon>
                             </slot>
                         </a>
-                        <div :class="[prefixCls + '-header']"
-                             @mousedown="handleMoveStart"
-                             v-if="showHead"
-                        ><slot name="header"><div :class="[prefixCls + '-header-inner']">{{ title }}</div></slot></div>
+                        <div :class="[prefixCls + '-header']" v-if="showHead"><slot name="header"><div :class="[prefixCls + '-header-inner']">{{ title }}</div></slot></div>
                         <div :class="[prefixCls + '-body']" :style="styles"><slot></slot></div>
                     </div>
                 </div>
