@@ -1,6 +1,13 @@
 <template>
     <span>
-        <a v-if="to || href" :class="linkClasses" @click="handleClick">
+        <a
+            v-if="to"
+            :href="linkUrl"
+            :target="target"
+            :class="linkClasses"
+            @click.exact="handleCheckClick($event, false)"
+            @click.ctrl="handleCheckClick($event, true)"
+            @click.meta="handleCheckClick($event, true)">
             <slot></slot>
         </a>
         <span v-else :class="linkClasses">
@@ -13,22 +20,14 @@
     </span>
 </template>
 <script>
-    // todo 3.0 时废弃 href
+    import mixinsLink from '../../mixins/link';
     const prefixCls = 'ivu-breadcrumb-item';
 
     export default {
         name: 'BreadcrumbItem',
+        mixins: [ mixinsLink ],
         props: {
-            href: {
-                type: [Object, String]
-            },
-            to: {
-                type: [Object, String]
-            },
-            replace: {
-                type: Boolean,
-                default: false
-            }
+
         },
         data () {
             return {
@@ -46,16 +45,6 @@
         },
         mounted () {
             this.showSeparator = this.$slots.separator !== undefined;
-        },
-        methods: {
-            handleClick () {
-                const isRoute = this.$router;
-                if (isRoute) {
-                    this.replace ? this.$router.replace(this.to || this.href) : this.$router.push(this.to || this.href);
-                } else {
-                    window.location.href = this.to || this.href;
-                }
-            }
         }
     };
 </script>

@@ -44,16 +44,22 @@
             margin: 2px;
             color: @btn-disable-color;
         }
+        &-cell:hover{
+            em{
+                background: @date-picker-cell-hover-bg;
+            }
+        }
+        &-focused{
+            em{
+                box-shadow: 0 0 0 1px @primary-color inset;
+            }
+        }
+        
         &-cell{
             span&{
                 width: 28px;
                 height: 28px;
                 cursor: pointer;
-            }
-            &:hover{
-                em{
-                    background: @date-picker-cell-hover-bg;
-                }
             }
             &-prev-month,&-next-month{
                 em{
@@ -154,6 +160,11 @@
                 margin: 0;
             }
         }
+
+        .@{date-picker-prefix-cls}-cells-cell-focused{
+            background-color: tint(@primary-color, 80%);
+        }
+
     }
 
     &-header{
@@ -169,12 +180,18 @@
             }
         }
     }
+    &-btn-pulse{
+        background-color: tint(@primary-color, 80%) !important;
+        border-radius: @border-radius-small;
+        transition: background-color @transition-time @ease-in-out;
+    }
     &-prev-btn{
         float: left;
         &-arrow-double{
             margin-left: 10px;
             i:after{
-                content: "\F3D2";
+                content: "\F115";
+                margin-left: -8px;
             }
         }
     }
@@ -183,7 +200,8 @@
         &-arrow-double{
             margin-right: 10px;
             i:after{
-                content: "\F3D3";
+                content: "\F11F";
+                margin-left: -8px;
             }
         }
     }
@@ -205,7 +223,7 @@
 
     &-with-week-numbers{
         .@{picker-prefix-cls}-panel{
-            &-body{
+            &-body-date {
                 min-width: (@date-picker-cells-width-with-weeknumbers + 20) * 2;
             }
         }
@@ -215,6 +233,10 @@
         z-index: @zindex-transfer;
         max-height: none;
         width: auto;
+    }
+
+    &-focused input{
+        .active();
     }
 }
 
@@ -289,9 +311,9 @@
                 color: @link-active-color;
             }
         }
-        & > span&-time-disabled{
-            color: @btn-disable-color;
-            cursor: @cursor-disabled;
+
+        &-time{
+            float: left;
         }
     }
 }

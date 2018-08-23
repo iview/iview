@@ -7,8 +7,9 @@
 <template>
 <div>
     <Breadcrumb separator="<b class='demo-breadcrumb-separator'>=></b>">
-        <Breadcrumb-item to="/">Home4</Breadcrumb-item>
-        <Breadcrumb-item :to="{name: 'user', params: { userId: 123 }}">Components</Breadcrumb-item>
+        <Breadcrumb-item to="/button">Home4</Breadcrumb-item>
+        <Breadcrumb-item to="//iviewui.com" target="_blank">Home4</Breadcrumb-item>
+        <Breadcrumb-item :to="{name: 'icon', params: { userId: 123 }}">Components</Breadcrumb-item>
         <Breadcrumb-item>Breadcrumb</Breadcrumb-item>
     </Breadcrumb>
     <Breadcrumb separator="">

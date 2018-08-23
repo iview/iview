@@ -205,12 +205,18 @@
         height: 24px;
         line-height: 22px;
         margin: 3px 4px 3px 0;
+        //i{
+        //    top: 2px;
+        //}
     }
 
     &-large&-multiple .@{css-prefix}tag{
         height: 28px;
         line-height: 26px;
         font-size: @font-size-base;
+        i{
+            top: 1px;
+        }
     }
 
     &-small&-multiple .@{css-prefix}tag{
@@ -219,6 +225,9 @@
         font-size: @font-size-small;
         padding: 0 6px;
         margin: 3px 4px 2px 0;
+        i{
+            top: 1px;
+        }
     }
 
     &-dropdown-list {
@@ -226,11 +235,16 @@
         min-width: 100%;
         list-style: none;
     }
+
+    & &-dropdown{
+        width: auto;
+    }
 }
 
 .select-item(@select-prefix-cls, @select-item-prefix-cls);
 
 .@{select-prefix-cls}-multiple .@{select-item-prefix-cls} {
+    position: relative;
     &-selected{
         color: @selected-color;
         background: #fff;
@@ -246,10 +260,13 @@
 
     &-selected:after{
         .ivu-icon();
-        float: right;
+        //float: right;
         font-size: 24px;
-        content: '\F3FD';
+        content: '\F171';
         color: @selected-color;
+        position: absolute;
+        top: 2px;
+        right: 8px;
     }
 }
 

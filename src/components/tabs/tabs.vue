@@ -7,11 +7,11 @@
                 tabindex="0"
                 ref="navContainer"
                 @keydown="handleTabKeyNavigation"
-                @keydown.space.prevent="handleTabKeyboardSelect"
+                @keydown.space.prevent="handleTabKeyboardSelect(false)"
             >
                 <div ref="navWrap" :class="[prefixCls + '-nav-wrap', scrollable ? prefixCls + '-nav-scrollable' : '']">
-                    <span :class="[prefixCls + '-nav-prev', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollPrev"><Icon type="chevron-left"></Icon></span>
-                    <span :class="[prefixCls + '-nav-next', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollNext"><Icon type="chevron-right"></Icon></span>
+                    <span :class="[prefixCls + '-nav-prev', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollPrev"><Icon type="ios-arrow-back"></Icon></span>
+                    <span :class="[prefixCls + '-nav-next', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollNext"><Icon type="ios-arrow-forward"></Icon></span>
                     <div ref="navScroll" :class="[prefixCls + '-nav-scroll']">
                         <div ref="nav" :class="[prefixCls + '-nav']" class="nav-text"  :style="navStyle">
                             <div :class="barClasses" :style="barStyle"></div>
@@ -19,7 +19,7 @@
                                 <Icon v-if="item.icon !== ''" :type="item.icon"></Icon>
                                 <Render v-if="item.labelType === 'function'" :render="item.label"></Render>
                                 <template v-else>{{ item.label }}</template>
-                                <Icon v-if="showClose(item)" type="ios-close-empty" @click.native.stop="handleRemove(index)"></Icon>
+                                <Icon v-if="showClose(item)" type="ios-close" @click.native.stop="handleRemove(index)"></Icon>
                             </div>
                         </div>
                     </div>
@@ -84,6 +84,10 @@
                 type: Boolean,
                 default: true
             },
+            captureFocus: {
+                type: Boolean,
+                default: false
+            },
             closable: {
                 type: Boolean,
                 default: false
@@ -133,7 +137,7 @@
                 ];
             },
             contentStyle () {
-                const x = this.navList.findIndex((nav) => nav.name === this.activeKey);
+                const x = this.getTabIndex(this.activeKey);
                 const p = x === 0 ? '0%' : `-${x}00%`;
 
                 let style = {};
@@ -146,10 +150,10 @@
             },
             barStyle () {
                 let style = {
-                    display: 'none',
+                    visibility: 'hidden',
                     width: `${this.barWidth}px`
                 };
-                if (this.type === 'line') style.display = 'block';
+                if (this.type === 'line') style.visibility = 'visible';
                 if (this.animated) {
                     style.transform = `translate3d(${this.barOffset}px, 0px, 0px)`;
                 } else {
@@ -184,7 +188,7 @@
             },
             updateBar () {
                 this.$nextTick(() => {
-                    const index = this.navList.findIndex((nav) => nav.name === this.activeKey);
+                    const index = this.getTabIndex(this.activeKey);
                     if (!this.$refs.nav) return;  // 页面销毁时，这里会报错，为了解决 #2100
                     const prevTabs = this.$refs.nav.querySelectorAll(`.${prefixCls}-tab`);
                     const tab = prevTabs[index];
@@ -236,22 +240,11 @@
                 const nextTab = getNextTab(this.navList, this.focusedKey, direction);
                 this.focusedKey = nextTab.name;
             },
-            handleTabKeyboardSelect(){
-                this.activeKey = this.focusedKey || 0;
-                const nextIndex = Math.max(this.navList.findIndex(tab => tab.name === this.focusedKey), 0);
-
-                [...this.$refs.panes.children].forEach((el, i) => {
-                    if (nextIndex === i) {
-                        [...el.children].forEach(child => child.style.display = 'block');
-                        setTimeout(() => {
-                            focusFirst(el, el);
-                        }, transitionTime);
-                    } else {
-                        setTimeout(() => {
-                            [...el.children].forEach(child => child.style.display = 'none');
-                        }, transitionTime);
-                    }
-                });
+            handleTabKeyboardSelect(init = false){
+                if (init) return;
+                const focused = this.focusedKey || 0;
+                const index = this.getTabIndex(focused);
+                this.handleChange(index);
             },
             handleRemove (index) {
                 const tabs = this.getTabs();
@@ -321,6 +314,9 @@
                     ? Number(navStyle.transform.match(/translateX\(-(\d+(\.\d+)*)px\)/)[1])
                     : 0;
             },
+            getTabIndex(name){
+                return this.navList.findIndex(nav => nav.name === name);
+            },
             setOffset(value) {
                 this.navStyle.transform = `translateX(-${value}px)`;
             },
@@ -379,6 +375,18 @@
                     parentNode = parentNode.parentNode;
                 }
                 return false;
+            },
+            updateVisibility(index){
+                [...this.$refs.panes.children].forEach((el, i) => {
+                    if (index === i) {
+                        [...el.children].filter(child=> child.classList.contains(`${prefixCls}-tabpane`)).forEach(child => child.style.visibility = 'visible');
+                        if (this.captureFocus) setTimeout(() => focusFirst(el, el), transitionTime);
+                    } else {
+                        setTimeout(() => {
+                            [...el.children].filter(child=> child.classList.contains(`${prefixCls}-tabpane`)).forEach(child => child.style.visibility = 'hidden');
+                        }, transitionTime);
+                    }
+                });
             }
         },
         watch: {
@@ -394,6 +402,10 @@
                 this.$nextTick(() => {
                     this.scrollToActiveTab();
                 });
+
+                // update visibility
+                const nextIndex = Math.max(this.getTabIndex(this.focusedKey), 0);
+                this.updateVisibility(nextIndex);
             }
         },
         mounted () {
@@ -413,7 +425,8 @@
                 this.mutationObserver.observe(hiddenParentNode, { attributes: true, childList: true, characterData: true, attributeFilter: ['style'] });
             }
 
-            this.handleTabKeyboardSelect();
+            this.handleTabKeyboardSelect(true);
+            this.updateVisibility(this.getTabIndex(this.activeKey));
         },
         beforeDestroy() {
             this.observer.removeListener(this.$refs.navWrap, this.handleResize);

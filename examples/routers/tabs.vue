@@ -176,18 +176,39 @@
             <TabPane label="标签二" disabled>标签二的内容</TabPane>
             <TabPane label="标签三">标签三的内容</TabPane>
         </Tabs>
+        <tabs v-model="name" type="card" @on-click="handleClick">
+            <tab-pane name="a" label="标签一">
+                <div>1</div>
+            </tab-pane>
+            <tab-pane name="b" label="标签二">
+                <div>2</div>
+            </tab-pane>
+            <tab-pane name="c" label="标签三">
+                <div>3</div>
+            </tab-pane>
+            <tab-pane name="d" label="标签四">
+                <div>4</div>
+            </tab-pane>
+            <tab-pane name="e" label="标签五">
+                <div>5</div>
+            </tab-pane>
+        </tabs>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                tabs: 2
+                tabs: 2,
+                name: 'b',
             }
         },
         methods: {
             handleTabsAdd () {
                 this.tabs ++;
+            },
+            handleClick (name) {
+                console.log(name);
             }
         }
     }

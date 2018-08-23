@@ -138,7 +138,7 @@ function deepCopy(data) {
 export {deepCopy};
 
 // scrollTop animation
-export function scrollTop(el, from = 0, to, duration = 500) {
+export function scrollTop(el, from = 0, to, duration = 500, endCallback) {
     if (!window.requestAnimationFrame) {
         window.requestAnimationFrame = (
             window.webkitRequestAnimationFrame ||
@@ -153,7 +153,10 @@ export function scrollTop(el, from = 0, to, duration = 500) {
     const step = Math.ceil(difference / duration * 50);
 
     function scroll(start, end, step) {
-        if (start === end) return;
+        if (start === end) {
+            endCallback && endCallback();
+            return;
+        }
 
         let d = (start + step > end) ? end : start + step;
         if (start > end) {
@@ -234,7 +237,7 @@ export function findBrothersComponents (context, componentName, exceptMe = true)
     let res = context.$parent.$children.filter(item => {
         return item.$options.name === componentName;
     });
-    let index = res.indexOf(context);
+    let index = res.findIndex(item => item._uid === context._uid);
     if (exceptMe) res.splice(index, 1);
     return res;
 }
@@ -322,3 +325,5 @@ export function setMatchMedia () {
         window.matchMedia = window.matchMedia || matchMediaPolyfill;
     }
 }
+
+export const sharpMatcherRegx = /#([^#]+)$/;

@@ -47,7 +47,7 @@ describe('Select.vue', () => {
       waitForIt(
           () => {
               const selectedValueSpan = vm.$el.querySelector('.ivu-select-selected-value');
-              return selectedValueSpan.textContent === 'Bar';
+              return selectedValueSpan && selectedValueSpan.textContent === 'Bar';
           },
           () => {
               const selectedValueSpan = vm.$el.querySelector('.ivu-select-selected-value');
@@ -121,7 +121,7 @@ describe('Select.vue', () => {
         waitForIt(
             () => {
                 const selectedValueSpan = vm.$el.querySelector('.ivu-select-selected-value');
-                return selectedValueSpan.textContent === 'Bar';
+                return selectedValueSpan && selectedValueSpan.textContent === 'Bar';
             },
             () => {
                 const placeholderSpan = vm.$el.querySelector('.ivu-select-placeholder');
@@ -144,7 +144,7 @@ describe('Select.vue', () => {
 	  `);
       vm.$nextTick(() => {
         const [defaultSelect, largeSelect, smallSelect] = [...vm.$el.querySelectorAll('.ivu-select')];
-        expect(defaultSelect.className).to.equal('ivu-select ivu-select-single');
+        expect(defaultSelect.className).to.equal('ivu-select ivu-select-single ivu-select-default');
         expect(largeSelect.classList.contains('ivu-select-large')).to.equal(true);
         expect(smallSelect.classList.contains('ivu-select-small')).to.equal(true);
         done();

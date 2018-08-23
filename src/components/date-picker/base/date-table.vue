@@ -7,9 +7,9 @@
         </div>
         <span
                 :class="getCellCls(cell)"
-                v-for="(cell, i) in readCells"
+                v-for="(cell, i) in cells"
                 :key="String(cell.date) + i"
-                @click="handleClick(cell)"
+                @click="handleClick(cell, $event)"
                 @mouseenter="handleMouseMove(cell)"
         >
             <em>{{ cell.desc }}</em>
@@ -61,7 +61,7 @@
                 const weekDays = translatedDays.splice(weekStartDay, 7 - weekStartDay).concat(translatedDays.splice(0, weekStartDay));
                 return this.showWeekNumbers ? [''].concat(weekDays) : weekDays;
             },
-            readCells () {
+            cells () {
                 const tableYear = this.tableDate.getFullYear();
                 const tableMonth = this.tableDate.getMonth();
                 const today = clearHours(new Date());    // timestamp of today
@@ -74,6 +74,9 @@
                 const disabledTestFn = typeof this.disabledDate === 'function' && this.disabledDate;
 
                 return this.calendar(tableYear, tableMonth, (cell) => {
+                    // normalize date offset from the dates provided by jsCalendar
+                    if (cell.date instanceof Date) cell.date.setTime(cell.date.getTime() + cell.date.getTimezoneOffset() * 60000);
+
                     const time = cell.date && clearHours(cell.date);
                     const dateIsInCurrentMonth = cell.date && tableMonth === cell.date.getMonth();
                     return {
@@ -99,7 +102,9 @@
                         [`${prefixCls}-cell-prev-month`]: cell.type === 'prevMonth',
                         [`${prefixCls}-cell-next-month`]: cell.type === 'nextMonth',
                         [`${prefixCls}-cell-week-label`]: cell.type === 'weekLabel',
-                        [`${prefixCls}-cell-range`]: cell.range && !cell.start && !cell.end
+                        [`${prefixCls}-cell-range`]: cell.range && !cell.start && !cell.end,
+                        [`${prefixCls}-focused`]: clearHours(cell.date) === clearHours(this.focusedDate)
+
                     }
                 ];
             },

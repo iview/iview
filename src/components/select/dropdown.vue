@@ -28,7 +28,7 @@
         computed: {
             styles () {
                 let style = {};
-                if (this.width) style.width = `${this.width}px`;
+                if (this.width) style.minWidth = `${this.width}px`;
                 return style;
             }
         },
@@ -49,7 +49,7 @@
                                     gpuAcceleration: false
                                 },
                                 preventOverflow :{
-                                    boundariesElement: 'viewport'
+                                    boundariesElement: 'window'
                                 }
                             },
                             onCreate:()=>{
