@@ -19,6 +19,7 @@ import ColorPicker from './components/color-picker';
 import Content from './components/content';
 import DatePicker from './components/date-picker';
 import Divider from './components/divider';
+import Drawer from './components/drawer';
 import Dropdown from './components/dropdown';
 import Footer from './components/footer';
 import Form from './components/form';
@@ -85,6 +86,7 @@ const components = {
     Content: Content,
     DatePicker,
     Divider,
+    Drawer,
     Dropdown,
     DropdownItem: Dropdown.Item,
     DropdownMenu: Dropdown.Menu,
