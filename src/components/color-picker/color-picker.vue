@@ -84,7 +84,7 @@
                         <div :class="[prefixCls + '-confirm']">
                             <span :class="confirmColorClasses">
                                 <template v-if="editable">
-                                    <i-input :value="formatColor" size="small" @on-enter="handleEditColor"></i-input>
+                                    <i-input :value="formatColor" size="small" @on-enter="handleEditColor" @on-blur="handleEditColor"></i-input>
                                 </template>
                                 <template v-else>{{formatColor}}</template>
                             </span>
