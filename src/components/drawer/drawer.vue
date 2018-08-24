@@ -1,7 +1,7 @@
 <template>
     <div v-transfer-dom :data-transfer="transfer">
         <transition name="fade">
-            <div class="ivu-drawer-mask" :style="maskStyle" v-show="visible" v-if="mask" @click="handleMask"></div>
+            <div :class="maskClasses" :style="maskStyle" v-show="visible" v-if="mask" @click="handleMask"></div>
         </transition>
         <div :class="wrapClasses" @click="handleWrapClick">
             <transition :name="'move-' + placement">
@@ -86,6 +86,10 @@
             },
             className: {
                 type: String
+            },
+            inner: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -103,7 +107,8 @@
                     {
                         [`${prefixCls}-hidden`]: !this.wrapShow,
                         [`${this.className}`]: !!this.className,
-                        [`${prefixCls}-no-mask`]: !this.mask
+                        [`${prefixCls}-no-mask`]: !this.mask,
+                        [`${prefixCls}-wrap-inner`]: this.inner
                     }
                 ];
             },
@@ -134,6 +139,15 @@
                     `${prefixCls}-${this.placement}`,
                     {
                         [`${prefixCls}-no-header`]: !this.showHead,
+                        [`${prefixCls}-inner`]: this.inner
+                    }
+                ];
+            },
+            maskClasses () {
+                return [
+                    `${prefixCls}-mask`,
+                    {
+                        [`${prefixCls}-mask-inner`]: this.inner
                     }
                 ];
             }

@@ -6,6 +6,10 @@
     position: fixed;
     top: 0;
 
+    &-inner{
+        position: absolute;
+    }
+
     &-left{
         left: 0;
     }
@@ -27,6 +31,10 @@
         z-index: @zindex-drawer;
         -webkit-overflow-scrolling: touch;
         outline: 0;
+
+        &-inner{
+            position: absolute;
+        }
     }
 
     &-wrap * {
@@ -36,6 +44,9 @@
 
     &-mask {
         .mask;
+        &-inner{
+            position: absolute;
+        }
     }
 
     &-content {
