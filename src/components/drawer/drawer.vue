@@ -4,8 +4,8 @@
             <div class="ivu-drawer-mask" :style="maskStyle" v-show="visible" v-if="mask" @click="handleMask"></div>
         </transition>
         <div :class="wrapClasses" @click="handleWrapClick">
-            <transition name="fade">
-                <div class="ivu-drawer" :style="mainStyles" v-show="visible">
+            <transition :name="'move-' + placement">
+                <div :class="classes" :style="mainStyles" v-show="visible">
                     <div :class="contentClasses" ref="content">
                         <a class="ivu-drawer-close" v-if="closable" @click="close">
                             <slot name="close">
@@ -24,13 +24,14 @@
     import Icon from '../icon';
     import { oneOf } from '../../utils/assist';
     import TransferDom from '../../directives/transfer-dom';
+    import Emitter from '../../mixins/emitter';
     import ScrollbarMixins from '../modal/mixins-scrollbar';
 
     const prefixCls = 'ivu-drawer';
 
     export default {
         name: 'Drawer',
-        mixins: [ ScrollbarMixins ],
+        mixins: [ Emitter, ScrollbarMixins ],
         components: { Icon },
         directives: { TransferDom },
         props: {
@@ -58,6 +59,9 @@
                 default: true
             },
             maskStyle: {
+                type: Object
+            },
+            styles: {
                 type: Object
             },
             scrollable: {
@@ -124,6 +128,15 @@
                     }
                 ];
             },
+            classes () {
+                return [
+                    `${prefixCls}`,
+                    `${prefixCls}-${this.placement}`,
+                    {
+                        [`${prefixCls}-no-header`]: !this.showHead,
+                    }
+                ];
+            }
         },
         methods: {
             close () {

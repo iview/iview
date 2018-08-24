@@ -1,75 +1,208 @@
 <template>
-    <Row :gutter="16">
-        <i-col span="12">
-            <Card title="horizontal divider">
-                <div>
-                    <p>
-                        iView is a set of UI components and widgets built on Vue.js.
-                        iView is a set of UI components and widgets built on Vue.js.
-                        iView is a set of UI components and widgets built on Vue.js.
-                    </p>
+    <div>
+        <Button @click="visible = true">show1</Button>
+        <Button @click="visible2 = true">show2</Button>
+        <Button @click="visible3 = true">show3</Button>
+        <Drawer v-model="visible" title="抽屉标题" :styles="styles" width="520">
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <Button @click="visible2 = true">show2</Button>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+        </Drawer>
 
-                    <Divider/>
-
-                    <p>
-                        iView is a set of UI components and widgets built on Vue.js.
-                        iView is a set of UI components and widgets built on Vue.js.
-                        iView is a set of UI components and widgets built on Vue.js.
-                    </p>
-
-                    <Divider>iView </Divider>
-
-                    <p>
-                        iView is a set of UI components and widgets built on Vue.js.
-                        iView is a set of UI components and widgets built on Vue.js.
-                        iView is a set of UI components and widgets built on Vue.js.
-                    </p>
-
-                    <Divider dashed/>
-
-                    <p>
-                        iView is a set of UI components and widgets built on Vue.js.
-                        iView is a set of UI components and widgets built on Vue.js.
-                        iView is a set of UI components and widgets built on Vue.js.
-                    </p>
-
-                    <Divider orientation="left">iView</Divider>
-
-                    <p>
-                        iView is a set of UI components and widgets built on Vue.js.
-                        iView is a set of UI components and widgets built on Vue.js.
-                        iView is a set of UI components and widgets built on Vue.js.
-                    </p>
-
-                    <Divider orientation="right">iView</Divider>
-
-                    <p>
-                        iView is a set of UI components and widgets built on Vue.js.
-                        iView is a set of UI components and widgets built on Vue.js.
-                        iView is a set of UI components and widgets built on Vue.js.
-                    </p>
-
-                </div>
-            </Card>
-        </i-col>
-        <i-col span="12">
-            <Card title="vertical divider">
-                <div>
-                    iView
-                    <Divider type="vertical" />
-                    <a href="#">Components</a>
-                    <Divider type="vertical" />
-                    <a href="#">Divider</a>
-                </div>
-            </Card>
-        </i-col>
-    </Row>
+        <Drawer v-model="visible2" title="抽屉标题" placement="right">
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容22</p>
+        </Drawer>
+        <Drawer v-model="visible3" placement="left">
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容22</p>
+        </Drawer>
+    </div>
 </template>
 
 <script>
-    export default {}
+    export default {
+        data () {
+            return {
+                visible: false,
+                visible2: false,
+                visible3: false,
+                styles: {
+                    height: 'calc(100% - 55px)',
+                    paddingBottom: '53px',
+                },
+                ms: {
+                    backgroundColor: 'rgba(255,0,255,0.5)'
+                }
+            };
+        }
+    };
 </script>
 
 <style>
-
+body{
+    height: 2000px;
+}
 </style>
