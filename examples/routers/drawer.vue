@@ -5,64 +5,66 @@
         <Button @click="visible3 = true">show3</Button>
 
         <div style="width: 500px;height:500px;background: green;position: relative;">
-            <Drawer v-model="visible" title="抽屉标题" :styles="styles" :transfer="false" inner>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <Button @click="visible2 = true">show2</Button>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-                <p>一些内容</p>
-            </Drawer>
+
         </div>
+
+        <Drawer v-model="visible" width="70" title="抽屉标题" :styles="styles" @on-close="handleClose">
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <Button @click="visible2 = true">show2</Button>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+            <p>一些内容</p>
+        </Drawer>
 
 
         <Drawer v-model="visible2" title="抽屉标题" placement="right">
@@ -201,6 +203,11 @@
                     backgroundColor: 'rgba(255,0,255,0.5)'
                 }
             };
+        },
+        methods: {
+            handleClose () {
+                this.$Message.info('关闭了');
+            }
         }
     };
 </script>
