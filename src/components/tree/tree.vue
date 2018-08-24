@@ -160,6 +160,7 @@
                 this.$set(node, 'selected', !node.selected);
 
                 this.$emit('on-select-change', this.getSelectedNodes());
+                this.$emit('on-select', node);// give the changed node to user
             },
             handleCheck({ checked, nodeKey }) {
                 const node = this.flatState[nodeKey].node;
@@ -168,8 +169,9 @@
 
                 this.updateTreeUp(nodeKey); // propagate up
                 this.updateTreeDown(node, {checked, indeterminate: false}); // reset `indeterminate` when going down
-
+                
                 this.$emit('on-check-change', this.getCheckedNodes());
+                this.$emit('on-check', node);// give the changed node to user
             }
         },
         created(){
