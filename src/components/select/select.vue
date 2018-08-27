@@ -355,14 +355,12 @@
                         });
                     });
                 }
-                let hasDefaultSelected = slotOptions.some(option => this.query === option.key);
                 for (let option of slotOptions) {
 
                     const cOptions = option.componentOptions;
                     if (!cOptions) continue;
                     if (cOptions.tag.match(optionGroupRegexp)){
                         let children = cOptions.children;
-
                         // remove filtered children
                         if (this.filterable){
                             children = children.filter(
@@ -379,11 +377,8 @@
                         if (cOptions.children.length > 0) selectOptions.push({...option});
                     } else {
                         // ignore option if not passing filter
-                        if (!hasDefaultSelected) {
-                            const optionPassesFilter = this.filterable ? this.validateOption(cOptions) : option;
-                            if (!optionPassesFilter) continue;
-                        }
-
+                        const optionPassesFilter = this.filterable ? this.validateOption(cOptions) : option;
+                        if (!optionPassesFilter) continue;
                         optionCounter = optionCounter + 1;
                         selectOptions.push(this.processOption(option, selectedValues, optionCounter === currentIndex));
                     }
