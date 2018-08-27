@@ -290,7 +290,6 @@
                     val = this.parser(val);
                 }
                 
-                const {min, max} = this;
                 const isEmptyString = val.length === 0;
                 if(isEmptyString){
                     this.setValue(null);
