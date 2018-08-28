@@ -3,13 +3,11 @@
         <div :class="handlerClasses">
             <a
                 @click="up"
-                @mousedown="preventDefault"
                 :class="upClasses">
                 <span :class="innerUpClasses" @click="preventDefault"></span>
             </a>
             <a
                 @click="down"
-                @mousedown="preventDefault"
                 :class="downClasses">
                 <span :class="innerDownClasses" @click="preventDefault"></span>
             </a>
