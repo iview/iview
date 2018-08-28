@@ -80,6 +80,10 @@
                 type: Number,
                 default: 1
             },
+            activeChange:{
+                type:Boolean,
+                default:true
+            },
             value: {
                 type: Number,
                 default: 1
@@ -286,7 +290,7 @@
             },
             change (event) {
                 
-                if (event.type == 'input') return; 
+                if (event.type == 'input' && !this.activeChange) return; 
                 let val = event.target.value.trim();
                 if (this.parser) {
                     val = this.parser(val);
@@ -297,7 +301,7 @@
                     this.setValue(null);
                     return;
                 }
-                //if (event.type == 'input' && val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later 
+                if (event.type == 'input' && val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later 
                 
                 val = Number(val);
 

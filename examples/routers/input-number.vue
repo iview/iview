@@ -57,6 +57,10 @@
         <InputNumber v-model="valueNull" style="width: 200px" :min='1' :max='10000'  :precision='2' ></InputNumber>
         <InputNumber v-model="valueNull" style="width: 200px" ></InputNumber>
         <div style="margin:10px 0px">
+            <InputNumber :activeChange="false" v-model="valueNull" style="width: 200px" :min='1' :max='10000'  :precision='2' ></InputNumber>
+            <InputNumber :activeChange="false" v-model="valueNull" style="width: 200px" ></InputNumber>
+        </div>
+        <div style="margin:10px 0px">
             <InputNumber
                 :max="10000"
                 v-model="value9"
