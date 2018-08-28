@@ -91,6 +91,10 @@
             closable: {
                 type: Boolean,
                 default: false
+            },
+            confirm: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -249,29 +253,33 @@
             handleRemove (index) {
                 const tabs = this.getTabs();
                 const tab = tabs[index];
-                tab.$destroy();
 
                 if (tab.currentName === this.activeKey) {
-                    const newTabs = this.getTabs();
-                    let activeKey = -1;
+                    if (!this.confirm) {
+                        tab.$destroy();
+                        const newTabs = this.getTabs();
+                        let activeKey = -1;
 
-                    if (newTabs.length) {
-                        const leftNoDisabledTabs = tabs.filter((item, itemIndex) => !item.disabled && itemIndex < index);
-                        const rightNoDisabledTabs = tabs.filter((item, itemIndex) => !item.disabled && itemIndex > index);
+                        if (newTabs.length) {
+                            const leftNoDisabledTabs = tabs.filter((item, itemIndex) => !item.disabled && itemIndex < index);
+                            const rightNoDisabledTabs = tabs.filter((item, itemIndex) => !item.disabled && itemIndex > index);
 
-                        if (rightNoDisabledTabs.length) {
-                            activeKey = rightNoDisabledTabs[0].currentName;
-                        } else if (leftNoDisabledTabs.length) {
-                            activeKey = leftNoDisabledTabs[leftNoDisabledTabs.length - 1].currentName;
-                        } else {
-                            activeKey = newTabs[0].currentName;
+                            if (rightNoDisabledTabs.length) {
+                                activeKey = rightNoDisabledTabs[0].currentName;
+                            } else if (leftNoDisabledTabs.length) {
+                                activeKey = leftNoDisabledTabs[leftNoDisabledTabs.length - 1].currentName;
+                            } else {
+                                activeKey = newTabs[0].currentName;
+                            }
                         }
+                        this.activeKey = activeKey;
+                        this.$emit('input', activeKey);
+                        this.$emit('on-tab-remove', tab.currentName);
+                        this.updateNav();
+                    } else {
+                        this.$emit('on-close', tab.currentName);
                     }
-                    this.activeKey = activeKey;
-                    this.$emit('input', activeKey);
                 }
-                this.$emit('on-tab-remove', tab.currentName);
-                this.updateNav();
             },
             showClose (item) {
                 if (this.type === 'card') {
