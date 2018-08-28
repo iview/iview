@@ -4,6 +4,7 @@
             :class="classes"
             @click="handleClick"
             @drop.prevent="onDrop"
+            @paste="handlePaste"
             @dragover.prevent="dragOver = true"
             @dragleave.prevent="dragOver = false">
             <input
@@ -132,6 +133,10 @@
                 default() {
                     return [];
                 }
+            },
+            paste: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -171,6 +176,11 @@
             onDrop (e) {
                 this.dragOver = false;
                 this.uploadFiles(e.dataTransfer.files);
+            },
+            handlePaste (e) {
+                if (this.paste) {
+                    this.uploadFiles(e.clipboardData.files);
+                }
             },
             uploadFiles (files) {
                 let postFiles = Array.prototype.slice.call(files);

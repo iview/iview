@@ -25,7 +25,7 @@
                     <div
                         v-show="value === '' && !visible"
                         :class="[prefixCls + '-color-empty']">
-                        <i :class="[iconPrefixCls, iconPrefixCls + '-ios-close-empty']"></i>
+                        <i :class="[iconPrefixCls, iconPrefixCls + '-ios-close']"></i>
                     </div>
                     <div
                         v-show="value || visible"
@@ -82,12 +82,16 @@
                                 @picker-color="handleSelectColor"></recommend-colors>
                         </div>
                         <div :class="[prefixCls + '-confirm']">
-                            <span :class="[prefixCls + '-confirm-color']">{{formatColor}}</span>
+                            <span :class="confirmColorClasses">
+                                <template v-if="editable">
+                                    <i-input :value="formatColor" size="small" @on-enter="handleEditColor" @on-blur="handleEditColor"></i-input>
+                                </template>
+                                <template v-else>{{formatColor}}</template>
+                            </span>
                             <i-button
                                 ref="clear"
                                 :tabindex="0"
                                 size="small"
-                                type="ghost"
                                 @click.native="handleClear"
                                 @keydown.enter="handleClear"
                                 @keydown.native.esc="closer"
@@ -119,6 +123,7 @@ import RecommendColors from './recommend-colors.vue';
 import Saturation from './saturation.vue';
 import Hue from './hue.vue';
 import Alpha from './alpha.vue';
+import iInput from '../input/input.vue';
 import Locale from '../../mixins/locale';
 import {oneOf} from '../../utils/assist';
 import Emitter from '../../mixins/emitter';
@@ -128,7 +133,7 @@ import {changeColor, toRGBAString} from './utils';
 export default {
     name: 'ColorPicker',
 
-    components: {Drop, RecommendColors, Saturation, Hue, Alpha},
+    components: {Drop, RecommendColors, Saturation, Hue, Alpha, iInput},
 
     directives: {clickOutside, TransferDom},
 
@@ -169,11 +174,12 @@ export default {
             default: false,
         },
         size: {
-            type: String,
             validator(value) {
                 return oneOf(value, ['small', 'large', 'default']);
             },
-            default: 'default',
+            default () {
+                return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
+            }
         },
         hideDropDown: {
             type: Boolean,
@@ -201,11 +207,17 @@ export default {
         },
         transfer: {
             type: Boolean,
-            default: false,
+            default () {
+                return !this.$IVIEW || this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+            }
         },
         name: {
             type: String,
             default: undefined,
+        },
+        editable: {
+            type: Boolean,
+            default: true
         },
     },
 
@@ -219,7 +231,7 @@ export default {
                 '#2d8cf0',
                 '#19be6b',
                 '#ff9900',
-                '#ed3f14',
+                '#ed4014',
                 '#00b5ff',
                 '#19c919',
                 '#f9e31c',
@@ -248,7 +260,7 @@ export default {
         arrowClasses() {
             return [
                 this.iconPrefixCls,
-                `${this.iconPrefixCls}-arrow-down-b`,
+                `${this.iconPrefixCls}-ios-arrow-down`,
                 `${this.inputPrefixCls}-icon`,
                 `${this.inputPrefixCls}-icon-normal`,
             ];
@@ -332,6 +344,14 @@ export default {
 
             return saturationColors.hex;
         },
+        confirmColorClasses () {
+            return [
+                `${this.prefixCls}-confirm-color`,
+                {
+                    [`${this.prefixCls}-confirm-color-editable`]: this.editable
+                }
+            ];
+        }
     },
 
     watch: {
@@ -416,6 +436,10 @@ export default {
         handleSelectColor(color) {
             this.val = changeColor(color);
             this.$emit('on-active-change', this.formatColor);
+        },
+        handleEditColor (event) {
+            const value = event.target.value;
+            this.handleSelectColor(value);
         },
         handleFirstTab(event) {
             if (event.shiftKey) {

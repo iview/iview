@@ -3,7 +3,7 @@
 		<div :class="`${prefix}-wrapper`" :style="wrapperStyle">
             <div :class="`${prefix}`">
                 <div :class="`${prefix}-ink`">
-                    <span v-show="showInkBall" :class="`${prefix}-ink-ball`" :style="{top: `${inkTop}px`}"></span>
+                    <span v-show="showInk" :class="`${prefix}-ink-ball`" :style="{top: `${inkTop}px`}"></span>
                 </div>
                 <slot></slot>
             </div>
@@ -11,16 +11,20 @@
 	</component>
 </template>
 <script>
-import { scrollTop, findComponentDownward, findComponentsDownward, sharpMatcherRegx } from '../../utils/assist';
+import { scrollTop, findComponentsDownward, sharpMatcherRegx } from '../../utils/assist';
 import { on, off } from '../../utils/dom';
 export default {
     name: 'Anchor',
+    provide () {
+        return {
+            anchorCom: this
+        };
+    },
     data () {
         return {
             prefix: 'ivu-anchor',
             isAffixed: false, // current affixed state
             inkTop: 0,
-            linkHeight: 0,
             animating: false, // if is scrolling now
             currentLink: '', // current show link =>  #href -> currentLink = #href
             currentId: '', // current show title id =>  #href -> currentId = href
@@ -45,10 +49,15 @@ export default {
             type: Number,
             default: 5
         },
-        container: [String, HTMLElement],
-        showInkInFixed: {
+//        container: [String, HTMLElement],  // HTMLElement 在 SSR 下不支持
+        container: null,
+        showInk: {
             type: Boolean,
             default: false
+        },
+        scrollOffset: {
+            type: Number,
+            default: 0
         }
     },
     computed: {
@@ -62,9 +71,6 @@ export default {
         },
         containerIsWindow () {
             return this.scrollContainer === window;
-        },
-        showInkBall () {
-            return this.showInkInFixed && (this.isAffixed || (!this.isAffixed && !this.upperFirstTitle && this.scrollContainer !== window));
         }
     },
     methods: {
@@ -78,23 +84,23 @@ export default {
             const scrollTop = document.documentElement.scrollTop || document.body.scrollTop || e.target.scrollTop;
             this.getCurrentScrollAtTitleId(scrollTop);
         },
-        turnTo (href) {
-            this.currentLink = href;
-            this.$router.push({
-                path: href
-            });
-            this.$emit('on-select', href);
-        },
         handleHashChange () {
             const url = window.location.href;
             const sharpLinkMatch = sharpMatcherRegx.exec(url);
+            if (!sharpLinkMatch) return;
             this.currentLink = sharpLinkMatch[0];
             this.currentId = sharpLinkMatch[1];
         },
         handleScrollTo () {
             const anchor = document.getElementById(this.currentId);
+            const currentLinkElementA = document.querySelector(`a[data-href="${this.currentLink}"]`);
+            let offset = this.scrollOffset;
+            if (currentLinkElementA) {
+                offset = parseFloat(currentLinkElementA.getAttribute('data-scroll-offset'));
+            }
+
             if (!anchor) return;
-            const offsetTop = anchor.offsetTop - this.wrapperTop;
+            const offsetTop = anchor.offsetTop - this.wrapperTop - offset;
             this.animating = true;
             scrollTop(this.scrollContainer, this.scrollElement.scrollTop, offsetTop, 600, () => {
                 this.animating = false;
@@ -153,8 +159,7 @@ export default {
             off(window, 'hashchange', this.handleHashChange);
         },
         init () {
-            const anchorLink = findComponentDownward(this, 'AnchorLink');
-            this.linkHeight = anchorLink ? anchorLink.$el.getBoundingClientRect().height : 0;
+            // const anchorLink = findComponentDownward(this, 'AnchorLink');
             this.handleHashChange();
             this.$nextTick(() => {
                 this.removeListener();
@@ -172,7 +177,9 @@ export default {
     watch: {
         '$route' () {
             this.handleHashChange();
-            this.handleScrollTo();
+            this.$nextTick(() => {
+                this.handleScrollTo();
+            });
         },
         container () {
             this.init();

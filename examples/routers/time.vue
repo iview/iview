@@ -1,18 +1,20 @@
 <template>
     <div>
-        <Time :time="1526608921" />
-        <Time :time="1652839997" />
-        <Time :time="ddd" :interval="1" />
+        <Time :time="time1" />
+        <br>
+        <Time :time="time2" />
+        <br>
+        <Time :time="time3" :interval="1" />
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                ddd: new Date('2018-04-27 14:23:00')
-            };
-        },
-        computed: {},
-        methods: {}
-    };
+                time1: (new Date()).getTime() - 60 * 59 * 1000,
+                time2: (new Date()).getTime() - 86400 * 3 * 1000,
+                time3: (new Date()).getTime() - 1 * 1000
+            }
+        }
+    }
 </script>

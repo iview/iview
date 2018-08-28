@@ -1,16 +1,22 @@
 <template>
 	<div :class="anchorLinkClasses">
-        <a :class="linkTitleClasses" href="javascript:void(0)" :data-href="href" @click="goAnchor" :title="title">{{ title }}</a>
+        <a :class="linkTitleClasses" :href="href" :data-scroll-offset="scrollOffset" :data-href="href" @click.prevent="goAnchor" :title="title">{{ title }}</a>
         <slot></slot>
     </div>
 </template>
 <script>
-import { findComponentUpward } from '../../utils/assist';
 export default {
     name: 'AnchorLink',
+    inject: ['anchorCom'],
     props: {
         href: String,
-        title: String
+        title: String,
+        scrollOffset: {
+            type: Number,
+            default () {
+                return this.anchorCom.scrollOffset;
+            }
+        }
     },
     data () {
         return {
@@ -21,29 +27,32 @@ export default {
         anchorLinkClasses () {
             return [
                 this.prefix,
-                this.currentLink === this.href ? `${this.prefix}-active` : ''
+                this.anchorCom.currentLink === this.href ? `${this.prefix}-active` : ''
             ];
         },
         linkTitleClasses () {
             return [
                 `${this.prefix}-title`
             ];
-        },
-        parentAnchor () {
-            return findComponentUpward(this, 'Anchor');
-        },
-        currentLink () {
-            return this.parentAnchor.currentLink;
         }
     },
     methods: {
         goAnchor () {
-            this.parentAnchor.turnTo(this.href);
+            this.currentLink = this.href;
+            this.anchorCom.handleHashChange();
+            this.anchorCom.handleScrollTo();
+            this.anchorCom.$emit('on-select', this.href);
+            const isRoute = this.$router;
+            if (isRoute) {
+                this.$router.push(this.href);
+            } else {
+                window.location.href = this.href;
+            }
         }
     },
     mounted () {
         this.$nextTick(() => {
-            this.parentAnchor.init();
+            this.anchorCom.init();
         });
     }
 };

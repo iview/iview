@@ -34,6 +34,11 @@
     &-selected &-label{
         color: inherit;
     }
+
+    &-selected, &&-selected:hover{
+        background:  ~`colorPalette("@{primary-color}", 1)`;
+    }
+
     &-footer{
         display: inline-block;
         position: absolute;

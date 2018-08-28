@@ -24,21 +24,25 @@ export default {
         }
     },
     methods: {
-        handleClick () {
-            const isRoute = this.$router;
-            if (isRoute) {
-                this.replace ? this.$router.replace(this.to) : this.$router.push(this.to);
+        handleClick (new_window = false) {
+            if (new_window){
+                window.open(this.to);
             } else {
-                window.location.href = this.to;
+                const isRoute = this.$router;
+                if (isRoute) {
+                    this.replace ? this.$router.replace(this.to) : this.$router.push(this.to);
+                } else {
+                    window.location.href = this.to;
+                }
             }
         },
-        handleCheckClick (event) {
+        handleCheckClick (event, new_window = false) {
             if (this.to) {
                 if (this.target === '_blank') {
                     return false;
                 } else {
                     event.preventDefault();
-                    this.handleClick();
+                    this.handleClick(new_window);
                 }
             }
         }

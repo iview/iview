@@ -1,48 +1,68 @@
-<style>
-table {
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-
-</style>
 <template>
     <div>
-        <!-- <br><br><br><br><br> -->
-        <!-- <Table border  :show-header='false' :columns="columns1" height="500" :data="data1"></Table> -->
-        <!-- <Table border :columns="columns1" height='300'></Table> -->
-        <!-- <br><br><br><br><br> -->
-        <!-- <Table width="550" height="200" border :columns="columns2" :data="data4"></Table> -->
-        <!--<br><br><br><br><br>-->
-        <!-- <Table border :columns="columns5" height="240" :data="data5"></Table> -->
-        <!-- <br><br><br><br><br> -->
-        <!-- <Table border :columns="columns6" :data="data5"></Table> -->
-        <!-- <br><br><br><br><br> -->
-        <!-- <Table border  :show-header='false' :columns="columns7"  height="200" :data="data7"></Table> -->
-        <!-- <Table border :columns="columns7"  height="240" :data="data7"></Table> -->
-        <!-- <br><br><br><br><br> -->
-        <!-- <Table border :columns="columns8"  :data="data7" height="200"></Table> -->
-        <!-- <Table border :columns="columns8" height="200"></Table> -->
-        <!-- <br><br><br><br><br> -->
-        <c-table>
-            <!-- <span slot="name" slot-scope="scope">
-                <div>
-                    {{scope.row.name}}
-                </div>
-            </span> -->
-        </c-table>
+        <Table ref="currentRowTable" :columns="columns3" :data="data1"></Table>
+        <Button @click="handleClearCurrentRow">Clear</Button>
     </div>
 </template>
 <script>
-import cTable from './cTable';
-export default {
-    data() {
-        return {}
-    },
-    mounted() {},
-    methods: {},
-    components: {
-        cTable
+    export default {
+        data () {
+            return {
+                columns3: [
+                    {
+                        type: 'index',
+                        width: 60,
+                        align: 'center',
+                        indexMethod (row) {
+                            return row._index;
+                        }
+                    },
+                    {
+                        title: 'Name',
+                        key: 'name'
+                    },
+                    {
+                        title: 'Age',
+                        key: 'age'
+                    },
+                    {
+                        title: 'Address',
+                        key: 'address',
+                        tooltip: true
+                    }
+                ],
+                data1: [
+                    {
+                        name: 'John Brown',
+                        age: 18,
+                        address: '自定义渲染列，使用 Vue 的 Render 函数。传入两个参数，第一个是 h，第二个为对象，包含 row、column 和 index，分别指当前行数据，当前列数据，当前行索引，详见示例。自定义渲染列，使用 Vue 的 Render 函数。传入两个参数，第一个是 h，第二个为对象，包含 row、column 和 index，分别指当前行数据，当前列数据，当前行索引，详见示例。自定义渲染列，使用 Vue 的 Render 函数。传入两个参数，第一个是 h，第二个为对象，包含 row、column 和 index，分别指当前行数据，当前列数据，当前行索引，详见示例。',
+                        date: '2016-10-03'
+                    },
+                    {
+                        name: 'Jim Green',
+                        age: 24,
+                        address: 'London No. 1 Lake Park自定义渲染列，使用 Vue 的 Render 函',
+                        date: '2016-10-01'
+                    },
+                    {
+                        name: 'Joe Black',
+                        age: 30,
+                        address: 'Sydney No. 1 Lake Park',
+                        date: '2016-10-02'
+                    },
+                    {
+                        name: 'Jon Snow',
+                        age: 26,
+                        address: 'Ottawa No. 2 Lake Park',
+                        date: '2016-10-04'
+                    }
+                ]
+            }
+        },
+        methods: {
+            handleClearCurrentRow () {
+                this.$refs.currentRowTable.clearCurrentRow();
+            }
+        }
     }
-}
-
 </script>
