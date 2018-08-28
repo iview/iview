@@ -277,7 +277,7 @@
                         this.$emit('on-tab-remove', tab.currentName);
                         this.updateNav();
                     } else {
-                        this.$emit('on-close', tab.currentName);
+                        this.$emit('on-tab-remove', tab.currentName);
                     }
                 }
             },
