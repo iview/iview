@@ -162,17 +162,17 @@
         },
         watch: {
             value () {
-                this.computeOffset()
+                this.computeOffset();
             }
         },
         mounted () {
             this.$nextTick(() => {
-                this.computeOffset()
+                this.computeOffset();
             });
 
             window.addEventListener('resize', ()=>{
-                this.computeOffset()
-            })
+                this.computeOffset();
+            });
         }
     };
 </script>
