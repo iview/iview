@@ -250,13 +250,16 @@
             setValue (val) {
                 // 如果 step 是小数，且没有设置 precision，是有问题的
                 if (val && !isNaN(this.precision)) val = Number(Number(val).toFixed(this.precision));
-
+                
                 const {min, max} = this;
-                if (val > max) {
-                    val = max;
-                } else if (val < min) {
-                    val = min;
-                } 
+                if (val!==null) {
+                    if (val > max) {
+                        val = max;
+                    } else if (val < min) {
+                        val = min;
+                    } 
+                }
+                
                 this.$nextTick(() => {
                     this.currentValue = val;
                     this.$emit('input', val);
@@ -282,6 +285,7 @@
                 }
             },
             change (event) {
+                
                 if (event.type == 'input') return; 
                 let val = event.target.value.trim();
                 if (this.parser) {
