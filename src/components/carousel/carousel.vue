@@ -1,7 +1,7 @@
 <template>
     <div :class="classes">
         <button type="button" :class="arrowClasses" class="left" @click="arrowEvent(-1)">
-            <Icon type="chevron-left"></Icon>
+            <Icon type="ios-arrow-back"></Icon>
         </button>
         <div :class="[prefixCls + '-list']">
             <div :class="[prefixCls + '-track', showCopyTrack ? '' : 'higher']" :style="trackStyles" ref="originTrack">
@@ -11,7 +11,7 @@
             </div>
         </div>
         <button type="button" :class="arrowClasses" class="right" @click="arrowEvent(1)">
-            <Icon type="chevron-right"></Icon>
+            <Icon type="ios-arrow-forward"></Icon>
         </button>
         <ul :class="dotsClasses">
             <template v-for="n in slides.length">
@@ -227,6 +227,7 @@
                 } else {
                     this.trackIndex = index;
                 }
+                this.currentIndex = index;
             },
             add (offset) {
                 // 获取单个轨道的图片数
@@ -306,8 +307,10 @@
                 this.updatePos();
             },
             value (val) {
-                this.currentIndex = val;
-                this.trackIndex = val;
+//                this.currentIndex = val;
+//                this.trackIndex = val;
+                this.updateTrackIndex(val);
+                this.setAutoplay();
             }
         },
         mounted () {

@@ -7,13 +7,26 @@
     export default {
         name: 'Icon',
         props: {
-            type: String,
+            type: {
+                type: String,
+                default: ''
+            },
             size: [Number, String],
-            color: String
+            color: String,
+            custom: {
+                type: String,
+                default: ''
+            }
         },
         computed: {
             classes () {
-                return `${prefixCls} ${prefixCls}-${this.type}`;
+                return [
+                    `${prefixCls}`,
+                    {
+                        [`${prefixCls}-${this.type}`]: this.type !== '',
+                        [`${this.custom}`]: this.custom !== '',
+                    }
+                ];
             },
             styles () {
                 let style = {};

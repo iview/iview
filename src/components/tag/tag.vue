@@ -3,20 +3,22 @@
         <div :class="classes" @click.stop="check" :style="wraperStyles">
             <span :class="dotClasses" v-if="showDot" :style="bgColorStyle"></span>
             <span :class="textClasses" :style="textColorStyle"><slot></slot></span>
-            <Icon v-if="closable" :class="iconClass" :color="lineColor" type="ios-close-empty" @click.native.stop="close"></Icon>
+            <Icon v-if="closable" :class="iconClass" :color="lineColor" type="ios-close" @click.native.stop="close"></Icon>
         </div>
     </transition>
     <div v-else :class="classes" @click.stop="check" :style="wraperStyles">
         <span :class="dotClasses" v-if="showDot" :style="bgColorStyle"></span>
         <span :class="textClasses" :style="textColorStyle"><slot></slot></span>
-        <Icon v-if="closable" :class="iconClass" :color="lineColor" type="ios-close-empty" @click.native.stop="close"></Icon>
+        <Icon v-if="closable" :class="iconClass" :color="lineColor" type="ios-close" @click.native.stop="close"></Icon>
     </div>
 </template>
 <script>
     import Icon from '../icon';
     import { oneOf } from '../../utils/assist';
     const prefixCls = 'ivu-tag';
-    const initColorList = ['blue', 'green', 'red', 'yellow', 'default'];
+    const initColorList = ['default', 'primary', 'success', 'warning', 'error', 'blue', 'green', 'red', 'yellow', 'pink', 'magenta', 'volcano', 'orange', 'gold', 'lime', 'cyan', 'geekblue', 'purple'];
+    const colorList = ['pink', 'magenta', 'volcano', 'orange', 'gold', 'lime', 'cyan', 'geekblue', 'purple'];
+
     export default {
         name: 'Tag',
         components: { Icon },
@@ -74,7 +76,7 @@
                 return [
                     `${prefixCls}-text`,
                     this.type === 'border' ? (oneOf(this.color, initColorList) ? `${prefixCls}-color-${this.color}` : '') : '',
-                    (this.type !== 'dot' && this.type !== 'border' && this.color !== 'default') ? (this.isChecked ? `${prefixCls}-color-white` : '') : ''
+                    (this.type !== 'dot' && this.type !== 'border' && this.color !== 'default') ? (this.isChecked && colorList.indexOf(this.color) < 0 ? `${prefixCls}-color-white` : '') : ''
                 ];
             },
             dotClasses () {

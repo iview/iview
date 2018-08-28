@@ -10,8 +10,8 @@
                 @keydown.space.prevent="handleTabKeyboardSelect(false)"
             >
                 <div ref="navWrap" :class="[prefixCls + '-nav-wrap', scrollable ? prefixCls + '-nav-scrollable' : '']">
-                    <span :class="[prefixCls + '-nav-prev', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollPrev"><Icon type="chevron-left"></Icon></span>
-                    <span :class="[prefixCls + '-nav-next', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollNext"><Icon type="chevron-right"></Icon></span>
+                    <span :class="[prefixCls + '-nav-prev', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollPrev"><Icon type="ios-arrow-back"></Icon></span>
+                    <span :class="[prefixCls + '-nav-next', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollNext"><Icon type="ios-arrow-forward"></Icon></span>
                     <div ref="navScroll" :class="[prefixCls + '-nav-scroll']">
                         <div ref="nav" :class="[prefixCls + '-nav']" class="nav-text"  :style="navStyle">
                             <div :class="barClasses" :style="barStyle"></div>
@@ -19,7 +19,7 @@
                                 <Icon v-if="item.icon !== ''" :type="item.icon"></Icon>
                                 <Render v-if="item.labelType === 'function'" :render="item.label"></Render>
                                 <template v-else>{{ item.label }}</template>
-                                <Icon v-if="showClose(item)" type="ios-close-empty" @click.native.stop="handleRemove(index)"></Icon>
+                                <Icon v-if="showClose(item)" type="ios-close" @click.native.stop="handleRemove(index)"></Icon>
                             </div>
                         </div>
                     </div>
@@ -83,6 +83,10 @@
             animated: {
                 type: Boolean,
                 default: true
+            },
+            captureFocus: {
+                type: Boolean,
+                default: false
             },
             closable: {
                 type: Boolean,
@@ -376,7 +380,7 @@
                 [...this.$refs.panes.children].forEach((el, i) => {
                     if (index === i) {
                         [...el.children].filter(child=> child.classList.contains(`${prefixCls}-tabpane`)).forEach(child => child.style.visibility = 'visible');
-                        setTimeout(() => focusFirst(el, el), transitionTime);
+                        if (this.captureFocus) setTimeout(() => focusFirst(el, el), transitionTime);
                     } else {
                         setTimeout(() => {
                             [...el.children].filter(child=> child.classList.contains(`${prefixCls}-tabpane`)).forEach(child => child.style.visibility = 'hidden');

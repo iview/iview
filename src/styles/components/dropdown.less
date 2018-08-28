@@ -16,6 +16,11 @@
     &-rel{
         //display: inline-block;
         position: relative;
+        &-user-select-none{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
     }
 
     &-menu{
@@ -24,6 +29,9 @@
 
     &-transfer{
         width: auto;
+    }
+    &-item-selected, &-item&-item-selected:hover{
+        background:  ~`colorPalette("@{primary-color}", 1)`;
     }
 }
 
