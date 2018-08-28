@@ -250,6 +250,7 @@
                         this.close();
                     }
                 }
+                e.stopPropagation();
             },
             animationFinish() {
                 this.$emit('on-hidden');
