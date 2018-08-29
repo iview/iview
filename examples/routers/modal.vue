@@ -1,43 +1,21 @@
 <template>
     <div>
-        <Button @click="instance('info')">Info</Button>
-        <Button @click="instance('success')">Success</Button>
-        <Button @click="instance('warning')">Warning</Button>
-        <Button @click="instance('error')">Error</Button>
+        <Button @click="modal12 = true">Open the first modal</Button>
+        <Button @click="modal13 = true">Open the second modal</Button>
+        <Modal v-model="modal12" draggable scrollable title="Modal 1">
+            <div>This is the first modal</div>
+        </Modal>
+        <Modal v-model="modal13" draggable scrollable title="Modal 2">
+            <div>This is the second modal</div>
+        </Modal>
     </div>
 </template>
 <script>
     export default {
-        methods: {
-            instance (type) {
-                const title = 'Title';
-                const content = '<p>Content of dialog</p><p>Content of dialog</p>';
-                switch (type) {
-                    case 'info':
-                        this.$Modal.info({
-                            title: title,
-                            content: content
-                        });
-                        break;
-                    case 'success':
-                        this.$Modal.success({
-                            title: title,
-                            content: content
-                        });
-                        break;
-                    case 'warning':
-                        this.$Modal.warning({
-                            title: title,
-                            content: content
-                        });
-                        break;
-                    case 'error':
-                        this.$Modal.error({
-                            title: title,
-                            content: content
-                        });
-                        break;
-                }
+        data () {
+            return {
+                modal12: false,
+                modal13: false
             }
         }
     }
