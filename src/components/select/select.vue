@@ -388,7 +388,6 @@
                         selectOptions.push(this.processOption(option, selectedValues, optionCounter === currentIndex));
                     }
                 }
-
                 return selectOptions;
             },
             flatOptions(){
@@ -737,6 +736,17 @@
                     }
                     this.values = this.values.map(this.getOptionData).filter(Boolean);
                     this.hasExpectedValue = false;
+                }
+                if(!this.autoComplete){
+                    let removeValues = [];
+                    for(let i in this.values){
+                        if(!this.getOptionData(this.values[i].value)){
+                            removeValues.push(this.values[i].value);
+                        }
+                    }
+                    if(removeValues.length>0){
+                        this.values =  this.values.filter(m=>removeValues.indexOf(m)>=0);
+                    }
                 }
 
                 if (this.slotOptions && this.slotOptions.length === 0){
