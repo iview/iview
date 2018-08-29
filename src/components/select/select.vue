@@ -635,6 +635,9 @@
             },
             updateSlotOptions(){
                 this.slotOptions = this.$slots.default;
+                // #4372 issue, i find that this.query's value affects the judgment of the validateOption method.
+                this.query = '';
+                this.focusIndex = -1;
             },
             checkUpdateStatus() {
                 if (this.getInitialValue().length > 0 && this.selectOptions.length === 0) {

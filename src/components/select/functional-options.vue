@@ -18,11 +18,17 @@
             },
         },
         functional: true,
-        render(h, {props, parent}){
-            // to detect changes in the $slot children/options we do this hack
-            // so we can trigger the parents computed properties and have everything reactive
-            // although $slot.default is not
-            if (props.slotOptions !== parent.$slots.default) props.slotUpdateHook();
+        render(h, {props, parent}) {
+            // In order to response data changes,i do this hack. #4372
+            if(props.slotOptions.length > 0) {
+                for(let i in props.slotOptions) {
+                    if(props.slotOptions[i].key !== parent.$slots.default[i].key) {
+                        props.slotUpdateHook();
+                        break;
+                    }
+                }
+            }
+            if(props.slotOptions && parent.$slots.default && props.slotOptions.length !== parent.$slots.default.length) props.slotUpdateHook();
             return props.options;
         }
     };
