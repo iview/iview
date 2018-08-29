@@ -365,18 +365,29 @@
 
                         // remove filtered children
                         if (this.filterable){
+                            children.map(opt => {
+                                if(opt.elm && opt.elm.style){
+                                    opt.elm.style.display = 'none';
+                                }
+                            });
                             children = children.filter(
                                 ({componentOptions}) => this.validateOption(componentOptions)
                             );
+                            
+                            children.map(opt => {
+                                if(opt.elm &&  opt.elm.style){
+                                    opt.elm.style.display = '';
+                                }
+                            });
                         }
-
-                        cOptions.children = children.map(opt => {
+                        
+                        cOptions.children = cOptions.children.map(opt => {
                             optionCounter = optionCounter + 1;
                             return this.processOption(opt, selectedValues, optionCounter === currentIndex);
                         });
-
+                        
                         // keep the group if it still has children
-                        if (cOptions.children.length > 0) selectOptions.push({...option});
+                        if (children.length > 0) selectOptions.push({...option});
                     } else {
                         // ignore option if not passing filter
                         if (!hasDefaultSelected) {
@@ -670,6 +681,15 @@
                     this.$emit('input', vModelValue); // to update v-model
                     this.$emit('on-change', this.publicValue);
                     this.dispatch('FormItem', 'on-form-change', this.publicValue);
+                }
+                
+                const [selectedOption] = this.values;
+                if (selectedOption && this.filterable && !this.multiple){
+                    const selectedLabel = String(selectedOption.label || selectedOption.value).trim();
+                    if (selectedLabel && this.query !== selectedLabel) {
+                        this.preventRemoteCall = true;
+                        this.query = selectedLabel;
+                    }
                 }
             },
             query (query) {
