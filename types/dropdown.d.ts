@@ -2,7 +2,7 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue, { VNode } from "vue";
+import Vue, { VNode } from 'vue';
 
 export declare class Dropdown extends Vue {
   /**
@@ -54,6 +54,9 @@ export declare class Dropdown extends Vue {
      */
     list: VNode[];
   };
+}
+
+export declare class DropdownMenu extends Vue {
 }
 
 export declare class DropdownItem extends Vue {

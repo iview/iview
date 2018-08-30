@@ -2,7 +2,7 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue, { VNode } from "vue";
+import Vue, { VNode } from 'vue';
 
 export declare class Tabs extends Vue {
   /**
@@ -54,7 +54,7 @@ export declare class Tabs extends Vue {
   };
 }
 
-export declare class TabPane extends Vue {
+export declare class TabsPane extends Vue {
   /**
    * 用于标识当前面板，对应 value，默认为其索引值
    */

@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode, CreateElement } from "vue";
 
-export declare class NoticeInstance {
+export declare class Notice {
   /**
    * 打开
    * @param config NoticeConfig为相关配置,string为待显示的内容
@@ -82,11 +82,11 @@ export declare class NoticeGlobalConfig {
   duration?: number;
 }
 
-declare module "vue/types/vue" {
+declare module 'vue/types/vue' {
   interface Vue {
     /**
      * 通知提醒
      */
-    $Notice?: NoticeInstance;
+    $Notice?: Notice;
   }
 }

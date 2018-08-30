@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue, { VNode } from "vue";
+import Vue, { VNode } from 'vue';
 
-export declare class GridRow extends Vue {
+export declare class Row extends Vue {
   /**
    * 栅格间距，单位 px，左右平分
    * @default 0
@@ -28,7 +28,7 @@ export declare class GridRow extends Vue {
   'class-name'?: string;
 }
 
-export declare class GridCol extends Vue {
+export declare class Col extends Vue {
   /**
    * 栅格的占位格数，可选值为0~24的整数，为 0 时，相当于display:none
    */

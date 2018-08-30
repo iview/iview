@@ -2,7 +2,7 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue, { VNode } from "vue";
+import Vue, { VNode } from 'vue';
 
 export declare class Select extends Vue {
   /**
@@ -114,7 +114,7 @@ export declare class Select extends Vue {
   clearSingleSelect(): void;
 }
 
-export declare class SelectOption extends Vue {
+export declare class Option extends Vue {
   /**
    * 选项值，默认根据此属性值进行筛选，必填
    */
@@ -132,7 +132,7 @@ export declare class SelectOption extends Vue {
   disabled?: boolean;
 }
 
-export declare class SelectOptionGroup extends Vue {
+export declare class OptionGroup extends Vue {
   /**
    * 分组的组名
    * @default 空

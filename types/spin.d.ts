@@ -2,7 +2,7 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue, { VNode } from "vue";
+import Vue, { VNode } from 'vue';
 
 export declare class Spin extends Vue {
   /**
@@ -23,4 +23,13 @@ export declare class Spin extends Vue {
      */
     '': VNode[];
   };
+}
+
+declare module 'vue/types/vue' {
+  interface Vue {
+    /**
+     * 
+     */
+    $Spin?: Spin;
+  }
 }

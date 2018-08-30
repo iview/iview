@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue, { VNode } from "vue";
+import Vue, { VNode } from 'vue';
 
-export declare class LoadingBarInstance {
+export declare class LoadingBar {
   /**
    * 开始从 0 显示进度条，并自动加载进度
    */
@@ -51,11 +51,11 @@ export declare class LoadingBarConfig {
   height?: number;
 }
 
-declare module "vue/types/vue" {
+declare module 'vue/types/vue' {
   interface Vue {
     /**
      * 加载进度条
      */
-    $Loading?: LoadingBarInstance;
+    $Loading?: LoadingBar;
   }
 }

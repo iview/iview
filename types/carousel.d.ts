@@ -2,7 +2,7 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue, { VNode } from "vue";
+import Vue, { VNode } from 'vue';
 
 export declare class Carousel extends Vue {
   /**
@@ -58,4 +58,8 @@ export declare class Carousel extends Vue {
    * 幻灯片切换时触发，目前激活的幻灯片的索引，原幻灯片的索引
    */
   $emit(eventName: 'on-change', oldValue: number, value: number): this;
+}
+
+export declare class CarouselItem extends Vue {
+
 }
