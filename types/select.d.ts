@@ -74,10 +74,10 @@ export declare class Select extends Vue {
    */
   'label-in-value'?: boolean;
   /**
-   * 弹窗的展开方向，可选值为 bottom 和 top
-   * @default bottom
+   * 弹窗的展开方向，可选值为 top、bottom、top-start、bottom-start、top-end、bottom-end
+   * @default bottom-start
    */
-  placement?: 'bottom' | 'top';
+  placement?: 'bottom' | 'top' | 'top-start' | 'bottom-start' | 'top-end' | 'bottom-end';
   /**
    * 是否将弹层放置于 body 内，在 Tabs、带有 fixed 的 Table 列内使用时，
    * 建议添加此属性，它将不受父级样式影响，从而达到更好的效果

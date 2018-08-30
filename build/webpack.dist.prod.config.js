@@ -36,7 +36,7 @@ module.exports = merge(webpackBaseConfig, {
         }),
         new UglifyJsPlugin({
             parallel: true,
-            sourceMap: true,
+            sourceMap: true
         }),
         new CompressionPlugin({
             asset: '[path].gz[query]',
@@ -45,8 +45,11 @@ module.exports = merge(webpackBaseConfig, {
             threshold: 10240,
             minRatio: 0.8
         }),
-        new CopyWebpackPlugin([{
-            from: __dirname + '/../types'
-        }])
+        new CopyWebpackPlugin([
+            {
+                from: path.resolve(__dirname, './../types'),
+                to: path.resolve(__dirname, './../dist/types')
+            }
+        ])
     ]
 });
