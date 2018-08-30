@@ -1,6 +1,6 @@
 {
     "name": "iview",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "title": "iView",
     "description": "A high quality UI components Library with Vue.js",
     "homepage": "http://www.iviewui.com",
@@ -14,6 +14,7 @@
         "framework"
     ],
     "main": "dist/iview.js",
+    "typings": "types/index.d.ts",
     "files": [
         "dist",
         "src"
@@ -111,7 +112,8 @@
         "vue-template-compiler": "^2.5.16",
         "webpack": "^3.11.0",
         "webpack-dev-server": "^2.11.1",
-        "webpack-merge": "^3.0.0"
+        "webpack-merge": "^3.0.0",
+        "copy-webpack-plugin": "^4.5.2"
     },
     "engines": {
         "node": ">=8.9.1",

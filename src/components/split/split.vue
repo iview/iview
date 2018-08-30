@@ -155,16 +155,23 @@
                 on(document, 'mousemove', this.handleMove);
                 on(document, 'mouseup', this.handleUp);
                 this.$emit('on-move-start');
+            },
+            computeOffset(){
+                this.offset = (this.valueIsPx ? this.px2percent(this.value, this.$refs.outerWrapper[this.offsetSize]) : this.value) * 10000 / 100;
             }
         },
         watch: {
             value () {
-                this.offset = (this.valueIsPx ? this.px2percent(this.value, this.$refs.outerWrapper[this.offsetSize]) : this.value) * 10000 / 100;
+                this.computeOffset();
             }
         },
         mounted () {
             this.$nextTick(() => {
-                this.offset = (this.valueIsPx ? this.px2percent(this.value, this.$refs.outerWrapper[this.offsetSize]) : this.value) * 10000 / 100;
+                this.computeOffset();
+            });
+
+            window.addEventListener('resize', ()=>{
+                this.computeOffset();
             });
         }
     };
