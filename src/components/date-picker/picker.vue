@@ -318,7 +318,9 @@
                 if (this.readonly) return;
                 this.isFocused = true;
                 if (e && e.type === 'focus') return; // just focus, don't open yet
-                this.visible = true;
+                if(!this.disabled){
+                    this.visible = true;
+                }
             },
             handleBlur (e) {
                 if (this.internalFocus){
