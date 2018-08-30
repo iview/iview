@@ -31,7 +31,7 @@
 
 ## Who's using iView
 
-- [TalkingData](http://www.talkingdata.com/)
+- [TalkingData 腾云天下](http://www.talkingdata.com/)
 - [Alibaba 阿里巴巴](http://www.alibaba.com/)
 - [Baidu 百度](https://www.baidu.com/)
 - [Tencent 腾讯](https://www.tencent.com/)
@@ -41,7 +41,7 @@
 - [Meituan 美团](http://www.meituan.com/)
 - [Sina 新浪](http://www.sina.com.cn/)
 - [iFLYTEK 科大讯飞](http://www.iflytek.com/)
-- [同程艺龙](https://www.ly.com/)
+- [LY 同程艺龙](https://www.ly.com/)
 
 > If your company or products use iView, welcome to click [here](https://github.com/iview/iview/issues/2143) to leave a message.
 
