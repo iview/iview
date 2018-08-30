@@ -11,7 +11,7 @@
             <Select v-model="city" style="width:200px" placeholder='选择市'>
                 <Option v-for="item in cityList0" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            <Select v-model="region" style="width:200px" placeholder='选择区'>
+            <Select v-model="region" style="width:200px" placeholder='选择区' filterable>
                 <Option v-for="item in regionList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
         </div>

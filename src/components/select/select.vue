@@ -691,6 +691,10 @@
                         this.query = selectedLabel;
                     }
                 }
+                
+                if(!selectedOption && this.filterable && !this.multiple){
+                    this.query = '';
+                }
             },
             query (query) {
                 this.$emit('on-query-change', query);
