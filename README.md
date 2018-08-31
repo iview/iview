@@ -96,8 +96,9 @@ import 'iview/dist/styles/iview.css';
 - Supports Vue.js 1.x - [visit 1.0 docs](http://v1.iviewui.com/)
 - Supports SSR
 - Supports [Nuxt.js](https://nuxtjs.org/)
+- Support TypeScript
 - Supports [Electron](http://electron.atom.io/)
-- iView does not support IE8 or below since [Vue.js](https://vuejs.org/v2/guide/reactivity.html) uses `Object.defineProperty` to track changes which is not supported by these browsers.
+- Most components and features support IE9 and above browsers, some components and features do not support IE
 
 ## Community
 
