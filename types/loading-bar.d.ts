@@ -35,17 +35,17 @@ export declare class LoadingBar {
 
 export declare class LoadingBarConfig {
   /**
-   * 进度条的颜色，默认为 iView 主色 
+   * 进度条的颜色，默认为 iView 主色
    * @default primary
    */
   color?: string;
   /**
-   * 失败时的进度条颜色，默认为 iView 主色 
+   * 失败时的进度条颜色，默认为 iView 主色
    * @default error
    */
   failedColor?: string;
   /**
-   * 进度条高度，单位 px 
+   * 进度条高度，单位 px
    * @default 2
    */
   height?: number;
@@ -56,6 +56,6 @@ declare module 'vue/types/vue' {
     /**
      * 加载进度条
      */
-    $Loading?: LoadingBar;
+    $Loading: LoadingBar;
   }
 }

@@ -76,9 +76,6 @@ declare module 'vue/types/vue' {
     /**
      * 全局提示
      */
-    $Message?: Message;
+    $Message: Message;
   }
 }
-
-
-

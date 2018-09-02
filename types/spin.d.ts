@@ -28,8 +28,8 @@ export declare class Spin extends Vue {
 declare module 'vue/types/vue' {
   interface Vue {
     /**
-     * 
+     *
      */
-    $Spin?: Spin;
+    $Spin: Spin;
   }
 }

@@ -83,7 +83,7 @@ export default API;
 
 declare module 'vue/types/vue' {
     interface Vue {
-        $IVIEW?: {
+        $IVIEW: {
             size?: string;
             transfer?: string;
         };
