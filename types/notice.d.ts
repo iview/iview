@@ -87,6 +87,6 @@ declare module 'vue/types/vue' {
     /**
      * 通知提醒
      */
-    $Notice?: Notice;
+    $Notice: Notice;
   }
 }
