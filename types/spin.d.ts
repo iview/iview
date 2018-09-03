@@ -30,6 +30,6 @@ declare module 'vue/types/vue' {
     /**
      * 
      */
-    $Spin?: Spin;
+    $Spin: Spin;
   }
 }
