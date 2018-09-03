@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode, CreateElement } from "vue";
 
-export declare class Message {
+export declare interface Message {
   /**
    * 消息
    * @param config MessageConfig为相关配置,string为待显示的内容
@@ -41,7 +41,7 @@ export declare class Message {
   destroy(): void;
 }
 
-export declare class MessageConfig {
+export declare interface MessageConfig {
   /**
    * 提示内容
    */

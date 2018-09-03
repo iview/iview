@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class Page extends Vue {
+export declare interface Page extends Vue {
   /**
    * 当前页码，支持 .sync 修饰符
    * @default 1

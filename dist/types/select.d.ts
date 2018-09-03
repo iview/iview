@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class Select extends Vue {
+export declare interface Select extends Vue {
   /**
    * 指定选中项目的 value 值，可以使用 v-model 双向绑定数据。
    * 单选时只接受 String 或 Number，多选时只接受 Array
@@ -114,7 +114,7 @@ export declare class Select extends Vue {
   clearSingleSelect(): void;
 }
 
-export declare class Option extends Vue {
+export declare interface Option extends Vue {
   /**
    * 选项值，默认根据此属性值进行筛选，必填
    */
@@ -132,7 +132,7 @@ export declare class Option extends Vue {
   disabled?: boolean;
 }
 
-export declare class OptionGroup extends Vue {
+export declare interface OptionGroup extends Vue {
   /**
    * 分组的组名
    * @default 空

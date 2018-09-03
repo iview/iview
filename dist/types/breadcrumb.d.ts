@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class Breadcrumb extends Vue {
+export declare interface Breadcrumb extends Vue {
   /**
    * 自定义分隔符
    * @default /
@@ -12,7 +12,7 @@ export declare class Breadcrumb extends Vue {
   separator?: string;
 }
 
-export declare class BreadcrumbItem extends Vue {
+export declare interface BreadcrumbItem extends Vue {
   /**
    * 链接，不传则没有链接
    */

@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class Checkbox extends Vue {
+export declare interface Checkbox extends Vue {
   /**
    * 只在单独使用时有效。可以使用 v-model 双向绑定数据
    * @default false
@@ -44,7 +44,7 @@ export declare class Checkbox extends Vue {
   $emit(eventName: 'on-change', value: boolean): this;
 }
 
-export declare class CheckboxGroup extends Vue {
+export declare interface CheckboxGroup extends Vue {
   /**
    * 指定选中项目的集合，可以使用 v-model 双向绑定数据
    * @default []

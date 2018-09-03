@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class Divider extends Vue {
+export declare interface Divider extends Vue {
   /**
    * 水平还是垂直类型，可选值为 horizontal 或 vertical
    * @default horizontal
