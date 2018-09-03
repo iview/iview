@@ -61,6 +61,11 @@ export declare interface InputNumber extends Vue {
    */
   'element-id'?: string;
   /**
+   * 是否实时响应数据，设置为 false 时，只会在失焦时更改数据
+   * @default true
+   */
+  'active-change'?: boolean;
+  /**
    * 数值改变时的回调，返回当前值，默认值当前值
    */
   $emit(eventName: 'on-change', value: number): this;
