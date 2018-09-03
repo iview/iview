@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class Tree extends Vue {
+export declare interface Tree extends Vue {
   /**
    * 可嵌套的节点属性的数组，生成 tree 的数据
    */
@@ -62,7 +62,7 @@ export declare class Tree extends Vue {
   getSelectedNodes(): void;
 }
 
-export declare class TreeChild extends Vue {
+export declare interface TreeChild extends Vue {
   /**
    * 标题
    */

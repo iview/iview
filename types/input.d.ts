@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class Input extends Vue {
+export declare interface Input extends Vue {
   /**
    * 输入框类型，可选值为 text、password、textarea、url、email、date
    * @default text

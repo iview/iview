@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class Button extends Vue {
+export declare interface Button extends Vue {
   /**
    * 按钮类型，可选值为 default、primary、dashed、text、info、success、warning、error或者不设置
    * @default default
@@ -68,7 +68,7 @@ export declare class Button extends Vue {
   target?: '_blank' | '_self' | '_parent' | '_top';
 }
 
-export declare class ButtonGroup extends Vue {
+export declare interface ButtonGroup extends Vue {
   /**
    * 按钮组合大小，可选值为large、small、default或者不设置
    * @default default
