@@ -218,6 +218,6 @@ declare module 'vue/types/vue' {
     /**
      * 对话框
      */
-    $Modal?: ModalInstance;
+    $Modal: ModalInstance;
   }
 }

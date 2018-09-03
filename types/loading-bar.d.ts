@@ -56,6 +56,6 @@ declare module 'vue/types/vue' {
     /**
      * 加载进度条
      */
-    $Loading?: LoadingBar;
+    $Loading: LoadingBar;
   }
 }
