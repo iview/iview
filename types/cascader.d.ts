@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class Cascader extends Vue {
+export declare interface Cascader extends Vue {
   /**
    * 可选项的数据源，格式参照示例说明
    * @default []

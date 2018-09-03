@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class Affix extends Vue {
+export declare interface Affix extends Vue {
   /**
    * 距离窗口顶部达到指定偏移量后触发
    * @default 0

@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class Spin extends Vue {
+export declare interface Spin extends Vue {
   /**
    * Spin尺寸，可选值为large和small或者不设置
    */

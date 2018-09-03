@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class Time extends Vue {
+export declare interface Time extends Vue {
   /**
    * 需要对比的时间，可以是时间戳或 Date 类型
    */
