@@ -31,7 +31,7 @@
 
 ## Who's using iView
 
-- [TalkingData](http://www.talkingdata.com/)
+- [TalkingData 腾云天下](http://www.talkingdata.com/)
 - [Alibaba 阿里巴巴](http://www.alibaba.com/)
 - [Baidu 百度](https://www.baidu.com/)
 - [Tencent 腾讯](https://www.tencent.com/)
@@ -41,7 +41,7 @@
 - [Meituan 美团](http://www.meituan.com/)
 - [Sina 新浪](http://www.sina.com.cn/)
 - [iFLYTEK 科大讯飞](http://www.iflytek.com/)
-- [同程艺龙](https://www.ly.com/)
+- [LY 同程艺龙](https://www.ly.com/)
 
 > If your company or products use iView, welcome to click [here](https://github.com/iview/iview/issues/2143) to leave a message.
 
@@ -96,8 +96,9 @@ import 'iview/dist/styles/iview.css';
 - Supports Vue.js 1.x - [visit 1.0 docs](http://v1.iviewui.com/)
 - Supports SSR
 - Supports [Nuxt.js](https://nuxtjs.org/)
+- Support TypeScript
 - Supports [Electron](http://electron.atom.io/)
-- iView does not support IE8 or below since [Vue.js](https://vuejs.org/v2/guide/reactivity.html) uses `Object.defineProperty` to track changes which is not supported by these browsers.
+- Most components and features support IE9 and above browsers, some components and features do not support IE
 
 ## Community
 
@@ -114,6 +115,7 @@ If you want to contribute or have questions or bugs to report:
 |[lcx960324](https://github.com/lcx960324)           |  ![](https://avatars3.githubusercontent.com/u/9768245?v=3&s=60)  |[GITleonine1989](https://github.com/GITleonine1989) |  ![](https://avatars1.githubusercontent.com/u/7582490?v=3&s=60)  |[huixisheng](https://github.com/huixisheng)         |  ![](https://avatars1.githubusercontent.com/u/1518967?v=3&s=60)  |
 |[Sergio Crisostomo](https://github.com/SergioCrisostomo)           |  ![](https://avatars3.githubusercontent.com/u/5614559?v=3&s=60)  |  [lison16](https://github.com/lison16)           |  ![](https://avatars3.githubusercontent.com/u/20942571?v=3&s=60) |  [Xotic750](https://github.com/Xotic750)    | ![](https://avatars3.githubusercontent.com/u/216041?v=3&s=60)   | 
 [huanghong1125](https://github.com/huanghong1125) | ![](https://avatars3.githubusercontent.com/u/12794817?v=3&s=60) |
+[yangdan8](https://github.com/yangdan8) | ![](https://avatars2.githubusercontent.com/u/16515026?s=3&v=60) |
 
 ### All Contributors
 
