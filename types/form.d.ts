@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class Form extends Vue {
+export declare interface Form extends Vue {
   /**
    * 表单数据对象
    */
@@ -46,7 +46,7 @@ export declare class Form extends Vue {
   resetFields(): void;
 }
 
-export declare class FormItem extends Vue {
+export declare interface FormItem extends Vue {
   /**
    * 对应表单域 model 里的字段
    */

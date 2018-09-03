@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class Table extends Vue {
+export declare interface Table extends Vue {
   /**
    * 显示的结构化数据，其中，字段 cellClassName 用于设置任意单元格的样式名称，
    * 因此数据不能使用该字段，详见示例特定样式。
@@ -163,7 +163,7 @@ export declare class Table extends Vue {
   };
 }
 
-export declare class TableColumn {
+export declare interface TableColumn {
   /**
    * 列类型，可选值为 index、selection、expand、html
    */
@@ -279,7 +279,7 @@ export declare class TableColumn {
   children?: object[];
 }
 
-export declare class TableRenderCreateElementData {
+export declare interface TableRenderCreateElementData {
   /**
    * 和`v-bind:class`一样的 API
    */
@@ -329,7 +329,7 @@ export declare class TableRenderCreateElementData {
   ref?: string
 }
 
-export declare class TableColumnRenderParams {
+export declare interface TableColumnRenderParams {
   /**
    * 当前行数据
    */
@@ -344,7 +344,7 @@ export declare class TableColumnRenderParams {
   index?: number;
 }
 
-export declare class TableRenderCreateElementResult {
+export declare interface TableRenderCreateElementResult {
   child?: object;
   children?: Array<any>;
   componentInstance?: object;
@@ -366,7 +366,7 @@ export declare class TableRenderCreateElementResult {
   text?: object;
 }
 
-export declare class TableColumnRenderHeadParams {
+export declare interface TableColumnRenderHeadParams {
   /**
    * 当前列数据
    */
@@ -377,7 +377,7 @@ export declare class TableColumnRenderHeadParams {
   index?: number;
 }
 
-export declare class TableExportCsvParams {
+export declare interface TableExportCsvParams {
   /**
    * 文件名，默认为 table.csv
    */
