@@ -36,6 +36,10 @@ export declare interface Tabs extends Vue {
    */
   'capture-focus'?: boolean;
   /**
+   * 关闭前的函数，返回 Promise 可阻止标签关闭
+   */
+  'before-remove'?: (index: number) => {};
+  /**
    * tab 被点击时触发
    */
   $emit(eventName: 'on-click', name: string): this;

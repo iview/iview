@@ -79,6 +79,11 @@ export declare interface Modal {
    */
   'class-name'?: string;
   /**
+   * 层级
+   * @default 1000
+   */
+  'z-index'?: number;
+  /**
    * 自定义显示动画，第一项是模态框，第二项是背景,
    * @default ['ease', 'fade']
    */

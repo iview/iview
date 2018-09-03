@@ -10,6 +10,16 @@ export declare interface ColorPicker extends Vue {
    */
   value?: string;
   /**
+   * 是否禁用
+   * @default false
+   */
+  disabled?: boolean;
+  /**
+   * 是否可以输入色值
+   * @default false
+   */
+  editable?: boolean;
+  /**
    * 是否支持透明度选择
    * @default false
    */
