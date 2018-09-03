@@ -96,7 +96,7 @@ import 'iview/dist/styles/iview.css';
 - Supports Vue.js 1.x - [visit 1.0 docs](http://v1.iviewui.com/)
 - Supports SSR
 - Supports [Nuxt.js](https://nuxtjs.org/)
-- Support TypeScript
+- Supports TypeScript
 - Supports [Electron](http://electron.atom.io/)
 - Most components and features support IE9 and above browsers, some components and features do not support IE
 
