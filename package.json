@@ -17,7 +17,8 @@
     "typings": "types/index.d.ts",
     "files": [
         "dist",
-        "src"
+        "src",
+        "types"
     ],
     "scripts": {
         "dev": "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 8081 --config build/webpack.dev.config.js",
