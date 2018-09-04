@@ -74,6 +74,9 @@
                 const disabledTestFn = typeof this.disabledDate === 'function' && this.disabledDate;
 
                 return this.calendar(tableYear, tableMonth, (cell) => {
+                    // normalize date offset from the dates provided by jsCalendar
+                    if (cell.date instanceof Date) cell.date.setTime(cell.date.getTime() + cell.date.getTimezoneOffset() * 60000);
+
                     const time = cell.date && clearHours(cell.date);
                     const dateIsInCurrentMonth = cell.date && tableMonth === cell.date.getMonth();
                     return {

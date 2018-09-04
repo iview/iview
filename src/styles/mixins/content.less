@@ -19,17 +19,20 @@
         text-overflow: ellipsis;
         white-space: nowrap;
     }
+    p i, p span{
+        vertical-align: middle;
+    }
 }
 
 .content-close(@top: 0, @icon-font-size: 22px) {
     font-size: @font-size-small;
     position: absolute;
-    right: 16px;
+    right: 8px;
     top: 8px;
     overflow: hidden;
     cursor: pointer;
 
-    .@{icon-prefix-cls}-ios-close-empty {
+    .@{icon-prefix-cls}-ios-close {
         .close-base(@top, @icon-font-size);
     }
 }

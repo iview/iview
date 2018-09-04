@@ -1,5 +1,5 @@
 <template>
-    <div :class="classes" v-clickoutside="handleClose">
+    <div :class="classes" v-click-outside="handleClose">
         <div :class="[prefixCls + '-rel']" @click="toggleOpen" ref="reference">
             <input type="hidden" :name="name" :value="currentValue">
             <slot>
@@ -16,8 +16,8 @@
                     :class="[prefixCls + '-label']"
                     v-show="filterable && query === ''"
                     @click="handleFocus">{{ displayRender }}</div>
-                <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSelect"></Icon>
-                <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']"></Icon>
+                <Icon type="ios-close-circle" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSelect"></Icon>
+                <Icon type="ios-arrow-down" :class="[prefixCls + '-arrow']"></Icon>
             </slot>
         </div>
         <transition name="transition-drop">
@@ -57,7 +57,7 @@
     import Drop from '../select/dropdown.vue';
     import Icon from '../icon/icon.vue';
     import Caspanel from './caspanel.vue';
-    import clickoutside from '../../directives/clickoutside';
+    import {directive as clickOutside} from 'v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
@@ -70,7 +70,7 @@
         name: 'Cascader',
         mixins: [ Emitter, Locale ],
         components: { iInput, Drop, Icon, Caspanel },
-        directives: { clickoutside, TransferDom },
+        directives: { clickOutside, TransferDom },
         props: {
             data: {
                 type: Array,
@@ -97,7 +97,10 @@
             },
             size: {
                 validator (value) {
-                    return oneOf(value, ['small', 'large']);
+                    return oneOf(value, ['small', 'large', 'default']);
+                },
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             trigger: {
@@ -128,7 +131,9 @@
             },
             transfer: {
                 type: Boolean,
-                default: false
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+                }
             },
             name: {
                 type: String

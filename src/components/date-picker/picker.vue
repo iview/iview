@@ -78,7 +78,7 @@
 
     import iInput from '../../components/input/input.vue';
     import Drop from '../../components/select/dropdown.vue';
-    import vClickOutside from 'v-click-outside-x';
+    import {directive as clickOutside} from 'v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
     import { DEFAULT_FORMATS, RANGE_SEPARATOR, TYPE_VALUE_RESOLVER_MAP, getDayCountOfMonth } from './util';
@@ -120,7 +120,7 @@
     export default {
         mixins: [ Emitter ],
         components: { iInput, Drop },
-        directives: { clickOutside: vClickOutside.directive, TransferDom },
+        directives: { clickOutside, TransferDom },
         props: {
             format: {
                 type: String
@@ -171,6 +171,9 @@
             size: {
                 validator (value) {
                     return oneOf(value, ['small', 'large', 'default']);
+                },
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             placeholder: {
@@ -185,7 +188,9 @@
             },
             transfer: {
                 type: Boolean,
-                default: false
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+                }
             },
             name: {
                 type: String
@@ -259,8 +264,8 @@
             },
             iconType () {
                 let icon = 'ios-calendar-outline';
-                if (this.type === 'time' || this.type === 'timerange') icon = 'ios-clock-outline';
-                if (this.showClose) icon = 'ios-close';
+                if (this.type === 'time' || this.type === 'timerange') icon = 'ios-time-outline';
+                if (this.showClose) icon = 'ios-close-circle';
                 return icon;
             },
             transition () {
@@ -313,7 +318,9 @@
                 if (this.readonly) return;
                 this.isFocused = true;
                 if (e && e.type === 'focus') return; // just focus, don't open yet
-                this.visible = true;
+                if(!this.disabled){
+                    this.visible = true;
+                }
             },
             handleBlur (e) {
                 if (this.internalFocus){
@@ -648,6 +655,7 @@
                     const timeStamps = allDates.map(date => date.getTime()).filter((ts, i, arr) => arr.indexOf(ts) === i && i !== indexOfPickedDate); // filter away duplicates
                     this.internalValue = timeStamps.map(ts => new Date(ts));
                 } else {
+                    dates = this.parseDate(dates);
                     this.internalValue = Array.isArray(dates) ? dates : [dates];
                 }
 
@@ -668,7 +676,7 @@
                 this.reset();
             },
             focus() {
-                this.$refs.input.focus();
+                this.$refs.input && this.$refs.input.focus();
             }
         },
         watch: {

@@ -1,54 +1,45 @@
 <template>
     <div>
-        <i-button @click.native="info">显示普通提示</i-button>
-        <i-button @click.native="success">显示成功提示</i-button>
-        <i-button @click.native="warning">显示警告提示</i-button>
-        <i-button @click.native="error">显示错误提示</i-button>
-        <i-button @click.native="destroy">销毁提示</i-button>
+        <Button type="primary" @click="info">Display info prompt</Button>
+        <Button @click="success">Display success prompt</Button>
+        <Button @click="warning">Display warning prompt</Button>
+        <Button @click="error">Display error prompt</Button>
+        <Button @click="loading">Display loading...</Button>
+        <Button @click="closable">Display a closable message</Button>
     </div>
 </template>
 <script>
     export default {
         methods: {
             info () {
-//                this.$Message.info('这是一条普通提示');
-                this.$Message.success({
-                    content: '这是一条普通提示2',
-                    duration: 500,
-                    onClose () {
-//                        console.log(123)
-                    },
-                    closable: true,
-                    render (h) {
-                        return h('Button',{
-                            props: {
-                                type: 'primary'
-                            }
-                        }, '这是render出来的');
-                    }
-                })
-            },
-            success () {
-                this.$Message.success({
-                    content: '这是一条成功的提示',
-                    duration: 4
+                this.$Message.info({
+                    content: '这是一条普通的提示',
+                    duration: 1000
                 });
             },
+            success () {
+                this.$Message.success('This is a success tip');
+            },
             warning () {
-                this.$Message.warning('这是一条警告的提示');
+                this.$Message.warning('This is a warning tip');
             },
             error () {
-                this.$Message.error('对方不想说话，并且向你抛出了一个异常');
+                this.$Message.error('This is an error tip');
             },
-            destroy () {
-                this.$Message.destroy();
+            loading () {
+                const msg = this.$Message.loading({
+                    content: 'Loading...',
+                    duration: 0
+                });
+                setTimeout(msg, 3000);
+            },
+            closable () {
+                this.$Message.info({
+                    content: 'Tips for manual closing',
+                    duration: 1000,
+                    closable: true
+                });
             }
-        },
-        mounted () {
-//            this.$Message.config({
-//                top: 50,
-//                duration: 3
-//            });
         }
     }
 </script>

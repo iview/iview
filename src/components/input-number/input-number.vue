@@ -3,13 +3,11 @@
         <div :class="handlerClasses">
             <a
                 @click="up"
-                @mousedown="preventDefault"
                 :class="upClasses">
                 <span :class="innerUpClasses" @click="preventDefault"></span>
             </a>
             <a
                 @click="down"
-                @mousedown="preventDefault"
                 :class="downClasses">
                 <span :class="innerDownClasses" @click="preventDefault"></span>
             </a>
@@ -82,6 +80,10 @@
                 type: Number,
                 default: 1
             },
+            activeChange:{
+                type:Boolean,
+                default:true
+            },
             value: {
                 type: Number,
                 default: 1
@@ -89,6 +91,9 @@
             size: {
                 validator (value) {
                     return oneOf(value, ['small', 'large', 'default']);
+                },
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             disabled: {
@@ -249,7 +254,16 @@
             setValue (val) {
                 // 如果 step 是小数，且没有设置 precision，是有问题的
                 if (val && !isNaN(this.precision)) val = Number(Number(val).toFixed(this.precision));
-
+                
+                const {min, max} = this;
+                if (val!==null) {
+                    if (val > max) {
+                        val = max;
+                    } else if (val < min) {
+                        val = min;
+                    } 
+                }
+                
                 this.$nextTick(() => {
                     this.currentValue = val;
                     this.$emit('input', val);
@@ -275,42 +289,32 @@
                 }
             },
             change (event) {
+                
+                if (event.type == 'input' && !this.activeChange) return; 
                 let val = event.target.value.trim();
                 if (this.parser) {
                     val = this.parser(val);
                 }
-
-                if (event.type == 'input' && val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
-
-                const {min, max} = this;
+                
                 const isEmptyString = val.length === 0;
-                val = Number(val);
-
                 if(isEmptyString){
                     this.setValue(null);
                     return;
                 }
-                if (event.type == 'change'){
-                    if (val === this.currentValue && val > min && val < max) return; // already fired change for input event
-                }
+                if (event.type == 'input' && val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later 
+                
+                val = Number(val);
 
-                if (!isNaN(val) && !isEmptyString) {
+                if (!isNaN(val)) {
                     this.currentValue = val;
-
-                    if (event.type == 'input' && val < min) return; // prevent fire early in case user is typing a bigger number. Change will handle this otherwise.
-                    if (val > max) {
-                        this.setValue(max);
-                    } else if (val < min) {
-                        this.setValue(min);
-                    } else {
-                        this.setValue(val);
-                    }
+                    this.setValue(val);
                 } else {
                     event.target.value = this.currentValue;
                 }
             },
             changeVal (val) {
                 val = Number(val);
+                //this.setValue(val);
                 if (!isNaN(val)) {
                     const step = this.step;
 

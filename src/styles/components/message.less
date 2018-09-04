@@ -2,7 +2,7 @@
 @icon-prefix-cls: ~"@{css-prefix}icon";
 
 .@{message-prefix-cls} {
-    font-size: @font-size-small;
+    font-size: @font-size-base;
     position: fixed;
     z-index: @zindex-message;
     width: 100%;
@@ -22,7 +22,7 @@
         &-close {
             position: absolute;
             right: 4px;
-            top: 9px;
+            top: 10px;
             color: #999;
             outline: none;
 
@@ -70,9 +70,13 @@
     }
 
     .@{icon-prefix-cls} {
-        margin-right: 8px;
-        font-size: 14px;
-        top: 1px;
-        position: relative;
+        margin-right: 4px;
+        font-size: @font-size-large;
+        vertical-align: middle;
+    }
+    &-custom-content{
+        span{
+            vertical-align: middle;
+        }
     }
 }
