@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class LoadingBar {
+export declare interface LoadingBar {
   /**
    * 开始从 0 显示进度条，并自动加载进度
    */
@@ -33,7 +33,7 @@ export declare class LoadingBar {
   destroy(): void;
 }
 
-export declare class LoadingBarConfig {
+export declare interface LoadingBarConfig {
   /**
    * 进度条的颜色，默认为 iView 主色 
    * @default primary
@@ -56,6 +56,6 @@ declare module 'vue/types/vue' {
     /**
      * 加载进度条
      */
-    $Loading?: LoadingBar;
+    $Loading: LoadingBar;
   }
 }

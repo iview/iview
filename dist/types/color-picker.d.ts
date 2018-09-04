@@ -2,13 +2,23 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class ColorPicker extends Vue {
+export declare interface ColorPicker extends Vue {
   /**
    * 绑定的值，可使用 v-model 双向绑定
    */
   value?: string;
+  /**
+   * 是否禁用
+   * @default false
+   */
+  disabled?: boolean;
+  /**
+   * 是否可以输入色值
+   * @default false
+   */
+  editable?: boolean;
   /**
    * 是否支持透明度选择
    * @default false

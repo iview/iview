@@ -1,6 +1,6 @@
 {
     "name": "iview",
-    "version": "3.0.1",
+    "version": "3.1.0",
     "title": "iView",
     "description": "A high quality UI components Library with Vue.js",
     "homepage": "http://www.iviewui.com",
@@ -17,7 +17,8 @@
     "typings": "types/index.d.ts",
     "files": [
         "dist",
-        "src"
+        "src",
+        "types"
     ],
     "scripts": {
         "dev": "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 8081 --config build/webpack.dev.config.js",

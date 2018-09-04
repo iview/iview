@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class Steps extends Vue {
+export declare interface Steps extends Vue {
   /**
    * 当前步骤，从 0 开始计数
    * @default 0
@@ -26,7 +26,7 @@ export declare class Steps extends Vue {
   direction?: 'horizontal' | 'vertical';
 }
 
-export declare class StepsStep extends Vue {
+export declare interface StepsStep extends Vue {
   /**
    * 步骤的状态，可选值为wait、process、finish、error，不设置时自动判断
    * @default process

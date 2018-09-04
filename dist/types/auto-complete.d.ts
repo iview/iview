@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class AutoComplete extends Vue {
+export declare interface AutoComplete extends Vue {
   /**
    * 绑定的值，可使用 v-model 双向绑定
    */
