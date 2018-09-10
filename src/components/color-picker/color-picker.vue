@@ -88,15 +88,15 @@
                                 </template>
                                 <template v-else>{{formatColor}}</template>
                             </span>
-                            <i-button
+                            <iButton
                                 ref="clear"
                                 :tabindex="0"
                                 size="small"
                                 @click.native="handleClear"
                                 @keydown.enter="handleClear"
                                 @keydown.native.esc="closer"
-                            >{{t('i.datepicker.clear')}}</i-button>
-                            <i-button
+                            >{{t('i.datepicker.clear')}}</iButton>
+                            <iButton
                                 ref="ok"
                                 :tabindex="0"
                                 size="small"
@@ -105,7 +105,7 @@
                                 @keydown.native.tab="handleLastTab"
                                 @keydown.enter="handleSuccess"
                                 @keydown.native.esc="closer"
-                            >{{t('i.datepicker.ok')}}</i-button>
+                            >{{t('i.datepicker.ok')}}</iButton>
                         </div>
                     </div>
                 </transition>
@@ -124,6 +124,7 @@ import Saturation from './saturation.vue';
 import Hue from './hue.vue';
 import Alpha from './alpha.vue';
 import iInput from '../input/input.vue';
+import iButton from '../button/button.vue';
 import Locale from '../../mixins/locale';
 import {oneOf} from '../../utils/assist';
 import Emitter from '../../mixins/emitter';
