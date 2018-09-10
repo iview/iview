@@ -14,6 +14,7 @@
                 @mouseenter.native="handleMouseenter"
                 @mouseleave.native="handleMouseleave"
                 :data-transfer="transfer"
+                :transfer="transfer"
                 v-transfer-dom><slot name="list"></slot></Drop>
         </transition>
     </div>

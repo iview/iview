@@ -39,6 +39,7 @@
                 :placement="placement"
                 ref="drop"
                 :data-transfer="transfer"
+                :transfer="transfer"
                 v-transfer-dom>
                 <div>
                     <component
