@@ -134,7 +134,7 @@ import {changeColor, toRGBAString} from './utils';
 export default {
     name: 'ColorPicker',
 
-    components: {Drop, RecommendColors, Saturation, Hue, Alpha, iInput},
+    components: {Drop, RecommendColors, Saturation, Hue, Alpha, iInput, iButton},
 
     directives: {clickOutside, TransferDom},
 
