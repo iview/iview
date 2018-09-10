@@ -80,9 +80,9 @@
                 type: Number,
                 default: 1
             },
-            activeChange:{
-                type:Boolean,
-                default:true
+            activeChange: {
+                type: Boolean,
+                default: true
             },
             value: {
                 type: Number,
@@ -314,7 +314,6 @@
             },
             changeVal (val) {
                 val = Number(val);
-                //this.setValue(val);
                 if (!isNaN(val)) {
                     const step = this.step;
 
