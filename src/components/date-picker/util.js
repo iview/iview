@@ -174,7 +174,10 @@ const RANGE_PARSER = function(text, format) {
         const range1 = array[0];
         const range2 = array[1];
 
-        return [parseDate(range1, format), parseDate(range2, format)];
+        return [
+            range1 instanceof Date ? range1 : parseDate(range1, format),
+            range2 instanceof Date ? range2 : parseDate(range2, format),
+        ];
     }
     return [];
 };

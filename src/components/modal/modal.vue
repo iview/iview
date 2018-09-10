@@ -1,7 +1,7 @@
 <template>
     <div v-transfer-dom :data-transfer="transfer">
         <transition :name="transitionNames[1]">
-            <div :class="maskClasses" v-show="visible" v-if="showMask" @click="handleMask"></div>
+            <div :class="maskClasses" :style="wrapStyles" v-show="visible" v-if="showMask" @click="handleMask"></div>
         </transition>
         <div :class="wrapClasses" :style="wrapStyles" @click="handleWrapClick">
             <transition :name="transitionNames[0]" @after-leave="animationFinish">
@@ -40,7 +40,7 @@
     import { on, off } from '../../utils/dom';
     import { findComponentsDownward } from '../../utils/assist';
 
-    import { modalIndex, modalIncrease } from './q';
+    import { transferIndex as modalIndex, transferIncrease as modalIncrease } from '../../utils/transfer-queue';
 
     const prefixCls = 'ivu-modal';
 
@@ -325,7 +325,9 @@
                 return modalIndex;
             },
             handleClickModal () {
-                this.modalIndex = this.handleGetModalIndex();
+                if (this.draggable) {
+                    this.modalIndex = this.handleGetModalIndex();
+                }
             }
         },
         mounted () {
