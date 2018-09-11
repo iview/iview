@@ -4,4 +4,8 @@ function transferIncrease() {
     transferIndex++;
 }
 
-export {transferIndex, transferIncrease};
+function transferDecrease() {
+    transferIndex--;
+}
+
+export { transferIndex, transferIncrease, transferDecrease };

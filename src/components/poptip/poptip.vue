@@ -52,7 +52,7 @@
     import {directive as clickOutside} from 'v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
-    import { transferIndex, transferIncrease } from '../../utils/transfer-queue';
+    import { transferIndex, transferIncrease, transferDecrease } from '../../utils/transfer-queue';
     import Locale from '../../mixins/locale';
 
     const prefixCls = 'ivu-poptip';
@@ -111,6 +111,10 @@
             // default by css: 8px 16px
             padding: {
                 type: String
+            },
+            zIndex: {
+                type: Number,
+                default: NaN
             }
         },
         data () {
@@ -119,7 +123,7 @@
                 showTitle: true,
                 isInput: false,
                 disableCloseUnderTransfer: false,  // transfer 模式下，点击 slot 也会触发关闭
-                tIndex: this.handleGetIndex()
+                tIndex: this.handleGetIndex(true)
             };
         },
         computed: {
@@ -146,8 +150,9 @@
                 if (this.width) {
                     style.width = `${this.width}px`;
                 }
-
-                if (this.transfer) style['z-index'] = 1060 + this.tIndex;
+                if(!isNaN(this.zIndex)){
+                    if (this.transfer) style['z-index'] = this.zIndex + this.tIndex;
+                }
 
                 return style;
             },
@@ -260,12 +265,13 @@
 
                 return $children;
             },
-            handleGetIndex () {
-                transferIncrease();
+            handleGetIndex (val) {
+                if(val){
+                    transferIncrease();
+                }else{
+                    transferDecrease();
+                }
                 return transferIndex;
-            },
-            handleIndexIncrease () {
-                this.tIndex = this.handleGetIndex();
             }
         },
         mounted () {
@@ -290,6 +296,11 @@
             if ($children) {
                 $children.removeEventListener('focus', this.handleFocus, false);
                 $children.removeEventListener('blur', this.handleBlur, false);
+            }
+        },
+        watch: {
+            visible(val){
+                this.tIndex = this.handleGetIndex(val);
             }
         }
     };

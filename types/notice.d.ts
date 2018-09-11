@@ -66,6 +66,11 @@ export declare interface NoticeConfig {
    */
   name?: string;
   /**
+   * 层级
+   * @default 1000
+   */
+  "z-index"?: number;
+  /**
    * 关闭时的回调
    */
   onClose?: Function;
@@ -82,7 +87,7 @@ export declare interface NoticeGlobalConfig {
   duration?: number;
 }
 
-declare module 'vue/types/vue' {
+declare module "vue/types/vue" {
   interface Vue {
     /**
      * 通知提醒

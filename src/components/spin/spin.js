@@ -1,10 +1,18 @@
 import Vue from 'vue';
 import Spin from './spin.vue';
 
-import { transferIndex, transferIncrease } from '../../utils/transfer-queue';
+import {
+    transferIndex,
+    transferIncrease,
+    transferDecrease
+} from '../../utils/transfer-queue';
 
-function handleGetIndex() {
-    transferIncrease();
+function handleGetIndex(val) {
+    if (val) {
+        transferIncrease();
+    } else {
+        transferDecrease();
+    }
     return transferIndex;
 }
 
@@ -14,18 +22,20 @@ Spin.newInstance = properties => {
     const _props = properties || {};
 
     const Instance = new Vue({
-        data: Object.assign({}, _props, {
-
-        }),
-        render (h) {
+        data: Object.assign({ zIndex: NaN }, _props, {}),
+        render(h) {
             let vnode = '';
             if (this.render) {
-                vnode = h(Spin, {
-                    props: {
-                        fix: true,
-                        fullscreen: true
-                    }
-                }, [this.render(h)]);
+                vnode = h(
+                    Spin,
+                    {
+                        props: {
+                            fix: true,
+                            fullscreen: true
+                        }
+                    },
+                    [this.render(h)]
+                );
             } else {
                 vnode = h(Spin, {
                     props: {
@@ -35,12 +45,21 @@ Spin.newInstance = properties => {
                     }
                 });
             }
-            return h('div', {
-                'class': 'ivu-spin-fullscreen ivu-spin-fullscreen-wrapper',
-                'style': {
-                    'z-index': 2010 + tIndex
-                }
-            }, [vnode]);
+            return h(
+                'div',
+                {
+                    class: 'ivu-spin-fullscreen ivu-spin-fullscreen-wrapper',
+                    style: (() => {
+                        if (isNaN(properties.zIndex)) {
+                            return {};
+                        }
+                        return {
+                            'z-index': properties.zIndex + tIndex
+                        };
+                    })()
+                },
+                [vnode]
+            );
         }
     });
 
@@ -49,16 +68,25 @@ Spin.newInstance = properties => {
     const spin = Instance.$children[0];
 
     return {
-        show () {
+        show() {
             spin.visible = true;
-            tIndex = handleGetIndex();
+            tIndex = handleGetIndex(true);
         },
-        remove (cb) {
+        remove(cb) {
             spin.visible = false;
+            tIndex = handleGetIndex(false);
             setTimeout(function() {
                 spin.$parent.$destroy();
-                if (document.getElementsByClassName('ivu-spin-fullscreen')[0] !== undefined) {
-                    document.body.removeChild(document.getElementsByClassName('ivu-spin-fullscreen')[0]);
+                if (
+                    document.getElementsByClassName(
+                        'ivu-spin-fullscreen'
+                    )[0] !== undefined
+                ) {
+                    document.body.removeChild(
+                        document.getElementsByClassName(
+                            'ivu-spin-fullscreen'
+                        )[0]
+                    );
                 }
                 cb();
             }, 500);

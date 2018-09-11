@@ -68,6 +68,11 @@ export declare interface Tooltip extends Vue {
    */
   options?: object;
   /**
+   * 层级
+   * @default 1000
+   */
+  'z-index'?: number;
+  /**
    * 在提示框显示时触发
    */
   $emit(eventName: 'on-popper-show'): this;

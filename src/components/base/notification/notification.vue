@@ -21,7 +21,7 @@
 <script>
     import Notice from './notice.vue';
 
-    import { transferIndex, transferIncrease } from '../../../utils/transfer-queue';
+    import { transferIndex, transferIncrease, transferDecrease } from '../../../utils/transfer-queue';
 
     const prefixCls = 'ivu-notification';
     let seed = 0;
@@ -52,12 +52,16 @@
             },
             className: {
                 type: String
+            },
+            zIndex: {
+                type: Number,
+                default: NaN
             }
         },
         data () {
             return {
                 notices: [],
-                tIndex: this.handleGetIndex()
+                tIndex: this.handleGetIndex(true)
             };
         },
         computed: {
@@ -71,7 +75,9 @@
             },
             wrapStyles () {
                 let styles = Object.assign({}, this.styles);
-                styles['z-index'] = 1010 + this.tIndex;
+                if(!isNaN(this.zIndex)){
+                  styles['z-index'] = this.zIndex + this.tIndex;
+                }
 
                 return styles;
             }
@@ -91,13 +97,14 @@
                 }, notice);
 
                 this.notices.push(_notice);
-                this.tIndex = this.handleGetIndex();
+                this.tIndex = this.handleGetIndex(true);
             },
             close (name) {
                 const notices = this.notices;
                 for (let i = 0; i < notices.length; i++) {
                     if (notices[i].name === name) {
                         this.notices.splice(i, 1);
+                        this.tIndex = this.handleGetIndex(false);
                         break;
                     }
                 }
@@ -105,8 +112,12 @@
             closeAll () {
                 this.notices = [];
             },
-            handleGetIndex () {
-                transferIncrease();
+            handleGetIndex (val) {
+                if(val){
+                  transferIncrease();
+                }else{
+                  transferDecrease();
+                }                
                 return transferIndex;
             },
         }

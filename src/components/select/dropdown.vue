@@ -7,7 +7,7 @@
     import { getStyle } from '../../utils/assist';
     const Popper = isServer ? function() {} : require('popper.js/dist/umd/popper.js');  // eslint-disable-line
 
-    import { transferIndex, transferIncrease } from '../../utils/transfer-queue';
+    import { transferIndex, transferIncrease, transferDecrease } from '../../utils/transfer-queue';
 
     export default {
         name: 'Drop',
@@ -21,6 +21,10 @@
             },
             transfer: {
                 type: Boolean
+            },
+            zIndex: {
+                type: Number,
+                default: NaN
             }
         },
         data () {
@@ -28,16 +32,16 @@
                 popper: null,
                 width: '',
                 popperStatus: false,
-                tIndex: this.handleGetIndex()
+                tIndex: this.handleGetIndex(true)
             };
         },
         computed: {
             styles () {
                 let style = {};
                 if (this.width) style.minWidth = `${this.width}px`;
-
-                if (this.transfer) style['z-index'] = 1060 + this.tIndex;
-
+                if(!isNaN(this.zIndex)){
+                    if (this.transfer) style['z-index'] = this.zIndex + this.tIndex;
+                }
                 return style;
             }
         },
@@ -75,7 +79,7 @@
                 if (this.$parent.$options.name === 'iSelect') {
                     this.width = parseInt(getStyle(this.$parent.$el, 'width'));
                 }
-                this.tIndex = this.handleGetIndex();
+                this.tIndex = this.handleGetIndex(true);
             },
             destroy () {
                 if (this.popper) {
@@ -100,8 +104,12 @@
                     this.popper.popper.style.transformOrigin = placementStart==='bottom' || ( placementStart !== 'top' && placementEnd === 'start') ? 'center top' : 'center bottom';
                 }
             },
-            handleGetIndex () {
-                transferIncrease();
+            handleGetIndex (val) {
+                if(val){
+                    transferIncrease();
+                }else{
+                    transferDecrease();
+                }
                 return transferIndex;
             },
         },
@@ -112,6 +120,11 @@
         beforeDestroy () {
             if (this.popper) {
                 this.popper.destroy();
+            }
+        },
+        watch:{
+            popperStatus(val){
+                this.tIndex = this.handleGetIndex(val);
             }
         }
     };

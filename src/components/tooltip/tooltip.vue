@@ -25,7 +25,7 @@
     import Popper from '../base/popper';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
-    import { transferIndex, transferIncrease } from '../../utils/transfer-queue';
+    import { transferIndex, transferIncrease, transferDecrease } from '../../utils/transfer-queue';
 
     const prefixCls = 'ivu-tooltip';
 
@@ -74,12 +74,16 @@
             },
             maxWidth: {
                 type: [String, Number]
+            },
+            zIndex: {
+                type: Number,
+                default: NaN
             }
         },
         data () {
             return {
                 prefixCls: prefixCls,
-                tIndex: this.handleGetIndex()
+                tIndex: this.handleGetIndex(true)
             };
         },
         computed: {
@@ -98,8 +102,9 @@
             },
             dropStyles () {
                 let styles = {};
-                if (this.transfer) styles['z-index'] = 1060 + this.tIndex;
-
+                if(!isNaN(this.zIndex)){
+                    if (this.transfer) styles['z-index'] = this.zIndex + this.tIndex;
+                }
                 return styles;
             }
         },
@@ -114,7 +119,6 @@
                 this.timeout = setTimeout(() => {
                     this.visible = true;
                 }, this.delay);
-                this.tIndex = this.handleGetIndex();
             },
             handleClosePopper() {
                 if (this.timeout) {
@@ -126,14 +130,23 @@
                     }
                 }
             },
-            handleGetIndex () {
-                transferIncrease();
+            handleGetIndex (val) {
+                if(val){
+                    transferIncrease();
+                }else{
+                    transferDecrease();
+                }
                 return transferIndex;
             },
         },
         mounted () {
             if (this.always) {
                 this.updatePopper();
+            }
+        },
+        watch: {
+            visible(val){
+                this.tIndex = this.handleGetIndex(val);
             }
         }
     };

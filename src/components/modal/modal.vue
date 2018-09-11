@@ -40,7 +40,11 @@
     import { on, off } from '../../utils/dom';
     import { findComponentsDownward } from '../../utils/assist';
 
-    import { transferIndex as modalIndex, transferIncrease as modalIncrease } from '../../utils/transfer-queue';
+    import {
+       transferIndex as modalIndex, 
+       transferIncrease as modalIncrease,
+       transferDecrease as modalDecrease
+     } from '../../utils/transfer-queue';
 
     const prefixCls = 'ivu-modal';
 
@@ -120,8 +124,8 @@
             },
             zIndex: {
                 type: Number,
-                default: 1000
-            },
+                default: NaN
+            }
         },
         data () {
             return {
@@ -137,7 +141,7 @@
                     dragY: null,
                     dragging: false
                 },
-                modalIndex: this.handleGetModalIndex(),  // for Esc close the top modal
+                modalIndex: this.handleGetModalIndex(true),  // for Esc close the top modal
             };
         },
         computed: {
@@ -152,6 +156,9 @@
                 ];
             },
             wrapStyles () {
+                if(isNaN(this.zIndex)){
+                  return {};
+                }
                 return {
                     zIndex: this.modalIndex + this.zIndex
                 };
@@ -320,8 +327,12 @@
                 off(window, 'mousemove', this.handleMoveMove);
                 off(window, 'mouseup', this.handleMoveEnd);
             },
-            handleGetModalIndex () {
-                modalIncrease();
+            handleGetModalIndex (val) {
+                if(val){
+                  modalIncrease();
+                } else {
+                  modalDecrease();
+                }
                 return modalIndex;
             },
             handleClickModal () {
@@ -362,14 +373,13 @@
                         this.removeScrollEffect();
                     }, 300);
                 } else {
-                    this.modalIndex = this.handleGetModalIndex();
-
                     if (this.timer) clearTimeout(this.timer);
                     this.wrapShow = true;
                     if (!this.scrollable) {
                         this.addScrollEffect();
                     }
                 }
+                this.modalIndex = this.handleGetModalIndex(val);
                 this.broadcast('Table', 'on-visible-change', val);
                 this.broadcast('Slider', 'on-visible-change', val);  // #2852
                 this.$emit('on-visible-change', val);
