@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class Scroll extends Vue {
+export declare interface Scroll extends Vue {
   /**
    * 滚动区域的高度，单位像素
    * @default 300

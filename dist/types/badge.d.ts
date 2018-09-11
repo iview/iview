@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class Badge extends Vue {
+export declare interface Badge extends Vue {
   /**
    * 显示的数字，大于overflowCount时，显示${overflowCount}+，为 0 时隐藏
    */

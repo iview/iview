@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class Timeline extends Vue {
+export declare interface Timeline extends Vue {
   /**
    * 指定是否最后一个节点为幽灵节点
    * @default false
@@ -12,7 +12,7 @@ export declare class Timeline extends Vue {
   pending?: boolean;
 }
 
-export declare class TimelineItem extends Vue {
+export declare interface TimelineItem extends Vue {
   /**
    * 圆圈颜色，可选值为blue、red、green，或自定义色值
    * @default blue

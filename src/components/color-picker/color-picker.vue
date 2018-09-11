@@ -40,6 +40,7 @@
                 ref="drop"
                 :placement="placement"
                 :data-transfer="transfer"
+                :transfer="transfer"
                 :class="dropClasses"
             >
                 <transition name="fade">

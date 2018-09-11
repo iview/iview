@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class BackTop extends Vue {
+export declare interface BackTop extends Vue {
   /**
    * 页面滚动高度达到该值时才显示BackTop组件
    * @default 400

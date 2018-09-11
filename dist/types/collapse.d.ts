@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class Collapse extends Vue {
+export declare interface Collapse extends Vue {
   /**
    * 当前激活的面板的 name，可以使用 v-model 双向绑定
    */
@@ -26,7 +26,7 @@ export declare class Collapse extends Vue {
   $emit(eventName: 'on-change', []): this;
 }
 
-export declare class CollapsePanel extends Vue {
+export declare interface CollapsePanel extends Vue {
   /**
    * 当前面板的 name，与 Collapse的value对应，不填为索引值
    * @default index的值

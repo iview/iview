@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class Tabs extends Vue {
+export declare interface Tabs extends Vue {
   /**
    * 当前激活 tab 面板的 name，可以使用 v-model 双向绑定数据
    * @default 默认为第一项的 name
@@ -36,6 +36,10 @@ export declare class Tabs extends Vue {
    */
   'capture-focus'?: boolean;
   /**
+   * 关闭前的函数，返回 Promise 可阻止标签关闭
+   */
+  'before-remove'?: (index: number) => {};
+  /**
    * tab 被点击时触发
    */
   $emit(eventName: 'on-click', name: string): this;
@@ -54,7 +58,7 @@ export declare class Tabs extends Vue {
   };
 }
 
-export declare class TabsPane extends Vue {
+export declare interface TabsPane extends Vue {
   /**
    * 用于标识当前面板，对应 value，默认为其索引值
    */

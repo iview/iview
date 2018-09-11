@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class Alert extends Vue {
+export declare interface Alert extends Vue {
   /**
    * 警告提示样式，可选值为info、success、warning、error
    * @default info

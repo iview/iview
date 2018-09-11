@@ -2,9 +2,9 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue,{ VNode } from 'vue';
+import Vue, { VNode } from 'vue';
 
-export declare class Modal {
+export declare interface Modal {
   /**
    * 对话框是否显示，可使用 v-model 双向绑定数据。
    * @default false
@@ -79,6 +79,11 @@ export declare class Modal {
    */
   'class-name'?: string;
   /**
+   * 层级
+   * @default 1000
+   */
+  'z-index'?: number;
+  /**
    * 自定义显示动画，第一项是模态框，第二项是背景,
    * @default ['ease', 'fade']
    */
@@ -123,7 +128,7 @@ export declare class Modal {
   };
 }
 
-export declare class ModalInstance {
+export declare interface ModalInstance {
   /**
    * 消息
    * @param config ModalConfig为相关配置,string为待显示的内容
@@ -155,7 +160,7 @@ export declare class ModalInstance {
   remove(): void;
 }
 
-export declare class ModalConfig {
+export declare interface ModalConfig {
   /**
    * 标题或者Element选择器字符串
    */
@@ -213,6 +218,6 @@ declare module 'vue/types/vue' {
     /**
      * 对话框
      */
-    $Modal?: ModalInstance;
+    $Modal: ModalInstance;
   }
 }
