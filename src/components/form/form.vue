@@ -1,5 +1,5 @@
 <template>
-    <form :class="classes" :autocomplete="autocomplete"><slot></slot></form>
+    <div :class="classes" :autocomplete="autocomplete"><slot></slot></div>
 </template>
 <script>
     // https://github.com/ElemeFE/element/blob/dev/packages/form/src/form.vue
