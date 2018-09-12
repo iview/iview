@@ -57,6 +57,13 @@
                 isChecked: this.checked
             };
         },
+        watch:{
+            checked: function(value){
+                if (this.checkable){
+                    this.isChecked = value;
+                }
+            }
+        },
         computed: {
             classes () {
                 return [
