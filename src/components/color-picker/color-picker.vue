@@ -88,15 +88,15 @@
                                 </template>
                                 <template v-else>{{formatColor}}</template>
                             </span>
-                            <iButton
+                            <i-button
                                 ref="clear"
                                 :tabindex="0"
                                 size="small"
                                 @click.native="handleClear"
                                 @keydown.enter="handleClear"
                                 @keydown.native.esc="closer"
-                            >{{t('i.datepicker.clear')}}</iButton>
-                            <iButton
+                            >{{t('i.datepicker.clear')}}</i-button>
+                            <i-button
                                 ref="ok"
                                 :tabindex="0"
                                 size="small"
@@ -105,7 +105,7 @@
                                 @keydown.native.tab="handleLastTab"
                                 @keydown.enter="handleSuccess"
                                 @keydown.native.esc="closer"
-                            >{{t('i.datepicker.ok')}}</iButton>
+                            >{{t('i.datepicker.ok')}}</i-button>
                         </div>
                     </div>
                 </transition>
