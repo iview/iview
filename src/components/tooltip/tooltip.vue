@@ -109,6 +109,9 @@
             }
         },
         watch: {
+            visible(val){
+                this.tIndex = this.handleGetIndex(val);
+            },
             content () {
                 this.updatePopper();
             }
@@ -142,11 +145,6 @@
         mounted () {
             if (this.always) {
                 this.updatePopper();
-            }
-        },
-        watch: {
-            visible(val){
-                this.tIndex = this.handleGetIndex(val);
             }
         }
     };

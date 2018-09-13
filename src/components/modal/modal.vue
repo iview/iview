@@ -337,7 +337,14 @@
             },
             handleClickModal () {
                 if (this.draggable) {
-                    this.modalIndex = this.handleGetModalIndex();
+                  if(this.modalIndex + this.zIndex >= modalIndex){
+                    return;
+                  }
+                  const $Modals = findComponentsDownward(this.$root, 'Modal');
+                  $Modals.forEach($modal => {
+                      $modal.data.modalIndex--;
+                  });
+                  this.modalIndex = this.handleGetModalIndex(true);
                 }
             }
         },
