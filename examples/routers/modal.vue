@@ -1,3 +1,9 @@
+<style>
+    .ivu-modal{
+        top: 50px;
+    }
+</style>
+
 <template>
     <div>
         <Button type="primary" @click="modal1 = true">Display dialog box</Button>
@@ -5,7 +11,7 @@
                 v-model="modal1"
                 title="Common Modal dialog box title"
                 @on-ok="ok"
-                @on-cancel="cancel">
+                @on-cancel="cancel" :styles="{top: '50px'}" draggable>
             <p>Content of dialog</p>
             <p>Content of dialog</p>
             <p>Content of dialog</p>

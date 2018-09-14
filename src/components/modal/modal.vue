@@ -5,7 +5,7 @@
         </transition>
         <div :class="wrapClasses" :style="wrapStyles" @click="handleWrapClick">
             <transition :name="transitionNames[0]" @after-leave="animationFinish">
-                <div :class="classes" :style="mainStyles" v-show="visible">
+                <div :class="classes" :style="mainStyles" v-show="visible" ref="modal">
                     <div :class="contentClasses" ref="content" :style="contentStyles" @click="handleClickModal">
                         <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
                             <slot name="close">
@@ -183,8 +183,9 @@
                 let style = {};
 
                 const width = parseInt(this.width);
+                //此处在拖动的时候无需再设置top，下面计算拖动距离的计算时已经做了处理
                 const styleWidth = this.dragData.x !== null ? {
-                    top: 0
+                    // top: 0
                 } : {
                     width: width <= 100 ? `${width}%` : `${width}px`
                 };
@@ -279,9 +280,17 @@
                 if (!this.draggable) return false;
 
                 const $content = this.$refs.content;
+                /**
+                * modal如果设置了styles中的top值，则定位有问题，getBoundingClientRect获取的是文档坐标，
+                * 不是相对父元素。因此需要减掉这个top值。
+                * x方向，modal是通过margin来居中，没有设置left值，相当于left已经
+                * 是0，如果用户在styles中设置了top，也需要处理。
+                **/
+                const $modal = this.$refs.modal;
                 const rect = $content.getBoundingClientRect();
+                const mrect = $modal.getBoundingClientRect();
                 this.dragData.x = rect.x;
-                this.dragData.y = rect.y;
+                this.dragData.y = rect.y - mrect.y;
 
                 const distance = {
                     x: event.clientX,
