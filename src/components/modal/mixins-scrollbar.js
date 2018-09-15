@@ -1,4 +1,4 @@
-// used for Modal & $Spin
+// used for Modal & $Spin & Drawer
 import { getScrollBarSize } from '../../utils/assist';
 export default {
     methods: {

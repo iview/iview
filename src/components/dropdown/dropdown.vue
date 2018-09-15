@@ -14,6 +14,7 @@
                 @mouseenter.native="handleMouseenter"
                 @mouseleave.native="handleMouseleave"
                 :data-transfer="transfer"
+                :transfer="transfer"
                 v-transfer-dom><slot name="list"></slot></Drop>
         </transition>
     </div>
@@ -50,7 +51,7 @@
             transfer: {
                 type: Boolean,
                 default () {
-                    return this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+                    return !this.$IVIEW || this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
                 }
             }
         },

@@ -91,7 +91,8 @@
             closable: {
                 type: Boolean,
                 default: false
-            }
+            },
+            beforeRemove: Function,
         },
         data () {
             return {
@@ -247,6 +248,21 @@
                 this.handleChange(index);
             },
             handleRemove (index) {
+                if (!this.beforeRemove) {
+                    return this.handleRemoveTab(index);
+                }
+
+                const before = this.beforeRemove(index);
+
+                if (before && before.then) {
+                    before.then(() => {
+                        this.handleRemoveTab(index);
+                    });
+                } else {
+                    this.handleRemoveTab(index);
+                }
+            },
+            handleRemoveTab (index) {
                 const tabs = this.getTabs();
                 const tab = tabs[index];
                 tab.$destroy();
@@ -379,11 +395,11 @@
             updateVisibility(index){
                 [...this.$refs.panes.children].forEach((el, i) => {
                     if (index === i) {
-                        [...el.children].forEach(child => child.style.visibility = 'visible');
+                        [...el.children].filter(child=> child.classList.contains(`${prefixCls}-tabpane`)).forEach(child => child.style.visibility = 'visible');
                         if (this.captureFocus) setTimeout(() => focusFirst(el, el), transitionTime);
                     } else {
                         setTimeout(() => {
-                            [...el.children].forEach(child => child.style.visibility = 'hidden');
+                            [...el.children].filter(child=> child.classList.contains(`${prefixCls}-tabpane`)).forEach(child => child.style.visibility = 'hidden');
                         }, transitionTime);
                     }
                 });
