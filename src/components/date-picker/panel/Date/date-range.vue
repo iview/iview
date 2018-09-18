@@ -342,7 +342,10 @@
                 if (!this.splitPanels){
                     const otherPanel = panel === 'left' ? 'right' : 'left';
                     this[`${otherPanel}PanelDate`] = value;
-                    this.changePanelDate(otherPanel, 'Month', 1, false);
+
+                    const increment = otherPanel === 'left' ? -1 : 1; // #3973
+
+                    this.changePanelDate(otherPanel, 'Month', increment, false);
                 }
             },
             handleRangePick (val, type) {
