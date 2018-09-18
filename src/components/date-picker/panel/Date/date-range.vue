@@ -261,7 +261,7 @@
             setPanelDates(leftPanelDate){
                 this.leftPanelDate = leftPanelDate;
                 const rightPanelDate = new Date(leftPanelDate.getFullYear(), leftPanelDate.getMonth() + 1, 1);
-                const splitRightPanelDate = this.dates[1]? this.dates[1].getTime() : rightPanelDate.getTime();
+                const splitRightPanelDate = this.dates[1]? this.dates[1].getTime() : this.dates[1];
                 this.rightPanelDate = this.splitPanels ? new Date(Math.max(splitRightPanelDate, rightPanelDate.getTime())) : rightPanelDate;
             },
             panelLabelConfig (direction) {
