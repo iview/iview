@@ -47,9 +47,9 @@
 
 ## Install
 
-> Please install Webpack first!
+We provide an [iView plugin](https://github.com/iview/vue-cli-plugin-iview) for Vue CLI 3, which you can use to quickly build an iView-based project.
 
-We recommend you create your project through [iView Cli](https://github.com/iview/iview-cli) or [iview-project](https://github.com/iview/iview-project). You can also use [vue-cli](https://github.com/vuejs/vue-cli).
+We also provide a starter kit [iview-project](https://github.com/iview/iview-project) for you.
 
 ### Install iView
 
