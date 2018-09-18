@@ -356,12 +356,14 @@
                         });
                     });
                 }
+                let hasDefaultSelected = slotOptions.some(option => this.query === option.key);
                 for (let option of slotOptions) {
 
                     const cOptions = option.componentOptions;
                     if (!cOptions) continue;
                     if (cOptions.tag.match(optionGroupRegexp)){
                         let children = cOptions.children;
+
                         // remove filtered children
                         if (this.filterable){
                             children = children.filter(
@@ -378,8 +380,11 @@
                         if (cOptions.children.length > 0) selectOptions.push({...option});
                     } else {
                         // ignore option if not passing filter
-                        const optionPassesFilter = this.filterable ? this.validateOption(cOptions) : option;
-                        if (!optionPassesFilter) continue;
+                        if (!hasDefaultSelected) {
+                            const optionPassesFilter = this.filterable ? this.validateOption(cOptions) : option;
+                            if (!optionPassesFilter) continue;
+                        }
+
                         optionCounter = optionCounter + 1;
                         selectOptions.push(this.processOption(option, selectedValues, optionCounter === currentIndex));
                     }
@@ -636,9 +641,6 @@
             },
             updateSlotOptions(){
                 this.slotOptions = this.$slots.default;
-                // #4372 issue, i find that this.query's value affects the judgment of the validateOption method.
-                this.query = '';
-                this.focusIndex = -1;
             },
             checkUpdateStatus() {
                 if (this.getInitialValue().length > 0 && this.selectOptions.length === 0) {
