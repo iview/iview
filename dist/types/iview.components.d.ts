@@ -65,8 +65,8 @@ export { Upload } from './upload';
 
 declare const API: {
     version: string;
-    locale: (l) => void;
-    i18n: (fn) => void;
+    locale: (l:any) => void;
+    i18n: (fn:any) => void;
     install: (
         Vue: Vue,
         opts: {
