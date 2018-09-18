@@ -569,8 +569,9 @@
             handleInputMouseleave () {
                 this.showClose = false;
             },
-            handleIconClick () {
+            handleIconClick (event) {
                 if (this.showClose) {
+                    event.stopPropagation();
                     this.handleClear();
                 } else if (!this.disabled) {
                     this.handleFocus();
