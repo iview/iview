@@ -356,7 +356,10 @@
                         });
                     });
                 }
-                let hasDefaultSelected = slotOptions.some(option => this.query === option.key);
+                /**
+                 * Not sure why use hasDefaultSelected #4273
+                 * */
+                // let hasDefaultSelected = slotOptions.some(option => this.query === option.key);
                 for (let option of slotOptions) {
 
                     const cOptions = option.componentOptions;
@@ -380,10 +383,13 @@
                         if (cOptions.children.length > 0) selectOptions.push({...option});
                     } else {
                         // ignore option if not passing filter
-                        if (!hasDefaultSelected) {
-                            const optionPassesFilter = this.filterable ? this.validateOption(cOptions) : option;
-                            if (!optionPassesFilter) continue;
-                        }
+                        //if (!hasDefaultSelected) {
+                        //    const optionPassesFilter = this.filterable ? this.validateOption(cOptions) : option;
+                        //    if (!optionPassesFilter) continue;
+                        //}
+
+                        const optionPassesFilter = this.filterable ? this.validateOption(cOptions) : option;
+                        if (!optionPassesFilter) continue;
 
                         optionCounter = optionCounter + 1;
                         selectOptions.push(this.processOption(option, selectedValues, optionCounter === currentIndex));
