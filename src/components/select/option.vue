@@ -19,7 +19,7 @@
         mixins: [ Emitter ],
         props: {
             value: {
-                type: [String, Number],
+                type: [String, Number, Object],
                 required: true
             },
             label: {
