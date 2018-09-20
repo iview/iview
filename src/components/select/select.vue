@@ -647,6 +647,9 @@
             },
             updateSlotOptions(){
                 this.slotOptions = this.$slots.default;
+                if(!this.remote){
+                    this.reset();
+                }
             },
             checkUpdateStatus() {
                 if (this.getInitialValue().length > 0 && this.selectOptions.length === 0) {
