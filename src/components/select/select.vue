@@ -135,6 +135,15 @@
         return textContent || (typeof innerHTML === 'string' ? innerHTML : '');
     };
 
+    const checkValuesNotEqual = (value,publicValue,values) => {
+        const strValue = JSON.stringify(value);
+        const strPublic = JSON.stringify(publicValue);
+        const strValues = JSON.stringify(values.map( item => {
+            return item.value;
+        }));
+        return strValue !== strPublic || strValue !== strValues || strValues !== strPublic;
+    };
+
 
     const ANIMATION_TIMEOUT = 300;
 
@@ -653,12 +662,12 @@
         },
         watch: {
             value(value){
-                const {getInitialValue, getOptionData, publicValue} = this;
+                const {getInitialValue, getOptionData, publicValue, values} = this;
 
                 this.checkUpdateStatus();
 
                 if (value === '') this.values = [];
-                else if (JSON.stringify(value) !== JSON.stringify(publicValue)) {
+                else if (checkValuesNotEqual(value,publicValue,values)) {
                     this.$nextTick(() => this.values = getInitialValue().map(getOptionData).filter(Boolean));
                 }
             },
