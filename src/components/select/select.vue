@@ -44,6 +44,8 @@
                     @on-input-focus="isFocused = true"
                     @on-input-blur="isFocused = false"
                     @on-clear="clearSingleSelect"
+
+                    @on-keydown="handleFilterInputKeyDown"
                 />
             </slot>
         </div>
@@ -264,6 +266,7 @@
                 unchangedQuery: true,
                 hasExpectedValue: false,
                 preventRemoteCall: false,
+                filterQueryKeyDown: false,  // #4273
             };
         },
         computed: {
@@ -392,7 +395,7 @@
                         if (cOptions.children.length > 0) selectOptions.push({...option});
                     } else {
                         // ignore option if not passing filter
-                        if (!hasDefaultSelected) {
+                        if (!hasDefaultSelected || this.filterQueryKeyDown) {
                             const optionPassesFilter = this.filterable ? this.validateOption(cOptions) : option;
                             if (!optionPassesFilter) continue;
                         }
@@ -401,6 +404,8 @@
                         selectOptions.push(this.processOption(option, selectedValues, optionCounter === currentIndex));
                     }
                 }
+
+                this.filterQueryKeyDown = false;
 
                 return selectOptions;
             },
@@ -658,7 +663,14 @@
                 if (this.getInitialValue().length > 0 && this.selectOptions.length === 0) {
                     this.hasExpectedValue = true;
                 }
-            }
+            },
+            /**
+             * 下面的方法，当 filterable 时，输入内容时，标记，用于区分和直接选择而引起的 bug
+             * #4273
+             * */
+            handleFilterInputKeyDown () {
+                this.filterQueryKeyDown = true;
+            },
         },
         watch: {
             value(value){
