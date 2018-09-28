@@ -2,7 +2,7 @@
     <collapse-transition>
         <ul :class="classes">
             <li>
-                <span :class="arrowClasses" @click="handleExpand">
+                <span v-if="!alwaysExpand" :class="arrowClasses" @click="handleExpand">
                     <Icon v-if="showArrow" type="ios-arrow-forward"></Icon>
                     <Icon v-if="showLoading" type="ios-loading" class="ivu-load-loop"></Icon>
                 </span>
@@ -22,6 +22,7 @@
                         :data="item"
                         :multiple="multiple"
                         :show-checkbox="showCheckbox"
+                        :always-expand="alwaysExpand"
                         :children-key="childrenKey">
                 </Tree-node>
             </li>
@@ -60,7 +61,11 @@
             showCheckbox: {
                 type: Boolean,
                 default: false
-            }
+            },
+            alwaysExpand: {
+                type: Boolean,
+                default: false
+            },
         },
         data () {
             return {
