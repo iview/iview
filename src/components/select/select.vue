@@ -44,6 +44,8 @@
                     @on-input-focus="isFocused = true"
                     @on-input-blur="isFocused = false"
                     @on-clear="clearSingleSelect"
+
+                    @on-keydown="handleFilterInputKeyDown"
                 />
             </slot>
         </div>
@@ -54,6 +56,7 @@
                 :placement="placement"
                 ref="dropdown"
                 :data-transfer="transfer"
+                :transfer="transfer"
                 v-transfer-dom
             >
                 <ul v-show="showNotFoundLabel" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
@@ -132,6 +135,15 @@
         const textContent = (option.componentOptions.children || []).reduce((str, child) => str + (child.text || ''), '');
         const innerHTML = getNestedProperty(option, 'data.domProps.innerHTML');
         return textContent || (typeof innerHTML === 'string' ? innerHTML : '');
+    };
+
+    const checkValuesNotEqual = (value,publicValue,values) => {
+        const strValue = JSON.stringify(value);
+        const strPublic = JSON.stringify(publicValue);
+        const strValues = JSON.stringify(values.map( item => {
+            return item.value;
+        }));
+        return strValue !== strPublic || strValue !== strValues || strValues !== strPublic;
     };
 
 
@@ -254,6 +266,7 @@
                 unchangedQuery: true,
                 hasExpectedValue: false,
                 preventRemoteCall: false,
+                filterQueryKeyDown: false,  // #4273
             };
         },
         computed: {
@@ -355,6 +368,9 @@
                         });
                     });
                 }
+                /**
+                 * Not sure why use hasDefaultSelected #4273
+                 * */
                 let hasDefaultSelected = slotOptions.some(option => this.query === option.key);
                 for (let option of slotOptions) {
 
@@ -379,7 +395,7 @@
                         if (cOptions.children.length > 0) selectOptions.push({...option});
                     } else {
                         // ignore option if not passing filter
-                        if (!hasDefaultSelected) {
+                        if (!hasDefaultSelected || this.filterQueryKeyDown) {
                             const optionPassesFilter = this.filterable ? this.validateOption(cOptions) : option;
                             if (!optionPassesFilter) continue;
                         }
@@ -388,6 +404,8 @@
                         selectOptions.push(this.processOption(option, selectedValues, optionCounter === currentIndex));
                     }
                 }
+
+                this.filterQueryKeyDown = false;
 
                 return selectOptions;
             },
@@ -645,16 +663,23 @@
                 if (this.getInitialValue().length > 0 && this.selectOptions.length === 0) {
                     this.hasExpectedValue = true;
                 }
-            }
+            },
+            /**
+             * 下面的方法，当 filterable 时，输入内容时，标记，用于区分和直接选择而引起的 bug
+             * #4273
+             * */
+            handleFilterInputKeyDown () {
+                this.filterQueryKeyDown = true;
+            },
         },
         watch: {
             value(value){
-                const {getInitialValue, getOptionData, publicValue} = this;
+                const {getInitialValue, getOptionData, publicValue, values} = this;
 
                 this.checkUpdateStatus();
 
                 if (value === '') this.values = [];
-                else if (JSON.stringify(value) !== JSON.stringify(publicValue)) {
+                else if (checkValuesNotEqual(value,publicValue,values)) {
                     this.$nextTick(() => this.values = getInitialValue().map(getOptionData).filter(Boolean));
                 }
             },

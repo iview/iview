@@ -40,6 +40,7 @@
                 ref="drop"
                 :placement="placement"
                 :data-transfer="transfer"
+                :transfer="transfer"
                 :class="dropClasses"
             >
                 <transition name="fade">
@@ -124,6 +125,7 @@ import Saturation from './saturation.vue';
 import Hue from './hue.vue';
 import Alpha from './alpha.vue';
 import iInput from '../input/input.vue';
+import iButton from '../button/button.vue';
 import Locale from '../../mixins/locale';
 import {oneOf} from '../../utils/assist';
 import Emitter from '../../mixins/emitter';
@@ -133,7 +135,7 @@ import {changeColor, toRGBAString} from './utils';
 export default {
     name: 'ColorPicker',
 
-    components: {Drop, RecommendColors, Saturation, Hue, Alpha, iInput},
+    components: {Drop, RecommendColors, Saturation, Hue, Alpha, iInput, iButton},
 
     directives: {clickOutside, TransferDom},
 

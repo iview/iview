@@ -47,7 +47,7 @@ const getDate = (timeStamp, startType) => {
  * @param {String|Number} timeStamp 时间戳
  * @returns {String} 相对时间字符串
  */
-export const getRelativeTime = timeStamp => {
+export const getRelativeTime = (timeStamp, locale) => {
     // 判断当前传入的时间戳是秒格式还是毫秒
     // const IS_MILLISECOND = true;
     // 如果是毫秒格式则转为秒格式
@@ -65,23 +65,23 @@ export const getRelativeTime = timeStamp => {
     // 如果IS_EARLY为false则差值取反
     if (!IS_EARLY) diff = -diff;
     let resStr = '';
-    const dirStr = IS_EARLY ? '前' : '后';
+    let dirStr = IS_EARLY ? (locale('i.time.before') || '前') : (locale('i.time.after') || '后');
 
-    if (diff < 1000) resStr = '刚刚';
+    if (diff < 1000) resStr = locale('i.time.just') || '刚刚';
     // 少于等于59秒
-    else if (diff < 60000) resStr = parseInt(diff / 1000) + '秒' + dirStr;
+    else if (diff < 60000) resStr = parseInt(diff / 1000) + (locale('i.time.seconds') || '秒') + dirStr;
     // 多于59秒，少于等于59分钟59秒
-    else if (diff >= 60000 && diff < 3600000) resStr = Math.floor(diff / 60000) + '分钟' + dirStr;
+    else if (diff >= 60000 && diff < 3600000) resStr = Math.floor(diff / 60000) + (locale('i.time.minutes') || '分钟') + dirStr;
     // 多于59分钟59秒，少于等于23小时59分钟59秒
-    else if (diff >= 3600000 && diff < 86400000) resStr = Math.floor(diff / 3600000) + '小时' + dirStr;
+    else if (diff >= 3600000 && diff < 86400000) resStr = Math.floor(diff / 3600000) + (locale('i.time.hours') || '小时') + dirStr;
     // 多于23小时59分钟59秒，少于等于29天59分钟59秒
-    else if (diff >= 86400000 && diff < 2623860000) resStr = Math.floor(diff / 86400000) + '天' + dirStr;
+    else if (diff >= 86400000 && diff < 2623860000) resStr = Math.floor(diff / 86400000) + (locale('i.time.days') || '天') + dirStr;
     // 多于29天59分钟59秒，少于364天23小时59分钟59秒，且传入的时间戳早于当前
     else if (diff >= 2623860000 && diff <= 31567860000 && IS_EARLY) resStr = getDate(timeStamp);
     else resStr = getDate(timeStamp, 'year');
     return resStr;
 };
 
-export default function (timestamp) {
-    return getRelativeTime(timestamp);
+export default function (timestamp, locale) {
+    return getRelativeTime(timestamp, locale);
 }

@@ -261,7 +261,8 @@
             setPanelDates(leftPanelDate){
                 this.leftPanelDate = leftPanelDate;
                 const rightPanelDate = new Date(leftPanelDate.getFullYear(), leftPanelDate.getMonth() + 1, 1);
-                this.rightPanelDate = this.splitPanels ? new Date(Math.max(this.dates[1].getTime(), rightPanelDate.getTime())) : rightPanelDate;
+                const splitRightPanelDate = this.dates[1]? this.dates[1].getTime() : this.dates[1];
+                this.rightPanelDate = this.splitPanels ? new Date(Math.max(splitRightPanelDate, rightPanelDate.getTime())) : rightPanelDate;
             },
             panelLabelConfig (direction) {
                 const locale = this.t('i.locale');
@@ -341,7 +342,10 @@
                 if (!this.splitPanels){
                     const otherPanel = panel === 'left' ? 'right' : 'left';
                     this[`${otherPanel}PanelDate`] = value;
-                    this.changePanelDate(otherPanel, 'Month', 1, false);
+
+                    const increment = otherPanel === 'left' ? -1 : 1; // #3973
+
+                    this.changePanelDate(otherPanel, 'Month', increment, false);
                 }
             },
             handleRangePick (val, type) {

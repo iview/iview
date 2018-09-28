@@ -6,6 +6,7 @@
         <transition name="fade">
             <div
                 :class="[prefixCls + '-popper', prefixCls + '-' + theme]"
+                :style="dropStyles"
                 ref="popper"
                 v-show="!disabled && (visible || always)"
                 @mouseenter="handleShowPopper"
@@ -24,6 +25,7 @@
     import Popper from '../base/popper';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
+    import { transferIndex, transferIncrease } from '../../utils/transfer-queue';
 
     const prefixCls = 'ivu-tooltip';
 
@@ -76,7 +78,8 @@
         },
         data () {
             return {
-                prefixCls: prefixCls
+                prefixCls: prefixCls,
+                tIndex: this.handleGetIndex()
             };
         },
         computed: {
@@ -92,6 +95,12 @@
                         [`${prefixCls}-inner-with-width`]: !!this.maxWidth
                     }
                 ];
+            },
+            dropStyles () {
+                let styles = {};
+                if (this.transfer) styles['z-index'] = 1060 + this.tIndex;
+
+                return styles;
             }
         },
         watch: {
@@ -105,6 +114,7 @@
                 this.timeout = setTimeout(() => {
                     this.visible = true;
                 }, this.delay);
+                this.tIndex = this.handleGetIndex();
             },
             handleClosePopper() {
                 if (this.timeout) {
@@ -115,7 +125,11 @@
                         }, 100);
                     }
                 }
-            }
+            },
+            handleGetIndex () {
+                transferIncrease();
+                return transferIndex;
+            },
         },
         mounted () {
             if (this.always) {
