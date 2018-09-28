@@ -629,9 +629,9 @@
                     if (!this.autoComplete) this.$nextTick(() => inputField.focus());
                 }
                 this.broadcast('Drop', 'on-update-popper');
-                setTimeout(()=>{
+                setTimeout(() => {
                   this.filterQueryChange = false;
-                },500)
+                },300)
             },
             onQueryChange(query) {
                 if (query.length > 0 && query !== this.query) this.visible = true;
