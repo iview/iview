@@ -553,6 +553,8 @@
                 const selection = this.getSelection();
                 if (status) {
                     this.$emit('on-select-all', selection);
+                }else{
+                    this.$emit('on-select-all-cancel'); //on-select-all-cancel event
                 }
                 this.$emit('on-selection-change', selection);
             },

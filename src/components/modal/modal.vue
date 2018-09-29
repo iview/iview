@@ -271,6 +271,7 @@
                         }, 0);
                     }
                 }
+                e.stopPropagation();//add stopPropagation
             },
             animationFinish() {
                 this.$emit('on-hidden');
