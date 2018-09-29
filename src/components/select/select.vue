@@ -374,13 +374,13 @@
                             );
                         }
 
-                        cOptions.children = children.map(opt => {
+                        children = children.map(opt => {
                             optionCounter = optionCounter + 1;
                             return this.processOption(opt, selectedValues, optionCounter === currentIndex);
                         });
 
                         // keep the group if it still has children
-                        if (cOptions.children.length > 0) selectOptions.push({...option});
+                        if (children.length > 0) selectOptions.push({...option,componentOptions:{...cOptions,children:children}});
                     } else {
                         // ignore option if not passing filter
                         if (this.filterQueryChange) {
