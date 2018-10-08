@@ -631,8 +631,8 @@
                 }
                 this.broadcast('Drop', 'on-update-popper');
                 setTimeout(() => {
-                  this.filterQueryChange = false;
-                },300)
+                    this.filterQueryChange = false;
+                },300);
             },
             onQueryChange(query) {
                 if (query.length > 0 && query !== this.query) this.visible = true;
@@ -673,7 +673,7 @@
                 const vModelValue = (this.publicValue && this.labelInValue) ?
                     (this.multiple ? this.publicValue.map(({value}) => value) : this.publicValue.value) :
                     this.publicValue;
-                const shouldEmitInput = newValue !== oldValue && vModelValue !== this.value;
+                const shouldEmitInput = newValue !== oldValue;
                 if (shouldEmitInput) {
                     this.$emit('input', vModelValue); // to update v-model
                     this.$emit('on-change', this.publicValue);
