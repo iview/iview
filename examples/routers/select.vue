@@ -7,8 +7,16 @@
         <Select v-model="model2" multiple style="width:200px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
-
         <Button type="primary" @click="changeData">changeData</Button>
+
+        <br><br><br><br>
+
+        <Select v-model="model3" style="width:200px" clearable filterable multiple>
+            <Option v-for="item in cityListForToggling" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+        <Button type="primary" @click="toggleData">toggleData</Button>
+
+
     </div>
 </template>
 <script>
@@ -41,14 +49,44 @@
                         label: 'Canberra'
                     }
                 ],
+                cityList2: [
+                    {
+                        value: 'Beijing',
+                        label: 'Beijing',
+                    },
+                    {
+                        value: 'Guangzhou',
+                        label: 'Guangzhou',
+                    },
+                    {
+                        value: 'Shenzhen',
+                        label: 'Shenzhen',
+                    },
+                    {
+                        value: 'Zhuhai',
+                        label: 'Zhuhai',
+                    }
+                ],
+                cityListForToggling: [],
                 model1: '',
-                model2: []
+                model2: [],
+                model3: [],
+                toggleBtnStatus: true,
             }
+        },
+        created() {
+            this.toggleData();
         },
         methods: {
             changeData() {
-                this.model2.push('Canberra')
-            }
+                this.model2.push('Canberra');
+            },
+            toggleData() {
+                this.$set(this, 'cityListForToggling', this.toggleBtnStatus ? this.cityList : this.cityList2);
+                this.$set(this, 'model3', this.toggleBtnStatus ? ['New York'] : ['Beijing', 'Shenzhen']);
+                // this.$set(this, 'model3', this.toggleBtnStatus ? 'New York' : 'Beijing');
+                this.toggleBtnStatus = !this.toggleBtnStatus;
+            },
         }
     }
 </script>
