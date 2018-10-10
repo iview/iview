@@ -62,7 +62,7 @@
                     <functional-options
                         v-if="(!remote) || (remote && !loading)"
                         :options="selectOptions"
-                        :slot-update-hook="updateSlotOptions"
+                        :slot-update-hook="handleSlotUpdateHook"
                         :slot-options="slotOptions"
                     ></functional-options>
                 </ul>
@@ -433,7 +433,7 @@
             },
             getInitialValue(){
                 const {multiple, remote, value} = this;
-                let initialValue = Array.isArray(value) ? value : [value];
+                let initialValue = Array.isArray(value) ? [...value] : [value];
                 if (!multiple && (typeof initialValue[0] === 'undefined' || (String(initialValue[0]).trim() === '' && !Number.isFinite(initialValue[0])))) initialValue = [];
                 if (remote && !multiple && value) {
                     const data = this.getOptionData(value);
@@ -506,7 +506,6 @@
                         }
                     }
 
-
                     if (this.filterable) {
                         const input = this.$el.querySelector('input[type="text"]');
                         this.caretPosition = input.selectionStart;
@@ -560,6 +559,8 @@
                     if (e.key === 'Enter') {
                         if (this.focusIndex === -1) return this.hideMenu();
                         const optionComponent = this.flatOptions[this.focusIndex];
+                        if(!optionComponent) return this.hideMenu();
+
                         const option = this.getOptionData(optionComponent.componentOptions.propsData.value);
                         this.onOptionClick(option);
                     }
@@ -567,8 +568,6 @@
                     const keysThatCanOpenSelect = ['ArrowUp', 'ArrowDown'];
                     if (keysThatCanOpenSelect.includes(e.key)) this.toggleMenu(null, true);
                 }
-
-
             },
             navigateOptions(direction){
                 const optionsLength = this.flatOptions.length - 1;
@@ -600,7 +599,6 @@
             },
             onOptionClick(option) {
                 if (this.multiple){
-
                     // keep the query for remote select
                     if (this.remote) this.lastRemoteQuery = this.lastRemoteQuery || this.query;
                     else this.lastRemoteQuery = '';
@@ -631,8 +629,8 @@
                 }
                 this.broadcast('Drop', 'on-update-popper');
                 setTimeout(() => {
-                  this.filterQueryChange = false;
-                },300)
+                    this.filterQueryChange = false;
+                }, 300);
             },
             onQueryChange(query) {
                 if (query.length > 0 && query !== this.query) this.visible = true;
@@ -648,6 +646,33 @@
             },
             updateSlotOptions(){
                 this.slotOptions = this.$slots.default;
+            },
+            handleSlotUpdateHook(){
+                this.updateSlotOptions();
+
+                if (this.filterable) {
+                    let setValue = Array.isArray(this.value) ? [...this.value] : [this.value];
+                    this.filterQueryChange = false;
+                    
+                    this.$nextTick(() => {
+                        if (!this.multiple) {
+                            const [selectedOption] = this.values;
+                            const selectedLabel = selectedOption ? String(selectedOption.label || '').trim() : '';
+
+                            if(setValue[0] !== selectedLabel){ // options content changed
+                                this.query = selectedLabel || '';
+                                this.focusIndex = -1;
+                            }
+                        } else if (this.multiple) {
+                            let newValue = Array.isArray(this.value) ? [...this.value] : [this.value];
+
+                            if (setValue.length !== newValue.length) { // options content changed
+                                let getOptionData = this.getOptionData;
+                                this.values = setValue.map(getOptionData).filter(Boolean);
+                            }
+                        }
+                    });
+                }
             },
             checkUpdateStatus() {
                 if (this.getInitialValue().length > 0 && this.selectOptions.length === 0) {
