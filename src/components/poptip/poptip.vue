@@ -111,6 +111,9 @@
             // default by css: 8px 16px
             padding: {
                 type: String
+            },
+            zIndex: {
+                type: Number
             }
         },
         data () {
@@ -147,7 +150,7 @@
                     style.width = `${this.width}px`;
                 }
 
-                if (this.transfer) style['z-index'] = 1060 + this.tIndex;
+                if (this.transfer) style['z-index'] = this.zIndex || 1060 + this.tIndex;
 
                 return style;
             },

@@ -13,6 +13,8 @@ Modal.newInstance = properties => {
         data: Object.assign({}, _props, {
             visible: false,
             width: 416,
+            zIndex: 1000,
+            className: '',
             title: '',
             body: '',
             iconType: '',
@@ -101,7 +103,10 @@ Modal.newInstance = properties => {
                 props: Object.assign({}, _props, {
                     width: this.width,
                     scrollable: this.scrollable,
-                    closable: this.closable
+                    closable: this.closable,
+                    // setting custom z-index class-name
+                    zIndex: this.zIndex,
+                    className: this.className
                 }),
                 domProps: {
                     value: this.visible
@@ -255,6 +260,16 @@ Modal.newInstance = properties => {
                 modal.$parent.scrollable = props.scrollable;
             }
 
+            // custom z-index
+            if ('zIndex' in props) {
+                modal.$parent.zIndex = props.zIndex;
+                this.zIndex = props.zIndex;
+            }
+
+            if ('className' in props) {
+                modal.$parent.className = props.className;
+                this.className = props.className;
+            }
             // notice when component destroy
             modal.$parent.onRemove = props.onRemove;
 
