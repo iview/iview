@@ -1,5 +1,5 @@
 <template>
-    <div :class="classes">
+    <div :class="classes" :style="itemStyles">
         <label :class="[prefixCls + '-label']" :for="labelFor" :style="labelStyles" v-if="label || $slots.label"><slot name="label">{{ label }}</slot></label>
         <div :class="[prefixCls + '-content']" :style="contentStyles">
             <slot></slot>
@@ -47,6 +47,9 @@
                 default: ''
             },
             labelWidth: {
+                type: Number
+            },
+            itemBottom: {
                 type: Number
             },
             prop: {
@@ -133,6 +136,15 @@
                 }
                 return style;
             },
+            itemStyle () {
+                let style = {};
+                const itemBottom = this.itemBottom;
+                    
+                if (itemBottom) {
+                    style.width = `${itemBottom}px`;
+                }
+                return style;
+            }
             contentStyles () {
                 let style = {};
                 const labelWidth = this.labelWidth || this.form.labelWidth;
