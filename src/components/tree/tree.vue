@@ -141,6 +141,10 @@
                 /* public API */
                 return this.flatState.filter(obj => obj.node.checked).map(obj => obj.node);
             },
+            getCheckedAndIndeterminateNodes () {
+                /* public API */
+                return this.flatState.filter(obj => (obj.node.checked || obj.node.indeterminate)).map(obj => obj.node);
+            },
             updateTreeDown(node, changes = {}) {
                 for (let key in changes) {
                     this.$set(node, key, changes[key]);
