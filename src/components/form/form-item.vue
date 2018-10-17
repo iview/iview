@@ -1,5 +1,5 @@
 <template>
-    <div :class="classes" :style="itemStyle">
+    <div :class="classes" :style="itemStyles">
         <label :class="[prefixCls + '-label']" :for="labelFor" :style="labelStyles" v-if="label || $slots.label"><slot name="label">{{ label }}</slot></label>
         <div :class="[prefixCls + '-content']" :style="contentStyles">
             <slot></slot>
@@ -140,12 +140,12 @@
                 }
                 return style;
             },
-            itemStyle () {
+            itemStyles () {
                 let style = {};
                 const itemBottom = this.itemBottom;
                     
                 if (itemBottom) {
-                    style.width = `${itemBottom}px`;
+                    style.marginBottom = `${itemBottom}px`;
                 }
                 return style;
             }
