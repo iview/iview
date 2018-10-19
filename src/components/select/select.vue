@@ -650,7 +650,7 @@
             handleSlotUpdateHook(){
                 this.updateSlotOptions();
 
-                if (this.filterable) {
+                if (this.filterable && !this.remote) {
                     let setValue = Array.isArray(this.value) ? [...this.value] : [this.value];
                     this.filterQueryChange = false;
                     
