@@ -151,6 +151,7 @@
                 this.$emit('on-search', query);
             },
             handleChange (val) {
+                if (val === undefined || val === null) return;
                 this.currentValue = val;
                 this.$refs.input.blur();
                 this.$emit('on-select', val);
