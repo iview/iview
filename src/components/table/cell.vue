@@ -18,23 +18,23 @@
                 <Icon type="ios-arrow-forward"></Icon>
             </div>
         </template>
-        <Cell
+        <table-expand
             v-if="renderType === 'render'"
             :row="row"
             :column="column"
             :index="index"
-            :render="column.render"></Cell>
+            :render="column.render"></table-expand>
     </div>
 </template>
 <script>
-    import Cell from './expand';
+    import TableExpand from './expand';
     import Icon from '../icon/icon.vue';
     import Checkbox from '../checkbox/checkbox.vue';
     import Tooltip from '../tooltip/tooltip.vue';
 
     export default {
         name: 'TableCell',
-        components: { Icon, Checkbox, Cell, Tooltip },
+        components: { Icon, Checkbox, TableExpand, Tooltip },
         props: {
             prefixCls: String,
             row: Object,
