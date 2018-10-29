@@ -71,7 +71,19 @@
         overflow: hidden;
     }
     &-body{
-        overflow: auto;
+        //overflow: auto;
+        //position: relative;
+
+    }
+    &-overflowX{
+        overflow-x: scroll;
+    }
+    &-overflowY{
+        overflow-y: scroll;
+    }
+    &-tip{
+        overflow-x: auto;
+        overflow-y: hidden;
         //position: relative;
     }
 
@@ -146,6 +158,16 @@
             text-overflow: ellipsis;
         }
 
+        &-tooltip{
+            width: 100%;
+            &-content{
+                display: block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+
         &-with-expand{
             height: 47px;
             line-height: 47px;
@@ -161,6 +183,17 @@
             }
             &-expanded{
                 transform: rotate(90deg);
+            }
+        }
+        &-sort{
+            cursor: pointer;
+            user-select: none;
+        }
+
+        // #3159
+        &-with-selection{
+            .@{checkbox-prefix-cls}-wrapper{
+                margin-right: 0;
             }
         }
     }
@@ -272,6 +305,14 @@
         right: 0;
         box-shadow: -2px 0 6px -2px rgba(0, 0, 0, 0.2);
     }
+    &-fixed-right-header{
+        position: absolute;
+        top: -1px;
+        right: 0;
+        background-color: @table-thead-bg;
+        border-top: 1px solid @border-color-base;
+        border-bottom: 1px solid @border-color-split;
+    }
     &-fixed-header{
         overflow: hidden;
         &-with-empty{
@@ -309,6 +350,7 @@
         display: inline-block;
         cursor: pointer;
         position: relative;
+        //top: 1px;
 
         i{
             color: @btn-disable-color;
@@ -330,7 +372,6 @@
                 }
                 label {
                     display: block;
-                    margin-bottom: 4px;
 
                     & > span{
                         margin-right: 4px;
@@ -345,15 +386,13 @@
         &-footer{
             padding: 4px;
             border-top: 1px solid @border-color-split;
-        }
-    }
-    .ivu-poptip-popper{
-        min-width: 0;
-        text-align: left;
-    }
-    thead .ivu-poptip-popper{
-        .ivu-poptip-body{
-            padding: 0;
+            overflow: hidden;
+            button:first-child{
+                float: left;
+            }
+            button:last-child{
+                float: right;
+            }
         }
     }
 
@@ -369,5 +408,12 @@
 
     &-expanded-hidden{
         visibility: hidden;
+    }
+}
+.ivu-table-popper{
+    min-width: 0;
+    text-align: left;
+    .ivu-poptip-body{
+        padding: 0;
     }
 }

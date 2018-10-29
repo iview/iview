@@ -1,77 +1,103 @@
 <template>
-    <div class="ivu-color-picker-alpha">
-        <div class="ivu-color-picker-alpha-checkboard-wrap">
-            <div class="ivu-color-picker-alpha-checkerboard"></div>
+    <div
+        :class="[prefixCls + '-alpha']"
+        tabindex="0"
+        @click="$el.focus()"
+        @keydown.esc="handleEscape"
+        @keydown.left="handleLeft"
+        @keydown.right="handleRight"
+        @keydown.up="handleUp"
+        @keydown.down="handleDown"
+    >
+        <div :class="[prefixCls + '-alpha-checkboard-wrap']">
+            <div :class="[prefixCls + '-alpha-checkerboard']"></div>
         </div>
-        <div class="ivu-color-picker-alpha-gradient" :style="{background: gradientColor}"></div>
-        <div class="ivu-color-picker-alpha-container" ref="container"
-             @mousedown="handleMouseDown"
-             @touchmove="handleChange"
-             @touchstart="handleChange">
-            <div class="ivu-color-picker-alpha-pointer" :style="{left: colors.a * 100 + '%'}">
-                <div class="ivu-color-picker-alpha-picker"></div>
+        <div
+            :style="gradientStyle"
+            :class="[prefixCls + '-alpha-gradient']"></div>
+        <div
+            ref="container"
+            :class="[prefixCls + '-alpha-container']"
+            @mousedown="handleMouseDown"
+            @touchmove="handleChange"
+            @touchstart="handleChange">
+            <div
+                :style="{top: 0, left: `${value.a * 100}%`}"
+                :class="[prefixCls + '-alpha-pointer']">
+                <div :class="[prefixCls + '-alpha-picker']"></div>
             </div>
         </div>
     </div>
 </template>
+
 <script>
-    export default {
-        name: 'Alpha',
-        props: {
-            value: Object,
-            onChange: Function
+import HSAMixin from './hsaMixin';
+import Prefixes from './prefixMixin';
+import {clamp, toRGBAString} from './utils';
+
+export default {
+    name: 'Alpha',
+
+    mixins: [HSAMixin, Prefixes],
+
+    data() {
+        const normalStep = 1;
+        const jumpStep = 10;
+
+        return {
+            left: -normalStep,
+            right: normalStep,
+            up: jumpStep,
+            down: -jumpStep,
+            powerKey: 'shiftKey',
+        };
+    },
+
+    computed: {
+        gradientStyle() {
+            const {r, g, b} = this.value.rgba;
+            const start = toRGBAString({r, g, b, a: 0});
+            const finish = toRGBAString({r, g, b, a: 1});
+
+            return {background: `linear-gradient(to right, ${start} 0%, ${finish} 100%)`};
         },
-        computed: {
-            colors () {
-                return this.value;
-            },
-            gradientColor () {
-                const rgba = this.colors.rgba;
-                const rgbStr = [rgba.r, rgba.g, rgba.b].join(',');
-                return 'linear-gradient(to right, rgba(' + rgbStr + ', 0) 0%, rgba(' + rgbStr + ', 1) 100%)';
+    },
+
+    methods: {
+        change(newAlpha) {
+            const {h, s, l} = this.value.hsl;
+            const {a} = this.value;
+
+            if (a !== newAlpha) {
+                this.$emit('change', {h, s, l, a: newAlpha, source: 'rgba'});
             }
         },
-        methods: {
-            handleChange (e, skip) {
-                !skip && e.preventDefault();
-                const container = this.$refs.container;
-                const containerWidth = container.clientWidth;
+        handleSlide(e, direction) {
+            e.preventDefault();
+            e.stopPropagation();
 
-                const xOffset = container.getBoundingClientRect().left + window.pageXOffset;
-                const pageX = e.pageX || (e.touches ? e.touches[0].pageX : 0);
-                const left = pageX - xOffset;
+            this.change(clamp(e[this.powerKey] ? direction : Math.round(this.value.hsl.a * 100 + direction) / 100, 0, 1));
+        },
+        handleChange(e) {
+            e.preventDefault();
+            e.stopPropagation();
 
-                let a;
-                if (left < 0) {
-                    a = 0;
-                } else if (left > containerWidth) {
-                    a = 1;
-                } else {
-                    a = Math.round(left * 100 / containerWidth) / 100;
-                }
+            const left = this.getLeft(e);
 
-                if (this.colors.a !== a) {
-                    this.$emit('change', {
-                        h: this.colors.hsl.h,
-                        s: this.colors.hsl.s,
-                        l: this.colors.hsl.l,
-                        a: a,
-                        source: 'rgba'
-                    });
-                }
-            },
-            handleMouseDown (e) {
-                this.handleChange(e, true);
-                window.addEventListener('mousemove', this.handleChange);
-                window.addEventListener('mouseup', this.handleMouseUp);
-            },
-            handleMouseUp () {
-                this.unbindEventListeners();
-            },
-            unbindEventListeners () {
-                window.removeEventListener('mousemove', this.handleChange);
-                window.removeEventListener('mouseup', this.handleMouseUp);
+            if (left < 0) {
+                this.change(0);
+                return;
             }
-        }
-    };
+
+            const {clientWidth} = this.$refs.container;
+
+            if (left > clientWidth) {
+                this.change(1);
+                return;
+            }
+
+            this.change(Math.round(left * 100 / clientWidth) / 100);
+        },
+    },
+};
 </script>

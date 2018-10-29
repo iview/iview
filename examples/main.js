@@ -1,6 +1,7 @@
 /**
  * Created by aresn on 16/6/20.
  */
+import 'babel-polyfill';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import App from './app.vue';
@@ -9,7 +10,9 @@ import iView from '../src/index';
 import locale from '../src/locale/lang/zh-CN';
 
 Vue.use(VueRouter);
-Vue.use(iView, { locale });
+Vue.use(iView, {
+    locale
+});
 
 // 开启debug模式
 Vue.config.debug = true;
@@ -17,7 +20,12 @@ Vue.config.debug = true;
 // 路由配置
 const router = new VueRouter({
     esModule: false,
+    mode: 'history',
     routes: [
+        {
+            path: '/split',
+            component: (resolve) => require(['./routers/split.vue'], resolve)
+        },
         {
             path: '/layout',
             component: (resolve) => require(['./routers/layout.vue'], resolve)
@@ -25,6 +33,10 @@ const router = new VueRouter({
         {
             path: '/affix',
             component: (resolve) => require(['./routers/affix.vue'], resolve)
+        },
+        {
+            path: '/anchor',
+            component: (resolve) => require(['./routers/anchor.vue'], resolve)
         },
         {
             path: '/grid',
@@ -201,6 +213,22 @@ const router = new VueRouter({
         {
             path: '/scroll',
             component: (resolve) => require(['./routers/scroll.vue'], resolve)
+        },
+        {
+            path: '/divider',
+            component: (resolve) => require(['./routers/divider.vue'], resolve)
+        },
+        {
+            path: '/time',
+            component: (resolve) => require(['./routers/time.vue'], resolve)
+        },
+        {
+            path: '/cell',
+            component: (resolve) => require(['./routers/cell.vue'], resolve)
+        },
+        {
+            path: '/drawer',
+            component: (resolve) => require(['./routers/drawer.vue'], resolve)
         }
     ]
 });

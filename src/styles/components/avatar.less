@@ -10,10 +10,23 @@
     overflow: hidden;
     vertical-align: middle;
 
+    &-image{
+        background: transparent;
+    }
+
+    .ivu-icon{
+        position: relative;
+        top: -1px;
+    }
+
     .avatar-size(@avatar-size-base, @avatar-font-size-base);
 
     &-large {
         .avatar-size(@avatar-size-lg, @avatar-font-size-lg);
+        .ivu-icon{
+            position: relative;
+            top: -2px;
+        }
     }
 
     &-small {

@@ -1,3 +1,5 @@
+@import "color/colors";
+
 // Prefix
 @css-prefix             : ivu-;
 @css-prefix-iconfont    : ivu-icon;
@@ -6,24 +8,27 @@
 @primary-color          : #2d8cf0;
 @info-color             : #2db7f5;
 @success-color          : #19be6b;
+@processing-color       : @primary-color;
 @warning-color          : #ff9900;
-@error-color            : #ed3f14;
+@error-color            : #ed4014;
+@normal-color           : #e6ebf1;
 @link-color             : #2D8cF0;
 @link-hover-color       : tint(@link-color, 20%);
 @link-active-color      : shade(@link-color, 5%);
 @selected-color         : fade(@primary-color, 90%);
 @tooltip-color          : #fff;
-@subsidiary-color       : #80848f;
+@subsidiary-color       : #808695;
 @rate-star-color        : #f5a623;
 
 // Base
 @body-background        : #fff;
 @font-family            : "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 @code-family            : Consolas,Menlo,Courier,monospace;
-@title-color            : #1c2438;
-@text-color             : #495060;
+@title-color            : #17233d;
+@text-color             : #515a6e;
 @font-size-base         : 14px;
 @font-size-small        : 12px;
+@font-size-large        : 16px;
 @line-height-base       : 1.5;
 @line-height-computed   : floor((@font-size-base * @line-height-base));
 @border-radius-base     : 6px;
@@ -31,8 +36,10 @@
 @cursor-disabled        : not-allowed;
 
 // Border color
-@border-color-base      : #dddee1;  // outside
-@border-color-split     : #e9eaec;  // inside
+@border-color-base      : #dcdee2;  // outside
+@border-color-split     : #e8eaec;  // inside
+@border-width-base      : 1px;            // width of the border for a component
+@border-style-base      : solid;          // style of a components border
 
 // Background color
 @background-color-base        : #f7f7f7;  // base
@@ -43,7 +50,7 @@
 @table-td-stripe-bg           : #f8f8f9;
 @table-td-hover-bg            : #ebf7ff;
 @table-td-highlight-bg        : #ebf7ff;
-@menu-dark-title              : #495060;
+@menu-dark-title              : #515a6e;
 @menu-dark-active-bg          : #363e4f;
 @menu-dark-subsidiary-color   : rgba(255,255,255,.7);
 @menu-dark-group-title-color  : rgba(255,255,255,.36);
@@ -60,28 +67,31 @@
 
 // Button
 @btn-font-weight        : normal;
-@btn-padding-base       : 6px 15px;
-@btn-padding-large      : 6px 15px 7px 15px;
-@btn-padding-small      : 2px 7px;
+@btn-padding-base       : 5px 15px 6px;
+@btn-padding-large      : 6px 15px 6px 15px;
+@btn-padding-small      : 1px 7px 2px;
+@btn-padding-base-icon  : 5px 15px 6px;
+@btn-padding-large-icon : 6px 15px 6px 15px;
+@btn-padding-small-icon : 1px 7px 2px;
 @btn-font-size          : 12px;
 @btn-font-size-large    : 14px;
 @btn-border-radius      : 4px;
 @btn-border-radius-small: 3px;
 @btn-group-border       : shade(@primary-color, 5%);
 
-@btn-disable-color      : #bbbec4;
+@btn-disable-color      : #c5c8ce;
 @btn-disable-bg         : @background-color-base;
 @btn-disable-border     : @border-color-base;
 
 @btn-default-color      : @text-color;
-@btn-default-bg         : @background-color-base;
+@btn-default-bg         : #fff;
 @btn-default-border     : @border-color-base;
 
 @btn-primary-color      : #fff;
 @btn-primary-bg         : @primary-color;
 
 @btn-ghost-color        : @text-color;
-@btn-ghost-bg           : transparent;
+@btn-ghost-bg           : #fff;
 @btn-ghost-border       : @border-color-base;
 
 @btn-circle-size        : 32px;
@@ -92,7 +102,7 @@
 @grid-columns                : 24;
 @grid-gutter-width           : 0;
 @layout-body-background      : #f5f7f9;
-@layout-header-background    : #495060;
+@layout-header-background    : #515a6e;
 @layout-header-height        : 64px;
 @layout-header-padding       : 0 50px;
 @layout-footer-padding       : 24px 50px;
@@ -120,6 +130,7 @@
 @input-color                 : @text-color;
 @input-border-color          : @border-color-base;
 @input-bg                    : #fff;
+@input-group-bg              : #f8f8f9;
 
 @input-hover-border-color    : @primary-color;
 @input-focus-border-color    : @primary-color;
@@ -155,6 +166,7 @@
 @zindex-back-top        : 10;
 @zindex-select          : 900;
 @zindex-modal           : 1000;
+@zindex-drawer          : 1000;
 @zindex-message         : 1010;
 @zindex-notification    : 1010;
 @zindex-tooltip         : 1060;
@@ -185,3 +197,6 @@
 @avatar-bg: #ccc;
 @avatar-color: #fff;
 @avatar-border-radius: @border-radius-small;
+
+// Anchor
+@anchor-border-width: 2px;

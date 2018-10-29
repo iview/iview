@@ -1,7 +1,7 @@
 <template>
     <table cellspacing="0" cellpadding="0" border="0" :style="styleObject">
         <colgroup>
-            <col v-for="(column, index) in columns" :width="setCellWidth(column, index, false)">
+            <col v-for="(column, index) in columns" :width="setCellWidth(column)">
         </colgroup>
         <tbody :class="[prefixCls + '-tbody']">
             <template v-for="(row, index) in data">

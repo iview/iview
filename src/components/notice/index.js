@@ -10,10 +10,10 @@ let noticeInstance;
 let name = 1;
 
 const iconTypes = {
-    'info': 'information-circled',
-    'success': 'checkmark-circled',
-    'warning': 'android-alert',
-    'error': 'close-circled'
+    'info': 'ios-information-circle',
+    'success': 'ios-checkmark-circle',
+    'warning': 'ios-alert',
+    'error': 'ios-close-circle'
 };
 
 function getNoticeInstance () {
@@ -50,18 +50,19 @@ function notice (type, options) {
     if (type == 'normal') {
         withIcon = false;
         content = `
-            <div class="${prefixCls}-custom-content ${prefixCls}-with-normal${with_desc}">
+            <div class="${prefixCls}-custom-content ${prefixCls}-with-normal ${with_desc}">
                 <div class="${prefixCls}-title">${title}</div>
                 <div class="${prefixCls}-desc">${desc}</div>
             </div>
         `;
     } else {
         const iconType = iconTypes[type];
+        const outlineIcon = with_desc === '' ? '' : '-outline';
         withIcon = true;
         content = `
-            <div class="${prefixCls}-custom-content ${prefixCls}-with-icon ${prefixCls}-with-${type}${with_desc}">
+            <div class="${prefixCls}-custom-content ${prefixCls}-with-icon ${prefixCls}-with-${type} ${with_desc}">
                 <span class="${prefixCls}-icon ${prefixCls}-icon-${type}">
-                    <i class="${iconPrefixCls} ${iconPrefixCls}-${iconType}"></i>
+                    <i class="${iconPrefixCls} ${iconPrefixCls}-${iconType}${outlineIcon}"></i>
                 </span>
                 <div class="${prefixCls}-title">${title}</div>
                 <div class="${prefixCls}-desc">${desc}</div>

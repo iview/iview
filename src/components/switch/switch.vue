@@ -1,5 +1,10 @@
 <template>
-    <span :class="wrapClasses" @click="toggle">
+    <span
+        tabindex="0"
+        :class="wrapClasses"
+        @click="toggle"
+        @keydown.space="toggle"
+    >
         <input type="hidden" :name="name" :value="currentValue">
         <span :class="innerClasses">
             <slot name="open" v-if="currentValue === trueValue"></slot>
@@ -36,10 +41,17 @@
             size: {
                 validator (value) {
                     return oneOf(value, ['large', 'small', 'default']);
+                },
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             name: {
                 type: String
+            },
+            loading: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -54,7 +66,8 @@
                     {
                         [`${prefixCls}-checked`]: this.currentValue === this.trueValue,
                         [`${prefixCls}-disabled`]: this.disabled,
-                        [`${prefixCls}-${this.size}`]: !!this.size
+                        [`${prefixCls}-${this.size}`]: !!this.size,
+                        [`${prefixCls}-loading`]: this.loading,
                     }
                 ];
             },
@@ -63,8 +76,9 @@
             }
         },
         methods: {
-            toggle () {
-                if (this.disabled) {
+            toggle (event) {
+                event.preventDefault();
+                if (this.disabled || this.loading) {
                     return false;
                 }
 

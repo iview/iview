@@ -1,10 +1,13 @@
 <template>
     <div class="layout-demo-con">
+        <Button @click="change">修改Sider绑定的变量来控制收缩</Button>
         <Layout :style="{minHeight: '100vh'}">
             <Sider 
                 v-model="isCollapsed"
                 collapsed-width="0" 
                 hide-trigger
+                breakpoint="sm"
+                @on-collapse="changed"
                 collapsible
                 ref="side"
                 width="200">
@@ -52,6 +55,12 @@ export default {
     methods: {
         toggleCollapse () {
             this.$refs.side.toggleCollapse();
+        },
+        change () {
+            this.isCollapsed = !this.isCollapsed;
+        },
+        changed (res) {
+            console.log(res)
         }
     },
     watch: {

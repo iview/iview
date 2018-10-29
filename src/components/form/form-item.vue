@@ -90,8 +90,12 @@
             },
             validateStatus (val) {
                 this.validateState = val;
+            },
+            rules (){
+                this.setRules();
             }
         },
+        inject: ['form'],
         computed: {
             classes () {
                 return [
@@ -103,13 +107,13 @@
                     }
                 ];
             },
-            form() {
-                let parent = this.$parent;
-                while (parent.$options.name !== 'iForm') {
-                    parent = parent.$parent;
-                }
-                return parent;
-            },
+            // form() {
+            //    let parent = this.$parent;
+            //    while (parent.$options.name !== 'iForm') {
+            //        parent = parent.$parent;
+            //    }
+            //    return parent;
+            // },
             fieldValue: {
                 cache: false,
                 get() {
@@ -126,22 +130,40 @@
             },
             labelStyles () {
                 let style = {};
-                const labelWidth = this.labelWidth || this.form.labelWidth;
-                if (labelWidth) {
+                const labelWidth = this.labelWidth === 0 || this.labelWidth ? this.labelWidth : this.form.labelWidth;
+
+                if (labelWidth || labelWidth === 0) {
                     style.width = `${labelWidth}px`;
                 }
                 return style;
             },
             contentStyles () {
                 let style = {};
-                const labelWidth = this.labelWidth || this.form.labelWidth;
-                if (labelWidth) {
+                const labelWidth = this.labelWidth === 0 || this.labelWidth ? this.labelWidth : this.form.labelWidth;
+
+                if (labelWidth || labelWidth === 0) {
                     style.marginLeft = `${labelWidth}px`;
                 }
                 return style;
             }
         },
         methods: {
+            setRules() {
+                let rules = this.getRules();
+                if (rules.length&&this.required) {
+                    return;
+                }else if (rules.length) {
+                    rules.every((rule) => {
+                        this.isRequired = rule.required;
+                    });
+                }else if (this.required){
+                    this.isRequired = this.required;
+                }
+                this.$off('on-form-blur', this.onFieldBlur);
+                this.$off('on-form-change', this.onFieldChange);
+                this.$on('on-form-blur', this.onFieldBlur);
+                this.$on('on-form-change', this.onFieldChange);
+            },
             getRules () {
                 let formRules = this.form.rules;
                 const selfRules = this.rules;
@@ -156,10 +178,14 @@
                 return rules.filter(rule => !rule.trigger || rule.trigger.indexOf(trigger) !== -1);
             },
             validate(trigger, callback = function () {}) {
-                const rules = this.getFilteredRule(trigger);
+                let rules = this.getFilteredRule(trigger);
                 if (!rules || rules.length === 0) {
-                    callback();
-                    return true;
+                    if (!this.required) {
+                        callback();
+                        return true;
+                    }else {
+                        rules = [{required: true}];
+                    }
                 }
 
                 this.validateState = 'validating';
@@ -228,18 +254,7 @@
                     value: this.fieldValue
                 });
 
-                let rules = this.getRules();
-
-                if (rules.length) {
-                    rules.every(rule => {
-                        if (rule.required) {
-                            this.isRequired = true;
-                            return false;
-                        }
-                    });
-                    this.$on('on-form-blur', this.onFieldBlur);
-                    this.$on('on-form-change', this.onFieldChange);
-                }
+                this.setRules();
             }
         },
         beforeDestroy () {

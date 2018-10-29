@@ -1,80 +1,55 @@
 <template>
-    <div>
-        <Avatar icon="person" size="large" style="background-color: #fde3cf;color: #f56a00"></Avatar>
-        <Avatar icon="person"></Avatar>
-        <Avatar icon="person" size="small"></Avatar>
-        <Avatar icon="person" size="large" shape="square"></Avatar>
-        <Avatar icon="person" shape="square"></Avatar>
-        <Avatar icon="person" size="small" shape="square"></Avatar>
-        <br><br>
-        <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" size="large"></Avatar>
-        <Avatar src="https://avatars2.githubusercontent.com/u/5370542?v=4&s=460"></Avatar>
-        <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" size="small"></Avatar>
-        <Avatar src="https://avatars2.githubusercontent.com/u/5370542?v=4&s=460" size="large" shape="square"></Avatar>
-        <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" shape="square"></Avatar>
-        <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" size="small" shape="square"></Avatar>
-        <br><br>
-        <Avatar size="large">Leo</Avatar>
-        <Avatar size="large">A</Avatar>
-        <Avatar size="default">A</Avatar>
-        <Avatar size="small">A</Avatar>
-        <Avatar size="large">Tomserm</Avatar>
-        <Avatar size="large">{{ name }}</Avatar>
-        {{ name }}
-        <br><br>
-        <Badge dot>
-            <Avatar icon="person" shape="square"></Avatar>
-        </Badge>
-        <Badge :count="3">
-            <Avatar icon="person" shape="square"></Avatar>
-        </Badge>
-        <Button @click="change">change</Button>
-
-        <Menu mode="horizontal" :theme="theme1" active-name="1">
-            <MenuItem name="1">
-                <Icon type="ios-paper"></Icon>
-                内容管理
-            </MenuItem>
-            <MenuItem name="2">
-                <Icon type="ios-people"></Icon>
-                用户管理
-            </MenuItem>
-            <Submenu name="3">
-                <template slot="title">
-                    <Icon type="stats-bars"></Icon>
-                    统计分析
-                </template>
-                <MenuGroup title="使用">
-                    <MenuItem name="3-1">新增和启动</MenuItem>
-                    <MenuItem name="3-2">活跃分析</MenuItem>
-                    <MenuItem name="3-3">时段分析</MenuItem>
-                </MenuGroup>
-                <MenuGroup title="留存">
-                    <MenuItem name="3-4">用户留存</MenuItem>
-                    <MenuItem name="3-5">流失用户</MenuItem>
-                </MenuGroup>
-            </Submenu>
-            <MenuItem name="4">
-                <Icon type="settings"></Icon>
-                综合设置
-            </MenuItem>
-            <div>
-                <Avatar icon="person"></Avatar>
+    <div class="demo-avatar">
+        <Avatar :style="{background: color}">{{ user }}</Avatar>
+        <Button size="small" @click="handleChange">Change</Button>
+        <div>
+            <div class="demo-avatar">
+                <Avatar icon="ios-person" size="large" />
+                <Avatar icon="ios-person" />
+                <Avatar icon="ios-person" size="small" />
             </div>
-        </Menu>
+            <div class="demo-avatar">
+                <Avatar shape="square" icon="ios-person" size="large" />
+                <Avatar shape="square" icon="ios-person" />
+                <Avatar shape="square" icon="ios-person" size="small" />
+            </div>
+        </div>
+        <div class="demo-avatar">
+            <Avatar icon="ios-person" />
+            <Avatar>U</Avatar>
+            <Avatar>USER</Avatar>
+            <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" />
+            <Avatar style="color: #f56a00;background-color: #fde3cf">U</Avatar>
+            <Avatar style="background-color: #87d068" icon="ios-person" />
+        </div>
+        <div class="demo-avatar-badge">
+            <Badge :count="1">
+                <Avatar shape="square" icon="ios-person" />
+            </Badge>
+            <Badge dot>
+                <Avatar shape="square" icon="ios-person" />
+            </Badge>
+        </div>
+        <br><br><br>
+        <Avatar custom-icon="ivu-icon-ios-person" />
     </div>
 </template>
 <script>
+    const UserList = ['二', '小二', '三', '二个人'];
+    const ColorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
+
     export default {
         data () {
             return {
-                name: 'Aresn',
-                theme1: 'dark'
+                user: UserList[0],
+                color: ColorList[0]
             }
         },
         methods: {
-            change () {
-                this.name = 'Tomserm'
+            handleChange () {
+                const index = UserList.indexOf(this.user);
+                this.user = index < UserList.length - 1 ? UserList[index + 1] : UserList[0];
+                this.color = index < ColorList.length - 1 ? ColorList[index + 1] : ColorList[0];
             }
         }
     }

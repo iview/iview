@@ -94,6 +94,15 @@ const lang = {
             star: '点',
             stars: '点'
         },
+        time: {
+            before: '前',
+            after: '後',
+            just: 'たった今',
+            seconds: '秒',
+            minutes: '分',
+            hours: '時間',
+            days: '日'
+        },
         tree: {
             emptyText: 'データなし'
         }

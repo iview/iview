@@ -1,7 +1,7 @@
 <template>
     <div :class="classes">
-        <button :class="arrowClasses" class="left" @click="arrowEvent(-1)">
-            <Icon type="chevron-left"></Icon>
+        <button type="button" :class="arrowClasses" class="left" @click="arrowEvent(-1)">
+            <Icon type="ios-arrow-back"></Icon>
         </button>
         <div :class="[prefixCls + '-list']">
             <div :class="[prefixCls + '-track', showCopyTrack ? '' : 'higher']" :style="trackStyles" ref="originTrack">
@@ -10,15 +10,15 @@
             <div :class="[prefixCls + '-track', showCopyTrack ? 'higher' : '']" :style="copyTrackStyles" ref="copyTrack" v-if="loop">
             </div>
         </div>
-        <button :class="arrowClasses" class="right" @click="arrowEvent(1)">
-            <Icon type="chevron-right"></Icon>
+        <button type="button" :class="arrowClasses" class="right" @click="arrowEvent(1)">
+            <Icon type="ios-arrow-forward"></Icon>
         </button>
         <ul :class="dotsClasses">
             <template v-for="n in slides.length">
                 <li :class="[n - 1 === currentIndex ? prefixCls + '-active' : '']"
                     @click="dotsEvent('click', n - 1)"
                     @mouseover="dotsEvent('hover', n - 1)">
-                    <button :class="[radiusDot ? 'radius' : '']"></button>
+                    <button type="button" :class="[radiusDot ? 'radius' : '']"></button>
                 </li>
             </template>
         </ul>
@@ -227,6 +227,7 @@
                 } else {
                     this.trackIndex = index;
                 }
+                this.currentIndex = index;
             },
             add (offset) {
                 // 获取单个轨道的图片数
@@ -243,8 +244,8 @@
                     this.updateTrackPos(this.hideTrackPos);
                 }
                 // 获取当前展示图片的索引值
-                let index =  this.showCopyTrack ? this.copyTrackIndex : this.trackIndex;
-                index += offset;
+                const oldIndex = this.showCopyTrack ? this.copyTrackIndex : this.trackIndex;
+                let index = oldIndex + offset;
                 while (index < 0) index += slidesLen;
                 if (((offset > 0 && index === slidesLen) || (offset < 0 && index === slidesLen - 1)) && this.loop) {
                     // 极限值（左滑：当前索引为总图片张数， 右滑：当前索引为总图片张数 - 1）切换轨道
@@ -255,7 +256,9 @@
                     if (!this.loop) index = index % this.slides.length;
                     this.updateTrackIndex(index);
                 }
-                this.$emit('input', index === this.slides.length ? 0 : index);
+                this.currentIndex = index === this.slides.length ? 0 : index;
+                this.$emit('on-change', oldIndex, this.currentIndex);
+                this.$emit('input', this.currentIndex);
             },
             arrowEvent (offset) {
                 this.setAutoplay();
@@ -294,9 +297,6 @@
             autoplaySpeed () {
                 this.setAutoplay();
             },
-            currentIndex (val, oldVal) {
-                this.$emit('on-change', oldVal, val);
-            },
             trackIndex () {
                 this.updateOffset();
             },
@@ -307,8 +307,10 @@
                 this.updatePos();
             },
             value (val) {
-                this.currentIndex = val;
-                this.trackIndex = val;
+//                this.currentIndex = val;
+//                this.trackIndex = val;
+                this.updateTrackIndex(val);
+                this.setAutoplay();
             }
         },
         mounted () {

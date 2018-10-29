@@ -11,8 +11,7 @@
                 @change="change"
                 @focus="onFocus"
                 @blur="onBlur">
-        </span>
-        <slot>{{ label }}</slot>
+        </span><slot>{{ label }}</slot>
     </label>
 </template>
 <script>
@@ -47,6 +46,9 @@
             size: {
                 validator (value) {
                     return oneOf(value, ['small', 'large', 'default']);
+                },
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             name: {

@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://www.iviewui.com">
-        <img width="200" src="https://file.iviewui.com/logo.svg">
+        <img width="200" src="https://file.iviewui.com/logo-new.svg">
     </a>
 </p>
 
@@ -12,22 +12,14 @@
 ![JS gzip size](http://img.badgesize.io/https://unpkg.com/iview/dist/iview.min.js?compression=gzip&label=gzip%20size:%20JS&style=flat-square)
 ![CSS gzip size](http://img.badgesize.io/https://unpkg.com/iview/dist/styles/iview.css?compression=gzip&label=gzip%20size:%20CSS&style=flat-square)
 [![Join the chat at https://gitter.im/iview/iview](https://img.shields.io/badge/chat-on_gitter-30b392.svg?style=flat-square)](https://gitter.im/iview/iview?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Backers on Open Collective](https://opencollective.com/iview/backers/badge.svg)](#backers)
+[![Sponsors on Open Collective](https://opencollective.com/iview/sponsors/badge.svg)](#sponsors) 
 
 ### A high quality UI Toolkit built on Vue.js.
 
-> This branch is for Vue.js 2.x.
->
-> The branch for Vue.js 1.x can be found [here](https://github.com/iview/iview/tree/master).
-
 ## Docs
 
-### [English (2.0)](https://www.iviewui.com)
-### [中文文档 (2.0)](https://www.iviewui.com)
-[中文文档 (1.0)](http://v1.iviewui.com)
-
-## Overview
-
-### [Component Overview](https://www.iviewui.com/overview)
+**[3.x](https://www.iviewui.com)** | [2.x](http://v2.iviewui.com) | [1.x](http://v1.iviewui.com)
 
 ## Features
 
@@ -39,20 +31,25 @@
 
 ## Who's using iView
 
-- [TalkingData](http://www.talkingdata.com/)
-- [Alibaba](http://www.alibaba.com/)
-- [JD](http://www.jd.com/)
-- [DiDi](http://www.didichuxing.com/)
-- [Sina](http://www.sina.com.cn/)
-- [Lenovo](https://www.lenovo.com.cn/)
+- [TalkingData 腾云天下](http://www.talkingdata.com/)
+- [Alibaba 阿里巴巴](http://www.alibaba.com/)
+- [Baidu 百度](https://www.baidu.com/)
+- [Tencent 腾讯](https://www.tencent.com/)
+- [Toutiao 今日头条](https://www.toutiao.com/)
+- [JD 京东](http://www.jd.com/)
+- [DiDi 滴滴](http://www.didichuxing.com/)
+- [Meituan 美团](http://www.meituan.com/)
+- [Sina 新浪](http://www.sina.com.cn/)
+- [iFLYTEK 科大讯飞](http://www.iflytek.com/)
+- [LY 同程艺龙](https://www.ly.com/)
 
 > If your company or products use iView, welcome to click [here](https://github.com/iview/iview/issues/2143) to leave a message.
 
 ## Install
 
-> Please install Webpack first!
+We provide an [iView plugin](https://github.com/iview/vue-cli-plugin-iview) for Vue CLI 3, which you can use to quickly build an iView-based project.
 
-We recommend you create your project through [iView Cli](https://github.com/iview/iview-cli) or [iview-project](https://github.com/iview/iview-project). You can also use [vue-cli](https://github.com/vuejs/vue-cli).
+We also provide a starter kit [iview-project](https://github.com/iview/iview-project) for you.
 
 ### Install iView
 
@@ -99,8 +96,9 @@ import 'iview/dist/styles/iview.css';
 - Supports Vue.js 1.x - [visit 1.0 docs](http://v1.iviewui.com/)
 - Supports SSR
 - Supports [Nuxt.js](https://nuxtjs.org/)
+- Supports TypeScript
 - Supports [Electron](http://electron.atom.io/)
-- iView does not support IE8 or below since [Vue.js](https://vuejs.org/v2/guide/reactivity.html) uses `Object.defineProperty` to track changes which is not supported by these browsers.
+- Most components and features support IE9 and above browsers, some components and features do not support IE
 
 ## Community
 
@@ -115,16 +113,20 @@ If you want to contribute or have questions or bugs to report:
 |---|---|---|---|---|---|
 |[Aresn](https://github.com/icarusion) |  ![](https://avatars3.githubusercontent.com/u/5370542?v=3&s=60)  |[jingsam](https://github.com/jingsam) |  ![](https://avatars3.githubusercontent.com/u/1522494?v=3&s=60)  | [rijn](https://github.com/rijn)       |  ![](https://avatars2.githubusercontent.com/u/6976367?v=3&s=60)  |
 |[lcx960324](https://github.com/lcx960324)           |  ![](https://avatars3.githubusercontent.com/u/9768245?v=3&s=60)  |[GITleonine1989](https://github.com/GITleonine1989) |  ![](https://avatars1.githubusercontent.com/u/7582490?v=3&s=60)  |[huixisheng](https://github.com/huixisheng)         |  ![](https://avatars1.githubusercontent.com/u/1518967?v=3&s=60)  |
-|[Sergio Crisostomo](https://github.com/SergioCrisostomo)           |  ![](https://avatars3.githubusercontent.com/u/5614559?v=3&s=60)  |  [lison16](https://github.com/lison16)           |  ![](https://avatars3.githubusercontent.com/u/20942571?v=3&s=60) |  [Xotic750](https://github.com/Xotic750)    | ![](https://avatars3.githubusercontent.com/u/216041?v=3&s=60)
+|[Sergio Crisostomo](https://github.com/SergioCrisostomo)           |  ![](https://avatars3.githubusercontent.com/u/5614559?v=3&s=60)  |  [lison16](https://github.com/lison16)           |  ![](https://avatars3.githubusercontent.com/u/20942571?v=3&s=60) |  [Xotic750](https://github.com/Xotic750)    | ![](https://avatars3.githubusercontent.com/u/216041?v=3&s=60)   | 
+[huanghong1125](https://github.com/huanghong1125) | ![](https://avatars3.githubusercontent.com/u/12794817?v=3&s=60) | [yangdan8](https://github.com/yangdan8) | ![](https://avatars2.githubusercontent.com/u/16515026?v=3&s=60) |
 
 
-## Links
+## Ecosystem Links
 
-- [TalkingData](https://github.com/TalkingData)
-- [Vue](https://github.com/vuejs/vue)
-- [Webpack](https://github.com/webpack/webpack)
-- [Ionicons](https://github.com/driftyco/ionicons)
-- [Ant Design](https://github.com/ant-design/ant-design)
+- [iView Developer](https://dev.iviewui.com)
+- [iView Run](https://run.iviewui.com)
+- [iView-Admin](https://github.com/iview/iview-admin)
+- [iView-Doc](https://github.com/iview/iview-doc)
+- [iView-Loader](https://github.com/iview/iview-loader)
+- [iView-Area](https://github.com/iview/iview-area)
+- [iView-Editor](https://github.com/iview/iview-editor)
+- [iView-Cli](https://github.com/iview/iview-cli)
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)

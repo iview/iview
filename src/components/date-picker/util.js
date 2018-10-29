@@ -14,6 +14,18 @@ export const toDate = function(date) {
     return _date;
 };
 
+export const clearHours = function (time) {
+    const cloneDate = new Date(time);
+    cloneDate.setHours(0, 0, 0, 0);
+    return cloneDate.getTime();
+};
+
+export const isInRange = (time, a, b) => {
+    if (!a || !b) return false;
+    const [start, end] = [a, b].sort();
+    return time >= start && time <= end;
+};
+
 export const formatDate = function(date, format) {
     date = toDate(date);
     if (!date) return '';
@@ -122,3 +134,125 @@ export const formatDateLabels = (function() {
         };
     };
 })();
+
+// Parsers and Formaters
+export const DEFAULT_FORMATS = {
+    date: 'yyyy-MM-dd',
+    month: 'yyyy-MM',
+    year: 'yyyy',
+    datetime: 'yyyy-MM-dd HH:mm:ss',
+    time: 'HH:mm:ss',
+    timerange: 'HH:mm:ss',
+    daterange: 'yyyy-MM-dd',
+    datetimerange: 'yyyy-MM-dd HH:mm:ss'
+};
+
+export const RANGE_SEPARATOR = ' - ';
+
+const DATE_FORMATTER = function(value, format) {
+    return formatDate(value, format);
+};
+const DATE_PARSER = function(text, format) {
+    return parseDate(text, format);
+};
+const RANGE_FORMATTER = function(value, format) {
+    if (Array.isArray(value) && value.length === 2) {
+        const start = value[0];
+        const end = value[1];
+
+        if (start && end) {
+            return formatDate(start, format) + RANGE_SEPARATOR + formatDate(end, format);
+        }
+    } else if (!Array.isArray(value) && value instanceof Date){
+        return formatDate(value, format);
+    }
+    return '';
+};
+const RANGE_PARSER = function(text, format) {
+    const array = Array.isArray(text) ? text : text.split(RANGE_SEPARATOR);
+    if (array.length === 2) {
+        const range1 = array[0];
+        const range2 = array[1];
+
+        return [
+            range1 instanceof Date ? range1 : parseDate(range1, format),
+            range2 instanceof Date ? range2 : parseDate(range2, format),
+        ];
+    }
+    return [];
+};
+
+export const TYPE_VALUE_RESOLVER_MAP = {
+    default: {
+        formatter(value) {
+            if (!value) return '';
+            return '' + value;
+        },
+        parser(text) {
+            if (text === undefined || text === '') return null;
+            return text;
+        }
+    },
+    date: {
+        formatter: DATE_FORMATTER,
+        parser: DATE_PARSER
+    },
+    datetime: {
+        formatter: DATE_FORMATTER,
+        parser: DATE_PARSER
+    },
+    daterange: {
+        formatter: RANGE_FORMATTER,
+        parser: RANGE_PARSER
+    },
+    datetimerange: {
+        formatter: RANGE_FORMATTER,
+        parser: RANGE_PARSER
+    },
+    timerange: {
+        formatter: RANGE_FORMATTER,
+        parser: RANGE_PARSER
+    },
+    time: {
+        formatter: DATE_FORMATTER,
+        parser: DATE_PARSER
+    },
+    month: {
+        formatter: DATE_FORMATTER,
+        parser: DATE_PARSER
+    },
+    year: {
+        formatter: DATE_FORMATTER,
+        parser: DATE_PARSER
+    },
+    multiple: {
+        formatter: (value, format) => {
+            return value.filter(Boolean).map(date => formatDate(date, format)).join(',');
+        },
+        parser: (value, format) => {
+            const values = typeof value === 'string' ? value.split(',') : value;
+            return values.map(value => {
+                if (value instanceof Date) return value;
+                if (typeof value === 'string') value = value.trim();
+                else if (typeof value !== 'number' && !value) value = '';
+                return parseDate(value, format);
+            });
+        }
+    },
+    number: {
+        formatter(value) {
+            if (!value) return '';
+            return '' + value;
+        },
+        parser(text) {
+            let result = Number(text);
+
+            if (!isNaN(text)) {
+                return result;
+            } else {
+                return null;
+            }
+        }
+    }
+};
+

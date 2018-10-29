@@ -1,7 +1,7 @@
 <template>
     <span :class="classes">
         <img :src="src" v-if="src">
-        <Icon :type="icon" v-else-if="icon"></Icon>
+        <Icon :type="icon" :custom="customIcon" v-else-if="icon || customIcon"></Icon>
         <span ref="children" :class="[prefixCls + '-string']" :style="childrenStyle" v-else><slot></slot></span>
     </span>
 </template>
@@ -25,19 +25,26 @@
                 validator (value) {
                     return oneOf(value, ['small', 'large', 'default']);
                 },
-                default: 'default'
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
+                }
             },
             src: {
                 type: String
             },
             icon: {
                 type: String
-            }
+            },
+            customIcon: {
+                type: String,
+                default: ''
+            },
         },
         data () {
             return {
                 prefixCls: prefixCls,
                 scale: 1,
+                childrenWidth: 0,
                 isSlotShow: false
             };
         },
@@ -49,7 +56,7 @@
                     `${prefixCls}-${this.size}`,
                     {
                         [`${prefixCls}-image`]: !!this.src,
-                        [`${prefixCls}-icon`]: !!this.icon
+                        [`${prefixCls}-icon`]: !!this.icon || !!this.customIcon
                     }
                 ];
             },
@@ -62,7 +69,7 @@
                         transform: `scale(${this.scale})`,
                         position: 'absolute',
                         display: 'inline-block',
-                        left: `calc(50% - ${Math.round(this.$refs.children.offsetWidth / 2)}px)`
+                        left: `calc(50% - ${Math.round(this.childrenWidth / 2)}px)`
                     };
                 }
                 return style;
@@ -72,11 +79,12 @@
             setScale () {
                 this.isSlotShow = !this.src && !this.icon;
                 if (this.$refs.children) {
-                    const childrenWidth = this.$refs.children.offsetWidth;
+                    // set children width again to make slot centered
+                    this.childrenWidth = this.$refs.children.offsetWidth;
                     const avatarWidth = this.$el.getBoundingClientRect().width;
                     // add 4px gap for each side to get better performance
-                    if (avatarWidth - 8 < childrenWidth) {
-                        this.scale = (avatarWidth - 8) / childrenWidth;
+                    if (avatarWidth - 8 < this.childrenWidth) {
+                        this.scale = (avatarWidth - 8) / this.childrenWidth;
                     } else {
                         this.scale = 1;
                     }

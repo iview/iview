@@ -8,6 +8,7 @@
         :placeholder="placeholder"
         :size="size"
         :placement="placement"
+        :value="currentValue"
         filterable
         remote
         auto-complete
@@ -72,6 +73,9 @@
             size: {
                 validator (value) {
                     return oneOf(value, ['small', 'large', 'default']);
+                },
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             icon: {
@@ -89,7 +93,9 @@
             },
             transfer: {
                 type: Boolean,
-                default: false
+                default () {
+                    return this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+                }
             },
             name: {
                 type: String
@@ -124,7 +130,9 @@
         },
         watch: {
             value (val) {
-                this.disableEmitChange = true;
+                if(this.currentValue !== val){
+                    this.disableEmitChange = true;
+                }
                 this.currentValue = val;
             },
             currentValue (val) {
@@ -144,20 +152,19 @@
             },
             handleChange (val) {
                 this.currentValue = val;
-                this.$refs.select.model = val;
                 this.$refs.input.blur();
                 this.$emit('on-select', val);
             },
-            handleFocus () {
-                this.$refs.select.visible = true;
+            handleFocus (event) {
+                this.$emit('on-focus', event);
             },
-            handleBlur () {
-                this.$refs.select.visible = false;
+            handleBlur (event) {
+                this.$emit('on-blur', event);
             },
             handleClear () {
                 if (!this.clearable) return;
                 this.currentValue = '';
-                this.$refs.select.model = '';
+                this.$refs.select.reset();
             }
         }
     };

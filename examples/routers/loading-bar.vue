@@ -19,11 +19,11 @@
             }
         },
         created () {
-            this.$Loading.config({
-                color: '#5cb85c',
-                failedColor: '#f0ad4e',
-                height: 5
-            });
+//            this.$Loading.config({
+//                color: '#5cb85c',
+//                failedColor: '#f0ad4e',
+//                height: 5
+//            });
         }
     }
 </script>

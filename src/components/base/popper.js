@@ -3,7 +3,7 @@
  * */
 import Vue from 'vue';
 const isServer = Vue.prototype.$isServer;
-const Popper = isServer ? function() {} : require('popper.js');  // eslint-disable-line
+const Popper = isServer ? function() {} : require('popper.js/dist/umd/popper.js');  // eslint-disable-line
 
 export default {
     props: {
@@ -29,8 +29,14 @@ export default {
             type: Object,
             default () {
                 return {
-                    gpuAcceleration: false,
-                    boundariesElement: 'body'    // todo 暂时注释，发现在 vue 2 里方向暂时可以自动识别了，待验证(还是有问题的)
+                    modifiers: {
+                        computeStyle:{
+                            gpuAcceleration: false,
+                        },
+                        preventOverflow :{
+                            boundariesElement: 'window'
+                        }
+                    }
                 };
             }
         },
@@ -54,10 +60,10 @@ export default {
         },
         visible(val) {
             if (val) {
+                if (this.handleIndexIncrease) this.handleIndexIncrease();  // just use for Poptip
                 this.updatePopper();
                 this.$emit('on-popper-show');
             } else {
-                this.destroyPopper();
                 this.$emit('on-popper-hide');
             }
             this.$emit('input', val);
@@ -81,14 +87,18 @@ export default {
             }
 
             options.placement = this.placement;
-            options.offset = this.offset;
 
-            this.popperJS = new Popper(reference, popper, options);
-            this.popperJS.onCreate(popper => {
-                this.resetTransformOrigin(popper);
+            if (!options.modifiers.offset) {
+                options.modifiers.offset = {};
+            }
+            options.modifiers.offset.offset = this.offset;
+            options.onCreate =()=>{
                 this.$nextTick(this.updatePopper);
                 this.$emit('created', this);
-            });
+            };
+
+            this.popperJS = new Popper(reference, popper, options);
+
         },
         updatePopper() {
             if (isServer) return;
@@ -99,20 +109,11 @@ export default {
             if (this.visible) return;
             this.popperJS.destroy();
             this.popperJS = null;
-        },
-        destroyPopper() {
-            if (isServer) return;
-            if (this.popperJS) {
-                this.resetTransformOrigin(this.popperJS);
-            }
-        },
-        resetTransformOrigin(popper) {
-            if (isServer) return;
-            let placementMap = {top: 'bottom', bottom: 'top', left: 'right', right: 'left'};
-            let placement = popper._popper.getAttribute('x-placement').split('-')[0];
-            let origin = placementMap[placement];
-            popper._popper.style.transformOrigin = ['top', 'bottom'].indexOf(placement) > -1 ? `center ${ origin }` : `${ origin } center`;
         }
+    },
+    updated (){
+        this.$nextTick(()=>this.updatePopper());
+
     },
     beforeDestroy() {
         if (isServer) return;

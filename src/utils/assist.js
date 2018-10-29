@@ -138,7 +138,7 @@ function deepCopy(data) {
 export {deepCopy};
 
 // scrollTop animation
-export function scrollTop(el, from = 0, to, duration = 500) {
+export function scrollTop(el, from = 0, to, duration = 500, endCallback) {
     if (!window.requestAnimationFrame) {
         window.requestAnimationFrame = (
             window.webkitRequestAnimationFrame ||
@@ -153,7 +153,10 @@ export function scrollTop(el, from = 0, to, duration = 500) {
     const step = Math.ceil(difference / duration * 50);
 
     function scroll(start, end, step) {
-        if (start === end) return;
+        if (start === end) {
+            endCallback && endCallback();
+            return;
+        }
 
         let d = (start + step > end) ? end : start + step;
         if (start > end) {
@@ -220,21 +223,22 @@ export function findComponentsDownward (context, componentName) {
 // Find components upward
 export function findComponentsUpward (context, componentName) {
     let parents = [];
-    if (context.$parent) {
-        if (context.$parent.$options.name === componentName) parents.push(context.$parent);
-        return parents.concat(findComponentsUpward(context.$parent, componentName));
+    const parent = context.$parent;
+    if (parent) {
+        if (parent.$options.name === componentName) parents.push(parent);
+        return parents.concat(findComponentsUpward(parent, componentName));
     } else {
         return [];
     }
 }
 
 // Find brothers components
-export function findBrothersComponents (context, componentName) {
+export function findBrothersComponents (context, componentName, exceptMe = true) {
     let res = context.$parent.$children.filter(item => {
         return item.$options.name === componentName;
     });
-    let index = res.indexOf(context);
-    res.splice(index, 1);
+    let index = res.findIndex(item => item._uid === context._uid);
+    if (exceptMe) res.splice(index, 1);
     return res;
 }
 
@@ -321,3 +325,5 @@ export function setMatchMedia () {
         window.matchMedia = window.matchMedia || matchMediaPolyfill;
     }
 }
+
+export const sharpMatcherRegx = /#([^#]+)$/;
