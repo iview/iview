@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Table border ref="selection" :columns="columns4" :data="data1"></Table>
+        <Table border ref="selection" :columns="columns4" :data="data1" @drag="true" @on-drag-drop="onDragDrop"></Table>
         <Button @click="handleSetData">Set Data</Button>
         <Button @click="handleClearData">Clear Data</Button>
         <Button @click="handleSelectAll(true)">Set all selected</Button>
@@ -69,6 +69,9 @@
             },
             handleClearData () {
                 this.data1 = [];
+            },
+            onDragDrop(a,b){
+                console.log(a,b)
             }
         }
     }
