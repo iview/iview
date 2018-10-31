@@ -93,9 +93,9 @@
                 default: false
             },
             beforeRemove: Function,
-            barGutter : {
-                type : Number,
-                default : 16
+            barGutter: {
+                type: Number,
+                default: 16
             },
         },
         data () {
