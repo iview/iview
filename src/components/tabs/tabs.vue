@@ -93,6 +93,10 @@
                 default: false
             },
             beforeRemove: Function,
+            barGutter : {
+                type : Number,
+                default : 16
+            },
         },
         data () {
             return {
@@ -197,7 +201,7 @@
 
                     if (index > 0) {
                         let offset = 0;
-                        const gutter = this.size === 'small' ? 0 : 16;
+                        const gutter = this.size === 'small' ? 0 : this.barGutter;
                         for (let i = 0; i < index; i++) {
                             offset += parseFloat(prevTabs[i].offsetWidth) + gutter;
                         }
