@@ -34,7 +34,7 @@
     </div>
 </template>
 <script>
-    import { oneOf } from '../../utils/assist';
+    import { oneOf, findComponentUpward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-input-number';
@@ -254,16 +254,16 @@
             setValue (val) {
                 // 如果 step 是小数，且没有设置 precision，是有问题的
                 if (val && !isNaN(this.precision)) val = Number(Number(val).toFixed(this.precision));
-                
+
                 const {min, max} = this;
                 if (val!==null) {
                     if (val > max) {
                         val = max;
                     } else if (val < min) {
                         val = min;
-                    } 
+                    }
                 }
-                
+
                 this.$nextTick(() => {
                     this.currentValue = val;
                     this.$emit('input', val);
@@ -278,6 +278,9 @@
             blur () {
                 this.focused = false;
                 this.$emit('on-blur');
+                if (!findComponentUpward(this, ['DatePicker', 'TimePicker', 'Cascader', 'Search'])) {
+                    this.dispatch('FormItem', 'on-form-blur', this.currentValue);
+                }
             },
             keyDown (e) {
                 if (e.keyCode === 38) {
@@ -289,20 +292,20 @@
                 }
             },
             change (event) {
-                
-                if (event.type == 'input' && !this.activeChange) return; 
+
+                if (event.type == 'input' && !this.activeChange) return;
                 let val = event.target.value.trim();
                 if (this.parser) {
                     val = this.parser(val);
                 }
-                
+
                 const isEmptyString = val.length === 0;
                 if(isEmptyString){
                     this.setValue(null);
                     return;
                 }
-                if (event.type == 'input' && val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later 
-                
+                if (event.type == 'input' && val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
+
                 val = Number(val);
 
                 if (!isNaN(val)) {
