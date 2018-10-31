@@ -1,5 +1,5 @@
 <template>
-    <div :class="wrapClasses" :style="styles">
+    <div :class="wrapClasses" :style="styles" @click="handleClick">
         <div :class="[prefixCls + '-tail']"><i></i></div>
         <div :class="[prefixCls + '-head']">
             <div :class="[prefixCls + '-head-inner']">
@@ -95,6 +95,11 @@
                 if (this.currentStatus == 'error') {
                     this.$parent.setNextError();
                 }
+            }
+        },
+        methods: {
+            handleClick (event) {
+                this.$emit('click', event);
             }
         },
         created () {
