@@ -8,12 +8,12 @@
     <Button @click="change">change</Button>
     <br><br><br><br>
     <hr>
-    <!--<Steps :current="1" size="small">-->
-        <!--<Step title="已完成" content="这里是该步骤的描述信息这里是该步骤的描述信息这里是该步骤的描述信息"></Step>-->
-        <!--<Step title="进行中" content="这里是该步骤的描述信息"></Step>-->
-        <!--<Step title="待进行" content="这里是该步骤的描述信息这里是该步骤的描述信息这里是该步骤的描述信息"></Step>-->
-        <!--<Step title="待进行" content="这里是该步骤的描述信息"></Step>-->
-    <!--</Steps>-->
+    <Steps :current="current" size="small">
+        <Step title="已完成" content="这里是该步骤的描述信息这里是该步骤的描述信息这里是该步骤的描述信息" @click="current=0"></Step>
+        <Step title="进行中" content="这里是该步骤的描述信息" @click="current=1"></Step>
+        <Step title="待进行" content="这里是该步骤的描述信息这里是该步骤的描述信息这里是该步骤的描述信息" @click="current=2"></Step>
+        <Step title="待进行" content="这里是该步骤的描述信息" @click="current=3"></Step>
+    </Steps>
     <!--<br>-->
     <!--<Steps :current="2">-->
         <!--<Step title="已完成"></Step>-->
