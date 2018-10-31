@@ -17,6 +17,17 @@ const isEarly = (timeStamp, currentTime) => {
 };
 
 /**
+ * @param {Number} timeStamp 传入的时间戳
+ * @param {Number} currentTime 当前时间时间戳
+ * @returns {Boolean} 传入的时间戳是否在今年
+ */
+const isThisYear = (timeStamp, currentTime) => {
+    const year = new Date(currentTime).getFullYear();
+    const yearStartTime = new Date(`${year}-01-01 00:00:00`).getTime();
+    return timeStamp >= yearStartTime;
+};
+
+/**
  * @param {Number} num 数值
  * @returns {String} 处理后的字符串
  * @description 如果传入的数值小于10，即位数只有1位，则在前面补充0
@@ -60,6 +71,8 @@ export const getRelativeTime = (timeStamp, locale) => {
 
     // 判断传入时间戳是否早于当前时间戳
     const IS_EARLY = isEarly(timeStamp, currentTime);
+    // 判断传入时间戳是否在今年
+    const IS_THIS_YEAR = isThisYear(timeStamp, currentTime);
     // 获取两个时间戳差值
     let diff = currentTime - timeStamp;
     // 如果IS_EARLY为false则差值取反
@@ -76,8 +89,8 @@ export const getRelativeTime = (timeStamp, locale) => {
     else if (diff >= 3600000 && diff < 86400000) resStr = Math.floor(diff / 3600000) + (locale('i.time.hours') || '小时') + dirStr;
     // 多于23小时59分钟59秒，少于等于29天59分钟59秒
     else if (diff >= 86400000 && diff < 2623860000) resStr = Math.floor(diff / 86400000) + (locale('i.time.days') || '天') + dirStr;
-    // 多于29天59分钟59秒，少于364天23小时59分钟59秒，且传入的时间戳早于当前
-    else if (diff >= 2623860000 && diff <= 31567860000 && IS_EARLY) resStr = getDate(timeStamp);
+    // 多于29天59分钟59秒，时间戳在今年，且传入的时间戳早于当前
+    else if (diff >= 2623860000 && IS_THIS_YEAR && IS_EARLY) resStr = getDate(timeStamp);
     else resStr = getDate(timeStamp, 'year');
     return resStr;
 };
