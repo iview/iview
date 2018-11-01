@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Table ref="currentRowTable" :columns="columns3" :data="data1"></Table>
+        <Table ref="currentRowTable" :columns="columns3" :data="data1" row-key="id"></Table>
         <Button @click="handleClearCurrentRow">Clear</Button>
     </div>
 </template>
@@ -26,6 +26,14 @@
                         key: 'age'
                     },
                     {
+                        title: 'Age2',
+                        key: 'age',
+                        render: (h, params) => {
+                            let value = params.row[params.column.key]
+                            return <i-input on-on-change={(e) => this.data1[params.index][params.column.key] = e.target.value} value={value}></i-input>
+                        }
+                    },
+                    {
                         title: 'Address',
                         key: 'address',
                         tooltip: true
@@ -33,24 +41,28 @@
                 ],
                 data1: [
                     {
+                        id: 1,
                         name: 'John Brown',
                         age: 18,
                         address: '自定义渲染列，使用 Vue 的 Render 函数。传入两个参数，第一个是 h，第二个为对象，包含 row、column 和 index，分别指当前行数据，当前列数据，当前行索引，详见示例。自定义渲染列，使用 Vue 的 Render 函数。传入两个参数，第一个是 h，第二个为对象，包含 row、column 和 index，分别指当前行数据，当前列数据，当前行索引，详见示例。自定义渲染列，使用 Vue 的 Render 函数。传入两个参数，第一个是 h，第二个为对象，包含 row、column 和 index，分别指当前行数据，当前列数据，当前行索引，详见示例。',
                         date: '2016-10-03'
                     },
                     {
+                        id: 2,
                         name: 'Jim Green',
                         age: 24,
                         address: 'London No. 1 Lake Park自定义渲染列，使用 Vue 的 Render 函',
                         date: '2016-10-01'
                     },
                     {
+                        id: 3,
                         name: 'Joe Black',
                         age: 30,
                         address: 'Sydney No. 1 Lake Park',
                         date: '2016-10-02'
                     },
                     {
+                        id: 4,
                         name: 'Jon Snow',
                         age: 26,
                         address: 'Ottawa No. 2 Lake Park',

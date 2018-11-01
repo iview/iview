@@ -115,6 +115,10 @@
         mixins: [ Locale ],
         components: { tableHead, tableBody, Spin },
         props: {
+            rowKey: {
+                type: [String, Number],
+                default: 1
+            },
             data: {
                 type: Array,
                 default () {
@@ -761,11 +765,19 @@
                 this.rebuildData = filterData;
                 this.$emit('on-filter-change', this.cloneColumns[index]);
             },
-            makeData () {
+            makeData () { // TODO
                 let data = deepCopy(this.data);
                 data.forEach((row, index) => {
                     row._index = index;
-                    row._rowKey = rowKey++;
+                    if (typeof this.rowKey === 'string') {
+                        if (row[this.rowKey]) {
+                            row._rowKey = row[this.rowKey];
+                        } else {
+                            throw new Error(`[iView warn]: ${this.rowKey} isn't exist in row!`);
+                        }
+                    } else {
+                        row._rowKey = rowKey++;
+                    }
                 });
                 return data;
             },
