@@ -10,7 +10,7 @@
         <div :class="[prefixCls + '-main']">
             <div :class="[prefixCls + '-title']">{{ title }}</div>
             <slot>
-                <div v-if="content" :class="[prefixCls + '-content']">{{ content }}</div>
+                <div v-if="content" :class="[prefixCls + '-content']" v-html="content"></div>
             </slot>
         </div>
     </div>
