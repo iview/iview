@@ -166,6 +166,20 @@
         }
     }
 
+    &-disabled&-checked{
+        border-color: @primary-color;
+        background-color: @primary-color;
+        opacity: .4;
+        
+        &:after {
+            background: #fff;
+        }
+
+        .@{switch-prefix-cls}-inner {
+            color: #fff;
+        }
+    }
+
 }
 
 @keyframes switch-loading {
