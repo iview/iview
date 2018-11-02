@@ -153,16 +153,15 @@
 
     &-disabled {
         cursor: @cursor-disabled;
-        background: #f3f3f3;
-        border-color: #f3f3f3;
+        opacity: .4;
 
         &:after {
-            background: #ccc;
+            background: #fff;
             cursor: not-allowed;
         }
 
         .@{switch-prefix-cls}-inner {
-            color: #ccc;
+            color: #fff;
         }
     }
 
