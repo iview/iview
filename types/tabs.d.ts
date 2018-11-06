@@ -58,7 +58,7 @@ export declare interface Tabs extends Vue {
   };
 }
 
-export declare interface TabsPane extends Vue {
+export declare interface TabPane extends Vue {
   /**
    * 用于标识当前面板，对应 value，默认为其索引值
    */
