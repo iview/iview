@@ -259,6 +259,7 @@
 
         <DatePicker type="daterange" transfer show-week-numbers placeholder="Select date" style="width: 400px"></DatePicker>
         <DatePicker type="datetimerange" transfer show-week-numbers placeholder="Select date" style="width: 400px"></DatePicker>
+        <DatePicker type="monthrange" transfer show-week-numbers placeholder="Select date" style="width: 400px"></DatePicker>
         <Time-Picker :steps="[1, 1, 15]" :value="new Date()"></Time-Picker>
     </div>
 </template>

@@ -10,7 +10,7 @@ export default {
     props: {
         type: {
             validator (value) {
-                return oneOf(value, ['year', 'month', 'date', 'daterange', 'datetime', 'datetimerange']);
+                return oneOf(value, ['year', 'month', 'date', 'daterange', 'datetime', 'datetimerange', 'monthrange']);
             },
             default: 'date'
         },
@@ -18,7 +18,7 @@ export default {
     components: { DatePickerPanel, RangeDatePickerPanel },
     computed: {
         panel(){
-            const isRange =  this.type === 'daterange' || this.type === 'datetimerange';
+            const isRange =  this.type === 'daterange' || this.type === 'datetimerange' || this.type === 'monthrange';
             return isRange ? 'RangeDatePickerPanel' : 'DatePickerPanel';
         },
         ownPickerProps(){

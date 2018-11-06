@@ -283,6 +283,7 @@
         methods: {
             onSelectionModeChange(type){
                 if (type.match(/^date/)) type = 'date';
+                if (type.match(/^month/)) type = 'month';
                 this.selectionMode = oneOf(type, ['year', 'month', 'date', 'time']) && type;
                 return this.selectionMode;
             },

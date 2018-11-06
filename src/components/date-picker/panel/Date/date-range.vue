@@ -42,13 +42,12 @@
                     :show-week-numbers="showWeekNumbers"
                     :value="preSelecting.left ? [dates[0]] : dates"
                     :focused-date="focusedDate"
-
                     @on-change-range="handleChangeRange"
                     @on-pick="panelPickerHandlers.left"
                     @on-pick-click="handlePickClick"
                 ></component>
             </div>
-            <div :class="[prefixCls + '-content', prefixCls + '-content-right']" v-show="!isTime">
+            <div :class="[prefixCls + '-content', prefixCls + '-content-right']" v-show="!isTime && isDate">
                 <div :class="[datePrefixCls + '-header']" v-show="currentView !== 'time'">
                     <span
                         v-if="splitPanels || rightPickerTable !== 'date-table'"
@@ -83,7 +82,6 @@
                     :show-week-numbers="showWeekNumbers"
                     :value="preSelecting.right ? [dates[dates.length - 1]] : dates"
                     :focused-date="focusedDate"
-
                     @on-change-range="handleChangeRange"
                     @on-pick="panelPickerHandlers.right"
                     @on-pick-click="handlePickClick"></component>
@@ -168,10 +166,10 @@
             classes(){
                 return [
                     `${prefixCls}-body-wrapper`,
-                    `${datePrefixCls}-with-range`,
                     {
+                        [`${datePrefixCls}-with-range`]: (this.isDate || this.isTime),
                         [`${prefixCls}-with-sidebar`]: this.shortcuts.length,
-                        [`${datePrefixCls}-with-week-numbers`]: this.showWeekNumbers
+                        [`${datePrefixCls}-with-week-numbers`]: this.showWeekNumbers && (this.isDate || this.isTime)
                     }
                 ];
             },

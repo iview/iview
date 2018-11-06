@@ -12,17 +12,17 @@
     </div>
 </template>
 <script>
-    import { clearHours } from '../util';
+    import { clearHours, isInRange } from '../util';
     import { deepCopy } from '../../../utils/assist';
     import Locale from '../../../mixins/locale';
     import mixin from './mixin';
     import prefixCls from './prefixCls';
 
     export default {
-        mixins: [ Locale, mixin ],
+        mixins: [Locale, mixin],
         props: {/* in mixin */},
         computed: {
-            classes() {
+            classes () {
                 return [
                     `${prefixCls}`,
                     `${prefixCls}-month`
@@ -35,22 +35,32 @@
                     selected: false,
                     disabled: false
                 };
-
                 const tableYear = this.tableDate.getFullYear();
                 const selectedDays = this.dates.filter(Boolean).map(date => clearHours(new Date(date.getFullYear(), date.getMonth(), 1)));
                 const focusedDate = clearHours(new Date(this.focusedDate.getFullYear(), this.focusedDate.getMonth(), 1));
 
+                const rangeStart = this.rangeState.from && clearHours(this.rangeState.from);
+                const rangeEnd = this.rangeState.to && clearHours(this.rangeState.to);
+
+                const isRange = this.selectionMode === 'range';
+                const [minDay, maxDay] = this.dates.map(clearHours);
+
                 for (let i = 0; i < 12; i++) {
                     const cell = deepCopy(cell_tmpl);
-                    cell.date = new Date(tableYear, i, 1);
+                    const date = new Date(tableYear, i, 1);
+                    const monthIsInCurrentYear = date && tableYear === date.getFullYear();
+                    cell.date = date;
                     cell.text = this.tCell(i + 1);
-                    const day = clearHours(cell.date);
-                    cell.disabled = typeof this.disabledDate === 'function' && this.disabledDate(cell.date) && this.selectionMode === 'month';
+                    const day = clearHours(date);
+                    const time = cell.date && clearHours(date);
+                    cell.disabled = typeof this.disabledDate === 'function' && this.disabledDate(date) && this.selectionMode === 'month';
                     cell.selected = selectedDays.includes(day);
-                    cell.focused = day === focusedDate;
+                    cell.focused = day === focusedDate && !isRange;
+                    cell.range = monthIsInCurrentYear && isRange && isInRange(time, rangeStart, rangeEnd);
+                    cell.start = monthIsInCurrentYear && isRange && time === minDay;
+                    cell.end = monthIsInCurrentYear && isRange && time === maxDay;
                     cells.push(cell);
                 }
-
                 return cells;
             }
         },

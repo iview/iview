@@ -55,6 +55,9 @@ export default {
     computed: {
         isTime(){
             return this.currentView === 'time';
+        },
+        isDate() {
+            return this.currentView === 'date';
         }
     },
     methods: {

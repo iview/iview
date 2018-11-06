@@ -142,6 +142,7 @@ export const DEFAULT_FORMATS = {
     year: 'yyyy',
     datetime: 'yyyy-MM-dd HH:mm:ss',
     time: 'HH:mm:ss',
+    monthrange: 'yyyy-MM',
     timerange: 'HH:mm:ss',
     daterange: 'yyyy-MM-dd',
     datetimerange: 'yyyy-MM-dd HH:mm:ss'
@@ -220,6 +221,10 @@ export const TYPE_VALUE_RESOLVER_MAP = {
     month: {
         formatter: DATE_FORMATTER,
         parser: DATE_PARSER
+    },
+    monthrange: {
+        formatter: RANGE_FORMATTER,
+        parser: RANGE_PARSER
     },
     year: {
         formatter: DATE_FORMATTER,
