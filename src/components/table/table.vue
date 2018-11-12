@@ -796,7 +796,7 @@
                 this.cloneColumns.forEach(col => data = this.filterData(data, col));
                 return data;
             },
-            makeObjData () {
+            makeObjData (isCurrentData = false) {
                 let data = {};
                 this.data.forEach((row, index) => {
                     const newRow = deepCopy(row);// todo 直接替换
@@ -809,7 +809,13 @@
                     if (newRow._checked) {
                         newRow._isChecked = newRow._checked;
                     } else {
-                        newRow._isChecked = false;
+                        if (isCurrentData) {
+                            newRow._isChecked = (
+                            this.objData && this.objData[index] 
+                            && this.objData[index]._isChecked) || false;
+                        } else {
+                            newRow._isChecked = false;
+                        }
                     }
                     if (newRow._expanded) {
                         newRow._isExpanded = newRow._expanded;
@@ -931,9 +937,9 @@
         },
         watch: {
             data: {
-                handler () {
+                handler (newValue, oldValue) {
                     const oldDataLen = this.rebuildData.length;
-                    this.objData = this.makeObjData();
+                    this.objData = this.makeObjData(newValue === oldValue);
                     this.rebuildData = this.makeDataWithSortAndFilter();
                     this.handleResize();
                     if (!oldDataLen) {
