@@ -1,27 +1,9 @@
 <template>
-    <a
-        v-if="to"
-        :class="classes"
-        :disabled="disabled"
-        :href="linkUrl"
-        :target="target"
-        @click.exact="handleClickLink($event, false)"
-        @click.ctrl="handleClickLink($event, true)"
-        @click.meta="handleClickLink($event, true)">
+    <component :is="tagName" :class="classes" :disabled="disabled" @click="handleClickLink" v-bind="tagProps">
         <Icon class="ivu-load-loop" type="ios-loading" v-if="loading"></Icon>
         <Icon :type="icon" :custom="customIcon" v-if="(icon || customIcon) && !loading"></Icon>
         <span v-if="showSlot" ref="slot"><slot></slot></span>
-    </a>
-    <button
-        v-else
-        :type="htmlType"
-        :class="classes"
-        :disabled="disabled"
-        @click="handleClickLink">
-        <Icon class="ivu-load-loop" type="ios-loading" v-if="loading"></Icon>
-        <Icon :type="icon" :custom="customIcon" v-if="(icon || customIcon) && !loading"></Icon>
-        <span v-if="showSlot" ref="slot"><slot></slot></span>
-    </button>
+    </component>
 </template>
 <script>
     import Icon from '../icon';
@@ -98,14 +80,34 @@
                         [`${prefixCls}-ghost`]: this.ghost
                     }
                 ];
+            },
+            // Point out if it should render as <a> tag
+            isHrefPattern() {
+                const {to} = this;
+                return !!to;
+            },
+            tagName() {
+                const {isHrefPattern} = this;
+                return isHrefPattern ? 'a' : 'button';
+            },
+            tagProps() {
+                const {isHrefPattern} = this;
+                if(isHrefPattern) {
+                    const {linkUrl,target}=this;
+                    return {href: linkUrl, target};
+                } else {
+                    const {htmlType} = this;
+                    return {type: htmlType};
+                }
             }
         },
         methods: {
             // Ctrl or CMD and click, open in new window when use `to`
-            handleClickLink (event, new_window = false) {
+            handleClickLink (event) {
                 this.$emit('click', event);
+                const openInNewWindow = event.ctrlKey || event.metaKey;
 
-                this.handleCheckClick(event, new_window);
+                this.handleCheckClick(event, openInNewWindow);
             }
         },
         mounted () {

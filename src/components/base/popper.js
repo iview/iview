@@ -60,7 +60,7 @@ export default {
         },
         visible(val) {
             if (val) {
-                this.handleIndexIncrease();  // just use for Poptip
+                if (this.handleIndexIncrease) this.handleIndexIncrease();  // just use for Poptip
                 this.updatePopper();
                 this.$emit('on-popper-show');
             } else {

@@ -155,6 +155,7 @@
             },
             resetInputState () {
                 this.inputLength = this.$refs.input.value.length * 12 + 20;
+                this.$emit('on-keydown');
             },
             handleInputDelete () {
                 if (this.multiple && this.selectedMultiple.length && this.query === '') {

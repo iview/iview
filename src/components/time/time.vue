@@ -5,12 +5,14 @@
     import Vue from 'vue';
     const isServer = Vue.prototype.$isServer;
     import { oneOf } from '../../utils/assist';
+    import Locale from '../../mixins/locale';
     import Time from './time';
 
     const prefixCls = 'ivu-time';
 
     export default {
         name: 'Time',
+        mixins: [Locale],
         props: {
             time: {
                 type: [Number, Date, String],
@@ -65,7 +67,7 @@
                 }
 
                 if (this.type === 'relative') {
-                    this.date = Time(time);
+                    this.date = Time(time, this.t);
                 } else {
                     const date = new Date(this.time);
                     const year = date.getFullYear();

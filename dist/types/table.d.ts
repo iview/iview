@@ -242,7 +242,7 @@ export declare interface TableColumn {
    * 需要监听 Table 的 on- sort - change 事件,默认false
    * @default false
    */
-  sortable?: boolean;
+  sortable?: boolean | 'custom';
   /**
    * 自定义排序使用的方法，接收三个参数 a 、 b 和 type，
    * 当设置 sortable?: true 时有效。type 值为 asc 和 desc

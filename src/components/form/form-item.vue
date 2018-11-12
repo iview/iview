@@ -150,15 +150,19 @@
         methods: {
             setRules() {
                 let rules = this.getRules();
-                if (rules.length) {
+                if (rules.length&&this.required) {
+                    return;
+                }else if (rules.length) {
                     rules.every((rule) => {
                         this.isRequired = rule.required;
                     });
-                    this.$off('on-form-blur', this.onFieldBlur);
-                    this.$off('on-form-change', this.onFieldChange);
-                    this.$on('on-form-blur', this.onFieldBlur);
-                    this.$on('on-form-change', this.onFieldChange);
+                }else if (this.required){
+                    this.isRequired = this.required;
                 }
+                this.$off('on-form-blur', this.onFieldBlur);
+                this.$off('on-form-change', this.onFieldChange);
+                this.$on('on-form-blur', this.onFieldBlur);
+                this.$on('on-form-change', this.onFieldChange);
             },
             getRules () {
                 let formRules = this.form.rules;
@@ -174,10 +178,14 @@
                 return rules.filter(rule => !rule.trigger || rule.trigger.indexOf(trigger) !== -1);
             },
             validate(trigger, callback = function () {}) {
-                const rules = this.getFilteredRule(trigger);
+                let rules = this.getFilteredRule(trigger);
                 if (!rules || rules.length === 0) {
-                    callback();
-                    return true;
+                    if (!this.required) {
+                        callback();
+                        return true;
+                    }else {
+                        rules = [{required: true}];
+                    }
                 }
 
                 this.validateState = 'validating';
