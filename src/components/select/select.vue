@@ -753,7 +753,14 @@
             },
             visible(state){
                 this.$emit('on-open-change', state);
-            }
+            },
+            slotOptions(options, old){
+                // 当 dropdown 在控件上部显示时，如果选项列表的长度由外部动态变更了，
+                // dropdown 的位置会有点问题，需要重新计算
+                if (options && old && options.length !== old.length) {
+                    this.broadcast('Drop', 'on-update-popper');
+                }
+            },
         }
     };
 </script>
