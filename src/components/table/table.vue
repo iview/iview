@@ -114,6 +114,11 @@
         name: 'Table',
         mixins: [ Locale ],
         components: { tableHead, tableBody, Spin },
+        provide () {
+            return {
+                tableRoot: this
+            };
+        },
         props: {
             data: {
                 type: Array,
