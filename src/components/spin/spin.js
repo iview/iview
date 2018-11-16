@@ -1,6 +1,15 @@
 import Vue from 'vue';
 import Spin from './spin.vue';
 
+import { transferIndex, transferIncrease } from '../../utils/transfer-queue';
+
+function handleGetIndex() {
+    transferIncrease();
+    return transferIndex;
+}
+
+let tIndex = handleGetIndex();
+
 Spin.newInstance = properties => {
     const _props = properties || {};
 
@@ -27,7 +36,10 @@ Spin.newInstance = properties => {
                 });
             }
             return h('div', {
-                'class': 'ivu-spin-fullscreen ivu-spin-fullscreen-wrapper'
+                'class': 'ivu-spin-fullscreen ivu-spin-fullscreen-wrapper',
+                'style': {
+                    'z-index': 2010 + tIndex
+                }
             }, [vnode]);
         }
     });
@@ -39,6 +51,7 @@ Spin.newInstance = properties => {
     return {
         show () {
             spin.visible = true;
+            tIndex = handleGetIndex();
         },
         remove (cb) {
             spin.visible = false;

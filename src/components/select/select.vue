@@ -54,6 +54,7 @@
                 :placement="placement"
                 ref="dropdown"
                 :data-transfer="transfer"
+                :transfer="transfer"
                 v-transfer-dom
             >
                 <ul v-show="showNotFoundLabel" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
@@ -132,6 +133,15 @@
         const textContent = (option.componentOptions.children || []).reduce((str, child) => str + (child.text || ''), '');
         const innerHTML = getNestedProperty(option, 'data.domProps.innerHTML');
         return textContent || (typeof innerHTML === 'string' ? innerHTML : '');
+    };
+
+    const checkValuesNotEqual = (value,publicValue,values) => {
+        const strValue = JSON.stringify(value);
+        const strPublic = JSON.stringify(publicValue);
+        const strValues = JSON.stringify(values.map( item => {
+            return item.value;
+        }));
+        return strValue !== strPublic || strValue !== strValues || strValues !== strPublic;
     };
 
 
@@ -254,6 +264,7 @@
                 unchangedQuery: true,
                 hasExpectedValue: false,
                 preventRemoteCall: false,
+                filterQueryChange: false,  // #4273
             };
         },
         computed: {
@@ -282,12 +293,6 @@
                     [`${prefixCls}-selection`]: !this.autoComplete,
                     [`${prefixCls}-selection-focused`]: this.isFocused
                 };
-            },
-            queryStringMatchesSelectedOption(){
-                const selectedOptions = this.values[0];
-                if (!selectedOptions) return false;
-                const [query, label] = [this.query, selectedOptions.label].map(str => (str || '').trim());
-                return !this.multiple && this.unchangedQuery && query === label;
             },
             localeNotFoundText () {
                 if (typeof this.notFoundText === 'undefined') {
@@ -355,7 +360,6 @@
                         });
                     });
                 }
-                let hasDefaultSelected = slotOptions.some(option => this.query === option.key);
                 for (let option of slotOptions) {
 
                     const cOptions = option.componentOptions;
@@ -370,16 +374,17 @@
                             );
                         }
 
-                        cOptions.children = children.map(opt => {
+                        // fix #4371
+                        children = children.map(opt => {
                             optionCounter = optionCounter + 1;
                             return this.processOption(opt, selectedValues, optionCounter === currentIndex);
                         });
 
-                        // keep the group if it still has children
-                        if (cOptions.children.length > 0) selectOptions.push({...option});
+                        // keep the group if it still has children  // fix #4371
+                        if (children.length > 0) selectOptions.push({...option,componentOptions:{...cOptions,children:children}});
                     } else {
                         // ignore option if not passing filter
-                        if (!hasDefaultSelected) {
+                        if (this.filterQueryChange) {
                             const optionPassesFilter = this.filterable ? this.validateOption(cOptions) : option;
                             if (!optionPassesFilter) continue;
                         }
@@ -461,8 +466,6 @@
             },
 
             validateOption({children, elm, propsData}){
-                if (this.queryStringMatchesSelectedOption) return true;
-
                 const value = propsData.value;
                 const label = propsData.label || '';
                 const textContent = (elm && elm.textContent) || (children || []).reduce((str, node) => {
@@ -527,6 +530,7 @@
                 this.focusIndex = -1;
                 this.unchangedQuery = true;
                 this.values = [];
+                this.filterQueryChange = false;
             },
             handleKeydown (e) {
                 if (e.key === 'Backspace'){
@@ -626,11 +630,15 @@
                     if (!this.autoComplete) this.$nextTick(() => inputField.focus());
                 }
                 this.broadcast('Drop', 'on-update-popper');
+                setTimeout(() => {
+                  this.filterQueryChange = false;
+                },300)
             },
             onQueryChange(query) {
                 if (query.length > 0 && query !== this.query) this.visible = true;
                 this.query = query;
                 this.unchangedQuery = this.visible;
+                this.filterQueryChange = true;
             },
             toggleHeaderFocus({type}){
                 if (this.disabled) {
@@ -645,16 +653,16 @@
                 if (this.getInitialValue().length > 0 && this.selectOptions.length === 0) {
                     this.hasExpectedValue = true;
                 }
-            }
+            },
         },
         watch: {
             value(value){
-                const {getInitialValue, getOptionData, publicValue} = this;
+                const {getInitialValue, getOptionData, publicValue, values} = this;
 
                 this.checkUpdateStatus();
 
                 if (value === '') this.values = [];
-                else if (JSON.stringify(value) !== JSON.stringify(publicValue)) {
+                else if (checkValuesNotEqual(value,publicValue,values)) {
                     this.$nextTick(() => this.values = getInitialValue().map(getOptionData).filter(Boolean));
                 }
             },
@@ -745,7 +753,14 @@
             },
             visible(state){
                 this.$emit('on-open-change', state);
-            }
+            },
+            slotOptions(options, old){
+                // 当 dropdown 在控件上部显示时，如果选项列表的长度由外部动态变更了，
+                // dropdown 的位置会有点问题，需要重新计算
+                if (options && old && options.length !== old.length) {
+                    this.broadcast('Drop', 'on-update-popper');
+                }
+            },
         }
     };
 </script>

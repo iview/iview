@@ -127,6 +127,9 @@
                         else item.opened = false;
                     });
                 }
+            },
+            handleEmitSelectEvent (name) {
+                this.$emit('on-select', name);
             }
         },
         mounted () {

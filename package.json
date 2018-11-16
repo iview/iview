@@ -1,6 +1,6 @@
 {
     "name": "iview",
-    "version": "3.0.1",
+    "version": "3.1.5",
     "title": "iView",
     "description": "A high quality UI components Library with Vue.js",
     "homepage": "http://www.iviewui.com",
@@ -14,9 +14,11 @@
         "framework"
     ],
     "main": "dist/iview.js",
+    "typings": "dist/types/index.d.ts",
     "files": [
         "dist",
-        "src"
+        "src",
+        "types"
     ],
     "scripts": {
         "dev": "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 8081 --config build/webpack.dev.config.js",
@@ -48,7 +50,7 @@
         "lodash.throttle": "^4.1.1",
         "popper.js": "^1.14.1",
         "tinycolor2": "^1.4.1",
-        "v-click-outside-x": "^3.0.0"
+        "v-click-outside-x": "^3.5.0"
     },
     "peerDependencies": {
         "vue": "^2.5.2"
@@ -111,7 +113,8 @@
         "vue-template-compiler": "^2.5.16",
         "webpack": "^3.11.0",
         "webpack-dev-server": "^2.11.1",
-        "webpack-merge": "^3.0.0"
+        "webpack-merge": "^3.0.0",
+        "copy-webpack-plugin": "^4.5.2"
     },
     "engines": {
         "node": ">=8.9.1",

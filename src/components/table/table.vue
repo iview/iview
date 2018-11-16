@@ -529,6 +529,10 @@
                 const status = !data._isExpanded;
                 this.objData[_index]._isExpanded = status;
                 this.$emit('on-expand', JSON.parse(JSON.stringify(this.cloneData[_index])), status);
+                
+                if(this.height){
+                    this.$nextTick(()=>this.fixedBody());
+                }
             },
             selectAll (status) {
                 // this.rebuildData.forEach((data) => {
@@ -549,6 +553,8 @@
                 const selection = this.getSelection();
                 if (status) {
                     this.$emit('on-select-all', selection);
+                } else {
+                    this.$emit('on-select-all-cancel', selection);
                 }
                 this.$emit('on-selection-change', selection);
             },

@@ -1,12 +1,12 @@
 <template>
     <div v-transfer-dom :data-transfer="transfer">
         <transition :name="transitionNames[1]">
-            <div :class="maskClasses" v-show="visible" v-if="showMask" @click="handleMask"></div>
+            <div :class="maskClasses" :style="wrapStyles" v-show="visible" v-if="showMask" @click="handleMask"></div>
         </transition>
-        <div :class="wrapClasses" @click="handleWrapClick">
+        <div :class="wrapClasses" :style="wrapStyles" @click="handleWrapClick">
             <transition :name="transitionNames[0]" @after-leave="animationFinish">
                 <div :class="classes" :style="mainStyles" v-show="visible">
-                    <div :class="contentClasses" ref="content" :style="contentStyles">
+                    <div :class="contentClasses" ref="content" :style="contentStyles" @click="handleClickModal">
                         <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
                             <slot name="close">
                                 <Icon type="ios-close"></Icon>
@@ -38,6 +38,9 @@
     import ScrollbarMixins from './mixins-scrollbar';
 
     import { on, off } from '../../utils/dom';
+    import { findComponentsDownward } from '../../utils/assist';
+
+    import { transferIndex as modalIndex, transferIncrease as modalIncrease } from '../../utils/transfer-queue';
 
     const prefixCls = 'ivu-modal';
 
@@ -114,7 +117,11 @@
             draggable: {
                 type: Boolean,
                 default: false
-            }
+            },
+            zIndex: {
+                type: Number,
+                default: 1000
+            },
         },
         data () {
             return {
@@ -129,7 +136,8 @@
                     dragX: null,
                     dragY: null,
                     dragging: false
-                }
+                },
+                modalIndex: this.handleGetModalIndex(),  // for Esc close the top modal
             };
         },
         computed: {
@@ -142,6 +150,11 @@
                         [`${prefixCls}-no-mask`]: !this.showMask
                     }
                 ];
+            },
+            wrapStyles () {
+                return {
+                    zIndex: this.modalIndex + this.zIndex
+                };
             },
             maskClasses () {
                 return `${prefixCls}-mask`;
@@ -247,7 +260,15 @@
             EscClose (e) {
                 if (this.visible && this.closable) {
                     if (e.keyCode === 27) {
-                        this.close();
+                        const $Modals = findComponentsDownward(this.$root, 'Modal').filter(item => item.$data.visible && item.$props.closable);
+
+                        const $TopModal = $Modals.sort((a, b) => {
+                            return a.$data.modalIndex < b.$data.modalIndex ? 1 : -1;
+                        })[0];
+
+                        setTimeout(() => {
+                            $TopModal.close();
+                        }, 0);
                     }
                 }
             },
@@ -298,6 +319,15 @@
                 this.dragData.dragging = false;
                 off(window, 'mousemove', this.handleMoveMove);
                 off(window, 'mouseup', this.handleMoveEnd);
+            },
+            handleGetModalIndex () {
+                modalIncrease();
+                return modalIndex;
+            },
+            handleClickModal () {
+                if (this.draggable) {
+                    this.modalIndex = this.handleGetModalIndex();
+                }
             }
         },
         mounted () {
@@ -332,6 +362,8 @@
                         this.removeScrollEffect();
                     }, 300);
                 } else {
+                    this.modalIndex = this.handleGetModalIndex();
+
                     if (this.timer) clearTimeout(this.timer);
                     this.wrapShow = true;
                     if (!this.scrollable) {

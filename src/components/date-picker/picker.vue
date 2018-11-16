@@ -39,6 +39,7 @@
                 :placement="placement"
                 ref="drop"
                 :data-transfer="transfer"
+                :transfer="transfer"
                 v-transfer-dom>
                 <div>
                     <component
@@ -318,7 +319,9 @@
                 if (this.readonly) return;
                 this.isFocused = true;
                 if (e && e.type === 'focus') return; // just focus, don't open yet
-                this.visible = true;
+                if(!this.disabled){
+                    this.visible = true;
+                }
             },
             handleBlur (e) {
                 if (this.internalFocus){
@@ -566,8 +569,9 @@
             handleInputMouseleave () {
                 this.showClose = false;
             },
-            handleIconClick () {
+            handleIconClick (e) {
                 if (this.showClose) {
+                    if (e) e.stopPropagation();
                     this.handleClear();
                 } else if (!this.disabled) {
                     this.handleFocus();

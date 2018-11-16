@@ -7,6 +7,8 @@
         <Select v-model="model2" multiple style="width:200px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
+
+        <Button type="primary" @click="changeData">changeData</Button>
     </div>
 </template>
 <script>
@@ -41,6 +43,11 @@
                 ],
                 model1: '',
                 model2: []
+            }
+        },
+        methods: {
+            changeData() {
+                this.model2.push('Canberra')
             }
         }
     }

@@ -54,7 +54,24 @@
         <InputNumber v-model="value3" style="width: 200px" placeholder="Enter something..."></InputNumber> -->
 
         
-        <InputNumber v-model="valueNull" style="width: 200px" :min='0' :max='10000'  :precision='2' ></InputNumber>
+        <InputNumber v-model="valueNull" style="width: 200px" :min='1' :max='10000'  :precision='2' ></InputNumber>
+        <InputNumber v-model="valueNull" style="width: 200px" ></InputNumber>
+        <div style="margin:10px 0px">
+            <InputNumber :activeChange="false" v-model="valueNull" style="width: 200px" :min='1' :max='10000'  :precision='2' ></InputNumber>
+            <InputNumber :activeChange="false" v-model="valueNull" style="width: 200px" ></InputNumber>
+        </div>
+        <div style="margin:10px 0px">
+            <InputNumber
+                :max="10000"
+                v-model="value9"
+                :formatter="value => `$ ${value}`.replace(/B(?=(d{3})+(?!d))/g, ',')"
+                :parser="value => value.replace(/\$s?|(,*)/g, '')"></InputNumber>
+            <InputNumber
+                :max="100"
+                v-model="value10"
+                :formatter="value => `${value}%`"
+                :parser="value => value.replace('%', '')"></InputNumber>
+        </div>
     </div>
 </template>
 <script>
@@ -68,16 +85,18 @@
                 formatter: (value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
                 parser: (value) => value.replace(/\$\s?|(,*)/g, ''),
                 formatter2: (value) => `${value}%`,
-                parser2: (value) => value.replace('%', '')
-            }
+                parser2: (value) => value.replace('%', ''),
+                value9: 1000,
+                value10: 100
+            };
         },
         methods: {
             focus (e) {
-                e.target.select()
+                e.target.select();
             },
             change (v) {
-                console.log(v)
+                console.log(v);
             }
         }
-    }
+    };
 </script>
