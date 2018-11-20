@@ -28,7 +28,7 @@
                 });
             }
         },
-        mounted () {
+        beforeCreate () {
             this.hasSider = this.findSider();
         }
     };
