@@ -7,7 +7,6 @@
         <span
             :class="singleDisplayClasses"
             v-show="singleDisplayValue"
-            v-html="singleDisplayValue"
         >{{ singleDisplayValue }}</span>
         <input
             :id="inputElementId"
