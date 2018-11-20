@@ -4,6 +4,7 @@
         @click.stop="select"
         @mousedown.prevent
         @touchstart.prevent
+        v-html="showLabel"
     ><slot>{{ showLabel }}</slot></li>
 </template>
 <script>
