@@ -138,6 +138,10 @@
             },
             notFoundText: {
                 type: String
+            },
+            keyInNode: {
+                type: Boolean,
+                default: true
             }
         },
         data () {
@@ -239,10 +243,11 @@
             handleRightCheckedKeysChange (keys) {
                 this.rightCheckedKeys = keys;
             },
-            handleCheckedKeys () {
+            handleCheckedKeys (selectNode) {
                 const sourceSelectedKeys = this.getValidKeys('left');
                 const targetSelectedKeys = this.getValidKeys('right');
-                this.$emit('on-selected-change', sourceSelectedKeys, targetSelectedKeys);
+                const selectValue = this.keyInNode ? selectNode : selectNode.key;
+                this.$emit('on-selected-change', sourceSelectedKeys, targetSelectedKeys, selectValue);
             }
         },
         watch: {
