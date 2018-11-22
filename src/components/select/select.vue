@@ -648,6 +648,24 @@
             },
             updateSlotOptions(){
                 this.slotOptions = this.$slots.default;
+                //当Options发生改变，重新扫描当前选中的value在新的options里面是否有对应的value，并更新。
+                if(this.values.length > 0){
+                    let values = this.values.map((value) => {
+                        const option = this.slotOptions.find((option) =>{
+                            return option.componentOptions.propsData.value === value.value;
+                        });
+
+                        if(!option){
+                            return null;
+                        }
+                        const label = getOptionLabel(option);
+                        return {
+                            value: value.value,
+                            label: label,
+                        }
+                    }).filter(Boolean);
+                    this.values = values;
+                }
             },
             checkUpdateStatus() {
                 if (this.getInitialValue().length > 0 && this.selectOptions.length === 0) {
