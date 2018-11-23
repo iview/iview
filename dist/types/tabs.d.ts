@@ -58,13 +58,13 @@ export declare interface Tabs extends Vue {
   };
 }
 
-export declare interface TabPane extends Vue {
+export declare interface TabsPane extends Vue {
   /**
    * 用于标识当前面板，对应 value，默认为其索引值
    */
   name?: string | number;
   /**
-   * 选项卡头显示文字，支持 Render 函数。 
+   * 选项卡头显示文字，支持 Render 函数。
    * @default 空
    */
   label?: string | (() => void);
