@@ -630,7 +630,7 @@
                 }
                 this.broadcast('Drop', 'on-update-popper');
                 setTimeout(() => {
-                  this.filterQueryChange = false;
+                    this.filterQueryChange = false;
                 }, ANIMATION_TIMEOUT);
             },
             onQueryChange(query) {
