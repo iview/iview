@@ -647,8 +647,6 @@
             },
             updateSlotOptions(){
                 this.slotOptions = this.$slots.default;
-                 // #4626
-                this.$nextTick(() => this.values = this.getInitialValue().map(this.getOptionData).filter(Boolean));
             },
             checkUpdateStatus() {
                 if (this.getInitialValue().length > 0 && this.selectOptions.length === 0) {
