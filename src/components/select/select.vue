@@ -679,7 +679,7 @@
                     setTimeout(() => {
                         this.focusIndex = -1;
                         for(let i in this.selectOptions) {
-                            if(this.selectOptions[i].key === vModelValue) {
+                            if(this.selectOptions[i].componentOptions.propsData.value === vModelValue) {
                                 this.focusIndex = parseInt(i);
                                 break;
                             }
