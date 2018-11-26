@@ -595,7 +595,6 @@
                     }
                     index = nearestActiveOption;
                 }
-
                 this.focusIndex = index;
             },
             onOptionClick(option) {
@@ -632,7 +631,7 @@
                 this.broadcast('Drop', 'on-update-popper');
                 setTimeout(() => {
                   this.filterQueryChange = false;
-                },300)
+                }, ANIMATION_TIMEOUT);
             },
             onQueryChange(query) {
                 if (query.length > 0 && query !== this.query) this.visible = true;
@@ -674,6 +673,19 @@
                     (this.multiple ? this.publicValue.map(({value}) => value) : this.publicValue.value) :
                     this.publicValue;
                 const shouldEmitInput = newValue !== oldValue && vModelValue !== this.value;
+                // #4771
+                const timeOut = this.filterable ? ANIMATION_TIMEOUT : 0;
+                if(!this.multiple){
+                    setTimeout(() => {
+                        this.focusIndex = -1;
+                        for(let i in this.selectOptions) {
+                            if(this.selectOptions[i].key === vModelValue) {
+                                this.focusIndex = parseInt(i);
+                                break;
+                            }
+                        }
+                    }, timeOut);
+                }
                 if (shouldEmitInput) {
                     this.$emit('input', vModelValue); // to update v-model
                     this.$emit('on-change', this.publicValue);
