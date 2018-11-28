@@ -1,6 +1,6 @@
 /*eslint-disable*/
 // 把 YYYY-MM-DD 改成了 yyyy-MM-dd
-(function (main) {
+
     'use strict';
 
     /**
@@ -307,13 +307,8 @@
     };
 
     /* istanbul ignore next */
-    if (typeof module !== 'undefined' && module.exports) {
-        module.exports = fecha;
-    } else if (typeof define === 'function' && define.amd) {
-        define(function () {
-            return fecha;
-        });
-    } else {
-        main.fecha = fecha;
-    }
-})(this);
+<<<<<<< HEAD
+export default fecha;
+=======
+export default fecha
+>>>>>>> 7f76a43c99e8476c851955c028b7fb2aa81fba5c
