@@ -1,14 +1,19 @@
-// Thanks to https://github.com/ElemeFE/element/blob/dev/src/transitions/collapse-transition.js
-
 import { addClass, removeClass } from '../../utils/assist';
+
+let isAfterLeave = true;
 
 const Transition = {
     beforeEnter(el) {
         addClass(el, 'collapse-transition');
         if (!el.dataset) el.dataset = {};
 
-        el.dataset.oldPaddingTop = el.style.paddingTop;
-        el.dataset.oldPaddingBottom = el.style.paddingBottom;
+        if (isAfterLeave) {
+          el.dataset.oldPaddingTop = el.style.paddingTop;
+          el.dataset.oldPaddingBottom = el.style.paddingBottom;
+        } else {
+          el.style.paddingTop = el.dataset.oldPaddingTop;
+          el.style.paddingBottom = el.dataset.oldPaddingBottom;
+        }
 
         el.style.height = '0';
         el.style.paddingTop = 0;
@@ -16,6 +21,7 @@ const Transition = {
     },
 
     enter(el) {
+        isAfterLeave = false;
         el.dataset.oldOverflow = el.style.overflow;
         if (el.scrollHeight !== 0) {
             el.style.height = el.scrollHeight + 'px';
@@ -63,6 +69,7 @@ const Transition = {
         el.style.overflow = el.dataset.oldOverflow;
         el.style.paddingTop = el.dataset.oldPaddingTop;
         el.style.paddingBottom = el.dataset.oldPaddingBottom;
+        isAfterLeave = true;
     }
 };
 
