@@ -738,7 +738,7 @@
             dropVisible(open){
                 this.broadcast('Drop', open ? 'on-update-popper' : 'on-destroy-popper');
             },
-            selectOptions(){
+            selectOptions(options, old){
                 if (this.hasExpectedValue && this.selectOptions.length > 0){
                     if (this.values.length === 0) {
                         this.values = this.getInitialValue();
@@ -750,17 +750,17 @@
                 if (this.slotOptions && this.slotOptions.length === 0){
                     this.query = '';
                 }
-            },
-            visible(state){
-                this.$emit('on-open-change', state);
-            },
-            slotOptions(options, old){
+
+                // fix #4913
                 // 当 dropdown 在控件上部显示时，如果选项列表的长度由外部动态变更了，
                 // dropdown 的位置会有点问题，需要重新计算
                 if (options && old && options.length !== old.length) {
                     this.broadcast('Drop', 'on-update-popper');
                 }
             },
+            visible(state){
+                this.$emit('on-open-change', state);
+            }
         }
     };
 </script>
