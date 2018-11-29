@@ -7,6 +7,7 @@
             visible
             :multiple="multiple"
             :show-checkbox="showCheckbox"
+            :always-expand="alwaysExpand"
             :children-key="childrenKey">
         </Tree-node>
         <div :class="[prefixCls + '-empty']" v-if="!stateTree.length">{{ localeEmptyText }}</div>
@@ -50,7 +51,11 @@
             },
             render: {
                 type: Function
-            }
+            },
+            alwaysExpand: {
+                type: Boolean,
+                default: false
+            },
         },
         data () {
             return {
