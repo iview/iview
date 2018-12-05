@@ -379,7 +379,7 @@
             },
 
             handleInputChange (val) {
-                this.currentValue = [val, this.currentValue[1]];
+                this.currentValue = [val || this.min, this.currentValue[1]];
                 this.emitChange();
             },
 
