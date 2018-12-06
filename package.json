@@ -14,7 +14,7 @@
         "framework"
     ],
     "main": "dist/iview.js",
-    "typings": "dist/types/index.d.ts",
+    "typings": "types/index.d.ts",
     "files": [
         "dist",
         "src",
