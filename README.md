@@ -17,6 +17,7 @@ iView
 ![CSS gzip size](http://img.badgesize.io/https://unpkg.com/iview/dist/styles/iview.css?compression=gzip&label=gzip%20size:%20CSS&style=flat-square)
 [![Join the chat at https://gitter.im/iview/iview](https://img.shields.io/badge/chat-on_gitter-30b392.svg?style=flat-square)](https://gitter.im/iview/iview?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Backers on Open Collective](https://opencollective.com/iview/tiers/backer/badge.svg?label=backer&color=brightgreen)](#backers)
+[![Sponers on Open Collective](https://opencollective.com/iview/tiers/sponsor/badge.svg?label=sponsor&color=brightgreen)](#sponers)
 
 
 <h2 align="center">Special Sponsors</h2>
@@ -175,6 +176,9 @@ If you want to contribute or have questions or bugs to report:
 - [iView-Area](https://github.com/iview/iview-area)
 - [iView-Editor](https://github.com/iview/iview-editor)
 - [iView-Cli](https://github.com/iview/iview-cli)
+
+## Sponers
+![](https://opencollective.com/iview/tiers/sponsor.svg?avatarHeight=36)
 
 ## Backers
 ![](https://opencollective.com/iview/tiers/backer.svg?avatarHeight=36)
