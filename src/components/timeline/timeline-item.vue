@@ -18,11 +18,6 @@
                 default: 'blue'
             }
         },
-        data () {
-            return {
-                dot: false
-            };
-        },
         computed: {
             itemClasses () {
                 return `${prefixCls}-item`;
