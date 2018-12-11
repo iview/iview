@@ -1,7 +1,7 @@
 <template>
     <li :class="itemClasses">
         <div :class="tailClasses"></div>
-        <div :class="headClasses" :style="customColor" ref="dot"><slot name="dot"></slot></div>
+        <div :class="headClasses" :style="customColor"><slot name="dot"></slot></div>
         <div :class="contentClasses">
             <slot></slot>
         </div>
@@ -23,9 +23,6 @@
                 dot: false
             };
         },
-        mounted () {
-            this.dot = this.$refs.dot.innerHTML.length ? true : false;
-        },
         computed: {
             itemClasses () {
                 return `${prefixCls}-item`;
@@ -37,7 +34,7 @@
                 return [
                     `${prefixCls}-item-head`,
                     {
-                        [`${prefixCls}-item-head-custom`]: this.dot,
+                        [`${prefixCls}-item-head-custom`]: this.$slots.dot !== undefined,
                         [`${prefixCls}-item-head-${this.color}`]: this.headColorShow
                     }
                 ];
