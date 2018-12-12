@@ -46,11 +46,11 @@ iView
               <img width="300" src="https://file.iviewui.com/asd/asd-u-new-2.png">
             </a>
           </td>
-          <td align="center" valign="middle">
+<!--           <td align="center" valign="middle">
             <a href="https://www.vaptcha.com/?from=iview" target="_blank">
               <img width="300" src="https://file.iviewui.com/asd/asd-vaptcha2.jpg">
             </a>
-          </td>
+          </td> -->
           <td align="center" valign="middle">
             <a href="https://www.accesshub.cn/" target="_blank">
               <img width="300" src="https://file.iviewui.com/asd/asd-accesshub.jpg">
