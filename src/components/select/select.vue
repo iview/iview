@@ -763,7 +763,10 @@
                 // #4626，当 Options 的 label 更新时，v-model 的值未更新
                 if (options && options.length && this.values.length) {
                     this.values = this.values.map(value => {
-                        const option = options.find(option => option.componentOptions.propsData.value === value.value);
+                        const option = options.find(option => {
+                            if (!option.componentOptions) return false;
+                            return option.componentOptions.propsData.value === value.value;
+                        });
 
                         if(!option) return null;
 
