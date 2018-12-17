@@ -146,10 +146,12 @@
                 return this.flatState.filter(obj => obj.node.checked).map(obj => obj.node);
             },
             updateTreeDown(node, changes = {}) {
+                if (this.checkStrictly) return;
+
                 for (let key in changes) {
                     this.$set(node, key, changes[key]);
                 }
-                if (node[this.childrenKey] && !this.checkStrictly) {
+                if (node[this.childrenKey]) {
                     node[this.childrenKey].forEach(child => {
                         this.updateTreeDown(child, changes);
                     });
