@@ -750,6 +750,10 @@
                 if (this.slotOptions && this.slotOptions.length === 0){
                     this.query = '';
                 }
+                
+                 // 当 dropdown 一开始在控件下部显示，而滚动页面后变成在上部显示，如果选项列表的长度由内部动态变更了(搜索情况)
+                 // dropdown 的位置不会重新计算，需要重新计算
+                 this.broadcast('Drop', 'on-update-popper');
             },
             visible(state){
                 this.$emit('on-open-change', state);
