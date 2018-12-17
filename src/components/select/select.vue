@@ -631,8 +631,8 @@
                 }
                 this.broadcast('Drop', 'on-update-popper');
                 setTimeout(() => {
-                  this.filterQueryChange = false;
-                },300)
+                    this.filterQueryChange = false;
+                }, ANIMATION_TIMEOUT);
             },
             onQueryChange(query) {
                 if (query.length > 0 && query !== this.query) this.visible = true;
@@ -753,12 +753,27 @@
                 
                  // 当 dropdown 一开始在控件下部显示，而滚动页面后变成在上部显示，如果选项列表的长度由内部动态变更了(搜索情况)
                  // dropdown 的位置不会重新计算，需要重新计算
-                 this.broadcast('Drop', 'on-update-popper');
+                this.broadcast('Drop', 'on-update-popper');
             },
             visible(state){
                 this.$emit('on-open-change', state);
             },
             slotOptions(options, old){
+                // #4626，当 Options 的 label 更新时，v-model 的值未更新
+                if (options && options.length && this.values.length) {
+                    this.values = this.values.map(value => {
+                        const option = options.find(option => option.componentOptions.propsData.value === value.value);
+
+                        if(!option) return null;
+
+                        const label = getOptionLabel(option);
+                        return {
+                            value: value.value,
+                            label: label
+                        };
+                    }).filter(Boolean);
+                }
+
                 // 当 dropdown 在控件上部显示时，如果选项列表的长度由外部动态变更了，
                 // dropdown 的位置会有点问题，需要重新计算
                 if (options && old && options.length !== old.length) {
