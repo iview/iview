@@ -53,7 +53,7 @@ export { Spin } from './spin';
 export { Steps, StepsStep } from './steps';
 export { Switch, Switch as ISwitch } from './switch';
 export { Table, TableColumn, TableRenderCreateElementData, TableColumnRenderParams, TableRenderCreateElementResult, TableColumnRenderHeadParams, TableExportCsvParams } from './table';
-export { Tabs, TabsPane } from './tabs';
+export { Tabs, TabPane } from './tabs';
 export { Tag } from './tag';
 export { Time } from './time';
 export { Timeline, TimelineItem } from './timeline';

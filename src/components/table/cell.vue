@@ -24,17 +24,23 @@
             :column="column"
             :index="index"
             :render="column.render"></table-expand>
+        <table-slot
+            v-if="renderType === 'slot'"
+            :row="row"
+            :column="column"
+            :index="index"></table-slot>
     </div>
 </template>
 <script>
     import TableExpand from './expand';
+    import TableSlot from './slot';
     import Icon from '../icon/icon.vue';
     import Checkbox from '../checkbox/checkbox.vue';
     import Tooltip from '../tooltip/tooltip.vue';
 
     export default {
         name: 'TableCell',
-        components: { Icon, Checkbox, TableExpand, Tooltip },
+        components: { Icon, Checkbox, TableExpand, TableSlot, Tooltip },
         props: {
             prefixCls: String,
             row: Object,
@@ -107,6 +113,8 @@
                 this.renderType = 'expand';
             } else if (this.column.render) {
                 this.renderType = 'render';
+            } else if (this.column.slot) {
+                this.renderType = 'slot';
             } else {
                 this.renderType = 'normal';
             }
