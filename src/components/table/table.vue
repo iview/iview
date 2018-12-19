@@ -114,6 +114,11 @@
         name: 'Table',
         mixins: [ Locale ],
         components: { tableHead, tableBody, Spin },
+        provide () {
+            return {
+                tableRoot: this
+            };
+        },
         props: {
             data: {
                 type: Array,
@@ -828,7 +833,7 @@
             // 修改列，设置一个隐藏的 id，便于后面的多级表头寻找对应的列，否则找不到
             makeColumnsId (columns) {
                 return columns.map(item => {
-                    if ('children' in item) item.children = this.makeColumnsId(item.children);
+                    if ('children' in item) this.makeColumnsId(item.children);
                     item.__id = getRandomStr(6);
                     return item;
                 });

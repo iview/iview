@@ -16,8 +16,8 @@ iView
 ![JS gzip size](http://img.badgesize.io/https://unpkg.com/iview/dist/iview.min.js?compression=gzip&label=gzip%20size:%20JS&style=flat-square)
 ![CSS gzip size](http://img.badgesize.io/https://unpkg.com/iview/dist/styles/iview.css?compression=gzip&label=gzip%20size:%20CSS&style=flat-square)
 [![Join the chat at https://gitter.im/iview/iview](https://img.shields.io/badge/chat-on_gitter-30b392.svg?style=flat-square)](https://gitter.im/iview/iview?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Backers on Open Collective](https://opencollective.com/iview/backers/badge.svg)](#backers)
-[![Sponsors on Open Collective](https://opencollective.com/iview/sponsors/badge.svg)](#sponsors) 
+[![Backers on Open Collective](https://opencollective.com/iview/tiers/backer/badge.svg?label=backer&color=brightgreen)](#backers)
+[![Sponers on Open Collective](https://opencollective.com/iview/tiers/sponsor/badge.svg?label=sponsor&color=brightgreen)](#sponers)
 
 
 <h2 align="center">Special Sponsors</h2>
@@ -46,14 +46,19 @@ iView
               <img width="300" src="https://file.iviewui.com/asd/asd-u-new-2.png">
             </a>
           </td>
-          <td align="center" valign="middle">
+<!--           <td align="center" valign="middle">
             <a href="https://www.vaptcha.com/?from=iview" target="_blank">
               <img width="300" src="https://file.iviewui.com/asd/asd-vaptcha2.jpg">
             </a>
-          </td>
+          </td> -->
           <td align="center" valign="middle">
             <a href="https://www.accesshub.cn/" target="_blank">
               <img width="300" src="https://file.iviewui.com/asd/asd-accesshub.jpg">
+            </a>
+          </td>
+          <td align="center" valign="middle">
+            <a href="https://juejin.im/book/5bc844166fb9a05cd676ebca" target="_blank">
+              <img width="300" src="https://file.iviewui.com/asd/asd-v-book2.png">
             </a>
           </td>
         </tr>
@@ -176,6 +181,12 @@ If you want to contribute or have questions or bugs to report:
 - [iView-Area](https://github.com/iview/iview-area)
 - [iView-Editor](https://github.com/iview/iview-editor)
 - [iView-Cli](https://github.com/iview/iview-cli)
+
+## Sponers
+![](https://opencollective.com/iview/tiers/sponsor.svg?avatarHeight=36)
+
+## Backers
+![](https://opencollective.com/iview/tiers/backer.svg?avatarHeight=36)
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)

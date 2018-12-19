@@ -1,6 +1,6 @@
 <template>
     <div
-        v-click-outside.capture="handleClose"
+        v-click-outside="handleClose"
         :class="classes">
         <div
             ref="reference"
