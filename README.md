@@ -56,6 +56,11 @@ iView
               <img width="300" src="https://file.iviewui.com/asd/asd-accesshub.jpg">
             </a>
           </td>
+          <td align="center" valign="middle">
+            <a href="https://juejin.im/book/5bc844166fb9a05cd676ebca" target="_blank">
+              <img width="300" src="https://file.iviewui.com/asd/asd-v-book2.png">
+            </a>
+          </td>
         </tr>
       </tbody>
 </table>
