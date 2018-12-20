@@ -62,6 +62,13 @@
         <br><br>
         <Tag v-for="item in count" :key="item" :name="item" closable @on-close="handleClose2">标签{{ item + 1 }}</Tag>
         <Button icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd">添加标签</Button>
+
+        <br><br><hr><br>
+        <Tag :checked="checked" checkable>test</Tag>
+        <Button @click="toggle">
+            Toggle
+          </Button>
+        <span>{{ checked }}</span>
     </div>
 </template>
 <script>
@@ -69,7 +76,8 @@
         data () {
             return {
                 show: true,
-                count: [0, 1, 2]
+                count: [0, 1, 2],
+                checked: true
             };
         },
         methods: {
@@ -86,6 +94,9 @@
             handleClose2 (event, name) {
                 const index = this.count.indexOf(name);
                 this.count.splice(index, 1);
+            },
+            toggle() {
+                this.checked = !this.checked;
             }
         }
     };
