@@ -55,6 +55,7 @@
                 if (this.timeDisabled) return;
                 this.$emit('on-pick-toggle-time');
                 this.dispatch('CalendarPicker', 'focus-input');
+                this.dispatch('CalendarPicker', 'update-popper');
             },
             handleTab(e) {
                 const tabbables = [...this.$el.children];
