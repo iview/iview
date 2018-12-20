@@ -77,7 +77,11 @@
 
                 // return value back recursion  // 向上递归，设置临时选中值（并非真实选中）
                 const backItem = this.getBaseItem(item);
-                if (backItem.label !== this.tmpItem.label || backItem.value !== this.tmpItem.value) {
+                // #5021
+                if (this.changeOnSelect) {
+                    this.tmpItem = backItem;
+                    this.emitUpdate([backItem]);
+                } else if (backItem.label !== this.tmpItem.label || backItem.value !== this.tmpItem.value) {
                     this.tmpItem = backItem;
                     this.emitUpdate([backItem]);
                 }
