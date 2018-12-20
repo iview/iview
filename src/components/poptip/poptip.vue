@@ -3,7 +3,8 @@
         :class="classes"
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave"
-        v-clickoutside="handleClose">
+        v-clickoutside="handleClose"
+        v-clickoutside:touchstart="handleClose">
         <div
             :class="[prefixCls + '-rel']"
             ref="reference"

@@ -2,6 +2,7 @@
     <div
         :class="[prefixCls]"
         v-clickoutside="onClickoutside"
+        v-clickoutside:touchstart.capture="onClickoutside"
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave">
         <div :class="[prefixCls + '-rel']" ref="reference" @click="handleClick"><slot></slot></div>
