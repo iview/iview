@@ -39,13 +39,18 @@ export declare interface Tree extends Vue {
      */
     "children-key"?: string;
     /**
+     * 在显示复选框的情况下，是否严格的遵循父子不互相关联的做法
+     * @default false
+     */
+    "check-strictly"?: boolean;
+    /**
      * 点击树节点时触发
-     * @default 当前已选中的节点数组
+     * @default 当前已勾选节点的数组、当前项
      */
     $emit(eventName: "on-select-change", value: TreeChild[]): this;
     /**
      * 点击复选框时触发
-     * @default  当前已勾选节点的数组
+     * @default  当前已勾选节点的数组、当前项
      */
     $emit(eventName: "on-check-change", value: TreeChild[]): this;
     /**
@@ -56,11 +61,15 @@ export declare interface Tree extends Vue {
     /**
      * 获取被勾选的节点
      */
-    getCheckedNodes(): void;
+    getCheckedNodes(): any[];
     /**
      * 获取被选中的节点
      */
-    getSelectedNodes(): void;
+    getSelectedNodes(): any[];
+    /**
+     * 获取选中及半选节点
+     */
+    getCheckedAndIndeterminateNodes(): any[];
 }
 
 export declare interface TreeChild extends Vue {
