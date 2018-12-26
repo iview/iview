@@ -761,7 +761,7 @@
             },
             slotOptions(options, old){
                 // #4626，当 Options 的 label 更新时，v-model 的值未更新
-                if (this.flatOptions && this.flatOptions.length && this.values.length && !this.multiple) {
+                if (this.flatOptions && this.flatOptions.length && this.values.length && !this.multiple && !this.remote) {
                     this.values = this.values.map(value => {
                         const option = this.flatOptions.find(option => {
                             if (!option.componentOptions) return false;
