@@ -762,21 +762,12 @@
             },
             slotOptions(options, old){
                 // #4626，当 Options 的 label 更新时，v-model 的值未更新
-                if (options && options.length && this.values.length && !this.multiple) {
-                    this.values = this.values.map(value => {
-                        const option = options.find(option => {
-                            if (!option.componentOptions) return false;
-                            return option.componentOptions.propsData.value === value.value;
-                        });
-
-                        if(!option) return null;
-
-                        const label = getOptionLabel(option);
-                        return {
-                            value: value.value,
-                            label: label
-                        };
-                    }).filter(Boolean);
+                // remote 下，调用 getInitialValue 有 bug
+                if (!this.remote) {
+                    const values = this.getInitialValue();
+                    if (this.flatOptions && this.flatOptions.length && values.length && !this.multiple) {
+                        this.values = values.map(this.getOptionData).filter(Boolean);
+                    }
                 }
 
                 // 当 dropdown 在控件上部显示时，如果选项列表的长度由外部动态变更了，
