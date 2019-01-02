@@ -30,6 +30,9 @@
                 @keydown="handleKeydown"
                 @focus="handleFocus"
                 @blur="handleBlur"
+                @compositionstart="handleComposition"
+                @compositionupdate="handleComposition"
+                @compositionend="handleComposition"
                 @input="handleInput"
                 @change="handleChange">
             <div :class="[prefixCls + '-group-append']" v-if="append" v-show="slotReady"><slot name="append"></slot></div>
@@ -62,6 +65,9 @@
             @keydown="handleKeydown"
             @focus="handleFocus"
             @blur="handleBlur"
+            @compositionstart="handleComposition"
+            @compositionupdate="handleComposition"
+            @compositionend="handleComposition"
             @input="handleInput">
         </textarea>
     </div>
@@ -179,7 +185,8 @@
                 slotReady: false,
                 textareaStyles: {},
                 showPrefix: false,
-                showSuffix: false
+                showSuffix: false,
+                isOnComposition: false
             };
         },
         computed: {
@@ -244,7 +251,18 @@
                     this.dispatch('FormItem', 'on-form-blur', this.currentValue);
                 }
             },
+            handleComposition(event) {
+                if (event.type === 'compositionstart') {
+                    this.isOnComposition = true;
+                }
+                if (event.type === 'compositionend') {
+                    this.isOnComposition = false;
+                    this.handleInput(event);
+                }
+            },
             handleInput (event) {
+                if (this.isOnComposition) return;
+
                 let value = event.target.value;
                 if (this.number && value !== '') value = Number.isNaN(Number(value)) ? value : Number(value);
                 this.$emit('input', value);

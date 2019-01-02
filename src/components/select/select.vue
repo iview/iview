@@ -632,7 +632,7 @@
                 this.broadcast('Drop', 'on-update-popper');
                 setTimeout(() => {
                     this.filterQueryChange = false;
-                },300);
+                }, ANIMATION_TIMEOUT);
             },
             onQueryChange(query) {
                 if (query.length > 0 && query !== this.query) this.visible = true;
@@ -664,6 +664,7 @@
                 if (value === '') this.values = [];
                 else if (checkValuesNotEqual(value,publicValue,values)) {
                     this.$nextTick(() => this.values = getInitialValue().map(getOptionData).filter(Boolean));
+                    this.dispatch('FormItem', 'on-form-change', this.publicValue);
                 }
             },
             values(now, before){
@@ -750,11 +751,24 @@
                 if (this.slotOptions && this.slotOptions.length === 0){
                     this.query = '';
                 }
+                
+                 // 当 dropdown 一开始在控件下部显示，而滚动页面后变成在上部显示，如果选项列表的长度由内部动态变更了(搜索情况)
+                 // dropdown 的位置不会重新计算，需要重新计算
+                this.broadcast('Drop', 'on-update-popper');
             },
             visible(state){
                 this.$emit('on-open-change', state);
             },
             slotOptions(options, old){
+                // #4626，当 Options 的 label 更新时，v-model 的值未更新
+                // remote 下，调用 getInitialValue 有 bug
+                if (!this.remote) {
+                    const values = this.getInitialValue();
+                    if (this.flatOptions && this.flatOptions.length && values.length && !this.multiple) {
+                        this.values = values.map(this.getOptionData).filter(Boolean);
+                    }
+                }
+
                 // 当 dropdown 在控件上部显示时，如果选项列表的长度由外部动态变更了，
                 // dropdown 的位置会有点问题，需要重新计算
                 if (options && old && options.length !== old.length) {

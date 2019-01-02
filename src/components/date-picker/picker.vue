@@ -679,6 +679,9 @@
             },
             focus() {
                 this.$refs.input && this.$refs.input.focus();
+            },
+            updatePopper () {
+                this.$refs.drop.update();
             }
         },
         watch: {
@@ -715,6 +718,7 @@
 
             // to handle focus from confirm buttons
             this.$on('focus-input', () => this.focus());
+            this.$on('update-popper', () => this.updatePopper());
         }
     };
 </script>

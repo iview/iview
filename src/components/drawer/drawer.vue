@@ -22,7 +22,7 @@
 </template>
 <script>
     import Icon from '../icon';
-    import { oneOf } from '../../utils/assist';
+    import { oneOf, findBrothersComponents, findComponentsUpward } from '../../utils/assist';
     import TransferDom from '../../directives/transfer-dom';
     import Emitter from '../../mixins/emitter';
     import ScrollbarMixins from '../modal/mixins-scrollbar';
@@ -193,7 +193,17 @@
                 if (val === false) {
                     this.timer = setTimeout(() => {
                         this.wrapShow = false;
-                        this.removeScrollEffect();
+                        // #4831 Check if there are any drawers left at the parent level
+                        const brotherDrawers = findBrothersComponents(this, 'Drawer') || [];
+                        const parentDrawers = findComponentsUpward(this, 'Drawer') || [];
+
+                        const otherDrawers = [].concat(brotherDrawers).concat(parentDrawers);
+
+                        const isScrollDrawer = otherDrawers.some(item => item.visible && !item.scrollable);
+
+                        if (!isScrollDrawer) {
+                            this.removeScrollEffect();
+                        }
                     }, 300);
                 } else {
                     if (this.timer) clearTimeout(this.timer);
