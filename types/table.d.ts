@@ -357,28 +357,6 @@ export declare interface TableColumnRenderParams {
     index?: number;
 }
 
-export declare interface TableRenderCreateElementResult {
-    child?: object;
-    children?: Array<any>;
-    componentInstance?: object;
-    componentOptions?: object;
-    context?: object;
-    data?: object;
-    elm?: object;
-    functionalContext?: object;
-    isCloned?: boolean;
-    isComment?: boolean;
-    isOnce?: boolean;
-    isRootInsert?: boolean;
-    isStatic?: boolean;
-    key?: object;
-    ns?: object;
-    parent?: object;
-    raw?: boolean;
-    tag?: string;
-    text?: object;
-}
-
 export declare interface TableColumnRenderHeadParams {
     /**
      * 当前列数据
