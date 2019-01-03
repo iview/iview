@@ -59,8 +59,8 @@
             handleTriggerItem (item, fromInit = false, fromUser = false) {
                 if (item.disabled) return;
 
+                const cascader = findComponentUpward(this, 'Cascader');
                 if (item.loading !== undefined && !item.children.length) {
-                    const cascader = findComponentUpward(this, 'Cascader');
                     if (cascader && cascader.loadData) {
                         cascader.loadData(item, () => {
                             // todo
@@ -109,6 +109,10 @@
                         changeOnSelect: this.changeOnSelect,
                         fromInit: fromInit
                     });
+                }
+
+                if (cascader) {
+                    cascader.$refs.drop.update();
                 }
             },
             updateResult (item) {

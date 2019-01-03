@@ -42,6 +42,7 @@
                     `${prefixCls}`,
                     `${prefixCls}-${this.type}`,
                     {
+                        [`${prefixCls}-with-text`]: this.hasSlot && this.orientation === 'center',
                         [`${prefixCls}-with-text-${this.orientation}`]: this.hasSlot,
                         [`${prefixCls}-dashed`]: !!this.dashed
                     }
