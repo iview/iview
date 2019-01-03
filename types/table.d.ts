@@ -240,7 +240,7 @@ export declare interface TableColumn {
     render?: (
         h?: CreateElement,
         params?: TableColumnRenderParams
-    ) => TableRenderCreateElementResult;
+    ) => VNode;
     /**
      * 自定义列头显示内容，传入参数有两个，column 和 index，分别为当前列数据和当前列索引，不支持渲染自定义组件
      * @param h Render函数
@@ -249,7 +249,7 @@ export declare interface TableColumn {
     renderHeader?: (
         h?: CreateElement,
         params?: TableColumnRenderHeadParams
-    ) => TableRenderCreateElementResult;
+    ) => VNode;
     /**
      * 对应列是否可以排序，如果设置为 custom，则代表用户希望远程排序，
      * 需要监听 Table 的 on- sort - change 事件,默认false
