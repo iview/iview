@@ -52,7 +52,7 @@ export { Slider } from './slider';
 export { Spin } from './spin';
 export { Steps, StepsStep } from './steps';
 export { Switch, Switch as ISwitch } from './switch';
-export { Table, TableColumn, TableRenderCreateElementData, TableColumnRenderParams, TableRenderCreateElementResult, TableColumnRenderHeadParams, TableExportCsvParams } from './table';
+export { Table, TableColumn, TableRenderCreateElementData, TableColumnRenderParams, TableColumnRenderHeadParams, TableExportCsvParams } from './table';
 export { Tabs, TabPane } from './tabs';
 export { Tag } from './tag';
 export { Time } from './time';
