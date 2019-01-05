@@ -22,7 +22,7 @@
             @keydown="resetInputState"
             @keydown.delete="handleInputDelete"
             @focus="onInputFocus"
-            @blur="onInputFocus"
+            @blur="onInputBlur"
 
             ref="input">
         <Icon type="ios-close-circle" :class="[prefixCls + '-arrow']" v-if="resetSelect" @click.native.stop="onClear"></Icon>
@@ -147,7 +147,11 @@
         },
         methods: {
             onInputFocus(e){
-                this.$emit(e.type === 'focus' ? 'on-input-focus' : 'on-input-blur');
+                this.$emit('on-input-focus');
+            },
+            onInputBlur(e){
+                this.query = '';
+                this.$emit('on-input-blur');
             },
             removeTag (value) {
                 if (this.disabled) return false;
