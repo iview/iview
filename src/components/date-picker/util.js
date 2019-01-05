@@ -147,29 +147,33 @@ export const DEFAULT_FORMATS = {
     datetimerange: 'yyyy-MM-dd HH:mm:ss'
 };
 
-export const RANGE_SEPARATOR = ' - ';
-
 const DATE_FORMATTER = function(value, format) {
     return formatDate(value, format);
 };
 const DATE_PARSER = function(text, format) {
     return parseDate(text, format);
 };
-const RANGE_FORMATTER = function(value, format) {
+const RANGE_FORMATTER = function(value, format, rangeSplitor) {
+    if(!rangeSplitor){
+        rangeSplitor = ' - ';
+    }
     if (Array.isArray(value) && value.length === 2) {
         const start = value[0];
         const end = value[1];
 
         if (start && end) {
-            return formatDate(start, format) + RANGE_SEPARATOR + formatDate(end, format);
+            return formatDate(start, format) + rangeSplitor + formatDate(end, format);
         }
     } else if (!Array.isArray(value) && value instanceof Date){
         return formatDate(value, format);
     }
     return '';
 };
-const RANGE_PARSER = function(text, format) {
-    const array = Array.isArray(text) ? text : text.split(RANGE_SEPARATOR);
+const RANGE_PARSER = function(text, format, rangeSplitor) {
+    if(!rangeSplitor){
+        rangeSplitor = ' - ';
+    }
+    const array = Array.isArray(text) ? text : text.split(rangeSplitor);
     if (array.length === 2) {
         const range1 = array[0];
         const range2 = array[1];

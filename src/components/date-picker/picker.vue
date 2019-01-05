@@ -82,7 +82,7 @@
     import {directive as clickOutside} from 'v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
-    import { DEFAULT_FORMATS, RANGE_SEPARATOR, TYPE_VALUE_RESOLVER_MAP, getDayCountOfMonth } from './util';
+    import { DEFAULT_FORMATS, TYPE_VALUE_RESOLVER_MAP, getDayCountOfMonth } from './util';
     import {findComponentsDownward} from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
@@ -209,6 +209,10 @@
             options: {
                 type: Object,
                 default: () => ({})
+            },
+            splitor: {
+                type: Object,
+                default: '-'
             }
         },
         data(){
@@ -278,6 +282,13 @@
             },
             isConfirm(){
                 return this.confirm || this.type === 'datetime' || this.type === 'datetimerange' || this.multiple;
+            },
+            rangeSplitor(){
+                let splitor = this.splitor;
+                if(!splitor || splitor.length <= 0){
+                    splitor = '-';
+                }
+                return ` ${splitor} `
             }
         },
         methods: {
@@ -609,28 +620,28 @@
                 if (val && type === 'time' && !(val instanceof Date)) {
                     val = parser(val, format);
                 } else if (this.multiple && val) {
-                    val = multipleParser(val, format);
+                    val = multipleParser(val, format, this.rangeSplitor);
                 } else if (isRange) {
                     if (!val){
                         val = [null, null];
                     } else {
                         if (typeof val === 'string') {
-                            val = parser(val, format);
+                            val = parser(val, format, this.rangeSplitor);
                         } else if (type === 'timerange') {
-                            val = parser(val, format).map(v => v || '');
+                            val = parser(val, format, this.rangeSplitor).map(v => v || '');
                         } else {
                             const [start, end] = val;
                             if (start instanceof Date && end instanceof Date){
                                 val = val.map(date => new Date(date));
                             } else if (typeof start === 'string' && typeof end === 'string'){
-                                val = parser(val.join(RANGE_SEPARATOR), format);
+                                val = parser(val.join(this.rangeSplitor), format, this.rangeSplitor);
                             } else if (!start || !end){
                                 val = [null, null];
                             }
                         }
                     }
                 } else if (typeof val === 'string' && type.indexOf('time') !== 0){
-                    val = parser(val, format) || null;
+                    val = parser(val, format, this.rangeSplitor) || null;
                 }
 
                 return (isRange || this.multiple) ? (val || []) : [val];
@@ -640,13 +651,13 @@
 
                 if (this.multiple) {
                     const formatter = TYPE_VALUE_RESOLVER_MAP.multiple.formatter;
-                    return formatter(value, this.format || format);
+                    return formatter(value, this.format || format, this.rangeSplitor);
                 } else {
                     const {formatter} = (
                         TYPE_VALUE_RESOLVER_MAP[this.type] ||
                         TYPE_VALUE_RESOLVER_MAP['default']
                     );
-                    return formatter(value, this.format || format);
+                    return formatter(value, this.format || format, this.rangeSplitor);
                 }
             },
             onPick(dates, visible = false, type) {
