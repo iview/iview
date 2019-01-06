@@ -1,6 +1,7 @@
 <template>
     <div
         v-click-outside="handleClose"
+        v-click-outside:touchstart="handleClose"
         :class="classes">
         <div
             ref="reference"
