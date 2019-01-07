@@ -848,6 +848,7 @@
                 columns.forEach((column, index) => {
                     column._index = index;
                     column._columnKey = columnKey++;
+                    column.width = parseInt(column.width);
                     column._width = column.width ? column.width : '';    // update in handleResize()
                     column._sortType = 'normal';
                     column._filterVisible = false;
