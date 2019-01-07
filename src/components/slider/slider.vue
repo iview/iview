@@ -169,7 +169,7 @@
         watch: {
             value (val) {
                 val = this.checkLimits(Array.isArray(val) ? val : [val]);
-                if (val[0] !== this.currentValue[0] || val[1] !== this.currentValue[1]) {
+                if (!this.dragging && (val[0] !== this.currentValue[0] || val[1] !== this.currentValue[1])) {
                     this.currentValue = val;
                 }
             },
