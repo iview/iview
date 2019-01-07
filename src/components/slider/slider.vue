@@ -372,9 +372,10 @@
                 const currentX = this.getPointerX(event);
                 const sliderOffsetLeft = this.$refs.slider.getBoundingClientRect().left;
                 let newPos = ((currentX - sliderOffsetLeft) / this.sliderWidth * this.valueRange) + this.min;
+                let regularNewPos = newPos / this.valueRange * 100 ;
 
-                if (!this.range || newPos <= this.minPosition) this.changeButtonPosition(newPos, 'min');
-                else if (newPos >= this.maxPosition) this.changeButtonPosition(newPos, 'max');
+                if (!this.range || regularNewPos <= this.minPosition) this.changeButtonPosition(newPos, 'min');
+                else if (regularNewPos >= this.maxPosition) this.changeButtonPosition(newPos, 'max');
                 else this.changeButtonPosition(newPos, ((newPos - this.firstPosition) <= (this.secondPosition - newPos)) ? 'min' : 'max');
             },
 
