@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Table ref="currentRowTable" :columns="columns3" :data="data1"  @drag="true" @on-drag-drop="onDragDrop"></Table>
+        <Table ref="currentRowTable" :columns="columns3" :data="data1" :drag="true" @on-drag-drop="onDragDrop"></Table>
         <Button @click="handleClearCurrentRow">Clear</Button>
     </div>
 </template>
