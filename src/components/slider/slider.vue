@@ -252,8 +252,14 @@
             tipDisabled () {
                 return this.tipFormat(this.currentValue[0]) === null || this.showTip === 'never';
             },
-            valueRange(){
+            valueRange () {
                 return this.max - this.min;
+            },
+            firstPosition () {
+                return this.currentValue[0];
+            },
+            secondPosition () {
+                return this.currentValue[1];
             }
         },
         methods: {
