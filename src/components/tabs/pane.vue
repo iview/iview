@@ -1,5 +1,5 @@
 <template>
-    <div :class="prefixCls" v-show="show"><slot></slot></div>
+    <div :class="prefixCls" v-show="show" :style="contentStyle"><slot></slot></div>
 </template>
 <script>
     const prefixCls = 'ivu-tabs-tabpane';
@@ -32,6 +32,13 @@
                 show: true,
                 currentName: this.name
             };
+        },
+        computed: {
+            contentStyle () {
+                return {
+                    visibility: this.$parent.activeKey !== this.currentName ? 'hidden' : 'visible'
+                };
+            }
         },
         methods: {
             updateNav () {
