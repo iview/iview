@@ -1,41 +1,40 @@
 <template>
-  <div style="margin: 100px;width: 200px;">
-    <auto-complete v-model="value" :data="data" :disabled="disabled"></auto-complete>
-  </div>
+    <div style="margin: 100px;width: 200px;">
+        <AutoComplete placement="top" transfer v-model="value" icon="ios-search" :data="data" @on-search="handleSearch" @on-change="hc" :filter-method="fm">
+            <!--<Option v-for="item in data" :value="item" :label="item" :key="item">-->
+                <!--<span style="color: red">{{ item }}</span>-->
+            <!--</Option>-->
+        </AutoComplete>
+    </div>
 </template>
 <script>
-export default {
-  data() {
-    return {
-      value: "",
-      disabled: false,
-      data: []
+
+    export default {
+        props: {
+
+        },
+        data () {
+            return {
+                value: '',
+                data: [],
+//                data: ['Burns Bay Road', 'Downing Street', 'Wall Street']
+            };
+        },
+        computed: {},
+        methods: {
+            handleSearch (value) {
+                this.data = !value ? [] : [
+                    value + '@qq.com',
+                    value + '@sina.com',
+                    value + '@163.com'
+                ]
+            },
+            hc (v) {
+//                console.log(v)
+            },
+            fm (value, item) {
+                return item.toUpperCase().indexOf(value.toUpperCase()) !== -1;
+            }
+        }
     };
-  },
-  methods: {},
-  created() {
-    setTimeout(() => {
-      this.value = "1.0.0.5";
-      this.data = [
-        "12412515",
-        "123444",
-        "12355",
-        "12345",
-        "12312",
-        "1234",
-        "123",
-        "111",
-        "5.2.3.4",
-        "1.2.3.4",
-        "1.2.3.4.5",
-        "1.2.3.4.5.6",
-        "1.2.3.4.5.6.7",
-        "1.0.0.8",
-        "1.0.0.5",
-        "whb-03"
-      ];
-      //   this.disabled = true;
-    }, 1000);
-  }
-};
 </script>
