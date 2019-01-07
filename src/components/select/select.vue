@@ -635,7 +635,21 @@
                 }, ANIMATION_TIMEOUT);
             },
             onQueryChange(query) {
-                if (query.length > 0 && query !== this.query) this.visible = true;
+                if (query.length > 0 && query !== this.query) {
+                  // in 'AutoComplete', when set an initial value asynchronously,
+                  // the 'dropdown list' should be stay hidden.
+                  // [issue #5150]
+                    if (this.autoComplete) {
+                        let isInputFocused =
+                            document.hasFocus &&
+                            document.hasFocus() &&
+                            document.activeElement === this.$el.querySelector('input');
+                        this.visible = isInputFocused;
+                    } else {
+                        this.visible = true;
+                    }
+                }
+
                 this.query = query;
                 this.unchangedQuery = this.visible;
                 this.filterQueryChange = true;
