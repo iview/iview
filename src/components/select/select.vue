@@ -639,12 +639,15 @@
                   // in 'AutoComplete', when set an initial value asynchronously,
                   // the 'dropdown list' should be stay hidden.
                   // [issue #5150]
-                    let isInputFocused =
-                    document.hasFocus &&
-                    document.hasFocus() &&
-                    document.activeElement === this.$el.querySelector('input');
-
-                    this.visible = isInputFocused;
+                    if (this.autoComplete) {
+                        let isInputFocused =
+                            document.hasFocus &&
+                            document.hasFocus() &&
+                            document.activeElement === this.$el.querySelector('input');
+                        this.visible = isInputFocused;
+                    } else {
+                        this.visible = true;
+                    }
                 }
 
                 this.query = query;
