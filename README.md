@@ -26,7 +26,7 @@ iView
         <tr>
           <td align="center" valign="middle">
             <a href="https://segmentfault.com/ls/1650000016424063" target="_blank">
-              <img width="300" src="https://file.iviewui.com/asd/asd-iview-live2.png">
+              <img width="300" src="https://file.iviewui.com/asd/asd-i-2.png">
             </a>
           </td>
           <td align="center" valign="middle">
@@ -36,7 +36,7 @@ iView
           </td>
           <td align="center" valign="middle">
             <a href="https://studio.qcloud.coding.net/campaign/favorite-plugins/index?utm_source=iview" target="_blank">
-              <img width="300" src="https://file.iviewui.com/asd/asd-coding.png">
+              <img width="300" src="https://file.iviewui.com/asd/asd-coding2.png">
             </a>
           </td>
         </tr>

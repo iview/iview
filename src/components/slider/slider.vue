@@ -169,7 +169,7 @@
         watch: {
             value (val) {
                 val = this.checkLimits(Array.isArray(val) ? val : [val]);
-                if (val[0] !== this.currentValue[0] || val[1] !== this.currentValue[1]) {
+                if (!this.dragging && (val[0] !== this.currentValue[0] || val[1] !== this.currentValue[1])) {
                     this.currentValue = val;
                 }
             },
@@ -249,8 +249,14 @@
             tipDisabled () {
                 return this.tipFormat(this.currentValue[0]) === null || this.showTip === 'never';
             },
-            valueRange(){
+            valueRange () {
                 return this.max - this.min;
+            },
+            firstPosition () {
+                return this.currentValue[0];
+            },
+            secondPosition () {
+                return this.currentValue[1];
             }
         },
         methods: {
@@ -371,10 +377,12 @@
                 if (this.disabled) return;
                 const currentX = this.getPointerX(event);
                 const sliderOffsetLeft = this.$refs.slider.getBoundingClientRect().left;
-                let newPos = ((currentX - sliderOffsetLeft) / this.getSliderWidth() * this.valueRange) + this.min;
 
-                if (!this.range || newPos <= this.minPosition) this.changeButtonPosition(newPos, 'min');
-                else if (newPos >= this.maxPosition) this.changeButtonPosition(newPos, 'max');
+                let newPos = ((currentX - sliderOffsetLeft) / this.getSliderWidth() * this.valueRange) + this.min;
+                let regularNewPos = newPos / this.valueRange * 100 ;
+
+                if (!this.range || regularNewPos <= this.minPosition) this.changeButtonPosition(newPos, 'min');
+                else if (regularNewPos >= this.maxPosition) this.changeButtonPosition(newPos, 'max');
                 else this.changeButtonPosition(newPos, ((newPos - this.firstPosition) <= (this.secondPosition - newPos)) ? 'min' : 'max');
             },
 
