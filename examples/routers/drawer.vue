@@ -8,7 +8,7 @@
 
         </div>
 
-        <Drawer v-model="visible" width="70" title="抽屉标题" :styles="styles" @on-close="handleClose">
+        <Drawer v-model="visible" width="70" inner title="抽屉标题" :styles="styles" @on-close="handleClose">
             <p>一些内容</p>
             <p>一些内容</p>
             <p>一些内容</p>
