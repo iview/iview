@@ -246,9 +246,6 @@
                 }
                 return result;
             },
-            sliderWidth () {
-                return parseInt(getStyle(this.$refs.slider, 'width'), 10);
-            },
             tipDisabled () {
                 return this.tipFormat(this.currentValue[0]) === null || this.showTip === 'never';
             },
@@ -257,6 +254,9 @@
             }
         },
         methods: {
+            getSliderWidth() {
+                return parseInt(getStyle(this.$refs.slider, 'width'), 10);
+            },
             getPointerX (e) {
                 return e.type.indexOf('touch') !== -1 ? e.touches[0].clientX : e.clientX;
             },
@@ -312,7 +312,7 @@
                 this.dragging = true;
                 this.$refs[`${this.pointerDown}Tooltip`].visible = true;
                 this.currentX = this.getPointerX(event);
-                const diff = (this.currentX - this.startX) / this.sliderWidth * this.valueRange;
+                const diff = (this.currentX - this.startX) / this.getSliderWidth() * this.valueRange;
 
                 this.changeButtonPosition(this.startPos + diff);
             },
@@ -371,7 +371,7 @@
                 if (this.disabled) return;
                 const currentX = this.getPointerX(event);
                 const sliderOffsetLeft = this.$refs.slider.getBoundingClientRect().left;
-                let newPos = ((currentX - sliderOffsetLeft) / this.sliderWidth * this.valueRange) + this.min;
+                let newPos = ((currentX - sliderOffsetLeft) / this.getSliderWidth() * this.valueRange) + this.min;
 
                 if (!this.range || newPos <= this.minPosition) this.changeButtonPosition(newPos, 'min');
                 else if (newPos >= this.maxPosition) this.changeButtonPosition(newPos, 'max');
