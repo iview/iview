@@ -344,6 +344,13 @@
                 const modulus = this.handleDecimal(newPos,this.step);
                 const value = this.currentValue;
                 value[index] = newPos - modulus;
+
+                // 判断左右是否相等，否则会出现左边大于右边的情况
+                if (this.range) {
+                    if (type === 'min' && value[0] > value[1]) value[1] = value[0];
+                    if (type === 'max' && value[0] > value[1]) value[0] = value[1];
+                }
+
                 this.currentValue = [...value];
 
                 if (!this.dragging) {
