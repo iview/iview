@@ -85,6 +85,7 @@
     import { getStyle, oneOf } from '../../utils/assist';
     import { on, off } from '../../utils/dom';
     import Emitter from '../../mixins/emitter';
+    import elementResizeDetectorMaker from 'element-resize-detector';
 
     const prefixCls = 'ivu-slider';
 
@@ -164,6 +165,7 @@
                     min: 0,
                     max: 1,
                 },
+                sliderWidth: 0
             };
         },
         watch: {
@@ -245,9 +247,6 @@
                     result.push(i * stepWidth);
                 }
                 return result;
-            },
-            sliderWidth () {
-                return parseInt(getStyle(this.$refs.slider, 'width'), 10);
             },
             tipDisabled () {
                 return this.tipFormat(this.currentValue[0]) === null || this.showTip === 'never';
@@ -403,7 +402,10 @@
 
             handleBlur (type) {
                 this.$refs[`${type}Tooltip`].handleClosePopper();
-            }
+            },
+            handleSetSliderWidth () {
+                this.sliderWidth = parseInt(getStyle(this.$refs.slider, 'width'), 10);
+            },
         },
         mounted () {
             // #2852
@@ -421,6 +423,12 @@
                     });
                 }
             });
+
+            this.observer = elementResizeDetectorMaker();
+            this.observer.listenTo(this.$refs.slider, this.handleSetSliderWidth);
+        },
+        beforeDestroy() {
+            this.observer.removeListener(this.$refs.slider, this.handleSetSliderWidth);
         }
     };
 </script>
