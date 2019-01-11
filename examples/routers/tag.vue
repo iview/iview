@@ -69,6 +69,8 @@
             Toggle
           </Button>
         <span>{{ checked }}</span>
+        <br><br>
+        <Tag type="dot" color="gold">标签四</Tag>
     </div>
 </template>
 <script>
