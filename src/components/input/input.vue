@@ -85,7 +85,7 @@
         props: {
             type: {
                 validator (value) {
-                    return oneOf(value, ['text', 'textarea', 'password', 'url', 'email', 'date']);
+                    return oneOf(value, ['text', 'textarea', 'password', 'url', 'email', 'date', 'number']);
                 },
                 default: 'text'
             },
@@ -264,7 +264,7 @@
                 if (this.isOnComposition) return;
 
                 let value = event.target.value;
-                if (this.number && value !== '') value = Number.isNaN(Number(value)) ? value : Number(value);
+                //if (this.number && value !== '') value = Number.isNaN(Number(value)) ? value : Number(value);
                 this.$emit('input', value);
                 this.setCurrentValue(value);
                 this.$emit('on-change', event);
