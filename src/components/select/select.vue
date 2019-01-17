@@ -425,7 +425,7 @@
             getOptionData(value){
                 const option = this.flatOptions.find(({componentOptions}) => componentOptions.propsData.value === value);
                 if (!option) return null;
-                const label = getOptionLabel(option);
+                const label = (this.remote && this.multiple) ? ((this.label.find(item => item.value === value) || {}).label || getOptionLabel(option)) : getOptionLabel(option);
                 return {
                     value: value,
                     label: label,
