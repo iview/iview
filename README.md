@@ -36,7 +36,7 @@ iView
           </td>
           <td align="center" valign="middle">
             <a href="https://studio.qcloud.coding.net/campaign/favorite-plugins/index?utm_source=iview" target="_blank">
-              <img width="300" src="https://file.iviewui.com/asd/asd-coding.png">
+              <img width="300" src="https://file.iviewui.com/asd/asd-coding3.png">
             </a>
           </td>
         </tr>
@@ -51,11 +51,11 @@ iView
               <img width="300" src="https://file.iviewui.com/asd/asd-vaptcha2.jpg">
             </a>
           </td> -->
-          <td align="center" valign="middle">
+<!--           <td align="center" valign="middle">
             <a href="https://www.accesshub.cn/" target="_blank">
               <img width="300" src="https://file.iviewui.com/asd/asd-accesshub.jpg">
             </a>
-          </td>
+          </td> -->
           <td align="center" valign="middle">
             <a href="https://juejin.im/book/5bc844166fb9a05cd676ebca" target="_blank">
               <img width="300" src="https://file.iviewui.com/asd/asd-v-book2.png">

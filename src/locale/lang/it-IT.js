@@ -94,6 +94,15 @@ const lang = {
             star: 'Stella',
             stars: 'Stelle'
         },
+        time: {
+            before: 'fa',
+            after: ' dopo',
+            just: 'adesso',
+            seconds: ' secondi',
+            minutes: ' minuti',
+            hours: ' ore',
+            days: ' giorni'
+        },
         tree: {
             emptyText: 'Nessun Risultato'
         }
