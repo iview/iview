@@ -23,7 +23,7 @@
                 @focus="focus"
                 @blur="blur"
                 @keydown.stop="keyDown"
-                @input="change"
+                @input="changeByInput"
                 @mouseup="preventDefault"
                 @change="change"
                 :readonly="readonly || !editable"
@@ -137,7 +137,8 @@
                 focused: false,
                 upDisabled: false,
                 downDisabled: false,
-                currentValue: this.value
+                currentValue: this.value,
+                tmoChangeByInput: undefined
             };
         },
         computed: {
@@ -291,7 +292,14 @@
                     this.down(e);
                 }
             },
+            changeByInput (event) {
+                clearTimeout(this.tmoChangeByInput);
+                this.tmoChangeByInput = setTimeout(() => {
+                    this.change(event);
+                }, 1000);
+            },
             change (event) {
+                clearTimeout(this.tmoChangeByInput);
 
                 if (event.type == 'input' && !this.activeChange) return;
                 let val = event.target.value.trim();
