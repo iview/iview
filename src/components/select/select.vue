@@ -560,8 +560,14 @@
                     if (e.key === 'Enter') {
                         if (this.focusIndex === -1) return this.hideMenu();
                         const optionComponent = this.flatOptions[this.focusIndex];
-                        const option = this.getOptionData(optionComponent.componentOptions.propsData.value);
-                        this.onOptionClick(option);
+
+                        // fix a script error when searching
+                        if (optionComponent) {
+                            const option = this.getOptionData(optionComponent.componentOptions.propsData.value);
+                            this.onOptionClick(option);
+                        } else {
+                            this.hideMenu();
+                        }
                     }
                 } else {
                     const keysThatCanOpenSelect = ['ArrowUp', 'ArrowDown'];
@@ -635,7 +641,21 @@
                 }, ANIMATION_TIMEOUT);
             },
             onQueryChange(query) {
-                if (query.length > 0 && query !== this.query) this.visible = true;
+                if (query.length > 0 && query !== this.query) {
+                  // in 'AutoComplete', when set an initial value asynchronously,
+                  // the 'dropdown list' should be stay hidden.
+                  // [issue #5150]
+                    if (this.autoComplete) {
+                        let isInputFocused =
+                            document.hasFocus &&
+                            document.hasFocus() &&
+                            document.activeElement === this.$el.querySelector('input');
+                        this.visible = isInputFocused;
+                    } else {
+                        this.visible = true;
+                    }
+                }
+
                 this.query = query;
                 this.unchangedQuery = this.visible;
                 this.filterQueryChange = true;
@@ -751,7 +771,7 @@
                 if (this.slotOptions && this.slotOptions.length === 0){
                     this.query = '';
                 }
-                
+
                  // 当 dropdown 一开始在控件下部显示，而滚动页面后变成在上部显示，如果选项列表的长度由内部动态变更了(搜索情况)
                  // dropdown 的位置不会重新计算，需要重新计算
                 this.broadcast('Drop', 'on-update-popper');

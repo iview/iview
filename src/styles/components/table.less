@@ -315,16 +315,18 @@
     }
     &-fixed-header{
         overflow: hidden;
-        &-with-empty{
-            .@{table-prefix-cls}-hidden{
-                .@{table-prefix-cls}-sort{
-                    display: none;
-                }
-                .@{table-prefix-cls}-cell span{
-                    display: none;
-                }
-            }
-        }
+        // 在 #1387 里，添加了下面的代码，但是在 #5174 会出现新的问题。
+        // 但是，在新版本里，注释掉后，#1387 的问题并没有再复现，所以注释掉
+        //&-with-empty{
+        //    .@{table-prefix-cls}-hidden{
+        //        .@{table-prefix-cls}-sort{
+        //            display: none;
+        //        }
+        //        .@{table-prefix-cls}-cell span{
+        //            display: none;
+        //        }
+        //    }
+        //}
     }
     &-fixed-body{
         overflow: hidden;
