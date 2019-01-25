@@ -4,7 +4,7 @@
     ul{
         list-style: none;
         margin: 0;
-        padding: 0;
+        padding: 0 6px;
         font-size: @font-size-small;
         &.@{dropdown-prefix-cls}-menu{
             padding: 0;
@@ -69,6 +69,9 @@
         &-disabled{
             cursor: @cursor-disabled;
         }
+    }
+    &-empty{
+        text-align:center;
     }
 
     .@{checkbox-prefix-cls}-wrapper{

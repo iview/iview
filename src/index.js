@@ -53,6 +53,7 @@ import Timeline from './components/timeline';
 import TimePicker from './components/time-picker';
 import Tooltip from './components/tooltip';
 import Transfer from './components/transfer';
+import TransferTree from './components/transfer-tree';
 import Tree from './components/tree';
 import Upload from './components/upload';
 import {Row, Col} from './components/grid';
@@ -134,6 +135,7 @@ const components = {
     TimePicker,
     Tooltip,
     Transfer,
+    TransferTree,
     Tree,
     Upload
 };
