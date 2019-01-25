@@ -52,6 +52,9 @@
             },
             className: {
                 type: String
+            },
+            zIndex: {
+                type: Number
             }
         },
         data () {
@@ -71,7 +74,7 @@
             },
             wrapStyles () {
                 let styles = Object.assign({}, this.styles);
-                styles['z-index'] = 1010 + this.tIndex;
+                styles['z-index'] = this.zIndex + this.tIndex;
 
                 return styles;
             }

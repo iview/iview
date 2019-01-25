@@ -79,6 +79,9 @@
             },
             transitionName: {
                 type: String
+            },
+            zIndex: {
+                type: Number
             }
         },
         data () {

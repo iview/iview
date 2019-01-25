@@ -20,29 +20,31 @@ const iconTypes = {
     'loading': 'ios-loading'
 };
 
-function getMessageInstance () {
+function getMessageInstance (zIndex) {
     messageInstance = messageInstance || Notification.newInstance({
         prefixCls: prefixCls,
         styles: {
             top: `${defaults.top}px`
-        }
+        },
+        zIndex
     });
 
     return messageInstance;
 }
 
-function notice (content = '', duration = defaults.duration, type, onClose = function () {}, closable = false, render = function () {}) {
+function notice (content = '', duration = defaults.duration, type, onClose = function () {}, closable = false, render = function () {}, zIndex = 1000) {
     const iconType = iconTypes[type];
 
     // if loading
     const loadCls = type === 'loading' ? ' ivu-load-loop' : '';
 
-    let instance = getMessageInstance();
+    let instance = getMessageInstance(zIndex);
 
     instance.notice({
         name: `${prefixKey}${name}`,
         duration: duration,
         styles: {},
+        zIndex,
         transitionName: 'move-up',
         content: `
             <div class="${prefixCls}-custom-content ${prefixCls}-${type}">
@@ -90,7 +92,7 @@ export default {
                 content: options
             };
         }
-        return notice(options.content, options.duration, type, options.onClose, options.closable, options.render);
+        return notice(options.content, options.duration, type, options.onClose, options.closable, options.render, options.zIndex);
     },
     config (options) {
         if (options.top || options.top === 0) {
