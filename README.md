@@ -172,11 +172,10 @@ If you want to contribute or have questions or bugs to report:
 - [iView Developer](https://dev.iviewui.com)
 - [iView Run](https://run.iviewui.com)
 - [iView-Admin](https://github.com/iview/iview-admin)
-- [iView-Doc](https://github.com/iview/iview-doc)
 - [iView-Loader](https://github.com/iview/iview-loader)
+- [iView-Plugin](https://github.com/iview/vue-cli-plugin-iview)
 - [iView-Area](https://github.com/iview/iview-area)
 - [iView-Editor](https://github.com/iview/iview-editor)
-- [iView-Cli](https://github.com/iview/iview-cli)
 
 ## Sponers
 ![](https://opencollective.com/iview/tiers/sponsor.svg?avatarHeight=36)
