@@ -66,10 +66,6 @@ iView
 </table>
 
 > If you'd like be a sponsor, to show your ads in GitHub and iView doc, please email admin@aresn.com to get more infomation.
-> 
-> (如果您想成为赞助商，在 GitHub 和 iView 文档展示您的广告，请邮件咨询 admin@aresn.com)
->
-> (如果您有任何关于 iView 或 Vue.js 相关的问题，欢迎到 iView 社区提问 https://dev.iviewui.com/issues )
 
 ## Docs
 
