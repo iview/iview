@@ -1,0 +1,71 @@
+@form-prefix-cls: ~"@{css-prefix}form";
+@form-item-prefix-cls: ~"@{form-prefix-cls}-item";
+
+.@{form-prefix-cls} {
+    .@{form-item-prefix-cls}-label {
+        text-align: right;
+        vertical-align: middle;
+        float: left;
+        font-size: @font-size-small;
+        color: @text-color;
+        line-height: 1;
+        padding: 10px 12px 10px 0;
+        box-sizing: border-box;
+    }
+    &-label-left .@{form-item-prefix-cls}-label {
+        text-align: left;
+    }
+    &-label-top .@{form-item-prefix-cls}-label {
+        float: none;
+        display: inline-block;
+        padding: 0 0 10px 0;
+    }
+    &-inline{
+        .@{form-item-prefix-cls} {
+            display: inline-block;
+            margin-right: 10px;
+            vertical-align: top;
+        }
+    }
+}
+
+.@{form-item-prefix-cls} {
+    margin-bottom: 24px;
+    vertical-align: top;
+    .clearfix();
+    &-content {
+        position: relative;
+        line-height: 32px;
+        font-size: @font-size-small;
+    }
+    & & {
+        margin-bottom: 0;
+    }
+    & & &-content {
+        margin-left: 0!important;
+    }
+
+    &-error-tip{
+        position: absolute;
+        top: 100%;
+        left: 0;
+        line-height: 1;
+        padding-top: 6px;
+        color: @error-color;
+    }
+
+    &-required {
+        .@{form-item-prefix-cls}-label:before {
+            content: '*';
+            display: inline-block;
+            margin-right: 4px;
+            line-height: 1;
+            font-family: SimSun;
+            font-size: @font-size-small;
+            color: @error-color;
+        }
+    }
+    &-error {
+        // todo
+    }
+}

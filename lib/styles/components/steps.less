@@ -1,0 +1,353 @@
+@steps-prefix-cls: ~"@{css-prefix}steps";
+@steps-wait-icon-color: #ccc;
+@steps-wait-title-color: #999;
+@steps-wait-description-color: @steps-wait-title-color;
+@steps-wait-tail-color: @border-color-split;
+@steps-title-color: #666;
+
+.@{steps-prefix-cls} {
+    font-size: 0;
+    width: 100%;
+    line-height: 1.5;
+
+    &-item{
+        display: inline-block;
+        position: relative;
+        vertical-align: top;
+
+        &.@{steps-prefix-cls}-status-wait{
+            .@{steps-prefix-cls}-head-inner {
+                background-color: #fff;
+                > .@{steps-prefix-cls}-icon, span {
+                    color: @steps-wait-icon-color;
+                }
+            }
+            .@{steps-prefix-cls}-title {
+                color: @steps-wait-title-color;
+            }
+            .@{steps-prefix-cls}-content {
+                color: @steps-wait-description-color;
+            }
+            .@{steps-prefix-cls}-tail > i {
+                background-color: @steps-wait-tail-color;
+            }
+        }
+        &.@{steps-prefix-cls}-status-process {
+            .@{steps-prefix-cls}-head-inner {
+                border-color: @primary-color;
+                background-color: @primary-color;
+                > .@{steps-prefix-cls}-icon, span {
+                    color: #fff;
+                }
+            }
+            .@{steps-prefix-cls}-title {
+                color: @steps-title-color;
+            }
+            .@{steps-prefix-cls}-content {
+                color: @steps-title-color;
+            }
+            .@{steps-prefix-cls}-tail > i {
+                background-color: @border-color-split;
+            }
+        }
+        &.@{steps-prefix-cls}-status-finish {
+            .@{steps-prefix-cls}-head-inner {
+                background-color: #fff;
+                border-color: @primary-color;
+                > .@{steps-prefix-cls}-icon, span {
+                    color: @primary-color;
+                }
+            }
+            .@{steps-prefix-cls}-tail > i:after {
+                width: 100%;
+                background: @primary-color;
+                transition: all @transition-time @ease-in-out;
+                opacity: 1;
+            }
+            .@{steps-prefix-cls}-title {
+                color: @steps-wait-title-color;
+            }
+            .@{steps-prefix-cls}-content {
+                color: @steps-wait-description-color;
+            }
+        }
+
+        &.@{steps-prefix-cls}-status-error {
+            .@{steps-prefix-cls}-head-inner {
+                background-color: #fff;
+                border-color: @error-color;
+                > .@{steps-prefix-cls}-icon {
+                    color: @error-color;
+                }
+            }
+            .@{steps-prefix-cls}-title {
+                color: @error-color;
+            }
+            .@{steps-prefix-cls}-content {
+                color: @error-color;
+            }
+            .@{steps-prefix-cls}-tail > i {
+                background-color: @border-color-split;
+            }
+        }
+
+        &.@{steps-prefix-cls}-next-error {
+            .@{steps-prefix-cls}-tail > i,
+            .@{steps-prefix-cls}-tail > i:after {
+                background-color: @error-color;
+            }
+        }
+
+        &.@{steps-prefix-cls}-custom {
+            .@{steps-prefix-cls}-head-inner {
+                background: none;
+                border: 0;
+                width: auto;
+                height: auto;
+                > .@{steps-prefix-cls}-icon {
+                    font-size: 20px;
+                    top: 2px;
+                    width: 20px;
+                    height: 20px;
+                }
+            }
+            &.@{steps-prefix-cls}-status-process {
+                .@{steps-prefix-cls}-head-inner > .@{steps-prefix-cls}-icon {
+                    color: @primary-color;
+                }
+            }
+        }
+    }
+    &-item:last-child &-tail{
+        display: none;
+    }
+
+    .@{steps-prefix-cls}-head,
+    .@{steps-prefix-cls}-main {
+        position: relative;
+        display: inline-block;
+        vertical-align: top;
+    }
+    .@{steps-prefix-cls}-head {
+        background: #fff;
+    }
+
+    .@{steps-prefix-cls}-head-inner {
+        display: block;
+        width: 26px;
+        height: 26px;
+        line-height: 24px;
+        margin-right: 8px;
+        text-align: center;
+        border: 1px solid @steps-wait-icon-color;
+        border-radius: 50%;
+        font-size: 14px;
+        transition: background-color @transition-time @ease-in-out;
+
+        > .@{steps-prefix-cls}-icon {
+            line-height: 1;
+            position: relative;
+
+            &.ivu-icon {
+                font-size: 24px;
+                &-ios-checkmark-empty,
+                &-ios-close-empty {
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+    .@{steps-prefix-cls}-main {
+        margin-top: 2.5px;
+        display: inline;
+    }
+    .@{steps-prefix-cls}-custom .@{steps-prefix-cls}-title{
+        margin-top: 2.5px;
+    }
+
+    .@{steps-prefix-cls}-title {
+        display: inline-block;
+        margin-bottom: 4px;
+        padding-right: 10px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #666;
+        background: #fff;
+
+        > a:first-child:last-child {
+            color: #666;
+        }
+    }
+    .@{steps-prefix-cls}-item-last {
+        .@{steps-prefix-cls}-title {
+            padding-right: 0;
+            width: 100%;
+        }
+    }
+    .@{steps-prefix-cls}-content {
+        font-size: 12px;
+        color: #999;
+    }
+    .@{steps-prefix-cls}-tail {
+        width: 100%;
+        padding: 0 10px;
+        position: absolute;
+        left: 0;
+        top: 13px;
+        > i {
+            display: inline-block;
+            width: 100%;
+            height: 1px;
+            vertical-align: top;
+            background: @border-color-split;
+            border-radius: 1px;
+            position: relative;
+            &:after {
+                content: '';
+                width: 0;
+                height: 100%;
+                background: @border-color-split;
+                opacity: 0;
+                position: absolute;
+                top: 0;
+            }
+        }
+    }
+
+    &.@{steps-prefix-cls}-small {
+        .@{steps-prefix-cls}-head-inner {
+            width: 18px;
+            height: 18px;
+            line-height: 16px;
+            margin-right: 10px;
+            text-align: center;
+            border-radius: 50%;
+            font-size: 12px;
+
+            > .@{steps-prefix-cls}-icon.ivu-icon {
+                font-size: 16px;
+                top: 0;
+            }
+        }
+        .@{steps-prefix-cls}-main {
+            margin-top: 0;
+        }
+        .@{steps-prefix-cls}-title {
+            margin-bottom: 4px;
+            margin-top: 0;
+            color: #666;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .@{steps-prefix-cls}-content {
+            font-size: 12px;
+            color: #999;
+            padding-left: 30px;
+        }
+        .@{steps-prefix-cls}-tail {
+            top: 8px;
+            padding: 0 8px;
+            > i {
+                height: 1px;
+                width: 100%;
+                border-radius: 1px;
+            }
+        }
+    }
+
+    &.@{steps-prefix-cls}-small .@{steps-prefix-cls}-item.@{steps-prefix-cls}-custom .@{steps-prefix-cls}-head-inner,
+    .@{steps-prefix-cls}-item.@{steps-prefix-cls}-custom .@{steps-prefix-cls}-head-inner {
+        width: inherit;
+        height: inherit;
+        line-height: inherit;
+        border-radius: 0;
+        border: 0;
+        background: none;
+    }
+}
+
+.@{steps-prefix-cls}-vertical {
+    .@{steps-prefix-cls}-item {
+        display: block;
+    }
+
+    .@{steps-prefix-cls}-tail {
+        position: absolute;
+        left: 13px;
+        top: 0;
+        height: 100%;
+        width: 1px;
+        padding: 30px 0 4px 0;
+        > i {
+            height: 100%;
+            width: 1px;
+            &:after {
+                height: 0;
+                width: 100%;
+            }
+        }
+    }
+
+    .@{steps-prefix-cls}-status-finish {
+        .@{steps-prefix-cls}-tail > i:after {
+            height: 100%;
+        }
+    }
+
+    .@{steps-prefix-cls}-head {
+        float: left;
+        &-inner {
+            margin-right: 16px;
+        }
+    }
+
+    .@{steps-prefix-cls}-main {
+        min-height: 47px;
+        overflow: hidden;
+        display: block;
+        .@{steps-prefix-cls}-title {
+            line-height: 26px;
+        }
+        .@{steps-prefix-cls}-content {
+            padding-bottom: 12px;
+            padding-left: 0;
+        }
+    }
+
+    .@{steps-prefix-cls}-custom .@{steps-prefix-cls}-icon {
+        left: 4px;
+    }
+    &.@{steps-prefix-cls}-small .@{steps-prefix-cls}-custom .@{steps-prefix-cls}-icon {
+        left: 0;
+    }
+}
+
+.@{steps-prefix-cls}-vertical.@{steps-prefix-cls}-small {
+    .@{steps-prefix-cls}-tail {
+        position: absolute;
+        left: 9px;
+        top: 0;
+        padding: 22px 0 4px 0;
+        > i {
+            height: 100%;
+        }
+    }
+
+    .@{steps-prefix-cls}-title {
+        line-height: 18px;
+    }
+}
+
+.@{steps-prefix-cls}-horizontal {
+    &.@{steps-prefix-cls}-hidden {
+        visibility: hidden;
+    }
+    .@{steps-prefix-cls}-content {
+        //max-width: 100px;
+        padding-left: 35px;
+    }
+    .@{steps-prefix-cls}-item:not(:first-child) .@{steps-prefix-cls}-head {
+        padding-left: 10px;
+        margin-left: -10px;
+    }
+}

@@ -1,0 +1,289 @@
+@page-prefix-cls: ~"@{css-prefix}page";
+
+.@{page-prefix-cls} {
+    &:after {
+        content: '';
+        display: block;
+        height: 0;
+        clear: both;
+        overflow: hidden;
+        visibility: hidden;
+    }
+
+    &-item {
+        display: inline-block;
+        //float: left;
+        vertical-align: middle;
+        min-width: @btn-circle-size;
+        height: @btn-circle-size;
+        line-height: @btn-circle-size - 2px;
+        margin-right: 4px;
+        text-align: center;
+        list-style: none;
+        background-color: #fff;
+        user-select: none;
+        cursor: pointer;
+        font-family: Arial;
+        font-weight: 500;
+        border: 1px solid @border-color-base;
+        border-radius: @btn-border-radius;
+        //transition: all @transition-time @ease-in-out;
+        transition: border @transition-time @ease-in-out, color @transition-time @ease-in-out;
+
+        a {
+            font-family: "Monospaced Number";
+            margin: 0 6px;
+            text-decoration: none;
+            color: @text-color;
+            //transition: none;
+        }
+
+        &:hover {
+            border-color: @primary-color;
+            a {
+                color: @primary-color;
+            }
+        }
+
+        &-active {
+            border-color: @primary-color;
+
+            a, &:hover a {
+                color: @primary-color;
+            }
+        }
+    }
+
+    &-item-jump-prev, &-item-jump-next {
+        &:after {
+            content: "•••";
+            display: block;
+            letter-spacing: 1px;
+            color: #ccc;
+            text-align: center;
+        }
+
+        i{
+            display: none;
+        }
+
+        &:hover {
+            &:after{
+                display: none;
+            }
+            i{
+                display: inline;
+            }
+        }
+    }
+
+    &-item-jump-prev:hover {
+        i:after {
+            content: "\F115";
+            margin-left: -8px;
+        }
+    }
+
+    &-item-jump-next:hover {
+        i:after {
+            content: "\F11F";
+            margin-left: -8px;
+        }
+    }
+
+    &-prev{
+        margin-right: 4px;
+    }
+
+    &-item-jump-prev,
+    &-item-jump-next{
+        margin-right: 4px;
+    }
+
+    &-prev,
+    &-next,
+    &-item-jump-prev,
+    &-item-jump-next {
+        display: inline-block;
+        vertical-align: middle;
+        user-select: none;
+        //float: left;
+        min-width: @btn-circle-size;
+        height: @btn-circle-size;
+        line-height: @btn-circle-size - 2px;
+        list-style: none;
+        text-align: center;
+        cursor: pointer;
+        color: #666;
+        font-family: Arial;
+        border: 1px solid @border-color-base;
+        border-radius: @btn-border-radius;
+        transition: all @transition-time @ease-in-out;
+    }
+    &-item-jump-prev,
+    &-item-jump-next{
+        border-color: transparent;
+    }
+
+    &-prev,
+    &-next {
+        background-color: #fff;
+
+        a {
+            color: #666;
+            font-size: 14px;
+        }
+
+        &:hover {
+            border-color: @primary-color;
+
+            a {
+                color: @primary-color;
+            }
+        }
+    }
+
+    &-disabled {
+        cursor: @cursor-disabled;
+        a {
+            color: #ccc;
+        }
+        &:hover {
+            border-color: @border-color-base;
+            a {
+                color: #ccc;
+                cursor: @cursor-disabled;
+            }
+        }
+    }
+
+    &-options {
+        display: inline-block;
+        vertical-align: middle;
+        //float: left;
+        margin-left: 15px;
+        &-sizer {
+            display: inline-block;
+            //float: left;
+            margin-right: 10px;
+        }
+
+        &-elevator {
+            display: inline-block;
+            vertical-align: middle;
+            //float: left;
+            height: @btn-circle-size;
+            line-height: @btn-circle-size;
+
+            input {
+                .input;
+                border-radius: @btn-border-radius;
+                margin: 0 8px;
+                width: 50px;
+            }
+        }
+    }
+
+    &-total {
+        display: inline-block;
+        //float: left;
+        height: @btn-circle-size;
+        line-height: @btn-circle-size;
+        margin-right: 10px;
+    }
+
+    &-simple &-prev,
+    &-simple &-next {
+        margin: 0;
+        border: 0;
+        height: 24px;
+        line-height: normal;
+        font-size: 18px;
+    }
+
+    &-simple &-simple-pager {
+        display: inline-block;
+        //float: left;
+        margin-right: 8px;
+        vertical-align: middle;
+
+        input {
+            width: 30px;
+            height: 24px;
+            margin: 0 8px;
+            padding: 5px 8px;
+            text-align: center;
+            box-sizing: border-box;
+            background-color: #fff;
+            outline: none;
+            border: 1px solid @border-color-base;
+            border-radius: @btn-border-radius;
+            transition: border-color @transition-time @ease-in-out;
+
+            &:hover {
+                border-color: @primary-color;
+            }
+        }
+
+        span{
+            padding: 0 8px 0 2px;
+        }
+    }
+
+    &-custom-text, &-custom-text:hover{
+        border-color: transparent;
+    }
+}
+
+.@{page-prefix-cls} {
+    &.mini &-total {
+        height: @btn-circle-size-small;
+        line-height: @btn-circle-size-small;
+    }
+
+    &.mini &-item {
+        border: 0;
+        margin: 0;
+        min-width: @btn-circle-size-small;
+        height: @btn-circle-size-small;
+        line-height: @btn-circle-size-small;
+        border-radius: @btn-border-radius-small;
+    }
+
+    &.mini &-prev,
+    &.mini &-next {
+        margin: 0;
+        min-width: @btn-circle-size-small;
+        height: @btn-circle-size-small;
+        line-height: @btn-circle-size-small - 2px;
+        border: 0;
+
+        a {
+            i:after {
+                height: @btn-circle-size-small;
+                line-height: @btn-circle-size-small;
+            }
+        }
+    }
+
+    &.mini &-item-jump-prev,
+    &.mini &-item-jump-next {
+        height: @btn-circle-size-small;
+        line-height: @btn-circle-size-small;
+        border: none;
+        margin-right: 0;
+    }
+
+    &.mini &-options {
+        margin-left: 8px;
+        &-elevator {
+            height: @btn-circle-size-small;
+            line-height: @btn-circle-size-small;
+
+            input {
+                .input-small;
+                width: 44px;
+            }
+        }
+    }
+}

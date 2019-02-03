@@ -1,0 +1,201 @@
+@modal-prefix-cls: ~"@{css-prefix}modal";
+@confirm-prefix-cls: ~"@{css-prefix}modal-confirm";
+
+.@{modal-prefix-cls} {
+    width: auto;
+    margin: 0 auto;
+    position: relative;
+    outline: none;
+    top: 100px;
+
+    &-hidden {
+        display: none !important;
+    }
+
+    &-wrap {
+        position: fixed;
+        overflow: auto;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: @zindex-modal;
+        -webkit-overflow-scrolling: touch;
+        outline: 0;
+    }
+
+    &-wrap * {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+
+    &-mask {
+        .mask;
+    }
+
+    &-content {
+        position: relative;
+        background-color: #fff;
+        border: 0;
+        border-radius: @border-radius-base;
+        background-clip: padding-box;
+        box-shadow: 0 4px 12px rgba(0,0,0,.15);
+
+        &-no-mask{
+            pointer-events: auto;
+        }
+        &-drag{
+            position: absolute;
+            .@{modal-prefix-cls}-header{
+                cursor: move;
+            }
+        }
+        &-dragging{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+    }
+
+    &-header {
+        .content-header;
+    }
+
+    &-close {
+        z-index: 1;
+        .content-close(1px, 31px);
+    }
+
+    &-body {
+        padding: 16px;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    &-footer {
+        border-top: 1px solid @border-color-split;
+        padding: 12px 18px 12px 18px;
+        text-align: right;
+        button + button {
+            margin-left: 8px;
+            margin-bottom: 0;
+        }
+    }
+
+    &-fullscreen{
+        width: 100% !important;
+        top: 0;
+        bottom: 0;
+        position: absolute;
+
+        @modal-header-height: 51px;
+        @modal-footer-height: 61px;
+
+        .@{modal-prefix-cls}-content{
+            width: 100%;
+            border-radius: 0;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+        }
+
+        .@{modal-prefix-cls}-body{
+            width: 100%;
+            overflow: auto;
+            position: absolute;
+            top: @modal-header-height;
+            bottom: @modal-footer-height;
+        }
+        &-no-header .@{modal-prefix-cls}-body{
+            top: 0;
+        }
+        &-no-footer .@{modal-prefix-cls}-body{
+            bottom: 0;
+        }
+        .@{modal-prefix-cls}-footer{
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+        }
+    }
+    &-no-mask{
+        pointer-events: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .@{modal-prefix-cls} {
+        width: auto !important;
+        margin: 10px;
+    }
+    .@{modal-prefix-cls}-fullscreen{
+        width: 100% !important;
+        margin: 0;
+    }
+    .vertical-center-modal {
+        .@{modal-prefix-cls} {
+            flex: 1;
+        }
+    }
+}
+
+.@{confirm-prefix-cls} {
+    padding: 0 4px;
+    &-head {
+        padding: 0 12px 0 0;
+        &-icon {
+            display: inline-block;
+            font-size: 28px;
+            vertical-align: middle;
+            position: relative;
+            top: -2px;
+
+            &-info {
+                color: @primary-color;
+            }
+            &-success {
+                color: @success-color;
+            }
+            &-warning {
+                color: @warning-color;
+            }
+            &-error {
+                color: @error-color;
+            }
+            &-confirm {
+                color: @warning-color;
+            }
+        }
+
+        &-title {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 12px;
+            font-size: @font-size-large;
+            color: @title-color;
+            font-weight: 700;
+        }
+    }
+
+    &-body{
+        padding-left: 42px;
+        font-size: @font-size-base;
+        color: @text-color;
+        position: relative;
+
+        &-render{
+            margin: 0;
+            padding: 0;
+        }
+    }
+
+    &-footer{
+        margin-top: 20px;
+        text-align: right;
+
+        button + button {
+            margin-left: 8px;
+            margin-bottom: 0;
+        }
+    }
+}

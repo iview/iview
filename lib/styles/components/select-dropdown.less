@@ -1,0 +1,30 @@
+@select-dropdown-prefix-cls: ~"@{css-prefix}select-dropdown";
+@transfer-no-max-height: ~"@{css-prefix}transfer-no-max-height";
+
+.@{select-dropdown-prefix-cls} {
+    width: inherit;
+    max-height: 200px;
+    overflow: auto;
+    margin: 5px 0;
+    padding: 5px 0;
+    background-color: #fff;
+    box-sizing: border-box;
+    //border: 1px solid @border-color-split;
+    border-radius: @btn-border-radius;
+    //box-shadow: 0 1px 3px rgba(0,0,0,.2);
+    box-shadow: @shadow-base;
+    position: absolute;
+    z-index: @zindex-select;
+    &-transfer{
+        z-index: @zindex-transfer;
+        width: auto;
+    }
+    &.@{transfer-no-max-height} {
+        max-height: none;
+    }
+}
+.@{modal-prefix-cls} {
+    .@{select-dropdown-prefix-cls} {
+        position: absolute !important;
+    }
+}

@@ -1,6 +1,6 @@
 {
     "name": "iview",
-    "version": "3.2.2",
+    "version": "3.2.3",
     "title": "iView",
     "description": "A high quality UI components Library with Vue.js",
     "homepage": "http://www.iviewui.com",
@@ -17,6 +17,7 @@
     "typings": "types/index.d.ts",
     "files": [
         "dist",
+        "lib",
         "src",
         "types"
     ],
@@ -27,7 +28,8 @@
         "dist:dev": "webpack --config build/webpack.dist.dev.config.js",
         "dist:prod": "webpack --config build/webpack.dist.prod.config.js",
         "dist:locale": "webpack --config build/webpack.dist.locale.config.js",
-        "dist": "npm run dist:style && npm run dist:dev && npm run dist:prod && npm run dist:locale",
+        "dist:es": "babel src --out-dir lib --copy-files",
+        "dist": "npm run dist:style && npm run dist:dev && npm run dist:prod && npm run dist:locale && npm run dist:es",
         "lint": "eslint --fix --ext .js,.vue src",
         "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
         "test": "npm run lint && npm run unit",
