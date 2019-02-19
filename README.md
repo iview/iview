@@ -30,7 +30,7 @@ iView
             </a>
           </td>
           <td align="center" valign="middle">
-            <a href="https://studio.qcloud.coding.net/campaign/favorite-plugins/index?utm_source=iview" target="_blank">
+            <a href="https://e.coding.net/?utm_source=iview" target="_blank">
               <img width="300" src="https://file.iviewui.com/asd/asd-coding3.png">
             </a>
           </td>
