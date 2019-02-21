@@ -114,20 +114,6 @@
             //    }
             //    return parent;
             // },
-            fieldValue: {
-                cache: false,
-                get() {
-                    const model = this.form.model;
-                    if (!model || !this.prop) { return; }
-
-                    let path = this.prop;
-                    if (path.indexOf(':') !== -1) {
-                        path = path.replace(/:/, '.');
-                    }
-
-                    return getPropByPath(model, path).v;
-                }
-            },
             labelStyles () {
                 let style = {};
                 const labelWidth = this.labelWidth === 0 || this.labelWidth ? this.labelWidth : this.form.labelWidth;
@@ -148,6 +134,17 @@
             }
         },
         methods: {
+            getFieldValue() {
+                const model = this.form.model;
+                if (!model || !this.prop) { return; }
+
+                let path = this.prop;
+                if (path.indexOf(':') !== -1) {
+                    path = path.replace(/:/, '.');
+                }
+
+                return getPropByPath(model, path).v;
+            },
             setRules() {
                 let rules = this.getRules();
                 if (rules.length&&this.required) {
@@ -196,7 +193,7 @@
                 const validator = new AsyncValidator(descriptor);
                 let model = {};
 
-                model[this.prop] = this.fieldValue;
+                model[this.prop] = this.getFieldValue();
 
                 validator.validate(model, { firstFields: true }, errors => {
                     this.validateState = !errors ? 'success' : 'error';
@@ -211,7 +208,7 @@
                 this.validateMessage = '';
 
                 let model = this.form.model;
-                let value = this.fieldValue;
+                let value = this.getFieldValue();
                 let path = this.prop;
                 if (path.indexOf(':') !== -1) {
                     path = path.replace(/:/, '.');
@@ -251,7 +248,7 @@
                 this.dispatch('iForm', 'on-form-item-add', this);
 
                 Object.defineProperty(this, 'initialValue', {
-                    value: this.fieldValue
+                    value: this.getFieldValue()
                 });
 
                 this.setRules();
