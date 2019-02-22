@@ -32,7 +32,7 @@
 <script>
     import Icon from '../icon/icon.vue';
     import Render from '../base/render';
-    import { oneOf, MutationObserver } from '../../utils/assist';
+    import { oneOf, MutationObserver, findComponentsDownward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     import elementResizeDetectorMaker from 'element-resize-detector';
 
@@ -64,6 +64,9 @@
         name: 'Tabs',
         mixins: [ Emitter ],
         components: { Icon, Render },
+        provide () {
+            return { TabsInstance: this };
+        },
         props: {
             value: {
                 type: [String, Number]
@@ -166,7 +169,8 @@
         },
         methods: {
             getTabs () {
-                return this.$children.filter(item => item.$options.name === 'TabPane');
+                // return this.$children.filter(item => item.$options.name === 'TabPane');
+                return findComponentsDownward(this, 'TabPane');
             },
             updateNav () {
                 this.navList = [];
@@ -393,7 +397,7 @@
                 return false;
             },
             updateVisibility(index){
-                [...this.$refs.panes.children].forEach((el, i) => {
+                [...this.$refs.panes.querySelectorAll(`.${prefixCls}-tabpane`)].forEach((el, i) => {
                     if (index === i) {
                         [...el.children].filter(child=> child.classList.contains(`${prefixCls}-tabpane`)).forEach(child => child.style.visibility = 'visible');
                         if (this.captureFocus) setTimeout(() => focusFirst(el, el), transitionTime);

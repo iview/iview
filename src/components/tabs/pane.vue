@@ -6,6 +6,7 @@
 
     export default {
         name: 'TabPane',
+        inject: ['TabsInstance'],
         props: {
             name: {
                 type: String
@@ -36,13 +37,13 @@
         computed: {
             contentStyle () {
                 return {
-                    visibility: this.$parent.activeKey !== this.currentName ? 'hidden' : 'visible'
+                    visibility: this.TabsInstance.activeKey !== this.currentName ? 'hidden' : 'visible'
                 };
             }
         },
         methods: {
             updateNav () {
-                this.$parent.updateNav();
+                this.TabsInstance.updateNav();
             }
         },
         watch: {
