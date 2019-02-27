@@ -2,7 +2,7 @@ import setLang from '../lang';
 
 const lang = {
     i: {
-        locale: 'ar-SA',
+        locale: 'ar-EG',
         select: {
             placeholder: 'إختيار',
             noMatch: 'لا يوجد تطابق في البيانات',
