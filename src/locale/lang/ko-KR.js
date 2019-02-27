@@ -94,6 +94,15 @@ const lang = {
             star: '중요',
             stars: '중요'
         },
+        time: {
+            before: ' 전',
+            after: ' 후',
+            just: '방금',
+            seconds: ' 초',
+            minutes: ' 분',
+            hours: ' 시간',
+            days: ' 일'
+        },
         tree: {
             emptyText: '데이터 없음'
         }
