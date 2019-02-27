@@ -107,6 +107,11 @@ export declare interface Table extends Vue {
      */
     $emit(eventName: "on-select-all", selection: object[]): this;
     /**
+     * 在多选模式下有效，点击取消全选时触发
+     * selection：已选项数据
+     */
+    $emit(eventName: "on-select-all-cancel", selection: object[]): this;
+    /**
      * 在多选模式下有效，只要选中项发生变化时就会触发
      * selection：已选项数据
      */
@@ -250,6 +255,16 @@ export declare interface TableColumn {
         h?: CreateElement,
         params?: TableColumnRenderHeadParams
     ) => VNode;
+    /**
+     * type 为 index 时可用，自定义序号
+     * @param row 当前行数据
+     */
+    indexMethod?: (row?: object) => string | number;
+    /**
+     * 自定义渲染列，使用 slot-scope 写法
+     * 声明 slot 后，就可以在 Table 的 slot 中使用 slot-scope
+     */
+    slot?: string;
     /**
      * 对应列是否可以排序，如果设置为 custom，则代表用户希望远程排序，
      * 需要监听 Table 的 on- sort - change 事件,默认false
