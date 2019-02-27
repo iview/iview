@@ -15,12 +15,30 @@ export default {
                 return oneOf(value, ['_blank', '_self', '_parent', '_top']);
             },
             default: '_self'
-        }
+        },
+        append: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
     },
     computed: {
         linkUrl () {
             const type = typeof this.to;
-            return type === 'string' ? this.to : null;
+            if (type !== 'string') {
+                return null;
+            }
+            if (this.to.includes('//')) {
+                /* Absolute URL, we do not need to route this */
+                return this.to;
+            }
+            const router = this.$router;
+            if (router) {
+                const current = this.$route;
+                const route = router.resolve(this.to, current, this.append);
+                return route ? route.href : null;
+            }
+            return this.to;
         }
     },
     methods: {
