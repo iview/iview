@@ -36,7 +36,7 @@ export default {
             if (router) {
                 const current = this.$route;
                 const route = router.resolve(this.to, current, this.append);
-                return route ? route.href : null;
+                return route ? route.href : this.to;
             }
             return this.to;
         }
