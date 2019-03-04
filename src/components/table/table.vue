@@ -190,6 +190,12 @@
             draggable: {
                 type: Boolean,
                 default: false
+            },
+            tooltipTheme: {
+                validator (value) {
+                    return oneOf(value, ['dark', 'light']);
+                },
+                default: 'dark'
             }
         },
         data () {
