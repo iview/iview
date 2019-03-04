@@ -16,7 +16,7 @@
                 v-show="!((!!localeNoDataText && (!data || data.length === 0)) || (!!localeNoFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
                 <table-body
                     ref="tbody"
-                    :drag="drag"
+                    :draggable="draggable"
                     :prefix-cls="prefixCls"
                     :styleObject="tableStyle"
                     :columns="cloneColumns"
@@ -54,7 +54,7 @@
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedBody" @mousewheel="handleFixedMousewheel" @DOMMouseScroll="handleFixedMousewheel">
                     <table-body
                         fixed="left"
-                        :drag="drag"
+                        :draggable="draggable"
                         :prefix-cls="prefixCls"
                         :styleObject="fixedTableStyle"
                         :columns="leftFixedColumns"
@@ -79,7 +79,7 @@
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedRightBody" @mousewheel="handleFixedMousewheel" @DOMMouseScroll="handleFixedMousewheel">
                     <table-body
                         fixed="right"
-                        :drag="drag"
+                        :draggable="draggable"
                         :prefix-cls="prefixCls"
                         :styleObject="fixedRightTableStyle"
                         :columns="rightFixedColumns"
@@ -182,7 +182,7 @@
                 type: Boolean,
                 default: false
             },
-            drag:{
+            draggable: {
                 type: Boolean,
                 default: false
             }
