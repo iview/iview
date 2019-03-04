@@ -166,6 +166,7 @@
                 if (!this.clearable) return;
                 this.currentValue = '';
                 this.$refs.select.reset();
+                this.$emit('on-clear');
             }
         }
     };
