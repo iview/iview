@@ -64,7 +64,8 @@
                 this.$refs.currentRowTable.clearCurrentRow();
             },
             onDragDrop(a,b){
-                console.log(a,b)
+                console.log(a,b);
+                this.data1.splice(b,1,...this.data1.splice(a, 1 , this.data1[b]));
             }
         }
     }
