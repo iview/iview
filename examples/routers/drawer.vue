@@ -5,7 +5,7 @@
         <Button @click="visible3 = true">show3</Button>
 
         <div style="width: 500px;height:500px;background: green;position: relative;">
-            <Drawer v-model="visible" placement="left" draggable inner :transfer="false" width="50" @on-resize-width="hrw" title="抽屉标题" :styles="styles" @on-close="handleClose">
+            <Drawer v-model="visible" placement="left" :before-close="handleBeforeClose" draggable inner :transfer="false" width="50" @on-resize-width="hrw" title="抽屉标题" :styles="styles" @on-close="handleClose">
                 <p>一些内容</p>
                 <p>一些内容</p>
                 <p>一些内容</p>
@@ -209,6 +209,20 @@
             },
             hrw (w) {
                 console.log(w);
+            },
+            handleBeforeClose () {
+                return new Promise((resolve, reject) => {
+                    this.$Modal.confirm({
+                        title: '关闭确认',
+                        content: '您确认要关闭抽屉吗？',
+                        onOk: () => {
+                            resolve();
+                        },
+                        onCancel: () => {
+                            reject();
+                        }
+                    });
+                });
             }
         }
     };

@@ -106,7 +106,8 @@
             draggable: {
                 type: Boolean,
                 default: false
-            }
+            },
+            beforeClose: Function,
         },
         data () {
             return {
@@ -176,6 +177,21 @@
         },
         methods: {
             close () {
+                if (!this.beforeClose) {
+                    return this.handleClose();
+                }
+
+                const before = this.beforeClose();
+
+                if (before && before.then) {
+                    before.then(() => {
+                        this.handleClose();
+                    });
+                } else {
+                    this.handleClose();
+                }
+            },
+            handleClose () {
                 this.visible = false;
                 this.$emit('input', false);
                 this.$emit('on-close');
