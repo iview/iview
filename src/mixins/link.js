@@ -25,8 +25,11 @@ export default {
     },
     methods: {
         handleClick (new_window = false) {
-            if (new_window){
-                window.open(this.to);
+            var isRoute = this.$router, to;
+
+            if (new_window) {
+                to = isRoute ? this.$router.resolve(this.to).href : this.to;
+                window.open(this.$router.resolve(to).href);
             } else {
                 const isRoute = this.$router;
                 if (isRoute) {

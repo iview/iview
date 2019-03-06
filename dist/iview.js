@@ -2180,12 +2180,15 @@ exports.default = {
     },
     methods: {
         handleClick: function handleClick() {
-            var new_window = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+            var
+                new_window = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false,
+                isRoute = this.$router,
+                to;
 
             if (new_window) {
-                window.open(this.to);
+                to = isRoute ? this.$router.resolve(this.to).href : this.to;
+                window.open(this.$router.resolve(to).href);
             } else {
-                var isRoute = this.$router;
                 if (isRoute) {
                     this.replace ? this.$router.replace(this.to) : this.$router.push(this.to);
                 } else {
