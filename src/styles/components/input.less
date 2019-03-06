@@ -199,3 +199,25 @@
         }
     }
 }
+
+.char-area-box {
+    border:1px solid #dcdee2;
+    &:focus{
+        border-color: @primary-color;
+        outline: 0;
+        box-shadow: 0 0 0 2px rgba(45, 140, 240, 0.2);
+    }
+    .char-text {
+        text-align: right;
+        margin-right:5px;
+        margin-bottom: 5px;
+    }
+    .ivu-input {
+        border: none !important;
+        &:focus{
+            border: none;
+            outline: 0;
+            box-shadow: none;
+        }
+    }
+}

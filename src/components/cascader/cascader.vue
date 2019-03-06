@@ -10,6 +10,8 @@
                     :disabled="disabled"
                     :value="displayInputRender"
                     @on-change="handleInput"
+                    @on-click="handleClick"
+                    :clearable="clearable"
                     :size="size"
                     :placeholder="inputPlaceholder"></i-input>
                 <div
@@ -91,7 +93,7 @@
             },
             clearable: {
                 type: Boolean,
-                default: true
+                default: false
             },
             placeholder: {
                 type: String
@@ -242,7 +244,7 @@
                 this.handleClose();
                 this.emitValue(this.currentValue, oldVal);
 //                this.$broadcast('on-clear');
-                this.broadcast('Caspanel', 'on-clear');
+                this.$emit('on-clear','');
             },
             handleClose () {
                 this.visible = false;
@@ -285,6 +287,11 @@
             },
             handleInput (event) {
                 this.query = event.target.value;
+            },
+            handleClick(e){
+                if(this.showCloseIcon){
+                    this.clearSelect();
+                }
             },
             handleSelectItem (index) {
                 const item = this.querySelections[index];

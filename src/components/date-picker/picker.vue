@@ -17,7 +17,6 @@
                     :value="visualValue"
                     :name="name"
                     ref="input"
-
                     @on-input-change="handleInputChange"
                     @on-focus="handleFocus"
                     @on-blur="handleBlur"
@@ -26,7 +25,6 @@
                     @keydown.native="handleKeydown"
                     @mouseenter.native="handleInputMouseenter"
                     @mouseleave.native="handleInputMouseleave"
-
                     :icon="iconType"
                 ></i-input>
             </slot>
@@ -569,9 +567,9 @@
             handleInputMouseleave () {
                 this.showClose = false;
             },
-            handleIconClick (e) {
+            handleIconClick () {
                 if (this.showClose) {
-                    if (e) e.stopPropagation();
+                    //if (e) e.stopPropagation();
                     this.handleClear();
                 } else if (!this.disabled) {
                     this.handleFocus();

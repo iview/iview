@@ -1,10 +1,11 @@
 <template>
-    <Cascader :data="data4" :load-data="loadData"></Cascader>
+    <Cascader @on-clear="onClear" v-model="ary" disabled change-on-select clearable :data="data4" :load-data="loadData"></Cascader>
 </template>
 <script>
     export default {
         data () {
             return {
+                ary:['beijing'],
                 data4: [
                     {
                         value: 'beijing',
@@ -22,6 +23,9 @@
             }
         },
         methods: {
+            onClear(){
+               // alert('清空触发');
+            },
             loadData (item, callback) {
                 item.loading = true;
                 setTimeout(() => {

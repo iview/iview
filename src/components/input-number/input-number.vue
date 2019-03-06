@@ -137,7 +137,8 @@
                 focused: false,
                 upDisabled: false,
                 downDisabled: false,
-                currentValue: this.value
+                currentValue: this.value,
+                isAddPrecision: true
             };
         },
         computed: {
@@ -187,7 +188,7 @@
             precisionValue () {
                 // can not display 1.0
                 if(!this.currentValue) return this.currentValue;
-                return this.precision ? this.currentValue.toFixed(this.precision) : this.currentValue;
+                return this.precision && this.isAddPrecision? this.currentValue.toFixed(this.precision) : this.currentValue;
             },
             formatterValue () {
                 if (this.formatter && this.precisionValue !== null) {
@@ -277,12 +278,14 @@
             },
             blur () {
                 this.focused = false;
+                this.isAddPrecision= true;
                 this.$emit('on-blur');
                 if (!findComponentUpward(this, ['DatePicker', 'TimePicker', 'Cascader', 'Search'])) {
                     this.dispatch('FormItem', 'on-form-blur', this.currentValue);
                 }
             },
             keyDown (e) {
+                this.isAddPrecision= false;
                 if (e.keyCode === 38) {
                     e.preventDefault();
                     this.up(e);
@@ -294,17 +297,17 @@
             change (event) {
 
                 if (event.type == 'input' && !this.activeChange) return;
-                let val = event.target.value.trim();
+                let val = event.target.value.trim() || this.min;
                 if (this.parser) {
                     val = this.parser(val);
                 }
 
                 const isEmptyString = val.length === 0;
                 if(isEmptyString){
-                    this.setValue(null);
+                    this.setValue(this.min || 0);
                     return;
                 }
-                if (event.type == 'input' && val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
+                if (event.type == 'input' && val.toString().match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
 
                 val = Number(val);
 

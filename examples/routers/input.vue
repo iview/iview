@@ -140,7 +140,7 @@
         <!--<Input v-model="value" search enter-button="Search" style="width: 300px" @on-search="hs" />-->
     <!--</div>-->
     <div style="width: 200px">
-        <Input v-model="value7" type="textarea" :autosize="true" placeholder="Enter something..."></Input>
+        <Input v-model="value7" type="textarea" :autosize="true" :maxlength="500" placeholder="Enter something..."></Input>
     </div>
 </template>
 <script>

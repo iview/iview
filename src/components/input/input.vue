@@ -39,8 +39,38 @@
             </div>
             <span class="ivu-input-prefix" v-else-if="showPrefix"><slot name="prefix"><i class="ivu-icon" :class="['ivu-icon-' + prefix]" v-if="prefix"></i></slot></span>
         </template>
-        <textarea
-            v-else
+        <template v-else>
+            <template v-if="isCharNum">
+                <div class="char-area-box">
+                      <textarea
+                          :id="elementId"
+                          :wrap="wrap"
+                          :autocomplete="autocomplete"
+                          :spellcheck="spellcheck"
+                          ref="textarea"
+                          :class="textareaClasses"
+                          :style="textareaStyles"
+                          :placeholder="placeholder"
+                          :disabled="disabled"
+                          :rows="rows"
+                          :maxlength="maxlength"
+                          :readonly="readonly"
+                          :name="name"
+                          :value="currentValue"
+                          :autofocus="autofocus"
+                          @keyup.enter="handleEnter"
+                          @keyup="handleKeyup"
+                          @keypress="handleKeypress"
+                          @keydown="handleKeydown"
+                          @focus="handleFocus"
+                          @blur="handleBlur"
+                          @input="handleInput">
+                </textarea>
+                    <p class="char-text">{{currentValue.length}} / {{maxlength}}</p>
+                </div>
+            </template>
+
+        <textarea v-else
             :id="elementId"
             :wrap="wrap"
             :autocomplete="autocomplete"
@@ -64,6 +94,7 @@
             @blur="handleBlur"
             @input="handleInput">
         </textarea>
+        </template>
     </div>
 </template>
 <script>
@@ -122,6 +153,10 @@
             name: {
                 type: String
             },
+            isCharNum:{
+                type: Boolean,
+                default: false
+            },
             number: {
                 type: Boolean,
                 default: false
@@ -142,7 +177,7 @@
             },
             clearable: {
                 type: Boolean,
-                default: false
+                default: true
             },
             elementId: {
                 type: String
@@ -183,6 +218,11 @@
             };
         },
         computed: {
+            // clearable(){
+            //     let item = true;
+            //     if(this.disabled) item = false;
+            //     return item;
+            // },
             wrapClasses () {
                 return [
                     `${prefixCls}-wrapper`,
@@ -294,6 +334,7 @@
                 this.$emit('input', '');
                 this.setCurrentValue('');
                 this.$emit('on-change', e);
+                this.$emit('on-click', e);
             },
             handleSearch () {
                 if (this.disabled) return false;
@@ -304,7 +345,17 @@
         watch: {
             value (val) {
                 this.setCurrentValue(val);
-            }
+            },
+            clearable: {
+                immediate: true,
+                handler: function (v) {
+                    let str = v;
+                    if(v&&this.disabled) {
+                        str = false;
+                    }
+                    return str;
+                }
+            },
         },
         mounted () {
             if (this.type !== 'textarea') {
