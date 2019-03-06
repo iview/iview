@@ -8,7 +8,7 @@
                 <table-tr
                     :draggable="draggable"
                     :row="row"
-                    :key="row._rowKey"
+                    :key="index"
                     :prefix-cls="prefixCls"
                     @mouseenter.native.stop="handleMouseIn(row._index)"
                     @mouseleave.native.stop="handleMouseOut(row._index)"
