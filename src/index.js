@@ -168,7 +168,8 @@ const install = function(Vue, opts = {}) {
 
     Vue.prototype.$IVIEW = {
         size: opts.size || '',
-        transfer: 'transfer' in opts ? opts.transfer : ''
+        transfer: 'transfer' in opts ? opts.transfer : '',
+        maskClosable: 'maskClosable' in opts ? opts.maskClosable : ''
     };
 
     Vue.prototype.$Loading = LoadingBar;

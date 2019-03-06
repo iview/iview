@@ -57,7 +57,9 @@
             },
             maskClosable: {
                 type: Boolean,
-                default: true
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.maskClosable === '' ? true : this.$IVIEW.maskClosable;
+                }
             },
             title: {
                 type: String
