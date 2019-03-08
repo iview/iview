@@ -42,7 +42,7 @@
             breakpoint: {
                 type: String,
                 validator (val) {
-                    return oneOf(val, ['xs', 'sm', 'md', 'lg', 'xl']);
+                    return oneOf(val, ['xs', 'sm', 'md', 'lg', 'xl', 'xxl']);
                 }
             },
             collapsible: {

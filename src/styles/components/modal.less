@@ -123,10 +123,14 @@
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: @screen-sm) {
     .@{modal-prefix-cls} {
         width: auto !important;
         margin: 10px;
+    }
+    .@{modal-prefix-cls}-fullscreen{
+        width: 100% !important;
+        margin: 0;
     }
     .vertical-center-modal {
         .@{modal-prefix-cls} {

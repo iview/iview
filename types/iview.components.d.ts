@@ -2,7 +2,7 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue, { VNode } from 'vue';
+import Vue from 'vue';
 
 export { Affix } from './affix';
 export { Alert } from './alert';
@@ -52,8 +52,8 @@ export { Slider } from './slider';
 export { Spin } from './spin';
 export { Steps, StepsStep } from './steps';
 export { Switch, Switch as ISwitch } from './switch';
-export { Table, TableColumn, TableRenderCreateElementData, TableColumnRenderParams, TableRenderCreateElementResult, TableColumnRenderHeadParams, TableExportCsvParams } from './table';
-export { Tabs, TabsPane } from './tabs';
+export { Table, TableColumn, TableRenderCreateElementData, TableColumnRenderParams, TableColumnRenderHeadParams, TableExportCsvParams } from './table';
+export { Tabs, TabPane } from './tabs';
 export { Tag } from './tag';
 export { Time } from './time';
 export { Timeline, TimelineItem } from './timeline';

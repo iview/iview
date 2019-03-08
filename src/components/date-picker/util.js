@@ -147,7 +147,7 @@ export const DEFAULT_FORMATS = {
     datetimerange: 'yyyy-MM-dd HH:mm:ss'
 };
 
-export const RANGE_SEPARATOR = ' - ';
+// export const RANGE_SEPARATOR = ' - ';  // use picker.vue prop separator
 
 const DATE_FORMATTER = function(value, format) {
     return formatDate(value, format);
@@ -155,7 +155,7 @@ const DATE_FORMATTER = function(value, format) {
 const DATE_PARSER = function(text, format) {
     return parseDate(text, format);
 };
-const RANGE_FORMATTER = function(value, format) {
+const RANGE_FORMATTER = function(value, format, RANGE_SEPARATOR) {
     if (Array.isArray(value) && value.length === 2) {
         const start = value[0];
         const end = value[1];
@@ -168,7 +168,7 @@ const RANGE_FORMATTER = function(value, format) {
     }
     return '';
 };
-const RANGE_PARSER = function(text, format) {
+const RANGE_PARSER = function(text, format, RANGE_SEPARATOR) {
     const array = Array.isArray(text) ? text : text.split(RANGE_SEPARATOR);
     if (array.length === 2) {
         const range1 = array[0];

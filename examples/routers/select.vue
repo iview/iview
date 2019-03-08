@@ -1,14 +1,14 @@
 <template>
-    <div>
-        <Select v-model="model1" style="width:200px">
+    <div style="margin: 200px;">
+        <Select size="small" v-model="model10" multiple style="width:260px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
-
-        <Select v-model="model2" multiple style="width:200px">
+        <Select v-model="model10" multiple style="width:260px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
-
-        <Button type="primary" @click="changeData">changeData</Button>
+        <Select size="large" v-model="model10" multiple style="width:260px">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
     </div>
 </template>
 <script>
@@ -22,7 +22,7 @@
                     },
                     {
                         value: 'London',
-                        label: 'London'
+                        label: 'LondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondonLondon'
                     },
                     {
                         value: 'Sydney',
@@ -41,13 +41,7 @@
                         label: 'Canberra'
                     }
                 ],
-                model1: '',
-                model2: []
-            }
-        },
-        methods: {
-            changeData() {
-                this.model2.push('Canberra')
+                model10: ['New York', 'London']
             }
         }
     }

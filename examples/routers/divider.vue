@@ -17,8 +17,27 @@
                         iView is a set of UI components and widgets built on Vue.js.
                     </p>
 
-                    <Divider>iView </Divider>
+                    <Divider size="small">iView</Divider>
 
+                    <p>
+                        iView is a set of UI components and widgets built on Vue.js.
+                        iView is a set of UI components and widgets built on Vue.js.
+                        iView is a set of UI components and widgets built on Vue.js.
+                    </p>
+
+                    <Divider dashed>iView Developer</Divider>
+                    <p>
+                        iView is a set of UI components and widgets built on Vue.js.
+                        iView is a set of UI components and widgets built on Vue.js.
+                        iView is a set of UI components and widgets built on Vue.js.
+                    </p>
+                    <Divider dashed orientation="left" size="small">iView Developer</Divider>
+                    <p>
+                        iView is a set of UI components and widgets built on Vue.js.
+                        iView is a set of UI components and widgets built on Vue.js.
+                        iView is a set of UI components and widgets built on Vue.js.
+                    </p>
+                    <Divider dashed orientation="right">iView Developer</Divider>
                     <p>
                         iView is a set of UI components and widgets built on Vue.js.
                         iView is a set of UI components and widgets built on Vue.js.
@@ -60,6 +79,8 @@
                     <a href="#">Components</a>
                     <Divider type="vertical" />
                     <a href="#">Divider</a>
+                    <Divider type="vertical" dashed />
+                    <a href="#">ABCDE</a>
                 </div>
             </Card>
         </i-col>

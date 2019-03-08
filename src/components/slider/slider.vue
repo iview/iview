@@ -85,6 +85,7 @@
     import { getStyle, oneOf } from '../../utils/assist';
     import { on, off } from '../../utils/dom';
     import Emitter from '../../mixins/emitter';
+    import elementResizeDetectorMaker from 'element-resize-detector';
 
     const prefixCls = 'ivu-slider';
 
@@ -164,12 +165,13 @@
                     min: 0,
                     max: 1,
                 },
+                sliderWidth: 0
             };
         },
         watch: {
             value (val) {
                 val = this.checkLimits(Array.isArray(val) ? val : [val]);
-                if (val[0] !== this.currentValue[0] || val[1] !== this.currentValue[1]) {
+                if (!this.dragging && (val[0] !== this.currentValue[0] || val[1] !== this.currentValue[1])) {
                     this.currentValue = val;
                 }
             },
@@ -246,14 +248,17 @@
                 }
                 return result;
             },
-            sliderWidth () {
-                return parseInt(getStyle(this.$refs.slider, 'width'), 10);
-            },
             tipDisabled () {
                 return this.tipFormat(this.currentValue[0]) === null || this.showTip === 'never';
             },
-            valueRange(){
+            valueRange () {
                 return this.max - this.min;
+            },
+            firstPosition () {
+                return this.currentValue[0];
+            },
+            secondPosition () {
+                return this.currentValue[1];
             }
         },
         methods: {
@@ -338,6 +343,13 @@
                 const modulus = this.handleDecimal(newPos,this.step);
                 const value = this.currentValue;
                 value[index] = newPos - modulus;
+
+                // 判断左右是否相等，否则会出现左边大于右边的情况
+                if (this.range) {
+                    if (type === 'min' && value[0] > value[1]) value[1] = value[0];
+                    if (type === 'max' && value[0] > value[1]) value[0] = value[1];
+                }
+
                 this.currentValue = [...value];
 
                 if (!this.dragging) {
@@ -372,14 +384,15 @@
                 const currentX = this.getPointerX(event);
                 const sliderOffsetLeft = this.$refs.slider.getBoundingClientRect().left;
                 let newPos = ((currentX - sliderOffsetLeft) / this.sliderWidth * this.valueRange) + this.min;
+                let regularNewPos = newPos / this.valueRange * 100 ;
 
-                if (!this.range || newPos <= this.minPosition) this.changeButtonPosition(newPos, 'min');
-                else if (newPos >= this.maxPosition) this.changeButtonPosition(newPos, 'max');
+                if (!this.range || regularNewPos <= this.minPosition) this.changeButtonPosition(newPos, 'min');
+                else if (regularNewPos >= this.maxPosition) this.changeButtonPosition(newPos, 'max');
                 else this.changeButtonPosition(newPos, ((newPos - this.firstPosition) <= (this.secondPosition - newPos)) ? 'min' : 'max');
             },
 
             handleInputChange (val) {
-                this.currentValue = [val, this.currentValue[1]];
+                this.currentValue = [val === 0 ? 0 : val || this.min, this.currentValue[1]];
                 this.emitChange();
             },
 
@@ -389,7 +402,10 @@
 
             handleBlur (type) {
                 this.$refs[`${type}Tooltip`].handleClosePopper();
-            }
+            },
+            handleSetSliderWidth () {
+                this.sliderWidth = parseInt(getStyle(this.$refs.slider, 'width'), 10);
+            },
         },
         mounted () {
             // #2852
@@ -407,6 +423,12 @@
                     });
                 }
             });
+
+            this.observer = elementResizeDetectorMaker();
+            this.observer.listenTo(this.$refs.slider, this.handleSetSliderWidth);
+        },
+        beforeDestroy() {
+            this.observer.removeListener(this.$refs.slider, this.handleSetSliderWidth);
         }
     };
 </script>

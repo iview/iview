@@ -294,8 +294,11 @@
                 this.$refs.input.currentValue = '';
                 const oldVal = JSON.stringify(this.currentValue);
                 this.currentValue = item.value.split(',');
-                this.emitValue(this.currentValue, oldVal);
-                this.handleClose();
+                // use setTimeout for #4786, can not use nextTick, because @on-find-selected use nextTick
+                setTimeout(() => {
+                    this.emitValue(this.currentValue, oldVal);
+                    this.handleClose();
+                }, 0);
             },
             handleFocus () {
                 this.$refs.input.focus();

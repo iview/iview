@@ -53,7 +53,10 @@
                 default () {
                     return !this.$IVIEW || this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
                 }
-            }
+            },
+            transferClassName: {
+                type: String
+            },
         },
         computed: {
             transition () {
@@ -61,7 +64,8 @@
             },
             dropdownCls () {
                 return {
-                    [prefixCls + '-transfer']: this.transfer
+                    [prefixCls + '-transfer']: this.transfer,
+                    [this.transferClassName]: this.transferClassName
                 };
             },
             relClasses () {

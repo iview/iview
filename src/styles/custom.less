@@ -22,6 +22,7 @@
 
 // Base
 @body-background        : #fff;
+@component-background   : #fff;
 @font-family            : "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 @code-family            : Consolas,Menlo,Courier,monospace;
 @title-color            : #17233d;
@@ -146,19 +147,29 @@
 @screen-xs-max          : (@screen-xs-min - 1);
 
 // Small screen / tablet
-@screen-sm              : 768px;
+@screen-sm              : 576px;
 @screen-sm-min          : @screen-sm;
 @screen-sm-max          : (@screen-sm-min - 1);
 
 // Medium screen / desktop
-@screen-md              : 992px;
+@screen-md              : 768px;
 @screen-md-min          : @screen-md;
 @screen-md-max          : (@screen-md-min - 1);
 
 // Large screen / wide desktop
-@screen-lg              : 1200px;
+@screen-lg              : 992px;
 @screen-lg-min          : @screen-lg;
 @screen-lg-max          : (@screen-lg-min - 1);
+
+// Extra large screen / full hd
+@screen-xl              : 1200px;
+@screen-xl-min          : @screen-xl;
+@screen-xl-max          : (@screen-xl-min - 1);
+
+// Extra extra large screen / large descktop
+@screen-xxl             : 1600px;
+@screen-xxl-min         : @screen-xxl;
+@screen-xxl-max         : (@screen-xxl-min - 1);
 
 // Z-index
 @zindex-spin            : 8;

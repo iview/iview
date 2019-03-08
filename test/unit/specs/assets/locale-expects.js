@@ -2,6 +2,7 @@ export default {
   'de-DE': 'Oktober 2030',
   'en-US': 'October 2030',
   'es-ES': 'octubre 2030',
+  'fi-FI': 'lokakuu 2030',
   'fr-FR': 'octobre 2030',
   'id-ID': 'Oktober 2030',
   'ja-JP': '2030年 10月',
