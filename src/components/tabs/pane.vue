@@ -25,7 +25,11 @@
             closable: {
                 type: Boolean,
                 default: null
-            }
+            },
+            // Tabs 嵌套时，用 tab 区分层级，指向对应的 Tabs 的 name
+            tab: {
+                type: String
+            },
         },
         data () {
             return {
