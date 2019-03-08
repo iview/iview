@@ -19,7 +19,9 @@
             xs: [Number, Object],
             sm: [Number, Object],
             md: [Number, Object],
-            lg: [Number, Object]
+            lg: [Number, Object],
+            xl: [Number, Object],
+            xxl: [Number, Object]
         },
         data () {
             return {
@@ -40,7 +42,7 @@
                     }
                 ];
 
-                ['xs', 'sm', 'md', 'lg'].forEach(size => {
+                ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'].forEach(size => {
                     if (typeof this[size] === 'number') {
                         classList.push(`${prefixCls}-span-${size}-${this[size]}`);
                     } else if (typeof this[size] === 'object') {
