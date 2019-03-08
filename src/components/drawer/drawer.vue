@@ -15,7 +15,7 @@
                         <div :class="[prefixCls + '-header']" v-if="showHead"><slot name="header"><div :class="[prefixCls + '-header-inner']">{{ title }}</div></slot></div>
                         <div :class="[prefixCls + '-body']" :style="styles"><slot></slot></div>
                     </div>
-                    <div class="ivu-drawer-drag" :class="{ 'ivu-drawer-drag-left': placement === 'left' }" v-if="draggable" @mousedown="handleTriggerMousedown">
+                    <div class="ivu-drawer-drag" :class="{ 'ivu-drawer-drag-left': placement === 'left' }" v-if="draggable" :style="{ pointerEvents: draggable ? 'auto' : 'none' }" @mousedown="handleTriggerMousedown">
                         <slot name="trigger">
                             <div class="ivu-drawer-drag-move-trigger">
                                 <div class="ivu-drawer-drag-move-trigger-point">

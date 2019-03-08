@@ -3,6 +3,7 @@
         <Button @click="visible = true">show1</Button>
         <Button @click="visible2 = true">show2</Button>
         <Button @click="visible3 = true">show3</Button>
+        <Button @click="visible4 = true">show4</Button>
 
         <div style="width: 500px;height:500px;background: green;position: relative;">
             <Drawer v-model="visible" placement="left" :before-close="handleBeforeClose" draggable inner :transfer="false" width="50" @on-resize-width="hrw" title="抽屉标题" :styles="styles" @on-close="handleClose">
@@ -184,6 +185,10 @@
             <p>一些内容</p>
             <p>一些内容22</p>
         </Drawer>
+        <Drawer v-model="visible4" draggable :mask="false">
+            <p>一些内容</p>
+            <p>一些内容</p>
+        </Drawer>
     </div>
 </template>
 
@@ -194,6 +199,7 @@
                 visible: false,
                 visible2: false,
                 visible3: false,
+                visible4: false,
                 styles: {
                     height: 'calc(100% - 55px)',
                     paddingBottom: '53px',
