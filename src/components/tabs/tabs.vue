@@ -10,12 +10,16 @@
                 @keydown.space.prevent="handleTabKeyboardSelect(false)"
             >
                 <div ref="navWrap" :class="[prefixCls + '-nav-wrap', scrollable ? prefixCls + '-nav-scrollable' : '']">
-                    <span :class="[prefixCls + '-nav-prev', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollPrev"><Icon type="ios-arrow-back"></Icon></span>
-                    <span :class="[prefixCls + '-nav-next', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollNext"><Icon type="ios-arrow-forward"></Icon></span>
+                    <span :class="[prefixCls + '-nav-prev', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollPrev" >
+                        <Icon type="ios-arrow-back"></Icon>
+                    </span>
+                    <span :class="[prefixCls + '-nav-next', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollNext">
+                        <Icon type="ios-arrow-forward"></Icon>
+                    </span>
                     <div ref="navScroll" :class="[prefixCls + '-nav-scroll']">
                         <div ref="nav" :class="[prefixCls + '-nav']" class="nav-text"  :style="navStyle">
                             <div :class="barClasses" :style="barStyle"></div>
-                            <div :class="tabCls(item)" v-for="(item, index) in navList" @click="handleChange(index)">
+                            <div :class="tabCls(item)" v-for="(item, index) in navList" v-show="!item.hidden" :key="item" @click="handleChange(index)">
                                 <Icon v-if="item.icon !== ''" :type="item.icon"></Icon>
                                 <Render v-if="item.labelType === 'function'" :render="item.label"></Render>
                                 <template v-else>{{ item.label }}</template>
@@ -190,13 +194,14 @@
                 return TabPanes;
             },
             updateNav () {
-                this.navList = [];
+                this.navList.splice(0);
                 this.getTabs().forEach((pane, index) => {
                     this.navList.push({
                         labelType: typeof pane.label,
                         label: pane.label,
                         icon: pane.icon || '',
                         name: pane.currentName || index,
+                        hidden: pane.hidden,
                         disabled: pane.disabled,
                         closable: pane.closable
                     });
@@ -205,14 +210,27 @@
                         if (!this.activeKey) this.activeKey = pane.currentName || index;
                     }
                 });
-                this.updateStatus();
+                if (this.navList.some(p => p.hidden && p.name === this.activeKey)) {
+                    const first = this.navList.find(p => !p.hidden);
+                    if (first) {
+                        this.activeKey = first.name;
+                    }
+                }
+                // this.updateStatus();
                 this.updateBar();
             },
             updateBar () {
                 this.$nextTick(() => {
-                    const index = this.getTabIndex(this.activeKey);
                     if (!this.$refs.nav) return;  // 页面销毁时，这里会报错，为了解决 #2100
-                    const prevTabs = this.$refs.nav.querySelectorAll(`.${prefixCls}-tab`);
+                    const index = this.getTabIndex(this.activeKey, true);
+                    const prevTabsAll = this.$refs.nav.querySelectorAll(`.${prefixCls}-tab`);
+                    const prevTabs = [];
+                    for (let i = 0, length = prevTabsAll.length;i < length;i++){
+                        const tabCur = prevTabsAll[i];
+                        if (tabCur.style.display !== 'none'){
+                            prevTabs.push(tabCur);
+                        }
+                    }
                     const tab = prevTabs[index];
                     this.barWidth = tab ? parseFloat(tab.offsetWidth) : 0;
 
@@ -230,10 +248,10 @@
                     this.updateNavScroll();
                 });
             },
-            updateStatus () {
-                const tabs = this.getTabs();
-                tabs.forEach(tab => tab.show = (tab.currentName === this.activeKey) || this.animated);
-            },
+            // updateStatus () {
+            //     const tabs = this.getTabs();
+            //     tabs.forEach(tab => tab.show = (tab.currentName === this.activeKey) || this.animated);
+            // },
             tabCls (item) {
                 return [
                     `${prefixCls}-tab`,
@@ -351,8 +369,10 @@
                     ? Number(navStyle.transform.match(/translateX\(-(\d+(\.\d+)*)px\)/)[1])
                     : 0;
             },
-            getTabIndex(name){
-                return this.navList.findIndex(nav => nav.name === name);
+            getTabIndex(name, showOnly){
+                let navList = this.navList;
+                showOnly && (navList = navList.filter(nav => !nav.hidden));
+                return navList.findIndex(nav => nav.name === name);
             },
             setOffset(value) {
                 this.navStyle.transform = `translateX(-${value}px)`;
@@ -434,7 +454,7 @@
             activeKey (val) {
                 this.focusedKey = val;
                 this.updateBar();
-                this.updateStatus();
+                // this.updateStatus();
                 this.broadcast('Table', 'on-visible-change', true);
                 this.$nextTick(() => {
                     this.scrollToActiveTab();

@@ -1,5 +1,5 @@
 <template>
-    <div :class="prefixCls" v-show="show" :style="contentStyle"><slot></slot></div>
+    <div :class="prefixCls" :style="contentStyle"><slot></slot></div>
 </template>
 <script>
     const prefixCls = 'ivu-tabs-tabpane';
@@ -19,6 +19,10 @@
                 type: String
             },
             disabled: {
+                type: Boolean,
+                default: false
+            },
+            hidden: {
                 type: Boolean,
                 default: false
             },
@@ -62,6 +66,9 @@
                 this.updateNav();
             },
             disabled () {
+                this.updateNav();
+            },
+            hidden () {
                 this.updateNav();
             }
         },
