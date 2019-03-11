@@ -6,6 +6,7 @@
         <tbody :class="[prefixCls + '-tbody']">
             <template v-for="(row, index) in data">
                 <table-tr
+                    :draggable="draggable"
                     :row="row"
                     :key="row._rowKey"
                     :prefix-cls="prefixCls"
@@ -57,6 +58,10 @@
             columnsWidth: Object,
             fixed: {
                 type: [Boolean, String],
+                default: false
+            },
+            draggable: {
+                type: Boolean,
                 default: false
             }
         },

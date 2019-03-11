@@ -82,7 +82,7 @@
     import {directive as clickOutside} from 'v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
-    import { DEFAULT_FORMATS, RANGE_SEPARATOR, TYPE_VALUE_RESOLVER_MAP, getDayCountOfMonth } from './util';
+    import { DEFAULT_FORMATS, TYPE_VALUE_RESOLVER_MAP, getDayCountOfMonth } from './util';
     import {findComponentsDownward} from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
@@ -209,6 +209,10 @@
             options: {
                 type: Object,
                 default: () => ({})
+            },
+            separator: {
+                type: String,
+                default: ' - '
             }
         },
         data(){
@@ -607,23 +611,23 @@
                 const multipleParser = TYPE_VALUE_RESOLVER_MAP['multiple'].parser;
 
                 if (val && type === 'time' && !(val instanceof Date)) {
-                    val = parser(val, format);
+                    val = parser(val, format, this.separator);
                 } else if (this.multiple && val) {
-                    val = multipleParser(val, format);
+                    val = multipleParser(val, format, this.separator);
                 } else if (isRange) {
                     if (!val){
                         val = [null, null];
                     } else {
                         if (typeof val === 'string') {
-                            val = parser(val, format);
+                            val = parser(val, format, this.separator);
                         } else if (type === 'timerange') {
-                            val = parser(val, format).map(v => v || '');
+                            val = parser(val, format, this.separator).map(v => v || '');
                         } else {
                             const [start, end] = val;
                             if (start instanceof Date && end instanceof Date){
                                 val = val.map(date => new Date(date));
                             } else if (typeof start === 'string' && typeof end === 'string'){
-                                val = parser(val.join(RANGE_SEPARATOR), format);
+                                val = parser(val.join(this.separator), format, this.separator);
                             } else if (!start || !end){
                                 val = [null, null];
                             }
@@ -640,13 +644,13 @@
 
                 if (this.multiple) {
                     const formatter = TYPE_VALUE_RESOLVER_MAP.multiple.formatter;
-                    return formatter(value, this.format || format);
+                    return formatter(value, this.format || format, this.separator);
                 } else {
                     const {formatter} = (
                         TYPE_VALUE_RESOLVER_MAP[this.type] ||
                         TYPE_VALUE_RESOLVER_MAP['default']
                     );
-                    return formatter(value, this.format || format);
+                    return formatter(value, this.format || format, this.separator);
                 }
             },
             onPick(dates, visible = false, type) {

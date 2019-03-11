@@ -15,6 +15,15 @@
                         <div :class="[prefixCls + '-header']" v-if="showHead"><slot name="header"><div :class="[prefixCls + '-header-inner']">{{ title }}</div></slot></div>
                         <div :class="[prefixCls + '-body']" :style="styles"><slot></slot></div>
                     </div>
+                    <div class="ivu-drawer-drag" :class="{ 'ivu-drawer-drag-left': placement === 'left' }" v-if="draggable" @mousedown="handleTriggerMousedown">
+                        <slot name="trigger">
+                            <div class="ivu-drawer-drag-move-trigger">
+                                <div class="ivu-drawer-drag-move-trigger-point">
+                                    <i></i><i></i><i></i><i></i><i></i>
+                                </div>
+                            </div>
+                        </slot>
+                    </div>
                 </div>
             </transition>
         </div>
@@ -26,6 +35,8 @@
     import TransferDom from '../../directives/transfer-dom';
     import Emitter from '../../mixins/emitter';
     import ScrollbarMixins from '../modal/mixins-scrollbar';
+
+    import { on, off } from '../../utils/dom';
 
     const prefixCls = 'ivu-drawer';
 
@@ -90,7 +101,13 @@
             inner: {
                 type: Boolean,
                 default: false
-            }
+            },
+            // Whether drag and drop is allowed to adjust width
+            draggable: {
+                type: Boolean,
+                default: false
+            },
+            beforeClose: Function,
         },
         data () {
             return {
@@ -98,6 +115,11 @@
                 visible: this.value,
                 wrapShow: false,
                 showHead: true,
+                canMove: false,
+                dragWidth: this.width,
+                wrapperWidth: this.width,
+                wrapperLeft: 0,
+                minWidth: 256
             };
         },
         computed: {
@@ -108,14 +130,15 @@
                         [`${prefixCls}-hidden`]: !this.wrapShow,
                         [`${this.className}`]: !!this.className,
                         [`${prefixCls}-no-mask`]: !this.mask,
-                        [`${prefixCls}-wrap-inner`]: this.inner
+                        [`${prefixCls}-wrap-inner`]: this.inner,
+                        [`${prefixCls}-wrap-dragging`]: this.canMove
                     }
                 ];
             },
             mainStyles () {
                 let style = {};
 
-                const width = parseInt(this.width);
+                const width = parseInt(this.dragWidth);
 
                 const styleWidth = {
                     width: width <= 100 ? `${width}%` : `${width}px`
@@ -154,6 +177,21 @@
         },
         methods: {
             close () {
+                if (!this.beforeClose) {
+                    return this.handleClose();
+                }
+
+                const before = this.beforeClose();
+
+                if (before && before.then) {
+                    before.then(() => {
+                        this.handleClose();
+                    });
+                } else {
+                    this.handleClose();
+                }
+            },
+            handleClose () {
                 this.visible = false;
                 this.$emit('input', false);
                 this.$emit('on-close');
@@ -168,6 +206,38 @@
                 const className = event.target.getAttribute('class');
                 if (className && className.indexOf(`${prefixCls}-wrap`) > -1) this.handleMask();
             },
+            handleMousemove (event) {
+                if (!this.canMove || !this.draggable) return;
+                // 更新容器宽度和距离左侧页面距离，如果是window则距左侧距离为0
+                this.handleSetWrapperWidth();
+                const left = event.pageX - this.wrapperLeft;
+                // 如果抽屉方向为右边，宽度计算需用容器宽度减去left
+                let width = this.placement === 'right' ? this.wrapperWidth - left : left;
+                // 限定最小宽度
+                width = Math.max(width, parseFloat(this.minWidth));
+                event.atMin = width === parseFloat(this.minWidth);
+                // 如果当前width不大于100，视为百分比
+                if (width <= 100) width = (width / this.wrapperWidth) * 100;
+                this.dragWidth = width;
+                this.$emit('on-resize-width', parseInt(this.dragWidth));
+            },
+            handleSetWrapperWidth () {
+                const {
+                    width,
+                    left
+                } = this.$el.getBoundingClientRect();
+                this.wrapperWidth = width;
+                this.wrapperLeft = left;
+            },
+            handleMouseup () {
+                if (!this.draggable) return;
+                this.canMove = false;
+            },
+            handleTriggerMousedown () {
+                this.canMove = true;
+                // 防止鼠标选中抽屉中文字，造成拖动trigger触发浏览器原生拖动行为
+                window.getSelection().removeAllRanges();
+            },
         },
         mounted () {
             if (this.visible) {
@@ -181,8 +251,14 @@
             }
 
             this.showHead = showHead;
+
+            on(document, 'mousemove', this.handleMousemove);
+            on(document, 'mouseup', this.handleMouseup);
+            this.handleSetWrapperWidth();
         },
         beforeDestroy () {
+            off(document, 'mousemove', this.handleMousemove);
+            off(document, 'mouseup', this.handleMouseup);
             this.removeScrollEffect();
         },
         watch: {

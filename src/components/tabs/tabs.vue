@@ -32,7 +32,7 @@
 <script>
     import Icon from '../icon/icon.vue';
     import Render from '../base/render';
-    import { oneOf, MutationObserver } from '../../utils/assist';
+    import { oneOf, MutationObserver, findComponentsDownward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     import elementResizeDetectorMaker from 'element-resize-detector';
 
@@ -64,6 +64,9 @@
         name: 'Tabs',
         mixins: [ Emitter ],
         components: { Icon, Render },
+        provide () {
+            return { TabsInstance: this };
+        },
         props: {
             value: {
                 type: [String, Number]
@@ -93,6 +96,10 @@
                 default: false
             },
             beforeRemove: Function,
+            // Tabs 嵌套时，用 name 区分层级
+            name: {
+                type: String
+            },
         },
         data () {
             return {
@@ -166,7 +173,21 @@
         },
         methods: {
             getTabs () {
-                return this.$children.filter(item => item.$options.name === 'TabPane');
+                // return this.$children.filter(item => item.$options.name === 'TabPane');
+                const AllTabPanes = findComponentsDownward(this, 'TabPane');
+                const TabPanes = [];
+
+                AllTabPanes.forEach(item => {
+                    if (item.tab && this.name) {
+                        if (item.tab === this.name) {
+                            TabPanes.push(item);
+                        }
+                    } else {
+                        TabPanes.push(item);
+                    }
+                });
+
+                return TabPanes;
             },
             updateNav () {
                 this.navList = [];
@@ -393,7 +414,7 @@
                 return false;
             },
             updateVisibility(index){
-                [...this.$refs.panes.children].forEach((el, i) => {
+                [...this.$refs.panes.querySelectorAll(`.${prefixCls}-tabpane`)].forEach((el, i) => {
                     if (index === i) {
                         [...el.children].filter(child=> child.classList.contains(`${prefixCls}-tabpane`)).forEach(child => child.style.visibility = 'visible');
                         if (this.captureFocus) setTimeout(() => focusFirst(el, el), transitionTime);

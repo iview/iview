@@ -5,69 +5,68 @@
         <Button @click="visible3 = true">show3</Button>
 
         <div style="width: 500px;height:500px;background: green;position: relative;">
-
+            <Drawer v-model="visible" placement="left" :before-close="handleBeforeClose" draggable inner :transfer="false" width="50" @on-resize-width="hrw" title="抽屉标题" :styles="styles" @on-close="handleClose">
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <Button @click="visible2 = true">show2</Button>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+                <p>一些内容</p>
+            </Drawer>
         </div>
 
-        <Drawer v-model="visible" width="70" inner title="抽屉标题" :styles="styles" @on-close="handleClose">
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <Button @click="visible2 = true">show2</Button>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-            <p>一些内容</p>
-        </Drawer>
 
 
-        <Drawer v-model="visible2" title="抽屉标题" placement="right">
+        <Drawer v-model="visible2" draggable title="抽屉标题" placement="right">
             <p>一些内容</p>
             <p>一些内容</p>
             <p>一些内容</p>
@@ -126,7 +125,7 @@
             <p>一些内容</p>
             <p>一些内容22</p>
         </Drawer>
-        <Drawer v-model="visible3" placement="left">
+        <Drawer v-model="visible3" draggable placement="left">
             <p>一些内容</p>
             <p>一些内容</p>
             <p>一些内容</p>
@@ -207,6 +206,23 @@
         methods: {
             handleClose () {
                 this.$Message.info('关闭了');
+            },
+            hrw (w) {
+                console.log(w);
+            },
+            handleBeforeClose () {
+                return new Promise((resolve, reject) => {
+                    this.$Modal.confirm({
+                        title: '关闭确认',
+                        content: '您确认要关闭抽屉吗？',
+                        onOk: () => {
+                            resolve();
+                        },
+                        onCancel: () => {
+                            reject();
+                        }
+                    });
+                });
             }
         }
     };

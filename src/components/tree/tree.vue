@@ -23,6 +23,9 @@
         name: 'Tree',
         mixins: [ Emitter, Locale ],
         components: { TreeNode },
+        provide () {
+            return { TreeInstance: this };
+        },
         props: {
             data: {
                 type: Array,
@@ -38,9 +41,14 @@
                 type: Boolean,
                 default: false
             },
-            checkStrictly:{
-                type:Boolean,
-                default:false
+            checkStrictly: {
+                type: Boolean,
+                default: false
+            },
+            // 当开启 showCheckbox 时，如果开启 checkDirectly，select 将强制转为 check 事件
+            checkDirectly: {
+                type: Boolean,
+                default: false
             },
             emptyText: {
                 type: String
@@ -54,7 +62,8 @@
             },
             render: {
                 type: Function
-            }
+            },
+
         },
         data () {
             return {

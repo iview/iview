@@ -231,7 +231,10 @@
             },
             elementId: {
                 type: String
-            }
+            },
+            transferClassName: {
+                type: String
+            },
         },
         mounted(){
             this.$on('on-select-selected', this.onOptionClick);
@@ -286,6 +289,7 @@
                     [prefixCls + '-dropdown-transfer']: this.transfer,
                     [prefixCls + '-multiple']: this.multiple && this.transfer,
                     ['ivu-auto-complete']: this.autoComplete,
+                    [this.transferClassName]: this.transferClassName
                 };
             },
             selectionCls () {

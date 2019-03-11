@@ -32,6 +32,8 @@
         </div>
         <br><br><br>
         <Avatar custom-icon="ivu-icon-ios-person" />
+
+        <Avatar :src="src" size="large" @on-error="handleError" />
     </div>
 </template>
 <script>
@@ -42,7 +44,8 @@
         data () {
             return {
                 user: UserList[0],
-                color: ColorList[0]
+                color: ColorList[0],
+                src: 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj41/avatar'
             }
         },
         methods: {
@@ -50,6 +53,9 @@
                 const index = UserList.indexOf(this.user);
                 this.user = index < UserList.length - 1 ? UserList[index + 1] : UserList[0];
                 this.color = index < ColorList.length - 1 ? ColorList[index + 1] : ColorList[0];
+            },
+            handleError () {
+                this.src = 'https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar';
             }
         }
     }
