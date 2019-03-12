@@ -236,8 +236,8 @@
                 if (this.currentPage != page) {
                     this.currentPage = page;
                     this.$emit('update:current', page);
-                    this.$emit('on-change', page);
                 }
+                this.$emit('on-change', page);
             },
             prev () {
                 const current = this.currentPage;
