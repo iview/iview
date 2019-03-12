@@ -1,4 +1,4 @@
-// Type definitions for iview 3.1.0
+// Type definitions for iview 3.3.0
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
@@ -28,6 +28,10 @@ export declare interface Dropdown extends Vue {
    * @default false
    */
   transfer?: boolean;
+  /**
+   * 开启 transfer 时，给浮层添加额外的 class 名称
+   */
+  'transfer-class-name'?: string;
   /**
    * 点击菜单项时触发
    * 

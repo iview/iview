@@ -1,4 +1,4 @@
-// Type definitions for iview 3.1.0
+// Type definitions for iview 3.3.0
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
@@ -27,4 +27,8 @@ export declare interface Avatar extends Vue {
    * 自定义图标
    */
   'custom-icon'?: string;
+  /**
+   * 在设置 src 且图片加载不成功时触发
+   */
+  $emit(eventName: 'on-error', event: Event): this;
 }
