@@ -1,8 +1,9 @@
 import Notification from './notification.vue';
 import Vue from 'vue';
 
+const Constructor = Vue.extend(Notification);
+
 Notification.newInstance = (propsData = {}) => {
-    const Constructor = Vue.extend(Notification);
     const Instance = new Constructor({ propsData });
 
     const notification = Instance.$mount();
