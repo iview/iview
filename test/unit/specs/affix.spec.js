@@ -13,7 +13,7 @@ describe('Affix.vue', () => {
     done();
   });
 
-  it('should create a Affix component with slot', done => {
+  it('should create a Affix component contain slot', done => {
     vm = createVue(`
         <Affix>
             <span class="demo-affix">Fixed at the top</span>
@@ -24,7 +24,7 @@ describe('Affix.vue', () => {
     done();
   });
 
-  it('set offset-top props', done => {
+  it('only set offset-top props', done => {
     vm = createVue(`
     <div>
         <Affix :offset-top="20">
@@ -45,7 +45,7 @@ describe('Affix.vue', () => {
     }, 100);
   });
 
-  it('set offset-bottom props', done => {
+  it('only set offset-bottom props', done => {
     vm = createVue(`
     <div>
         <div style="width: 100%; height: 2000px"></div>
@@ -99,7 +99,7 @@ describe('Affix.vue', () => {
     }, 100);
   });
 
-  it('both props not set, should fixed and top equal 0', done => {
+  it('both props are not set, should fixed top and top equal 0px', done => {
     vm = createVue(`
     <div>
         <Affix>
