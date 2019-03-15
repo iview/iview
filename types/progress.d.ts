@@ -1,4 +1,4 @@
-// Type definitions for iview 3.1.0
+// Type definitions for iview 3.3.0
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
@@ -35,6 +35,10 @@ export declare interface Progress extends Vue {
    * @default 0
    */
   'success-percent'?: number;
+  /**
+   * 进度条的颜色
+   */
+  'stroke-color'?: string;
   /**
    * slot插槽对象
    */

@@ -1,4 +1,4 @@
-// Type definitions for iview 3.1.0
+// Type definitions for iview 3.3.0
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
@@ -75,6 +75,16 @@ export declare interface Table extends Vue {
      * @default 暂无筛选结果
      */
     "no-filtered-data-text"?: string;
+    /**
+     * 是否开启拖拽调整行顺序，需配合 @on-drag-drop 事件使用
+     * @default false
+     */
+    "draggable"?: boolean;
+    /**
+     * 列使用 tooltip 时，配置它的主题，可选值为 dark 或 light
+     * @default dark
+     */
+    "tooltip-theme"?: string;
     /**
      * 开启 highlight-row 后有效，当表格的当前行发生变化的时候会触发
      * currentRow：当前高亮行的数据
@@ -154,6 +164,12 @@ export declare interface Table extends Vue {
      * status：当前的状态
      */
     $emit(eventName: "on-expand", row: object, status: string): this;
+    /**
+     * 拖拽排序松开时触发，返回置换的两行数据索引
+     * index1
+     * index2
+     */
+    $emit(eventName: "on-drag-drop", index1: number, index2: number): this;
     /**
      * 导出数据
      */

@@ -1,4 +1,4 @@
-// Type definitions for iview 3.1.0
+// Type definitions for iview 3.3.0
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
@@ -88,6 +88,10 @@ export declare interface Select extends Vue {
    * 给表单元素设置 id，详见 Form 用法。
    */
   'element-id'?: string;
+  /**
+   * 开启 transfer 时，给浮层添加额外的 class 名称
+   */
+  'transfer-class-name'?: string;
   /**
    * 选中的Option变化时触发，默认返回 value，如需返回 label，详见 label-in-value 属性	当前选中项
    */
