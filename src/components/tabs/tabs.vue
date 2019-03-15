@@ -187,6 +187,14 @@
                     }
                 });
 
+                // 在 TabPane 使用 v-if 时，并不会按照预先的顺序渲染，这时可设置 index，并从小到大排序
+                TabPanes.sort((a, b) => {
+                    if (a.index && b.index) {
+                        return a.index > b.index ? 1 : -1;
+                    } else {
+                        return 1;
+                    }
+                });
                 return TabPanes;
             },
             updateNav () {
