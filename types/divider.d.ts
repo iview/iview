@@ -1,4 +1,4 @@
-// Type definitions for iview 3.1.0
+// Type definitions for iview 3.3.0
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
@@ -20,4 +20,9 @@ export declare interface Divider extends Vue {
    * @default false
    */
   dashed?: boolean;
+  /**
+   * 尺寸，可选值为 small 或 default
+   * @default default
+   */
+  size?: string;
 }

@@ -1,4 +1,4 @@
-// Type definitions for iview 3.1.0
+// Type definitions for iview 3.3.0
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
@@ -72,4 +72,8 @@ export declare interface AutoComplete extends Vue {
    * 搜索补全项的时候调用
    */
   $emit(eventName: 'on-blur', event: KeyboardEvent): this;
+  /**
+   * 清空时触发
+   */
+  $emit(eventName: 'on-clear'): this;
 }

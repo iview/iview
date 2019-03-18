@@ -1,4 +1,4 @@
-// Type definitions for iview 3.1.0
+// Type definitions for iview 3.3.0
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
@@ -68,6 +68,15 @@ export declare interface Drawer extends Vue {
      */
     'inner'?: boolean;
     /**
+     * 是否开启拖拽调整宽度
+     * @default false
+     */
+    'draggable'?: boolean;
+    /**
+     * 返回 Promise 可以阻止关闭
+     */
+    'before-close'?: () => void | PromiseConstructor;
+    /**
      * 关闭抽屉时触发
      */
     $emit(eventName: 'on-close'): this;
@@ -75,6 +84,10 @@ export declare interface Drawer extends Vue {
      * 显示状态发生变化时触发
      */
     $emit(eventName: 'on-visible-change', value: boolean): this;
+    /**
+     * 调整宽度时触发，返回宽度
+     */
+    $emit(eventName: 'on-resize-width'): number;
     /**
      * slot插槽对象
      */
@@ -91,5 +104,9 @@ export declare interface Drawer extends Vue {
          * 抽屉主体内容
          */
         close: VNode[];
+        /**
+         * 自定义调整宽度节点
+         */
+        trigger: VNode[];
     };
 }

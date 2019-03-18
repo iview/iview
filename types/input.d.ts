@@ -1,4 +1,4 @@
-// Type definitions for iview 3.1.0
+// Type definitions for iview 3.3.0
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
@@ -6,10 +6,10 @@ import Vue, { VNode } from 'vue';
 
 export declare interface Input extends Vue {
   /**
-   * 输入框类型，可选值为 text、password、textarea、url、email、date
+   * 输入框类型，可选值为 text、password、textarea、url、email、date、number、tel
    * @default text
    */
-  type?: 'text' | 'password' | 'textarea' | 'url' | 'email' | 'date';
+  type?: 'text' | 'password' | 'textarea' | 'url' | 'email' | 'date' | 'number' | 'tel';
   /**
    * 绑定的值，可使用 v-model 双向绑定
    * @default 空

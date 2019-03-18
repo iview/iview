@@ -1,4 +1,4 @@
-// Type definitions for iview 3.1.0
+// Type definitions for iview 3.3.0
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
@@ -24,6 +24,11 @@ export declare interface Upload extends Vue {
    * @default false
    */
   paste?: boolean;
+  /**
+   * 是否禁用
+   * @default false
+   */
+  disabled?: boolean;
   /**
    * 上传时附带的额外参数
    */

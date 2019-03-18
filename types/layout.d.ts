@@ -1,4 +1,4 @@
-// Type definitions for iview 3.1.0
+// Type definitions for iview 3.3.0
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
@@ -8,11 +8,12 @@ export declare interface Layout extends Vue {
   /**
    * 触发响应式布局的断点，可选值为xs,sm,md,lg,xl或xxl，若不设此属性则不会触发响应式布局。
    * {
-   *    xs?: '480px',
-   *    sm?: '768px',
-   *    md?: '992px',
-   *    lg?: '1200px',
-   *    xl?: '1600px'
+   * xs: '480px',
+   * sm: '576px',
+   * md: '768px',
+   * lg: '992px',
+   * xl: '1200px',
+   * xxl: '1600px'
    * }
    */
   breakpoint?: string;
@@ -69,4 +70,4 @@ export declare interface Layout extends Vue {
    * methods, 改变Sider展开-收起状态。
    */
   toggleCollapse(): void;
-}
+}更多·

@@ -80,6 +80,9 @@
 //            window.addEventListener('resize', this.handleScroll, false);
             on(window, 'scroll', this.handleScroll);
             on(window, 'resize', this.handleScroll);
+            this.$nextTick(() => {
+                this.handleScroll();
+            });
         },
         beforeDestroy () {
 //            window.removeEventListener('scroll', this.handleScroll, false);
