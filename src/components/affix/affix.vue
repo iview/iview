@@ -82,7 +82,7 @@
             on(window, 'resize', this.handleScroll);
             this.$nextTick(() => {
                 this.handleScroll();
-            })
+            });
         },
         beforeDestroy () {
 //            window.removeEventListener('scroll', this.handleScroll, false);
