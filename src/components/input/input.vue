@@ -85,7 +85,7 @@
         props: {
             type: {
                 validator (value) {
-                    return oneOf(value, ['text', 'textarea', 'password', 'url', 'email', 'date', 'number']);
+                    return oneOf(value, ['text', 'textarea', 'password', 'url', 'email', 'date', 'number', 'tel']);
                 },
                 default: 'text'
             },
