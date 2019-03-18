@@ -40,6 +40,10 @@ export declare interface Tabs extends Vue {
    */
   'before-remove'?: (index: number) => {};
   /**
+   * 当嵌套使用tabs时，指定name区分层级
+   */
+  name?: string;
+  /**
    * tab 被点击时触发
    */
   $emit(eventName: 'on-click', name: string): this;
@@ -82,4 +86,12 @@ export declare interface TabPane extends Vue {
    * @default null
    */
   closable?: boolean;
+  /**
+   * 当嵌套使用tabs时，设置该属性指向对应tabs的name字段
+   */
+  tab?: string;
+  /**
+   * 在tabpane使用v-if时，并不会按照预先的顺序渲染，这时可设置index，并从小到大排序(需大于0)
+   */
+  index?: number;
 }
