@@ -70,4 +70,4 @@ export declare interface Layout extends Vue {
    * methods, 改变Sider展开-收起状态。
    */
   toggleCollapse(): void;
-}更多·
+}
