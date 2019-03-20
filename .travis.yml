@@ -4,6 +4,7 @@ node_js:
   - '8'
 script:
   - 'npm run test'
+  - 'npm run dist'
 before_script:
   - 'sudo chown root /opt/google/chrome/chrome-sandbox'
   - 'sudo chmod 4755 /opt/google/chrome/chrome-sandbox'
