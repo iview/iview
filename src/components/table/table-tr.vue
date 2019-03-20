@@ -15,11 +15,11 @@
             }
         },
         methods: {
-             onDrag (e,index) {
-                e.dataTransfer.setData("index",index);
+            onDrag (e,index) {
+                e.dataTransfer.setData('index',index);
             },
             onDrop (e,index) {
-                const dragIndex = e.dataTransfer.getData("index");
+                const dragIndex = e.dataTransfer.getData('index');
                 this.$parent.$parent.dragAndDrop(dragIndex,index);
                 e.preventDefault();
             },
