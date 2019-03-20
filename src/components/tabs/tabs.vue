@@ -191,8 +191,6 @@
                 TabPanes.sort((a, b) => {
                     if (a.index && b.index) {
                         return a.index > b.index ? 1 : -1;
-                    } else {
-                        return 1;
                     }
                 });
                 return TabPanes;
