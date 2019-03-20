@@ -29,7 +29,7 @@
         "dist:locale": "webpack --config build/webpack.dist.locale.config.js",
         "dist": "npm run dist:style && npm run dist:dev && npm run dist:prod && npm run dist:locale",
         "lint": "eslint --fix --ext .js,.vue src",
-    	"tslint": "tslint --type-check --fix --project .",
+        "tslint": "tslint --type-check --fix --project .",
         "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
         "test": "npm run lint && npm run tslint && npm run unit",
         "prepare": "npm run dist"
