@@ -519,8 +519,8 @@
                             input.setSelectionRange(caretPosition, caretPosition);
                         });
                     }
-
-                    if (!this.autoComplete) event.stopPropagation();
+                    // fix #5478
+                    // if (!this.autoComplete) event.stopPropagation();
                     event.preventDefault();
                     this.hideMenu();
                     this.isFocused = true;
