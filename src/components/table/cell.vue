@@ -7,8 +7,15 @@
         <template v-if="renderType === 'html'"><span v-html="row[column.key]"></span></template>
         <template v-if="renderType === 'normal'">
             <template v-if="column.tooltip">
-                <Tooltip transfer :content="row[column.key]" :theme="tableRoot.tooltipTheme" :disabled="!showTooltip" :max-width="300" class="ivu-table-cell-tooltip">
-                    <span ref="content" @mouseenter="handleTooltipIn" @mouseleave="handleTooltipOut" class="ivu-table-cell-tooltip-content">{{ row[column.key] }}</span>
+                <Tooltip transfer
+                    :content="row[column.key]"
+                    :theme="tableRoot.tooltipTheme"
+                    :disabled="!showTooltip"
+                    :max-width="300"
+                    @on-popper-hide="handleTooltipOut"
+                    placement="bottom"
+                    class="ivu-table-cell-tooltip">
+                    <span ref="content" @mouseenter="handleTooltipIn" class="ivu-table-cell-tooltip-content">{{ row[column.key] }}</span>
                 </Tooltip>
             </template>
             <span v-else>{{row[column.key]}}</span>
