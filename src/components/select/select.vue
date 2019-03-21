@@ -33,6 +33,7 @@
                     :multiple="multiple"
                     :values="values"
                     :clearable="canBeCleared"
+                    :icon="icon"
                     :disabled="disabled"
                     :remote="remote"
                     :input-element-id="elementId"
@@ -161,6 +162,10 @@
             label: {
                 type: [String, Number, Array],
                 default: ''
+            },
+            icon: {
+                type: String,
+                default:null
             },
             multiple: {
                 type: Boolean,
