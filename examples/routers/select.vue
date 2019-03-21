@@ -4,9 +4,11 @@
             size="small" style="width:auto; margin-right:100px"
             v-model="privacyKey"
             @on-change="onPrivacySelect"
-            :icon="privacy.icon"
-            placeholder=" ">
-            <Option v-for="(item,key) in privacyList" :value="item.value" :key="item.value">
+            :icon="privacy.icon">
+            <Option v-for="(item,key) in privacyList"
+                :value="item.value"
+                label=" "
+                :key="item.value">
                 <div slot>
                     <Icon :type="item.icon" />
                     <strong>{{ item.name }}</strong>
@@ -29,6 +31,8 @@
     export default {
         data () {
             return {
+                value: 2,
+                options: [{value: 1, label: 'Foo'}, {value: 2, label: 'Bar'}],
                 cityList: [
                     {
                         value: 'New York',

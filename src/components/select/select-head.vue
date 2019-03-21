@@ -4,12 +4,7 @@
             <span class="ivu-tag-text">{{ item.label }}</span>
             <Icon type="ios-close" @click.native.stop="removeTag(item)"></Icon>
         </div>
-        <span
-            :class="singleDisplayClasses"
-            v-show="singleDisplayValue">
-            <Icon :type="icon" v-if="icon"/>
-            {{ singleDisplayValue }}
-            </span>
+        <span :class="singleDisplayClasses" v-show="singleDisplayValue"><Icon :type="icon" v-if="icon"/>{{ singleDisplayValue }}</span>
         <input
             :id="inputElementId"
             type="text"
@@ -204,9 +199,6 @@
             },
             queryProp(query){
                 if (query !== this.query) this.query = query;
-            },
-            icon() {
-                console.log(this.icon);
             }
         }
     };
