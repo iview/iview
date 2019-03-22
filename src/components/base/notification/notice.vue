@@ -1,5 +1,5 @@
 <template>
-    <transition :name="transitionName" @enter="handleEnter" @leave="handleLeave">
+    <transition :name="transitionName" @enter="handleEnter" @leave="handleLeave" appear>
         <div :class="classes" :style="styles">
             <template v-if="type === 'notice'">
                 <div :class="contentClasses" ref="content" v-html="content"></div>
