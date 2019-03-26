@@ -65,7 +65,7 @@
                 });
             },
             validate(callback) {
-                return new Promise(resolve => {
+                return new Promise((resolve, reject) => {
                     let valid = true;
                     let count = 0;
                     this.fields.forEach(field => {
@@ -75,7 +75,7 @@
                             }
                             if (++count === this.fields.length) {
                                 // all finish
-                                resolve(valid);
+                                valid ? resolve() : reject();
                                 if (typeof callback === 'function') {
                                     callback(valid);
                                 }
