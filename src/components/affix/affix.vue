@@ -113,7 +113,7 @@
                     };
 
                     this.$emit('on-change', true);
-                } else if ((elOffset.top - this.offsetTop) > scrollTop && this.offsetType == 'top' && affix) {
+                } else if ((elOffset.top - this.offsetTop) >= scrollTop && this.offsetType == 'top' && affix) {
                     this.slot = false;
                     this.slotStyle = {};
                     this.affix = false;
