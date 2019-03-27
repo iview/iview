@@ -39,6 +39,7 @@
                     :initial-label="initialLabel"
                     :placeholder="placeholder"
                     :query-prop="query"
+                    :max-displayable="maxDisplayable"
 
                     @on-query-change="onQueryChange"
                     @on-input-focus="isFocused = true"
@@ -180,6 +181,10 @@
             filterable: {
                 type: Boolean,
                 default: false
+            },
+            maxDisplayable: {
+                type: Number,
+                default: 1024
             },
             filterMethod: {
                 type: Function

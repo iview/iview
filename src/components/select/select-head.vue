@@ -1,8 +1,13 @@
 <template>
     <div @click="onHeaderClick">
-        <div class="ivu-tag ivu-tag-checked" v-for="item in selectedMultiple">
+        <div v-show="selectedMultiple.length <= maxDisplayable"
+             class="ivu-tag ivu-tag-checked" v-for="item in selectedMultiple">
             <span class="ivu-tag-text">{{ item.label }}</span>
             <Icon type="ios-close" @click.native.stop="removeTag(item)"></Icon>
+        </div>
+        <div v-show="selectedMultiple.length > maxDisplayable"
+             class="ivu-tag ivu-tag-checked">
+            <span class="ivu-tag-text">已选中{{ selectedMultiple.length }}项</span>
         </div>
         <span
             :class="singleDisplayClasses"
@@ -77,6 +82,10 @@
             queryProp: {
                 type: String,
                 default: ''
+            },
+            maxDisplayable: {
+                type: Number,
+                default: 1024
             }
         },
         data () {

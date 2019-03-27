@@ -9,6 +9,9 @@
         <Select size="large" v-model="model10" multiple style="width:260px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
+        <Select size="large" v-model="model9" multiple style="width:260px" :max-displayable="2">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
     </div>
 </template>
 <script>
@@ -41,6 +44,7 @@
                         label: 'Canberra'
                     }
                 ],
+                model9: ['New York', 'London', 'Sydney'],
                 model10: ['New York', 'London']
             }
         }
