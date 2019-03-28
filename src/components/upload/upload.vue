@@ -222,6 +222,7 @@
                 }
             },
             post (file) {
+                this.handleStart(file);
                 // check format
                 if (this.format.length) {
                     const _file_format = file.name.split('.').pop().toLocaleLowerCase();
@@ -239,8 +240,6 @@
                         return false;
                     }
                 }
-
-                this.handleStart(file);
 
                 ajax({
                     headers: this.headers,
