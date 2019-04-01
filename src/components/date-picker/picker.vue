@@ -295,6 +295,8 @@
                 if (this.transfer) this.disableCloseUnderTransfer = true;
             },
             handleClose (e) {
+                this.$emit('on-clickoutside', e);
+
                 if (this.disableCloseUnderTransfer) {
                     this.disableCloseUnderTransfer = false;
                     return false;
