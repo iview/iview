@@ -428,7 +428,7 @@
 
 <template>
     <Form :model="formItem" :label-width="80" :rules="rules" >
-        <FormItem label="Input" message="哈哈哈" prop="input">
+        <FormItem label="Input" message="default message" prop="input">
             <Input v-model="formItem.input" placeholder="Enter something..."></Input>
         </FormItem>
         <FormItem label="Select">
