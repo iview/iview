@@ -4,6 +4,7 @@
         <div :class="[prefixCls + '-content']" :style="contentStyles">
             <slot></slot>
             <transition name="fade">
+                <div :class="[prefixCls + '-message-tip']" v-if="validateState !== 'error' && message">{{ message }}</div>
                 <div :class="[prefixCls + '-error-tip']" v-if="validateState === 'error' && showMessage && form.showMessage">{{ validateMessage }}</div>
             </transition>
         </div>
@@ -71,6 +72,10 @@
             },
             labelFor: {
                 type: String
+            },
+            message:{
+                type:String,
+                default:""
             }
         },
         data () {
