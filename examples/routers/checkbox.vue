@@ -26,6 +26,8 @@
             <Checkbox v-for="item in tags" :label="item.label" :key="item.label" true-value="true"></Checkbox>
         </Checkbox-group>
         <div>{{ fruit }}</div>
+         <Checkbox v-model="testValue3" row="rowkey" @on-change="change">test on-change event</Checkbox>
+         <div>{{ testValue4 }}</div>    
     </div>
 </template>
 <script>
@@ -36,8 +38,15 @@
                 fruit: ['苹果'],
                 tags: [],
                 testValue1: null,
-                testValue2: null
+                testValue2: null,
+                testValue3: null,
+                testValue4: ''
             };
+        },
+        methods: {
+            change(val, row) {
+                this.testValue4 = String(val) + ' ' + String(row)
+            }
         },
         mounted () {
             setTimeout(() => {

@@ -60,6 +60,9 @@
                 type: Boolean,
                 default: false
             },
+            row: {
+                type: [String, Number, Boolean],
+            },
             size: {
                 validator (value) {
                     return oneOf(value, ['small', 'large', 'default']);
@@ -144,7 +147,7 @@
                 if (this.group) {
                     this.parent.change(this.model);
                 } else {
-                    this.$emit('on-change', value);
+                    this.$emit('on-change', value, this.row);
                     this.dispatch('FormItem', 'on-form-change', value);
                 }
             },
