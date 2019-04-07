@@ -3,6 +3,7 @@
         ref="select"
         class="ivu-auto-complete"
         :label="label"
+        :show-arrow="showArrow"
         :disabled="disabled"
         :clearable="clearable"
         :placeholder="placeholder"
@@ -58,6 +59,10 @@
             data: {
                 type: Array,
                 default: () => []
+            },
+            showArrow: {
+                type: Boolean,
+                default: false
             },
             disabled: {
                 type: Boolean,

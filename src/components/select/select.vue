@@ -39,6 +39,7 @@
                     :initial-label="initialLabel"
                     :placeholder="placeholder"
                     :query-prop="query"
+                    :show-arrow="showArrow"
 
                     @on-query-change="onQueryChange"
                     @on-input-focus="isFocused = true"
@@ -163,6 +164,10 @@
                 default: ''
             },
             multiple: {
+                type: Boolean,
+                default: false
+            },
+            showArrow: {
                 type: Boolean,
                 default: false
             },

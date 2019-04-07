@@ -26,7 +26,7 @@
 
             ref="input">
         <Icon type="ios-close-circle" :class="[prefixCls + '-arrow']" v-if="resetSelect" @click.native.stop="onClear"></Icon>
-        <Icon type="ios-arrow-down" :class="[prefixCls + '-arrow']" v-if="!resetSelect && !remote && !disabled"></Icon>
+        <Icon type="ios-arrow-down" :class="[prefixCls + '-arrow']" v-if="!resetSelect && !remote && (!disabled || showArrow)"></Icon>
     </div>
 </template>
 <script>
@@ -41,6 +41,10 @@
         mixins: [ Emitter, Locale ],
         components: { Icon },
         props: {
+            showArrow: {
+                type: Boolean,
+                default: false
+            },
             disabled: {
                 type: Boolean,
                 default: false
