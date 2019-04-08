@@ -6,7 +6,8 @@ const lang = {
         select: {
             placeholder: 'Sélectionnez',
             noMatch: 'Aucun résultat',
-            loading: 'Chargement'
+            loading: 'Chargement',
+            maxTagPlaceholder: 'Plus'
         },
         table: {
             noDataText: 'Aucune donnée',

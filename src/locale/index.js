@@ -30,8 +30,9 @@ export const t = function(path, options) {
     for (let i = 0, j = array.length; i < j; i++) {
         const property = array[i];
         value = current[property];
-        if (i === j - 1) return format(value, options);
+        // In case certain phrases don't have translation
         if (!value) return '';
+        if (i === j - 1) return format(value, options);
         current = value;
     }
     return '';
