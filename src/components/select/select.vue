@@ -67,7 +67,7 @@
                         :max-tag-count="maxTagCount"
                         :show-more="showMore"
                     ></functional-options>
-                    <li v-if="!showMore && maxTagCount && slotOptions.length > maxTagCount" :class="[prefixCls + '-item', 'more']" @click="isShowMore"> {{ maxTagPlaceholder }}</li>
+                    <li v-if="!showMore && maxTagCount && maxTagCount > 0 && slotOptions.length > maxTagCount" :class="[prefixCls + '-item', 'more']" @click="isShowMore"> {{ localMaxTagPlaceholder }}</li>
                 </ul>
                 <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
             </Drop>
@@ -158,11 +158,13 @@
         props: {
             maxTagCount: {
                 type: Number,
-                default: null
+                default: null,
+                validator(value) {
+                    return value > 0;
+                }
             },
             maxTagPlaceholder: {
-                type: String,
-                default: 'more'
+                type: String
             },
             value: {
                 type: [String, Number, Array],
@@ -315,6 +317,13 @@
                     return this.t('i.select.noMatch');
                 } else {
                     return this.notFoundText;
+                }
+            },
+            localMaxTagPlaceholder() {
+                if (typeof this.maxTagPlaceholder === 'undefined') {
+                    return this.t('i.select.maxTagPlaceholder') || 'More';
+                } else {
+                    return this.maxTagPlaceholder;
                 }
             },
             localeLoadingText () {
