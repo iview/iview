@@ -111,6 +111,10 @@
             // default by css: 8px 16px
             padding: {
                 type: String
+            },
+            disabled: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -119,7 +123,8 @@
                 showTitle: true,
                 isInput: false,
                 disableCloseUnderTransfer: false,  // transfer 模式下，点击 slot 也会触发关闭
-                tIndex: this.handleGetIndex()
+                tIndex: this.handleGetIndex(),
+                isDisabled: false
             };
         },
         computed: {
@@ -179,8 +184,16 @@
                 return styles;
             },
         },
+        watch: {
+            disbaled () {
+                this.setDisabled()
+            }
+        },
         methods: {
             handleClick () {
+                if (this.isDisabled) {
+                    return;
+                }
                 if (this.confirm) {
                     this.visible = !this.visible;
                     return true;
@@ -208,6 +221,9 @@
                 this.visible = false;
             },
             handleFocus (fromInput = true) {
+                if (this.isDisabled) {
+                    return;
+                }
                 if (this.trigger !== 'focus' || this.confirm || (this.isInput && !fromInput)) {
                     return false;
                 }
@@ -220,6 +236,9 @@
                 this.visible = false;
             },
             handleMouseenter () {
+                if (this.isDisabled) {
+                    return;
+                }
                 if (this.trigger !== 'hover' || this.confirm) {
                     return false;
                 }
@@ -266,6 +285,13 @@
             },
             handleIndexIncrease () {
                 this.tIndex = this.handleGetIndex();
+            },
+            setDisabled () {
+                if (this.$slots.default && this.$slots.default.length === 1) {
+                    this.isDisabled = this.disabled || this.$slots.default[0].child && this.$slots.default[0].child.disabled
+                } else {
+                    this.isDisabled = this.disabled
+                } 
             }
         },
         mounted () {
@@ -284,6 +310,9 @@
                     }
                 });
             }
+            this.$nextTick(() => {
+                this.setDisabled()
+            })
         },
         beforeDestroy () {
             const $children = this.getInputChildren();
