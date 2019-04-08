@@ -16,6 +16,14 @@
                 type: Function,
                 default: () => {}
             },
+            maxTagCount: {
+                type: Number,
+                default: null
+            },
+            showMore: {
+                type: Boolean,
+                default: false
+            }
         },
         functional: true,
         render(h, {props, parent}){
@@ -23,6 +31,9 @@
             // so we can trigger the parents computed properties and have everything reactive
             // although $slot.default is not
             if (props.slotOptions !== parent.$slots.default) props.slotUpdateHook();
+            if (!props.showMore && props.maxTagCount && props.options.length > props.maxTagCount) {
+                return props.options.slice(0, props.maxTagCount);
+            }
             return props.options;
         }
     };

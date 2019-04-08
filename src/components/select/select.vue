@@ -64,7 +64,10 @@
                         :options="selectOptions"
                         :slot-update-hook="updateSlotOptions"
                         :slot-options="slotOptions"
+                        :max-tag-count="maxTagCount"
+                        :show-more="showMore"
                     ></functional-options>
+                    <li v-if="!showMore && maxTagCount && slotOptions.length > maxTagCount" :class="[prefixCls + '-item', 'more']" @click="isShowMore"> {{ maxTagPlaceholder }}</li>
                 </ul>
                 <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
             </Drop>
@@ -153,6 +156,14 @@
         components: { FunctionalOptions, Drop, SelectHead },
         directives: { clickOutside, TransferDom },
         props: {
+            maxTagCount: {
+                type: Number,
+                default: null
+            },
+            maxTagPlaceholder: {
+                type: String,
+                default: 'more'
+            },
             value: {
                 type: [String, Number, Array],
                 default: ''
@@ -268,6 +279,7 @@
                 hasExpectedValue: false,
                 preventRemoteCall: false,
                 filterQueryChange: false,  // #4273
+                showMore: false
             };
         },
         computed: {
@@ -411,6 +423,9 @@
             }
         },
         methods: {
+            isShowMore() {
+                this.showMore = true;
+            },
             setQuery(query){ // PUBLIC API
                 if (query) {
                     this.onQueryChange(query);
@@ -781,6 +796,7 @@
                 this.broadcast('Drop', 'on-update-popper');
             },
             visible(state){
+                this.showMore = false;
                 this.$emit('on-open-change', state);
             },
             slotOptions(options, old){
