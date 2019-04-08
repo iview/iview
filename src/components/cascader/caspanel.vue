@@ -59,8 +59,8 @@
             handleTriggerItem (item, fromInit = false, fromUser = false) {
                 if (item.disabled) return;
 
+                const cascader = findComponentUpward(this, 'Cascader');
                 if (item.loading !== undefined && !item.children.length) {
-                    const cascader = findComponentUpward(this, 'Cascader');
                     if (cascader && cascader.loadData) {
                         cascader.loadData(item, () => {
                             // todo
@@ -77,8 +77,16 @@
 
                 // return value back recursion  // 向上递归，设置临时选中值（并非真实选中）
                 const backItem = this.getBaseItem(item);
-                this.tmpItem = backItem;
-                this.emitUpdate([backItem]);
+                // #5021 for this.changeOnSelect，加 if 是因为 #4472
+                if (
+                    this.changeOnSelect ||
+                    (backItem.label !== this.tmpItem.label || backItem.value !== this.tmpItem.value) ||
+                    (backItem.label === this.tmpItem.label && backItem.value === this.tmpItem.value)
+                ) {
+                    this.tmpItem = backItem;
+                    this.emitUpdate([backItem]);
+                }
+
                 if (item.children && item.children.length){
                     this.sublist = item.children;
                     this.dispatch('Cascader', 'on-result-change', {
@@ -101,6 +109,10 @@
                         changeOnSelect: this.changeOnSelect,
                         fromInit: fromInit
                     });
+                }
+
+                if (cascader) {
+                    cascader.$refs.drop.update();
                 }
             },
             updateResult (item) {

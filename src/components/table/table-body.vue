@@ -6,6 +6,7 @@
         <tbody :class="[prefixCls + '-tbody']">
             <template v-for="(row, index) in data">
                 <table-tr
+                    :draggable="draggable"
                     :row="row"
                     :key="row._rowKey"
                     :prefix-cls="prefixCls"
@@ -14,7 +15,7 @@
                     @click.native="clickCurrentRow(row._index)"
                     @dblclick.native.stop="dblclickCurrentRow(row._index)">
                     <td v-for="column in columns" :class="alignCls(column, row)">
-                        <Cell
+                        <table-cell
                             :fixed="fixed"
                             :prefix-cls="prefixCls"
                             :row="row"
@@ -25,7 +26,7 @@
                             :checked="rowChecked(row._index)"
                             :disabled="rowDisabled(row._index)"
                             :expanded="rowExpanded(row._index)"
-                        ></Cell>
+                        ></table-cell>
                     </td>
                 </table-tr>
                 <tr v-if="rowExpanded(row._index)" :class="{[prefixCls + '-expanded-hidden']: fixed}">
@@ -40,14 +41,14 @@
 <script>
     // todo :key="row"
     import TableTr from './table-tr.vue';
-    import Cell from './cell.vue';
+    import TableCell from './cell.vue';
     import Expand from './expand.js';
     import Mixin from './mixin';
 
     export default {
         name: 'TableBody',
         mixins: [ Mixin ],
-        components: { Cell, Expand, TableTr },
+        components: { TableCell, Expand, TableTr },
         props: {
             prefixCls: String,
             styleObject: Object,
@@ -57,6 +58,10 @@
             columnsWidth: Object,
             fixed: {
                 type: [Boolean, String],
+                default: false
+            },
+            draggable: {
+                type: Boolean,
                 default: false
             }
         },

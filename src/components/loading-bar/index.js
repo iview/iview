@@ -2,6 +2,7 @@ import LoadingBar from './loading-bar';
 
 let loadingBarInstance;
 let color = 'primary';
+let duration = 800;
 let failedColor = 'error';
 let height = 2;
 let timer;
@@ -32,7 +33,7 @@ function hide() {
                 percent: 0
             });
         }, 200);
-    }, 800);
+    }, duration);
 }
 
 function clearTimer() {
@@ -95,6 +96,9 @@ export default {
     config (options) {
         if (options.color) {
             color = options.color;
+        }
+        if (options.duration) {
+            duration = options.duration;
         }
         if (options.failedColor) {
             failedColor = options.failedColor;

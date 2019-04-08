@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Table ref="currentRowTable" :columns="columns3" :data="data1"></Table>
+        <Table tooltip-theme="light" ref="currentRowTable" :columns="columns3" :data="data1" :draggable="true" @on-drag-drop="onDragDrop"></Table>
         <Button @click="handleClearCurrentRow">Clear</Button>
     </div>
 </template>
@@ -62,6 +62,10 @@
         methods: {
             handleClearCurrentRow () {
                 this.$refs.currentRowTable.clearCurrentRow();
+            },
+            onDragDrop(a,b){
+                console.log(a,b);
+                this.data1.splice(b,1,...this.data1.splice(a, 1 , this.data1[b]));
             }
         }
     }

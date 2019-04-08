@@ -68,7 +68,7 @@ const lang = {
                 target: 'Цель'
             },
             filterPlaceholder: 'Искать здесь',
-            notFoundText: 'Не Найдено'
+            notFoundText: 'Не найдено'
         },
         modal: {
             okText: 'OK',
@@ -86,8 +86,8 @@ const lang = {
             items: 'пункты',
             prev5: 'Пред. 5 страниц',
             next5: 'След. 5 страниц',
-            page: '/page',
-            goto: 'Идти к',
+            page: ' на странице',
+            goto: 'Перейти к',
             p: ''
         },
         rate: {

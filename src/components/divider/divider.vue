@@ -31,6 +31,12 @@
             dashed: {
                 type: Boolean,
                 default: false,
+            },
+            size: {
+                validator (value) {
+                    return oneOf(value, ['small', 'default']);
+                },
+                default: 'default'
             }
         },
         computed: {
@@ -41,7 +47,9 @@
                 return [
                     `${prefixCls}`,
                     `${prefixCls}-${this.type}`,
+                    `${prefixCls}-${this.size}`,
                     {
+                        [`${prefixCls}-with-text`]: this.hasSlot && this.orientation === 'center',
                         [`${prefixCls}-with-text-${this.orientation}`]: this.hasSlot,
                         [`${prefixCls}-dashed`]: !!this.dashed
                     }

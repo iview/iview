@@ -194,6 +194,10 @@
             <Button type="default">Large</Button>
             <Button type="default">Large</Button>
         </Button-group>
+        <Button-group size="large">
+            <Button type="default">大汉字</Button>
+            <Button type="default">大汉字</Button>
+        </Button-group>
         <Button-group>
             <Button type="default">Default</Button>
             <Button type="default">Default</Button>
@@ -215,6 +219,8 @@
             <Button type="default">Small</Button>
             <Button type="default">Small</Button>
         </Button-group>
+
+        <br><br><br><br><br>
     </div>
 </template>
 <script>

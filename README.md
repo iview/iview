@@ -4,7 +4,11 @@
     </a>
 </p>
 
-# iView
+<h1>
+iView
+    <h3>A high quality UI Toolkit built on Vue.js.</h3>
+</h1>
+
 [![](https://img.shields.io/travis/iview/iview.svg?style=flat-square)](https://travis-ci.org/iview/iview)
 [![iView](https://img.shields.io/npm/v/iview.svg?style=flat-square)](https://www.npmjs.org/package/iview)
 [![NPM downloads](http://img.shields.io/npm/dm/iview.svg?style=flat-square)](https://npmjs.org/package/iview)
@@ -12,10 +16,34 @@
 ![JS gzip size](http://img.badgesize.io/https://unpkg.com/iview/dist/iview.min.js?compression=gzip&label=gzip%20size:%20JS&style=flat-square)
 ![CSS gzip size](http://img.badgesize.io/https://unpkg.com/iview/dist/styles/iview.css?compression=gzip&label=gzip%20size:%20CSS&style=flat-square)
 [![Join the chat at https://gitter.im/iview/iview](https://img.shields.io/badge/chat-on_gitter-30b392.svg?style=flat-square)](https://gitter.im/iview/iview?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Backers on Open Collective](https://opencollective.com/iview/backers/badge.svg)](#backers)
-[![Sponsors on Open Collective](https://opencollective.com/iview/sponsors/badge.svg)](#sponsors) 
+[![Backers on Open Collective](https://opencollective.com/iview/tiers/backer/badge.svg?label=backer&color=brightgreen)](#backers)
+[![Sponers on Open Collective](https://opencollective.com/iview/tiers/sponsor/badge.svg?label=sponsor&color=brightgreen)](#sponers)
 
-### A high quality UI Toolkit built on Vue.js.
+
+<h2 align="center">Special Sponsors</h2>
+<table>
+      <tbody>
+        <tr>
+          <td align="center" valign="middle">
+            <a href="https://segmentfault.com/ls/1650000016424063" target="_blank">
+              <img width="300" src="https://file.iviewui.com/asd/asd-i-2.png">
+            </a>
+          </td>
+          <td align="center" valign="middle">
+            <a href="https://e.coding.net/?utm_source=iview" target="_blank">
+              <img width="300" src="https://file.iviewui.com/asd/asd-coding3.png">
+            </a>
+          </td>
+            <td align="center" valign="middle">
+            <a href="https://cn.udacity.com/fend/?utm_source=iviewui&utm_medium=banner&utm_campaign=fend" target="_blank">
+              <img width="300" src="https://file.iviewui.com/asd/asd-u-new-2.png">
+            </a>
+          </td>
+        </tr>
+      </tbody>
+</table>
+
+> If you'd like be a sponsor, to show your ads in GitHub and iView doc, please email admin@aresn.com to get more infomation.
 
 ## Docs
 
@@ -47,9 +75,9 @@
 
 ## Install
 
-> Please install Webpack first!
+We provide an [iView plugin](https://github.com/iview/vue-cli-plugin-iview) for Vue CLI 3, which you can use to quickly build an iView-based project.
 
-We recommend you create your project through [iView Cli](https://github.com/iview/iview-cli) or [iview-project](https://github.com/iview/iview-project). You can also use [vue-cli](https://github.com/vuejs/vue-cli).
+We also provide a starter kit [iview-project](https://github.com/iview/iview-project) for you.
 
 ### Install iView
 
@@ -96,8 +124,9 @@ import 'iview/dist/styles/iview.css';
 - Supports Vue.js 1.x - [visit 1.0 docs](http://v1.iviewui.com/)
 - Supports SSR
 - Supports [Nuxt.js](https://nuxtjs.org/)
+- Supports TypeScript
 - Supports [Electron](http://electron.atom.io/)
-- iView does not support IE8 or below since [Vue.js](https://vuejs.org/v2/guide/reactivity.html) uses `Object.defineProperty` to track changes which is not supported by these browsers.
+- Most components and features support IE9 and above browsers, some components and features do not support IE
 
 ## Community
 
@@ -113,33 +142,24 @@ If you want to contribute or have questions or bugs to report:
 |[Aresn](https://github.com/icarusion) |  ![](https://avatars3.githubusercontent.com/u/5370542?v=3&s=60)  |[jingsam](https://github.com/jingsam) |  ![](https://avatars3.githubusercontent.com/u/1522494?v=3&s=60)  | [rijn](https://github.com/rijn)       |  ![](https://avatars2.githubusercontent.com/u/6976367?v=3&s=60)  |
 |[lcx960324](https://github.com/lcx960324)           |  ![](https://avatars3.githubusercontent.com/u/9768245?v=3&s=60)  |[GITleonine1989](https://github.com/GITleonine1989) |  ![](https://avatars1.githubusercontent.com/u/7582490?v=3&s=60)  |[huixisheng](https://github.com/huixisheng)         |  ![](https://avatars1.githubusercontent.com/u/1518967?v=3&s=60)  |
 |[Sergio Crisostomo](https://github.com/SergioCrisostomo)           |  ![](https://avatars3.githubusercontent.com/u/5614559?v=3&s=60)  |  [lison16](https://github.com/lison16)           |  ![](https://avatars3.githubusercontent.com/u/20942571?v=3&s=60) |  [Xotic750](https://github.com/Xotic750)    | ![](https://avatars3.githubusercontent.com/u/216041?v=3&s=60)   | 
-[huanghong1125](https://github.com/huanghong1125) | ![](https://avatars3.githubusercontent.com/u/12794817?v=3&s=60) |
-
-### All Contributors
-
-This project exists thanks to all the people who contribute. 
-<a href="graphs/contributors"><img src="https://opencollective.com/iview/contributors.svg?width=890&button=false" /></a>
-
-### Backers
-Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/iview#backer)]
-
-<a href="https://opencollective.com/iview#backers" target="_blank"><img src="https://opencollective.com/iview/backers.svg?width=890"></a>
-
-### Sponsors
-
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/iview#sponsor)]
-
-<a href="https://opencollective.com/iview/sponsor/0/website" target="_blank"><img src="https://opencollective.com/iview/sponsor/0/avatar.svg"></a>
-
+[huanghong1125](https://github.com/huanghong1125) | ![](https://avatars3.githubusercontent.com/u/12794817?v=3&s=60) | [yangdan8](https://github.com/yangdan8) | ![](https://avatars2.githubusercontent.com/u/16515026?v=3&s=60) |
 
 
 ## Ecosystem Links
 
+- [iView Developer](https://dev.iviewui.com)
+- [iView Run](https://run.iviewui.com)
 - [iView-Admin](https://github.com/iview/iview-admin)
-- [iView-Doc](https://github.com/iview/iview-doc)
-- [iView-Cli](https://github.com/iview/iview-cli)
 - [iView-Loader](https://github.com/iview/iview-loader)
+- [iView-Plugin](https://github.com/iview/vue-cli-plugin-iview)
 - [iView-Area](https://github.com/iview/iview-area)
+- [iView-Editor](https://github.com/iview/iview-editor)
+
+## Sponsors
+![](https://opencollective.com/iview/tiers/sponsor.svg?avatarHeight=36)
+
+## Backers
+![](https://opencollective.com/iview/tiers/backer.svg?avatarHeight=36)
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)

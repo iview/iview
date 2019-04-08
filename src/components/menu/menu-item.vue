@@ -57,9 +57,11 @@
             handleClickItem (event, new_window = false) {
                 if (this.disabled) return;
 
-                if (new_window) {
+                if (new_window || this.target === '_blank') {
                     // 如果是 new_window，直接新开窗口就行，无需发送状态
                     this.handleCheckClick(event, new_window);
+                    let parentMenu = findComponentUpward(this, 'Menu');
+                    if (parentMenu) parentMenu.handleEmitSelectEvent(this.name);
                 } else {
                     let parent = findComponentUpward(this, 'Submenu');
 

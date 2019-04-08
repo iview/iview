@@ -53,7 +53,7 @@
             .disabled();
 
             .@{select-prefix-cls}-arrow {
-                display: none;
+                color: @slider-disabled-color;
             }
 
             &:hover {
@@ -166,6 +166,7 @@
         &[disabled]{
             cursor: @cursor-disabled;
             color: #ccc;
+            -webkit-text-fill-color: #ccc;  // #5249
         }
     }
 
@@ -205,9 +206,21 @@
         height: 24px;
         line-height: 22px;
         margin: 3px 4px 3px 0;
-        //i{
-        //    top: 2px;
-        //}
+        max-width: 99%;
+        position: relative;
+        span{
+            display: block;
+            margin-right: 14px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        i{
+            display: block;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
     }
 
     &-large&-multiple .@{css-prefix}tag{
@@ -215,7 +228,7 @@
         line-height: 26px;
         font-size: @font-size-base;
         i{
-            top: 1px;
+            top: 6px;
         }
     }
 
@@ -225,8 +238,12 @@
         font-size: @font-size-small;
         padding: 0 6px;
         margin: 3px 4px 2px 0;
+        span{
+            margin-right: 14px;
+        }
         i{
             top: 1px;
+            right: 2px;
         }
     }
 
@@ -238,6 +255,21 @@
 
     & &-dropdown{
         width: auto;
+    }
+
+    &-prefix{
+        display: inline-block;
+        vertical-align: middle;
+    }
+    &-head-with-prefix{
+        display: inline-block !important;
+        vertical-align: middle;
+    }
+    &-single &-prefix{
+        padding-left: 4px;
+    }
+    &-single &-head-with-prefix, &-multiple &-head-with-prefix{
+        padding-left: 0 !important;
     }
 }
 

@@ -18,6 +18,7 @@
         display: block;
         height: 1px;
         width: 100%;
+        min-width: 100%;
         margin: 24px 0;
         clear: both;
     }
@@ -44,9 +45,15 @@
         }
     }
 
+    &-horizontal&-small&-with-text-center,
+    &-horizontal&-small&-with-text-left,
+    &-horizontal&-small&-with-text-right{
+        font-size: @font-size-base;
+        margin: 8px 0;
+    }
+
     &-horizontal&-with-text-left,
     &-horizontal&-with-text-right {
-        font-size: @font-size-base;
         .@{divider-prefix-cls}-inner-text {
             display: inline-block;
             padding: 0 10px;

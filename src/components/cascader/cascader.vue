@@ -27,6 +27,7 @@
                 ref="drop"
                 :data-transfer="transfer"
                 :pop-options="popOptions"
+                :transfer="transfer"
                 v-transfer-dom>
                 <div>
                     <Caspanel
@@ -47,7 +48,7 @@
                                 @click="handleSelectItem(index)" v-html="item.display"></li>
                         </ul>
                     </div>
-                    <ul v-show="filterable && query !== '' && !querySelections.length" :class="[prefixCls + '-not-found-tip']"><li>{{ localeNotFoundText }}</li></ul>
+                    <ul v-show="(filterable && query !== '' && !querySelections.length) || !data.length" :class="[prefixCls + '-not-found-tip']"><li>{{ localeNotFoundText }}</li></ul>
                 </div>
             </Drop>
         </transition>
@@ -309,8 +310,11 @@
                 this.$refs.input.currentValue = '';
                 const oldVal = JSON.stringify(this.currentValue);
                 this.currentValue = item.value.split(',');
-                this.emitValue(this.currentValue, oldVal);
-                this.handleClose();
+                // use setTimeout for #4786, can not use nextTick, because @on-find-selected use nextTick
+                setTimeout(() => {
+                    this.emitValue(this.currentValue, oldVal);
+                    this.handleClose();
+                }, 0);
             },
             handleFocus () {
                 this.$refs.input.focus();

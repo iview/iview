@@ -7,6 +7,8 @@
     import { getStyle } from '../../utils/assist';
     const Popper = isServer ? function() {} : require('popper.js/dist/umd/popper.js');  // eslint-disable-line
 
+    import { transferIndex, transferIncrease } from '../../utils/transfer-queue';
+
     export default {
         name: 'Drop',
         props: {
@@ -31,19 +33,26 @@
                         }
                     };
                 }
+            },
+            transfer: {
+                type: Boolean
             }
         },
         data () {
             return {
                 popper: null,
                 width: '',
-                popperStatus: false
+                popperStatus: false,
+                tIndex: this.handleGetIndex()
             };
         },
         computed: {
             styles () {
                 let style = {};
                 if (this.width) style.minWidth = `${this.width}px`;
+
+                if (this.transfer) style['z-index'] = 1060 + this.tIndex;
+
                 return style;
             }
         },
@@ -78,6 +87,7 @@
                 if (this.$parent.$options.name === 'iSelect') {
                     this.width = parseInt(getStyle(this.$parent.$el, 'width'));
                 }
+                this.tIndex = this.handleGetIndex();
             },
             destroy () {
                 if (this.popper) {
@@ -101,7 +111,11 @@
                 if(!leftOrRight){
                     this.popper.popper.style.transformOrigin = placementStart==='bottom' || ( placementStart !== 'top' && placementEnd === 'start') ? 'center top' : 'center bottom';
                 }
-            }
+            },
+            handleGetIndex () {
+                transferIncrease();
+                return transferIndex;
+            },
         },
         created () {
             this.$on('on-update-popper', this.update);

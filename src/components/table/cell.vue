@@ -7,7 +7,7 @@
         <template v-if="renderType === 'html'"><span v-html="row[column.key]"></span></template>
         <template v-if="renderType === 'normal'">
             <template v-if="column.tooltip">
-                <Tooltip transfer :content="row[column.key]" :disabled="!showTooltip" :max-width="300" class="ivu-table-cell-tooltip">
+                <Tooltip transfer :content="row[column.key]" :theme="tableRoot.tooltipTheme" :disabled="!showTooltip" :max-width="300" class="ivu-table-cell-tooltip">
                     <span ref="content" @mouseenter="handleTooltipIn" @mouseleave="handleTooltipOut" class="ivu-table-cell-tooltip-content">{{ row[column.key] }}</span>
                 </Tooltip>
             </template>
@@ -18,23 +18,30 @@
                 <Icon type="ios-arrow-forward"></Icon>
             </div>
         </template>
-        <Cell
+        <table-expand
             v-if="renderType === 'render'"
             :row="row"
             :column="column"
             :index="index"
-            :render="column.render"></Cell>
+            :render="column.render"></table-expand>
+        <table-slot
+            v-if="renderType === 'slot'"
+            :row="row"
+            :column="column"
+            :index="index"></table-slot>
     </div>
 </template>
 <script>
-    import Cell from './expand';
+    import TableExpand from './expand';
+    import TableSlot from './slot';
     import Icon from '../icon/icon.vue';
     import Checkbox from '../checkbox/checkbox.vue';
     import Tooltip from '../tooltip/tooltip.vue';
 
     export default {
         name: 'TableCell',
-        components: { Icon, Checkbox, Cell, Tooltip },
+        components: { Icon, Checkbox, TableExpand, TableSlot, Tooltip },
+        inject: ['tableRoot'],
         props: {
             prefixCls: String,
             row: Object,
@@ -107,6 +114,8 @@
                 this.renderType = 'expand';
             } else if (this.column.render) {
                 this.renderType = 'render';
+            } else if (this.column.slot) {
+                this.renderType = 'slot';
             } else {
                 this.renderType = 'normal';
             }

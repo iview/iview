@@ -52,6 +52,9 @@
             vertical: {
                 type: Boolean,
                 default: false
+            },
+            strokeColor: {
+                type: String
             }
         },
         data () {
@@ -77,13 +80,19 @@
                 return type;
             },
             bgStyle () {
-                return this.vertical ? {
+                const style =  this.vertical ? {
                     height: `${this.percent}%`,
-                    width: `${this.strokeWidth}px`
+                    width: `${this.strokeWidth}px`,
                 } : {
                     width: `${this.percent}%`,
                     height: `${this.strokeWidth}px`
                 };
+
+                if (this.strokeColor) {
+                    style['background-color'] = this.strokeColor;
+                }
+
+                return style;
             },
             successBgStyle () {
                 return this.vertical ? {
