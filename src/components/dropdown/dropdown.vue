@@ -14,6 +14,7 @@
                 @mouseenter.native="handleMouseenter"
                 @mouseleave.native="handleMouseleave"
                 :data-transfer="transfer"
+                :pop-options = "popOptions"
                 v-transfer-dom><slot name="list"></slot></Drop>
         </transition>
     </div>
@@ -51,6 +52,21 @@
                 type: Boolean,
                 default () {
                     return !this.$IVIEW || this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+                }
+            },
+            popOptions: {
+                type: Object,
+                default () {
+                    return {
+                        modifiers: {
+                            computeStyle:{
+                                gpuAcceleration: false,
+                            },
+                            preventOverflow :{
+                                boundariesElement: 'window'
+                            }
+                        }
+                    };
                 }
             }
         },

@@ -39,6 +39,7 @@
                 :placement="placement"
                 ref="drop"
                 :data-transfer="transfer"
+                :pop-options="popOptions"
                 v-transfer-dom>
                 <div>
                     <component
@@ -208,6 +209,21 @@
             options: {
                 type: Object,
                 default: () => ({})
+            },
+            popOptions: {
+                type: Object,
+                default () {
+                    return {
+                        modifiers: {
+                            computeStyle:{
+                                gpuAcceleration: false,
+                            },
+                            preventOverflow :{
+                                boundariesElement: 'window'
+                            }
+                        }
+                    };
+                }
             }
         },
         data(){

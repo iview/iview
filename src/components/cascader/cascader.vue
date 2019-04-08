@@ -26,6 +26,7 @@
                 :class="{ [prefixCls + '-transfer']: transfer }"
                 ref="drop"
                 :data-transfer="transfer"
+                :pop-options="popOptions"
                 v-transfer-dom>
                 <div>
                     <Caspanel
@@ -140,6 +141,21 @@
             },
             elementId: {
                 type: String
+            },
+            popOptions: {
+                type: Object,
+                default () {
+                    return {
+                        modifiers: {
+                            computeStyle:{
+                                gpuAcceleration: false,
+                            },
+                            preventOverflow :{
+                                boundariesElement: 'window'
+                            }
+                        }
+                    };
+                }
             }
         },
         data () {

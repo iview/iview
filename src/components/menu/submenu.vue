@@ -12,6 +12,7 @@
                 v-show="opened"
                 placement="bottom"
                 ref="drop"
+                :pop-options="popOptions"
                 :style="dropStyle"><ul :class="[prefixCls + '-drop-list']"><slot></slot></ul>
             </Drop>
         </transition>
@@ -39,6 +40,21 @@
             disabled: {
                 type: Boolean,
                 default: false
+            },
+            popOptions: {
+                type: Object,
+                default () {
+                    return {
+                        modifiers: {
+                            computeStyle:{
+                                gpuAcceleration: false,
+                            },
+                            preventOverflow :{
+                                boundariesElement: 'window'
+                            }
+                        }
+                    };
+                }
             }
         },
         data () {

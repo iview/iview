@@ -54,6 +54,7 @@
                 :placement="placement"
                 ref="dropdown"
                 :data-transfer="transfer"
+                :pop-options="popOptions"
                 v-transfer-dom
             >
                 <ul v-show="showNotFoundLabel" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
@@ -221,6 +222,21 @@
             },
             elementId: {
                 type: String
+            },
+            popOptions: {
+                type: Object,
+                default () {
+                    return {
+                        modifiers: {
+                            computeStyle:{
+                                gpuAcceleration: false,
+                            },
+                            preventOverflow :{
+                                boundariesElement: 'window'
+                            }
+                        }
+                    };
+                }
             }
         },
         mounted(){
