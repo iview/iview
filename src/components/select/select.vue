@@ -33,6 +33,7 @@
                     :multiple="multiple"
                     :values="values"
                     :clearable="canBeCleared"
+                    :prefix="prefix"
                     :disabled="disabled"
                     :remote="remote"
                     :input-element-id="elementId"
@@ -44,7 +45,9 @@
                     @on-input-focus="isFocused = true"
                     @on-input-blur="isFocused = false"
                     @on-clear="clearSingleSelect"
-                />
+                >
+                    <slot name="prefix" slot="prefix"></slot>
+                </select-head>
             </slot>
         </div>
         <transition name="transition-drop">
@@ -233,6 +236,9 @@
                 type: String
             },
             transferClassName: {
+                type: String
+            },
+            prefix: {
                 type: String
             },
         },

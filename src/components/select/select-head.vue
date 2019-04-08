@@ -1,5 +1,10 @@
 <template>
     <div @click="onHeaderClick">
+        <span :class="[prefixCls + '-prefix']" v-if="$slots.prefix || prefix">
+            <slot name="prefix">
+                <Icon :type="prefix" v-if="prefix" />
+            </slot>
+        </span>
         <div class="ivu-tag ivu-tag-checked" v-for="item in selectedMultiple">
             <span class="ivu-tag-text">{{ item.label }}</span>
             <Icon type="ios-close" @click.native.stop="removeTag(item)"></Icon>
@@ -77,7 +82,10 @@
             queryProp: {
                 type: String,
                 default: ''
-            }
+            },
+            prefix: {
+                type: String
+            },
         },
         data () {
             return {
@@ -92,6 +100,7 @@
             singleDisplayClasses(){
                 const {filterable, multiple, showPlaceholder} = this;
                 return [{
+                    [prefixCls + '-head-with-prefix']: this.$slots.prefix || this.prefix,
                     [prefixCls + '-placeholder']: showPlaceholder && !filterable,
                     [prefixCls + '-selected-value']: !showPlaceholder && !multiple && !filterable,
                 }];

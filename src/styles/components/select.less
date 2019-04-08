@@ -256,6 +256,21 @@
     & &-dropdown{
         width: auto;
     }
+
+    &-prefix{
+        display: inline-block;
+        vertical-align: middle;
+    }
+    &-head-with-prefix{
+        display: inline-block !important;
+        vertical-align: middle;
+    }
+    &-single &-prefix{
+        padding-left: 4px;
+    }
+    &-single &-head-with-prefix, &-multiple &-head-with-prefix{
+        padding-left: 0 !important;
+    }
 }
 
 .select-item(@select-prefix-cls, @select-item-prefix-cls);
