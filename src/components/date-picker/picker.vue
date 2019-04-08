@@ -313,6 +313,7 @@
                     this.visible = false;
                     e && e.preventDefault();
                     e && e.stopPropagation();
+                    this.$emit('on-clickoutside', e);
                     return;
                 }
 
