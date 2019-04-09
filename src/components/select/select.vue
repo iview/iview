@@ -6,13 +6,10 @@
     >
         <div
             ref="reference"
-
             :class="selectionCls"
             :tabindex="selectTabindex"
-
             @blur="toggleHeaderFocus"
             @focus="toggleHeaderFocus"
-
             @click="toggleMenu"
             @keydown.esc="handleKeydown"
             @keydown.enter="handleKeydown"
@@ -20,11 +17,8 @@
             @keydown.down.prevent="handleKeydown"
             @keydown.tab="handleKeydown"
             @keydown.delete="handleKeydown"
-
-
             @mouseenter="hasMouseHoverHead = true"
             @mouseleave="hasMouseHoverHead = false"
-
         >
             <slot name="input">
                 <input type="hidden" :name="name" :value="publicValue">
@@ -40,7 +34,6 @@
                     :initial-label="initialLabel"
                     :placeholder="placeholder"
                     :query-prop="query"
-
                     @on-query-change="onQueryChange"
                     @on-input-focus="isFocused = true"
                     @on-input-blur="isFocused = false"
@@ -525,8 +518,8 @@
                             input.setSelectionRange(caretPosition, caretPosition);
                         });
                     }
-
-                    if (!this.autoComplete) event.stopPropagation();
+                    // fix #5478
+                    // if (!this.autoComplete) event.stopPropagation();
                     event.preventDefault();
                     this.hideMenu();
                     this.isFocused = true;
