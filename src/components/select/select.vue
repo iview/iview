@@ -537,8 +537,8 @@
                             input.setSelectionRange(caretPosition, caretPosition);
                         });
                     }
-
-                    if (!this.autoComplete) event.stopPropagation();
+                    // fix bug #5478 select打开后无法触发其它组件的click事件
+                    // if (!this.autoComplete) event.stopPropagation();
                     event.preventDefault();
                     this.hideMenu();
                     this.isFocused = true;
