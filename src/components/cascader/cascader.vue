@@ -237,10 +237,10 @@
             arrowType () {
                 let type = 'ios-arrow-down';
                  if (this.$IVIEW) {
-                    if (this.$IVIEW.cascader.customArrow) {
+                    if (this.$IVIEW.cascader.customDownArrow) {
                         type = '';
-                    } else if (this.$IVIEW.cascader.arrow) {
-                        type = this.$IVIEW.cascader.arrow;
+                    } else if (this.$IVIEW.cascader.downArrow) {
+                        type = this.$IVIEW.cascader.downArrow;
                     }
                 }
                 return type;
@@ -249,8 +249,8 @@
             customArrowType () {
                 let type = '';
                  if (this.$IVIEW) {
-                    if (this.$IVIEW.cascader.customArrow) {
-                        type = this.$IVIEW.cascader.customArrow;
+                    if (this.$IVIEW.cascader.customDownArrow) {
+                        type = this.$IVIEW.cascader.customDownArrow;
                     }
                 }
                 return type;
@@ -259,8 +259,8 @@
             arrowSize () {
                 let size = '';
                  if (this.$IVIEW) {
-                    if (this.$IVIEW.cascader.arrowSize) {
-                        size = this.$IVIEW.cascader.arrowSize;
+                    if (this.$IVIEW.cascader.downArrowSize) {
+                        size = this.$IVIEW.cascader.downArrowSize;
                     }
                 }
                 return size;

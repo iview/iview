@@ -1,13 +1,16 @@
 <template>
     <li :class="classes">
         {{ data.label }}
-        <i v-if="showArrow" class="ivu-icon ivu-icon-ios-arrow-forward"></i>
-        <i v-if="showLoading" class="ivu-icon ivu-icon-ios-loading ivu-load-loop"></i>
+        <Icon v-if="showArrow" :type="arrowType" :custom="customArrowType" :size="arrowSize"></Icon>
+        <Icon v-if="showLoading" class="ivu-icon ivu-icon-ios-loading ivu-load-loop"></Icon>
     </li>
 </template>
 <script>
+    import Icon from '../icon/icon.vue';
+
     export default {
         name: 'Casitem',
+        components: { Icon },
         props: {
             data: Object,
             prefixCls: String,
@@ -28,6 +31,38 @@
             },
             showLoading () {
                 return 'loading' in this.data && this.data.loading;
+            },
+            // 3.4.0, global setting customArrow 有值时，arrow 赋值空
+            arrowType () {
+                let type = 'ios-arrow-down';
+                 if (this.$IVIEW) {
+                    if (this.$IVIEW.cascader.customRightArrow) {
+                        type = '';
+                    } else if (this.$IVIEW.cascader.rightArrow) {
+                        type = this.$IVIEW.cascader.rightArrow;
+                    }
+                }
+                return type;
+            },
+            // 3.4.0, global setting
+            customArrowType () {
+                let type = '';
+                 if (this.$IVIEW) {
+                    if (this.$IVIEW.cascader.customRightArrow) {
+                        type = this.$IVIEW.cascader.customRightArrow;
+                    }
+                }
+                return type;
+            },
+            // 3.4.0, global setting
+            arrowSize () {
+                let size = '';
+                 if (this.$IVIEW) {
+                    if (this.$IVIEW.cascader.rightArrowSize) {
+                        size = this.$IVIEW.cascader.rightArrowSize;
+                    }
+                }
+                return size;
             }
         }
     };

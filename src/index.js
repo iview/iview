@@ -180,9 +180,12 @@ const install = function(Vue, opts = {}) {
             arrowSize: opts.cell ? opts.cell.arrowSize ? opts.cell.arrowSize : '' : ''
         },
         cascader: {
-            arrow: opts.cascader ? opts.cascader.arrow ? opts.cascader.arrow : '' : '',
-            customArrow: opts.cascader ? opts.cascader.customArrow ? opts.cascader.customArrow : '' : '',
-            arrowSize: opts.cascader ? opts.cascader.arrowSize ? opts.cascader.arrowSize : '' : ''
+            downArrow: opts.cascader ? opts.cascader.downArrow ? opts.cascader.downArrow : '' : '',
+            customDownArrow: opts.cascader ? opts.cascader.customDownArrow ? opts.cascader.customDownArrow : '' : '',
+            downArrowSize: opts.cascader ? opts.cascader.downArrowSize ? opts.cascader.downArrowSize : '' : '',
+            rightArrow: opts.cascader ? opts.cascader.rightArrow ? opts.cascader.rightArrow : '' : '',
+            customRightArrow: opts.cascader ? opts.cascader.customRightArrow ? opts.cascader.customRightArrow : '' : '',
+            rightArrowSize: opts.cascader ? opts.cascader.rightArrowSize ? opts.cascader.rightArrowSize : '' : ''
         }
     };
 
