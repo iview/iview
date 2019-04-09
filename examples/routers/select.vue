@@ -4,7 +4,7 @@
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
 
-        <Select v-model="model10" multiple style="width:260px" prefix="ios-albums">
+        <Select v-model="model10" :max-tag-count="2" multiple style="width:400px" prefix="ios-albums">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
 
@@ -20,7 +20,7 @@
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
 
-        <Select v-model="model10" multiple style="width:260px" prefix="ios-albums">
+        <Select v-model="model10" :max-tag-count="3" max-tag-placeholder="more" multiple style="width:400px" prefix="ios-albums">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
 
@@ -30,7 +30,7 @@
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
 
-        <Select size="small" v-model="model10" multiple style="width:260px" prefix="ios-albums">
+        <Select size="small" v-model="model10" multiple style="width:400px" prefix="ios-albums">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
 
@@ -40,7 +40,7 @@
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
 
-        <Select size="large" v-model="model10" multiple style="width:260px" prefix="ios-albums">
+        <Select size="large" v-model="model10" multiple style="width:400px" prefix="ios-albums">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
     </div>
