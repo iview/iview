@@ -74,6 +74,9 @@
             },
             maxWidth: {
                 type: [String, Number]
+            },
+            offset: {
+                type: Number
             }
         },
         data () {
@@ -85,7 +88,7 @@
         computed: {
             innerStyles () {
                 const styles = {};
-                if (this.maxWidth) styles['max-width'] = `${this.maxWidth}px`;
+                if (this.maxWidth) styles['max-width'] = `${this.maxWidth}px`;     
                 return styles;
             },
             innerClasses () {
@@ -99,7 +102,7 @@
             dropStyles () {
                 let styles = {};
                 if (this.transfer) styles['z-index'] = 1060 + this.tIndex;
-
+                if (this.offset) styles['margin-left'] = `${this.offset}px`;
                 return styles;
             }
         },
