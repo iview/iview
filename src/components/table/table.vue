@@ -21,6 +21,7 @@
                     :styleObject="tableStyle"
                     :columns="cloneColumns"
                     :data="rebuildData"
+                    :row-key="rowKey"
                     :columns-width="columnsWidth"
                     :obj-data="objData"></table-body>
             </div>
@@ -59,6 +60,7 @@
                         :styleObject="fixedTableStyle"
                         :columns="leftFixedColumns"
                         :data="rebuildData"
+                        :row-key="rowKey"
                         :columns-width="columnsWidth"
                         :obj-data="objData"></table-body>
                 </div>
@@ -84,6 +86,7 @@
                         :styleObject="fixedRightTableStyle"
                         :columns="rightFixedColumns"
                         :data="rebuildData"
+                        :row-key="rowKey"
                         :columns-width="columnsWidth"
                         :obj-data="objData"></table-body>
                 </div>
@@ -200,6 +203,11 @@
                     return oneOf(value, ['dark', 'light']);
                 },
                 default: 'dark'
+            },
+            // #5380 开启后，:key 强制更新，否则使用 index
+            rowKey: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
