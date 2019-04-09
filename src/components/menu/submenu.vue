@@ -2,7 +2,7 @@
     <li :class="classes" @mouseenter="handleMouseenter" @mouseleave="handleMouseleave">
         <div :class="[prefixCls + '-submenu-title']" ref="reference" @click.stop="handleClick" :style="titleStyle">
             <slot name="title"></slot>
-            <Icon type="ios-arrow-down" :class="[prefixCls + '-submenu-title-icon']"></Icon>
+            <Icon :type="arrowType" :custom="customArrowType" :size="arrowSize" :class="[prefixCls + '-submenu-title-icon']" />
         </div>
         <collapse-transition v-if="mode === 'vertical'">
             <ul :class="[prefixCls]" v-show="opened"><slot></slot></ul>
@@ -75,6 +75,41 @@
                 return this.hasParentSubmenu && this.mode !== 'horizontal' ? {
                     paddingLeft: 43 + (this.parentSubmenuNum - 1) * 24 + 'px'
                 } : {};
+            },
+            // 3.4.0, global setting customArrow 有值时，arrow 赋值空
+            arrowType () {
+                let type = 'ios-arrow-down';
+
+                if (this.$IVIEW) {
+                    if (this.$IVIEW.menu.customArrow) {
+                        type = '';
+                    } else if (this.$IVIEW.menu.arrow) {
+                        type = this.$IVIEW.menu.arrow;
+                    }
+                }
+                return type;
+            },
+            // 3.4.0, global setting
+            customArrowType () {
+                let type = '';
+
+                if (this.$IVIEW) {
+                    if (this.$IVIEW.menu.customArrow) {
+                        type = this.$IVIEW.menu.customArrow;
+                    }
+                }
+                return type;
+            },
+            // 3.4.0, global setting
+            arrowSize () {
+                let size = '';
+
+                if (this.$IVIEW) {
+                    if (this.$IVIEW.menu.arrowSize) {
+                        size = this.$IVIEW.menu.arrowSize;
+                    }
+                }
+                return size;
             }
         },
         methods: {
