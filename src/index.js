@@ -170,9 +170,14 @@ const install = function(Vue, opts = {}) {
         size: opts.size || '',
         transfer: 'transfer' in opts ? opts.transfer : '',
         select: {
-            arrow: opts.select ? opts.select.arrow ? opts.select.arrow : '' : '', // 下拉箭头图标
-            customArrow: opts.select ? opts.select.customArrow ? opts.select.customArrow : '' : '', // 自定义下拉箭头图标，优先显示
-            arrowSize: opts.select ? opts.select.arrowSize ? opts.select.arrowSize : '' : '' // 下拉箭头字号
+            arrow: opts.select ? opts.select.arrow ? opts.select.arrow : '' : '',
+            customArrow: opts.select ? opts.select.customArrow ? opts.select.customArrow : '' : '',
+            arrowSize: opts.select ? opts.select.arrowSize ? opts.select.arrowSize : '' : ''
+        },
+        cell: {
+            arrow: opts.cell ? opts.cell.arrow ? opts.cell.arrow : '' : '',
+            customArrow: opts.cell ? opts.cell.customArrow ? opts.cell.customArrow : '' : '',
+            arrowSize: opts.cell ? opts.cell.arrowSize ? opts.cell.arrowSize : '' : ''
         }
     };
 

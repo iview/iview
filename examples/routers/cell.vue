@@ -3,7 +3,7 @@
         <Card title="选项" :padding="0" shadow style="width: 300px;">
             <CellGroup @on-click="handleClick">
                 <Cell title="标题一" name="a1" label="附属内容" to="/button">
-                    <Badge count="10" slot="extra"></Badge>
+                    <Badge :count="10" slot="extra"></Badge>
                 </Cell>
                 <Cell title="标题一" name="a2" label="附属内容" extra="详细信息"></Cell>
                 <Cell title="标题一" name="a3" label="附属内容" extra="详细信息" to="/button"></Cell>
