@@ -178,6 +178,11 @@ const install = function(Vue, opts = {}) {
             arrow: opts.cell ? opts.cell.arrow ? opts.cell.arrow : '' : '',
             customArrow: opts.cell ? opts.cell.customArrow ? opts.cell.customArrow : '' : '',
             arrowSize: opts.cell ? opts.cell.arrowSize ? opts.cell.arrowSize : '' : ''
+        },
+        cascader: {
+            arrow: opts.cascader ? opts.cascader.arrow ? opts.cascader.arrow : '' : '',
+            customArrow: opts.cascader ? opts.cascader.customArrow ? opts.cascader.customArrow : '' : '',
+            arrowSize: opts.cascader ? opts.cascader.arrowSize ? opts.cascader.arrowSize : '' : ''
         }
     };
 
