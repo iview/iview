@@ -3,6 +3,7 @@
         :class="classes"
         v-click-outside.capture="onClickOutside"
         v-click-outside:mousedown.capture="onClickOutside"
+        v-click-outside:touchstart.capture="onClickOutside"
     >
         <div
             ref="reference"
@@ -34,6 +35,8 @@
                     :initial-label="initialLabel"
                     :placeholder="placeholder"
                     :query-prop="query"
+                    :max-tag-count="maxTagCount"
+                    :max-tag-placeholder="maxTagPlaceholder"
                     @on-query-change="onQueryChange"
                     @on-input-focus="isFocused = true"
                     @on-input-blur="isFocused = false"
@@ -231,9 +234,18 @@
             transferClassName: {
                 type: String
             },
+            // 3.4.0
             prefix: {
                 type: String
             },
+            // 3.4.0
+            maxTagCount: {
+                type: Number
+            },
+            // 3.4.0
+            maxTagPlaceholder: {
+                type: String
+            }
         },
         mounted(){
             this.$on('on-select-selected', this.onOptionClick);
@@ -518,7 +530,7 @@
                             input.setSelectionRange(caretPosition, caretPosition);
                         });
                     }
-                    // fix #5478
+                    // fix #5478 当
                     // if (!this.autoComplete) event.stopPropagation();
                     event.preventDefault();
                     this.hideMenu();

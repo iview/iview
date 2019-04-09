@@ -1,13 +1,21 @@
 <template>
-    <div @click="onHeaderClick">
+    <div @click="onHeaderClick" :class="headCls">
         <span :class="[prefixCls + '-prefix']" v-if="$slots.prefix || prefix">
             <slot name="prefix">
                 <Icon :type="prefix" v-if="prefix" />
             </slot>
         </span>
-        <div class="ivu-tag ivu-tag-checked" v-for="item in selectedMultiple">
+        <div
+            class="ivu-tag ivu-tag-checked"
+            v-for="(item, index) in selectedMultiple"
+            v-if="maxTagCount === undefined || index < maxTagCount">
             <span class="ivu-tag-text">{{ item.label }}</span>
             <Icon type="ios-close" @click.native.stop="removeTag(item)"></Icon>
+        </div><div class="ivu-tag ivu-tag-checked" v-if="maxTagCount !== undefined && selectedMultiple.length > maxTagCount">
+            <span class="ivu-tag-text ivu-select-max-tag">
+                <template v-if="maxTagPlaceholder">{{ maxTagPlaceholder }}</template>
+                <template v-else>+ {{ selectedMultiple.length - maxTagCount }}...</template>
+            </span>
         </div>
         <span
             :class="singleDisplayClasses"
@@ -86,6 +94,14 @@
             prefix: {
                 type: String
             },
+            // 3.4.0
+            maxTagCount: {
+                type: Number
+            },
+            // 3.4.0
+            maxTagPlaceholder: {
+                type: String
+            }
         },
         data () {
             return {
@@ -152,6 +168,12 @@
             },
             selectedMultiple(){
                 return this.multiple ? this.values : [];
+            },
+            // 使用 prefix 时，在 filterable
+            headCls () {
+                return {
+                    [`${prefixCls}-head-flex`]: this.filterable && (this.$slots.prefix || this.prefix)
+                };
             }
         },
         methods: {

@@ -2,6 +2,7 @@
     <div
         :class="wrapperClasses"
         v-click-outside:mousedown.capture="handleClose"
+        v-click-outside:touchstart.capture="handleClose"
         v-click-outside.capture="handleClose"
     >
         <div ref="reference" :class="[prefixCls + '-rel']">

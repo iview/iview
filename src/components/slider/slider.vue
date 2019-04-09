@@ -8,6 +8,7 @@
             :step="step"
             :value="exportValue[0]"
             :disabled="disabled"
+            :active-change="activeChange"
             @on-change="handleInputChange"></Input-number>
         <div
             :class="[prefixCls + '-wrap']"
@@ -148,6 +149,11 @@
             },
             name: {
                 type: String
+            },
+            // 3.4.0
+            activeChange: {
+                type: Boolean,
+                default: true
             }
         },
         data () {
