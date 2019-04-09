@@ -1,10 +1,14 @@
 <template>
     <div style="margin: 100px;">
-        <Select v-model="model1" style="width:200px" prefix="ios-albums">
+        <Select v-model="model1" filterable style="width:200px" prefix="ios-albums">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
 
-        <Select v-model="model10" :max-tag-count="2" multiple style="width:400px" prefix="ios-albums">
+        <Select v-model="model10" filterable :max-tag-count="2" multiple style="width:400px">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+
+        <Select v-model="model10" filterable :max-tag-count="2" multiple style="width:400px" prefix="ios-albums">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
 

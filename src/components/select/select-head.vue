@@ -1,5 +1,5 @@
 <template>
-    <div @click="onHeaderClick">
+    <div @click="onHeaderClick" :class="headCls">
         <span :class="[prefixCls + '-prefix']" v-if="$slots.prefix || prefix">
             <slot name="prefix">
                 <Icon :type="prefix" v-if="prefix" />
@@ -168,6 +168,12 @@
             },
             selectedMultiple(){
                 return this.multiple ? this.values : [];
+            },
+            // 使用 prefix 时，在 filterable
+            headCls () {
+                return {
+                    [`${prefixCls}-head-flex`]: this.filterable && (this.$slots.prefix || this.prefix)
+                };
             }
         },
         methods: {
