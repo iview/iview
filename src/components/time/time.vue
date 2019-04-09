@@ -32,6 +32,20 @@
             interval: {
                 type: Number,
                 default: 60
+            },
+            dateFormat: {
+                type: String,
+                validator (value) {
+                    return oneOf(value, ['YY-MM-DD', 'YY/MM/DD', 'DD-MM-YY', 'DD/MM/YY', 'MM-DD-YY', 'MM/DD/YY', 'MM-DD', 'MM/DD', 'DD-MM', 'DD-MM']);
+                },
+                default: 'YY-MM-DD'
+            },
+            timeFormat: {
+                type: String,
+                validator (value) {
+                    return oneOf(value, ['HH-MM-SS', 'HH-MM', 'HH', 'MM-SS']);
+                },
+                default: 'HH-MM-SS'
             }
         },
         data () {
@@ -76,11 +90,80 @@
                     const hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
                     const minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
                     const second = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+                    let dateFormat = null;
+                    let timeFormat = null;
+
+                    switch (this.dateFormat) {
+                        case 'YY-MM-DD':
+                            dateFormat = `${year}-${month}-${day}`;
+                            break;
+
+                        case 'YY/MM/DD':
+                            dateFormat = `${year}/${month}/${day}`;
+                            break;
+
+                        case 'MM-DD':
+                            dateFormat = `${month}-${day}`;
+                            break;
+
+                        case 'MM/DD':
+                            dateFormat = `${month}/${day}`;
+                            break;
+
+                        case 'DD-MM-YY':
+                            dateFormat = `${day}-${month}-${year}`;
+                            break;
+
+                        case 'DD/MM/YY':
+                            dateFormat = `${day}/${month}/${year}`;
+                            break;
+
+                        case 'DD-MM':
+                            dateFormat = `${day}-${month}`;
+                            break;
+
+                        case 'DD/MM':
+                            dateFormat = `${day}/${month}`;
+                            break;
+
+                        case 'MM-DD-YY':
+                            dateFormat = `${month}-${day}-${year}`;
+                            break;
+
+                        case 'MM/DD/YY':
+                            dateFormat = `${month}/${day}/${year}`;
+                            break;
+
+                        default:
+                            dateFormat = `${year}-${month}-${day}`;
+                    }
+
+                    switch (this.timeFormat) {
+                        case 'HH-MM-SS':
+                            timeFormat = `${hour}:${minute}:${second}`;
+                            break;
+
+                        case 'HH-MM':
+                            timeFormat = `${hour}:${minute}`;
+                            break;
+
+                        case 'MM-SS':
+                            timeFormat = `${minute}:${second}`;
+                            break;
+
+                        case 'HH':
+                            timeFormat = `${hour}`;
+                            break;
+
+                        default:
+                            timeFormat = `${hour}:${minute}:${second}`;
+                    }
+
 
                     if (this.type === 'datetime') {
-                        this.date = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+                        this.date = `${dateFormat} ${timeFormat}`;
                     } else if (this.type === 'date') {
-                        this.date = `${year}-${month}-${day}`;
+                        this.date = `${dateFormat}`;
                     }
                 }
             }
