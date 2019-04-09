@@ -2,7 +2,6 @@
     <div
         :class="[prefixCls]"
         v-click-outside="onClickoutside"
-        v-click-outside:touchstart="onClickoutside"
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave">
         <div :class="relClasses" ref="reference" @click="handleClick" @contextmenu.prevent="handleRightClick"><slot></slot></div>
