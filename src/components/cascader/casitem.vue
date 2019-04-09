@@ -2,7 +2,7 @@
     <li :class="classes">
         {{ data.label }}
         <Icon v-if="showArrow" :type="arrowType" :custom="customArrowType" :size="arrowSize"></Icon>
-        <Icon v-if="showLoading" class="ivu-icon ivu-icon-ios-loading ivu-load-loop"></Icon>
+        <i v-if="showLoading" class="ivu-icon ivu-icon-ios-loading ivu-load-loop"></i>
     </li>
 </template>
 <script>
