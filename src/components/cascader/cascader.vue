@@ -1,5 +1,5 @@
 <template>
-    <div :class="classes" v-click-outside="handleClose" v-click-outside:touchstart="handleClose">
+    <div :class="classes" v-click-outside="handleClose">
         <div :class="[prefixCls + '-rel']" @click="toggleOpen" ref="reference">
             <input type="hidden" :name="name" :value="currentValue">
             <slot>
