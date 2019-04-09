@@ -172,7 +172,7 @@
             },
             handleSort (index, type) {
                 const column = this.columns[index];
-                const _index = column._index;
+                const _index = this.fixed ? column._columnKey : column._index;
 
                 if (column._sortType === type) {
                     type = 'normal';
