@@ -39,7 +39,7 @@
 
             ref="input">
         <Icon type="ios-close-circle" :class="[prefixCls + '-arrow']" v-if="resetSelect" @click.native.stop="onClear"></Icon>
-        <Icon type="ios-arrow-down" :class="[prefixCls + '-arrow']" v-if="!resetSelect && !remote"></Icon>
+        <Icon :type="arrowType" :custom="customArrowType" :size="arrowSize" :class="[prefixCls + '-arrow']" v-if="!resetSelect && !remote"></Icon>
     </div>
 </template>
 <script>
@@ -174,6 +174,41 @@
                 return {
                     [`${prefixCls}-head-flex`]: this.filterable && (this.$slots.prefix || this.prefix)
                 };
+            },
+            // 3.4.0, global setting customArrow 有值时，arrow 赋值空
+            arrowType () {
+                let type = 'ios-arrow-down';
+
+                if (this.$IVIEW) {
+                    if (this.$IVIEW.select.customArrow) {
+                        type = '';
+                    } else if (this.$IVIEW.select.arrow) {
+                        type = this.$IVIEW.select.arrow;
+                    }
+                }
+                return type;
+            },
+            // 3.4.0, global setting
+            customArrowType () {
+                let type = '';
+
+                if (this.$IVIEW) {
+                    if (this.$IVIEW.select.customArrow) {
+                        type = this.$IVIEW.select.customArrow;
+                    }
+                }
+                return type;
+            },
+            // 3.4.0, global setting
+            arrowSize () {
+                let size = '';
+
+                if (this.$IVIEW) {
+                    if (this.$IVIEW.select.arrowSize) {
+                        size = this.$IVIEW.select.arrowSize;
+                    }
+                }
+                return size;
             }
         },
         methods: {

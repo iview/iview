@@ -168,7 +168,12 @@ const install = function(Vue, opts = {}) {
 
     Vue.prototype.$IVIEW = {
         size: opts.size || '',
-        transfer: 'transfer' in opts ? opts.transfer : ''
+        transfer: 'transfer' in opts ? opts.transfer : '',
+        select: {
+            arrow: opts.select ? opts.select.arrow ? opts.select.arrow : '' : '', // 下拉箭头图标
+            customArrow: opts.select ? opts.select.customArrow ? opts.select.customArrow : '' : '', // 自定义下拉箭头图标，优先显示
+            arrowSize: opts.select ? opts.select.arrowSize ? opts.select.arrowSize : '' : '' // 下拉箭头字号
+        }
     };
 
     Vue.prototype.$Loading = LoadingBar;
