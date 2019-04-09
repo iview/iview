@@ -171,7 +171,8 @@
                 this.$parent.selectAll(status);
             },
             handleSort (index, type) {
-                const column = this.columns[index];
+                // 在固定列时，寻找正确的 index #5580
+                const column = this.columns.find(item => item._index === index);
                 const _index = column._index;
 
                 if (column._sortType === type) {
@@ -180,7 +181,8 @@
                 this.$parent.handleSort(_index, type);
             },
             handleSortByHead (index) {
-                const column = this.columns[index];
+                // 在固定列时，寻找正确的 index #5580
+                const column = this.columns.find(item => item._index === index);
                 if (column.sortable) {
                     const type = column._sortType;
                     if (type === 'normal') {
