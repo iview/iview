@@ -292,6 +292,7 @@
                 }
             },
             change (event) {
+                if (event.type == 'change') return;
 
                 if (event.type == 'input' && !this.activeChange) return;
                 let val = event.target.value.trim();
