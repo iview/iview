@@ -111,6 +111,11 @@
             // default by css: 8px 16px
             padding: {
                 type: String
+            },
+            // 3.4.0
+            disabled: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -181,6 +186,8 @@
         },
         methods: {
             handleClick () {
+                if (this.disabled) return;
+
                 if (this.confirm) {
                     this.visible = !this.visible;
                     return true;
@@ -208,6 +215,8 @@
                 this.visible = false;
             },
             handleFocus (fromInput = true) {
+                if (this.disabled) return;
+
                 if (this.trigger !== 'focus' || this.confirm || (this.isInput && !fromInput)) {
                     return false;
                 }
@@ -220,6 +229,8 @@
                 this.visible = false;
             },
             handleMouseenter () {
+                if (this.disabled) return;
+                
                 if (this.trigger !== 'hover' || this.confirm) {
                     return false;
                 }
