@@ -201,6 +201,16 @@ const install = function(Vue, opts = {}) {
             arrow: opts.colorPicker ? opts.colorPicker.arrow ? opts.colorPicker.arrow : '' : '',
             customArrow: opts.colorPicker ? opts.colorPicker.customArrow ? opts.colorPicker.customArrow : '' : '',
             arrowSize: opts.colorPicker ? opts.colorPicker.arrowSize ? opts.colorPicker.arrowSize : '' : ''
+        },
+        datePicker: {
+            icon: opts.datePicker ? opts.datePicker.icon ? opts.datePicker.icon : '' : '',
+            customIcon: opts.datePicker ? opts.datePicker.customIcon ? opts.datePicker.customIcon : '' : '',
+            iconSize: opts.datePicker ? opts.datePicker.iconSize ? opts.datePicker.iconSize : '' : ''
+        },
+        timePicker: {
+            icon: opts.timePicker ? opts.timePicker.icon ? opts.timePicker.icon : '' : '',
+            customIcon: opts.timePicker ? opts.timePicker.customIcon ? opts.timePicker.customIcon : '' : '',
+            iconSize: opts.timePicker ? opts.timePicker.iconSize ? opts.timePicker.iconSize : '' : ''
         }
     };
 
