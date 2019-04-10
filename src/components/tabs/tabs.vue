@@ -13,7 +13,7 @@
                     <span :class="[prefixCls + '-nav-prev', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollPrev"><Icon type="ios-arrow-back"></Icon></span>
                     <span :class="[prefixCls + '-nav-next', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollNext"><Icon type="ios-arrow-forward"></Icon></span>
                     <div ref="navScroll" :class="[prefixCls + '-nav-scroll']">
-                        <div ref="nav" :class="[prefixCls + '-nav']" class="nav-text"  :style="navStyle">
+                        <div ref="nav" :class="[prefixCls + '-nav']" :style="navStyle">
                             <div :class="barClasses" :style="barStyle"></div>
                             <div :class="tabCls(item)" v-for="(item, index) in navList" @click="handleChange(index)">
                                 <Icon v-if="item.icon !== ''" :type="item.icon"></Icon>
