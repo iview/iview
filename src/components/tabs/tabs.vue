@@ -19,7 +19,7 @@
                                 <Icon v-if="item.icon !== ''" :type="item.icon"></Icon>
                                 <Render v-if="item.labelType === 'function'" :render="item.label"></Render>
                                 <template v-else>{{ item.label }}</template>
-                                <Icon v-if="showClose(item)" type="ios-close" @click.native.stop="handleRemove(index)"></Icon>
+                                <Icon :class="[prefixCls + '-close']" v-if="showClose(item)" :type="arrowType" :custom="customArrowType" :size="arrowSize" @click.native.stop="handleRemove(index)"></Icon>
                             </div>
                         </div>
                     </div>
@@ -169,6 +169,41 @@
                 }
 
                 return style;
+            },
+            // 3.4.0, global setting customArrow 有值时，arrow 赋值空
+            arrowType () {
+                let type = 'ios-close';
+
+                if (this.$IVIEW) {
+                    if (this.$IVIEW.tabs.customCloseIcon) {
+                        type = '';
+                    } else if (this.$IVIEW.tabs.closeIcon) {
+                        type = this.$IVIEW.tabs.closeIcon;
+                    }
+                }
+                return type;
+            },
+            // 3.4.0, global setting
+            customArrowType () {
+                let type = '';
+
+                if (this.$IVIEW) {
+                    if (this.$IVIEW.tabs.customCloseIcon) {
+                        type = this.$IVIEW.tabs.customCloseIcon;
+                    }
+                }
+                return type;
+            },
+            // 3.4.0, global setting
+            arrowSize () {
+                let size = '';
+
+                if (this.$IVIEW) {
+                    if (this.$IVIEW.tabs.closeIconSize) {
+                        size = this.$IVIEW.tabs.closeIconSize;
+                    }
+                }
+                return size;
             }
         },
         methods: {
