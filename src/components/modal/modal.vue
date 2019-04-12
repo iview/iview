@@ -251,13 +251,15 @@
                 this.close();
             },
             ok () {
-                if (this.loading) {
-                    this.buttonLoading = true;
-                } else {
-                    this.visible = false;
-                    this.$emit('input', false);
-                }
                 this.$emit('on-ok');
+                this.$nextTick(() => {
+                    if (this.loading) {
+                        this.buttonLoading = true;
+                    } else {
+                        this.visible = false;
+                        this.$emit('input', false);
+                    }
+                });
             },
             EscClose (e) {
                 if (this.visible && this.closable) {

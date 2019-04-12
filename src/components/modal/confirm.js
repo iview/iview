@@ -164,13 +164,15 @@ Modal.newInstance = properties => {
                 this.remove();
             },
             ok () {
-                if (this.loading) {
-                    this.buttonLoading = true;
-                } else {
-                    this.$children[0].visible = false;
-                    this.remove();
-                }
                 this.onOk();
+                this.$nextTick(() => {
+                    if (this.loading) {
+                        this.buttonLoading = true;
+                    } else {
+                        this.$children[0].visible = false;
+                        this.remove();
+                    }
+                });
             },
             remove () {
                 setTimeout(() => {
