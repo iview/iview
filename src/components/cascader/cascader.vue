@@ -145,6 +145,7 @@
         },
         data () {
             return {
+                displayRender: '',
                 prefixCls: prefixCls,
                 selectPrefixCls: selectPrefixCls,
                 visible: false,
@@ -172,14 +173,6 @@
             },
             showCloseIcon () {
                 return this.currentValue && this.currentValue.length && this.clearable && !this.disabled;
-            },
-            displayRender () {
-                let label = [];
-                for (let i = 0; i < this.selected.length; i++) {
-                    label.push(this.selected[i].label);
-                }
-
-                return this.renderFormat(label, this.selected);
             },
             displayInputRender () {
                 return this.filterable ? '' : this.displayRender;
@@ -390,6 +383,16 @@
                     return;
                 }
                 this.updateSelected(true);
+            },
+            selected: {
+                deep: true,
+                handler () {
+                    let label = [];
+                    for (let i = 0; i < this.selected.length; i++) {
+                        label.push(this.selected[i].label);
+                    }
+                    this.displayRender = this.renderFormat(label, this.selected)
+                }
             },
             data: {
                 deep: true,
