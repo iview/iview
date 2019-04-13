@@ -24,6 +24,13 @@
                 :value="currentValue"
                 :number="number"
                 :autofocus="autofocus"
+                @dragstart="handleDragstart"
+                @dragenter="handleDragenter"
+                @dragover="handleDragover"
+                @drop="handleDrop"
+                @dragleave="handleDragleave"
+                @drag="handleDrag"
+                @dragend="handleDragend"
                 @keyup.enter="handleEnter"
                 @keyup="handleKeyup"
                 @keypress="handleKeypress"
@@ -59,6 +66,13 @@
             :name="name"
             :value="currentValue"
             :autofocus="autofocus"
+            @dragstart="handleDragstart"
+            @dragenter="handleDragenter"
+            @dragover="handleDragover"
+            @drop="handleDrop"
+            @dragleave="handleDragleave"
+            @drag="handleDrag"
+            @dragend="handleDragend"
             @keyup.enter="handleEnter"
             @keyup="handleKeyup"
             @keypress="handleKeypress"
@@ -226,6 +240,27 @@
             }
         },
         methods: {
+            handleDragstart (event) {
+                this.$emit('on-dragstart', event);
+            },
+            handleDragenter (event) {
+                this.$emit('on-dragenter', event);
+            },
+            handleDragover (event) {
+                this.$emit('on-dragover', event);
+            },
+            handleDrop (event) {
+                this.$emit('on-drop', event);
+            },
+            handleDragleave (event) {
+                this.$emit('on-dragleave', event);
+            },
+            handleDrag (event) {
+                this.$emit('on-drag', event);
+            },
+            handleDragend (event) {
+                this.$emit('on-dragend', event);
+            },
             handleEnter (event) {
                 this.$emit('on-enter', event);
                 if (this.search) this.$emit('on-search', this.currentValue);
