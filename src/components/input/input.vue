@@ -188,7 +188,10 @@
             enterButton: {
                 type: [Boolean, String],
                 default: false
-            }
+            },
+            setFocus: {
+                type: Number
+            },
         },
         data () {
             return {
@@ -358,7 +361,10 @@
         watch: {
             value (val) {
                 this.setCurrentValue(val);
-            }
+            },
+            setFocus () {
+                this.focus();
+            },
         },
         mounted () {
             if (this.type !== 'textarea') {
