@@ -25,7 +25,7 @@
         </div>
         <div class="ivu-cell-arrow" v-if="to">
             <slot name="arrow">
-                <Icon type="ios-arrow-forward"></Icon>
+                <Icon :type="arrowType" :custom="customArrowType" :size="arrowSize" />
             </slot>
         </div>
     </div>
@@ -83,6 +83,41 @@
                     }
                 ];
             },
+            // 3.4.0, global setting customArrow 有值时，arrow 赋值空
+            arrowType () {
+                let type = 'ios-arrow-forward';
+
+                if (this.$IVIEW) {
+                    if (this.$IVIEW.cell.customArrow) {
+                        type = '';
+                    } else if (this.$IVIEW.cell.arrow) {
+                        type = this.$IVIEW.cell.arrow;
+                    }
+                }
+                return type;
+            },
+            // 3.4.0, global setting
+            customArrowType () {
+                let type = '';
+
+                if (this.$IVIEW) {
+                    if (this.$IVIEW.cell.customArrow) {
+                        type = this.$IVIEW.cell.customArrow;
+                    }
+                }
+                return type;
+            },
+            // 3.4.0, global setting
+            arrowSize () {
+                let size = '';
+
+                if (this.$IVIEW) {
+                    if (this.$IVIEW.cell.arrowSize) {
+                        size = this.$IVIEW.cell.arrowSize;
+                    }
+                }
+                return size;
+            }
         },
         methods: {
             handleClickItem (event, new_window) {

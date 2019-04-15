@@ -60,6 +60,11 @@ export declare interface Slider extends Vue {
    */
   'input-size'?: '' | 'large' | 'small' | 'default';
   /**
+   * 同 InputNumber 的 active-change
+   * @default true
+   */
+  'active-change'?: boolean;
+  /**
    * 在松开滑动时触发，返回当前的选值，在滑动过程中不会触发
    */
   $emit(eventName: 'on-change', value: number | number[]): this;

@@ -132,6 +132,10 @@ export declare interface DatePicker extends Vue {
    */
   $emit(eventName: 'on-clear'): this;
   /**
+   * 点击外部关闭下拉菜单时触发
+   */
+  $emit(eventName: 'on-clickoutside',event: MouseEvent): this;
+  /**
    * slot插槽对象
    */
   $slots: {

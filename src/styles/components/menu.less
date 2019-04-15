@@ -160,15 +160,23 @@
     }
 
     &-vertical &-submenu-title-icon{
-        float: right;
-        position: relative;
-        top: 4px;
+        // #5592 支持自定义图标 size 后，换一种位置
+        //float: right;
+        //position: relative;
+        //top: 4px;
+        position: absolute;
+        top: 50%;
+        right: 24px;
+        transform: translateY(-50%);
     }
     &-submenu-title-icon {
         transition: transform @transition-time @ease-in-out;
     }
-    &-opened > * > &-submenu-title-icon{
+    &-horizontal &-opened > * > &-submenu-title-icon{
         transform: rotate(180deg);
+    }
+    &-vertical &-opened > * > &-submenu-title-icon{
+        transform: translateY(-50%) rotate(180deg);
     }
 
     &-vertical &-submenu{

@@ -68,7 +68,7 @@
         .inner-arrow();
     }
     &-visible &-arrow:nth-of-type(2) {
-        transform: rotate(180deg);
+        transform: translateY(-50%) rotate(180deg);
     }
 
     .@{select-dropdown-prefix-cls} {
@@ -134,6 +134,10 @@
                 position: absolute;
                 right: 15px;
                 top: 50%;
+                //margin-top: -6px;
+                transform: translateY(-50%);
+            }
+            &-loading{
                 margin-top: -6px;
             }
 

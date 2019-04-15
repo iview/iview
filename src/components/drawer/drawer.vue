@@ -303,6 +303,9 @@
                 if (this.$slots.header === undefined) {
                     this.showHead = !!val;
                 }
+            },
+            width (val) {
+                this.dragWidth = val;
             }
         }
     };

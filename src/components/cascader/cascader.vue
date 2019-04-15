@@ -17,7 +17,7 @@
                     v-show="filterable && query === ''"
                     @click="handleFocus">{{ displayRender }}</div>
                 <Icon type="ios-close-circle" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSelect"></Icon>
-                <Icon type="ios-arrow-down" :class="[prefixCls + '-arrow']"></Icon>
+                <Icon :type="arrowType" :custom="customArrowType" :size="arrowSize" :class="[prefixCls + '-arrow']"></Icon>
             </slot>
         </div>
         <transition name="transition-drop">
@@ -232,6 +232,41 @@
                     return item;
                 });
                 return selections;
+            },
+            // 3.4.0, global setting customArrow 有值时，arrow 赋值空
+            arrowType () {
+                let type = 'ios-arrow-down';
+
+                if (this.$IVIEW) {
+                    if (this.$IVIEW.cascader.customArrow) {
+                        type = '';
+                    } else if (this.$IVIEW.cascader.arrow) {
+                        type = this.$IVIEW.cascader.arrow;
+                    }
+                }
+                return type;
+            },
+            // 3.4.0, global setting
+            customArrowType () {
+                let type = '';
+
+                if (this.$IVIEW) {
+                    if (this.$IVIEW.cascader.customArrow) {
+                        type = this.$IVIEW.cascader.customArrow;
+                    }
+                }
+                return type;
+            },
+            // 3.4.0, global setting
+            arrowSize () {
+                let size = '';
+
+                if (this.$IVIEW) {
+                    if (this.$IVIEW.cascader.arrowSize) {
+                        size = this.$IVIEW.cascader.arrowSize;
+                    }
+                }
+                return size;
             }
         },
         methods: {

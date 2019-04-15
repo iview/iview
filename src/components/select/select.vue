@@ -41,6 +41,8 @@
                     :initial-label="initialLabel"
                     :placeholder="placeholder"
                     :query-prop="query"
+                    :max-tag-count="maxTagCount"
+                    :max-tag-placeholder="maxTagPlaceholder"
 
                     @on-query-change="onQueryChange"
                     @on-input-focus="isFocused = true"
@@ -239,9 +241,18 @@
             transferClassName: {
                 type: String
             },
+            // 3.4.0
             prefix: {
                 type: String
             },
+            // 3.4.0
+            maxTagCount: {
+                type: Number
+            },
+            // 3.4.0
+            maxTagPlaceholder: {
+                type: Function
+            }
         },
         mounted(){
             this.$on('on-select-selected', this.onOptionClick);

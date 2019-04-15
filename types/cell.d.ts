@@ -46,6 +46,11 @@ export declare interface Cell extends Vue {
    */
   target?: '_blank' | '_self' | '_parent' | '_top';
   /**
+   * 同 vue-router append
+   * @default false
+   */
+  append?: boolean;
+  /**
    * slot插槽对象
    */
   $slots: {

@@ -75,7 +75,7 @@ export declare interface Drawer extends Vue {
     /**
      * 返回 Promise 可以阻止关闭
      */
-    'before-close'?: () => void | PromiseConstructor;
+    'before-close'?: () => void | Promise<any>;
     /**
      * 关闭抽屉时触发
      */
