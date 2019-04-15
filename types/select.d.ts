@@ -93,6 +93,18 @@ export declare interface Select extends Vue {
    */
   'transfer-class-name'?: string;
   /**
+   * 在 Select 内显示图标
+   */
+  prefix?: string;
+  /**
+   * 多选时最多显示多少个 tag
+   */
+  'max-tag-count'?: number;
+  /**
+   * 隐藏 tag 时显示的内容，参数是剩余项数量
+   */
+  'max-tag-placeholder'?: () => any;
+  /**
    * 选中的Option变化时触发，默认返回 value，如需返回 label，详见 label-in-value 属性	当前选中项
    */
   $emit(eventName: 'on-change'): this;
@@ -116,6 +128,15 @@ export declare interface Select extends Vue {
    * 清空单选项，仅在 clearable="true" 时有效
    */
   clearSingleSelect(): void;
+  /**
+   * slot插槽对象
+   */
+  $slots: {
+    /**
+     * 自定义 Select 内头部图标
+     */
+    prefix: VNode[];
+  };
 }
 
 export declare interface Option extends Vue {

@@ -63,18 +63,74 @@ export { Transfer } from './transfer';
 export { Tree, TreeChild } from './tree';
 export { Upload } from './upload';
 
+interface IViewGlobalOptions{
+    size?: string;
+    transfer?: boolean | string;
+    select: {
+        arrow: string;
+        customArrow: string;
+        arrowSize: number | string;
+    };
+    cell: {
+        arrow: string;
+        customArrow: string;
+        arrowSize: number | string;
+    };
+    menu: {
+        arrow: string;
+        customArrow: string;
+        arrowSize: number | string;
+    };
+    tree: {
+        arrow: string;
+        customArrow: string;
+        arrowSize: number | string;
+    };
+    cascader: {
+        arrow: string;
+        customArrow: string;
+        arrowSize: number | string;
+        itemArrow: string;
+        customItemArrow: string;
+        itemArrowSize: number | string;
+    };
+    colorPicker: {
+        arrow: string;
+        customArrow: string;
+        arrowSize: number | string;
+    };
+    datePicker: {
+        icon: string;
+        customIcon: string;
+        iconSize: number | string;
+    };
+    timePicker: {
+        icon: string;
+        customIcon: string;
+        iconSize: number | string;
+    };
+    tabs: {
+        closeIcon: string;
+        customCloseIcon: string;
+        closeIconSize: number | string;
+    };
+    modal: {
+        maskClosable: boolean | string;
+    };
+}
+
+interface IViewInstallOptions extends IViewGlobalOptions{
+    locale?: any;
+    i18n?: any;
+}
+
 declare const API: {
     version: string;
-    locale: (l:any) => void;
-    i18n: (fn:any) => void;
+    locale: (l: any) => void;
+    i18n: (fn: any) => void;
     install: (
         Vue: Vue,
-        opts: {
-            locale?: any;
-            i18n?: any;
-            size?: any;
-            transfer?: any;
-        }
+        opts: IViewInstallOptions
     ) => void;
     lang: (code: string) => void;
 };
@@ -83,9 +139,6 @@ export default API;
 
 declare module 'vue/types/vue' {
     interface Vue {
-        $IVIEW: {
-            size?: string;
-            transfer?: string;
-        };
+        $IVIEW: IViewGlobalOptions;
     }
 }

@@ -38,6 +38,11 @@ export declare interface Poptip extends Vue {
    */
   confirm?: boolean;
   /**
+   * 是否禁用
+   * @default false
+   */
+  disabled?: boolean;
+  /**
    * 确定按钮的文字，只在 confirm 模式下有效
    * @default 确定
    */

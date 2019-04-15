@@ -141,6 +141,10 @@ export declare interface Input extends Vue {
    */
   $emit(eventName: 'on-search', value: string): this;
   /**
+   * 开启 clearable 时可用，点击清空按钮时触发
+   */
+  $emit(eventName: 'on-clear'): this;
+  /**
    * 手动聚焦输入框
    */
   focus(): void;
