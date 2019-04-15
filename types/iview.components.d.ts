@@ -65,7 +65,7 @@ export { Upload } from './upload';
 
 interface IViewGlobalOptions{
     size?: string;
-    transfer?: string;
+    transfer?: boolean | string;
     select: {
         arrow: string;
         customArrow: string;
