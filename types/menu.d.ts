@@ -71,6 +71,11 @@ export declare interface MenuItem extends Vue {
    * @default _self
    */
   target?: '_blank' | '_self' | '_parent' | '_top';
+  /**
+   * 同 vue-router append
+   * @default false
+   */
+  append?: boolean;
 }
 
 export declare interface MenuSub extends Vue {
