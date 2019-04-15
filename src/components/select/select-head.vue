@@ -13,7 +13,7 @@
             <Icon type="ios-close" @click.native.stop="removeTag(item)"></Icon>
         </div><div class="ivu-tag ivu-tag-checked" v-if="maxTagCount !== undefined && selectedMultiple.length > maxTagCount">
             <span class="ivu-tag-text ivu-select-max-tag">
-                <template v-if="maxTagPlaceholder">{{ maxTagPlaceholder }}</template>
+                <template v-if="maxTagPlaceholder">{{ maxTagPlaceholder(selectedMultiple.length - maxTagCount) }}</template>
                 <template v-else>+ {{ selectedMultiple.length - maxTagCount }}...</template>
             </span>
         </div>
@@ -100,7 +100,7 @@
             },
             // 3.4.0
             maxTagPlaceholder: {
-                type: String
+                type: Function
             }
         },
         data () {

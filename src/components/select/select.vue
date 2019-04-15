@@ -251,7 +251,7 @@
             },
             // 3.4.0
             maxTagPlaceholder: {
-                type: String
+                type: Function
             }
         },
         mounted(){
