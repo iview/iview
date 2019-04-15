@@ -57,6 +57,10 @@
             transferClassName: {
                 type: String
             },
+            stopPropagation: {
+                type: Boolean,
+                default: false
+            },
         },
         computed: {
             transition () {
@@ -164,6 +168,7 @@
         },
         mounted () {
             this.$on('on-click', (key) => {
+                if (this.stopPropagation) return;
                 const $parent = this.hasParent();
                 if ($parent) $parent.$emit('on-click', key);
             });

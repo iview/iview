@@ -220,7 +220,9 @@
             <Button type="default">Small</Button>
         </Button-group>
 
-        <br><br><br><br><br>
+        <br><br>
+        <Button to="/icon">Open New Window</Button>
+        <br><br><br>
     </div>
 </template>
 <script>

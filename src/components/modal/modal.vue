@@ -60,7 +60,9 @@
             },
             maskClosable: {
                 type: Boolean,
-                default: true
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.modal.maskClosable === '' ? true : this.$IVIEW.modal.maskClosable;
+                }
             },
             title: {
                 type: String

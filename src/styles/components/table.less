@@ -7,6 +7,7 @@
         border: 1px solid @border-color-base;
         border-bottom: 0;
         border-right: 0;
+        overflow: hidden; // 开启 max-height 时，没有 overflow: hidden，则底部多出 1px，早期没有 overflow 是因为有些控件没有加 transfer
     }
     width: inherit;
     height: 100%;

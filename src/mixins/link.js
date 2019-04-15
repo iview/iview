@@ -15,21 +15,46 @@ export default {
                 return oneOf(value, ['_blank', '_self', '_parent', '_top']);
             },
             default: '_self'
-        }
+        },
+        append: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
     },
     computed: {
         linkUrl () {
             const type = typeof this.to;
-            return type === 'string' ? this.to : null;
+            if (type !== 'string') {
+                return null;
+            }
+            if (this.to.includes('//')) {
+                /* Absolute URL, we do not need to route this */
+                return this.to;
+            }
+            const router = this.$router;
+            if (router) {
+                const current = this.$route;
+                const route = router.resolve(this.to, current, this.append);
+                return route ? route.href : this.to;
+            }
+            return this.to;
         }
     },
     methods: {
         handleClick (new_window = false) {
-            if (new_window){
-                window.open(this.to);
+            const router = this.$router;
+
+            if (new_window) {
+                let to = this.to;
+                if (router) {
+                    const current = this.$route;
+                    const route = router.resolve(this.to, current, this.append);
+                    to = route ? route.href : this.to;
+                }
+                window.open(to);
             } else {
-                const isRoute = this.$router;
-                if (isRoute) {
+                if (router) {
                     this.replace ? this.$router.replace(this.to) : this.$router.push(this.to);
                 } else {
                     window.location.href = this.to;

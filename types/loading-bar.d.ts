@@ -42,6 +42,11 @@ export declare interface LoadingBarConfig {
    */
   color?: string;
   /**
+   * 自动消失的延时, 默认为800ms
+   * @default 800
+   */
+  duration?: number;
+  /**
    * 失败时的进度条颜色，默认为 iView 主色 
    * @default error
    */

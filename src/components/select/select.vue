@@ -3,6 +3,7 @@
         :class="classes"
         v-click-outside.capture="onClickOutside"
         v-click-outside:mousedown.capture="onClickOutside"
+        v-click-outside:touchstart.capture="onClickOutside"
     >
         <div
             ref="reference"
@@ -33,18 +34,23 @@
                     :multiple="multiple"
                     :values="values"
                     :clearable="canBeCleared"
+                    :prefix="prefix"
                     :disabled="disabled"
                     :remote="remote"
                     :input-element-id="elementId"
                     :initial-label="initialLabel"
                     :placeholder="placeholder"
                     :query-prop="query"
+                    :max-tag-count="maxTagCount"
+                    :max-tag-placeholder="maxTagPlaceholder"
 
                     @on-query-change="onQueryChange"
                     @on-input-focus="isFocused = true"
                     @on-input-blur="isFocused = false"
                     @on-clear="clearSingleSelect"
-                />
+                >
+                    <slot name="prefix" slot="prefix"></slot>
+                </select-head>
             </slot>
         </div>
         <transition name="transition-drop">
@@ -235,6 +241,18 @@
             transferClassName: {
                 type: String
             },
+            // 3.4.0
+            prefix: {
+                type: String
+            },
+            // 3.4.0
+            maxTagCount: {
+                type: Number
+            },
+            // 3.4.0
+            maxTagPlaceholder: {
+                type: Function
+            }
         },
         mounted(){
             this.$on('on-select-selected', this.onOptionClick);

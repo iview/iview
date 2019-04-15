@@ -8,7 +8,7 @@
                 <table-tr
                     :draggable="draggable"
                     :row="row"
-                    :key="row._rowKey"
+                    :key="rowKey ? row._rowKey : index"
                     :prefix-cls="prefixCls"
                     @mouseenter.native.stop="handleMouseIn(row._index)"
                     @mouseleave.native.stop="handleMouseOut(row._index)"
@@ -31,7 +31,7 @@
                 </table-tr>
                 <tr v-if="rowExpanded(row._index)" :class="{[prefixCls + '-expanded-hidden']: fixed}">
                     <td :colspan="columns.length" :class="prefixCls + '-expanded-cell'">
-                        <Expand :key="row._rowKey" :row="row" :render="expandRender" :index="row._index"></Expand>
+                        <Expand :key="rowKey ? row._rowKey : index" :row="row" :render="expandRender" :index="row._index"></Expand>
                     </td>
                 </tr>
             </template>
@@ -61,6 +61,10 @@
                 default: false
             },
             draggable: {
+                type: Boolean,
+                default: false
+            },
+            rowKey: {
                 type: Boolean,
                 default: false
             }

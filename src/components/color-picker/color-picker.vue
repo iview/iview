@@ -10,7 +10,7 @@
                 :name="name"
                 :value="currentValue"
                 type="hidden">
-            <i :class="arrowClasses"></i>
+            <Icon :type="arrowType" :custom="customArrowType" :size="arrowSize" :class="arrowClasses"></Icon>
             <div
                 ref="input"
                 :tabindex="disabled ? undefined : 0"
@@ -125,6 +125,7 @@ import Hue from './hue.vue';
 import Alpha from './alpha.vue';
 import iInput from '../input/input.vue';
 import iButton from '../button/button.vue';
+import Icon from '../icon/icon.vue';
 import Locale from '../../mixins/locale';
 import {oneOf} from '../../utils/assist';
 import Emitter from '../../mixins/emitter';
@@ -134,7 +135,7 @@ import {changeColor, toRGBAString} from './utils';
 export default {
     name: 'ColorPicker',
 
-    components: {Drop, RecommendColors, Saturation, Hue, Alpha, iInput, iButton},
+    components: {Drop, RecommendColors, Saturation, Hue, Alpha, iInput, iButton, Icon},
 
     directives: {clickOutside, TransferDom},
 
@@ -260,8 +261,6 @@ export default {
     computed: {
         arrowClasses() {
             return [
-                this.iconPrefixCls,
-                `${this.iconPrefixCls}-ios-arrow-down`,
                 `${this.inputPrefixCls}-icon`,
                 `${this.inputPrefixCls}-icon-normal`,
             ];
@@ -352,6 +351,41 @@ export default {
                     [`${this.prefixCls}-confirm-color-editable`]: this.editable
                 }
             ];
+        },
+        // 3.4.0, global setting customArrow 有值时，arrow 赋值空
+        arrowType () {
+            let type = 'ios-arrow-down';
+
+            if (this.$IVIEW) {
+                if (this.$IVIEW.colorPicker.customArrow) {
+                    type = '';
+                } else if (this.$IVIEW.colorPicker.arrow) {
+                    type = this.$IVIEW.colorPicker.arrow;
+                }
+            }
+            return type;
+        },
+        // 3.4.0, global setting
+        customArrowType () {
+            let type = '';
+
+            if (this.$IVIEW) {
+                if (this.$IVIEW.colorPicker.customArrow) {
+                    type = this.$IVIEW.colorPicker.customArrow;
+                }
+            }
+            return type;
+        },
+        // 3.4.0, global setting
+        arrowSize () {
+            let size = '';
+
+            if (this.$IVIEW) {
+                if (this.$IVIEW.colorPicker.arrowSize) {
+                    size = this.$IVIEW.colorPicker.arrowSize;
+                }
+            }
+            return size;
         }
     },
 

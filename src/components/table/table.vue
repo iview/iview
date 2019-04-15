@@ -21,6 +21,7 @@
                     :styleObject="tableStyle"
                     :columns="cloneColumns"
                     :data="rebuildData"
+                    :row-key="rowKey"
                     :columns-width="columnsWidth"
                     :obj-data="objData"></table-body>
             </div>
@@ -59,6 +60,7 @@
                         :styleObject="fixedTableStyle"
                         :columns="leftFixedColumns"
                         :data="rebuildData"
+                        :row-key="rowKey"
                         :columns-width="columnsWidth"
                         :obj-data="objData"></table-body>
                 </div>
@@ -84,6 +86,7 @@
                         :styleObject="fixedRightTableStyle"
                         :columns="rightFixedColumns"
                         :data="rebuildData"
+                        :row-key="rowKey"
                         :columns-width="columnsWidth"
                         :obj-data="objData"></table-body>
                 </div>
@@ -149,6 +152,10 @@
             height: {
                 type: [Number, String]
             },
+            // 3.4.0
+            maxHeight: {
+                type: [Number, String]
+            },
             stripe: {
                 type: Boolean,
                 default: false
@@ -196,6 +203,11 @@
                     return oneOf(value, ['dark', 'light']);
                 },
                 default: 'dark'
+            },
+            // #5380 开启后，:key 强制更新，否则使用 index
+            rowKey: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -275,6 +287,10 @@
                     const height = parseInt(this.height);
                     style.height = `${height}px`;
                 }
+                if (this.maxHeight) {
+                    const maxHeight = parseInt(this.maxHeight);
+                    style.maxHeight = `${maxHeight}px`;
+                }
                 if (this.width) style.width = `${this.width}px`;
                 return style;
             },
@@ -336,7 +352,11 @@
                 let style = {};
                 if (this.bodyHeight !== 0) {
                     const height = this.bodyHeight;
-                    style.height = `${height}px`;
+                    if (this.height) {
+                        style.height = `${height}px`;
+                    } else if (this.maxHeight) {
+                        style.maxHeight = `${height}px`;
+                    }
                 }
                 return style;
             },
@@ -548,7 +568,7 @@
                 this.objData[_index]._isExpanded = status;
                 this.$emit('on-expand', JSON.parse(JSON.stringify(this.cloneData[_index])), status);
                 
-                if(this.height){
+                if(this.height || this.maxHeight){
                     this.$nextTick(()=>this.fixedBody());
                 }
             },
@@ -578,12 +598,16 @@
             },
             
             fixedHeader () {
-                if (this.height) {
+                if (this.height || this.maxHeight) {
                     this.$nextTick(() => {
                         const titleHeight = parseInt(getStyle(this.$refs.title, 'height')) || 0;
                         const headerHeight = parseInt(getStyle(this.$refs.header, 'height')) || 0;
                         const footerHeight = parseInt(getStyle(this.$refs.footer, 'height')) || 0;
-                        this.bodyHeight = this.height - titleHeight - headerHeight - footerHeight;
+                        if (this.height) {
+                            this.bodyHeight = this.height - titleHeight - headerHeight - footerHeight;
+                        } else if (this.maxHeight) {
+                            this.bodyHeight = this.maxHeight - titleHeight - headerHeight - footerHeight;
+                        }
                         this.$nextTick(()=>this.fixedBody());
                     });
                 } else {
@@ -984,6 +1008,9 @@
                 deep: true
             },
             height () {
+                this.handleResize();
+            },
+            maxHeight () {
                 this.handleResize();
             },
             showHorizontalScrollBar () {

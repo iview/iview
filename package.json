@@ -1,6 +1,6 @@
 {
     "name": "iview",
-    "version": "3.3.3",
+    "version": "3.4.0-rc.2",
     "title": "iView",
     "description": "A high quality UI components Library with Vue.js",
     "homepage": "http://www.iviewui.com",
@@ -29,8 +29,9 @@
         "dist:locale": "webpack --config build/webpack.dist.locale.config.js",
         "dist": "npm run dist:style && npm run dist:dev && npm run dist:prod && npm run dist:locale",
         "lint": "eslint --fix --ext .js,.vue src",
+        "tslint": "tslint --type-check --fix --project .",
         "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
-        "test": "npm run lint && npm run unit",
+        "test": "npm run lint && npm run tslint && npm run unit",
         "prepare": "npm run dist"
     },
     "repository": {
@@ -103,15 +104,17 @@
         "sinon": "^4.4.2",
         "sinon-chai": "^3.3.0",
         "style-loader": "^0.20.2",
+        "tslint": "^5.14.0",
+        "typescript": "^3.3.4000",
         "uglifyjs-webpack-plugin": "^1.3.0",
         "url-loader": "^1.1.2",
-        "vue": "^2.5.17",
+        "vue": "^2.6.10",
         "vue-hot-reload-api": "^2.3.1",
         "vue-html-loader": "^1.2.4",
         "vue-loader": "^14.2.1",
         "vue-router": "^3.0.2",
         "vue-style-loader": "^4.1.2",
-        "vue-template-compiler": "^2.5.17",
+        "vue-template-compiler": "^2.6.10",
         "webpack": "^3.11.0",
         "webpack-dev-server": "^2.11.3",
         "webpack-merge": "^3.0.0"
