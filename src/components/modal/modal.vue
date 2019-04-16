@@ -3,9 +3,9 @@
         <transition :name="transitionNames[1]">
             <div :class="maskClasses" :style="wrapStyles" v-show="visible" v-if="showMask" @click="handleMask"></div>
         </transition>
-        <div :class="wrapClasses" :style="wrapStyles" @click="handleWrapClick">
+        <div :class="wrapClasses" :style="wrapStyles" ref="wrap" @click="handleWrapClick">
             <transition :name="transitionNames[0]" @after-leave="animationFinish">
-                <div :class="classes" :style="mainStyles" v-show="visible">
+                <div :class="classes" :style="mainStyles" v-show="visible" @mousedown="handleMousedownModal">
                     <div :class="contentClasses" ref="content" :style="contentStyles" @click="handleClickModal">
                         <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
                             <slot name="close">
@@ -131,6 +131,7 @@
                 wrapShow: false,
                 showHead: true,
                 buttonLoading: false,
+                ignoreWrapClick: false,
                 visible: this.value,
                 dragData: {
                     x: null,
@@ -242,10 +243,25 @@
                     this.close();
                 }
             },
+            handleMousedownModal () {
+                let onceHandler;
+                const $wrap = this.$refs.wrap;
+                on(window, 'mouseup', onceHandler = (e) => {
+                    off(window, 'mouseup', onceHandler);
+                    if (e.target === $wrap && this.maskClosable) {
+                        this.ignoreWrapClick = true;
+                        setTimeout(() => this.ignoreWrapClick = false, 100);
+                    }
+                });
+            },
             handleWrapClick (event) {
                 // use indexOf,do not use === ,because ivu-modal-wrap can have other custom className
                 const className = event.target.getAttribute('class');
-                if (className && className.indexOf(`${prefixCls}-wrap`) > -1) this.handleMask();
+                if (className && className.indexOf(`${prefixCls}-wrap`) > -1) {
+                    if (!this.ignoreWrapClick) {
+                        this.handleMask();
+                    }
+                }
             },
             cancel () {
                 this.close();
