@@ -644,8 +644,8 @@
                 this.showClose = false;
             },
             handleIconClick (e) {
+                if (e) e.stopPropagation();
                 if (this.showClose) {
-                    if (e) e.stopPropagation();
                     this.handleClear();
                 } else if (!this.disabled) {
                     this.handleFocus();
