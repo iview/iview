@@ -187,6 +187,8 @@
             precisionValue () {
                 // can not display 1.0
                 if(!this.currentValue) return this.currentValue;
+                if ((this.precision && this.currentValue.toFixed(this.precision) > this.max) || this.currentValue > this.max) return this.max;
+                if ((this.precision && this.currentValue.toFixed(this.precision) < this.min) || this.currentValue < this.min) return this.min;
                 return this.precision ? this.currentValue.toFixed(this.precision) : this.currentValue;
             },
             formatterValue () {
