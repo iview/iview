@@ -98,7 +98,7 @@
                 return [
                     `${prefixCls}`,
                     {
-                        [`${prefixCls}-checked`]: this.currentValue,
+                        [`${prefixCls}-checked`]: this.currentValue && !this.disabled,
                         [`${prefixCls}-disabled`]: this.disabled,
                         [`${prefixCls}-indeterminate`]: this.indeterminate
                     }
