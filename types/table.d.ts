@@ -432,7 +432,7 @@ export declare interface TableExportCsvParams {
     /**
      * 添加此函数后，不会下载，而是返回数据
      */
-    callback?: () => void;
+    callback?: (data?: any) => void;
     /**
      * 数据分隔符，默认是逗号(,)
      * @default ,
