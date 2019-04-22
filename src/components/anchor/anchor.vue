@@ -90,8 +90,15 @@ export default {
             if (!sharpLinkMatch) return;
             this.currentLink = sharpLinkMatch[0];
             this.currentId = sharpLinkMatch[1];
+
+
+            this.$nextTick(() => {
+                this.handleScrollTo();
+            });
         },
         handleScrollTo () {
+            if (!this.scrollContainer) return;
+            
             const anchor = document.getElementById(this.currentId);
             const currentLinkElementA = document.querySelector(`a[data-href="${this.currentLink}"]`);
             let offset = this.scrollOffset;
@@ -177,9 +184,6 @@ export default {
     watch: {
         '$route' () {
             this.handleHashChange();
-            this.$nextTick(() => {
-                this.handleScrollTo();
-            });
         },
         container () {
             this.init();

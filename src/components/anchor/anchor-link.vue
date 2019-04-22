@@ -39,8 +39,6 @@ export default {
     methods: {
         goAnchor () {
             this.currentLink = this.href;
-            this.anchorCom.handleHashChange();
-            this.anchorCom.handleScrollTo();
             this.anchorCom.$emit('on-select', this.href);
             const isRoute = this.$router;
             if (isRoute) {
