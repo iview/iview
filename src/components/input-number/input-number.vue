@@ -275,11 +275,14 @@
                 this.focused = true;
                 this.$emit('on-focus', event);
             },
-            blur () {
+            blur (e) {
                 this.focused = false;
                 this.$emit('on-blur');
                 if (!findComponentUpward(this, ['DatePicker', 'TimePicker', 'Cascader', 'Search'])) {
                     this.dispatch('FormItem', 'on-form-blur', this.currentValue);
+                }
+                if (!this.activeChange) {
+                    this.change(e);
                 }
             },
             keyDown (e) {
