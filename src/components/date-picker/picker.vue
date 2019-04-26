@@ -68,6 +68,7 @@
                         @on-pick-success="onPickSuccess"
                         @on-pick-click="disableClickOutSide = true"
                         @on-selection-mode-change="onSelectionModeChange"
+                        @on-range-change="onRangeChange"
                     ></component>
                 </div>
             </Drop>
@@ -750,6 +751,9 @@
                 this.$emit('on-ok');
                 this.focus();
                 this.reset();
+            },
+            onRangeChange(data) {
+                this.$emit('on-calendar-change', data.map(item=>this.formatDate(item)));
             },
             focus() {
                 this.$refs.input && this.$refs.input.focus();

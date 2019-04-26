@@ -250,6 +250,10 @@
             },
             focusedDate(date){
                 this.setPanelDates(date || new Date());
+            },
+            rangeState() {
+                const data = [this.rangeState.from, this.rangeState.to].sort(dateSorter);
+                this.$emit('on-range-change', data);
             }
         },
         methods: {
