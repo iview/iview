@@ -282,7 +282,7 @@
                     this.dispatch('FormItem', 'on-form-blur', this.currentValue);
                 }
                 if (!this.activeChange) {
-                    this.change(e)
+                    this.change(e);
                 }
             },
             keyDown (e) {
