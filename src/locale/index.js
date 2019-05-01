@@ -8,8 +8,8 @@ let lang = defaultLang;
 let merged = false;
 let i18nHandler = function() {
     const vuei18n = Object.getPrototypeOf(this || Vue).$t;
-    if (typeof vuei18n === 'function' && !!Vue.locale) {
-        if (!merged) {
+    if (typeof vuei18n === 'function') {
+        if (!!Vue.locale && !merged) {
             merged = true;
             Vue.locale(
                 Vue.config.lang,
