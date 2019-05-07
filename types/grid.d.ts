@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode } from 'vue';
 
-export declare interface Row extends Vue {
+export declare class Row extends Vue {
   /**
    * 栅格间距，单位 px，左右平分
    * @default 0
@@ -28,7 +28,7 @@ export declare interface Row extends Vue {
   'class-name'?: string;
 }
 
-export declare interface Col extends Vue {
+export declare class Col extends Vue {
   /**
    * 栅格的占位格数，可选值为0~24的整数，为 0 时，相当于display:none
    */

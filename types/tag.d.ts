@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode } from 'vue';
 
-export declare interface Tag extends Vue {
+export declare class Tag extends Vue {
   /**
    * 标签是否可以关闭
    * @default false

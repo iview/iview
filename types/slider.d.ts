@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode } from 'vue';
 
-export declare interface Slider extends Vue {
+export declare class Slider extends Vue {
   /**
    * 滑块选定的值，可以使用 v-model 双向绑定数据。普通模式下，数据格式为数字，
    * 在双滑块模式下，数据格式为长度是2的数组，且每项都为数字,

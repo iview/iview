@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode } from 'vue';
 
-export declare interface Upload extends Vue {
+export declare class Upload extends Vue {
   /**
    * 上传的地址，必填
    */
