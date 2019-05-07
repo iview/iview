@@ -41,6 +41,10 @@ export declare interface Table extends Vue {
      */
     height?: number | string;
     /**
+     * 表格最大高度，单位 px，设置后，如果表格内容大于此值，会固定表头
+     */
+    'max-height'?: number | string;
+    /**
      * 表格是否加载中
      * @default false
      */
@@ -85,6 +89,11 @@ export declare interface Table extends Vue {
      * @default dark
      */
     "tooltip-theme"?: string;
+    /**
+     * 是否强制使用内置的 row-key，开启后可能会影响性能
+     * @default false
+     */
+    "row-key"?: boolean;
     /**
      * 开启 highlight-row 后有效，当表格的当前行发生变化的时候会触发
      * currentRow：当前高亮行的数据
@@ -423,7 +432,7 @@ export declare interface TableExportCsvParams {
     /**
      * 添加此函数后，不会下载，而是返回数据
      */
-    callback?: () => void;
+    callback?: (data?: any) => void;
     /**
      * 数据分隔符，默认是逗号(,)
      * @default ,

@@ -168,7 +168,9 @@ export default {
                 this.handleScrollTo();
                 this.handleSetInkTop();
                 this.updateTitleOffset();
-                this.upperFirstTitle = this.scrollElement.scrollTop < this.titlesOffsetArr[0].offset;
+                if (this.titlesOffsetArr[0]) {
+                    this.upperFirstTitle = this.scrollElement.scrollTop < this.titlesOffsetArr[0].offset;
+                }
                 on(this.scrollContainer, 'scroll', this.handleScroll);
                 on(window, 'hashchange', this.handleHashChange);
             });

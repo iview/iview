@@ -33,6 +33,11 @@ export declare interface Dropdown extends Vue {
    */
   'transfer-class-name'?: string;
   /**
+   * 是否开启 stop-propagation
+   * @default false
+   */
+  'stop-propagation'?: boolean;
+  /**
    * 点击菜单项时触发
    * 
    */
