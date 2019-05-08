@@ -56,7 +56,7 @@
                 this.$emit('on-file-click', file);
             },
             handlePreview (file) {
-                this.$emit('on-file-preview', file);
+                this.$emit('on-file-preview', file,this.format(file));
             },
             handleRemove (file) {
                 this.$emit('on-file-remove', file);

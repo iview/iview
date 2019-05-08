@@ -7,8 +7,8 @@
     >
         <input type="hidden" :name="name" :value="currentValue">
         <span :class="innerClasses">
-            <slot name="open" v-if="currentValue === trueValue"></slot>
-            <slot name="close" v-if="currentValue === falseValue"></slot>
+            <slot name="open" v-if="currentValue == trueValue"></slot>
+            <slot name="close" v-if="currentValue == falseValue"></slot>
         </span>
     </span>
 </template>
@@ -52,6 +52,10 @@
             loading: {
                 type: Boolean,
                 default: false
+            },
+	    beforeChange: {
+                type: Function,
+                default: null
             }
         },
         data () {
@@ -81,13 +85,18 @@
                 if (this.disabled || this.loading) {
                     return false;
                 }
-
-                const checked = this.currentValue === this.trueValue ? this.falseValue : this.trueValue;
-
-                this.currentValue = checked;
-                this.$emit('input', checked);
-                this.$emit('on-change', checked);
-                this.dispatch('FormItem', 'on-form-change', checked);
+                Promise.resolve(this.beforeChange ? this.beforeChange(this.currentValue) : true)
+                    .then((result) => {
+                        if (result) {
+                            const checked = !this.currentValue;
+                            this.currentValue = checked;
+                            this.$emit('input', checked);
+                            this.$emit('on-change', checked);
+                            this.dispatch('FormItem', 'on-form-change', checked);
+                        } else {
+                            return false;
+                        }
+                    });
             }
         },
         watch: {

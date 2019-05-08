@@ -178,7 +178,7 @@
             },
             clearable: {
                 type: Boolean,
-                default: false
+                default: true
             },
             placeholder: {
                 type: String

@@ -1,4 +1,8 @@
 <template>
+    <div :class="wrapClassess" style="display:inline-flex">
+        <div v-if="pread" class="pread-text">
+            <slot name="pread"></slot>
+        </div>
     <div :class="wrapClasses">
         <div :class="handlerClasses">
             <a
@@ -30,6 +34,10 @@
                 :name="name"
                 :value="formatterValue"
                 :placeholder="placeholder">
+        </div>
+    </div>
+        <div v-if="append" class="gray-bg-btn">
+            <slot name="append"></slot>
         </div>
     </div>
 </template>
@@ -130,17 +138,25 @@
             placeholder: {
                 type: String,
                 default: ''
-            },
+            }
         },
         data () {
             return {
+                pread: false,
+                append: false,
                 focused: false,
                 upDisabled: false,
                 downDisabled: false,
-                currentValue: this.value
+                currentValue: this.value,
+                isAddPrecision: true
             };
         },
         computed: {
+            wrapClassess(){
+                let str = '';
+                if(this.append || this.pread) str = 'input-number-wrappera';
+                return str
+            },
             wrapClasses () {
                 return [
                     `${prefixCls}`,
@@ -187,7 +203,7 @@
             precisionValue () {
                 // can not display 1.0
                 if(!this.currentValue) return this.currentValue;
-                return this.precision ? this.currentValue.toFixed(this.precision) : this.currentValue;
+                return this.precision && this.isAddPrecision? this.currentValue.toFixed(this.precision) : this.currentValue;
             },
             formatterValue () {
                 if (this.formatter && this.precisionValue !== null) {
@@ -277,12 +293,14 @@
             },
             blur () {
                 this.focused = false;
+                this.isAddPrecision= true;
                 this.$emit('on-blur');
                 if (!findComponentUpward(this, ['DatePicker', 'TimePicker', 'Cascader', 'Search'])) {
                     this.dispatch('FormItem', 'on-form-blur', this.currentValue);
                 }
             },
             keyDown (e) {
+                this.isAddPrecision= false;
                 if (e.keyCode === 38) {
                     e.preventDefault();
                     this.up(e);
@@ -295,17 +313,17 @@
                 if (event.type == 'change' && this.activeChange) return;
 
                 if (event.type == 'input' && !this.activeChange) return;
-                let val = event.target.value.trim();
+                let val = event.target.value.trim() || this.min;
                 if (this.parser) {
                     val = this.parser(val);
                 }
 
                 const isEmptyString = val.length === 0;
                 if(isEmptyString){
-                    this.setValue(null);
+                    this.setValue(this.min || 0);
                     return;
                 }
-                if (event.type == 'input' && val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
+                if (event.type == 'input' && val.toString().match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
 
                 val = Number(val);
 
@@ -331,6 +349,8 @@
         },
         mounted () {
             this.changeVal(this.currentValue);
+            if(this.$slots.append) this.append = true;
+            if(this.$slots.pread) this.pread = true;
         },
         watch: {
             value (val) {
@@ -348,3 +368,24 @@
         }
     };
 </script>
+<style lang="less">
+    .input-number-wrappera {
+        display: inline-flex;
+        &>.ivu-input-number{
+            flex:1;
+        }
+        .gray-bg-btn{
+            padding: 9px 12px;
+            font-size: inherit;
+            font-weight: normal;
+            line-height: 1;
+            color: #515a6e;
+            text-align: center;
+            background-color: #f8f8f9;
+            border: 1px solid #dcdee2;
+            border-radius: 4px;
+            margin-left: -4px;
+        }
+        .pread-text { line-height: 32px;padding-right: 5px; }
+    }
+</style>
