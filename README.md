@@ -110,9 +110,11 @@ import 'piview/dist/styles/iview.css';
 - Input textarea add props:isCharNum  Input clearable changed true
 - Select clearable changed true
 - Switch add props beforeChange,去掉 true-value false-value 类型强校验
-- Tree add methods getIndeterminateNodes,getAllNodes 
+- Tree add methods getIndeterminateNodes,getAllNodes,add props clicks & @click 
 - InputNumber add slot append,pread
 - Radio add props beforeChange
+- uploader add formates and onPreview add types
+- uploader list add listItemDel props
 
 ## Community
 

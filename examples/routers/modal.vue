@@ -145,6 +145,14 @@
             handleSpinShow () {
                 this.$Spin.show();
             },
+        } ,
+        mounted(){
+            this.$Modal.confirm({
+                title: 'Title',
+                content: '<p>Content of dialog</p><p>Content of dialog</p>',
+                okText: 'OK',
+                cancelText: 'Cancel'
+            });
         }
     }
 </script>
