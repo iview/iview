@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue from 'vue';
 
-export declare interface Anchor extends Vue {
+export declare class Anchor extends Vue {
   /**
    * 固定模式
    * @default true
@@ -48,7 +48,7 @@ export declare interface Anchor extends Vue {
   $emit(eventName: 'on-change', []): this;
 }
 
-export declare interface AnchorLink extends Vue {
+export declare class AnchorLink extends Vue {
   /**
    * 锚点链接
    * @default 

@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue from 'vue';
 
-export declare interface Cascader extends Vue {
+export declare class Cascader extends Vue {
   /**
    * 可选项的数据源，格式参照示例说明
    * @default []

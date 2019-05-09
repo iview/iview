@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode } from 'vue';
 
-export declare interface Menu extends Vue {
+export declare class Menu extends Vue {
   /**
    * 菜单类型，可选值为 horizontal（水平） 和 vertical（垂直）
    * @default vertical
@@ -52,7 +52,7 @@ export declare interface Menu extends Vue {
   updateActiveName(): void;
 }
 
-export declare interface MenuItem extends Vue {
+export declare class MenuItem extends Vue {
   /**
    * 菜单项的唯一标识，必填
    */
@@ -78,7 +78,7 @@ export declare interface MenuItem extends Vue {
   append?: boolean;
 }
 
-export declare interface MenuSub extends Vue {
+export declare class MenuSub extends Vue {
   /**
    * 子菜单的唯一标识，必填
    */
@@ -98,7 +98,7 @@ export declare interface MenuSub extends Vue {
   };
 }
 
-export declare interface MenuGroup extends Vue {
+export declare class MenuGroup extends Vue {
   /**
    * 分组标题
    * @default 空

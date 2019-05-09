@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode } from 'vue';
 
-export declare interface Cell extends Vue {
+export declare class Cell extends Vue {
   /**
    * 用来标识这一项
    */
@@ -77,7 +77,7 @@ export declare interface Cell extends Vue {
   }
 }
 
-export declare interface CellGroup extends Vue {
+export declare class CellGroup extends Vue {
   /**
    * 点击单元格时触发
    * 

@@ -4,5 +4,5 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode } from 'vue';
 
-export declare interface Sider extends Vue {
+export declare class Sider extends Vue {
 }

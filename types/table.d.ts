@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode, CreateElement } from "vue";
 
-export declare interface Table extends Vue {
+export declare class Table extends Vue {
     /**
      * 显示的结构化数据，其中，字段 cellClassName 用于设置任意单元格的样式名称，
      * 因此数据不能使用该字段，详见示例特定样式。
@@ -210,7 +210,7 @@ export declare interface Table extends Vue {
     };
 }
 
-export declare interface TableColumn {
+export declare class TableColumn {
     /**
      * 列类型，可选值为 index、selection、expand、html
      */
@@ -332,7 +332,7 @@ export declare interface TableColumn {
     children?: object[];
 }
 
-export declare interface TableRenderCreateElementData {
+export declare class TableRenderCreateElementData {
     /**
      * 和`v-bind:class`一样的 API
      */
@@ -382,7 +382,7 @@ export declare interface TableRenderCreateElementData {
     ref?: string;
 }
 
-export declare interface TableColumnRenderParams {
+export declare class TableColumnRenderParams {
     /**
      * 当前行数据
      */
@@ -397,7 +397,7 @@ export declare interface TableColumnRenderParams {
     index?: number;
 }
 
-export declare interface TableColumnRenderHeadParams {
+export declare class TableColumnRenderHeadParams {
     /**
      * 当前列数据
      */
@@ -408,7 +408,7 @@ export declare interface TableColumnRenderHeadParams {
     index?: number;
 }
 
-export declare interface TableExportCsvParams {
+export declare class TableExportCsvParams {
     /**
      * 文件名，默认为 table.csv
      */
@@ -432,7 +432,7 @@ export declare interface TableExportCsvParams {
     /**
      * 添加此函数后，不会下载，而是返回数据
      */
-    callback?: (data?: any) => void;
+    callback?: (data?: string) => void;
     /**
      * 数据分隔符，默认是逗号(,)
      * @default ,

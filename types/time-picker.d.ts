@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode } from 'vue';
 
-export declare interface TimePicker extends Vue {
+export declare class TimePicker extends Vue {
   /**
    * 显示类型，可选值为 time、timerange
    * @default time
