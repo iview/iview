@@ -123,7 +123,7 @@
             }
 
             if (this.group) {
-                this.parent.updateModel(true);
+                this.parent.updateModel && this.parent.updateModel(true);
             } else {
                 this.updateModel();
                 this.showSlot = this.$slots.default !== undefined;

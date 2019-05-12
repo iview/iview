@@ -74,7 +74,7 @@
         methods: {
             updateGutter () {
                 const Row = findComponentUpward(this, 'Row');
-                if (Row) {
+                if (Row && Row.updateGutter) {
                     Row.updateGutter(Row.gutter);
                 }
             }
