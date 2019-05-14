@@ -84,7 +84,7 @@
         },
         methods: {
             clicka(e){
-                debugger
+
             },
             handleClose () {
                 this.show = false;

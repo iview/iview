@@ -115,6 +115,8 @@ import 'piview/dist/styles/iview.css';
 - Radio add props beforeChange
 - uploader add formates and onPreview add types
 - uploader list add listItemDel props
+- Modal change style center
+- badge add props color
 
 ## Community
 

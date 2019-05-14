@@ -4,7 +4,8 @@
         <sup :class="dotClasses" :style="styles" v-show="badge"></sup>
     </span>
     <span v-else-if="status" :class="classes" class="ivu-badge-status" ref="badge">
-        <span :class="statusClasses"></span>
+        <span :class="statusClasses" v-if="color"  :style="'background-color: '+color"></span>
+         <span :class="statusClasses" v-else></span>
         <span class="ivu-badge-status-text">{{ text }}</span>
     </span>
     <span v-else :class="classes" ref="badge">
@@ -23,6 +24,10 @@
             dot: {
                 type: Boolean,
                 default: false
+            },
+            color:{
+                type: String,
+                default: ''
             },
             overflowCount: {
                 type: [Number, String],
