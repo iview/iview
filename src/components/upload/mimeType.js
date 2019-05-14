@@ -30,7 +30,7 @@ export default function getMimeTypes(type) {
 #image/*&image/*
 #audio/*&audio/*	
 `;
-  let  mimeTypesAry =  mimeTypes.split('#');
+   let  mimeTypesAry =  mimeTypes.split('#');
     let ary = mimeTypesAry.filter( item => type.some( items => item.includes(items+"&") ) ) ;
     //s.replace(/[\'\"\\\/\b\f\n\r\t]/g, '');
     let aryAccept = [];

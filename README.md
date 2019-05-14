@@ -117,6 +117,7 @@ import 'piview/dist/styles/iview.css';
 - uploader list add listItemDel props
 - Modal change style center
 - badge add props color
+- datapicker add on-clear methods
 
 ## Community
 
