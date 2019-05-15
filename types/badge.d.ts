@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue from 'vue';
 
-export declare interface Badge extends Vue {
+export declare class Badge extends Vue {
   /**
    * 显示的数字，大于overflowCount时，显示${overflowCount}+，为 0 时隐藏
    */

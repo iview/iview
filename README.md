@@ -40,6 +40,14 @@ iView
             </a>
           </td>
         </tr>
+        <tr>
+            </td>
+            <td align="center" valign="middle">
+            <a href="https://file.iviewui.com/asd/asd-uniapp.png" target="_blank">
+              <img width="300" src="https://file.iviewui.com/asd/asd-uniapp.png">
+            </a>
+          </td>
+        </tr>
       </tbody>
 </table>
 

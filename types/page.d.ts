@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode } from 'vue';
 
-export declare interface Page extends Vue {
+export declare class Page extends Vue {
   /**
    * 当前页码，支持 .sync 修饰符
    * @default 1

@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode } from 'vue';
 
-export declare interface Switch extends Vue {
+export declare class Switch extends Vue {
   /**
    * 指定当前是否选中，可以使用 v-model 双向绑定数据
    * @default false

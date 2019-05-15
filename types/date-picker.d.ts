@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode } from 'vue';
 
-export declare interface DatePicker extends Vue {
+export declare class DatePicker extends Vue {
   /**
    * 显示类型，可选值为 date、daterange、datetime、datetimerange、year、month'|'默认值date
    */
@@ -146,7 +146,7 @@ export declare interface DatePicker extends Vue {
   };
 }
 
-export declare interface DatePickerOptions {
+export declare class DatePickerOptions {
   /**
    * 设置快捷选项，每项内容：
    * text：显示的文案

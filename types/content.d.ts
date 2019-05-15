@@ -4,5 +4,5 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue from 'vue';
 
-export declare interface Content extends Vue {
+export declare class Content extends Vue {
 }
