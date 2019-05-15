@@ -10,7 +10,7 @@
         name: 'iForm',
         props: {
             model: {
-                type: Object
+                type: [ Object, Array ]
             },
             rules: {
                 type: Object
