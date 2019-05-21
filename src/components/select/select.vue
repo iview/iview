@@ -494,15 +494,14 @@
                 const label = propsData.label || '';
                 const textContent = (elm && elm.textContent) || (children || []).reduce((str, node) => {
                     const nodeText = node.elm ? node.elm.textContent : node.text;
-                    return `${str} ${nodeText}`;
+                    return str === '' ? nodeText : `${str} ${nodeText}`;
                 }, '') || '';
 
                 if (this.filterMethod) {
                     return this.filterMethod(this.query, { value, label, textContent });
                 } else {
-                    const stringValues = JSON.stringify([value, label, textContent]);
                     const query = this.query.toLowerCase().trim();
-                    return stringValues.toLowerCase().includes(query);
+                    return [value, label, textContent].some((item) => item.toString().toLowerCase().includes(query));
                 }
             },
 
