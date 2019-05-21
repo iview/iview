@@ -125,7 +125,7 @@
             isSelectDisabled () {
                 let isSelectDisabled = false;
                 if (!this.data.length) isSelectDisabled = true;
-                if(!this.data.find(item => !item._disabled)) isSelectDisabled = true;
+                if (!this.data.find(item => !item._disabled)) isSelectDisabled = true;
                 return isSelectDisabled;
             }
         },
