@@ -496,9 +496,14 @@
                     const nodeText = node.elm ? node.elm.textContent : node.text;
                     return `${str} ${nodeText}`;
                 }, '') || '';
-                const stringValues = JSON.stringify([value, label, textContent]);
-                const query = this.query.toLowerCase().trim();
-                return stringValues.toLowerCase().includes(query);
+
+                if (this.filterMethod) {
+                    return this.filterMethod(this.query, { value, label, textContent });
+                } else {
+                    const stringValues = JSON.stringify([value, label, textContent]);
+                    const query = this.query.toLowerCase().trim();
+                    return stringValues.toLowerCase().includes(query);
+                }
             },
 
             toggleMenu (e, force) {
