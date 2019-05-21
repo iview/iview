@@ -14,12 +14,13 @@
                     @mouseleave.native.stop="handleMouseOut(row._index)"
                     @click.native="clickCurrentRow(row._index)"
                     @dblclick.native.stop="dblclickCurrentRow(row._index)">
-                    <td v-for="column in columns" :class="alignCls(column, row)">
+                    <td v-for="(column, colIndex) in columns"
+                        :key="columnKey ? column._columnKey : colIndex"
+                        :class="alignCls(column, row)">
                         <table-cell
                             :fixed="fixed"
                             :prefix-cls="prefixCls"
                             :row="row"
-                            :key="column._columnKey"
                             :column="column"
                             :natural-index="index"
                             :index="row._index"
@@ -65,6 +66,10 @@
                 default: false
             },
             rowKey: {
+                type: Boolean,
+                default: false
+            },
+            columnKey: {
                 type: Boolean,
                 default: false
             }
