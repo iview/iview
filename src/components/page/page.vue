@@ -157,7 +157,7 @@
             total (val) {
                 let maxPage = Math.ceil(val / this.currentPageSize);
                 if (maxPage < this.currentPage ) {
-                    this.currentPage = (maxPage === 0 ? 1 : maxPage);
+                    this.changePage(maxPage === 0 ? 1 : maxPage);
                 }
             },
             current (val) {
