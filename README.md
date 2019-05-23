@@ -43,7 +43,7 @@ iView
         <tr>
             </td>
             <td align="center" valign="middle">
-            <a href="https://file.iviewui.com/asd/asd-uniapp.png" target="_blank">
+            <a href="https://uniapp.dcloud.io/?hmsr=iview&hmpl=&hmcu=&hmkw=&hmci=" target="_blank">
               <img width="300" src="https://file.iviewui.com/asd/asd-uniapp2.png">
             </a>
           </td>
