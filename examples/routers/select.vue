@@ -13,7 +13,16 @@
         </Select>
 
         <br><br>
-
+        <Select
+                v-model="model10"
+                filterable :max-tag-count="2"
+                style="width:400px"
+                prefix="ios-albums"
+                remote
+                :remote-method="remoteMethod"
+                :noFilter="true">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
         <Select v-model="model1" style="width:200px">
             <Icon type="ios-alarm" slot="prefix" color="red" />
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
@@ -50,6 +59,9 @@
     </div>
 </template>
 <script>
+    import axios from 'axios'
+    axios.defaults.baseURL = process.env.NODE_ENV === 'production' ? '//www.norchant.com/' : '/API/';
+
     export default {
         data () {
             return {
@@ -86,6 +98,32 @@
         methods: {
             more (num) {
                 return 'more' + num;
+            },
+            async remoteMethod(query) {
+                let that = this;
+                if (query !== '') {
+                    var next = function next() {
+                        that.cityList = srcMedOpts;
+                    };
+
+                    let srcMedOpts = [];
+                    try {
+                        const resData = await axios.get(`/data/medicine/list/?medicine=${query}`, {
+                            timeout: 500
+                        });
+                        srcMedOpts = resData.data.info;
+                        srcMedOpts = srcMedOpts.map((item)=>{
+                            return {
+                                value: item.text,
+                                label: item.text
+                            }
+                        })
+                        next();
+                    } catch (e) {
+                        console.log(e);
+                        next();
+                    }
+                }
             }
         }
     }

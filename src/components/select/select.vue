@@ -252,6 +252,10 @@
             // 3.4.0
             maxTagPlaceholder: {
                 type: Function
+            },
+            noFilter: {
+                type: Boolean,
+                default: false
             }
         },
         mounted(){
@@ -406,7 +410,7 @@
                         if (children.length > 0) selectOptions.push({...option,componentOptions:{...cOptions,children:children}});
                     } else {
                         // ignore option if not passing filter
-                        if (this.filterQueryChange) {
+                        if (this.filterQueryChange && !this.noFilter) {
                             const optionPassesFilter = this.filterable ? this.validateOption(cOptions) : option;
                             if (!optionPassesFilter) continue;
                         }
@@ -415,7 +419,7 @@
                         selectOptions.push(this.processOption(option, selectedValues, optionCounter === currentIndex));
                     }
                 }
-
+                console.log(selectOptions);
                 return selectOptions;
             },
             flatOptions(){
