@@ -23,7 +23,7 @@ Modal.newInstance = properties => {
             loading: false,
             buttonLoading: false,
             scrollable: false,
-            closable: false
+            closable: false,
         }),
         render (h) {
             let footerVNodes = [];
@@ -174,12 +174,13 @@ Modal.newInstance = properties => {
             },
             remove () {
                 setTimeout(() => {
-                    this.destroy();
+                    !this.destroyed && this.destroy();
                 }, 300);
             },
             destroy () {
                 this.$destroy();
                 document.body.removeChild(this.$el);
+                this.destroyed = true;
                 this.onRemove();
             },
             onOk () {},

@@ -1,6 +1,7 @@
 <template>
     <div>
         <Button type="primary" @click="modal1 = true">Display dialog box</Button>
+        <Button @click="confirm">测试confirm</Button>
         <Modal
                 v-model="modal1"
                 title="Common Modal dialog box title"
@@ -45,6 +46,7 @@
         <Select v-model="model1" style="width:200px" :transfer="true">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
+        
     </div>
 </template>
 <script>
@@ -131,10 +133,10 @@
         },
         methods: {
             ok () {
-//                this.$Message.info('Clicked ok');
+               this.$Message.info('Clicked ok');
             },
             cancel () {
-//                this.$Message.info('Clicked cancel');
+               this.$Message.info('Clicked cancel');
             },
             openMessage () {
                 this.$Message.info({
@@ -145,6 +147,17 @@
             handleSpinShow () {
                 this.$Spin.show();
             },
+            confirm () {
+                this.$Modal.confirm({
+                    title: "测试关闭",
+                    onCancel: () => {
+                        console.log("cnacel");
+                    },
+                    onOk: () => {
+                        console.log("ok")
+                    }
+                })
+            }
         }
     }
 </script>
