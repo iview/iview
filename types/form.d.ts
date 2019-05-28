@@ -56,6 +56,10 @@ export declare class FormItem extends Vue {
    */
   label?: string;
   /**
+   * 是否显示冒号
+   */
+  colon?: boolean;
+  /**
    * 表单域标签的的宽度
    */
   'label-width'?: number;
