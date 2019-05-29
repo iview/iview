@@ -12,6 +12,8 @@
             <slot>
                 <div v-if="content" :class="[prefixCls + '-content']">{{ content }}</div>
             </slot>
+            <slot name="arrow"></slot>
+
         </div>
     </div>
 </template>

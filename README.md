@@ -118,6 +118,7 @@ import 'piview/dist/styles/iview.css';
 - Modal change style center
 - badge add props color
 - datapicker add on-clear methods
+- steps add slot arrow
 
 ## Community
 
