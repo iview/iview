@@ -1,0 +1,68 @@
+ [
+          {
+            title:'计量单位',
+            key:'name'
+          },
+          {
+            title: '禁启用',
+            key: 'enabled',
+            width:160,
+            render: (h, params) => h('i-switch', {
+              props: {
+                value: params.row.enabled == '0'?false:true,
+                'true-value': '1',
+                'false-value': '0' ,
+                'before-change':() => {
+                  let modaCont = '';
+                  let isFlage =  params.row.enabled == '1'?'0':'1';
+                    if (isFlage) {
+                    modaCont = '<p>请确认是否禁用</p>'
+                  } else {
+                    modaCont = '<p>请确认是否启用</p>'
+                  }
+                  this.$Modal.confirm({
+                    title: '提示',
+                    content: modaCont,
+                    onOk: () => {
+                      let that = this
+                      const obj = params.row
+                      obj.status = isFlage;
+                      create(obj)
+                        .then(res => {
+                          if (res) {
+                            that.$refs.table.done({
+                              type: 'reset'
+                            })
+                          }
+                        })
+                    },
+                  });
+                }
+              }
+            })
+          },
+          {
+            title: '创建时间',
+            key: 'createTime',
+            sortable: true,
+            width:220
+
+          },
+          {
+            title: '修改时间',
+            key: 'uptTime',
+            sortable: true,
+            width:220
+          },
+          {
+            title: '操作',
+            key: 'action',
+            width: 180,
+            render: (h, { row }) => {
+              return h(
+                'div',
+                this.$refs.table.$scopedSlots.action(row)
+              );
+            }
+          }
+        ]
