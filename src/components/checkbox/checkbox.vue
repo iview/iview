@@ -42,15 +42,15 @@
                 default: false
             },
             value: {
-                type: [String, Number, Boolean],
+                // type: [String, Number, Boolean],
                 default: false
             },
             trueValue: {
-                type: [String, Number, Boolean],
+                // type: [String, Number, Boolean],
                 default: true
             },
             falseValue: {
-                type: [String, Number, Boolean],
+                // type: [String, Number, Boolean],
                 default: false
             },
             label: {

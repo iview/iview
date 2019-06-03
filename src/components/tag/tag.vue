@@ -45,7 +45,7 @@
                 }
             },
             name: {
-                type: [String, Number]
+                // type: [String, Number]
             },
             fade: {
                 type: Boolean,
