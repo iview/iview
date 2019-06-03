@@ -664,7 +664,7 @@
                     this.filterQueryChange = false;
                 }, ANIMATION_TIMEOUT);
             },
-            onQueryChange(query) {
+            onQueryChange(query) {                
                 if (query.length > 0 && query !== this.query) {
                   // in 'AutoComplete', when set an initial value asynchronously,
                   // the 'dropdown list' should be stay hidden.
@@ -682,7 +682,9 @@
 
                 this.query = query;
                 this.unchangedQuery = this.visible;
-                this.filterQueryChange = true;
+                // 若当前下拉框已经选择了一个选项，当搜索关键字，不选择，然后点击空白处失去焦点，会出现下拉选项只有被选择的项，其他的选项都被过滤掉了
+                // 所以这儿，当失去焦点时，filterQueryChange应赋值为false，不然 计算属性selectOptions 会过滤下拉选项
+                this.filterQueryChange = this.isFocused;
             },
             toggleHeaderFocus({type}){
                 if (this.disabled) {
