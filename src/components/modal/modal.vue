@@ -320,7 +320,12 @@
                 };
 
                 this.dragData.x += diff_distance.x;
-                this.dragData.y += diff_distance.y;
+                let y = this.dragData.y + diff_distance.y;
+                
+                //检查是否移动超出顶部
+                if(y > 0){
+                    this.dragData.y = y;
+                } 
 
                 this.dragData.dragX = distance.x;
                 this.dragData.dragY = distance.y;
