@@ -4,7 +4,9 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode, CreateElement } from "vue";
 
-export declare class Notice extends Vue {
+export const Notice: NoticeInstance;
+export type Notice = NoticeInstance;
+declare class NoticeInstance extends Vue {
     /**
      * 打开
      * @param config NoticeConfig为相关配置,string为待显示的内容

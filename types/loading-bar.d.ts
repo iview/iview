@@ -5,8 +5,8 @@
 import Vue from 'vue';
 
 export const LoadingBar: LoadingBarClass;
-
-export declare class LoadingBarClass extends Vue {
+export type LoadingBar = LoadingBarClass;
+declare class LoadingBarClass extends Vue {
   /**
    * 开始从 0 显示进度条，并自动加载进度
    */
@@ -63,6 +63,6 @@ declare module 'vue/types/vue' {
     /**
      * 加载进度条
      */
-    $Loading: LoadingBarClass;
+    $Loading: LoadingBar;
   }
 }
