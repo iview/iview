@@ -128,36 +128,36 @@ export declare class Modal extends Vue {
     };
 }
 
-export declare namespace Modal {
+export declare class ModalInstance {
     /**
      * 消息
      * @param config ModalConfig为相关配置,string为待显示的内容
      */
-    function info(config?: ModalConfig | string): void;
+    info(config?: ModalConfig | string): void;
     /**
      * 成功
      * @param config ModalConfig为相关配置,string为待显示的内容
      */
-    function success(config?: ModalConfig | string): void;
+    success(config?: ModalConfig | string): void;
     /**
      * 警告
      * @param config ModalConfig为相关配置,string为待显示的内容
      */
-    function warning(config?: ModalConfig | string): void;
+    warning(config?: ModalConfig | string): void;
     /**
      * 错误
      * @param config ModalConfig为相关配置,string为待显示的内容
      */
-    function error(config?: ModalConfig | string): void;
+    error(config?: ModalConfig | string): void;
     /**
      * 对话框
      * @param config ModalConfig为相关配置,string为待显示的内容
      */
-    function confirm(config?: ModalConfig | string): void;
+    confirm(config?: ModalConfig | string): void;
     /**
      * 移除
      */
-    function remove(): void;
+    remove(): void;
 }
 
 export declare class ModalConfig {
@@ -219,6 +219,6 @@ declare module "vue/types/vue" {
         /**
          * 对话框
          */
-        $Modal: Modal;
+        $Modal: Modal & ModalInstance;
     }
 }
