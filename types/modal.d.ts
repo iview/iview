@@ -4,9 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode, CreateElement } from "vue";
 
-export const Modal: ModalInstance;
-export type Modal = ModalClass;
-declare class ModalClass extends Vue {
+export declare class Modal extends Vue {
     /**
      * 对话框是否显示，可使用 v-model 双向绑定数据。
      * @default false
@@ -130,36 +128,36 @@ declare class ModalClass extends Vue {
     };
 }
 
-declare class ModalInstance extends ModalClass {
+export declare namespace Modal {
     /**
      * 消息
      * @param config ModalConfig为相关配置,string为待显示的内容
      */
-    info(config?: ModalConfig | string): void;
+    function info(config?: ModalConfig | string): void;
     /**
      * 成功
      * @param config ModalConfig为相关配置,string为待显示的内容
      */
-    success(config?: ModalConfig | string): void;
+    function success(config?: ModalConfig | string): void;
     /**
      * 警告
      * @param config ModalConfig为相关配置,string为待显示的内容
      */
-    warning(config?: ModalConfig | string): void;
+    function warning(config?: ModalConfig | string): void;
     /**
      * 错误
      * @param config ModalConfig为相关配置,string为待显示的内容
      */
-    error(config?: ModalConfig | string): void;
+    function error(config?: ModalConfig | string): void;
     /**
      * 对话框
      * @param config ModalConfig为相关配置,string为待显示的内容
      */
-    confirm(config?: ModalConfig | string): void;
+    function confirm(config?: ModalConfig | string): void;
     /**
      * 移除
      */
-    remove(): void;
+    function remove(): void;
 }
 
 export declare class ModalConfig {
@@ -221,6 +219,6 @@ declare module "vue/types/vue" {
         /**
          * 对话框
          */
-        $Modal: ModalInstance;
+        $Modal: Modal;
     }
 }

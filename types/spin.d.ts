@@ -4,9 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode } from 'vue';
 
-export const Spin: SpinClass;
-export type Spin = SpinClass;
-declare class SpinClass extends Vue {
+export declare class Spin extends Vue {
   /**
    * Spin尺寸，可选值为large和small或者不设置
    */
@@ -26,6 +24,8 @@ declare class SpinClass extends Vue {
     '': VNode[];
   };
 }
+
+export declare namespace Spin {}
 
 declare module 'vue/types/vue' {
   interface Vue {
