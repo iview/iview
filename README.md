@@ -51,7 +51,7 @@ iView
       </tbody>
 </table>
 
-> If you'd like be a sponsor, to show your ads in GitHub and iView doc, please email admin@aresn.com to get more infomation.
+> If you'd like be a sponsor, to show your ads in GitHub and iView doc, please email admin@aresn.com to get more information.
 
 ## Docs
 
