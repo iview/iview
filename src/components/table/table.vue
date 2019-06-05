@@ -566,7 +566,7 @@
                 }
                 const status = !data._isExpanded;
                 this.objData[_index]._isExpanded = status;
-                this.$emit('on-expand', JSON.parse(JSON.stringify(this.cloneData[_index])), status);
+                this.$emit('on-expand', JSON.parse(JSON.stringify(this.cloneData[_index])), status, _index);
                 
                 if(this.height || this.maxHeight){
                     this.$nextTick(()=>this.fixedBody());
