@@ -55,6 +55,7 @@
                             placement: this.placement,
                             modifiers: {
                                 computeStyle:{
+                                    enabled: false,
                                     gpuAcceleration: false
                                 },
                                 preventOverflow :{
