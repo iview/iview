@@ -69,6 +69,7 @@ nav {
                 <li><router-link to="/cell">Cell</router-link></li>
                 <li><router-link to="/drawer">Drawer</router-link></li>
                 <li><router-link to="/icon">Icon</router-link></li>
+                <li><router-link to="/list">List</router-link></li>
             </ul>
         </nav>
         <router-view></router-view>
