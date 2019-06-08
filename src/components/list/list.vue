@@ -46,10 +46,6 @@
                 type: Boolean,
                 default: false
             },
-            page: {
-                type: [Boolean, Object],
-                default: false
-            },
             size: {
                 validator (value) {
                     return oneOf(value, ['small', 'large', 'default']);
