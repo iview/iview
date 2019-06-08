@@ -4,7 +4,7 @@
         <div class="ivu-list-container">
             <ul class="ivu-list-items"><slot></slot></ul>
         </div>
-        <Spin v-if="loading"><slot name="spin"></slot></Spin>
+        <Spin v-if="loading" fix size="large"><slot name="spin"></slot></Spin>
         <div class="ivu-list-footer" v-if="footer || $slots.footer"><slot name="footer">{{ footer }}</slot></div>
     </div>
 </template>
@@ -15,6 +15,11 @@
 
     export default {
         name: 'List',
+        provide () {
+            return {
+                ListInstance: this
+            };
+        },
         props: {
             border: {
                 type: Boolean,
