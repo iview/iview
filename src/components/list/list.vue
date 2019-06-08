@@ -16,7 +16,7 @@
     export default {
         name: 'List',
         props: {
-            bordered: {
+            border: {
                 type: Boolean,
                 default: false
             },
@@ -70,7 +70,7 @@
                     `${prefixCls}-${this.size}`,
                     `${prefixCls}-${this.itemLayout}`,
                     {
-                        [`${prefixCls}-bordered`]: this.bordered,
+                        [`${prefixCls}-bordered`]: this.border,
                         [`${prefixCls}-split`]: this.split
                     }
                 ];
