@@ -1,33 +1,33 @@
 <template>
     <div>
-<!--        <h2>small size</h2>-->
-<!--        <List header="Header" footer="Footer" size="small" :split="false">-->
-<!--            <ListItem v-for="item in data1" :key="item">-->
-<!--                {{ item }}-->
-<!--            </ListItem>-->
-<!--        </List>-->
-<!--        <h2>default size</h2>-->
-<!--        <List header="Header" footer="Footer">-->
-<!--            <ListItem v-for="item in data1" :key="item">-->
-<!--                {{ item }}-->
-<!--            </ListItem>-->
-<!--        </List>-->
-<!--        <h2>large size</h2>-->
-<!--        <List header="Header" footer="Footer" border size="large">-->
-<!--            <ListItem v-for="item in data1" :key="item">-->
-<!--                {{ item }}-->
-<!--            </ListItem>-->
-<!--        </List>-->
+        <h2>small size</h2>
+        <List header="Header" footer="Footer" size="small" :split="false">
+            <ListItem v-for="item in data1" :key="item">
+                {{ item }}
+            </ListItem>
+        </List>
+        <h2>default size</h2>
+        <List header="Header" footer="Footer">
+            <ListItem v-for="item in data1" :key="item">
+                {{ item }}
+            </ListItem>
+        </List>
+        <h2>large size</h2>
+        <List header="Header" footer="Footer" border size="large">
+            <ListItem v-for="item in data1" :key="item">
+                {{ item }}
+            </ListItem>
+        </List>
 
-<!--        <Divider>没有 </Divider>-->
+        <Divider>没有 </Divider>
 
-<!--        <List>-->
-<!--            <ListItem v-for="item in data2" :key="item.title">-->
-<!--                <ListItemMeta :avatar="item.avatar" :title="item.title" :description="item.description">-->
-<!--                </ListItemMeta>-->
-<!--                一段内容-->
-<!--            </ListItem>-->
-<!--        </List>-->
+        <List>
+            <ListItem v-for="item in data2" :key="item.title">
+                <ListItemMeta :avatar="item.avatar" :title="item.title" :description="item.description">
+                </ListItemMeta>
+                一段内容
+            </ListItem>
+        </List>
 
         <Divider>带有 Action</Divider>
 
@@ -50,26 +50,29 @@
             </ListItem>
         </List>
 
-<!--        <Divider>带图片</Divider>-->
-<!--        <List item-layout="vertical">-->
-<!--            <ListItem v-for="item in data2" :key="item.title">-->
-<!--                <ListItemMeta :avatar="item.avatar" :title="item.title" :description="item.description">-->
+        <Divider>带图片</Divider>
+        <List item-layout="vertical">
+            <ListItem v-for="item in data2" :key="item.title">
+                <ListItemMeta :avatar="item.avatar" :title="item.title" :description="item.description">
 
-<!--                </ListItemMeta>-->
-<!--                We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.-->
-<!--&lt;!&ndash;                <template slot="action">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <li>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <Icon type="ios-star-outline" /> 156&ndash;&gt;-->
-<!--&lt;!&ndash;                    </li>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <li>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <Icon type="ios-thumbs-up-outline" /> 156&ndash;&gt;-->
-<!--&lt;!&ndash;                    </li>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <li>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <Icon type="ios-chatbubbles-outline" /> 10&ndash;&gt;-->
-<!--&lt;!&ndash;                    </li>&ndash;&gt;-->
-<!--&lt;!&ndash;                </template>&ndash;&gt;-->
-<!--            </ListItem>-->
-<!--        </List>-->
+                </ListItemMeta>
+                We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.
+                <template slot="action">
+                    <li>
+                        <Icon type="ios-star-outline" /> 156
+                    </li>
+                    <li>
+                        <Icon type="ios-thumbs-up-outline" /> 156
+                    </li>
+                    <li>
+                        <Icon type="ios-chatbubbles-outline" /> 10
+                    </li>
+                </template>
+                <template slot="extra">
+                    <img src="https://dev-file.iviewui.com/5wxHCQMUyrauMCGSVEYVxHR5JmvS7DpH/large" style="width: 280px">
+                </template>
+            </ListItem>
+        </List>
 
     </div>
 </template>
