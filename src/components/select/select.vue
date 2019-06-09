@@ -419,7 +419,6 @@
                         selectOptions.push(this.processOption(option, selectedValues, optionCounter === currentIndex));
                     }
                 }
-                console.log(selectOptions);
                 return selectOptions;
             },
             flatOptions(){
