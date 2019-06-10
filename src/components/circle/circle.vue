@@ -60,14 +60,14 @@
             renderStrokeColor(){
                 if(this.strokeColor instanceof Array){
                     if(this.strokeColor.length&&this.strokeColor.length>1){
-                        return {stroke:`url(#gradient_model_${this._uid})`,transformBegin:`stop-color:${this.strokeColor[0]}`,transformFinish:`stop-color:${this.strokeColor[1]}`,gradientMode:true}
+                        return {stroke:`url(#gradient_model_${this._uid})`,transformBegin:`stop-color:${this.strokeColor[0]}`,transformFinish:`stop-color:${this.strokeColor[1]}`,gradientMode:true};
                     }else if(this.strokeColor.length){
-                        return {stroke:this.strokeColor[0]}
+                        return {stroke:this.strokeColor[0]};
                     }else {
-                        return {stroke:'#2d8cf0'}
+                        return {stroke:'#2d8cf0'};
                     }
                 }else {
-                    return {stroke:this.strokeColor}
+                    return {stroke:this.strokeColor};
                 }
             },
             circleSize () {
