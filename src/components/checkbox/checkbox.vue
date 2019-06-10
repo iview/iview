@@ -6,7 +6,7 @@
                 v-if="group"
                 type="checkbox"
                 :class="inputClasses"
-                :disabled="disabled"
+                :disabled="isDisabled"
                 :value="label"
                 v-model="model"
                 :name="name"
@@ -17,7 +17,7 @@
                 v-else
                 type="checkbox"
                 :class="inputClasses"
-                :disabled="disabled"
+                :disabled="isDisabled"
                 :checked="currentValue"
                 :name="name"
                 @change="change"
@@ -36,6 +36,11 @@
     export default {
         name: 'Checkbox',
         mixins: [ Emitter ],
+        inject: {
+            form: {
+                default: ''
+            }
+        },
         props: {
             disabled: {
                 type: Boolean,
@@ -89,7 +94,7 @@
                     {
                         [`${prefixCls}-group-item`]: this.group,
                         [`${prefixCls}-wrapper-checked`]: this.currentValue,
-                        [`${prefixCls}-wrapper-disabled`]: this.disabled,
+                        [`${prefixCls}-wrapper-disabled`]: this.isDisabled,
                         [`${prefixCls}-${this.size}`]: !!this.size
                     }
                 ];
@@ -99,7 +104,7 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-checked`]: this.currentValue,
-                        [`${prefixCls}-disabled`]: this.disabled,
+                        [`${prefixCls}-disabled`]: this.isDisabled,
                         [`${prefixCls}-indeterminate`]: this.indeterminate
                     }
                 ];
@@ -114,6 +119,11 @@
             },
             inputClasses () {
                 return `${prefixCls}-input`;
+            },
+            isDisabled (){
+                return this.parent
+                ? this.parent.disabled || this.disabled || (this.form).disabled
+                : this.disabled || (this.form).disabled;
             }
         },
         mounted () {

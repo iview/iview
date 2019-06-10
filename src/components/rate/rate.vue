@@ -37,6 +37,11 @@
     export default {
         name: 'Rate',
         mixins: [ Locale, Emitter ],
+        inject: {
+            form: {
+                default: ''
+            }
+        },
         components: { Icon },
         props: {
             count: {
@@ -93,7 +98,7 @@
                 return [
                     `${prefixCls}`,
                     {
-                        [`${prefixCls}-disabled`]: this.disabled
+                        [`${prefixCls}-disabled`]: this.isDisabled
                     }
                 ];
             },
@@ -108,6 +113,9 @@
             },
             showCharacter () {
                 return this.character !== '' || this.icon !== '' || this.customIcon !== '';
+            },
+            isDisabled () {
+                return this.disabled || (this.form || {}).disabled;
             }
         },
         watch: {
@@ -135,7 +143,7 @@
                 }
 
                 return [
-                    {   
+                    {
                         [`${prefixCls}-star`]: !this.showCharacter,
                         [`${prefixCls}-star-chart`]: this.showCharacter,
                         [`${prefixCls}-star-full`]: (!isLast && full) || (isLast && !this.isHalf),
@@ -145,7 +153,7 @@
                 ];
             },
             handleMousemove(value, event) {
-                if (this.disabled) return;
+                if (this.isDisabled) return;
 
                 this.isHover = true;
                 if (this.allowHalf) {
@@ -157,7 +165,7 @@
                 this.hoverIndex = value;
             },
             handleMouseleave () {
-                if (this.disabled) return;
+                if (this.isDisabled) return;
 
                 this.isHover = false;
                 this.setHalf(this.currentValue);
@@ -167,7 +175,7 @@
                 this.isHalf = this.allowHalf && val.toString().indexOf('.') >= 0;
             },
             handleClick (value) {
-                if (this.disabled) return;
+                if (this.isDisabled) return;
                 //value++;
                 if (this.isHalf) value -= 0.5;
 

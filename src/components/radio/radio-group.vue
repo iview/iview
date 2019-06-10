@@ -41,6 +41,10 @@
             name: {
                 type: String,
                 default: getUuid
+            },
+            disabled: {
+                type: Boolean,
+                default: false
             }
         },
         data () {

@@ -1,5 +1,5 @@
 <template>
-    <component :is="tagName" :class="classes" :disabled="disabled" @click="handleClickLink" v-bind="tagProps">
+    <component :is="tagName" :class="classes" :disabled="isDisabled" @click="handleClickLink" v-bind="tagProps">
         <Icon class="ivu-load-loop" type="ios-loading" v-if="loading"></Icon>
         <Icon :type="icon" :custom="customIcon" v-if="(icon || customIcon) && !loading"></Icon>
         <span v-if="showSlot" ref="slot"><slot></slot></span>
@@ -7,7 +7,7 @@
 </template>
 <script>
     import Icon from '../icon';
-    import { oneOf } from '../../utils/assist';
+    import { findComponentUpward, oneOf } from '../../utils/assist';
     import mixinsLink from '../../mixins/link';
 
     const prefixCls = 'ivu-btn';
@@ -15,6 +15,11 @@
     export default {
         name: 'Button',
         mixins: [ mixinsLink ],
+        inject: {
+            form: {
+                default: ''
+            }
+        },
         components: { Icon },
         props: {
             type: {
@@ -63,7 +68,8 @@
         },
         data () {
             return {
-                showSlot: true
+                showSlot: true,
+                parent: findComponentUpward(this, 'ButtonGroup')
             };
         },
         computed: {
@@ -99,6 +105,11 @@
                     const {htmlType} = this;
                     return {type: htmlType};
                 }
+            },
+            isDisabled () {
+                return this.parent
+                    ? this.parent.disabled || this.disabled || (this.form || {}).disabled
+                    : this.disabled || (this.form || {}).disabled;
             }
         },
         methods: {

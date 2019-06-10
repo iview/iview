@@ -12,7 +12,7 @@
                     :element-id="elementId"
                     :class="[prefixCls + '-editor']"
                     :readonly="!editable || readonly"
-                    :disabled="disabled"
+                    :disabled="isDisabled"
                     :size="size"
                     :placeholder="placeholder"
                     :value="visualValue"
@@ -122,6 +122,11 @@
     export default {
         mixins: [ Emitter ],
         components: { iInput, Drop, Icon },
+        inject: {
+            form: {
+                default: ''
+            }
+        },
         directives: { clickOutside, TransferDom },
         props: {
             format: {
@@ -351,6 +356,9 @@
                 }
 
                 return size;
+            },
+            isDisabled() {
+                return this.disabled || (this.form || {}).disabled;
             }
         },
         methods: {
@@ -393,7 +401,7 @@
                 if (this.readonly) return;
                 this.isFocused = true;
                 if (e && e.type === 'focus') return; // just focus, don't open yet
-                if(!this.disabled){
+                if(!this.isDisabled){
                     this.visible = true;
                 }
             },
@@ -635,7 +643,7 @@
                 }
             },
             handleInputMouseenter () {
-                if (this.readonly || this.disabled) return;
+                if (this.readonly || this.isDisabled) return;
                 if (this.visualValue && this.clearable) {
                     this.showClose = true;
                 }
@@ -647,7 +655,7 @@
                 if (this.showClose) {
                     if (e) e.stopPropagation();
                     this.handleClear();
-                } else if (!this.disabled) {
+                } else if (!this.isDisabled) {
                     this.handleFocus();
                 }
             },

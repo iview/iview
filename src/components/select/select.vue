@@ -35,7 +35,7 @@
                     :values="values"
                     :clearable="canBeCleared"
                     :prefix="prefix"
-                    :disabled="disabled"
+                    :disabled="isDisabled"
                     :remote="remote"
                     :input-element-id="elementId"
                     :initial-label="initialLabel"
@@ -157,6 +157,11 @@
         name: 'iSelect',
         mixins: [ Emitter, Locale ],
         components: { FunctionalOptions, Drop, SelectHead },
+        inject: {
+            form: {
+                default: ''
+            }
+        },
         directives: { clickOutside, TransferDom },
         props: {
             value: {
@@ -294,7 +299,7 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-visible`]: this.visible,
-                        [`${prefixCls}-disabled`]: this.disabled,
+                        [`${prefixCls}-disabled`]: this.isDisabled,
                         [`${prefixCls}-multiple`]: this.multiple,
                         [`${prefixCls}-single`]: !this.multiple,
                         [`${prefixCls}-show-clear`]: this.showCloseIcon,
@@ -355,7 +360,7 @@
             },
             canBeCleared(){
                 const uiStateMatch = this.hasMouseHoverHead || this.active;
-                const qualifiesForClear = !this.multiple && !this.disabled && this.clearable;
+                const qualifiesForClear = !this.multiple && !this.isDisabled && this.clearable;
                 return uiStateMatch && qualifiesForClear && this.reset; // we return a function
             },
             selectOptions() {
@@ -422,10 +427,13 @@
                 return extractOptions(this.selectOptions);
             },
             selectTabindex(){
-                return this.disabled || this.filterable ? -1 : 0;
+                return this.isDisabled || this.filterable ? -1 : 0;
             },
             remote(){
                 return typeof this.remoteMethod === 'function';
+            },
+            isDisabled () {
+                return this.disabled || (this.form || {}).disabled;
             }
         },
         methods: {
@@ -502,7 +510,7 @@
             },
 
             toggleMenu (e, force) {
-                if (this.disabled) {
+                if (this.isDisabled) {
                     return false;
                 }
 
@@ -685,7 +693,7 @@
                 this.filterQueryChange = true;
             },
             toggleHeaderFocus({type}){
-                if (this.disabled) {
+                if (this.isDisabled) {
                     return;
                 }
                 this.isFocused = type === 'focus';
