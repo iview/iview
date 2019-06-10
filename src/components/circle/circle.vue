@@ -1,7 +1,7 @@
 <template>
     <div :style="circleSize" :class="wrapClasses">
         <svg viewBox="0 0 100 100">
-            <linearGradient v-if="strokeColor instanceof Array" :id="'gradient_model_'+_uid" x1="100%" y1="0%" x2="0%" y2="100%">
+            <linearGradient v-if="renderStrokeColor.gradientMode" :id="'gradient_model_'+_uid" x1="100%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" style="stop-opacity:1" :style="renderStrokeColor.transformBegin"></stop>
                 <stop offset="100%" style="stop-opacity:1" :style="renderStrokeColor.transformFinish"></stop>
             </linearGradient>
@@ -59,7 +59,13 @@
         computed: {
             renderStrokeColor(){
                 if(this.strokeColor instanceof Array){
-                    return {stroke:`url(#gradient_model_${this._uid})`,transformBegin:`stop-color:${this.strokeColor[0]}`,transformFinish:`stop-color:${this.strokeColor[1]}`}
+                    if(this.strokeColor.length&&this.strokeColor.length>1){
+                        return {stroke:`url(#gradient_model_${this._uid})`,transformBegin:`stop-color:${this.strokeColor[0]}`,transformFinish:`stop-color:${this.strokeColor[1]}`,gradientMode:true}
+                    }else if(this.strokeColor.length){
+                        return {stroke:this.strokeColor[0]}
+                    }else {
+                        return {stroke:'#2d8cf0'}
+                    }
                 }else {
                     return {stroke:this.strokeColor}
                 }
