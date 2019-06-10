@@ -1,8 +1,12 @@
 <template>
     <div :style="circleSize" :class="wrapClasses">
         <svg viewBox="0 0 100 100">
+            <linearGradient v-if="strokeColor instanceof Array" :id="'gradient_model_'+_uid" x1="100%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-opacity:1" :style="renderStrokeColor.transformBegin"></stop>
+                <stop offset="100%" style="stop-opacity:1" :style="renderStrokeColor.transformFinish"></stop>
+            </linearGradient>
             <path :d="pathString" :stroke="trailColor" :stroke-width="trailWidth" :fill-opacity="0" :style="trailStyle" />
-            <path :d="pathString" :stroke-linecap="strokeLinecap" :stroke="strokeColor" :stroke-width="computedStrokeWidth" fill-opacity="0" :style="pathStyle" />
+            <path :d="pathString" :stroke-linecap="strokeLinecap" :stroke="renderStrokeColor.stroke" :stroke-width="computedStrokeWidth" fill-opacity="0" :style="pathStyle" />
         </svg>
         <div :class="innerClasses">
             <slot></slot>
@@ -30,7 +34,7 @@
                 default: 6
             },
             strokeColor: {
-                type: String,
+                type: [String,Array],
                 default: '#2d8cf0'
             },
             strokeLinecap: {
@@ -53,6 +57,13 @@
             }
         },
         computed: {
+            renderStrokeColor(){
+                if(this.strokeColor instanceof Array){
+                    return {stroke:`url(#gradient_model_${this._uid})`,transformBegin:`stop-color:${this.strokeColor[0]}`,transformFinish:`stop-color:${this.strokeColor[1]}`}
+                }else {
+                    return {stroke:this.strokeColor}
+                }
+            },
             circleSize () {
                 return {
                     width: `${this.size}px`,
