@@ -55,6 +55,11 @@ export declare class CheckboxGroup extends Vue {
    */
   size?: '' | 'large' | 'small' | 'default';
   /**
+   * 设置复选框禁用状态
+   * @default false
+   */
+  disabled?: boolean;
+  /**
    * 在选项状态发生改变时触发，返回已选中的数组。通过修改外部的数据改变时不会触发
    */
   $emit(eventName: 'on-change', values: Array<string | number | boolean>): this;

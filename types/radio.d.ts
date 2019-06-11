@@ -58,6 +58,11 @@ export declare class RadioGroup extends Vue {
    */
   vertical?: boolean;
   /**
+   * 设置单选框禁用状态
+   * @default false
+   */
+  disabled?: boolean;
+  /**
    * 在选项状态发生改变时触发，返回当前选中的项。通过修改外部的数据改变时不会触发
    */
   $emit(eventName: 'on-change', ...args: Array<string | number | boolean>): this;

@@ -88,4 +88,9 @@ export declare class ButtonGroup extends Vue {
    * @default false
    */
   vertical?: boolean;
+  /**
+   * 设置按钮为禁用状态
+   * @default false
+   */
+  disabled?: boolean;
 }
