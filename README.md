@@ -35,8 +35,8 @@ iView
             </a>
           </td>
             <td align="center" valign="middle">
-            <a href="https://cn.udacity.com/fend/?utm_source=iviewui&utm_medium=banner&utm_campaign=fend" target="_blank">
-              <img width="300" src="https://file.iviewui.com/asd/asd-u-new-2.png">
+            <a href="https://cn.udacity.com/course/wechat-mini-program-nanodegree--nd666-cn?utm_source=iviewui&utm_medium=banner&utm_campaign=wmpnd" target="_blank">
+              <img width="300" src="https://file.iviewui.com/asd/asd-u-13.png">
             </a>
           </td>
         </tr>
