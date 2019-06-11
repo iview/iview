@@ -171,8 +171,9 @@ export declare class Table extends Vue {
      * 展开或收起某一行时触发
      * row：当前行的数据
      * status：当前的状态
+     * index：当前行索引
      */
-    $emit(eventName: "on-expand", row: object, status: string): this;
+    $emit(eventName: "on-expand", row: object, status: string, index: number): this;
     /**
      * 拖拽排序松开时触发，返回置换的两行数据索引
      * index1
