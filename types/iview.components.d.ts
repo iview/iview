@@ -80,6 +80,8 @@ interface IViewGlobalOptions{
         arrow: string;
         customArrow: string;
         arrowSize: number | string;
+        submenuExpandDelay: number | string;
+        submenuCollapseDelay: number | string;
     };
     tree: {
         arrow: string;

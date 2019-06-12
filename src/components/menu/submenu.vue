@@ -110,6 +110,42 @@
                     }
                 }
                 return size;
+            },
+            // global setting
+            submenuExpandDelay () {
+                let delay = '';
+
+                if (this.$IVIEW) {
+                    if (this.$IVIEW.menu.submenuExpandDelay) {
+                        delay = this.$IVIEW.menu.submenuExpandDelay;
+                    }
+                }
+
+                let delayMillis = parseInt(delay);
+                if (isNaN(delayMillis)) {
+                    // Print warn here if delay is not '' ?
+                    delayMillis = 250;
+                }
+
+                return delayMillis;
+            },
+            // global setting
+            submenuCollapseDelay () {
+                let delay = '';
+
+                if (this.$IVIEW) {
+                    if (this.$IVIEW.menu.submenuCollapseDelay) {
+                        delay = this.$IVIEW.menu.submenuCollapseDelay;
+                    }
+                }
+
+                let delayMillis = parseInt(delay);
+                if (isNaN(delayMillis)) {
+                    // Print warn here if delay is not '' ?
+                    delayMillis = 150;
+                }
+
+                return delayMillis;
             }
         },
         methods: {
@@ -121,7 +157,7 @@
                 this.timeout = setTimeout(() => {
                     this.menu.updateOpenKeys(this.name);
                     this.opened = true;
-                }, 250);
+                }, this.submenuExpandDelay);
             },
             handleMouseleave () {
                 if (this.disabled) return;
@@ -131,7 +167,7 @@
                 this.timeout = setTimeout(() => {
                     this.menu.updateOpenKeys(this.name);
                     this.opened = false;
-                }, 150);
+                }, this.submenuCollapseDelay);
             },
             handleClick () {
                 if (this.disabled) return;

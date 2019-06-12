@@ -186,7 +186,9 @@ const install = function(Vue, opts = {}) {
         menu: {
             arrow: opts.menu ? opts.menu.arrow ? opts.menu.arrow : '' : '',
             customArrow: opts.menu ? opts.menu.customArrow ? opts.menu.customArrow : '' : '',
-            arrowSize: opts.menu ? opts.menu.arrowSize ? opts.menu.arrowSize : '' : ''
+            arrowSize: opts.menu ? opts.menu.arrowSize ? opts.menu.arrowSize : '' : '',
+            submenuExpandDelay: opts.menu ? opts.menu.submenuExpandDelay ? opts.menu.submenuExpandDelay : '' : '',
+            submenuCollapseDelay: opts.menu ? opts.menu.submenuCollapseDelay ? opts.menu.submenuCollapseDelay : '' : ''
         },
         tree: {
             arrow: opts.tree ? opts.tree.arrow ? opts.tree.arrow : '' : '',
