@@ -14,6 +14,7 @@
         "framework"
     ],
     "main": "dist/iview.js",
+    "module": "src/index.js",
     "typings": "types/index.d.ts",
     "files": [
         "dist",
@@ -132,5 +133,10 @@
         "Edge >= 12",
         "iOS >= 10",
         "Android >= 6"
+    ],
+    "sideEffects": [
+        "dist/*",
+        "src/**/styles/*",
+        "*.less"
     ]
 }
