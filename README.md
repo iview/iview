@@ -47,6 +47,11 @@ iView
               <img width="300" src="https://file.iviewui.com/asd/asd-uniapp3.png">
             </a>
           </td>
+          <td align="center" valign="middle">
+            <a href="https://s.growingio.com/p0732m" target="_blank">
+              <img width="300" src="https://file.iviewui.com/asd/asd-kkb-1.png">
+            </a>
+          </td>
         </tr>
       </tbody>
 </table>
