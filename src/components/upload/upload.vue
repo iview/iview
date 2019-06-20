@@ -332,6 +332,9 @@
             defaultFileList: {
                 immediate: true,
                 handler(fileList) {
+                    if (!Array.isArray(fileList)) {
+                        fileList = []
+                    }
                     this.fileList = fileList.map(item => {
                         item.status = 'finished';
                         item.percentage = 100;
