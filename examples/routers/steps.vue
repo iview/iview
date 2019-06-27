@@ -2,9 +2,10 @@
 <div>
     <Steps :current="index">
         <!--<Step title="开始"></Step>-->
-        <Step v-for="(item, index) in activitiList" :title="item.approveUserName" :key="index" :content="item.startTime"></Step>
+        <Step v-for="(item, index) in activitiList" :title="item.approveUserName" :key="index"  :content="item.startTime" :operator="item.operator" :remark="item.remark"></Step>
         <!--<Step title="结束"></Step>-->
     </Steps>
+    <br><br><br><br>
     <Button @click="change">change</Button>
     <br><br><br><br>
     <hr>
@@ -96,29 +97,28 @@
                 index:0,
                 activitiList:[
                     {
-                        approveUserName:'123',
-                        startTime:'1'
+                        approveUserName:'Step1',
+                        startTime:'2019-06-20',
+                        operator:'Who one',
+                        remark:"agree"
                     },{
-                        approveUserName:'123',
-                        startTime:'2'
+                        approveUserName:'Step2',
+                        startTime:'2019-06-20',
+                        operator:'Who another',
+                        remark:"reject"
                     }
                 ],
                 changeList:[
                     {
-                        approveUserName:'456',
-                        startTime:'1'
+                        approveUserName:'Step3',
+                        startTime:'2019-06-20',
+                        operator:'3',
+                        remark:"yes"
                     },{
-                        approveUserName:'456',
-                        startTime:'2'
-                    },{
-                        approveUserName:'456',
-                        startTime:'3'
-                    },{
-                        approveUserName:'456',
-                        startTime:'4'
-                    },{
-                        approveUserName:'456',
-                        startTime:'5'
+                        approveUserName:'Step4',
+                        startTime:'2019-06-20',
+                        operator:'4',
+                        remark:"no"
                     }
                 ]
             }

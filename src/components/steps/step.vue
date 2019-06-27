@@ -13,6 +13,16 @@
                 <div v-if="content" :class="[prefixCls + '-content']">{{ content }}</div>
             </slot>
         </div>
+        <div :class="[prefixCls + '-main']">
+            <slot>
+                <div v-if="operator" :class="[prefixCls + '-content']">{{ operator }}</div>
+            </slot>
+        </div>
+        <div :class="[prefixCls + '-main']">
+            <slot>
+                <div v-if="remark" :class="[prefixCls + '-content']">{{ remark }}</div>
+            </slot>
+        </div>
     </div>
 </template>
 <script>
@@ -36,6 +46,12 @@
                 default: ''
             },
             content: {
+                type: String
+            },
+            operator: {
+                type: String
+            },
+            remark: {
                 type: String
             },
             icon: {
@@ -69,9 +85,9 @@
                     icon = this.icon;
                 } else {
                     if (this.currentStatus == 'finish') {
-                        icon = 'ios-checkmark-empty';
+                        icon = 'ios-checkmark';
                     } else if (this.currentStatus == 'error') {
-                        icon = 'ios-close-empty';
+                        icon = 'ios-close';
                     }
                 }
 
