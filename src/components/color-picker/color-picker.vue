@@ -1,7 +1,6 @@
 <template>
     <div
-        v-click-outside.capture="handleClose"
-        v-click-outside:mousedown.capture="handleClose"
+        v-click-outside="handleClose"
         :class="classes">
         <div
             ref="reference"
@@ -11,7 +10,7 @@
                 :name="name"
                 :value="currentValue"
                 type="hidden">
-            <i :class="arrowClasses"></i>
+            <Icon :type="arrowType" :custom="customArrowType" :size="arrowSize" :class="arrowClasses"></Icon>
             <div
                 ref="input"
                 :tabindex="disabled ? undefined : 0"
@@ -25,7 +24,7 @@
                     <div
                         v-show="value === '' && !visible"
                         :class="[prefixCls + '-color-empty']">
-                        <i :class="[iconPrefixCls, iconPrefixCls + '-ios-close-empty']"></i>
+                        <i :class="[iconPrefixCls, iconPrefixCls + '-ios-close']"></i>
                     </div>
                     <div
                         v-show="value || visible"
@@ -40,6 +39,7 @@
                 ref="drop"
                 :placement="placement"
                 :data-transfer="transfer"
+                :transfer="transfer"
                 :class="dropClasses"
             >
                 <transition name="fade">
@@ -82,12 +82,16 @@
                                 @picker-color="handleSelectColor"></recommend-colors>
                         </div>
                         <div :class="[prefixCls + '-confirm']">
-                            <span :class="[prefixCls + '-confirm-color']">{{formatColor}}</span>
+                            <span :class="confirmColorClasses">
+                                <template v-if="editable">
+                                    <i-input :value="formatColor" size="small" @on-enter="handleEditColor" @on-blur="handleEditColor"></i-input>
+                                </template>
+                                <template v-else>{{formatColor}}</template>
+                            </span>
                             <i-button
                                 ref="clear"
                                 :tabindex="0"
                                 size="small"
-                                type="ghost"
                                 @click.native="handleClear"
                                 @keydown.enter="handleClear"
                                 @keydown.native.esc="closer"
@@ -112,13 +116,16 @@
 
 <script>
 import tinycolor from 'tinycolor2';
-import vClickOutside from 'v-click-outside-x';
+import {directive as clickOutside} from 'v-click-outside-x';
 import TransferDom from '../../directives/transfer-dom';
 import Drop from '../../components/select/dropdown.vue';
 import RecommendColors from './recommend-colors.vue';
 import Saturation from './saturation.vue';
 import Hue from './hue.vue';
 import Alpha from './alpha.vue';
+import iInput from '../input/input.vue';
+import iButton from '../button/button.vue';
+import Icon from '../icon/icon.vue';
 import Locale from '../../mixins/locale';
 import {oneOf} from '../../utils/assist';
 import Emitter from '../../mixins/emitter';
@@ -128,9 +135,9 @@ import {changeColor, toRGBAString} from './utils';
 export default {
     name: 'ColorPicker',
 
-    components: {Drop, RecommendColors, Saturation, Hue, Alpha},
+    components: {Drop, RecommendColors, Saturation, Hue, Alpha, iInput, iButton, Icon},
 
-    directives: {clickOutside: vClickOutside.directive, TransferDom},
+    directives: {clickOutside, TransferDom},
 
     mixins: [Emitter, Locale, Prefixes],
 
@@ -169,11 +176,12 @@ export default {
             default: false,
         },
         size: {
-            type: String,
             validator(value) {
                 return oneOf(value, ['small', 'large', 'default']);
             },
-            default: 'default',
+            default () {
+                return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
+            }
         },
         hideDropDown: {
             type: Boolean,
@@ -201,11 +209,17 @@ export default {
         },
         transfer: {
             type: Boolean,
-            default: false,
+            default () {
+                return !this.$IVIEW || this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+            }
         },
         name: {
             type: String,
             default: undefined,
+        },
+        editable: {
+            type: Boolean,
+            default: true
         },
     },
 
@@ -219,7 +233,7 @@ export default {
                 '#2d8cf0',
                 '#19be6b',
                 '#ff9900',
-                '#ed3f14',
+                '#ed4014',
                 '#00b5ff',
                 '#19c919',
                 '#f9e31c',
@@ -247,8 +261,6 @@ export default {
     computed: {
         arrowClasses() {
             return [
-                this.iconPrefixCls,
-                `${this.iconPrefixCls}-arrow-down-b`,
                 `${this.inputPrefixCls}-icon`,
                 `${this.inputPrefixCls}-icon-normal`,
             ];
@@ -332,6 +344,49 @@ export default {
 
             return saturationColors.hex;
         },
+        confirmColorClasses () {
+            return [
+                `${this.prefixCls}-confirm-color`,
+                {
+                    [`${this.prefixCls}-confirm-color-editable`]: this.editable
+                }
+            ];
+        },
+        // 3.4.0, global setting customArrow 有值时，arrow 赋值空
+        arrowType () {
+            let type = 'ios-arrow-down';
+
+            if (this.$IVIEW) {
+                if (this.$IVIEW.colorPicker.customArrow) {
+                    type = '';
+                } else if (this.$IVIEW.colorPicker.arrow) {
+                    type = this.$IVIEW.colorPicker.arrow;
+                }
+            }
+            return type;
+        },
+        // 3.4.0, global setting
+        customArrowType () {
+            let type = '';
+
+            if (this.$IVIEW) {
+                if (this.$IVIEW.colorPicker.customArrow) {
+                    type = this.$IVIEW.colorPicker.customArrow;
+                }
+            }
+            return type;
+        },
+        // 3.4.0, global setting
+        arrowSize () {
+            let size = '';
+
+            if (this.$IVIEW) {
+                if (this.$IVIEW.colorPicker.arrowSize) {
+                    size = this.$IVIEW.colorPicker.arrowSize;
+                }
+            }
+            return size;
+        }
     },
 
     watch: {
@@ -416,6 +471,10 @@ export default {
         handleSelectColor(color) {
             this.val = changeColor(color);
             this.$emit('on-active-change', this.formatColor);
+        },
+        handleEditColor (event) {
+            const value = event.target.value;
+            this.handleSelectColor(value);
         },
         handleFirstTab(event) {
             if (event.shiftKey) {

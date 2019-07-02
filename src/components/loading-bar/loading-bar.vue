@@ -11,6 +11,7 @@
     const prefixCls = 'ivu-loading-bar';
 
     export default {
+        name: 'LoadingBar',
         props: {
 //            percent: {
 //                type: Number,

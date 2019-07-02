@@ -1,7 +1,7 @@
 @poptip-prefix-cls: ~"@{css-prefix}poptip";
 @poptip-arrow: ~"@{poptip-prefix-cls}-arrow";
 @poptip-max-width: 250px;
-@poptip-arrow-width: 5px;
+@poptip-arrow-width: 7px;
 @poptip-arrow-outer-width: (@poptip-arrow-width + 1);
 @poptip-distance: @poptip-arrow-width - 1 + 4;
 //@poptip-arrow-color: fadein(@border-color-base, 5%);
@@ -42,6 +42,11 @@
 
         &-content{
             overflow: auto;
+
+            &-word-wrap{
+                white-space: pre-wrap;
+                text-align: justify;
+            }
 
             &-inner{
                 color: @text-color;

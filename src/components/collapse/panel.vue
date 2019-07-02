@@ -1,10 +1,10 @@
 <template>
     <div :class="itemClasses">
         <div :class="headerClasses" @click="toggle">
-            <Icon type="arrow-right-b"></Icon>
+            <Icon type="ios-arrow-forward" v-if="!hideArrow"></Icon>
             <slot></slot>
         </div>
-        <collapse-transition>
+        <collapse-transition v-if="mounted">
             <div :class="contentClasses" v-show="isActive">
                 <div :class="boxClasses"><slot name="content"></slot></div>
             </div>
@@ -22,12 +22,17 @@
         props: {
             name: {
                 type: String
+            },
+            hideArrow: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
             return {
                 index: 0, // use index for default when name is null
-                isActive: false
+                isActive: false,
+                mounted: false
             };
         },
         computed: {
@@ -56,6 +61,9 @@
                     isActive: this.isActive
                 });
             }
+        },
+        mounted () {
+            this.mounted = true;
         }
     };
 </script>

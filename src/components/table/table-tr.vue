@@ -1,11 +1,13 @@
 <template>
-    <tr :class="rowClasses(row._index)"><slot></slot></tr>
+    <tr :class="rowClasses(row._index)" :draggable="draggable" @dragstart="onDrag($event,row._index)" @drop="onDrop($event,row._index)" @dragover="allowDrop($event)" v-if="draggable"><slot></slot></tr>
+    <tr :class="rowClasses(row._index)" v-else><slot></slot></tr>
 </template>
 <script>
     export default {
         props: {
             row: Object,
-            prefixCls: String
+            prefixCls: String,
+            draggable: Boolean
         },
         computed: {
             objData () {
@@ -13,6 +15,17 @@
             }
         },
         methods: {
+            onDrag (e,index) {
+                e.dataTransfer.setData('index',index);
+            },
+            onDrop (e,index) {
+                const dragIndex = e.dataTransfer.getData('index');
+                this.$parent.$parent.dragAndDrop(dragIndex,index);
+                e.preventDefault();
+            },
+            allowDrop (e) {
+                e.preventDefault();
+            },
             rowClasses (_index) {
                 return [
                     `${this.prefixCls}-row`,

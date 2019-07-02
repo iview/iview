@@ -3,7 +3,6 @@
         :class="classes"
         @click.stop="select"
         @mousedown.prevent
-        @touchstart.prevent
     ><slot>{{ showLabel }}</slot></li>
 </template>
 <script>
@@ -58,7 +57,7 @@
                 return (this.label) ? this.label : this.value;
             },
             optionLabel(){
-                return (this.$el && this.$el.textContent) || this.label;
+                return this.label || (this.$el && this.$el.textContent);
             }
         },
         methods: {

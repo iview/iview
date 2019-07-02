@@ -24,6 +24,9 @@
             size: {
                 validator (value) {
                     return oneOf(value, ['small', 'large', 'default']);
+                },
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             type: {
@@ -84,7 +87,9 @@
             value () {
                 if(this.currentValue !== this.value){
                     this.currentValue = this.value;
-                    this.updateValue();
+                    this.$nextTick(()=>{
+                        this.updateValue();
+                    });
                 }
             }
         }

@@ -4,6 +4,7 @@
             :class="classes"
             @click="handleClick"
             @drop.prevent="onDrop"
+            @paste="handlePaste"
             @dragover.prevent="dragOver = true"
             @dragleave.prevent="dragOver = false">
             <input
@@ -132,6 +133,14 @@
                 default() {
                     return [];
                 }
+            },
+            paste: {
+                type: Boolean,
+                default: false
+            },
+            disabled: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -157,6 +166,7 @@
         },
         methods: {
             handleClick () {
+                if (this.disabled) return;
                 this.$refs.input.click();
             },
             handleChange (e) {
@@ -170,7 +180,14 @@
             },
             onDrop (e) {
                 this.dragOver = false;
+                if (this.disabled) return;
                 this.uploadFiles(e.dataTransfer.files);
+            },
+            handlePaste (e) {
+                if (this.disabled) return;
+                if (this.paste) {
+                    this.uploadFiles(e.clipboardData.files);
+                }
             },
             uploadFiles (files) {
                 let postFiles = Array.prototype.slice.call(files);
@@ -279,8 +296,8 @@
                     _file.status = 'finished';
                     _file.response = res;
 
-                    this.dispatch('FormItem', 'on-form-change', _file);
                     this.onSuccess(res, _file, this.fileList);
+                    this.dispatch('FormItem', 'on-form-change', _file);
 
                     setTimeout(() => {
                         _file.showProgress = false;

@@ -16,10 +16,12 @@
                 v-show="!((!!localeNoDataText && (!data || data.length === 0)) || (!!localeNoFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
                 <table-body
                     ref="tbody"
+                    :draggable="draggable"
                     :prefix-cls="prefixCls"
                     :styleObject="tableStyle"
                     :columns="cloneColumns"
                     :data="rebuildData"
+                    :row-key="rowKey"
                     :columns-width="columnsWidth"
                     :obj-data="objData"></table-body>
             </div>
@@ -53,10 +55,12 @@
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedBody" @mousewheel="handleFixedMousewheel" @DOMMouseScroll="handleFixedMousewheel">
                     <table-body
                         fixed="left"
+                        :draggable="draggable"
                         :prefix-cls="prefixCls"
                         :styleObject="fixedTableStyle"
                         :columns="leftFixedColumns"
                         :data="rebuildData"
+                        :row-key="rowKey"
                         :columns-width="columnsWidth"
                         :obj-data="objData"></table-body>
                 </div>
@@ -77,10 +81,12 @@
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedRightBody" @mousewheel="handleFixedMousewheel" @DOMMouseScroll="handleFixedMousewheel">
                     <table-body
                         fixed="right"
+                        :draggable="draggable"
                         :prefix-cls="prefixCls"
                         :styleObject="fixedRightTableStyle"
                         :columns="rightFixedColumns"
                         :data="rebuildData"
+                        :row-key="rowKey"
                         :columns-width="columnsWidth"
                         :obj-data="objData"></table-body>
                 </div>
@@ -114,6 +120,11 @@
         name: 'Table',
         mixins: [ Locale ],
         components: { tableHead, tableBody, Spin },
+        provide () {
+            return {
+                tableRoot: this
+            };
+        },
         props: {
             data: {
                 type: Array,
@@ -130,12 +141,19 @@
             size: {
                 validator (value) {
                     return oneOf(value, ['small', 'large', 'default']);
+                },
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             width: {
                 type: [Number, String]
             },
             height: {
+                type: [Number, String]
+            },
+            // 3.4.0
+            maxHeight: {
                 type: [Number, String]
             },
             stripe: {
@@ -173,6 +191,21 @@
                 type: Boolean
             },
             loading: {
+                type: Boolean,
+                default: false
+            },
+            draggable: {
+                type: Boolean,
+                default: false
+            },
+            tooltipTheme: {
+                validator (value) {
+                    return oneOf(value, ['dark', 'light']);
+                },
+                default: 'dark'
+            },
+            // #5380 开启后，:key 强制更新，否则使用 index
+            rowKey: {
                 type: Boolean,
                 default: false
             }
@@ -254,6 +287,10 @@
                     const height = parseInt(this.height);
                     style.height = `${height}px`;
                 }
+                if (this.maxHeight) {
+                    const maxHeight = parseInt(this.maxHeight);
+                    style.maxHeight = `${maxHeight}px`;
+                }
                 if (this.width) style.width = `${this.width}px`;
                 return style;
             },
@@ -315,7 +352,11 @@
                 let style = {};
                 if (this.bodyHeight !== 0) {
                     const height = this.bodyHeight;
-                    style.height = `${height}px`;
+                    if (this.height) {
+                        style.height = `${height}px`;
+                    } else if (this.maxHeight) {
+                        style.maxHeight = `${height}px`;
+                    }
                 }
                 return style;
             },
@@ -526,6 +567,10 @@
                 const status = !data._isExpanded;
                 this.objData[_index]._isExpanded = status;
                 this.$emit('on-expand', JSON.parse(JSON.stringify(this.cloneData[_index])), status);
+                
+                if(this.height || this.maxHeight){
+                    this.$nextTick(()=>this.fixedBody());
+                }
             },
             selectAll (status) {
                 // this.rebuildData.forEach((data) => {
@@ -546,17 +591,23 @@
                 const selection = this.getSelection();
                 if (status) {
                     this.$emit('on-select-all', selection);
+                } else {
+                    this.$emit('on-select-all-cancel', selection);
                 }
                 this.$emit('on-selection-change', selection);
             },
             
             fixedHeader () {
-                if (this.height) {
+                if (this.height || this.maxHeight) {
                     this.$nextTick(() => {
                         const titleHeight = parseInt(getStyle(this.$refs.title, 'height')) || 0;
                         const headerHeight = parseInt(getStyle(this.$refs.header, 'height')) || 0;
                         const footerHeight = parseInt(getStyle(this.$refs.footer, 'height')) || 0;
-                        this.bodyHeight = this.height - titleHeight - headerHeight - footerHeight;
+                        if (this.height) {
+                            this.bodyHeight = this.height - titleHeight - headerHeight - footerHeight;
+                        } else if (this.maxHeight) {
+                            this.bodyHeight = this.maxHeight - titleHeight - headerHeight - footerHeight;
+                        }
                         this.$nextTick(()=>this.fixedBody());
                     });
                 } else {
@@ -819,7 +870,7 @@
             // 修改列，设置一个隐藏的 id，便于后面的多级表头寻找对应的列，否则找不到
             makeColumnsId (columns) {
                 return columns.map(item => {
-                    if ('children' in item) item.children = this.makeColumnsId(item.children);
+                    if ('children' in item) this.makeColumnsId(item.children);
                     item.__id = getRandomStr(6);
                     return item;
                 });
@@ -834,6 +885,7 @@
                 columns.forEach((column, index) => {
                     column._index = index;
                     column._columnKey = columnKey++;
+                    column.width = parseInt(column.width);
                     column._width = column.width ? column.width : '';    // update in handleResize()
                     column._sortType = 'normal';
                     column._filterVisible = false;
@@ -894,6 +946,9 @@
                 const data = Csv(columns, datas, params, noHeader);
                 if (params.callback) params.callback(data);
                 else ExportCsv.download(params.filename, data);
+            },
+            dragAndDrop(a,b) {
+                this.$emit('on-drag-drop', a,b);
             }
         },
         created () {
@@ -953,6 +1008,9 @@
                 deep: true
             },
             height () {
+                this.handleResize();
+            },
+            maxHeight () {
                 this.handleResize();
             },
             showHorizontalScrollBar () {

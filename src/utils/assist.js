@@ -138,7 +138,7 @@ function deepCopy(data) {
 export {deepCopy};
 
 // scrollTop animation
-export function scrollTop(el, from = 0, to, duration = 500) {
+export function scrollTop(el, from = 0, to, duration = 500, endCallback) {
     if (!window.requestAnimationFrame) {
         window.requestAnimationFrame = (
             window.webkitRequestAnimationFrame ||
@@ -153,7 +153,10 @@ export function scrollTop(el, from = 0, to, duration = 500) {
     const step = Math.ceil(difference / duration * 50);
 
     function scroll(start, end, step) {
-        if (start === end) return;
+        if (start === end) {
+            endCallback && endCallback();
+            return;
+        }
 
         let d = (start + step > end) ? end : start + step;
         if (start > end) {
@@ -303,10 +306,11 @@ export function removeClass(el, cls) {
 
 export const dimensionMap = {
     xs: '480px',
-    sm: '768px',
-    md: '992px',
-    lg: '1200px',
-    xl: '1600px',
+    sm: '576px',
+    md: '768px',
+    lg: '992px',
+    xl: '1200px',
+    xxl: '1600px',
 };
 
 export function setMatchMedia () {
@@ -322,3 +326,5 @@ export function setMatchMedia () {
         window.matchMedia = window.matchMedia || matchMediaPolyfill;
     }
 }
+
+export const sharpMatcherRegx = /#([^#]+)$/;

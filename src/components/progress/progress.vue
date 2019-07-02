@@ -2,7 +2,7 @@
     <div :class="wrapClasses">
         <div :class="outerClasses">
             <div :class="innerClasses">
-                <div :class="bgClasses" :style="bgStyle"></div>
+                <div :class="bgClasses" :style="bgStyle"></div><div :class="successBgClasses" :style="successBgStyle"></div>
             </div>
         </div>
         <span v-if="!hideInfo" :class="textClasses">
@@ -24,9 +24,14 @@
     const prefixCls = 'ivu-progress';
 
     export default {
+        name: 'Progress',
         components: { Icon },
         props: {
             percent: {
+                type: Number,
+                default: 0
+            },
+            successPercent: {
                 type: Number,
                 default: 0
             },
@@ -47,6 +52,9 @@
             vertical: {
                 type: Boolean,
                 default: false
+            },
+            strokeColor: {
+                type: String
             }
         },
         data () {
@@ -62,21 +70,36 @@
                 let type = '';
                 switch (this.currentStatus) {
                     case 'wrong':
-                        type = 'ios-close';
+                        type = 'ios-close-circle';
                         break;
                     case 'success':
-                        type = 'ios-checkmark';
+                        type = 'ios-checkmark-circle';
                         break;
                 }
 
                 return type;
             },
             bgStyle () {
-                return this.vertical ? {
+                const style =  this.vertical ? {
                     height: `${this.percent}%`,
-                    width: `${this.strokeWidth}px`
+                    width: `${this.strokeWidth}px`,
                 } : {
                     width: `${this.percent}%`,
+                    height: `${this.strokeWidth}px`
+                };
+
+                if (this.strokeColor) {
+                    style['background-color'] = this.strokeColor;
+                }
+
+                return style;
+            },
+            successBgStyle () {
+                return this.vertical ? {
+                    height: `${this.successPercent}%`,
+                    width: `${this.strokeWidth}px`
+                } : {
+                    width: `${this.successPercent}%`,
                     height: `${this.strokeWidth}px`
                 };
             },
@@ -105,6 +128,9 @@
             },
             bgClasses () {
                 return `${prefixCls}-bg`;
+            },
+            successBgClasses () {
+                return `${prefixCls}-success-bg`;
             }
         },
         created () {

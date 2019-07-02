@@ -19,6 +19,7 @@
     }
 
     .@{css-prefix}input{
+        padding-right: 24px;
         display: block;
         cursor: pointer;
     }
@@ -67,7 +68,7 @@
         .inner-arrow();
     }
     &-visible &-arrow:nth-of-type(2) {
-        transform: rotate(180deg);
+        transform: translateY(-50%) rotate(180deg);
     }
 
     .@{select-dropdown-prefix-cls} {
@@ -125,7 +126,7 @@
 
         & &-item{
             position: relative;
-            padding-right: 24px;
+            padding-right: 36px;
             transition: all @transition-time @ease-in-out;
 
             i{
@@ -133,6 +134,10 @@
                 position: absolute;
                 right: 15px;
                 top: 50%;
+                //margin-top: -6px;
+                transform: translateY(-50%);
+            }
+            &-loading{
                 margin-top: -6px;
             }
 

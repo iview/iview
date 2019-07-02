@@ -1,5 +1,5 @@
 <template>
-    <transition :name="transitionName" @enter="handleEnter" @leave="handleLeave">
+    <transition :name="transitionName" @enter="handleEnter" @leave="handleLeave" appear>
         <div :class="classes" :style="styles">
             <template v-if="type === 'notice'">
                 <div :class="contentClasses" ref="content" v-html="content"></div>
@@ -9,7 +9,7 @@
                     ></render-cell>
                 </div>
                 <a :class="[baseClass + '-close']" @click="close" v-if="closable">
-                    <i class="ivu-icon ivu-icon-ios-close-empty"></i>
+                    <i class="ivu-icon ivu-icon-ios-close"></i>
                 </a>
             </template>
             <template v-if="type === 'message'">
@@ -21,7 +21,7 @@
                         ></render-cell>
                     </div>
                     <a :class="[baseClass + '-close']" @click="close" v-if="closable">
-                        <i class="ivu-icon ivu-icon-ios-close-empty"></i>
+                        <i class="ivu-icon ivu-icon-ios-close"></i>
                     </a>
                 </div>
             </template>

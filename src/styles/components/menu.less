@@ -66,6 +66,12 @@
         cursor: pointer;
         transition: all @transition-time @ease-in-out;
     }
+    a&-item{
+        color: inherit;
+        &:hover, &:active{
+            color: inherit;
+        }
+    }
     &-item > i{
         margin-right: 6px;
     }
@@ -105,7 +111,7 @@
     &-primary&-horizontal &-item, &-primary&-horizontal &-submenu{
         color: #fff;
         &-active, &:hover{
-            background: @link-active-color;
+            //background: @link-active-color;
         }
     }
 
@@ -148,20 +154,29 @@
         transition: all @transition-time @ease-in-out;
 
         &:hover{
-            background: @background-color-select-hover;
+            //background: @background-color-select-hover;
+            color: @primary-color;
         }
     }
 
     &-vertical &-submenu-title-icon{
-        float: right;
-        position: relative;
-        top: 4px;
+        // #5592 支持自定义图标 size 后，换一种位置
+        //float: right;
+        //position: relative;
+        //top: 4px;
+        position: absolute;
+        top: 50%;
+        right: 24px;
+        transform: translateY(-50%);
     }
     &-submenu-title-icon {
         transition: transform @transition-time @ease-in-out;
     }
-    &-opened > * > &-submenu-title-icon{
+    &-horizontal &-opened > * > &-submenu-title-icon{
         transform: rotate(180deg);
+    }
+    &-vertical &-opened > * > &-submenu-title-icon{
+        transform: translateY(-50%) rotate(180deg);
     }
 
     &-vertical &-submenu{
@@ -187,11 +202,22 @@
     }
 
     &-light&-vertical &-item{
-        border-right: 2px solid transparent;
+        //border-right: 2px solid transparent;
         &-active:not(.@{menu-prefix-cls}-submenu){
             color: @primary-color;
-            border-right: 2px solid @primary-color;
+            background: ~`colorPalette("@{primary-color}", 1)`;
+            //border-right: 2px solid @primary-color;
             z-index: 2;
+            &:after{
+                content: '';
+                display: block;
+                width: 2px;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                right: 0;
+                background: @primary-color;
+            }
         }
     }
 
@@ -208,7 +234,7 @@
         }
         &-active:not(.@{menu-prefix-cls}-submenu){
             color: @primary-color;
-            border-right: 2px solid @primary-color;
+            //border-right: 2px solid @primary-color;
         }
     }
     &-dark&-vertical &-submenu &-item{

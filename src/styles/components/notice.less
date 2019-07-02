@@ -31,7 +31,7 @@
 
         &-close {
             position: absolute;
-            right: 16px;
+            right: 8px;
             top: 15px;
             color: #999;
             outline: none;
@@ -89,9 +89,8 @@
 
     &-icon {
         position: absolute;
-        left: 20px;
-        margin-top: -1px;
-        font-size: 16px;
+        top: -2px;
+        font-size: @font-size-large;
 
         &-success {
             color: @success-color;
@@ -108,42 +107,10 @@
     }
     &-with-desc &-icon{
         font-size: 36px;
+        top: -6px;
     }
 
     &-custom-content{
-        &:after{
-            content: "";
-            display: block;
-            width: 4px;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-        }
-    }
-    &-with-normal{
-        &:after{
-            background: @primary-color;
-        }
-    }
-    &-with-info{
-        &:after{
-            background: @primary-color;
-        }
-    }
-    &-with-success{
-        &:after{
-            background: @success-color;
-        }
-    }
-    &-with-warning{
-        &:after{
-            background: @warning-color;
-        }
-    }
-    &-with-error{
-        &:after{
-            background: @error-color;
-        }
+        position: relative;
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div :class="classes" v-clickoutside="handleClose">
+    <div :class="classes" v-click-outside="handleClose">
         <div :class="[prefixCls + '-rel']" @click="toggleOpen" ref="reference">
             <input type="hidden" :name="name" :value="currentValue">
             <slot>
@@ -16,8 +16,8 @@
                     :class="[prefixCls + '-label']"
                     v-show="filterable && query === ''"
                     @click="handleFocus">{{ displayRender }}</div>
-                <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSelect"></Icon>
-                <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']"></Icon>
+                <Icon type="ios-close-circle" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSelect"></Icon>
+                <Icon :type="arrowType" :custom="customArrowType" :size="arrowSize" :class="[prefixCls + '-arrow']"></Icon>
             </slot>
         </div>
         <transition name="transition-drop">
@@ -26,6 +26,7 @@
                 :class="{ [prefixCls + '-transfer']: transfer }"
                 ref="drop"
                 :data-transfer="transfer"
+                :transfer="transfer"
                 v-transfer-dom>
                 <div>
                     <Caspanel
@@ -46,7 +47,7 @@
                                 @click="handleSelectItem(index)" v-html="item.display"></li>
                         </ul>
                     </div>
-                    <ul v-show="filterable && query !== '' && !querySelections.length" :class="[prefixCls + '-not-found-tip']"><li>{{ localeNotFoundText }}</li></ul>
+                    <ul v-show="(filterable && query !== '' && !querySelections.length) || !data.length" :class="[prefixCls + '-not-found-tip']"><li>{{ localeNotFoundText }}</li></ul>
                 </div>
             </Drop>
         </transition>
@@ -57,7 +58,7 @@
     import Drop from '../select/dropdown.vue';
     import Icon from '../icon/icon.vue';
     import Caspanel from './caspanel.vue';
-    import clickoutside from '../../directives/clickoutside';
+    import {directive as clickOutside} from 'v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
@@ -70,7 +71,7 @@
         name: 'Cascader',
         mixins: [ Emitter, Locale ],
         components: { iInput, Drop, Icon, Caspanel },
-        directives: { clickoutside, TransferDom },
+        directives: { clickOutside, TransferDom },
         props: {
             data: {
                 type: Array,
@@ -97,7 +98,10 @@
             },
             size: {
                 validator (value) {
-                    return oneOf(value, ['small', 'large']);
+                    return oneOf(value, ['small', 'large', 'default']);
+                },
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             trigger: {
@@ -128,7 +132,9 @@
             },
             transfer: {
                 type: Boolean,
-                default: false
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+                }
             },
             name: {
                 type: String
@@ -226,6 +232,41 @@
                     return item;
                 });
                 return selections;
+            },
+            // 3.4.0, global setting customArrow 有值时，arrow 赋值空
+            arrowType () {
+                let type = 'ios-arrow-down';
+
+                if (this.$IVIEW) {
+                    if (this.$IVIEW.cascader.customArrow) {
+                        type = '';
+                    } else if (this.$IVIEW.cascader.arrow) {
+                        type = this.$IVIEW.cascader.arrow;
+                    }
+                }
+                return type;
+            },
+            // 3.4.0, global setting
+            customArrowType () {
+                let type = '';
+
+                if (this.$IVIEW) {
+                    if (this.$IVIEW.cascader.customArrow) {
+                        type = this.$IVIEW.cascader.customArrow;
+                    }
+                }
+                return type;
+            },
+            // 3.4.0, global setting
+            arrowSize () {
+                let size = '';
+
+                if (this.$IVIEW) {
+                    if (this.$IVIEW.cascader.arrowSize) {
+                        size = this.$IVIEW.cascader.arrowSize;
+                    }
+                }
+                return size;
             }
         },
         methods: {
@@ -288,8 +329,11 @@
                 this.$refs.input.currentValue = '';
                 const oldVal = JSON.stringify(this.currentValue);
                 this.currentValue = item.value.split(',');
-                this.emitValue(this.currentValue, oldVal);
-                this.handleClose();
+                // use setTimeout for #4786, can not use nextTick, because @on-find-selected use nextTick
+                setTimeout(() => {
+                    this.emitValue(this.currentValue, oldVal);
+                    this.handleClose();
+                }, 0);
             },
             handleFocus () {
                 this.$refs.input.focus();

@@ -94,6 +94,15 @@ const lang = {
             star: 'Yıldız',
             stars: 'Yıldız'
         },
+        time: {
+            before: ' önce',
+            after: ' sonra',
+            just: 'hemen şimdi',
+            seconds: ' saniye',
+            minutes: ' dakika',
+            hours: ' saat',
+            days: ' gün'
+        },
         tree: {
             emptyText: 'Veri Yok'
         }

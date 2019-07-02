@@ -6,8 +6,9 @@
         <tbody :class="[prefixCls + '-tbody']">
             <template v-for="(row, index) in data">
                 <table-tr
+                    :draggable="draggable"
                     :row="row"
-                    :key="row._rowKey"
+                    :key="rowKey ? row._rowKey : index"
                     :prefix-cls="prefixCls"
                     @mouseenter.native.stop="handleMouseIn(row._index)"
                     @mouseleave.native.stop="handleMouseOut(row._index)"
@@ -25,12 +26,12 @@
                             :checked="rowChecked(row._index)"
                             :disabled="rowDisabled(row._index)"
                             :expanded="rowExpanded(row._index)"
-                        ></Cell>
+                        ></table-cell>
                     </td>
                 </table-tr>
                 <tr v-if="rowExpanded(row._index)" :class="{[prefixCls + '-expanded-hidden']: fixed}">
                     <td :colspan="columns.length" :class="prefixCls + '-expanded-cell'">
-                        <Expand :key="row._rowKey" :row="row" :render="expandRender" :index="row._index"></Expand>
+                        <Expand :key="rowKey ? row._rowKey : index" :row="row" :render="expandRender" :index="row._index"></Expand>
                     </td>
                 </tr>
             </template>
@@ -40,14 +41,14 @@
 <script>
     // todo :key="row"
     import TableTr from './table-tr.vue';
-    import Cell from './cell.vue';
+    import TableCell from './cell.vue';
     import Expand from './expand.js';
     import Mixin from './mixin';
 
     export default {
         name: 'TableBody',
         mixins: [ Mixin ],
-        components: { Cell, Expand, TableTr },
+        components: { TableCell, Expand, TableTr },
         props: {
             prefixCls: String,
             styleObject: Object,
@@ -57,6 +58,14 @@
             columnsWidth: Object,
             fixed: {
                 type: [Boolean, String],
+                default: false
+            },
+            draggable: {
+                type: Boolean,
+                default: false
+            },
+            rowKey: {
+                type: Boolean,
                 default: false
             }
         },

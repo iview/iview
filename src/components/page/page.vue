@@ -4,7 +4,7 @@
             :title="t('i.page.prev')"
             :class="prevClasses"
             @click="prev">
-            <a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a>
+            <a><i class="ivu-icon ivu-icon-ios-arrow-back"></i></a>
         </li>
         <div :class="simplePagerClasses" :title="currentPage + '/' + allPages">
             <input
@@ -22,7 +22,7 @@
             :title="t('i.page.next')"
             :class="nextClasses"
             @click="next">
-            <a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a>
+            <a><i class="ivu-icon ivu-icon-ios-arrow-forward"></i></a>
         </li>
     </ul>
     <ul :class="wrapClasses" :style="styles" v-else>
@@ -33,22 +33,24 @@
             :title="t('i.page.prev')"
             :class="prevClasses"
             @click="prev">
-            <a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a>
+            <a><template v-if="prevText !== ''">{{ prevText }}</template><i v-else class="ivu-icon ivu-icon-ios-arrow-back"></i></a>
         </li>
         <li title="1" :class="firstPageClasses" @click="changePage(1)"><a>1</a></li>
-        <li :title="t('i.page.prev5')" v-if="currentPage - 3 > 1" :class="[prefixCls + '-item-jump-prev']" @click="fastPrev"><a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a></li>
+        <li :title="t('i.page.prev5')" v-if="currentPage > 5" :class="[prefixCls + '-item-jump-prev']" @click="fastPrev"><a><i class="ivu-icon ivu-icon-ios-arrow-back"></i></a></li>
+        <li :title="currentPage - 3" v-if="currentPage === 5" :class="[prefixCls + '-item']" @click="changePage(currentPage - 3)"><a>{{ currentPage - 3 }}</a></li>
         <li :title="currentPage - 2" v-if="currentPage - 2 > 1" :class="[prefixCls + '-item']" @click="changePage(currentPage - 2)"><a>{{ currentPage - 2 }}</a></li>
         <li :title="currentPage - 1" v-if="currentPage - 1 > 1" :class="[prefixCls + '-item']" @click="changePage(currentPage - 1)"><a>{{ currentPage - 1 }}</a></li>
         <li :title="currentPage" v-if="currentPage != 1 && currentPage != allPages" :class="[prefixCls + '-item',prefixCls + '-item-active']"><a>{{ currentPage }}</a></li>
         <li :title="currentPage + 1" v-if="currentPage + 1 < allPages" :class="[prefixCls + '-item']" @click="changePage(currentPage + 1)"><a>{{ currentPage + 1 }}</a></li>
         <li :title="currentPage + 2" v-if="currentPage + 2 < allPages" :class="[prefixCls + '-item']" @click="changePage(currentPage + 2)"><a>{{ currentPage + 2 }}</a></li>
-        <li :title="t('i.page.next5')" v-if="currentPage + 3 < allPages" :class="[prefixCls + '-item-jump-next']" @click="fastNext"><a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a></li>
+        <li :title="currentPage + 3" v-if="allPages - currentPage === 4" :class="[prefixCls + '-item']" @click="changePage(currentPage + 3)"><a>{{ currentPage + 3 }}</a></li>
+        <li :title="t('i.page.next5')" v-if="allPages - currentPage >= 5" :class="[prefixCls + '-item-jump-next']" @click="fastNext"><a><i class="ivu-icon ivu-icon-ios-arrow-forward"></i></a></li>
         <li :title="allPages" v-if="allPages > 1" :class="lastPageClasses" @click="changePage(allPages)"><a>{{ allPages }}</a></li>
         <li
             :title="t('i.page.next')"
             :class="nextClasses"
             @click="next">
-            <a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a>
+            <a><template v-if="nextText !== ''">{{ nextText }}</template><i v-else class="ivu-icon ivu-icon-ios-arrow-forward"></i></a>
         </li>
         <Options
             :show-sizer="showSizer"
@@ -104,7 +106,9 @@
             },
             transfer: {
                 type: Boolean,
-                default: false
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+                }
             },
             size: {
                 validator (value) {
@@ -132,6 +136,14 @@
             },
             styles: {
                 type: Object
+            },
+            prevText: {
+                type: String,
+                default: ''
+            },
+            nextText: {
+                type: String,
+                default: ''
             }
         },
         data () {
@@ -144,8 +156,8 @@
         watch: {
             total (val) {
                 let maxPage = Math.ceil(val / this.currentPageSize);
-                if (maxPage < this.currentPage && maxPage > 0) {
-                    this.currentPage = maxPage;
+                if (maxPage < this.currentPage ) {
+                    this.currentPage = (maxPage === 0 ? 1 : maxPage);
                 }
             },
             current (val) {
@@ -188,7 +200,8 @@
                 return [
                     `${prefixCls}-prev`,
                     {
-                        [`${prefixCls}-disabled`]: this.currentPage === 1
+                        [`${prefixCls}-disabled`]: this.currentPage === 1,
+                        [`${prefixCls}-custom-text`]: this.prevText !== ''
                     }
                 ];
             },
@@ -196,7 +209,8 @@
                 return [
                     `${prefixCls}-next`,
                     {
-                        [`${prefixCls}-disabled`]: this.currentPage === this.allPages
+                        [`${prefixCls}-disabled`]: this.currentPage === this.allPages,
+                        [`${prefixCls}-custom-text`]: this.nextText !== ''
                     }
                 ];
             },

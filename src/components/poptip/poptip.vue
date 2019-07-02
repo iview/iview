@@ -3,7 +3,7 @@
         :class="classes"
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave"
-        v-clickoutside="handleClose">
+        v-click-outside="handleClose">
         <div
             :class="[prefixCls + '-rel']"
             ref="reference"
@@ -27,7 +27,7 @@
                     <div :class="[prefixCls + '-arrow']"></div>
                     <div :class="[prefixCls + '-inner']" v-if="confirm">
                         <div :class="[prefixCls + '-body']">
-                            <i class="ivu-icon ivu-icon-help-circled"></i>
+                            <i class="ivu-icon ivu-icon-ios-help-circle"></i>
                             <div :class="[prefixCls + '-body-message']"><slot name="title">{{ title }}</slot></div>
                         </div>
                         <div :class="[prefixCls + '-footer']">
@@ -36,9 +36,9 @@
                         </div>
                     </div>
                     <div :class="[prefixCls + '-inner']" v-if="!confirm">
-                        <div :class="[prefixCls + '-title']" v-if="showTitle" ref="title"><slot name="title"><div :class="[prefixCls + '-title-inner']">{{ title }}</div></slot></div>
-                        <div :class="[prefixCls + '-body']">
-                            <div :class="[prefixCls + '-body-content']"><slot name="content"><div :class="[prefixCls + '-body-content-inner']">{{ content }}</div></slot></div>
+                        <div :class="[prefixCls + '-title']" :style="contentPaddingStyle" v-if="showTitle" ref="title"><slot name="title"><div :class="[prefixCls + '-title-inner']">{{ title }}</div></slot></div>
+                        <div :class="[prefixCls + '-body']" :style="contentPaddingStyle">
+                            <div :class="contentClasses"><slot name="content"><div :class="[prefixCls + '-body-content-inner']">{{ content }}</div></slot></div>
                         </div>
                     </div>
                 </div>
@@ -49,9 +49,10 @@
 <script>
     import Popper from '../base/popper';
     import iButton from '../button/button.vue';
-    import clickoutside from '../../directives/clickoutside';
+    import {directive as clickOutside} from 'v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
+    import { transferIndex, transferIncrease } from '../../utils/transfer-queue';
     import Locale from '../../mixins/locale';
 
     const prefixCls = 'ivu-poptip';
@@ -59,7 +60,7 @@
     export default {
         name: 'Poptip',
         mixins: [ Popper, Locale ],
-        directives: { clickoutside, TransferDom },
+        directives: { clickOutside, TransferDom },
         components: { iButton },
         props: {
             trigger: {
@@ -96,10 +97,25 @@
             },
             transfer: {
                 type: Boolean,
-                default: false
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+                }
             },
             popperClass: {
                 type: String
+            },
+            wordWrap: {
+                type: Boolean,
+                default: false
+            },
+            // default by css: 8px 16px
+            padding: {
+                type: String
+            },
+            // 3.4.0
+            disabled: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -108,6 +124,7 @@
                 showTitle: true,
                 isInput: false,
                 disableCloseUnderTransfer: false,  // transfer 模式下，点击 slot 也会触发关闭
+                tIndex: this.handleGetIndex()
             };
         },
         computed: {
@@ -134,6 +151,9 @@
                 if (this.width) {
                     style.width = `${this.width}px`;
                 }
+
+                if (this.transfer) style['z-index'] = 1060 + this.tIndex;
+
                 return style;
             },
             localeOkText () {
@@ -149,10 +169,25 @@
                 } else {
                     return this.cancelText;
                 }
-            }
+            },
+            contentClasses () {
+                return [
+                    `${prefixCls}-body-content`,
+                    {
+                        [`${prefixCls}-body-content-word-wrap`]: this.wordWrap
+                    }
+                ];
+            },
+            contentPaddingStyle () {
+                const styles = {};
+                if (this.padding !== '') styles['padding'] = this.padding;
+                return styles;
+            },
         },
         methods: {
             handleClick () {
+                if (this.disabled) return;
+
                 if (this.confirm) {
                     this.visible = !this.visible;
                     return true;
@@ -180,6 +215,8 @@
                 this.visible = false;
             },
             handleFocus (fromInput = true) {
+                if (this.disabled) return;
+
                 if (this.trigger !== 'focus' || this.confirm || (this.isInput && !fromInput)) {
                     return false;
                 }
@@ -192,6 +229,8 @@
                 this.visible = false;
             },
             handleMouseenter () {
+                if (this.disabled) return;
+                
                 if (this.trigger !== 'hover' || this.confirm) {
                     return false;
                 }
@@ -231,6 +270,13 @@
                 }
 
                 return $children;
+            },
+            handleGetIndex () {
+                transferIncrease();
+                return transferIndex;
+            },
+            handleIndexIncrease () {
+                this.tIndex = this.handleGetIndex();
             }
         },
         mounted () {

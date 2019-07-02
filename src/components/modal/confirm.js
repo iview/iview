@@ -23,7 +23,8 @@ Modal.newInstance = properties => {
             loading: false,
             buttonLoading: false,
             scrollable: false,
-            closable: false
+            closable: false,
+            closing: false // 关闭有动画，期间使用此属性避免重复点击
         }),
         render (h) {
             let footerVNodes = [];
@@ -64,6 +65,22 @@ Modal.newInstance = properties => {
                     }
                 }, [
                     h('div', {
+                        domProps: {
+                            innerHTML: this.body
+                        }
+                    })
+                ]);
+            }
+
+            // when render with no title, hide head
+            let head_render;
+            if (this.title) {
+                head_render = h('div', {
+                    attrs: {
+                        class: `${prefixCls}-head`
+                    }
+                }, [
+                    h('div', {
                         class: this.iconTypeCls
                     }, [
                         h('i', {
@@ -71,8 +88,11 @@ Modal.newInstance = properties => {
                         })
                     ]),
                     h('div', {
+                        attrs: {
+                            class: `${prefixCls}-head-title`
+                        },
                         domProps: {
-                            innerHTML: this.body
+                            innerHTML: this.title
                         }
                     })
                 ]);
@@ -99,20 +119,7 @@ Modal.newInstance = properties => {
                         class: prefixCls
                     }
                 }, [
-                    h('div', {
-                        attrs: {
-                            class: `${prefixCls}-head`
-                        }
-                    }, [
-                        h('div', {
-                            attrs: {
-                                class: `${prefixCls}-head-title`
-                            },
-                            domProps: {
-                                innerHTML: this.title
-                            }
-                        })
-                    ]),
+                    head_render,
                     body_render,
                     h('div', {
                         attrs: {
@@ -125,8 +132,8 @@ Modal.newInstance = properties => {
         computed: {
             iconTypeCls () {
                 return [
-                    `${prefixCls}-body-icon`,
-                    `${prefixCls}-body-icon-${this.iconType}`
+                    `${prefixCls}-head-icon`,
+                    `${prefixCls}-head-icon-${this.iconType}`
                 ];
             },
             iconNameCls () {
@@ -152,12 +159,14 @@ Modal.newInstance = properties => {
         },
         methods: {
             cancel () {
+                if (this.closing) return;
                 this.$children[0].visible = false;
                 this.buttonLoading = false;
                 this.onCancel();
                 this.remove();
             },
             ok () {
+                if (this.closing) return;
                 if (this.loading) {
                     this.buttonLoading = true;
                 } else {
@@ -167,7 +176,9 @@ Modal.newInstance = properties => {
                 this.onOk();
             },
             remove () {
+                this.closing = true;
                 setTimeout(() => {
+                    this.closing = false;
                     this.destroy();
                 }, 300);
             },
@@ -193,19 +204,19 @@ Modal.newInstance = properties => {
 
             switch (props.icon) {
                 case 'info':
-                    modal.$parent.iconName = 'information-circled';
+                    modal.$parent.iconName = 'ios-information-circle';
                     break;
                 case 'success':
-                    modal.$parent.iconName = 'checkmark-circled';
+                    modal.$parent.iconName = 'ios-checkmark-circle';
                     break;
                 case 'warning':
-                    modal.$parent.iconName = 'android-alert';
+                    modal.$parent.iconName = 'ios-alert';
                     break;
                 case 'error':
-                    modal.$parent.iconName = 'close-circled';
+                    modal.$parent.iconName = 'ios-close-circle';
                     break;
                 case 'confirm':
-                    modal.$parent.iconName = 'help-circled';
+                    modal.$parent.iconName = 'ios-help-circle';
                     break;
             }
 

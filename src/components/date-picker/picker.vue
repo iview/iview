@@ -2,6 +2,7 @@
     <div
         :class="wrapperClasses"
         v-click-outside:mousedown.capture="handleClose"
+        v-click-outside:touchstart.capture="handleClose"
         v-click-outside.capture="handleClose"
     >
         <div ref="reference" :class="[prefixCls + '-rel']">
@@ -21,14 +22,13 @@
                     @on-input-change="handleInputChange"
                     @on-focus="handleFocus"
                     @on-blur="handleBlur"
-                    @on-click="handleIconClick"
                     @click.native="handleFocus"
                     @keydown.native="handleKeydown"
                     @mouseenter.native="handleInputMouseenter"
                     @mouseleave.native="handleInputMouseleave"
-
-                    :icon="iconType"
-                ></i-input>
+                >
+                    <Icon @click="handleIconClick" :type="arrowType" :custom="customArrowType" :size="arrowSize" slot="suffix" />
+                </i-input>
             </slot>
         </div>
         <transition name="transition-drop">
@@ -39,6 +39,7 @@
                 :placement="placement"
                 ref="drop"
                 :data-transfer="transfer"
+                :transfer="transfer"
                 v-transfer-dom>
                 <div>
                     <component
@@ -78,10 +79,11 @@
 
     import iInput from '../../components/input/input.vue';
     import Drop from '../../components/select/dropdown.vue';
-    import vClickOutside from 'v-click-outside-x';
+    import Icon from '../../components/icon/icon.vue';
+    import {directive as clickOutside} from 'v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
-    import { DEFAULT_FORMATS, RANGE_SEPARATOR, TYPE_VALUE_RESOLVER_MAP, getDayCountOfMonth } from './util';
+    import { DEFAULT_FORMATS, TYPE_VALUE_RESOLVER_MAP, getDayCountOfMonth } from './util';
     import {findComponentsDownward} from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
@@ -119,8 +121,8 @@
 
     export default {
         mixins: [ Emitter ],
-        components: { iInput, Drop },
-        directives: { clickOutside: vClickOutside.directive, TransferDom },
+        components: { iInput, Drop, Icon },
+        directives: { clickOutside, TransferDom },
         props: {
             format: {
                 type: String
@@ -171,6 +173,9 @@
             size: {
                 validator (value) {
                     return oneOf(value, ['small', 'large', 'default']);
+                },
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             placeholder: {
@@ -185,7 +190,9 @@
             },
             transfer: {
                 type: Boolean,
-                default: false
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+                }
             },
             name: {
                 type: String
@@ -203,6 +210,10 @@
             options: {
                 type: Object,
                 default: () => ({})
+            },
+            separator: {
+                type: String,
+                default: ' - '
             }
         },
         data(){
@@ -257,12 +268,6 @@
             opened () {
                 return this.open === null ? this.visible : this.open;
             },
-            iconType () {
-                let icon = 'ios-calendar-outline';
-                if (this.type === 'time' || this.type === 'timerange') icon = 'ios-clock-outline';
-                if (this.showClose) icon = 'ios-close';
-                return icon;
-            },
             transition () {
                 const bottomPlaced = this.placement.match(/^bottom/);
                 return bottomPlaced ? 'slide-up' : 'slide-down';
@@ -272,6 +277,80 @@
             },
             isConfirm(){
                 return this.confirm || this.type === 'datetime' || this.type === 'datetimerange' || this.multiple;
+            },
+            // 3.4.0, global setting customArrow 有值时，arrow 赋值空
+            arrowType () {
+                let type = '';
+
+                if (this.type === 'time' || this.type === 'timerange') {
+                    type = 'ios-time-outline';
+
+                    if (this.$IVIEW) {
+                        if (this.$IVIEW.timePicker.customIcon) {
+                            type = '';
+                        } else if (this.$IVIEW.timePicker.icon) {
+                            type = this.$IVIEW.timePicker.icon;
+                        }
+                    }
+                } else {
+                    type = 'ios-calendar-outline';
+
+                    if (this.$IVIEW) {
+                        if (this.$IVIEW.datePicker.customIcon) {
+                            type = '';
+                        } else if (this.$IVIEW.datePicker.icon) {
+                            type = this.$IVIEW.datePicker.icon;
+                        }
+                    }
+                }
+
+                if (this.showClose) type = 'ios-close-circle';
+
+                return type;
+            },
+            // 3.4.0, global setting
+            customArrowType () {
+                let type = '';
+
+                if (!this.showClose) {
+                    if (this.type === 'time' || this.type === 'timerange') {
+                        if (this.$IVIEW) {
+                            if (this.$IVIEW.timePicker.customIcon) {
+                                type = this.$IVIEW.timePicker.customIcon;
+                            }
+                        }
+                    } else {
+                        if (this.$IVIEW) {
+                            if (this.$IVIEW.datePicker.customIcon) {
+                                type = this.$IVIEW.datePicker.customIcon;
+                            }
+                        }
+                    }
+                }
+
+                return type;
+            },
+            // 3.4.0, global setting
+            arrowSize () {
+                let size = '';
+
+                if (!this.showClose) {
+                    if (this.type === 'time' || this.type === 'timerange') {
+                        if (this.$IVIEW) {
+                            if (this.$IVIEW.timePicker.iconSize) {
+                                size = this.$IVIEW.timePicker.iconSize;
+                            }
+                        }
+                    } else {
+                        if (this.$IVIEW) {
+                            if (this.$IVIEW.datePicker.iconSize) {
+                                size = this.$IVIEW.datePicker.iconSize;
+                            }
+                        }
+                    }
+                }
+
+                return size;
             }
         },
         methods: {
@@ -303,6 +382,7 @@
                     this.visible = false;
                     e && e.preventDefault();
                     e && e.stopPropagation();
+                    this.$emit('on-clickoutside', e);
                     return;
                 }
 
@@ -313,7 +393,9 @@
                 if (this.readonly) return;
                 this.isFocused = true;
                 if (e && e.type === 'focus') return; // just focus, don't open yet
-                this.visible = true;
+                if(!this.disabled){
+                    this.visible = true;
+                }
             },
             handleBlur (e) {
                 if (this.internalFocus){
@@ -561,8 +643,9 @@
             handleInputMouseleave () {
                 this.showClose = false;
             },
-            handleIconClick () {
+            handleIconClick (e) {
                 if (this.showClose) {
+                    if (e) e.stopPropagation();
                     this.handleClear();
                 } else if (!this.disabled) {
                     this.handleFocus();
@@ -598,23 +681,23 @@
                 const multipleParser = TYPE_VALUE_RESOLVER_MAP['multiple'].parser;
 
                 if (val && type === 'time' && !(val instanceof Date)) {
-                    val = parser(val, format);
+                    val = parser(val, format, this.separator);
                 } else if (this.multiple && val) {
-                    val = multipleParser(val, format);
+                    val = multipleParser(val, format, this.separator);
                 } else if (isRange) {
                     if (!val){
                         val = [null, null];
                     } else {
                         if (typeof val === 'string') {
-                            val = parser(val, format);
+                            val = parser(val, format, this.separator);
                         } else if (type === 'timerange') {
-                            val = parser(val, format).map(v => v || '');
+                            val = parser(val, format, this.separator).map(v => v || '');
                         } else {
                             const [start, end] = val;
                             if (start instanceof Date && end instanceof Date){
                                 val = val.map(date => new Date(date));
                             } else if (typeof start === 'string' && typeof end === 'string'){
-                                val = parser(val.join(RANGE_SEPARATOR), format);
+                                val = parser(val.join(this.separator), format, this.separator);
                             } else if (!start || !end){
                                 val = [null, null];
                             }
@@ -631,13 +714,13 @@
 
                 if (this.multiple) {
                     const formatter = TYPE_VALUE_RESOLVER_MAP.multiple.formatter;
-                    return formatter(value, this.format || format);
+                    return formatter(value, this.format || format, this.separator);
                 } else {
                     const {formatter} = (
                         TYPE_VALUE_RESOLVER_MAP[this.type] ||
                         TYPE_VALUE_RESOLVER_MAP['default']
                     );
-                    return formatter(value, this.format || format);
+                    return formatter(value, this.format || format, this.separator);
                 }
             },
             onPick(dates, visible = false, type) {
@@ -648,6 +731,7 @@
                     const timeStamps = allDates.map(date => date.getTime()).filter((ts, i, arr) => arr.indexOf(ts) === i && i !== indexOfPickedDate); // filter away duplicates
                     this.internalValue = timeStamps.map(ts => new Date(ts));
                 } else {
+                    dates = this.parseDate(dates);
                     this.internalValue = Array.isArray(dates) ? dates : [dates];
                 }
 
@@ -668,7 +752,10 @@
                 this.reset();
             },
             focus() {
-                this.$refs.input.focus();
+                this.$refs.input && this.$refs.input.focus();
+            },
+            updatePopper () {
+                this.$refs.drop.update();
             }
         },
         watch: {
@@ -705,6 +792,7 @@
 
             // to handle focus from confirm buttons
             this.$on('focus-input', () => this.focus());
+            this.$on('update-popper', () => this.updatePopper());
         }
     };
 </script>
