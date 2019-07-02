@@ -13,7 +13,7 @@
                     @mouseleave.native.stop="handleMouseOut(row._index)"
                     @click.native="clickCurrentRow(row._index)"
                     @dblclick.native.stop="dblclickCurrentRow(row._index)">
-                    <td v-for="column in columns" :class="alignCls(column, row)">
+                    <td v-for="column in columns" :rowspan="row[idx] && row[idx]._rowspan ? row[idx]._rowspan : 1" :class="alignCls(column, row)">
                         <Cell
                             :fixed="fixed"
                             :prefix-cls="prefixCls"
