@@ -38,10 +38,8 @@
 <script>
     import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
-
     const prefixCls = 'ivu-input-number';
     const iconPrefixCls = 'ivu-icon';
-
     function addNum (num1, num2) {
         let sq1, sq2, m;
         try {
@@ -65,7 +63,6 @@
         m = Math.pow(10, Math.max(sq1, sq2));
         return (Math.round(num1 * m) + Math.round(num2 * m)) / m;
     }
-
     export default {
         name: 'InputNumber',
         mixins: [ Emitter ],
@@ -132,7 +129,8 @@
                 focused: false,
                 upDisabled: false,
                 downDisabled: false,
-                currentValue: this.value
+                currentValue: this.value,
+                isAddPrecision: true
             };
         },
         computed: {
@@ -181,8 +179,7 @@
             },
             precisionValue () {
                 // can not display 1.0
-                if(!this.currentValue) return this.currentValue;
-                return this.precision ? this.currentValue.toFixed(this.precision) : this.currentValue;
+                return this.precision && this.isAddPrecision? this.currentValue.toFixed(this.precision) : this.currentValue;
             },
             formatterValue () {
                 if (this.formatter && this.precisionValue !== null) {
@@ -214,14 +211,12 @@
                 if (this.disabled || this.readonly) {
                     return false;
                 }
-
                 const targetVal = Number(e.target.value);
                 let val = Number(this.currentValue);
                 const step = Number(this.step);
                 if (isNaN(val)) {
                     return false;
                 }
-
                 // input a number, and key up or down
                 if (!isNaN(targetVal)) {
                     if (type === 'up') {
@@ -238,7 +233,6 @@
                         }
                     }
                 }
-
                 if (type === 'up') {
                     val = addNum(val, step);
                 } else if (type === 'down') {
@@ -248,8 +242,7 @@
             },
             setValue (val) {
                 // 如果 step 是小数，且没有设置 precision，是有问题的
-                if (val && !isNaN(this.precision)) val = Number(Number(val).toFixed(this.precision));
-
+                if (!isNaN(this.precision)) val = Number(Number(val).toFixed(this.precision));
                 this.$nextTick(() => {
                     this.currentValue = val;
                     this.$emit('input', val);
@@ -263,6 +256,7 @@
             },
             blur () {
                 this.focused = false;
+                this.isAddPrecision= true;
                 this.$emit('on-blur');
             },
             keyDown (e) {
@@ -279,13 +273,13 @@
                 if (this.parser) {
                     val = this.parser(val);
                 }
-
+                
+                this.isAddPrecision= false;
+                
                 if (event.type == 'input' && val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
-
                 const {min, max} = this;
                 const isEmptyString = val.length === 0;
                 val = Number(val);
-
                 if(isEmptyString){
                     this.setValue(null);
                     return;
@@ -293,10 +287,8 @@
                 if (event.type == 'change'){
                     if (val === this.currentValue && val > min && val < max) return; // already fired change for input event
                 }
-
                 if (!isNaN(val) && !isEmptyString) {
                     this.currentValue = val;
-
                     if (event.type == 'input' && val < min) return; // prevent fire early in case user is typing a bigger number. Change will handle this otherwise.
                     if (val > max) {
                         this.setValue(max);
@@ -313,7 +305,6 @@
                 val = Number(val);
                 if (!isNaN(val)) {
                     const step = this.step;
-
                     this.upDisabled = val + step > this.max;
                     this.downDisabled = val - step < this.min;
                 } else {
