@@ -15,7 +15,7 @@
                     @click.native="clickCurrentRow(row._index)"
                     @dblclick.native.stop="dblclickCurrentRow(row._index)">
                     <td v-for="column in columns" :rowspan="row[idx] && row[idx]._rowspan ? row[idx]._rowspan : 1" :class="alignCls(column, row)">
-                        <Cell
+                        <table-cell
                             :fixed="fixed"
                             :prefix-cls="prefixCls"
                             :row="row"
