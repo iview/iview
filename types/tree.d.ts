@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode, CreateElement } from "vue";
 
-export declare interface Tree extends Vue {
+export declare class Tree extends Vue {
     /**
      * 可嵌套的节点属性的数组，生成 tree 的数据
      */
@@ -77,7 +77,7 @@ export declare interface Tree extends Vue {
     getCheckedAndIndeterminateNodes(): any[];
 }
 
-export declare interface TreeChild extends Vue {
+export declare class TreeChild extends Vue {
     /**
      * 标题
      */

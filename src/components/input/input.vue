@@ -141,9 +141,7 @@
                 default: false
             },
             autocomplete: {
-                validator (value) {
-                    return oneOf(value, ['on', 'off']);
-                },
+                type: String,
                 default: 'off'
             },
             clearable: {

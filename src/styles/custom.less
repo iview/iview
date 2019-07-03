@@ -19,6 +19,8 @@
 @tooltip-color          : #fff;
 @subsidiary-color       : #808695;
 @rate-star-color        : #f5a623;
+@white: #fff;
+@black: #000;
 
 // Base
 @body-background        : #fff;
@@ -27,6 +29,9 @@
 @code-family            : Consolas,Menlo,Courier,monospace;
 @title-color            : #17233d;
 @text-color             : #515a6e;
+@text-color-secondary: fade(@black, 45%);
+@heading-color: fade(#000, 85%);
+@heading-color-dark: fade(@white, 100%);
 @font-size-base         : 14px;
 @font-size-small        : 12px;
 @font-size-large        : 16px;
@@ -35,6 +40,12 @@
 @border-radius-base     : 6px;
 @border-radius-small    : 4px;
 @cursor-disabled        : not-allowed;
+
+// vertical paddings
+@padding-lg: 24px; // containers
+@padding-md: 16px; // small containers and buttons
+@padding-sm: 12px; // Form controls and items
+@padding-xs: 8px; // small items
 
 // Border color
 @border-color-base      : #dcdee2;  // outside
@@ -211,3 +222,13 @@
 
 // Anchor
 @anchor-border-width: 2px;
+
+// List
+// ---
+@list-header-background: transparent;
+@list-footer-background: transparent;
+@list-empty-text-padding: @padding-md;
+@list-item-padding: @padding-sm 0;
+@list-item-meta-margin-bottom: @padding-md;
+@list-item-meta-avatar-margin-right: @padding-md;
+@list-item-meta-title-margin-bottom: @padding-sm;

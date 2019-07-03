@@ -5,7 +5,7 @@
         </transition>
         <div :class="wrapClasses" :style="wrapStyles" @click="handleWrapClick">
             <transition :name="transitionNames[0]" @after-leave="animationFinish">
-                <div :class="classes" :style="mainStyles" v-show="visible">
+                <div :class="classes" :style="mainStyles" v-show="visible" @mousedown="handleMousedown">
                     <div :class="contentClasses" ref="content" :style="contentStyles" @click="handleClickModal">
                         <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
                             <slot name="close">
@@ -140,6 +140,7 @@
                     dragging: false
                 },
                 modalIndex: this.handleGetModalIndex(),  // for Esc close the top modal
+                isMouseTriggerIn: false, // #5800
             };
         },
         computed: {
@@ -243,9 +244,16 @@
                 }
             },
             handleWrapClick (event) {
+                if (this.isMouseTriggerIn) {
+                    this.isMouseTriggerIn = false;
+                    return;
+                }
                 // use indexOf,do not use === ,because ivu-modal-wrap can have other custom className
                 const className = event.target.getAttribute('class');
                 if (className && className.indexOf(`${prefixCls}-wrap`) > -1) this.handleMask();
+            },
+            handleMousedown () {
+                this.isMouseTriggerIn = true;
             },
             cancel () {
                 this.close();

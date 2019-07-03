@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue from 'vue';
 
-export declare interface Divider extends Vue {
+export declare class Divider extends Vue {
   /**
    * 水平还是垂直类型，可选值为 horizontal 或 vertical
    * @default horizontal
