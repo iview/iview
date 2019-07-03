@@ -227,8 +227,8 @@
                 this.inputLength = this.$refs.input.value.length * 12 + 20;
                 this.$emit('on-keydown');
             },
-            handleInputDelete () {
-                if (this.multiple && this.selectedMultiple.length && this.query === '') {
+            handleInputDelete (e) {
+                if (this.multiple && this.selectedMultiple.length && this.query === '' && !e.isComposing) {// 拼写状态下不删除tag内容
                     this.removeTag(this.selectedMultiple[this.selectedMultiple.length - 1]);
                 }
             },
