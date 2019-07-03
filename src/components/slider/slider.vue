@@ -179,6 +179,7 @@
                 val = this.checkLimits(Array.isArray(val) ? val : [val]);
                 if (!this.dragging && (val[0] !== this.currentValue[0] || val[1] !== this.currentValue[1])) {
                     this.currentValue = val;
+                    this.oldValue = [...val];
                 }
             },
             exportValue (values) {
