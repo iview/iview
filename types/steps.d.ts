@@ -26,7 +26,7 @@ export declare class Steps extends Vue {
   direction?: 'horizontal' | 'vertical';
 }
 
-export declare class StepsStep extends Vue {
+export declare class Step extends Vue {
   /**
    * 步骤的状态，可选值为wait、process、finish、error，不设置时自动判断
    * @default process
