@@ -50,7 +50,7 @@ export { Select, Option, OptionGroup } from './select';
 export { Sider } from './sider';
 export { Slider } from './slider';
 export { Spin } from './spin';
-export { Steps, StepsStep } from './steps';
+export { Steps, Step } from './steps';
 export { Switch, Switch as ISwitch } from './switch';
 export { Table, TableColumn, TableRenderCreateElementData, TableColumnRenderParams, TableColumnRenderHeadParams, TableExportCsvParams } from './table';
 export { Tabs, TabPane } from './tabs';
