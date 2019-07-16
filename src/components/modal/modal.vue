@@ -366,8 +366,8 @@
             },
             visible (val) {
                 if (val === false) {
-                    this.buttonLoading = false;
                     this.timer = setTimeout(() => {
+                        this.buttonLoading = false;
                         this.wrapShow = false;
                         this.removeScrollEffect();
                     }, 300);
