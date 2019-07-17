@@ -450,9 +450,11 @@
                 const option = this.flatOptions.find(({componentOptions}) => componentOptions.propsData.value === value);
                 if (!option) return null;
                 const label = getOptionLabel(option);
+                const disabled = option.componentOptions.propsData.disabled;
                 return {
                     value: value,
                     label: label,
+                    disabled: disabled,
                 };
             },
             getInitialValue(){
