@@ -1,9 +1,9 @@
 {
   "name": "piview",
-  "version": "3.5.6",
+  "version": "3.5.8",
   "title": "iView",
   "description": "A high quality UI components Library with Vue.js",
-  "homepage": "http://www.iviewui.com",
+  "homepage": "https://github.com/encorehe/iview",
   "keywords": [
     "iview",
     "vue",

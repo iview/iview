@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Table tooltip-theme="light" ref="currentRowTable" :columns="columns3" :data="data1" :draggable="true" @on-drag-drop="onDragDrop"></Table>
+        <Table tooltip-theme="light" ref="currentRowTable" :columns="columns3" :data="data2" :draggable="true" @on-drag-drop="onDragDrop"></Table>
         <Button @click="handleClearCurrentRow">Clear</Button>
     </div>
 </template>
@@ -31,6 +31,7 @@
                         tooltip: true
                     }
                 ],
+                data2:[],
                 data1: [
                     {
                         name: 'John Brown',

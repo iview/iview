@@ -14,7 +14,7 @@
                     @on-query-change="handleQueryChange"
                     :placeholder="filterPlaceholder"></Search>
             </div>
-            <ul :class="prefixCls + '-content'">
+            <ul :class="prefixCls + '-content'" @scroll="scroll">
                 <li
                     v-for="item in filterData"
                     :class="itemClasses(item)"
@@ -93,6 +93,9 @@
             }
         },
         methods: {
+            scroll(e){
+                this.$emit('scroll',e)
+            },
             itemClasses (item) {
                 return [
                     `${this.prefixCls}-content-item`,

@@ -92,10 +92,7 @@
                 type: Boolean,
                 default: true
             },
-            value: {
-                type: Number,
-                default: 1
-            },
+            value:[Number,String],
             size: {
                 validator (value) {
                     return oneOf(value, ['small', 'large', 'default']);
