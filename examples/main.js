@@ -233,6 +233,10 @@ const router = new VueRouter({
         {
             path: '/icon',
             component: (resolve) => require(['./routers/icon.vue'], resolve)
+        },
+        {
+            path: '/list',
+            component: (resolve) => require(['./routers/list.vue'], resolve)
         }
     ]
 });

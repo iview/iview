@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue from 'vue';
 
-export declare interface Button extends Vue {
+export declare class Button extends Vue {
   /**
    * 按钮类型，可选值为 default、primary、dashed、text、info、success、warning、error或者不设置
    * @default default
@@ -73,7 +73,7 @@ export declare interface Button extends Vue {
   append?: boolean;
 }
 
-export declare interface ButtonGroup extends Vue {
+export declare class ButtonGroup extends Vue {
   /**
    * 按钮组合大小，可选值为large、small、default或者不设置
    * @default default

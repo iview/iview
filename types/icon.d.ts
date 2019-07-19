@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue from 'vue';
 
-export declare interface Icon extends Vue {
+export declare class Icon extends Vue {
   /**
    * 图标的名称
    */

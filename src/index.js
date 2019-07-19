@@ -30,6 +30,7 @@ import InputNumber from './components/input-number';
 import Scroll from './components/scroll';
 import Split from './components/split';
 import Layout from './components/layout';
+import List from './components/list';
 import LoadingBar from './components/loading-bar';
 import Menu from './components/menu';
 import Message from './components/message';
@@ -102,6 +103,9 @@ const components = {
     Split,
     Submenu: Menu.Sub,
     Layout: Layout,
+    List,
+    ListItem: List.Item,
+    ListItemMeta: List.Item.Meta,
     LoadingBar,
     Menu,
     MenuGroup: Menu.Group,

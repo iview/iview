@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode, CreateElement } from "vue";
 
-export declare interface Modal {
+export declare class Modal extends Vue {
     /**
      * 对话框是否显示，可使用 v-model 双向绑定数据。
      * @default false
@@ -128,7 +128,7 @@ export declare interface Modal {
     };
 }
 
-export declare interface ModalInstance {
+export declare class ModalInstance extends Modal {
     /**
      * 消息
      * @param config ModalConfig为相关配置,string为待显示的内容
@@ -160,7 +160,7 @@ export declare interface ModalInstance {
     remove(): void;
 }
 
-export declare interface ModalConfig {
+export declare class ModalConfig {
     /**
      * 标题或者Element选择器字符串
      */

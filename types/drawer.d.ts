@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode } from 'vue';
 
-export declare interface Drawer extends Vue {
+export declare class Drawer extends Vue {
     /**
      * 抽屉是否显示，可使用 v-model 双向绑定数据
      * @default false

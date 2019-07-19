@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode, CreateElement } from "vue";
 
-export declare interface Notice {
+export declare class Notice extends Vue {
     /**
      * 打开
      * @param config NoticeConfig为相关配置,string为待显示的内容
@@ -44,7 +44,7 @@ export declare interface Notice {
     destroy(): void;
 }
 
-export declare interface NoticeConfig {
+export declare class NoticeConfig {
     /**
      * 通知提醒的标题
      */
@@ -72,7 +72,7 @@ export declare interface NoticeConfig {
     onClose?: Function;
 }
 
-export declare interface NoticeGlobalConfig {
+export declare class NoticeGlobalConfig {
     /**
      * 通知组件距离顶端的距离，单位像素 默认24
      */

@@ -16,7 +16,7 @@
                             <span v-if="!column.renderHeader">{{ column.title || '' }}</span>
                             <render-header v-else :render="column.renderHeader" :column="column" :index="index"></render-header>
                         </template>
-                        <template v-else-if="column.type === 'selection'"><Checkbox :value="isSelectAll" :disabled="!data.length" @on-change="selectAll"></Checkbox></template>
+                        <template v-else-if="column.type === 'selection'"><Checkbox :value="isSelectAll" :disabled="isSelectDisabled" @on-change="selectAll"></Checkbox></template>
                         <template v-else>
                             <span v-if="!column.renderHeader" :class="{[prefixCls + '-cell-sort']: column.sortable}" @click="handleSortByHead(getColumn(rowIndex, index)._index)">{{ column.title || '#' }}</span>
                             <render-header v-else :render="column.renderHeader" :column="column" :index="index"></render-header>
@@ -61,7 +61,7 @@
                         </template>
                     </div>
                 </th>
-                
+
                 <th v-if="$parent.showVerticalScrollBar && rowIndex===0" :class='scrollBarCellClass()' :rowspan="headRows.length"></th>
             </tr>
         </thead>
@@ -121,6 +121,12 @@
                 } else {
                     return [this.columns];
                 }
+            },
+            isSelectDisabled () {
+                let isSelectDisabled = false;
+                if (!this.data.length) isSelectDisabled = true;
+                if (!this.data.find(item => !item._disabled)) isSelectDisabled = true;
+                return isSelectDisabled;
             }
         },
         methods: {

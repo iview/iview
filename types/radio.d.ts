@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode } from 'vue';
 
-export declare interface Radio extends Vue {
+export declare class Radio extends Vue {
   /**
    * 只在单独使用时有效。可以使用 v-model 双向绑定数据
    * @default false
@@ -39,7 +39,7 @@ export declare interface Radio extends Vue {
   $emit(eventName: 'on-change', arg: string | number | boolean): this;
 }
 
-export declare interface RadioGroup extends Vue {
+export declare class RadioGroup extends Vue {
   /**
    * 指定当前选中的项目数据。可以使用 v-model 双向绑定数据
    */

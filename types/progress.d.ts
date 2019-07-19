@@ -4,7 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode } from 'vue';
 
-export declare interface Progress extends Vue {
+export declare class Progress extends Vue {
   /**
    * 百分比
    * @default 0
