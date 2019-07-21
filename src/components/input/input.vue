@@ -264,9 +264,9 @@
                 let value = event.target.value;
                 if (this.number && value !== '') {
                     // #5974
-                    let numberValue = Number(value)
+                    let numberValue = Number(value);
                     if (!Number.isNaN(numberValue) && numberValue >= Number.MIN_SAFE_INTEGER && numberValue <= Number.MAX_SAFE_INTEGER ) {
-                        value = numberValue
+                        value = numberValue;
                     }
                 }
                 this.$emit('input', value);
