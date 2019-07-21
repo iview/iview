@@ -262,7 +262,13 @@
                 if (this.isOnComposition) return;
 
                 let value = event.target.value;
-                if (this.number && value !== '') value = Number.isNaN(Number(value)) ? value : Number(value);
+                if (this.number && value !== '') {
+                    // #5974
+                    let numberValue = Number(value)
+                    if (!Number.isNaN(numberValue) && numberValue >= Number.MIN_SAFE_INTEGER && numberValue <= Number.MAX_SAFE_INTEGER ) {
+                        value = numberValue
+                    }
+                }
                 this.$emit('input', value);
                 this.setCurrentValue(value);
                 this.$emit('on-change', event);
