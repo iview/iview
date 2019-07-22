@@ -707,6 +707,10 @@
 
                 if (value === '') this.values = [];
                 else if (checkValuesNotEqual(value,publicValue,values)) {
+                    this.focusIndex = this.flatOptions.findIndex((opt) => {
+                        if (!opt || !opt.componentOptions) return false;
+                        return opt.componentOptions.propsData.value === value;
+                    });
                     this.$nextTick(() => this.values = getInitialValue().map(getOptionData).filter(Boolean));
                     this.dispatch('FormItem', 'on-form-change', this.publicValue);
                 }
