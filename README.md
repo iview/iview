@@ -111,7 +111,7 @@ import 'piview/dist/styles/iview.css';
 - Select clearable changed true
 - Switch add props beforeChange,去掉 true-value false-value 类型强校验
 - Tree add methods getIndeterminateNodes,getAllNodes,add props clicks & @click 
-- InputNumber add slot append,pread,edit prop value is Number,String
+- InputNumber add slot append,pread,edit prop value is Number,String ,enable empty
 - Radio add props beforeChange
 - uploader add formates and onPreview add types
 - uploader list add listItemDel props
@@ -119,6 +119,7 @@ import 'piview/dist/styles/iview.css';
 - badge add props color
 - datapicker add on-clear methods
 - steps add slot arrow
+- table add no-data slot
 
 ## Community
 

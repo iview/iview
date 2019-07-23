@@ -203,6 +203,7 @@
                 return this.precision && this.isAddPrecision? this.currentValue.toFixed(this.precision) : this.currentValue;
             },
             formatterValue () {
+                console.log('==>',this.precisionValue)
                 if (this.formatter && this.precisionValue !== null) {
                     return this.formatter(this.precisionValue);
                 } else {
@@ -267,7 +268,6 @@
             setValue (val) {
                 // 如果 step 是小数，且没有设置 precision，是有问题的
                 if (val && !isNaN(this.precision)) val = Number(Number(val).toFixed(this.precision));
-
                 const {min, max} = this;
                 if (val!==null) {
                     if (val > max) {
@@ -308,16 +308,15 @@
             },
             change (event) {
                 if (event.type == 'change' && this.activeChange) return;
-
                 if (event.type == 'input' && !this.activeChange) return;
-                let val = event.target.value.trim() || this.min;
+                let val = event.target.value.trim() ;    // || this.min
                 if (this.parser) {
                     val = this.parser(val);
                 }
 
                 const isEmptyString = val.length === 0;
                 if(isEmptyString){
-                    this.setValue(this.min || 0);
+                    this.setValue();  //this.min || 0  去掉默认最小值
                     return;
                 }
                 if (event.type == 'input' && val.toString().match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later

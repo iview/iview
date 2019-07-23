@@ -48,7 +48,9 @@
             };
         },
         methods: {
-
+            beforeChange(e){
+              return false
+            }
         }
     };
 </script>

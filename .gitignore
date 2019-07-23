@@ -1,22 +1,59 @@
-*.iml
-.idea
-.ipr
-.iws
+node_modules/
+design/
+docs/
+dist/
+_site/
+*.bak
+mock/salary/vars.js
+default.vm
+
+
+# GIT/SVN generated files #
+###########################
 *.diff
 *.patch
-*.bak
-.DS_Store
-node_modules/
-node_modules2/
-.project
-.settings
-npm-debug.log
-.*proj
 .svn/
-*.swp
-*.swo
+.git/
+
+# IDE generated files #
+#######################
+*.iml
+.idea/
+.ipr
+.iws
+*~
+~*
+.settings
+.project
+.lastbuildtime
+.*proj
+.deploy/
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
 *.log
-examples/dist/
-yarn-error.log
-test/unit/coverage
-.vscode
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

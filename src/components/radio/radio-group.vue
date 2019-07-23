@@ -81,17 +81,24 @@
             },
             change (data) {
                 const vm = this;
-                Promise.resolve(this.beforeChange ? this.beforeChange(data.value) : true)
+                // vm.currentValue = data.value;
+                // vm.updateValue();
+                // vm.$emit('input', data.value);
+                // vm.$emit('on-change', data.value);
+                // vm.dispatch('FormItem', 'on-form-change', data.value);
+                let value = data.value;
+                Promise.resolve(this.beforeChange ? this.beforeChange(value) : true)
                     .then((result) => {
                         if (result) {
-                            vm.currentValue = data.value;
-                            vm.updateValue();
-                            vm.$emit('input', data.value);
-                            vm.$emit('on-change', data.value);
-                            vm.dispatch('FormItem', 'on-form-change', data.value);
+                            value = data.value;
                         } else {
-                            return false;
+                            value = '';
                         }
+                        vm.currentValue = value;
+                        vm.updateValue();
+                        vm.$emit('input',value);
+                        vm.$emit('on-change', value);
+                        vm.dispatch('FormItem', 'on-form-change', value);
                     });
             }
         },

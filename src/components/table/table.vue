@@ -359,6 +359,7 @@
             },
             bodyStyle () {
                 let style = {};
+                let height = this.bodyHeight;
                 if (this.bodyHeight !== 0) {
                     if (this.height) {
                         style.height = `${height}px`;
