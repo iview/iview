@@ -27,8 +27,8 @@
 <script>
     import Icon from '../icon/icon.vue';
     import { getStyle, oneOf } from '../../utils/assist';
-    import { on, off } from '../../utils/dom';
     import elementResizeDetectorMaker from 'element-resize-detector';
+    // import { on, off } from '../../utils/dom';
 
     const prefixCls = 'ivu-carousel';
 
