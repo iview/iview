@@ -75,10 +75,12 @@
         watch: {
             data: {
                 deep: true,
-                handler () {
-                    this.stateTree = this.data;
-                    this.flatState = this.compileFlatState();
-                    this.rebuildTree();
+                handler (val, old) {
+                    if (val !== old) {
+                        this.stateTree = this.data;
+                        this.flatState = this.compileFlatState();
+                        this.rebuildTree();
+                    }
                 }
             }
         },
@@ -121,9 +123,8 @@
                 const node = this.flatState[nodeKey].node;
                 const parent = this.flatState[parentKey].node;
                 if (node.checked == parent.checked && node.indeterminate == parent.indeterminate) return; // no need to update upwards
-
                 if (node.checked == true) {
-                    this.$set(parent, 'checked', parent[this.childrenKey].every(node => node.checked));
+                    this.$set(parent, 'checked', parent[this.childrenKey].filter(node => !node.disabled).every(node => node.checked));  // fix #6121
                     this.$set(parent, 'indeterminate', !parent.checked);
                 } else {
                     this.$set(parent, 'checked', false);
@@ -134,7 +135,7 @@
             rebuildTree () { // only called when `data` prop changes
                 const checkedNodes = this.getCheckedNodes();
                 checkedNodes.forEach(node => {
-                    this.updateTreeDown(node, {checked: true});
+                    this.updateTreeDown(node, true); // fix #6121
                     // propagate upwards
                     const parentKey = this.flatState[node.nodeKey].parent;
                     if (!parentKey && parentKey !== 0) return;
@@ -158,15 +159,18 @@
                 /* public API */
                 return this.flatState.filter(obj => (obj.node.checked || obj.node.indeterminate)).map(obj => obj.node);
             },
-            updateTreeDown(node, changes = {}) {
-                if (this.checkStrictly) return;
-
-                for (let key in changes) {
-                    this.$set(node, key, changes[key]);
+            updateTreeDown(node, checked) {
+                if (!node || this.checkStrictly) return;
+                // fix #6121
+                if (!node.disabled || node[this.childrenKey]) {
+                    this.$set(node, 'checked', checked);
+                }
+                if (node[this.childrenKey]) {
+                    this.$set(node, 'indeterminate', false);
                 }
                 if (node[this.childrenKey]) {
                     node[this.childrenKey].forEach(child => {
-                        this.updateTreeDown(child, changes);
+                        this.updateTreeDown(child, checked);
                     });
                 }
             },
@@ -186,7 +190,7 @@
                 this.$set(node, 'indeterminate', false);
 
                 this.updateTreeUp(nodeKey); // propagate up
-                this.updateTreeDown(node, {checked, indeterminate: false}); // reset `indeterminate` when going down
+                this.updateTreeDown(node, checked); // reset `indeterminate` when going down
 
                 this.$emit('on-check-change', this.getCheckedNodes(), node);
             }
