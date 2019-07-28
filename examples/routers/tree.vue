@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Tree ref="tree" :data="data1" check-directly show-checkbox></Tree>
+        <Tree ref="tree" :data="data2" check-directly show-checkbox></Tree>
         <Button @click="getCheckedNodes" type="primary">getCheckedNodes</Button>
         <Button @click="getCheckedAndIndeterminateNodes" type="primary">getCheckedAndIndeterminateNodes</Button>
     </div>
@@ -9,7 +9,7 @@
     export default {
         data () {
             return {
-                data1: [
+                data2: [
                     {
                         title: 'parent 1',
                         expand: true,
@@ -35,10 +35,50 @@
                                 children: [
                                     {
                                         title: 'leaf 1-2-1',
-                                        disabled: true
+                                        disabled: true,
+                                        checked: true
                                     },
                                     {
-                                        title: 'leaf 1-2-1'
+                                        title: 'leaf 1-2-2',
+                                        expand: true,
+                                        children: [
+                                            {
+                                                title: 'leaf 1-2-2-1',
+                                                disabled: true,
+                                                checked: true
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        title: 'leaf 1-2-3',
+                                        expand: true,
+                                        children: [
+                                            {
+                                                title: 'leaf 1-2-3-1'
+                                            },
+                                            {
+                                                title: 'leaf 1-2-3-2',
+                                                disabled: true
+                                            },
+                                            {
+                                                title: 'leaf 1-2-3-3'
+                                            }
+                                        ]
+                                    },
+                                ]
+                            },
+                            {
+                                title: 'parent 1-3',
+                                expand: true,
+                                children: [
+                                    {
+                                        title: 'leaf 1-3-1',
+                                        disabled: true,
+                                        checked: true
+                                    },
+                                    {
+                                        title: 'leaf 1-3-2',
+                                        expand: true
                                     }
                                 ]
                             }
