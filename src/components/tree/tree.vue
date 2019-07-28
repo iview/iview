@@ -126,7 +126,7 @@
                 if (node.checked == true) {
                      // fix #6121
                     let checked = parent[this.childrenKey].every(node => node.checked && !node.indeterminate)
-                    this.$set(parent, 'checked', parent[this.childrenKey].filter(node => !node.disabled).every(node => node.checked && !node.indeterminate));
+                    this.$set(parent, 'checked', parent[this.childrenKey].filter(node => !node.disabled).every(node => node.checked));
                     this.$set(parent, 'indeterminate', !checked);
                 } else {
                     this.$set(parent, 'checked', false);
