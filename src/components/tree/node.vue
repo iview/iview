@@ -210,7 +210,7 @@
             handleCheck () {
                 if (this.data.disabled) return;
                 const changes = {
-                    checked: !this.data.checked && !this.data.indeterminate,
+                    checked: !this.data.checked, // fix #6121
                     nodeKey: this.data.nodeKey
                 };
                 this.dispatch('Tree', 'on-check', changes);

@@ -123,7 +123,7 @@
                 if (node.checked == parent.checked && node.indeterminate == parent.indeterminate) return; // no need to update upwards
 
                 if (node.checked == true) {
-                    this.$set(parent, 'checked', parent[this.childrenKey].every(node => node.checked));
+                    this.$set(parent, 'checked', parent[this.childrenKey].filter(node => !node.disabled).every(node => node.checked));  // fix #6121
                     this.$set(parent, 'indeterminate', !parent.checked);
                 } else {
                     this.$set(parent, 'checked', false);
@@ -159,7 +159,7 @@
                 return this.flatState.filter(obj => (obj.node.checked || obj.node.indeterminate)).map(obj => obj.node);
             },
             updateTreeDown(node, changes = {}) {
-                if (this.checkStrictly) return;
+                if (this.checkStrictly || node.disabled) return;  // fix #6121
 
                 for (let key in changes) {
                     this.$set(node, key, changes[key]);
