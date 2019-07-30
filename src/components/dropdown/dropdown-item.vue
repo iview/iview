@@ -44,14 +44,17 @@
                     this.$nextTick(() => {
                         $parent.currentVisible = true;
                     });
-                } else if (hasChildren) {
-                    this.$parent.$emit('on-haschild-click');
                 } else {
+                  // fix #6135
+                  if (hasChildren) {
+                    this.$parent.$emit('on-haschild-click');
+                  } else {
                     if ($parent && $parent.$options.name === 'Dropdown') {
-                        $parent.$emit('on-hover-click');
+                      $parent.$emit('on-hover-click');
                     }
+                  }
+                  $parent.$emit('on-click', this.name);
                 }
-                $parent.$emit('on-click', this.name);
             }
         }
     };
