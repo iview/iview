@@ -18,6 +18,12 @@ export default {
                 return [];
             }
         },
+        disabledAmpm: {
+            type: Array,
+            default () {
+                return [];
+            }
+        },
         hideDisabledOptions: {
             type: Boolean,
             default: false
