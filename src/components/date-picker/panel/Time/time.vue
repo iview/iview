@@ -86,7 +86,7 @@
                 return !!(this.format || '').match(/ss/i);
             },
             showAmPm () {
-                return !!formatDate(this.value, this.format).match(/am|pm/i);
+                return !!this.format.match(/a/i);
             },
             visibleDate () { // TODO
                 const date = this.date;
