@@ -65,6 +65,7 @@
             </div>
             <Confirm
                 v-if="confirm"
+                :clearable="clearable"
                 :show-time="showTime"
                 :is-time="isTime"
                 @on-pick-toggle-time="handleToggleTime"

@@ -47,6 +47,7 @@
                         ref="pickerPanel"
                         :visible="visible"
                         :showTime="type === 'datetime' || type === 'datetimerange'"
+                        :clearable="clearable"
                         :confirm="isConfirm"
                         :selectionMode="selectionMode"
                         :steps="steps"

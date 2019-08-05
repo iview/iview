@@ -19,6 +19,7 @@
             </div>
             <Confirm
                 v-if="confirm"
+                :clearable="clearable"
                 @on-pick-clear="handlePickClear"
                 @on-pick-success="handlePickSuccess"></Confirm>
         </div>
@@ -69,7 +70,7 @@
             value: {
                 type: Array,
                 required: true
-            },
+            }
         },
         data () {
             return {
