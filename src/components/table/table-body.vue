@@ -16,6 +16,7 @@
                     @dblclick.native.stop="dblclickCurrentRow(row._index)">
                     <td v-for="column in columns" :class="alignCls(column, row)">
                         <table-cell
+                            v-if="showCell(column)"
                             :fixed="fixed"
                             :prefix-cls="prefixCls"
                             :row="row"
@@ -104,6 +105,26 @@
             },
             dblclickCurrentRow (_index) {
                 this.$parent.dblclickCurrentRow(_index);
+            },
+            showCell(column){
+                let show = true;
+                let isFixBody = !!this.fixed;
+                let fixColumn = !!column.fixed;
+                if (isFixBody) {
+                    if (fixColumn) {
+                        show = true;
+                    } else {
+                        show = false;
+                    }
+                } else {
+                    if (fixColumn) {
+                        show = false;
+                    } else {
+                        show = true;
+                    }
+                }
+
+                return show;
             }
         }
     };
