@@ -646,7 +646,8 @@
                 } else {
                     this.query = String(option.label).trim();
                     this.values = [option];
-                    this.lastRemoteQuery = '';
+                    // 选中时不需要触发搜索
+                    this.lastRemoteQuery = this.query;
                     this.hideMenu();
                 }
 
@@ -728,7 +729,7 @@
             query (query) {
                 this.$emit('on-query-change', query);
                 const {remoteMethod, lastRemoteQuery} = this;
-                const hasValidQuery = query !== '' && (query !== lastRemoteQuery || !lastRemoteQuery);
+                const hasValidQuery = query !== lastRemoteQuery || !lastRemoteQuery;
                 const shouldCallRemoteMethod = remoteMethod && hasValidQuery && !this.preventRemoteCall;
                 this.preventRemoteCall = false; // remove the flag
 
@@ -742,7 +743,7 @@
                         });
                     }
                 }
-                if (query !== '' && this.remote) this.lastRemoteQuery = query;
+                if (this.remote) this.lastRemoteQuery = query;
             },
             loading(state){
                 if (state === false){
