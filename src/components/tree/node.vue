@@ -92,7 +92,9 @@
                     `${prefixCls}-arrow`,
                     {
                         [`${prefixCls}-arrow-disabled`]: this.data.disabled,
-                        [`${prefixCls}-arrow-open`]: this.data.expand
+                        [`${prefixCls}-arrow-open`]: this.data.expand,
+                        [`${prefixCls}-arrow-close`]: !this.data.expand,
+                        [`${prefixCls}-arrow-noop`]: !this.data[this.childrenKey]
                     }
                 ];
             },
