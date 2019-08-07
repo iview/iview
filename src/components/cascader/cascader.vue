@@ -37,16 +37,18 @@
                         :disabled="disabled"
                         :change-on-select="changeOnSelect"
                         :trigger="trigger"></Caspanel>
-                    <div :class="[prefixCls + '-dropdown']" v-show="filterable && query !== '' && querySelections.length">
-                        <ul :class="[selectPrefixCls + '-dropdown-list']">
-                            <li
-                                :class="[selectPrefixCls + '-item', {
-                                    [selectPrefixCls + '-item-disabled']: item.disabled
-                                }]"
-                                v-for="(item, index) in querySelections"
-                                @click="handleSelectItem(index)" v-html="item.display"></li>
-                        </ul>
-                    </div>
+                    <template v-if="filterable">
+                        <div :class="[prefixCls + '-dropdown']" v-show="filterable && query !== '' && querySelections.length">
+                            <ul :class="[selectPrefixCls + '-dropdown-list']">
+                                <li
+                                    :class="[selectPrefixCls + '-item', {
+                                        [selectPrefixCls + '-item-disabled']: item.disabled
+                                    }]"
+                                    v-for="(item, index) in querySelections"
+                                    @click="handleSelectItem(index)" v-html="item.display"></li>
+                            </ul>
+                        </div>
+                    </template>
                     <ul v-show="(filterable && query !== '' && !querySelections.length) || !data.length" :class="[prefixCls + '-not-found-tip']"><li>{{ localeNotFoundText }}</li></ul>
                 </div>
             </Drop>
