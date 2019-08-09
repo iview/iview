@@ -44,6 +44,7 @@
                     this.$nextTick(() => {
                         $parent.currentVisible = true;
                     });
+                    return;
                 } else if (hasChildren) {
                     this.$parent.$emit('on-haschild-click');
                 } else {
