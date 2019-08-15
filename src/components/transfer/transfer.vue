@@ -235,9 +235,11 @@
             },
             handleLeftCheckedKeysChange (keys) {
                 this.leftCheckedKeys = keys;
+                this.handleCheckedKeys();
             },
             handleRightCheckedKeysChange (keys) {
                 this.rightCheckedKeys = keys;
+                this.handleCheckedKeys();
             },
             handleCheckedKeys () {
                 const sourceSelectedKeys = this.getValidKeys('left');
