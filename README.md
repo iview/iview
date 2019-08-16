@@ -109,7 +109,7 @@ If you want to contribute or have questions or bugs to report:
 
 **Questions:** Find other users at the [Gitter chat](https://gitter.im/iview/iview) or post on [StackOverflow using `[iview-ui]` tag](https://stackoverflow.com/questions/tagged/iview-ui)  
 **Bugs:** [File a issue here](https://github.com/iview/iview/issues) - please provide a example so we can help you better  
-**Contribute:** Contact us in [Gitter chat](https://gitter.im/iview/iview), WeChat or via mail to `admin@aresn.com`. PRs welcome!
+**Contribute:** Contact us in [Gitter chat](https://gitter.im/iview/iview), WeChat or via mail to `iview@tendcloud.com`. PRs welcome!
 
 ## Major Contributors
 |Name|Avatar|Name|Avatar|Name|Avatar|
