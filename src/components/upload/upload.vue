@@ -86,6 +86,7 @@
                 type: Number
             },
             beforeUpload: Function,
+            postMethod: Function,
             onProgress: {
                 type: Function,
                 default () {
@@ -240,9 +241,29 @@
                     }
                 }
 
-                this.handleStart(file);
+                const _uid = this.handleStart(file);
                 let formData = new FormData();
                 formData.append(this.name, file);
+
+                if (this.postMethod && this.postMethod.then) {
+                    this.postMethod({
+                        headers: this.headers,
+                        withCredentials: this.withCredentials,
+                        file: file,
+                        uid: _uid,
+                        data: this.data,
+                        filename: this.name,
+                        action: this.action,
+                        onProgress: e => {
+                            this.handleProgress(e, file);
+                        }
+                    }).then(res => {
+                        this.handleSuccess(res, file);
+                    }).catch(({err, response}) => {
+                        this.handleError(err, response, file);
+                    });
+                    return;
+                }
 
                 ajax({
                     headers: this.headers,
@@ -274,6 +295,7 @@
                 };
 
                 this.fileList.push(_file);
+                return file.uid;
             },
             getFile (file) {
                 const fileList = this.fileList;
