@@ -245,7 +245,7 @@
                 let formData = new FormData();
                 formData.append(this.name, file);
 
-                if (this.postMethod && this.postMethod.then) {
+                if (this.postMethod) {
                     this.postMethod({
                         headers: this.headers,
                         withCredentials: this.withCredentials,
