@@ -202,8 +202,8 @@
                 let style = {};
 
                 if (this.draggable) {
-                    let customTop = this.styles.top || 0 ?  parseFloat(this.styles.top) : 0
-                    let customLeft = this.styles.left || 0 ?  parseFloat(this.styles.left) : 0
+                    let customTop = this.styles.top ?  parseFloat(this.styles.top) : 0;
+                    let customLeft = this.styles.left ?  parseFloat(this.styles.left) : 0;
                     if (this.dragData.x !== null) style.left = `${this.dragData.x - customLeft}px`;
                     if (this.dragData.y !== null) style.top = `${this.dragData.y - customTop}px`;
                     const width = parseInt(this.width);
