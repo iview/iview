@@ -1,6 +1,7 @@
 .select-item(@size-class, @item-class) {
     .@{item-class} {
         margin: 0;
+        line-height: normal;
         padding: 7px 16px;
         clear: both;
         color: @text-color;
@@ -30,12 +31,12 @@
         }
 
         &-selected ,&-selected:hover{
-            color: #fff;
-            background: @selected-color;
+            color: @primary-color;
+            //background: @selected-color;
         }
 
         &-selected&-focus {
-            background: shade(@selected-color, 10%);
+            //background: shade(@selected-color, 10%);
         }
 
         &-divided{
@@ -56,5 +57,13 @@
     .@{size-class}-large .@{item-class} {
         padding: 7px 16px 8px;
         font-size: @font-size-base !important;
+    }
+    // http://browserhacks.com/
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=488725
+    // fixed #1224 #1143 #1127
+    @-moz-document url-prefix() {
+        .@{item-class} {
+            white-space: normal;
+        }
     }
 }

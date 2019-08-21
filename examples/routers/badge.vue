@@ -14,37 +14,81 @@
 </style>
 <template>
     <div>
-        <Badge count="3">
+        <Badge :count="count">
             <a href="#" class="demo-badge"></a>
         </Badge>
-        <Badge dot>
+        <Badge :count="0" showZero>
             <a href="#" class="demo-badge"></a>
         </Badge>
-        <Badge dot>
-            <Icon type="ios-bell-outline" size="26"></Icon>
-        </Badge>
-        <Badge dot>
-            <a href="#">可以是一个链接</a>
-        </Badge>
-        <Badge count="100">
-            <a href="#" class="demo-badge"></a>
-        </Badge>
-        <Badge count="1000" overflow-count="999">
-            <a href="#" class="demo-badge"></a>
-        </Badge>
-        <br>
-        <Badge count="10"></Badge>
+        <Button @click="setCount">set count</Button>
         <br><br>
-        <Badge count="20" class-name="demo-badge-alone"></Badge>
+        <Badge text="hot">
+            <Button type="ghost">Hello</Button>
+        </Badge>
+        <br><br>
+        <div>
+            <Badge status="success" />
+            <Badge status="error" />
+            <Badge status="default" />
+            <Badge status="processing" />
+            <Badge status="warning" />
+            <br />
+            <Badge status="success" text="Success" />
+            <br />
+            <Badge status="error" text="Error" />
+            <br />
+            <Badge status="default" text="Default" />
+            <br />
+            <Badge status="processing" text="Processing" />
+            <br />
+            <Badge status="warning" text="Warning" />
+        </div>
+        <div style="margin: 50px">
+            <Badge dot>
+                <a href="//iviewui.com">我是一个链接</a>
+            </Badge>
+            <br><br>
+            <Badge :count="10" :offset="[-5, -5]">
+                <a href="//iviewui.com">我是一个链接</a>
+            </Badge>
+        </div>
+        <div>
+            <Badge :count="count" type="primary">
+                <a href="#" class="demo-badge"></a>
+            </Badge>
+            <Badge :count="count" type="success">
+                <a href="#" class="demo-badge"></a>
+            </Badge>
+            <Badge :count="count" type="normal">
+                <a href="#" class="demo-badge"></a>
+            </Badge>
+            <Badge :count="count" type="info">
+                <a href="#" class="demo-badge"></a>
+            </Badge>
+            <Badge :count="count" type="error">
+                <a href="#" class="demo-badge"></a>
+            </Badge>
+            <Badge :count="count" type="warning">
+                <a href="#" class="demo-badge"></a>
+            </Badge>
+            <Badge :count="count">
+                <a href="#" class="demo-badge"></a>
+            </Badge>
+        </div>
     </div>
 </template>
 <script>
     export default {
         props: {},
         data () {
-            return {};
+            return {
+                count: 5
+            };
         },
-        computed: {},
-        methods: {}
+        methods: {
+            setCount () {
+                this.count = 10;
+            }
+        }
     };
 </script>

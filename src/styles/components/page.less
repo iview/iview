@@ -11,7 +11,9 @@
     }
 
     &-item {
-        float: left;
+        display: inline-block;
+        //float: left;
+        vertical-align: middle;
         min-width: @btn-circle-size;
         height: @btn-circle-size;
         line-height: @btn-circle-size - 2px;
@@ -22,11 +24,14 @@
         user-select: none;
         cursor: pointer;
         font-family: Arial;
+        font-weight: 500;
         border: 1px solid @border-color-base;
         border-radius: @btn-border-radius;
-        transition: all @transition-time @ease-in-out;
+        //transition: all @transition-time @ease-in-out;
+        transition: border @transition-time @ease-in-out, color @transition-time @ease-in-out;
 
         a {
+            font-family: "Monospaced Number";
             margin: 0 6px;
             text-decoration: none;
             color: @text-color;
@@ -41,11 +46,10 @@
         }
 
         &-active {
-            background-color: @primary-color;
             border-color: @primary-color;
 
             a, &:hover a {
-                color: #fff;
+                color: @primary-color;
             }
         }
     }
@@ -75,18 +79,20 @@
 
     &-item-jump-prev:hover {
         i:after {
-            content: "\F3D2";
+            content: "\F115";
+            margin-left: -8px;
         }
     }
 
     &-item-jump-next:hover {
         i:after {
-            content: "\F3D3";
+            content: "\F11F";
+            margin-left: -8px;
         }
     }
 
     &-prev{
-        margin-right: 8px;
+        margin-right: 4px;
     }
 
     &-item-jump-prev,
@@ -94,16 +100,14 @@
         margin-right: 4px;
     }
 
-    &-next{
-        margin-left: 4px;
-    }
-
     &-prev,
     &-next,
     &-item-jump-prev,
     &-item-jump-next {
         display: inline-block;
-        float: left;
+        vertical-align: middle;
+        user-select: none;
+        //float: left;
         min-width: @btn-circle-size;
         height: @btn-circle-size;
         line-height: @btn-circle-size - 2px;
@@ -115,6 +119,10 @@
         border: 1px solid @border-color-base;
         border-radius: @btn-border-radius;
         transition: all @transition-time @ease-in-out;
+    }
+    &-item-jump-prev,
+    &-item-jump-next{
+        border-color: transparent;
     }
 
     &-prev,
@@ -150,15 +158,20 @@
     }
 
     &-options {
-        float: left;
+        display: inline-block;
+        vertical-align: middle;
+        //float: left;
         margin-left: 15px;
         &-sizer {
-            float: left;
+            display: inline-block;
+            //float: left;
             margin-right: 10px;
         }
 
         &-elevator {
-            float: left;
+            display: inline-block;
+            vertical-align: middle;
+            //float: left;
             height: @btn-circle-size;
             line-height: @btn-circle-size;
 
@@ -172,7 +185,8 @@
     }
 
     &-total {
-        float: left;
+        display: inline-block;
+        //float: left;
         height: @btn-circle-size;
         line-height: @btn-circle-size;
         margin-right: 10px;
@@ -183,13 +197,15 @@
         margin: 0;
         border: 0;
         height: 24px;
-        line-height: 24px;
+        line-height: normal;
         font-size: 18px;
     }
 
     &-simple &-simple-pager {
-        float: left;
+        display: inline-block;
+        //float: left;
         margin-right: 8px;
+        vertical-align: middle;
 
         input {
             width: 30px;
@@ -213,6 +229,10 @@
             padding: 0 8px 0 2px;
         }
     }
+
+    &-custom-text, &-custom-text:hover{
+        border-color: transparent;
+    }
 }
 
 .@{page-prefix-cls} {
@@ -235,7 +255,7 @@
         margin: 0;
         min-width: @btn-circle-size-small;
         height: @btn-circle-size-small;
-        line-height: @btn-circle-size-small;
+        line-height: @btn-circle-size-small - 2px;
         border: 0;
 
         a {

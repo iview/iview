@@ -11,10 +11,17 @@
     position: fixed;
     z-index: @zindex-notification;
 
+    &-content-with-icon{
+        margin-left: 51px;
+    }
+    &-with-desc&-with-icon &-title{
+        margin-left: 51px;
+    }
+
     &-notice {
         margin-bottom: @notice-margin-bottom;
         padding: @notice-padding;
-        //border: 1px solid @border-color-split;
+        // border: 1px solid @border-color-split;
         border-radius: @border-radius-small;
         box-shadow: @shadow-base;
         background: #fff;
@@ -24,13 +31,19 @@
 
         &-close {
             position: absolute;
-            right: 16px;
+            right: 8px;
             top: 15px;
             color: #999;
             outline: none;
 
             i{
                 .close-base(-3px);
+            }
+        }
+
+        &-content-with-render{
+            .ivu-notice-desc{
+                display: none;
             }
         }
 
@@ -41,8 +54,13 @@
         }
     }
 
+    &-content-with-render-notitle{
+        margin-left: 26px;
+    }
+
     &-title {
         font-size: @font-size-base;
+        line-height: @font-size-base + 3;  //fixed the bug that the bottom of some letters were hidden just like 'g'
         color: @title-color;
         padding-right: 10px;
         overflow: hidden;
@@ -50,15 +68,14 @@
         white-space: nowrap;
     }
     &-with-desc &-title{
+        font-weight: bold;
         margin-bottom: 8px;
-    }
-    &-with-desc&-with-icon &-title{
-        margin-left: 51px;
     }
 
     &-desc {
         font-size: 12px;
-        color: @legend-color;
+        //color: @legend-color;
+        color: @text-color;
         text-align: justify;
         line-height: 1.5;
     }
@@ -72,9 +89,8 @@
 
     &-icon {
         position: absolute;
-        left: 20px;
-        margin-top: -1px;
-        font-size: 16px;
+        top: -2px;
+        font-size: @font-size-large;
 
         &-success {
             color: @success-color;
@@ -91,42 +107,10 @@
     }
     &-with-desc &-icon{
         font-size: 36px;
+        top: -6px;
     }
 
     &-custom-content{
-        &:after{
-            content: "";
-            display: block;
-            width: 4px;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-        }
-    }
-    &-with-normal{
-        &:after{
-            background: @primary-color;
-        }
-    }
-    &-with-info{
-        &:after{
-            background: @primary-color;
-        }
-    }
-    &-with-success{
-        &:after{
-            background: @success-color;
-        }
-    }
-    &-with-warning{
-        &:after{
-            background: @warning-color;
-        }
-    }
-    &-with-error{
-        &:after{
-            background: @error-color;
-        }
+        position: relative;
     }
 }

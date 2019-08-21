@@ -4,36 +4,34 @@ const prefixCls = 'ivu-message';
 const iconPrefixCls = 'ivu-icon';
 const prefixKey = 'ivu_message_key_';
 
-let defaultDuration = 1.5;
-let top;
+const defaults = {
+    top: 24,
+    duration: 1.5
+};
+
 let messageInstance;
 let name = 1;
 
 const iconTypes = {
-    'info': 'information-circled',
-    'success': 'checkmark-circled',
-    'warning': 'android-alert',
-    'error': 'close-circled',
-    'loading': 'load-c'
+    'info': 'ios-information-circle',
+    'success': 'ios-checkmark-circle',
+    'warning': 'ios-alert',
+    'error': 'ios-close-circle',
+    'loading': 'ios-loading'
 };
 
 function getMessageInstance () {
     messageInstance = messageInstance || Notification.newInstance({
         prefixCls: prefixCls,
         styles: {
-            top: `${top}px`
+            top: `${defaults.top}px`
         }
     });
 
     return messageInstance;
 }
 
-function notice (content, duration = defaultDuration, type, onClose) {
-    if (!onClose) {
-        onClose = function () {
-
-        };
-    }
+function notice (content = '', duration = defaults.duration, type, onClose = function () {}, closable = false, render = function () {}) {
     const iconType = iconTypes[type];
 
     // if loading
@@ -48,11 +46,14 @@ function notice (content, duration = defaultDuration, type, onClose) {
         transitionName: 'move-up',
         content: `
             <div class="${prefixCls}-custom-content ${prefixCls}-${type}">
-                <i class="${iconPrefixCls} ${iconPrefixCls}-${iconType}${loadCls}"></i>
+                <i class="${iconPrefixCls} ${iconPrefixCls}-${iconType} ${loadCls}"></i>
                 <span>${content}</span>
             </div>
         `,
-        onClose: onClose
+        render: render,
+        onClose: onClose,
+        closable: closable,
+        type: 'message'
     });
 
     // 用于手动消除
@@ -66,32 +67,42 @@ function notice (content, duration = defaultDuration, type, onClose) {
 }
 
 export default {
-    info (content, duration, onClose) {
-        return notice(content, duration, 'info', onClose);
+    name: 'Message',
+
+    info (options) {
+        return this.message('info', options);
     },
-    success (content, duration, onClose) {
-        return notice(content, duration, 'success', onClose);
+    success (options) {
+        return this.message('success', options);
     },
-    warning (content, duration, onClose) {
-        return notice(content, duration, 'warning', onClose);
+    warning (options) {
+        return this.message('warning', options);
     },
-    error (content, duration, onClose) {
-        return notice(content, duration, 'error', onClose);
+    error (options) {
+        return this.message('error', options);
     },
-    loading (content, duration, onClose) {
-        return notice(content, duration, 'loading', onClose);
+    loading (options) {
+        return this.message('loading', options);
+    },
+    message(type, options){
+        if (typeof options === 'string') {
+            options = {
+                content: options
+            };
+        }
+        return notice(options.content, options.duration, type, options.onClose, options.closable, options.render);
     },
     config (options) {
-        if (options.top) {
-            top = options.top;
+        if (options.top || options.top === 0) {
+            defaults.top = options.top;
         }
-        if (options.duration) {
-            defaultDuration = options.duration;
+        if (options.duration || options.duration === 0) {
+            defaults.duration = options.duration;
         }
     },
     destroy () {
         let instance = getMessageInstance();
         messageInstance = null;
-        instance.destroy();
+        instance.destroy('ivu-message');
     }
 };

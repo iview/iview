@@ -39,6 +39,13 @@
         .clearfix;
     }
 
+    &-nav-container:focus {
+        outline: none;
+        .@{tabs-prefix-cls}-tab-focused {
+            border-color: @link-hover-color !important;
+        }
+    }
+
     &-nav-container-scrolling {
         padding-left: 32px;
         padding-right: 32px;
@@ -52,6 +59,33 @@
     &-nav-scroll {
         overflow: hidden;
         white-space: nowrap;
+    }
+
+    &-nav-right{
+        float: right;
+        margin-left: 5px;
+    }
+
+    &-nav-prev{
+        position:absolute;
+        line-height: 32px;
+        cursor: pointer;
+        left:0;
+    }
+
+    &-nav-next{
+        position:absolute;
+        line-height: 32px;
+        cursor: pointer;
+        right:0;
+    }
+
+    &-nav-scrollable{
+        padding: 0 12px;
+    }
+
+    &-nav-scroll-disabled{
+        display: none;
     }
 
     &-nav {
@@ -131,6 +165,7 @@
             width: 100%;
             transition: opacity .3s;
             opacity: 1;
+            outline: none;
         }
 
         .@{tabs-prefix-cls}-tabpane-inactive {
@@ -168,7 +203,7 @@
     &&-card > &-bar &-nav-wrap {
         margin-bottom: 0;
     }
-    &&-card > &-bar &-tab .@{css-prefix-iconfont}-ios-close-empty {
+    &&-card > &-bar &-tab &-close {
         width: 0;
         height: 22px;
         font-size: 22px;
@@ -186,15 +221,16 @@
         }
     }
 
-    &&-card > &-bar &-tab-active .@{css-prefix-iconfont}-ios-close-empty,
-    &&-card > &-bar &-tab:hover .@{css-prefix-iconfont}-ios-close-empty {
-        width: 14px;
+    &&-card > &-bar &-tab-active &-close,
+    &&-card > &-bar &-tab:hover &-close {
+        width: 22px;
         transform: translateZ(0);
+        margin-right: -6px;
     }
 }
 
 .@{tabs-prefix-cls}-no-animation{
-    .@{tabs-prefix-cls}-content {
+    > .@{tabs-prefix-cls}-content {
         transform: none!important;
 
         > .@{tabs-prefix-cls}-tabpane-inactive {

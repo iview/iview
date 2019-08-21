@@ -2,24 +2,23 @@
  * 用于单元测试
  */
 
-var webpack = require('webpack')
-var merge = require('webpack-merge')
-var webpackBaseConfig = require('./webpack.base.config.js');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const webpackBaseConfig = require('./webpack.base.config.js');
 
 
-var webpackConfig = merge(webpackBaseConfig, {
-  // use inline sourcemap for karma-sourcemap-loader
-  devtool: '#inline-source-map',
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"testing"'
-      }
-    })
-  ]
-})
+const webpackConfig = merge(webpackBaseConfig, {
+    devtool: 'eval-source-map',
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: '"testing"'
+            }
+        })
+    ]
+});
 
 // no need for app entry during tests
-delete webpackConfig.entry
+delete webpackConfig.entry;
 
-module.exports = webpackConfig
+module.exports = webpackConfig;

@@ -72,6 +72,7 @@
     textarea& {
         max-width: 100%;
         height: auto;
+        min-height: @input-height-base;
         vertical-align: bottom;
         font-size: @font-size-base;
     }
@@ -124,9 +125,21 @@
     > .@{inputClass} {
         display: table-cell;
 
-        &:not(:first-child):not(:last-child) {
-            border-radius: 0;
-        }
+        //&:not(:first-child):not(:last-child) {
+        //    border-radius: 0;
+        //}
+    }
+    &-with-prepend .@{inputClass},
+    &-with-prepend&-small .@{inputClass}
+    {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    &-with-append .@{inputClass},
+    &-with-append&-small .@{inputClass}
+    {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
     }
 
     &-prepend .@{css-prefix}btn,
@@ -135,7 +148,7 @@
         border-color: transparent;
         background-color: transparent;
         color: inherit;
-        margin: -(@input-padding-vertical-base + 1) (-@input-padding-horizontal);
+        margin: -(@input-padding-vertical-base + 2) (-@input-padding-horizontal);
     }
 
     &-prepend,
@@ -163,9 +176,9 @@
         line-height: 1;
         color: @input-color;
         text-align: center;
-        background-color: #eee;
+        background-color: @input-group-bg;
         border: 1px solid @input-border-color;
-        border-radius: @border-radius-base;
+        border-radius: @btn-border-radius;
 
         // Reset Select's style in addon
         .@{css-prefix}select {

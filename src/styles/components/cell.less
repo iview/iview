@@ -1,0 +1,74 @@
+@cell-prefix-cls: ~"@{css-prefix}cell";
+
+
+.@{cell-prefix-cls} {
+    position: relative;
+    overflow: hidden;
+
+    &-link, &-link:hover, &-link:active{
+        color: inherit;
+    }
+
+    &-icon{
+        display: inline-block;
+        margin-right: 4px;
+        font-size: @font-size-base;
+        vertical-align: middle;
+        &:empty{
+            display: none
+        }
+    }
+    &-main{
+        display: inline-block;
+        vertical-align: middle;
+    }
+    &-title{
+        line-height: 24px;
+        font-size: @font-size-base;
+    }
+    &-label{
+        line-height: 1.2;
+        font-size: @font-size-small;
+        color: @subsidiary-color;
+    }
+    &-selected &-label{
+        color: inherit;
+    }
+
+    &-selected, &&-selected:hover{
+        background:  ~`colorPalette("@{primary-color}", 1)`;
+    }
+
+    &-footer{
+        display: inline-block;
+        position: absolute;
+        transform: translateY(-50%);
+        top: 50%;
+        right: 16px;
+        color: @text-color;
+    }
+    &-with-link &-footer{
+        right: 32px;
+    }
+    &-selected &-footer{
+        color: inherit;
+    }
+
+    &-arrow{
+        display: inline-block;
+        position: absolute;
+        transform: translateY(-50%);
+        top: 50%;
+        right: 16px;
+        font-size: @font-size-base;
+    }
+
+    &:focus{
+        background: @background-color-select-hover;
+        outline: none;
+    }
+    &-selected:focus{
+        background: shade(@selected-color, 10%);
+    }
+}
+.select-item(@cell-prefix-cls, @cell-prefix-cls);

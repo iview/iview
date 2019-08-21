@@ -1,26 +1,40 @@
 <template>
     <div>
+        <Radio size="large" v-model="single">Radio</Radio>
+        <Radio size="default" v-model="single">Radio</Radio>
+        <Radio size="small" v-model="single">Radio</Radio>
+        <br><br>
         <Radio-group v-model="phone">
-            <Row>
-                <i-col span="8">
-                    <Radio label="apple">
-                        <Icon type="social-apple"></Icon>
-                        <span>Apple</span>
-                    </Radio>
-                </i-col>
-                <i-col span="8">
-                    <Radio label="android">
-                        <Icon type="social-android"></Icon>
-                        <span>Android</span>
-                    </Radio>
-                </i-col>
-                <i-col span="8">
-                    <Radio label="windows">
-                        <Icon type="social-windows"></Icon>
-                        <span>Windows</span>
-                    </Radio>
-                </i-col>
-            </Row>
+            <Radio label="apple">
+                <Icon type="social-apple"></Icon>
+                <span>Apple</span>
+            </Radio>
+            <Radio label="android">
+                <Icon type="social-android"></Icon>
+                <span>Android</span>
+            </Radio>
+            <Radio label="windows">
+                <Icon type="social-windows"></Icon>
+                <span>Windows</span>
+            </Radio>
+        </Radio-group>
+        <Radio-group v-model="button2" type="button" size="large">
+            <Radio label="北京"></Radio>
+            <Radio label="上海" disabled></Radio>
+            <Radio label="深圳"></Radio>
+            <Radio label="杭州"></Radio>
+        </Radio-group>
+        <Radio-group v-model="button2" type="button" size="default">
+            <Radio label="北京"></Radio>
+            <Radio label="上海" disabled></Radio>
+            <Radio label="深圳"></Radio>
+            <Radio label="杭州"></Radio>
+        </Radio-group>
+        <Radio-group v-model="button2" type="button" size="small">
+            <Radio label="北京"></Radio>
+            <Radio label="上海" disabled></Radio>
+            <Radio label="深圳"></Radio>
+            <Radio label="杭州"></Radio>
         </Radio-group>
     </div>
 </template>
@@ -28,9 +42,13 @@
     export default {
         data () {
             return {
-                phone: 'apple',
-                animal: '爪哇犀牛'
-            }
+                single: true,
+                phone: '',
+                button2: '北京',
+            };
+        },
+        methods: {
+
         }
-    }
+    };
 </script>

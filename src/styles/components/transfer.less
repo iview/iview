@@ -31,6 +31,10 @@
             left: 0;
             width: 100%;
 
+            &-title{
+                cursor: pointer;
+            }
+
             & > span{
                 padding-left: 4px;
             }
@@ -111,7 +115,7 @@
     }
     &-operation {
         display: inline-block;
-        overflow: hidden;
+        //overflow: hidden;
         margin: 0 16px;
         vertical-align: middle;
 
@@ -121,6 +125,13 @@
 
             &:first-child {
                 margin-bottom: 12px;
+            }
+        }
+        .@{btn-prefix-cls}{
+            span {
+                i, span{
+                    vertical-align: middle;
+                }
             }
         }
     }

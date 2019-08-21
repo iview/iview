@@ -10,6 +10,7 @@
     color: @text-color;
     font-size: @font-size-base;
     position: relative;
+    z-index: @zindex-select;
 
     &-horizontal{
         height: 60px;
@@ -49,7 +50,7 @@
         background: #fff;
     }
     &-dark{
-        background: @title-color;
+        background: @menu-dark-title;
     }
     &-primary{
         background: @primary-color;
@@ -64,6 +65,12 @@
         z-index: 1;
         cursor: pointer;
         transition: all @transition-time @ease-in-out;
+    }
+    a&-item{
+        color: inherit;
+        &:hover, &:active{
+            color: inherit;
+        }
     }
     &-item > i{
         margin-right: 6px;
@@ -95,7 +102,7 @@
     }
 
     &-dark&-horizontal &-item, &-dark&-horizontal &-submenu{
-        color: @subsidiary-color;
+        color: @menu-dark-subsidiary-color;
         &-active, &:hover{
             color: #fff;
         }
@@ -104,7 +111,7 @@
     &-primary&-horizontal &-item, &-primary&-horizontal &-submenu{
         color: #fff;
         &-active, &:hover{
-            background: @link-active-color;
+            //background: @link-active-color;
         }
     }
 
@@ -147,25 +154,39 @@
         transition: all @transition-time @ease-in-out;
 
         &:hover{
-            background: @background-color-select-hover;
+            //background: @background-color-select-hover;
+            color: @primary-color;
         }
     }
 
     &-vertical &-submenu-title-icon{
-        float: right;
-        position: relative;
-        top: 4px;
+        // #5592 支持自定义图标 size 后，换一种位置
+        //float: right;
+        //position: relative;
+        //top: 4px;
+        position: absolute;
+        top: 50%;
+        right: 24px;
+        transform: translateY(-50%);
     }
     &-submenu-title-icon {
         transition: transform @transition-time @ease-in-out;
     }
-    &-opened &-submenu-title-icon{
+    &-horizontal &-opened > * > &-submenu-title-icon{
         transform: rotate(180deg);
     }
-
-    &-vertical &-submenu &-item{
-        padding-left: 43px;
+    &-vertical &-opened > * > &-submenu-title-icon{
+        transform: translateY(-50%) rotate(180deg);
     }
+
+    &-vertical &-submenu{
+        &-nested{
+            padding-left: 20px;
+        }
+        .@{menu-prefix-cls}-item{
+            padding-left: 43px;
+        }
+    } 
     &-vertical &-item-group{
         &-title{
             height: 48px;
@@ -176,21 +197,32 @@
     }
     &-dark&-vertical &-item-group{
         &-title{
-            color: @text-color;
+            color: @menu-dark-group-title-color;
         }
     }
 
     &-light&-vertical &-item{
-        border-right: 2px solid transparent;
+        //border-right: 2px solid transparent;
         &-active:not(.@{menu-prefix-cls}-submenu){
             color: @primary-color;
-            border-right: 2px solid @primary-color;
+            background: ~`colorPalette("@{primary-color}", 1)`;
+            //border-right: 2px solid @primary-color;
             z-index: 2;
+            &:after{
+                content: '';
+                display: block;
+                width: 2px;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                right: 0;
+                background: @primary-color;
+            }
         }
     }
 
     &-dark&-vertical &-item, &-dark&-vertical &-submenu-title{
-        color: @subsidiary-color;
+        color: @menu-dark-subsidiary-color;
         &-active:not(.@{menu-prefix-cls}-submenu),
         &-active:not(.@{menu-prefix-cls}-submenu):hover
         {
@@ -198,11 +230,11 @@
         }
         &:hover{
             color: #fff;
-            background: @title-color;
+            background: @menu-dark-title;
         }
         &-active:not(.@{menu-prefix-cls}-submenu){
             color: @primary-color;
-            border-right: 2px solid @primary-color;
+            //border-right: 2px solid @primary-color;
         }
     }
     &-dark&-vertical &-submenu &-item{
@@ -216,14 +248,23 @@
             background: @primary-color !important;
         }
     }
-    &-dark&-vertical &-item-active &-submenu-title{
+    // &-dark&-vertical &-item-active &-submenu-title{
+    //     color: #fff;
+    // }
+    &-dark&-vertical &-child-item-active > &-submenu-title{
         color: #fff;
     }
 
     &-dark&-vertical &-opened{
         background: @menu-dark-active-bg;
         .@{menu-prefix-cls}-submenu-title{
-            background: @title-color;
+            background: @menu-dark-title;
+        }
+
+        .@{menu-prefix-cls}-submenu-has-parent-submenu{
+            .@{menu-prefix-cls}-submenu-title{
+                background: transparent;
+            }
         }
     }
 }

@@ -1,19 +1,13 @@
 import Picker from '../picker.vue';
-import TimePanel from '../panel/time.vue';
-import TimeRangePanel from '../panel/time-range.vue';
+import TimePickerPanel from '../panel/Time/time.vue';
+import RangeTimePickerPanel from '../panel/Time/time-range.vue';
 import Options from '../time-mixins';
 
-const getPanel = function (type) {
-    if (type === 'timerange') {
-        return TimeRangePanel;
-    }
-    return TimePanel;
-};
-
-import { oneOf } from '../../../utils/assist';
+import { findComponentsDownward, oneOf } from '../../../utils/assist';
 
 export default {
     mixins: [Picker, Options],
+    components: { TimePickerPanel, RangeTimePickerPanel },
     props: {
         type: {
             validator (value) {
@@ -21,16 +15,29 @@ export default {
             },
             default: 'time'
         },
-        value: {}
     },
-    created () {
-        if (!this.currentValue) {
-            if (this.type === 'timerange') {
-                this.currentValue = ['',''];
-            } else {
-                this.currentValue = '';
+    computed: {
+        panel(){
+            const isRange =  this.type === 'timerange';
+            return isRange ? 'RangeTimePickerPanel' : 'TimePickerPanel';
+        },
+        ownPickerProps(){
+            return {
+                disabledHours: this.disabledHours,
+                disabledMinutes: this.disabledMinutes,
+                disabledSeconds: this.disabledSeconds,
+                hideDisabledOptions: this.hideDisabledOptions
+            };
+        }
+    },
+    watch: {
+        visible(visible){
+            if (visible) {
+                this.$nextTick(() => {
+                    const spinners = findComponentsDownward(this, 'TimeSpinner');
+                    spinners.forEach(instance => instance.updateScroll());
+                });
             }
         }
-        this.panel = getPanel(this.type);
     }
 };

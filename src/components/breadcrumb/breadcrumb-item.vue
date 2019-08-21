@@ -1,6 +1,13 @@
 <template>
     <span>
-        <a v-if="href" :href="href" :class="linkClasses">
+        <a
+            v-if="to"
+            :href="linkUrl"
+            :target="target"
+            :class="linkClasses"
+            @click.exact="handleCheckClick($event, false)"
+            @click.ctrl="handleCheckClick($event, true)"
+            @click.meta="handleCheckClick($event, true)">
             <slot></slot>
         </a>
         <span v-else :class="linkClasses">
@@ -13,23 +20,20 @@
     </span>
 </template>
 <script>
+    import mixinsLink from '../../mixins/link';
     const prefixCls = 'ivu-breadcrumb-item';
 
     export default {
         name: 'BreadcrumbItem',
+        mixins: [ mixinsLink ],
         props: {
-            href: {
-                type: String
-            }
+
         },
         data () {
             return {
                 separator: '',
                 showSeparator: false
             };
-        },
-        mounted () {
-            this.showSeparator = this.$slots.separator !== undefined;
         },
         computed: {
             linkClasses () {
@@ -38,6 +42,9 @@
             separatorClasses () {
                 return `${prefixCls}-separator`;
             }
+        },
+        mounted () {
+            this.showSeparator = this.$slots.separator !== undefined;
         }
     };
 </script>

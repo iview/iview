@@ -3,7 +3,7 @@
         :class="classes"
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave"
-        v-clickoutside="handleClose">
+        v-click-outside="handleClose">
         <div
             :class="[prefixCls + '-rel']"
             ref="reference"
@@ -13,23 +13,32 @@
             <slot></slot>
         </div>
         <transition name="fade">
-            <div :class="[prefixCls + '-popper']" :style="styles" ref="popper" v-show="visible">
+            <div
+                :class="popperClasses"
+                :style="styles"
+                ref="popper"
+                v-show="visible"
+                @click="handleTransferClick"
+                @mouseenter="handleMouseenter"
+                @mouseleave="handleMouseleave"
+                :data-transfer="transfer"
+                v-transfer-dom>
                 <div :class="[prefixCls + '-content']">
                     <div :class="[prefixCls + '-arrow']"></div>
                     <div :class="[prefixCls + '-inner']" v-if="confirm">
                         <div :class="[prefixCls + '-body']">
-                            <i class="ivu-icon ivu-icon-help-circled"></i>
+                            <i class="ivu-icon ivu-icon-ios-help-circle"></i>
                             <div :class="[prefixCls + '-body-message']"><slot name="title">{{ title }}</slot></div>
                         </div>
                         <div :class="[prefixCls + '-footer']">
-                            <i-button type="text" size="small" @click.native="cancel">{{ cancelText }}</i-button>
-                            <i-button type="primary" size="small" @click.native="ok">{{ okText }}</i-button>
+                            <i-button type="text" size="small" @click.native="cancel">{{ localeCancelText }}</i-button>
+                            <i-button type="primary" size="small" @click.native="ok">{{ localeOkText }}</i-button>
                         </div>
                     </div>
                     <div :class="[prefixCls + '-inner']" v-if="!confirm">
-                        <div :class="[prefixCls + '-title']" v-if="showTitle" ref="title"><slot name="title"><div :class="[prefixCls + '-title-inner']">{{ title }}</div></slot></div>
-                        <div :class="[prefixCls + '-body']">
-                            <div :class="[prefixCls + '-body-content']"><slot name="content"><div :class="[prefixCls + '-body-content-inner']">{{ content }}</div></slot></div>
+                        <div :class="[prefixCls + '-title']" :style="contentPaddingStyle" v-if="showTitle" ref="title"><slot name="title"><div :class="[prefixCls + '-title-inner']">{{ title }}</div></slot></div>
+                        <div :class="[prefixCls + '-body']" :style="contentPaddingStyle">
+                            <div :class="contentClasses"><slot name="content"><div :class="[prefixCls + '-body-content-inner']">{{ content }}</div></slot></div>
                         </div>
                     </div>
                 </div>
@@ -40,16 +49,18 @@
 <script>
     import Popper from '../base/popper';
     import iButton from '../button/button.vue';
-    import clickoutside from '../../directives/clickoutside';
+    import {directive as clickOutside} from 'v-click-outside-x';
+    import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
-    import { t } from '../../locale';
+    import { transferIndex, transferIncrease } from '../../utils/transfer-queue';
+    import Locale from '../../mixins/locale';
 
     const prefixCls = 'ivu-poptip';
 
     export default {
         name: 'Poptip',
-        mixins: [Popper],
-        directives: { clickoutside },
+        mixins: [ Popper, Locale ],
+        directives: { clickOutside, TransferDom },
         components: { iButton },
         props: {
             trigger: {
@@ -79,23 +90,41 @@
                 default: false
             },
             okText: {
-                type: String,
-                default () {
-                    return t('i.poptip.okText');
-                }
+                type: String
             },
             cancelText: {
-                type: String,
+                type: String
+            },
+            transfer: {
+                type: Boolean,
                 default () {
-                    return t('i.poptip.cancelText');
+                    return !this.$IVIEW || this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
                 }
+            },
+            popperClass: {
+                type: String
+            },
+            wordWrap: {
+                type: Boolean,
+                default: false
+            },
+            // default by css: 8px 16px
+            padding: {
+                type: String
+            },
+            // 3.4.0
+            disabled: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
             return {
                 prefixCls: prefixCls,
                 showTitle: true,
-                isInput: false
+                isInput: false,
+                disableCloseUnderTransfer: false,  // transfer 模式下，点击 slot 也会触发关闭
+                tIndex: this.handleGetIndex()
             };
         },
         computed: {
@@ -107,17 +136,58 @@
                     }
                 ];
             },
+            popperClasses () {
+                return [
+                    `${prefixCls}-popper`,
+                    {
+                        [`${prefixCls}-confirm`]: this.transfer && this.confirm,
+                        [`${this.popperClass}`]: !!this.popperClass
+                    }
+                ];
+            },
             styles () {
                 let style = {};
 
                 if (this.width) {
                     style.width = `${this.width}px`;
                 }
+
+                if (this.transfer) style['z-index'] = 1060 + this.tIndex;
+
                 return style;
-            }
+            },
+            localeOkText () {
+                if (this.okText === undefined) {
+                    return this.t('i.poptip.okText');
+                } else {
+                    return this.okText;
+                }
+            },
+            localeCancelText () {
+                if (this.cancelText === undefined) {
+                    return this.t('i.poptip.cancelText');
+                } else {
+                    return this.cancelText;
+                }
+            },
+            contentClasses () {
+                return [
+                    `${prefixCls}-body-content`,
+                    {
+                        [`${prefixCls}-body-content-word-wrap`]: this.wordWrap
+                    }
+                ];
+            },
+            contentPaddingStyle () {
+                const styles = {};
+                if (this.padding !== '') styles['padding'] = this.padding;
+                return styles;
+            },
         },
         methods: {
             handleClick () {
+                if (this.disabled) return;
+
                 if (this.confirm) {
                     this.visible = !this.visible;
                     return true;
@@ -127,7 +197,14 @@
                 }
                 this.visible = !this.visible;
             },
+            handleTransferClick () {
+                if (this.transfer) this.disableCloseUnderTransfer = true;
+            },
             handleClose () {
+                if (this.disableCloseUnderTransfer) {
+                    this.disableCloseUnderTransfer = false;
+                    return false;
+                }
                 if (this.confirm) {
                     this.visible = false;
                     return true;
@@ -138,6 +215,8 @@
                 this.visible = false;
             },
             handleFocus (fromInput = true) {
+                if (this.disabled) return;
+
                 if (this.trigger !== 'focus' || this.confirm || (this.isInput && !fromInput)) {
                     return false;
                 }
@@ -150,16 +229,26 @@
                 this.visible = false;
             },
             handleMouseenter () {
+                if (this.disabled) return;
+                
                 if (this.trigger !== 'hover' || this.confirm) {
                     return false;
                 }
-                this.visible = true;
+                if (this.enterTimer) clearTimeout(this.enterTimer);
+                this.enterTimer = setTimeout(() => {
+                    this.visible = true;
+                }, 100);
             },
             handleMouseleave () {
                 if (this.trigger !== 'hover' || this.confirm) {
                     return false;
                 }
-                this.visible = false;
+                if (this.enterTimer) {
+                    clearTimeout(this.enterTimer);
+                    this.enterTimer = setTimeout(() => {
+                        this.visible = false;
+                    }, 100);
+                }
             },
             cancel () {
                 this.visible = false;
@@ -181,21 +270,30 @@
                 }
 
                 return $children;
+            },
+            handleGetIndex () {
+                transferIncrease();
+                return transferIndex;
+            },
+            handleIndexIncrease () {
+                this.tIndex = this.handleGetIndex();
             }
         },
         mounted () {
             if (!this.confirm) {
 //                this.showTitle = this.$refs.title.innerHTML != `<div class="${prefixCls}-title-inner"></div>`;
-                this.showTitle = this.$slots.title !== undefined;
+                this.showTitle = (this.$slots.title !== undefined) || this.title;
             }
             // if trigger and children is input or textarea,listen focus & blur event
             if (this.trigger === 'focus') {
-                const $children = this.getInputChildren();
-                if ($children) {
-                    $children.addEventListener('focus', this.handleFocus, false);
-                    $children.addEventListener('blur', this.handleBlur, false);
-                    this.isInput = true;
-                }
+                this.$nextTick(() => {
+                    const $children = this.getInputChildren();
+                    if ($children) {
+                        this.isInput = true;
+                        $children.addEventListener('focus', this.handleFocus, false);
+                        $children.addEventListener('blur', this.handleBlur, false);
+                    }
+                });
             }
         },
         beforeDestroy () {

@@ -1,60 +1,19 @@
-<!-- <template>
-    <div :class="classes">
-        <List
-            ref="left"
-            :prefix-cls="prefixCls + '-list'"
-            :data="leftData"
-            :render-format="renderFormat"
-            :checked-keys="leftCheckedKeys"
-            @on-checked-keys-change="handleLeftCheckedKeysChange"
-            :valid-keys-count="leftValidKeysCount"
-            :style="listStyle"
-            :title="titles[0]"
-            :filterable="filterable"
-            :filter-placeholder="filterPlaceholder"
-            :filter-method="filterMethod"
-            :not-found-text="notFoundText">
-            <slot></slot>
-        </List>
-        <Operation
-            :prefix-cls="prefixCls"
-            :operations="operations"
-            :left-active="leftValidKeysCount > 0"
-            :right-active="rightValidKeysCount > 0">
-        </Operation>
-        <List
-            ref="right"
-            :prefix-cls="prefixCls + '-list'"
-            :data="rightData"
-            :render-format="renderFormat"
-            :checked-keys="rightCheckedKeys"
-            @on-checked-keys-change="handleRightCheckedKeysChange"
-            :valid-keys-count="rightValidKeysCount"
-            :style="listStyle"
-            :title="titles[1]"
-            :filterable="filterable"
-            :filter-placeholder="filterPlaceholder"
-            :filter-method="filterMethod"
-            :not-found-text="notFoundText">
-            <slot></slot>
-        </List>
-    </div>
-</template> -->
 <script>
     import List from './list.vue';
     import Operation from './operation.vue';
-    import { t } from '../../locale';
+    import Locale from '../../mixins/locale';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-transfer';
 
     export default {
-        mixins: [ Emitter ],
-        render (createElement) {
+        name: 'Transfer',
+        mixins: [ Emitter, Locale ],
+        render (h) {
 
             function cloneVNode (vnode) {
                 const clonedChildren = vnode.children && vnode.children.map(vnode => cloneVNode(vnode));
-                const cloned = createElement(vnode.tag, vnode.data, clonedChildren);
+                const cloned = h(vnode.tag, vnode.data, clonedChildren);
                 cloned.text = vnode.text;
                 cloned.isComment = vnode.isComment;
                 cloned.componentOptions = vnode.componentOptions;
@@ -70,10 +29,10 @@
             const vNodes = this.$slots.default === undefined ? [] : this.$slots.default;
             const clonedVNodes = this.$slots.default === undefined ? [] : vNodes.map(vnode => cloneVNode(vnode));
 
-            return createElement('div', {
+            return h('div', {
                 'class': this.classes
             }, [
-                createElement('List', {
+                h(List, {
                     ref: 'left',
                     props: {
                         prefixCls: this.prefixCls + '-list',
@@ -81,19 +40,19 @@
                         renderFormat: this.renderFormat,
                         checkedKeys: this.leftCheckedKeys,
                         validKeysCount: this.leftValidKeysCount,
-                        style: this.listStyle,
-                        title: this.titles[0],
+                        listStyle: this.listStyle,
+                        title: this.localeTitles[0],
                         filterable: this.filterable,
-                        filterPlaceholder: this.filterPlaceholder,
+                        filterPlaceholder: this.localeFilterPlaceholder,
                         filterMethod: this.filterMethod,
-                        notFoundText: this.notFoundText
+                        notFoundText: this.localeNotFoundText
                     },
                     on: {
                         'on-checked-keys-change': this.handleLeftCheckedKeysChange
                     }
                 }, vNodes),
 
-                createElement('Operation', {
+                h(Operation, {
                     props: {
                         prefixCls: this.prefixCls,
                         operations: this.operations,
@@ -102,7 +61,7 @@
                     }
                 }),
 
-                createElement('List', {
+                h(List, {
                     ref: 'right',
                     props: {
                         prefixCls: this.prefixCls + '-list',
@@ -110,12 +69,12 @@
                         renderFormat: this.renderFormat,
                         checkedKeys: this.rightCheckedKeys,
                         validKeysCount: this.rightValidKeysCount,
-                        style: this.listStyle,
-                        title: this.titles[1],
+                        listStyle: this.listStyle,
+                        title: this.localeTitles[1],
                         filterable: this.filterable,
-                        filterPlaceholder: this.filterPlaceholder,
+                        filterPlaceholder: this.localeFilterPlaceholder,
                         filterMethod: this.filterMethod,
-                        notFoundText: this.notFoundText
+                        notFoundText: this.localeNotFoundText
                     },
                     on: {
                         'on-checked-keys-change': this.handleRightCheckedKeysChange
@@ -123,8 +82,6 @@
                 }, clonedVNodes)
             ]);
         },
-
-        components: { List, Operation },
         props: {
             data: {
                 type: Array,
@@ -157,10 +114,7 @@
                 }
             },
             titles: {
-                type: Array,
-                default () {
-                    return [t('i.transfer.titles.source'), t('i.transfer.titles.target')];
-                }
+                type: Array
             },
             operations: {
                 type: Array,
@@ -173,10 +127,7 @@
                 default: false
             },
             filterPlaceholder: {
-                type: String,
-                default () {
-                    return t('i.transfer.filterPlaceholder');
-                }
+                type: String
             },
             filterMethod: {
                 type: Function,
@@ -186,10 +137,7 @@
                 }
             },
             notFoundText: {
-                type: String,
-                default () {
-                    return t('i.transfer.notFoundText');
-                }
+                type: String
             }
         },
         data () {
@@ -212,6 +160,27 @@
             },
             rightValidKeysCount () {
                 return this.getValidKeys('right').length;
+            },
+            localeFilterPlaceholder () {
+                if (this.filterPlaceholder === undefined) {
+                    return this.t('i.transfer.filterPlaceholder');
+                } else {
+                    return this.filterPlaceholder;
+                }
+            },
+            localeNotFoundText () {
+                if (this.notFoundText === undefined) {
+                    return this.t('i.transfer.notFoundText');
+                } else {
+                    return this.notFoundText;
+                }
+            },
+            localeTitles () {
+                if (this.titles === undefined) {
+                    return [this.t('i.transfer.titles.source'), this.t('i.transfer.titles.target')];
+                } else {
+                    return this.titles;
+                }
             }
         },
         methods: {
@@ -223,14 +192,14 @@
                 this.rightData = [];
                 if (this.targetKeys.length > 0) {
                     this.targetKeys.forEach((targetKey) => {
-                        this.rightData.push(
-                                this.leftData.filter((data, index) => {
-                                    if (data.key === targetKey) {
-                                        this.leftData.splice(index, 1);
-                                        return true;
-                                    }
-                                    return false;
-                                })[0]);
+                        const filteredData = this.leftData.filter((data, index) => {
+                            if (data.key === targetKey) {
+                                this.leftData.splice(index, 1);
+                                return true;
+                            }
+                            return false;
+                        });
+                        if (filteredData && filteredData.length > 0) this.rightData.push(filteredData[0]);
                     });
                 }
                 if (init) {
@@ -269,14 +238,22 @@
             },
             handleRightCheckedKeysChange (keys) {
                 this.rightCheckedKeys = keys;
+            },
+            handleCheckedKeys () {
+                const sourceSelectedKeys = this.getValidKeys('left');
+                const targetSelectedKeys = this.getValidKeys('right');
+                this.$emit('on-selected-change', sourceSelectedKeys, targetSelectedKeys);
             }
         },
         watch: {
             targetKeys () {
                 this.splitData(false);
+            },
+            data () {
+                this.splitData(false);
             }
         },
-        created () {
+        mounted () {
             this.splitData(true);
         }
     };

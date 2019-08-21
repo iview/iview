@@ -1,88 +1,72 @@
 <template>
     <div>
-        <Row>
-            <i-col span="12">
-                <i-table border :content="self" :columns="columns7" :data="data6" :context="self"></i-table>
-            </i-col>
-        </Row>
+        <Table tooltip-theme="light" ref="currentRowTable" :columns="columns3" :data="data1" :draggable="true" @on-drag-drop="onDragDrop"></Table>
+        <Button @click="handleClearCurrentRow">Clear</Button>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                info: '123',
-                self: this,
-                columns7: [
+                columns3: [
                     {
-                        title: '姓名',
-                        key: 'name',
-//                        render (row, column, index) {
-//                            return `<Icon type="person"></Icon> <strong>${row.name}</strong>`;
-//                        }
+                        type: 'index',
+                        width: 60,
+                        align: 'center',
+                        indexMethod (row) {
+                            return row._index;
+                        }
                     },
                     {
-                        title: '年龄',
+                        title: 'Name',
+                        key: 'name'
+                    },
+                    {
+                        title: 'Age',
                         key: 'age'
                     },
                     {
-                        title: '地址',
-                        key: 'address'
-                    },
-                    {
-                        title: '操作',
-                        key: 'action',
-                        width: 150,
-                        align: 'center',
-                        render (row, column, index) {
-                            return `<i-button type="primary" size="small" @click="show(${index})">{{ info }}查看</i-button> <i-button type="error" size="small" @click="remove(${index})">删除</i-button>`;
-                        }
+                        title: 'Address',
+                        key: 'address',
+                        tooltip: true
                     }
                 ],
-                data6: [
+                data1: [
                     {
-                        name: '王小明',
+                        name: 'John Brown',
                         age: 18,
-                        address: '北京市朝阳区芍药居'
+                        address: '自定义渲染列，使用 Vue 的 Render 函数。传入两个参数，第一个是 h，第二个为对象，包含 row、column 和 index，分别指当前行数据，当前列数据，当前行索引，详见示例。自定义渲染列，使用 Vue 的 Render 函数。传入两个参数，第一个是 h，第二个为对象，包含 row、column 和 index，分别指当前行数据，当前列数据，当前行索引，详见示例。自定义渲染列，使用 Vue 的 Render 函数。传入两个参数，第一个是 h，第二个为对象，包含 row、column 和 index，分别指当前行数据，当前列数据，当前行索引，详见示例。',
+                        date: '2016-10-03'
                     },
-//                    {
-//                        name: '张小刚',
-//                        age: 25,
-//                        address: '北京市海淀区西二旗'
-//                    },
-//                    {
-//                        name: '李小红',
-//                        age: 30,
-//                        address: '上海市浦东新区世纪大道'
-//                    },
-//                    {
-//                        name: '周小伟',
-//                        age: 26,
-//                        address: '深圳市南山区深南大道'
-//                    }
+                    {
+                        name: 'Jim Green',
+                        age: 24,
+                        address: 'London No. 1 Lake Park自定义渲染列，使用 Vue 的 Render 函',
+                        date: '2016-10-01'
+                    },
+                    {
+                        name: 'Joe Black',
+                        age: 30,
+                        address: 'Sydney No. 1 Lake Park',
+                        date: '2016-10-02'
+                    },
+                    {
+                        name: 'Jon Snow',
+                        age: 26,
+                        address: 'Ottawa No. 2 Lake Park',
+                        date: '2016-10-04'
+                    }
                 ]
             }
         },
-        computed: {
-            dddfff () {
-                return this.info
-            }
-        },
         methods: {
-            show (index) {
-                this.$Modal.info({
-                    title: '用户信息',
-                    content: `姓名：${this.data6[index].name}<br>年龄：${this.data6[index].age}<br>地址：${this.data6[index].address}`
-                })
+            handleClearCurrentRow () {
+                this.$refs.currentRowTable.clearCurrentRow();
             },
-            remove (index) {
-                this.data6.splice(index, 1);
+            onDragDrop(a,b){
+                console.log(a,b);
+                this.data1.splice(b,1,...this.data1.splice(a, 1 , this.data1[b]));
             }
-        },
-        mounted () {
-            setTimeout(() => {
-                this.info = '444';
-            }, 3000);
         }
     }
 </script>

@@ -19,6 +19,7 @@
     border: 1px solid @border-color-base;
     border-radius: @btn-border-radius;
     overflow: hidden;
+    cursor: default;
 
     &-handler-wrap {
         width: 22px;
@@ -75,7 +76,7 @@
         color: #999;
         user-select: none;
         position: absolute;
-        right: 4px;
+        right: 5px;
         transition: all @transition-time linear;
     }
 
@@ -111,6 +112,10 @@
 
         &[disabled] {
             .disabled();
+        }
+
+        &::placeholder {
+            color: @input-placeholder-color;
         }
     }
 

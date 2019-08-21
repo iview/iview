@@ -1,8 +1,14 @@
 <template>
-    <span :class="wrapClasses" @click="toggle">
+    <span
+        tabindex="0"
+        :class="wrapClasses"
+        @click="toggle"
+        @keydown.space="toggle"
+    >
+        <input type="hidden" :name="name" :value="currentValue">
         <span :class="innerClasses">
-            <slot name="open" v-if="currentValue"></slot>
-            <slot name="close" v-if="!currentValue"></slot>
+            <slot name="open" v-if="currentValue === trueValue"></slot>
+            <slot name="close" v-if="currentValue === falseValue"></slot>
         </span>
     </span>
 </template>
@@ -13,11 +19,19 @@
     const prefixCls = 'ivu-switch';
 
     export default {
-        name: 'Switch',
+        name: 'iSwitch',
         mixins: [ Emitter ],
         props: {
             value: {
-                type: Boolean,
+                type: [String, Number, Boolean],
+                default: false
+            },
+            trueValue: {
+                type: [String, Number, Boolean],
+                default: true
+            },
+            falseValue: {
+                type: [String, Number, Boolean],
                 default: false
             },
             disabled: {
@@ -26,8 +40,18 @@
             },
             size: {
                 validator (value) {
-                    return oneOf(value, ['large', 'small']);
+                    return oneOf(value, ['large', 'small', 'default']);
+                },
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
+            },
+            name: {
+                type: String
+            },
+            loading: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -40,9 +64,10 @@
                 return [
                     `${prefixCls}`,
                     {
-                        [`${prefixCls}-checked`]: this.currentValue,
+                        [`${prefixCls}-checked`]: this.currentValue === this.trueValue,
                         [`${prefixCls}-disabled`]: this.disabled,
-                        [`${prefixCls}-${this.size}`]: !!this.size
+                        [`${prefixCls}-${this.size}`]: !!this.size,
+                        [`${prefixCls}-loading`]: this.loading,
                     }
                 ];
             },
@@ -51,12 +76,14 @@
             }
         },
         methods: {
-            toggle () {
-                if (this.disabled) {
+            toggle (event) {
+                event.preventDefault();
+                if (this.disabled || this.loading) {
                     return false;
                 }
 
-                const checked = !this.currentValue;
+                const checked = this.currentValue === this.trueValue ? this.falseValue : this.trueValue;
+
                 this.currentValue = checked;
                 this.$emit('input', checked);
                 this.$emit('on-change', checked);
@@ -65,6 +92,9 @@
         },
         watch: {
             value (val) {
+                if (val !== this.trueValue && val !== this.falseValue) {
+                    throw 'Value should be trueValue or falseValue.';
+                }
                 this.currentValue = val;
             }
         }

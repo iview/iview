@@ -4,14 +4,23 @@
     ul{
         list-style: none;
         margin: 0;
-        padding: 5px;
+        padding: 0;
         font-size: @font-size-small;
+        &.@{dropdown-prefix-cls}-menu{
+            padding: 0;
+        }
         li{
             list-style: none;
             margin: 8px 0;
             padding: 0;
             white-space: nowrap;
             outline: none;
+
+            &.@{dropdown-item-prefix-cls}{
+                margin: 0;
+                padding: 7px 16px;
+                white-space: nowrap;
+            }
         }
     }
     li{
@@ -38,22 +47,32 @@
     }
     &-arrow{
         cursor: pointer;
-        i{
+        width: 12px;
+        text-align: center;
+        display: inline-block;
+        i {
             transition: all @transition-time @ease-in-out;
+            font-size: @font-size-base;
+            vertical-align: middle;
         }
         &-open{
             i {
                 transform: rotate(90deg);
             }
         }
-        &-hidden{
-            cursor: auto;
-            i{
-                display: none;
-            }
-        }
+        //&-hidden{
+        //    cursor: auto;
+        //    i{
+        //        display: none;
+        //    }
+        //}
         &-disabled{
             cursor: @cursor-disabled;
         }
+    }
+
+    .@{checkbox-prefix-cls}-wrapper{
+        margin-right: 4px;
+        margin-left: 4px;
     }
 }

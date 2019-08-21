@@ -1,5 +1,5 @@
 <template>
-    <div :class="classes">
+    <div :class="classes" :name="name">
         <slot></slot>
     </div>
 </template>
@@ -8,6 +8,10 @@
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-radio-group';
+
+    let seed = 0;
+    const now = Date.now();
+    const getUuid = () => `ivuRadioGroup_${now}_${seed++}`;
 
     export default {
         name: 'RadioGroup',
@@ -19,7 +23,10 @@
             },
             size: {
                 validator (value) {
-                    return oneOf(value, ['small', 'large']);
+                    return oneOf(value, ['small', 'large', 'default']);
+                },
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             type: {
@@ -30,6 +37,10 @@
             vertical: {
                 type: Boolean,
                 default: false
+            },
+            name: {
+                type: String,
+                default: getUuid
             }
         },
         data () {
@@ -44,6 +55,7 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-${this.size}`]: !!this.size,
+                        [`ivu-radio-${this.size}`]: !!this.size,
                         [`${prefixCls}-${this.type}`]: !!this.type,
                         [`${prefixCls}-vertical`]: this.vertical
                     }
@@ -55,12 +67,10 @@
         },
         methods: {
             updateValue () {
-                const value = this.value;
                 this.childrens = findComponentsDownward(this, 'Radio');
-
                 if (this.childrens) {
                     this.childrens.forEach(child => {
-                        child.currentValue = value == child.label;
+                        child.currentValue = this.currentValue === child.label;
                         child.group = true;
                     });
                 }
@@ -75,7 +85,12 @@
         },
         watch: {
             value () {
-                this.updateValue();
+                if(this.currentValue !== this.value){
+                    this.currentValue = this.value;
+                    this.$nextTick(()=>{
+                        this.updateValue();
+                    });
+                }
             }
         }
     };

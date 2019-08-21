@@ -1,30 +1,43 @@
 <template>
     <div>
-        <Dropdown>
+        <Dropdown trigger="hover">
             <a href="javascript:void(0)">
                 下拉菜单
-                <Icon type="arrow-down-b"></Icon>
+                <Icon type="ios-arrow-down"></Icon>
             </a>
-            <Dropdown-menu slot="list">
-                <Dropdown-item>驴打滚</Dropdown-item>
-                <Dropdown-item>炸酱面</Dropdown-item>
-                <Dropdown-item disabled>豆汁儿</Dropdown-item>
-                <Dropdown-item>冰糖葫芦</Dropdown-item>
-                <Dropdown-item divided>北京烤鸭</Dropdown-item>
-            </Dropdown-menu>
+            <DropdownMenu slot="list">
+                <DropdownItem>驴打滚</DropdownItem>
+                <DropdownItem selected>炸酱面</DropdownItem>
+                <DropdownItem disabled>豆汁儿</DropdownItem>
+                <DropdownItem>冰糖葫芦</DropdownItem>
+                <DropdownItem divided>北京烤鸭</DropdownItem>
+            </DropdownMenu>
         </Dropdown>
-        <Dropdown style="margin-left: 20px">
-            <Button type="primary">
+        <Dropdown trigger="click">
+            <a href="javascript:void(0)">
                 下拉菜单
-                <Icon type="arrow-down-b"></Icon>
-            </Button>
-            <Dropdown-menu slot="list">
-                <Dropdown-item>驴打滚</Dropdown-item>
-                <Dropdown-item>炸酱面</Dropdown-item>
-                <Dropdown-item disabled>豆汁儿</Dropdown-item>
-                <Dropdown-item>冰糖葫芦</Dropdown-item>
-                <Dropdown-item divided>北京烤鸭</Dropdown-item>
-            </Dropdown-menu>
+                <Icon type="ios-arrow-down"></Icon>
+            </a>
+            <DropdownMenu slot="list">
+                <DropdownItem>驴打滚</DropdownItem>
+                <DropdownItem selected>炸酱面</DropdownItem>
+                <DropdownItem disabled>豆汁儿</DropdownItem>
+                <DropdownItem>冰糖葫芦</DropdownItem>
+                <DropdownItem divided>北京烤鸭</DropdownItem>
+            </DropdownMenu>
+        </Dropdown>
+        <Dropdown trigger="contextMenu">
+            <a href="javascript:void(0)">
+                下拉菜单
+                <Icon type="ios-arrow-down"></Icon>
+            </a>
+            <DropdownMenu slot="list">
+                <DropdownItem>驴打滚</DropdownItem>
+                <DropdownItem>炸酱面</DropdownItem>
+                <DropdownItem disabled>豆汁儿</DropdownItem>
+                <DropdownItem>冰糖葫芦</DropdownItem>
+                <DropdownItem divided>北京烤鸭</DropdownItem>
+            </DropdownMenu>
         </Dropdown>
     </div>
 </template>

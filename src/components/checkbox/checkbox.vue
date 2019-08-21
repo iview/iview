@@ -9,20 +9,26 @@
                 :disabled="disabled"
                 :value="label"
                 v-model="model"
-                @change="change">
+                :name="name"
+                @change="change"
+                @focus="onFocus"
+                @blur="onBlur">
             <input
-                v-if="!group"
+                v-else
                 type="checkbox"
                 :class="inputClasses"
                 :disabled="disabled"
                 :checked="currentValue"
-                @change="change">
+                :name="name"
+                @change="change"
+                @focus="onFocus"
+                @blur="onBlur">
         </span>
         <slot><span v-if="showSlot">{{ label }}</span></slot>
     </label>
 </template>
 <script>
-    import { findComponentUpward } from '../../utils/assist';
+    import { findComponentUpward, oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-checkbox';
@@ -36,7 +42,15 @@
                 default: false
             },
             value: {
-                type: Boolean,
+                type: [String, Number, Boolean],
+                default: false
+            },
+            trueValue: {
+                type: [String, Number, Boolean],
+                default: true
+            },
+            falseValue: {
+                type: [String, Number, Boolean],
                 default: false
             },
             label: {
@@ -45,6 +59,17 @@
             indeterminate: {
                 type: Boolean,
                 default: false
+            },
+            size: {
+                validator (value) {
+                    return oneOf(value, ['small', 'large', 'default']);
+                },
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
+                }
+            },
+            name: {
+                type: String
             }
         },
         data () {
@@ -53,7 +78,8 @@
                 currentValue: this.value,
                 group: false,
                 showSlot: true,
-                parent: findComponentUpward(this, 'CheckboxGroup')
+                parent: findComponentUpward(this, 'CheckboxGroup'),
+                focusInner: false
             };
         },
         computed: {
@@ -63,7 +89,8 @@
                     {
                         [`${prefixCls}-group-item`]: this.group,
                         [`${prefixCls}-wrapper-checked`]: this.currentValue,
-                        [`${prefixCls}-wrapper-disabled`]: this.disabled
+                        [`${prefixCls}-wrapper-disabled`]: this.disabled,
+                        [`${prefixCls}-${this.size}`]: !!this.size
                     }
                 ];
             },
@@ -78,7 +105,12 @@
                 ];
             },
             innerClasses () {
-                return `${prefixCls}-inner`;
+                return [
+                    `${prefixCls}-inner`,
+                    {
+                        [`${prefixCls}-focus`]: this.focusInner
+                    }
+                ];
             },
             inputClasses () {
                 return `${prefixCls}-input`;
@@ -86,8 +118,13 @@
         },
         mounted () {
             this.parent = findComponentUpward(this, 'CheckboxGroup');
-            if (this.parent) this.group = true;
-            if (!this.group) {
+            if (this.parent) {
+                this.group = true;
+            }
+
+            if (this.group) {
+                this.parent.updateModel(true);
+            } else {
                 this.updateModel();
                 this.showSlot = this.$slots.default !== undefined;
             }
@@ -100,22 +137,34 @@
 
                 const checked = event.target.checked;
                 this.currentValue = checked;
-                this.$emit('input', checked);
+
+                const value = checked ? this.trueValue : this.falseValue;
+                this.$emit('input', value);
 
                 if (this.group) {
-                    this.$parent.change(this.model);
+                    this.parent.change(this.model);
                 } else {
-                    this.$emit('on-change', checked);
-                    this.dispatch('FormItem', 'on-form-change', checked);
+                    this.$emit('on-change', value);
+                    this.dispatch('FormItem', 'on-form-change', value);
                 }
             },
             updateModel () {
-                this.currentValue = this.value;
+                this.currentValue = this.value === this.trueValue;
+            },
+            onBlur () {
+                this.focusInner = false;
+            },
+            onFocus () {
+                this.focusInner = true;
             }
         },
         watch: {
-            value () {
-                this.updateModel();
+            value (val) {
+                if (val === this.trueValue || val === this.falseValue) {
+                    this.updateModel();
+                } else {
+                    throw 'Value should be trueValue or falseValue.';
+                }
             }
         }
     };

@@ -1,8 +1,12 @@
-export default {
+import setLang from '../lang';
+
+const lang = {
     i: {
+        locale: 'zh-CN',
         select: {
             placeholder: '请选择',
-            noMatch: '无匹配数据'
+            noMatch: '无匹配数据',
+            loading: '加载中'
         },
         table: {
             noDataText: '暂无数据',
@@ -18,6 +22,7 @@ export default {
             endTime: '结束时间',
             clear: '清空',
             ok: '确定',
+            datePanelLabel: '[yyyy年] [m月]',
             month: '月',
             month1: '1 月',
             month2: '2 月',
@@ -32,6 +37,7 @@ export default {
             month11: '11 月',
             month12: '12 月',
             year: '年',
+            weekStartDay: '0',
             weeks: {
                 sun: '日',
                 mon: '一',
@@ -88,8 +94,21 @@ export default {
             star: '星',
             stars: '星'
         },
+        time: {
+            before: '前',
+            after: '后',
+            just: '刚刚',
+            seconds: '秒',
+            minutes: '分钟',
+            hours: '小时',
+            days: '天'
+        },
         tree: {
             emptyText: '暂无数据'
         }
     }
 };
+
+setLang(lang);
+
+export default lang;

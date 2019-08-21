@@ -1,28 +1,18 @@
 <!--
-issue 仅用于提交 bug 或 feature 及 文档错误，其余疑问恕不作答。提问前请先阅读 https://github.com/iview/iview/issues/79 和相关文档后，考虑是否开启issue。
- -->
-<!--
-我们十分感谢有价值的 issue 贡献者，所以请填写以下内容。如果提问不符要求、在文档中已有解答、已有相同 issue，我们将直接 close，感谢理解。
- -->
-<!--
-点击 Preview 按钮预览，无误后再提交 issue
+注意：关于用法、咨询等问题，请到 iView Developer 提问：
+  
+  https://dev.iviewui.com
+  
+  Bug 反馈、新功能请求，请到下面提交 issues：
+  
+  https://www.iviewui.com/new-issue
+
+不是用上面的链接创建的 issue 会被立即关闭。
 -->
+<!--
+IMPORTANT: Please use the following link to create a new issue:
 
-### iView 版本号
-<!-- 2.0.0-rc.5 -->
+  https://www.iviewui.com/new-issue
 
-### 操作系统/浏览器 版本号
-<!-- macOS/Chrome 56 -->
-
-### Vue 版本号
-<!-- 2.2.1 -->
-
-### 能够复现问题的在线示例（重要）
-<!-- 使用下面的在线链接快速创建示例 -->
-<!-- https://codepen.io/anon/pen/BWwVoy -->
-
-### 复现步骤
-
-### 问题现象，以及你期望的结果是怎样的?
-
-### 你估计可能的原因是什么（选填）？
+If your issue was not created using the app above, it will be closed immediately.
+-->

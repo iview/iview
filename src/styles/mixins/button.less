@@ -66,19 +66,19 @@
     }
 
     & .@{btnClassName}-icon-only .ivu-icon {
-        font-size: 14px;
+        font-size: 13px;
         position: relative;
-        top: 1px;
+        //top: 1px;
     }
 
     &-large .@{btnClassName}-icon-only .ivu-icon{
-        font-size: 16px;
-        top: 2px;
+        font-size: 15px;
+        //top: 2px;
     }
 
     &-small .@{btnClassName}-icon-only .ivu-icon{
         font-size: 12px;
-        top: 0;
+        //top: 0;
     }
 
     &-circle .@{btnClassName} {
@@ -106,6 +106,13 @@
             }
         }
     }
+
+    //&-small .@{btnClassName}-icon-only{
+    //    .button-size(@btn-padding-small-icon; @btn-font-size; @btn-border-radius-small);
+    //}
+    //&-large .@{btnClassName}-icon-only{
+    //    .button-size(@btn-padding-large-icon; @btn-font-size-large; @btn-border-radius);
+    //}
 }
 
 .button-group-vertical-base(@btnClassName) {
@@ -133,12 +140,21 @@
     line-height: @line-height-base;
     user-select: none;
     .button-size(@btn-padding-base; @btn-font-size; @btn-border-radius);
-    transform: translate3d(0, 0, 0);
+    //transform: translate3d(0, 0, 0);
     //transition: all @transition-time linear;
-    transition: color @transition-time linear, background-color @transition-time linear, border @transition-time linear;
+    transition: color @transition-time linear, background-color @transition-time linear, border @transition-time linear, box-shadow @transition-time linear;
 
     > .@{css-prefix-iconfont} {
-        line-height: 1;
+        line-height: @line-height-base;
+        vertical-align: middle;
+    }
+
+    &-icon-only&-circle > .@{css-prefix-iconfont}{
+        vertical-align: baseline;
+    }
+
+    > span{
+        vertical-align: middle;
     }
 
     &,
@@ -153,7 +169,7 @@
 
     &:not([disabled]):active {
         outline: 0;
-        transition: none;
+        // transition: none;  // 如果不注释此行，那么active会和focus同时触发，此时focus的开始动画transition会无效
     }
 
     &.disabled,
@@ -171,6 +187,16 @@
     &-small {
         .button-size(@btn-padding-small; @btn-font-size; @btn-border-radius-small);
     }
+
+    &-icon-only{
+        .button-size(@btn-padding-base-icon; @btn-font-size; @btn-border-radius);
+    }
+    &-icon-only&-small{
+        .button-size(@btn-padding-small-icon; @btn-font-size; @btn-border-radius-small);
+    }
+    &-icon-only&-large{
+        .button-size(@btn-padding-large-icon; @btn-font-size-large; @btn-border-radius);
+    }
 }
 
 // Default
@@ -186,6 +212,7 @@
     &.active {
         .button-color(shade(@primary-color, 5%); white; shade(@primary-color, 5%));
     }
+    .active-btn-color(@primary-color);
 }
 
 // Primary
@@ -198,6 +225,7 @@
     &.active {
         color: @btn-primary-color;
     }
+    .active-btn-color(@primary-color);
 }
 
 // Ghost
@@ -213,6 +241,7 @@
     &.active {
         .button-color(shade(@primary-color, 5%); @btn-ghost-bg; shade(@primary-color, 5%));
     }
+    .active-btn-color(@primary-color);
 }
 
 // Dashed
@@ -229,11 +258,12 @@
     &.active {
         .button-color(shade(@primary-color, 5%); @btn-ghost-bg; shade(@primary-color, 5%));
     }
+    .active-btn-color(@primary-color);
 }
 
 // Text
 .btn-text() {
-    .button-variant(@btn-ghost-color, @btn-ghost-bg, transparent);
+    .button-variant(@btn-ghost-color, transparent, transparent);
 
     // for disabled
     &.disabled,
@@ -257,9 +287,16 @@
     &.active {
         .button-color(shade(@primary-color, 5%); @btn-ghost-bg; transparent);
     }
+    .active-btn-color(@primary-color);
 }
 
 // Color
+// for tabindex
+.active-btn-color(@color) {
+    &:focus {
+        box-shadow: 0 0 0 2px fade(@color, 20%);
+    }
+}
 .btn-color(@color) {
     .button-variant(@btn-primary-color; @color; @color);
 
@@ -269,6 +306,8 @@
     &.active {
         color: @btn-primary-color;
     }
+
+    .active-btn-color(@color);
 }
 
 // Circle for Icon

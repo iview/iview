@@ -1,220 +1,52 @@
-<!--<template>-->
-    <!--<div>-->
-        <!--<i-select v-model="model1" style="width:200px" clearable>-->
-            <!--<i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>-->
-        <!--</i-select>-->
-        <!--{{ model1 }}-->
-        <!--<div @click="c">change</div>-->
-    <!--</div>-->
-<!--</template>-->
-<!--<script>-->
-    <!--export default {-->
-        <!--data () {-->
-            <!--return {-->
-                <!--cityList: [-->
-                    <!--{-->
-                        <!--value: 'beijing',-->
-                        <!--label: '北京市'-->
-                    <!--},-->
-                    <!--{-->
-                        <!--value: 'shanghai',-->
-                        <!--label: '上海市'-->
-                    <!--},-->
-                    <!--{-->
-                        <!--value: 'shenzhen',-->
-                        <!--label: '深圳市'-->
-                    <!--},-->
-                    <!--{-->
-                        <!--value: 'hangzhou',-->
-                        <!--label: '杭州市'-->
-                    <!--},-->
-                    <!--{-->
-                        <!--value: 'nanjing',-->
-                        <!--label: '南京市'-->
-                    <!--},-->
-                    <!--{-->
-                        <!--value: 'chongqing',-->
-                        <!--label: '重庆市'-->
-                    <!--}-->
-                <!--],-->
-                <!--model1: ''-->
-            <!--}-->
-        <!--},-->
-        <!--methods: {-->
-            <!--c () {-->
-                <!--this.model1 = 'hangzhou'-->
-            <!--}-->
-        <!--}-->
-    <!--}-->
-<!--</script>-->
-
-
-<!--<template>-->
-    <!--<div>-->
-        <!--<i-select v-model="model5" disabled style="width:200px">-->
-            <!--<i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>-->
-        <!--</i-select>-->
-        <!--<i-select v-model="model6" style="width:200px">-->
-            <!--<i-option value="beijing">北京市</i-option>-->
-            <!--<i-option value="shanghai" disabled>上海市</i-option>-->
-            <!--<i-option value="shenzhen">深圳市</i-option>-->
-        <!--</i-select>-->
-    <!--</div>-->
-<!--</template>-->
-<!--<script>-->
-    <!--export default {-->
-        <!--data () {-->
-            <!--return {-->
-                <!--cityList: [-->
-                    <!--{-->
-                        <!--value: 'beijing',-->
-                        <!--label: '北京市'-->
-                    <!--},-->
-                    <!--{-->
-                        <!--value: 'shanghai',-->
-                        <!--label: '上海市'-->
-                    <!--},-->
-                    <!--{-->
-                        <!--value: 'shenzhen',-->
-                        <!--label: '深圳市'-->
-                    <!--},-->
-                    <!--{-->
-                        <!--value: 'hangzhou',-->
-                        <!--label: '杭州市'-->
-                    <!--},-->
-                    <!--{-->
-                        <!--value: 'nanjing',-->
-                        <!--label: '南京市'-->
-                    <!--},-->
-                    <!--{-->
-                        <!--value: 'chongqing',-->
-                        <!--label: '重庆市'-->
-                    <!--}-->
-                <!--],-->
-                <!--model5: '',-->
-                <!--model6: ''-->
-            <!--}-->
-        <!--}-->
-    <!--}-->
-<!--</script>-->
-
-
-
-<!--<template>-->
-    <!--<div>-->
-        <!--<i-select v-model="model7" style="width:200px">-->
-            <!--<Option-group label="热门城市">-->
-                <!--<i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>-->
-            <!--</Option-group>-->
-            <!--<Option-group label="其它城市">-->
-                <!--<i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>-->
-            <!--</Option-group>-->
-        <!--</i-select>-->
-    <!--</div>-->
-<!--</template>-->
-<!--<script>-->
-    <!--export default {-->
-        <!--data () {-->
-            <!--return {-->
-                <!--cityList: [-->
-                    <!--{-->
-                        <!--value: 'beijing',-->
-                        <!--label: '北京市'-->
-                    <!--},-->
-                    <!--{-->
-                        <!--value: 'shanghai',-->
-                        <!--label: '上海市'-->
-                    <!--},-->
-                    <!--{-->
-                        <!--value: 'shenzhen',-->
-                        <!--label: '深圳市'-->
-                    <!--},-->
-                    <!--{-->
-                        <!--value: 'hangzhou',-->
-                        <!--label: '杭州市'-->
-                    <!--},-->
-                    <!--{-->
-                        <!--value: 'nanjing',-->
-                        <!--label: '南京市'-->
-                    <!--},-->
-                    <!--{-->
-                        <!--value: 'chongqing',-->
-                        <!--label: '重庆市'-->
-                    <!--}-->
-                <!--],-->
-                <!--model7: ''-->
-            <!--}-->
-        <!--}-->
-    <!--}-->
-<!--</script>-->
-
-<!--<template>-->
-    <!--<div>-->
-        <!--<i-select v-model="model10" multiple style="width:260px">-->
-            <!--<i-option v-for="item in cityList" :value="item.value">{{ item.label }}</i-option>-->
-        <!--</i-select>-->
-    <!--</div>-->
-<!--</template>-->
-<!--<script>-->
-    <!--export default {-->
-        <!--data () {-->
-            <!--return {-->
-                <!--cityList: [-->
-                    <!--{-->
-                        <!--value: 'beijing',-->
-                        <!--label: '北京市'-->
-                    <!--},-->
-                    <!--{-->
-                        <!--value: 'shanghai',-->
-                        <!--label: '上海市'-->
-                    <!--},-->
-                    <!--{-->
-                        <!--value: 'shenzhen',-->
-                        <!--label: '深圳市'-->
-                    <!--},-->
-                    <!--{-->
-                        <!--value: 'hangzhou',-->
-                        <!--label: '杭州市'-->
-                    <!--},-->
-                    <!--{-->
-                        <!--value: 'nanjing',-->
-                        <!--label: '南京市'-->
-                    <!--},-->
-                    <!--{-->
-                        <!--value: 'chongqing',-->
-                        <!--label: '重庆市'-->
-                    <!--}-->
-                <!--],-->
-                <!--model10: []-->
-            <!--}-->
-        <!--}-->
-    <!--}-->
-<!--</script>-->
-
 <template>
-    <div>
-        <Row>
-            <i-col span="12" style="padding-right:10px">
-                <Select v-model="model11" filterable>
-                    <Option-group label="123">
-                        <i-option value="beijing">北京市</i-option>
-                        <i-option value="shanghai">上海市</i-option>
-                    </Option-group>
-                    <Option-group label="456">
-                        <i-option value="shenzhen">深圳市</i-option>
-                        <i-option value="hangzhou">杭州市</i-option>
-                    </Option-group>
-                    <i-option value="nanjing">南京市</i-option>
-                    <i-option value="chongqing">重庆市</i-option>
-                </Select>
-            </i-col>
-            <i-col span="12">
-                <Select v-model="model12" filterable multiple>
-                    <i-option v-for="item in cityList" :key="item" :value="item.value">{{ item.label }}</i-option>
-                </Select>
-            </i-col>
-        </Row>
-        <div @click="model11 = 'shanghai'">change</div>
+    <div style="margin: 100px;">
+        <Select v-model="model1" filterable style="width:200px" prefix="ios-albums">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+
+        <Select v-model="model10" filterable :max-tag-count="2" multiple style="width:400px">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+
+        <Select v-model="model10" filterable :max-tag-count="2" multiple style="width:400px" prefix="ios-albums">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+
+        <br><br>
+
+        <Select v-model="model1" style="width:200px">
+            <Icon type="ios-alarm" slot="prefix" color="red" />
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+
+        <Select v-model="model1" style="width:200px">
+            <Avatar src="https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar" slot="prefix" size="small" />
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+
+        <Select v-model="model10" :max-tag-count="3" :max-tag-placeholder="more" multiple style="width:400px" prefix="ios-albums">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+
+        <br><br>
+
+        <Select size="small" v-model="model1" style="width:200px" prefix="ios-albums">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+
+        <Select size="small" v-model="model10" multiple style="width:400px" prefix="ios-albums">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+
+        <br><br>
+
+        <Select size="large" v-model="model1" style="width:200px" prefix="ios-albums">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+
+        <Select size="large" v-model="model10" multiple style="width:400px" prefix="ios-albums">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
     </div>
 </template>
 <script>
@@ -223,32 +55,37 @@
             return {
                 cityList: [
                     {
-                        value: 'beijing',
-                        label: '北京市'
+                        value: 'New York',
+                        label: 'New York'
                     },
                     {
-                        value: 'shanghai',
-                        label: '上海市'
+                        value: 'London',
+                        label: 'London'
                     },
                     {
-                        value: 'shenzhen',
-                        label: '深圳市'
+                        value: 'Sydney',
+                        label: 'Sydney'
                     },
                     {
-                        value: 'hangzhou',
-                        label: '杭州市'
+                        value: 'Ottawa',
+                        label: 'Ottawa'
                     },
                     {
-                        value: 'nanjing',
-                        label: '南京市'
+                        value: 'Paris',
+                        label: 'Paris'
                     },
                     {
-                        value: 'chongqing',
-                        label: '重庆市'
+                        value: 'Canberra',
+                        label: 'Canberra'
                     }
                 ],
-                model11: '',
-                model12: []
+                model1: '',
+                model10: []
+            }
+        },
+        methods: {
+            more (num) {
+                return 'more' + num;
             }
         }
     }
