@@ -68,7 +68,7 @@
                                 cascader.isLoadedChildren = true;
                             }
                             if (item.children.length) {
-                                this.handleTriggerItem(item);
+                                this.handleTriggerItem(item,fromInit,fromUser);
                             }
                         });
                         return;
