@@ -212,13 +212,13 @@ export function findComponentDownward (context, componentName) {
 }
 
 // Find components downward
-export function findComponentsDownward (context, componentName, ignoreComponetNames = []) {
-    if (!Array.isArray(ignoreComponetNames)) {
-        ignoreComponetNames = [ignoreComponetNames]
+export function findComponentsDownward (context, componentName, ignoreComponentNames = []) {
+    if (!Array.isArray(ignoreComponentNames)) {
+        ignoreComponentNames = [ignoreComponentNames]
     }
     return context.$children.reduce((components, child) => {
         if (child.$options.name === componentName) components.push(child);
-        if (ignoreComponetNames.indexOf(child.$options.name) < 0) {
+        if (ignoreComponentNames.indexOf(child.$options.name) < 0) {
             const foundChilds = findComponentsDownward(child, componentName);
             return components.concat(foundChilds);
         } else {
