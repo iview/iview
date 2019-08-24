@@ -15,7 +15,7 @@ describe('TimePicker.vue', () => {
 
     vm.$nextTick(() => {
       const spiners = picker.$el.querySelectorAll('.ivu-time-picker-cells-list');
-      expect(spiners.length).to.equal(3); // hh:mm:ss
+      expect(spiners.length).to.equal(4); // hh:mm:ss a
       expect(spiners[0].querySelectorAll('.ivu-time-picker-cells-cell').length).to.equal(24);
       expect(spiners[1].querySelectorAll('.ivu-time-picker-cells-cell').length).to.equal(60);
       expect(spiners[2].querySelectorAll('.ivu-time-picker-cells-cell').length).to.equal(60);

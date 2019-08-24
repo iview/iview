@@ -6,10 +6,12 @@
                 <time-spinner
                     ref="timeSpinner"
                     :show-seconds="showSeconds"
+                    :show-am-pm="showAmPm"
                     :steps="steps"
                     :hours="timeSlots[0]"
                     :minutes="timeSlots[1]"
                     :seconds="timeSlots[2]"
+                    :ampm="timeSlots[3]"
                     :disabled-hours="disabledHMS.disabledHours"
                     :disabled-minutes="disabledHMS.disabledMinutes"
                     :disabled-seconds="disabledHMS.disabledSeconds"
@@ -33,7 +35,7 @@
     import Mixin from '../panel-mixin';
     import Locale from '../../../../mixins/locale';
 
-    import { initTimeDate } from '../../util';
+    import { initTimeDate, parseDate, formatDate } from '../../util';
 
     const prefixCls = 'ivu-picker-panel';
     const timePrefixCls = 'ivu-time-picker';
@@ -64,7 +66,7 @@
             },
             format: {
                 type: String,
-                default: 'HH:mm:ss'
+                default: 'hh:mm:ss'
             },
             value: {
                 type: Array,
@@ -81,7 +83,10 @@
         },
         computed: {
             showSeconds () {
-                return !(this.format || '').match(/mm$/);
+                return !!(this.format || '').match(/ss/i);
+            },
+            showAmPm () {
+                return !!this.format.match(/a/i);
             },
             visibleDate () { // TODO
                 const date = this.date;
@@ -92,7 +97,9 @@
             },
             timeSlots(){
                 if (!this.value[0]) return [];
-                return ['getHours', 'getMinutes', 'getSeconds'].map(slot => this.date[slot]());
+                const slots = ['getHours', 'getMinutes', 'getSeconds'].map(slot => this.date[slot]());
+                const ampm = this.date.getHours() >= 12 ? 'pm' : 'am';
+                return slots.concat([ampm]);
             },
             disabledHMS(){
                 const disabledTypes = ['disabledHours', 'disabledMinutes', 'disabledSeconds'];
@@ -132,7 +139,19 @@
 
                 const newDate = new Date(this.date);
                 Object.keys(date).forEach(
-                    type => newDate[`set${capitalize(type)}`](date[type])
+                    type => {
+                        if (['am', 'pm'].includes(type)) {
+                            const format = formatDate(newDate, 'hh:mm:ss a');
+                            const date = parseDate(format.replace('am', type).replace('pm', type), 'hh:mm:ss a');
+                            // just swap change hours only
+                            newDate.setHours(date.getHours());
+                        }
+                        else {
+                            newDate[`set${capitalize(type)}`](date[type]);
+                        }
+
+                        // console.log(newDate);
+                    }
                 );
 
                 if (emit) this.$emit('on-pick', newDate, 'time');

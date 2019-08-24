@@ -15,6 +15,11 @@
                 <li :class="getCellCls(item)" v-for="item in secondsList" v-show="!item.hide" @click="handleClick('seconds', item)">{{ formatTime(item.text) }}</li>
             </ul>
         </div>
+        <div :class="[prefixCls+ '-list']" v-show="showAmPm" ref="amPm">
+            <ul :class="[prefixCls + '-ul']">
+                <li :class="getCellCls(item)" v-for="item in ampmList" @click="handleClick(item.text, item)">{{ item.text }}</li>
+            </ul>
+        </div>
     </div>
 </template>
 <script>
@@ -28,6 +33,10 @@
         name: 'TimeSpinner',
         mixins: [Options],
         props: {
+            ampm: {
+                type: String,
+                default: 'am',
+            },
             hours: {
                 type: [Number, String],
                 default: NaN
@@ -43,6 +52,10 @@
             showSeconds: {
                 type: Boolean,
                 default: true
+            },
+            showAmPm: {
+                type: Boolean,
+                default: true,
             },
             steps: {
                 type: Array,
@@ -78,7 +91,9 @@
                     hide: false
                 };
 
-                for (let i = 0; i < 24; i += step) {
+                const maxHour = this.showAmPm ? 13 : 24;
+                const minHour = this.showAmPm ? 1 : 0;
+                for (let i = minHour; i < maxHour; i += step) {
                     const hour = deepCopy(hour_tmpl);
                     hour.text = i;
                     hour.focused = i === focusedHour;
@@ -87,8 +102,18 @@
                         hour.disabled = true;
                         if (this.hideDisabledOptions) hour.hide = true;
                     }
-                    if (this.hours === i) hour.selected = true;
+
+                    if ((this.ampm === 'am' && this.hours === i) ||
+                        (this.ampm === 'pm' && this.hours - 12 === i))
+                        hour.selected = true;
+
                     hours.push(hour);
+                }
+
+                if (['am', 'pm'].includes(this.ampm)) {
+                    if (this.hours == 0 || this.hours == 12) {
+                        hours.find(h => h.text == 12).selected = true;
+                    }
                 }
 
                 return hours;
@@ -143,6 +168,31 @@
                 }
 
                 return seconds;
+            },
+            ampmList() {
+                let ampmList = [];
+                const focusedAmpm = this.focusedColumn === 3 && this.focusedTime[3];
+                const ampm_tmpl = {
+                    text: 'am',
+                    selected: false,
+                    disabled: false,
+                    hide: false
+                };
+
+                for (let i = 0; i < 2; i++) {
+                    const ampm = deepCopy(ampm_tmpl);
+                    ampm.text = ['am', 'pm'][i];
+                    ampm.focused = i === focusedAmpm;
+
+                    if (this.disabledAmpm.length && this.disabledAmpm.indexOf(['am', 'pm'][i]) > -1) {
+                        ampm.disabled = true;
+                        if (this.hideDisabledOptions) ampm.hide = true;
+                    }
+                    if (this.ampm === ampm.text) ampm.selected = true;
+                    ampmList.push(ampm);
+                }
+
+                return ampmList;
             }
         },
         methods: {
@@ -213,7 +263,15 @@
         watch: {
             hours (val) {
                 if (!this.compiled) return;
-                this.scroll('hours', this.hoursList.findIndex(obj => obj.text == val));
+                let hourForScroll = val;
+                if (['am', 'pm'].includes(this.ampm)) {
+                    if (val > 12)
+                        hourForScroll -= 12;
+                    else if (val == 0)
+                        hourForScroll = 12;
+                }
+
+                this.scroll('hours', this.hoursList.findIndex(obj => obj.text == hourForScroll));
             },
             minutes (val) {
                 if (!this.compiled) return;
