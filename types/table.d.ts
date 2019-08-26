@@ -312,7 +312,7 @@ export declare class TableColumn {
     /**
      * 数据过滤使用的方法，如果是多选的筛选项，对每一条数据会执行多次，任意一次返回 true 就会显示
      */
-    filterMethod?: () => void;
+    filterMethod?: (value, row) => boolean;
     /**
      * 数据过滤的选项是否多选
      * @default true
