@@ -1,0 +1,70 @@
+@collapse-prefix-cls: ~"@{css-prefix}collapse";
+
+.@{collapse-prefix-cls}{
+    background-color: @background-color-base;
+    border-radius: 3px;
+    border: 1px solid @border-color-base;
+
+    &-simple{
+        border-left: none;
+        border-right: none;
+        background-color: #fff;
+        border-radius: 0;
+    }
+
+    & > &-item{
+        border-top: 1px solid @border-color-base;
+        &:first-child {
+            border-top: 0;
+        }
+
+        > .@{collapse-prefix-cls}-header{
+            height: 38px;
+            line-height: 38px;
+            padding-left: 16px;
+            color: #666;
+            cursor: pointer;
+            position: relative;
+            border-bottom: 1px solid transparent;
+            transition: all @transition-time @ease-in-out;
+
+            > i{
+                transition: transform @transition-time @ease-in-out;
+                margin-right: 14px;
+            }
+        }
+    }
+    &  > &-item&-item-active > &-header{
+        border-bottom: 1px solid @border-color-base;
+    }
+    &-simple > &-item&-item-active > &-header{
+        border-bottom: 1px solid transparent;
+    }
+    &  > &-item&-item-active > &-header > i{
+        transform: rotate(90deg);
+    }
+
+    &-content{
+        //display: none;
+        //overflow: hidden;
+        color: @text-color;
+        padding: 0 16px;
+        background-color: #fff;
+
+        & > &-box {
+            padding-top: 16px;
+            padding-bottom: 16px;
+        }
+    }
+    &-simple > &-item > &-content > &-content-box{
+        padding-top: 0;
+    }
+    &-item-active > &-content{
+        //display: block;
+    }
+    &-item:last-child {
+        > .@{collapse-prefix-cls}-content {
+            border-radius: 0 0 3px 3px;
+        }
+    }
+}

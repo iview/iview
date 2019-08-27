@@ -1,0 +1,178 @@
+@cascader-prefix-cls: ~"@{css-prefix}cascader";
+@cascader-item-prefix-cls: ~"@{css-prefix}cascader-menu-item";
+
+.selectDropDown{
+    width: auto;
+    padding: 0;
+    white-space: nowrap;
+    overflow: visible;
+}
+
+.@{cascader-prefix-cls} {
+    //position: relative;
+    line-height: normal;
+
+    &-rel{
+        display: inline-block;
+        width: 100%;
+        position: relative;
+    }
+
+    .@{css-prefix}input{
+        padding-right: 24px;
+        display: block;
+        cursor: pointer;
+    }
+    &-disabled .@{css-prefix}input{
+        cursor: @cursor-disabled;
+    }
+
+    &-label{
+        width: 100%;
+        height: 100%;
+        line-height: 32px;
+        padding: 0 7px;
+        box-sizing: border-box;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        cursor: pointer;
+        font-size: @font-size-small;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+    &-size-large &-label{
+        line-height: 36px;
+        font-size: @font-size-base;
+    }
+    &-size-small &-label{
+        line-height: 26px;
+    }
+
+    .@{cascader-prefix-cls}-arrow:nth-of-type(1) {
+        display: none;
+        cursor: pointer;
+    }
+
+    &:hover {
+        .@{cascader-prefix-cls}-arrow:nth-of-type(1) {
+            display: inline-block;
+        }
+    }
+    &-show-clear:hover .@{cascader-prefix-cls}-arrow:nth-of-type(2){
+        display: none;
+    }
+
+    &-arrow {
+        .inner-arrow();
+    }
+    &-visible &-arrow:nth-of-type(2) {
+        transform: translateY(-50%) rotate(180deg);
+    }
+
+    .@{select-dropdown-prefix-cls} {
+        .selectDropDown();
+    }
+
+    .select-item(@cascader-prefix-cls, @cascader-item-prefix-cls);
+    .ivu-select-item span{
+        color: @error-color;
+    }
+
+    &-dropdown{
+        padding: 5px 0;
+        .@{select-dropdown-prefix-cls}-list{
+            max-height: 190px;
+            box-sizing: border-box;
+            overflow: auto;
+        }
+    }
+
+    &-not-found-tip{
+        padding: 5px 0;
+        text-align: center;
+        color: @btn-disable-color;
+        li:not([class^=ivu-]){
+            list-style: none;
+            margin-bottom: 0;
+        }
+    }
+    &-not-found .@{select-dropdown-prefix-cls} {
+        width: inherit;
+    }
+
+    &-menu{
+        display: inline-block;
+        min-width: 100px;
+        height: 180px;
+        margin: 0;
+        padding: 5px 0 !important;
+        vertical-align: top;
+        list-style: none;
+        border-right: 1px solid @border-color-split;
+        overflow: auto;
+
+        &:first-child {
+
+        }
+        &:last-child {
+            border-right-color: transparent;
+            margin-right: -1px;
+        }
+        &:only-child {
+
+        }
+
+        & &-item{
+            position: relative;
+            padding-right: 36px;
+            transition: all @transition-time @ease-in-out;
+
+            i{
+                font-size: @font-size-small;
+                position: absolute;
+                right: 15px;
+                top: 50%;
+                //margin-top: -6px;
+                transform: translateY(-50%);
+            }
+            &-loading{
+                margin-top: -6px;
+            }
+
+            &-active{
+                background-color: @background-color-select-hover;
+                color: @primary-color;
+            }
+        }
+    }
+}
+.@{cascader-prefix-cls}-transfer{
+    z-index: @zindex-transfer;
+    .selectDropDown();
+    .select-item(@cascader-prefix-cls, @cascader-item-prefix-cls);
+    .ivu-select-item span{
+        color: @error-color;
+    }
+    .@{cascader-prefix-cls} {
+        &-menu{
+            &-item{
+                padding-right: 24px;
+                transition: all @transition-time @ease-in-out;
+                &-active{
+                    background-color: @background-color-select-hover;
+                    color: @primary-color;
+                }
+            }
+        }
+    }
+}
+
+.@{form-item-prefix-cls}-error{
+    .@{cascader-prefix-cls} {
+        &-arrow{
+            color: @error-color;
+        }
+    }
+}

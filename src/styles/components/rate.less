@@ -1,0 +1,117 @@
+@rate-prefix-cls: ~"@{css-prefix}rate";
+
+.@{rate-prefix-cls} {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    vertical-align: middle;
+    font-weight: normal;
+    font-style: normal;
+
+    &-disabled &-star {
+        &:before,
+        &-content:before {
+            cursor: default;
+        }
+        &:hover {
+            transform: scale(1);
+        }
+    }
+
+    &-star-full, &-star-zero {
+        position: relative;
+    }
+    &-star-first {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 50%;
+        height: 100%;
+        overflow: hidden;
+        opacity: 0;
+    }
+
+    &-star-first, &-star-second {
+        user-select: none;
+        transition: all .3s ease;
+        color: #e9e9e9;
+        cursor: pointer;
+    }
+
+    &-star-chart {
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+        margin-right: 8px;
+        position: relative;
+        font-family: 'Ionicons';
+        transition: all 0.3s ease;
+
+        &:hover {
+            transform: scale(1.1);
+
+            //&-star-first, &-star-second {
+            //    color: @rate-star-color;
+            //}
+        }
+    }
+    &-star-chart&-star-full &-star-first, &-star-chart&-star-full &-star-second{
+        color: @rate-star-color;
+    }
+    &-star-chart&-star-half &-star-first{
+        opacity: 1;
+        color: @rate-star-color;
+    }
+    
+    &-star {
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+        margin-right: 8px;
+        position: relative;
+        font-family: 'Ionicons';
+        transition: all 0.3s ease;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+
+        &:before,
+        &-content:before {
+            color: #e9e9e9;
+            cursor: pointer;
+            content: "\F2BF";
+            transition: all @transition-time @ease-in-out;
+            display: block;
+        }
+
+        &-content {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            &:before {
+                color: transparent;
+            }
+        }
+
+        &-half &-content:before,
+        &-full:before {
+            color: @rate-star-color;
+        }
+
+        &-half:hover &-content:before,
+        &-full:hover:before {
+            color: tint(@rate-star-color, 20%);
+        }
+    }
+    &-text {
+        margin-left: 8px;
+        vertical-align: middle;
+        display: inline-block;
+        font-size: @font-size-small;
+    }
+}

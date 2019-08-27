@@ -1,0 +1,135 @@
+@badge-prefix-cls: ~"@{css-prefix}badge";
+
+.@{badge-prefix-cls} {
+    position: relative;
+    display: inline-block;
+
+    &-count {
+        font-family: "Monospaced Number";
+        line-height: 1;
+        vertical-align: middle;
+        position: absolute;
+        transform: translateX(50%);
+        top: -10px;
+        right: 0;
+        height: 20px;
+        border-radius: 10px;
+        min-width: 20px;
+        background: @error-color;
+        border: 1px solid transparent;
+        color: #fff;
+        line-height: 18px;
+        text-align: center;
+        padding: 0 6px;
+        font-size: 12px;
+        white-space: nowrap;
+        transform-origin: -10% center;
+        z-index: 10;
+        box-shadow: 0 0 0 1px #fff;
+
+        a,
+        a:hover {
+            color: #fff;
+        }
+
+        &-alone {
+            top: auto;
+            display: block;
+            position: relative;
+            transform: translateX(0);
+        }
+
+        &-primary{
+            background: @primary-color;
+        }
+        &-success{
+            background: @success-color;
+        }
+        &-error{
+            background: @error-color;
+        }
+        &-warning{
+            background: @warning-color;
+        }
+        &-info{
+            background: @info-color;
+        }
+        &-normal{
+            background: @normal-color;
+            color: @subsidiary-color;
+        }
+    }
+
+    &-dot {
+        position: absolute;
+        transform: translateX(-50%);
+        transform-origin: 0 center;
+        top: -4px;
+        right: -8px;
+        height: 8px;
+        width: 8px;
+        border-radius: 100%;
+        background: @error-color;
+        z-index: 10;
+        box-shadow: 0 0 0 1px #fff;
+    }
+
+    &-status {
+        line-height: inherit;
+        vertical-align: baseline;
+
+        &-dot {
+            width: 6px;
+            height: 6px;
+            display: inline-block;
+            border-radius: 50%;
+            vertical-align: middle;
+            position: relative;
+            top: -1px;
+        }
+        &-success {
+            background-color: @success-color;
+        }
+        &-processing {
+            background-color: @processing-color;
+            position: relative;
+            &:after {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                border: 1px solid @processing-color;
+                content: '';
+                animation: aniStatusProcessing 1.2s infinite ease-in-out;
+            }
+        }
+        &-default {
+            background-color: @normal-color;
+        }
+        &-error {
+            background-color: @error-color;
+        }
+        &-warning {
+            background-color: @warning-color;
+        }
+        &-text {
+            display: inline-block;
+            color: @text-color;
+            font-size: @font-size-small;
+            margin-left: 6px;
+        }
+    }
+}
+
+@keyframes aniStatusProcessing {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(2.4);
+        opacity: 0;
+    }
+}

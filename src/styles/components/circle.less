@@ -1,0 +1,16 @@
+@circle-prefix-cls: ~"@{css-prefix}chart-circle";
+
+.@{circle-prefix-cls}{
+    display: inline-block;
+    position: relative;
+
+    &-inner {
+        width: 100%;
+        text-align: center;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        line-height: 1;
+    }
+}

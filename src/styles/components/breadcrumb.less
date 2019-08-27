@@ -1,0 +1,34 @@
+@breadcrumb-prefix-cls: ~"@{css-prefix}breadcrumb";
+
+.@{breadcrumb-prefix-cls} {
+    color: #999;
+    font-size: @font-size-base;
+
+    a {
+        color: @text-color;
+        transition: color @transition-time @ease-in-out;
+        &:hover {
+            color: tint(@primary-color, 20%);
+        }
+    }
+
+    & > span:last-child {
+        font-weight: bold;
+        color: @text-color;
+    }
+
+    & > span:last-child &-item-separator {
+        display: none;
+    }
+
+    &-item-separator {
+        margin: 0 8px;
+        color: @border-color-base;
+    }
+
+    &-item-link {
+        > .ivu-icon + span {
+            margin-left: 4px;
+        }
+    }
+}
