@@ -32,8 +32,14 @@
                     <tbody>
                         <tr>
                             <td :style="{'height':bodyStyle.height,'width':`${this.headerWidth}px`}">
-                                <span v-html="localeNoDataText" v-if="!data || data.length === 0"></span>
-                                <span v-html="localeNoFilteredDataText" v-else></span>
+                                <template v-if="isShow">
+                                    <slot name="noDataText"></slot>
+                                </template>
+                                <template v-else>
+                                    <span v-html="localeNoDataText" v-if="!data || data.length === 0"></span>
+                                   <span v-html="localeNoFilteredDataText" v-else></span>
+                                </template>
+
                             </td>
                         </tr>
                     </tbody>
@@ -238,6 +244,9 @@
             };
         },
         computed: {
+            isShow () {
+                return this.$slots.noDataText
+            },
             localeNoDataText () {
                 if (this.noDataText === undefined) {
                     return this.t('i.table.noDataText');
@@ -351,12 +360,13 @@
             bodyStyle () {
                 let style = {};
                 if (this.bodyHeight !== 0) {
-                    const height = this.bodyHeight;
                     if (this.height) {
                         style.height = `${height}px`;
                     } else if (this.maxHeight) {
                         style.maxHeight = `${height}px`;
                     }
+                }else{
+                   style.height = '200px'
                 }
                 return style;
             },
@@ -422,7 +432,7 @@
                     columnWidth = parseInt(usableWidth / usableLength);
                 }
 
-                    
+
                 for (let i = 0; i < this.cloneColumns.length; i++) {
                     const column = this.cloneColumns[i];
                     let width = columnWidth + (column.minWidth?column.minWidth:0);
@@ -440,7 +450,7 @@
                             else if (column.maxWidth < width){
                                 width = column.maxWidth;
                             }
-                            
+
                             if (usableWidth>0) {
                                 usableWidth -= width - (column.minWidth?column.minWidth:0);
                                 usableLength--;
@@ -487,7 +497,7 @@
 
                     }
                 }
-                
+
                 this.tableWidth = this.cloneColumns.map(cell => cell._width).reduce((a, b) => a + b, 0) + (this.showVerticalScrollBar?this.scrollBarWidth:0) + 1;
                 this.columnsWidth = columnsWidth;
                 this.fixedHeader();
@@ -567,7 +577,7 @@
                 const status = !data._isExpanded;
                 this.objData[_index]._isExpanded = status;
                 this.$emit('on-expand', JSON.parse(JSON.stringify(this.cloneData[_index])), status);
-                
+
                 if(this.height || this.maxHeight){
                     this.$nextTick(()=>this.fixedBody());
                 }
@@ -596,7 +606,7 @@
                 }
                 this.$emit('on-selection-change', selection);
             },
-            
+
             fixedHeader () {
                 if (this.height || this.maxHeight) {
                     this.$nextTick(() => {
@@ -633,7 +643,7 @@
 
                     this.showHorizontalScrollBar = bodyEl.offsetWidth < bodyContentEl.offsetWidth + (this.showVerticalScrollBar?this.scrollBarWidth:0);
                     this.showVerticalScrollBar = this.bodyHeight? bodyHeight - (this.showHorizontalScrollBar?this.scrollBarWidth:0) < bodyContentHeight : false;
-                    
+
                     if(this.showVerticalScrollBar){
                         bodyEl.classList.add(this.prefixCls +'-overflowY');
                     }else{
@@ -644,7 +654,7 @@
                     }else{
                         bodyEl.classList.remove(this.prefixCls +'-overflowX');
                     }
-                } 
+                }
             },
 
             hideColumnFilter () {

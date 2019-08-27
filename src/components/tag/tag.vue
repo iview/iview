@@ -50,6 +50,10 @@
             fade: {
                 type: Boolean,
                 default: true
+            },
+            clicks:{
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -127,7 +131,8 @@
                     this.$emit('on-close', event, this.name);
                 }
             },
-            check () {
+            check (event) {
+                if(this.clicks) this.$emit('click',event)
                 if (!this.checkable) return;
                 const checked = !this.isChecked;
                 this.isChecked = checked;

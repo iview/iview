@@ -70,6 +70,9 @@
                 prefixCls: prefixCls,
                 stateTree: this.data,
                 flatState: [],
+                checked: false,
+                indeterminate: false,
+                isCheckedAll: false
             };
         },
         watch: {
@@ -80,6 +83,18 @@
                     this.flatState = this.compileFlatState();
                     this.rebuildTree();
                 }
+            } ,
+            checked(v){
+                const vm = this;
+                let {stateTree} = vm;
+                const  loopData = data => data.map( item => {
+                    vm.$set(item,'checked',v);
+                    if(v){
+                        vm.$set(item,'indeterminate',false)
+                    }
+                    if(item.children) return loopData(item.children)
+                } )
+                loopData(stateTree);
             }
         },
         computed: {
@@ -154,9 +169,18 @@
                 /* public API */
                 return this.flatState.filter(obj => obj.node.checked).map(obj => obj.node);
             },
+            getAllNodes () {
+                /* public API */
+                return this.flatState;
+            },
+	    
             getCheckedAndIndeterminateNodes () {
                 /* public API */
                 return this.flatState.filter(obj => (obj.node.checked || obj.node.indeterminate)).map(obj => obj.node);
+            },
+	    getIndeterminateNodes () {
+                /* public API */
+                return this.flatState.filter(obj => (obj.node.indeterminate)).map(obj => obj.node);
             },
             updateTreeDown(node, changes = {}) {
                 if (this.checkStrictly) return;

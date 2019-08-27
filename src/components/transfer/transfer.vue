@@ -48,7 +48,8 @@
                         notFoundText: this.localeNotFoundText
                     },
                     on: {
-                        'on-checked-keys-change': this.handleLeftCheckedKeysChange
+                        'on-checked-keys-change': this.handleLeftCheckedKeysChange,
+                        'scroll': this.scroll
                     }
                 }, vNodes),
 
@@ -238,6 +239,9 @@
             },
             handleRightCheckedKeysChange (keys) {
                 this.rightCheckedKeys = keys;
+            },
+            scroll(e){
+                this.$emit('scroll',e);
             },
             handleCheckedKeys () {
                 const sourceSelectedKeys = this.getValidKeys('left');

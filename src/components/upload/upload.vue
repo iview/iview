@@ -20,12 +20,14 @@
         <upload-list
             v-if="showUploadList"
             :files="fileList"
+            :listItemDel="listItemDel"
             @on-file-remove="handleRemove"
             @on-file-preview="handlePreview"></upload-list>
     </div>
 </template>
 <script>
     import UploadList from './upload-list.vue';
+    import getMimeTypes from './mimeType'
     import ajax from './ajax';
     import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
@@ -79,9 +81,9 @@
                     return [];
                 }
             },
-            accept: {
-                type: String
-            },
+            // accept: {
+            //     type: String
+            // },
             maxSize: {
                 type: Number
             },
@@ -141,6 +143,10 @@
             disabled: {
                 type: Boolean,
                 default: false
+            },
+            listItemDel:{
+                type: Boolean,
+                default: true
             }
         },
         data () {
@@ -148,7 +154,8 @@
                 prefixCls: prefixCls,
                 dragOver: false,
                 fileList: [],
-                tempIndex: 1
+                tempIndex: 1,
+
             };
         },
         computed: {
@@ -162,9 +169,21 @@
                     }
                 ];
             },
+            accept(){
+              const vm = this;
+              const {format} = vm;
+              let str = '';
+              if(format.length>0) {
+                 str = getMimeTypes(format);
+              }
+              return str;
+            }
 
         },
         methods: {
+            setFileList(fileList){
+                this.fileList = fileList;
+            },
             handleClick () {
                 if (this.disabled) return;
                 this.$refs.input.click();
@@ -200,6 +219,9 @@
                 });
             },
             upload (file) {
+                let isCheckFormat = this.checkFormat(file);
+                let isCheckSize = this.checkSize(file);
+                if(!isCheckFormat || !isCheckSize) return false;
                 if (!this.beforeUpload) {
                     return this.post(file);
                 }
@@ -221,24 +243,41 @@
                     // this.$emit('cancel', file);
                 }
             },
-            post (file) {
-                // check format
+            checkFormat(file){
+                //检查格式
+                let isCheck = true;
                 if (this.format.length) {
                     const _file_format = file.name.split('.').pop().toLocaleLowerCase();
                     const checked = this.format.some(item => item.toLocaleLowerCase() === _file_format);
                     if (!checked) {
                         this.onFormatError(file, this.fileList);
-                        return false;
+                        isCheck = false;
                     }
                 }
-
-                // check maxSize
+                return isCheck;
+            },
+            checkSize(file){
+                //检查文件大小
+                let isCheck = true;
                 if (this.maxSize) {
-                    if (file.size > this.maxSize * 1024) {
+                    if (file.size > this.maxSize * 1024*1024) {
                         this.onExceededSize(file, this.fileList);
-                        return false;
+                        isCheck = false;
                     }
                 }
+                return isCheck;
+            },
+            post (file) {
+                // check format
+                // if (this.format.length) {
+                //     const _file_format = file.name.split('.').pop().toLocaleLowerCase();
+                //     const checked = this.format.some(item => item.toLocaleLowerCase() === _file_format);
+                //     if (!checked) {
+                //         this.onFormatError(file, this.fileList);
+                //         return false;
+                //     }
+                // }
+
 
                 this.handleStart(file);
                 let formData = new FormData();
@@ -319,9 +358,9 @@
                 fileList.splice(fileList.indexOf(file), 1);
                 this.onRemove(file, fileList);
             },
-            handlePreview(file) {
+            handlePreview(file,type) {
                 if (file.status === 'finished') {
-                    this.onPreview(file);
+                    this.onPreview(file,type);
                 }
             },
             clearFiles() {

@@ -6,6 +6,7 @@
             :render-format="render3"
             :operations="['To left','To right']"
             filterable
+            @scroll="scroll"
             @on-change="handleChange3">
         <div :style="{float: 'right', margin: '5px'}">
             <Button type="ghost" size="small" @click="reloadMockData">Refresh</Button>
@@ -25,6 +26,9 @@
             }
         },
         methods: {
+            scroll(e){
+                console.log(e);
+            },
             getMockData () {
                 let mockData = [];
                 for (let i = 1; i <= 20; i++) {

@@ -253,17 +253,21 @@
 
         <DatePicker type="month" show-week-numbers placeholder="Select date" style="width: 200px"></DatePicker>
         <DatePicker type="year" show-week-numbers placeholder="Select date" style="width: 200px"></DatePicker>
+             111
+        <DatePicker @on-clear="onClear" type="date" transfer show-week-numbers placeholder="Select date" style="width: 400px"></DatePicker>
+        <DatePicker @on-clear="onClear" type="datetime" show-week-numbers confirm placeholder="Select date" style="width: 400px"></DatePicker>
 
-        <DatePicker type="date" transfer show-week-numbers placeholder="Select date" style="width: 400px"></DatePicker>
-        <DatePicker type="datetime" show-week-numbers confirm placeholder="Select date" style="width: 400px"></DatePicker>
-
-        <DatePicker type="daterange" transfer show-week-numbers placeholder="Select date" style="width: 400px"></DatePicker>
-        <DatePicker type="datetimerange" transfer show-week-numbers placeholder="Select date" style="width: 400px"></DatePicker>
+        <DatePicker @on-clear="onClear" :clearable="false" type="daterange" transfer show-week-numbers placeholder="Select date" style="width: 400px"></DatePicker>
+        <DatePicker @on-clear="onClear"  type="datetimerange" transfer show-week-numbers placeholder="Select date" style="width: 400px"></DatePicker>
         <Time-Picker :steps="[1, 1, 15]" :value="new Date()"></Time-Picker>
     </div>
 </template>
 <script>
     export default {
+        methods:{
+            onClear(){
 
+            }
+        }
     }
 </script>

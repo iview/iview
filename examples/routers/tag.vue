@@ -6,7 +6,7 @@
             <Tag color="success">success</Tag>
             <Tag color="error">error</Tag>
             <Tag color="warning">warning</Tag>
-            <Tag color="magenta">magenta</Tag>
+            <Tag :clicks="true" color="magenta" @click="clicka">magenta</Tag>
             <Tag color="red">red</Tag>
             <Tag color="volcano">volcano</Tag>
             <Tag color="orange">orange</Tag>
@@ -83,6 +83,9 @@
             };
         },
         methods: {
+            clicka(e){
+
+            },
             handleClose () {
                 this.show = false;
             },

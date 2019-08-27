@@ -27,7 +27,7 @@
         </Badge>
         <br><br>
         <div>
-            <Badge status="success" />
+            <Badge color="#9369ff" status="success" />  111
             <Badge status="error" />
             <Badge status="default" />
             <Badge status="processing" />

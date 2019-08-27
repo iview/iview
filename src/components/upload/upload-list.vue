@@ -7,11 +7,13 @@
             <span @click="handlePreview(file)">
                 <Icon :type="format(file)"></Icon> {{ file.name }}
             </span>
-            <Icon
-                type="ios-close"
-                :class="[prefixCls + '-list-remove']"
-                v-show="file.status === 'finished'"
-                @click.native="handleRemove(file)"></Icon>
+            <template v-if=" listItemDel">
+                <Icon
+                    type="ios-close"
+                    :class="[prefixCls + '-list-remove']"
+                    v-show="file.status === 'finished'"
+                    @click.native="handleRemove(file)"></Icon>
+            </template>
             <transition name="fade">
                 <i-progress
                     v-if="file.showProgress"
@@ -36,6 +38,10 @@
                 default() {
                     return [];
                 }
+            },
+            listItemDel:{
+                type: Boolean,
+                default: true
             }
         },
         data () {
@@ -56,7 +62,7 @@
                 this.$emit('on-file-click', file);
             },
             handlePreview (file) {
-                this.$emit('on-file-preview', file);
+                this.$emit('on-file-preview', file,this.format(file));
             },
             handleRemove (file) {
                 this.$emit('on-file-remove', file);

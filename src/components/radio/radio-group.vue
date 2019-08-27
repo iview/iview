@@ -41,6 +41,10 @@
             name: {
                 type: String,
                 default: getUuid
+            },
+            beforeChange: {
+                type: Function,
+                default: null
             }
         },
         data () {
@@ -76,11 +80,19 @@
                 }
             },
             change (data) {
-                this.currentValue = data.value;
-                this.updateValue();
-                this.$emit('input', data.value);
-                this.$emit('on-change', data.value);
-                this.dispatch('FormItem', 'on-form-change', data.value);
+                const vm = this;
+                Promise.resolve(this.beforeChange ? this.beforeChange(data.value) : true)
+                    .then((result) => {
+                        if (result) {
+                            vm.currentValue = data.value;
+                            vm.updateValue();
+                            vm.$emit('input', data.value);
+                            vm.$emit('on-change', data.value);
+                            vm.dispatch('FormItem', 'on-form-change', data.value);
+                        } else {
+                            return false;
+                        }
+                    });
             }
         },
         watch: {

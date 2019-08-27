@@ -9,6 +9,7 @@
         <div :class="simplePagerClasses" :title="currentPage + '/' + allPages">
             <input
                 type="text"
+                :clearable="false"
                 :value="currentPage"
                 autocomplete="off"
                 spellcheck="false"

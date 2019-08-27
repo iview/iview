@@ -11,6 +11,7 @@
                     :value="displayInputRender"
                     @on-change="handleInput"
                     :size="size"
+                    :clearable="false"
                     :placeholder="inputPlaceholder"></i-input>
                 <div
                     :class="[prefixCls + '-label']"
@@ -278,6 +279,7 @@
                 this.emitValue(this.currentValue, oldVal);
 //                this.$broadcast('on-clear');
                 this.broadcast('Caspanel', 'on-clear');
+ 		this.$emit('on-clear','')
             },
             handleClose () {
                 this.visible = false;

@@ -18,10 +18,11 @@
                     :value="visualValue"
                     :name="name"
                     ref="input"
-
+                    :clearable="clearable"
                     @on-input-change="handleInputChange"
                     @on-focus="handleFocus"
                     @on-blur="handleBlur"
+                    @on-click="handleIconClick"
                     @click.native="handleFocus"
                     @keydown.native="handleKeydown"
                     @mouseenter.native="handleInputMouseenter"
@@ -645,7 +646,7 @@
             },
             handleIconClick (e) {
                 if (this.showClose) {
-                    if (e) e.stopPropagation();
+                    // if (e) e.stopPropagation();
                     this.handleClear();
                 } else if (!this.disabled) {
                     this.handleFocus();
