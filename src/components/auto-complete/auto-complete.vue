@@ -113,7 +113,7 @@
         computed: {
             inputIcon () {
                 let icon = '';
-                if (this.clearable && this.currentValue) {
+                if (this.clearable && this.currentValue && !this.disabled) {
                     icon = 'ios-close';
                 } else if (this.icon) {
                     icon = this.icon;
