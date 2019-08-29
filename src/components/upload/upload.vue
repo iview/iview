@@ -35,6 +35,11 @@
     export default {
         name: 'Upload',
         mixins: [ Emitter ],
+        inject: {
+            form: {
+                default: ''
+            }
+        },
         components: { UploadList },
         props: {
             action: {
@@ -162,11 +167,13 @@
                     }
                 ];
             },
-
+            isDisabled () {
+                return this.disabled || (this.form || {}).disabled;
+            }
         },
         methods: {
             handleClick () {
-                if (this.disabled) return;
+                if (this.isDisabled) return;
                 this.$refs.input.click();
             },
             handleChange (e) {
@@ -180,11 +187,11 @@
             },
             onDrop (e) {
                 this.dragOver = false;
-                if (this.disabled) return;
+                if (this.isDisabled) return;
                 this.uploadFiles(e.dataTransfer.files);
             },
             handlePaste (e) {
-                if (this.disabled) return;
+                if (this.isDisabled) return;
                 if (this.paste) {
                     this.uploadFiles(e.clipboardData.files);
                 }

@@ -5,7 +5,7 @@
             <input
                 type="radio"
                 :class="inputClasses"
-                :disabled="disabled"
+                :disabled="isDisabled"
                 :checked="currentValue"
                 :name="groupName"
                 @change="change"
@@ -23,6 +23,11 @@
     export default {
         name: 'Radio',
         mixins: [ Emitter ],
+        inject: {
+            form: {
+                default: ''
+            }
+        },
         props: {
             value: {
                 type: [String, Number, Boolean],
@@ -72,7 +77,7 @@
                     {
                         [`${prefixCls}-group-item`]: this.group,
                         [`${prefixCls}-wrapper-checked`]: this.currentValue,
-                        [`${prefixCls}-wrapper-disabled`]: this.disabled,
+                        [`${prefixCls}-wrapper-disabled`]: this.isDisabled,
                         [`${prefixCls}-${this.size}`]: !!this.size,
                         [`${prefixCls}-focus`]: this.focusWrapper
                     }
@@ -83,7 +88,7 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-checked`]: this.currentValue,
-                        [`${prefixCls}-disabled`]: this.disabled
+                        [`${prefixCls}-disabled`]: this.isDisabled
                     }
                 ];
             },
@@ -97,6 +102,11 @@
             },
             inputClasses () {
                 return `${prefixCls}-input`;
+            },
+            isDisabled () {
+                return this.parent
+                ? this.parent.disabled || this.disabled || (this.form || {}).disabled
+                : this.disabled || (this.form || {}).disabled;
             }
         },
         mounted () {
@@ -109,7 +119,7 @@
                     }
                     /* eslint-enable no-console */
                 } else {
-                    this.groupName = this.parent.name; 
+                    this.groupName = this.parent.name;
                 }
             }
 
@@ -121,7 +131,7 @@
         },
         methods: {
             change (event) {
-                if (this.disabled) {
+                if (this.isDisabled) {
                     return false;
                 }
 

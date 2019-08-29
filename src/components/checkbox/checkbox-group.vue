@@ -26,6 +26,10 @@
                 default () {
                     return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
+            },
+            disabled: {
+                type: Boolean,
+                default: false
             }
         },
         data () {

@@ -7,7 +7,7 @@
             :max="max"
             :step="step"
             :value="exportValue[0]"
-            :disabled="disabled"
+            :disabled="isDisabled"
             :active-change="activeChange"
             @on-change="handleInputChange"></Input-number>
         <div
@@ -93,6 +93,7 @@
     export default {
         name: 'Slider',
         mixins: [ Emitter ],
+        inject: ['form'],
         components: { InputNumber, Tooltip },
         props: {
             min: {
@@ -200,7 +201,7 @@
                     {
                         [`${prefixCls}-input`]: this.showInput && !this.range,
                         [`${prefixCls}-range`]: this.range,
-                        [`${prefixCls}-disabled`]: this.disabled
+                        [`${prefixCls}-disabled`]: this.isDisabled
                     }
                 ];
             },
@@ -265,6 +266,9 @@
             },
             secondPosition () {
                 return this.currentValue[1];
+            },
+            isDisabled () {
+                return this.disabled || (this.form || {}).disabled;
             }
         },
         methods: {
@@ -280,7 +284,7 @@
                 return [min, max];
             },
             getCurrentValue (event, type) {
-                if (this.disabled) {
+                if (this.isDisabled) {
                     return;
                 }
 
@@ -304,7 +308,7 @@
                 }
             },
             onPointerDown (event, type) {
-                if (this.disabled) return;
+                if (this.isDisabled) return;
                 event.preventDefault();
                 this.pointerDown = type;
 
@@ -386,7 +390,7 @@
             },
 
             sliderClick (event) {
-                if (this.disabled) return;
+                if (this.isDisabled) return;
                 const currentX = this.getPointerX(event);
                 const sliderOffsetLeft = this.$refs.slider.getBoundingClientRect().left;
                 let newPos = ((currentX - sliderOffsetLeft) / this.sliderWidth * this.valueRange) + this.min;

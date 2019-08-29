@@ -2,7 +2,7 @@
     <div :class="wrapClasses">
         <template v-if="type !== 'textarea'">
             <div :class="[prefixCls + '-group-prepend']" v-if="prepend" v-show="slotReady"><slot name="prepend"></slot></div>
-            <i class="ivu-icon" :class="['ivu-icon-ios-close-circle', prefixCls + '-icon', prefixCls + '-icon-clear' , prefixCls + '-icon-normal']" v-if="clearable && currentValue && !disabled" @click="handleClear"></i>
+            <i class="ivu-icon" :class="['ivu-icon-ios-close-circle', prefixCls + '-icon', prefixCls + '-icon-clear' , prefixCls + '-icon-normal']" v-if="clearable && currentValue && !isDisabled" @click="handleClear"></i>
             <i class="ivu-icon" :class="['ivu-icon-' + icon, prefixCls + '-icon', prefixCls + '-icon-normal']" v-else-if="icon" @click="handleIconClick"></i>
             <i class="ivu-icon ivu-icon-ios-search" :class="[prefixCls + '-icon', prefixCls + '-icon-normal', prefixCls + '-search-icon']" v-else-if="search && enterButton === false" @click="handleSearch"></i>
             <span class="ivu-input-suffix" v-else-if="showSuffix"><slot name="suffix"><i class="ivu-icon" :class="['ivu-icon-' + suffix]" v-if="suffix"></i></slot></span>
@@ -17,7 +17,7 @@
                 :type="type"
                 :class="inputClasses"
                 :placeholder="placeholder"
-                :disabled="disabled"
+                :disabled="isDisabled"
                 :maxlength="maxlength"
                 :readonly="readonly"
                 :name="name"
@@ -52,7 +52,7 @@
             :class="textareaClasses"
             :style="textareaStyles"
             :placeholder="placeholder"
-            :disabled="disabled"
+            :disabled="isDisabled"
             :rows="rows"
             :maxlength="maxlength"
             :readonly="readonly"
@@ -82,6 +82,11 @@
     export default {
         name: 'Input',
         mixins: [ Emitter ],
+        inject: {
+            form: {
+                default: ''
+            }
+        },
         props: {
             type: {
                 validator (value) {
@@ -208,7 +213,7 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-${this.size}`]: !!this.size,
-                        [`${prefixCls}-disabled`]: this.disabled,
+                        [`${prefixCls}-disabled`]: this.isDisabled,
                         [`${prefixCls}-with-prefix`]: this.showPrefix,
                         [`${prefixCls}-with-suffix`]: this.showSuffix || (this.search && this.enterButton === false)
                     }
@@ -218,9 +223,12 @@
                 return [
                     `${prefixCls}`,
                     {
-                        [`${prefixCls}-disabled`]: this.disabled
+                        [`${prefixCls}-disabled`]: this.isDisabled
                     }
                 ];
+            },
+            isDisabled () {
+                return this.disabled || (this.form || {}).disabled;
             }
         },
         methods: {

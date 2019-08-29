@@ -37,6 +37,10 @@
                     return oneOf(value, ['on', 'off']);
                 },
                 default: 'off'
+            },
+            disabled: {
+                type: Boolean,
+                default: false
             }
         },
         provide() {

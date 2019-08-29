@@ -21,6 +21,11 @@
     export default {
         name: 'iSwitch',
         mixins: [ Emitter ],
+        inject: {
+            form: {
+                default: ''
+            }
+        },
         props: {
             value: {
                 type: [String, Number, Boolean],
@@ -65,7 +70,7 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-checked`]: this.currentValue === this.trueValue,
-                        [`${prefixCls}-disabled`]: this.disabled,
+                        [`${prefixCls}-disabled`]: this.isDisabled,
                         [`${prefixCls}-${this.size}`]: !!this.size,
                         [`${prefixCls}-loading`]: this.loading,
                     }
@@ -73,12 +78,15 @@
             },
             innerClasses () {
                 return `${prefixCls}-inner`;
+            },
+            isDisabled () {
+                return this.disabled || (this.form || {}).disabled;
             }
         },
         methods: {
             toggle (event) {
                 event.preventDefault();
-                if (this.disabled || this.loading) {
+                if (this.isDisabled || this.loading) {
                     return false;
                 }
 

@@ -19,6 +19,11 @@ export declare class Form extends Vue {
    */
   inline?: boolean;
   /**
+   * 设置表单禁用状态
+   * @default false
+   */
+  disabled?: boolean;
+  /**
    * 表单域标签的位置，可选值为 left、right、top
    * @default right
    */
