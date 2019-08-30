@@ -2,7 +2,7 @@
 // Project: https://github.com/iview/iview
 // Definitions by: yangdan
 // Definitions: https://github.com/yangdan8/iview.git
-import Vue, { VNode } from 'vue';
+import Vue, { VNode, CreateElement } from 'vue';
 
 export declare class Spin extends Vue {
   /**
@@ -25,11 +25,26 @@ export declare class Spin extends Vue {
   };
 }
 
+export declare class SpinShowOptions extends Spin {
+  render?: (h?: CreateElement) => VNode;
+}
+
+export declare class SpinInstance {
+  /**
+   * 展示
+   */
+  show:(options: SpinShowOptions) => void;
+  /**
+   * 隐藏
+   */
+  hide:()=>void;
+}
+
 declare module 'vue/types/vue' {
   interface Vue {
     /**
      * 
      */
-    $Spin: Spin;
+    $Spin: Spin & SpinInstance;
   }
 }

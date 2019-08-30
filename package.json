@@ -1,6 +1,9 @@
 {
     "name": "iview",
-    "version": "3.4.2",
+    "version": "3.4.3-pi.1",
+    "publishConfig": {
+        "registry": "http://192.168.13.111:8081/repository/pilot-hosted/"
+    },
     "title": "iView",
     "description": "A high quality UI components Library with Vue.js",
     "homepage": "http://www.iviewui.com",
@@ -31,8 +34,7 @@
         "lint": "eslint --fix --ext .js,.vue src",
         "tslint": "tslint --type-check --fix --project .",
         "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
-        "test": "npm run lint && npm run tslint && npm run unit",
-        "prepare": "npm run dist"
+        "test": "npm run lint && npm run tslint && npm run unit"
     },
     "repository": {
         "type": "git",
