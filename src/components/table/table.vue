@@ -366,8 +366,6 @@
                     } else if (this.maxHeight) {
                         style.maxHeight = `${height}px`;
                     }
-                }else{
-                   style.height = '200px'
                 }
                 return style;
             },
