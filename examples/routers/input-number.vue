@@ -72,6 +72,9 @@
                 :formatter="value => `${value}%`"
                 :parser="value => value.replace('%', '')"></InputNumber>
         </div>
+        <div style="margin-top: 10px">
+            <InputNumber v-model="value4" style="width: 200px"  :precision='2' ></InputNumber>
+        </div>
     </div>
 </template>
 <script>
@@ -81,6 +84,7 @@
                 value1: 1800000,
                 value2: 55,
                 value3: 100,
+                value4 : null,
                 valueNull:null,
                 formatter: (value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
                 parser: (value) => value.replace(/\$\s?|(,*)/g, ''),

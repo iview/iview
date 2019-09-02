@@ -24,6 +24,7 @@
                 @blur="blur"
                 @keydown.stop="keyDown"
                 @input="change"
+                ref="precisionCursor"
                 @mouseup="preventDefault"
                 @change="change"
                 :readonly="readonly || !editable"
@@ -305,15 +306,24 @@
                     this.setValue(null);
                     return;
                 }
-                if (event.type == 'input' && val.match(/^\-?\.?$|\.$/)) return; // prevent fire early if decimal. If no more input the change event will fire later
+                if (event.type == 'input' && val.match(/^\-?\.?$|\.$/g)) return; // prevent fire early if decimal. If no more input the change event will fire later
+
+                //#fixed when setting the precision val, input point cannot show problem
+                const precision = this.precision;
+                let cacheVal = this.currentValue;
+                if( precision ){
+                    const valMatchPointArr = (val+'').match(/\./g);
+                    if( valMatchPointArr && valMatchPointArr.length >= 2 ){
+                        cacheVal = this.currentValue + '.';
+                    }
+                }
 
                 val = Number(val);
-
-                if (!isNaN(val)) {
+                if (!isNaN(val) ) {
                     this.currentValue = val;
                     this.setValue(val);
                 } else {
-                    event.target.value = this.currentValue;
+                    event.target.value = cacheVal;
                 }
             },
             changeVal (val) {
@@ -338,6 +348,14 @@
             },
             currentValue (val) {
                 this.changeVal(val);
+                //optimization - Solve the problem of cursor positioning inaccuracy
+                this.$nextTick(()=>{
+                    if( this.precision ){
+                        const currentValueLength = ( this.currentValue || 0 ).toString().length;
+                        const precisionCursor = this.$refs.precisionCursor;
+                        precisionCursor.selectionStart = precisionCursor.selectionEnd = currentValueLength;
+                    }
+                });
             },
             min () {
                 this.changeVal(this.currentValue);
