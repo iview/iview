@@ -3,7 +3,6 @@
         :class="classes"
         v-click-outside.capture="onClickOutside"
         v-click-outside:mousedown.capture="onClickOutside"
-        v-click-outside:touchstart.capture="onClickOutside"
     >
         <div
             ref="reference"
