@@ -1,7 +1,7 @@
 <template>
     <div :style="circleSize" :class="wrapClasses">
         <svg viewBox="0 0 100 100">
-            <path :d="pathString" :stroke="trailColor" :stroke-width="trailWidth" :fill-opacity="0" :style="trailStyle" />
+            <path :d="pathString" :stroke="trailColor" :stroke-width="trailWidth" :fill-opacity="0" :style="trailStyle" :stroke-linecap="strokeLinecap" />
             <path :d="pathString" :stroke-linecap="strokeLinecap" :stroke="strokeColor" :stroke-width="computedStrokeWidth" fill-opacity="0" :style="pathStyle" />
         </svg>
         <div :class="innerClasses">

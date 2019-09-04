@@ -11,6 +11,10 @@
             <Icon type="ios-close" size="50" style="color:#ff5500"></Icon>
         </span>
         </i-circle>
+        <Divider></Divider>
+        <i-circle :percent="80" dashboard stroke-linecap="square">
+            <span class="demo-circle-inner" style="font-size:24px">80%</span>
+        </i-circle>
     </div>
 </template>
 <script>
