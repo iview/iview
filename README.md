@@ -9,6 +9,10 @@ iView
     <h3>A high quality UI Toolkit built on Vue.js.</h3>
 </h1>
 
+> iView 作者将在此仓库继续开发 iView 4.0 和后续版本，以及维护工作。原仓库 iView 作者不再继续提交内容。
+> 
+> The iView author will continue to develop iView 4.0 and subsequent releases, as well as maintenance work, in this repository. The iView author will no longer continue to submit content in the original repository.
+
 [![](https://img.shields.io/travis/iview/iview.svg?style=flat-square)](https://travis-ci.org/iview/iview)
 [![iView](https://img.shields.io/npm/v/iview.svg?style=flat-square)](https://www.npmjs.org/package/iview)
 [![NPM downloads](http://img.shields.io/npm/dm/iview.svg?style=flat-square)](https://npmjs.org/package/iview)
