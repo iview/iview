@@ -35,6 +35,13 @@
         border-radius: 100px;
         vertical-align: middle;
         position: relative;
+        &-text{
+            display: inline-block;
+            vertical-align: middle;
+            color: #fff;
+            font-size: 12px;
+            margin: 0 6px;
+        }
     }
     &-vertical &-inner {
         height: 100%;
@@ -52,10 +59,17 @@
     }
 
     &-bg {
+        text-align: right;
         border-radius: 100px;
         background-color: @primary-color;
         transition: all @transition-time linear;
         position: relative;
+        &:after{
+            content: '';
+            display: inline-block;
+            height: 100%;
+            vertical-align: middle;
+        }
     }
     &-success-bg{
         border-radius: 100px;
