@@ -49,7 +49,7 @@
         },
         methods: {
             updateModel (update) {
-                this.childrens = findComponentsDownward(this, 'Checkbox');
+                this.childrens = findComponentsDownward(this, 'Checkbox', 'CheckboxGroup');
                 if (this.childrens) {
                     const { value } = this;
                     this.childrens.forEach(child => {
