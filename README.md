@@ -50,9 +50,9 @@ iView
 
 ## Install
 
-We provide an [iView plugin](https://github.com/iview/vue-cli-plugin-iview) for Vue CLI 3, which you can use to quickly build an iView-based project.
+We provide an [iView plugin](https://github.com/iview-design/vue-cli-plugin-iview) for Vue CLI 3, which you can use to quickly build an iView-based project.
 
-We also provide a starter kit [iview-project](https://github.com/iview/iview-project) for you.
+We also provide a starter kit [iview-project](https://github.com/iview-design/iview-project) for you.
 
 ### Install iView
 
@@ -108,8 +108,8 @@ import 'iview/dist/styles/iview.css';
 If you want to contribute or have questions or bugs to report:
 
 **Questions:** Find other users at the [Gitter chat](https://gitter.im/iview/iview) or post on [StackOverflow using `[iview-ui]` tag](https://stackoverflow.com/questions/tagged/iview-ui)  
-**Bugs:** [File a issue here](https://github.com/iview/iview/issues) - please provide a example so we can help you better  
-**Contribute:** Contact us in [Gitter chat](https://gitter.im/iview/iview), WeChat or via mail to `iview@tendcloud.com`. PRs welcome!
+**Bugs:** [File a issue here](https://github.com/iview-design/iview/issues) - please provide a example so we can help you better  
+**Contribute:** Contact us in [Gitter chat](https://gitter.im/iview/iview), WeChat or via mail to `admin@aresn.com`. PRs welcome!
 
 ## Major Contributors
 |Name|Avatar|Name|Avatar|Name|Avatar|
@@ -122,9 +122,10 @@ If you want to contribute or have questions or bugs to report:
 
 ## Ecosystem Links
 
+- [iView Pro](https://pro.iviewui.com/pro)
+- [iView Admin Pro](https://pro.iviewui.com/admin-pro)
 - [iView Developer](https://dev.iviewui.com)
 - [iView Run](https://run.iviewui.com)
-- [iView-Admin](https://github.com/iview/iview-admin)
 - [iView-Loader](https://github.com/iview/iview-loader)
 - [iView-Plugin](https://github.com/iview/vue-cli-plugin-iview)
 - [iView-Area](https://github.com/iview/iview-area)
@@ -139,4 +140,4 @@ If you want to contribute or have questions or bugs to report:
 ## License
 [MIT](http://opensource.org/licenses/MIT)
 
-Copyright (c) 2016-present, TalkingData
+Copyright (c) 2016-present, iView
