@@ -20,10 +20,14 @@
         <Badge :count="0" showZero>
             <a href="#" class="demo-badge"></a>
         </Badge>
+        <Badge>
+            <Icon type="md-time" slot="count" size="16" color="#ff6600" />
+            <a href="#" class="demo-badge"></a>
+        </Badge>
         <Button @click="setCount">set count</Button>
         <br><br>
         <Badge text="hot">
-            <Button type="ghost">Hello</Button>
+            <Button type="primary" ghost>Hello</Button>
         </Badge>
         <br><br>
         <div>

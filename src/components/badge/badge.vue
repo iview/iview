@@ -9,7 +9,8 @@
     </span>
     <span v-else :class="classes" ref="badge">
         <slot></slot>
-        <sup v-if="hasCount" :style="styles" :class="countClasses" v-show="badge">{{ finalCount }}</sup>
+        <sup v-if="$slots.count" :style="styles" :class="customCountClasses"><slot name="count"></slot></sup>
+        <sup v-else-if="hasCount" :style="styles" :class="countClasses" v-show="badge">{{ finalCount }}</sup>
     </span>
 </template>
 <script>
@@ -65,6 +66,15 @@
                         [`${this.className}`]: !!this.className,
                         [`${prefixCls}-count-alone`]: this.alone,
                         [`${prefixCls}-count-${this.type}`]: !!this.type
+                    }
+                ];
+            },
+            customCountClasses () {
+                return [
+                    `${prefixCls}-count`,
+                    `${prefixCls}-count-custom`,
+                    {
+                        [`${this.className}`]: !!this.className,
                     }
                 ];
             },
