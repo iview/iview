@@ -32,6 +32,8 @@
         <br><br>
         <i-switch :disabled="disabled"></i-switch>
         <Button type="primary" @click="disabled = !disabled">Toggle Disabled</Button>
+        <Divider></Divider>
+        <i-switch v-model="switch1" true-color="#13ce66" false-color="#ff4949" />
     </div>
 </template>
 <script>
@@ -40,7 +42,8 @@
             return {
                 m1: true,
                 disabled: true,
-                loading: false
+                loading: false,
+                switch1: true
             }
         },
         methods: {

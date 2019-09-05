@@ -2,6 +2,7 @@
     <span
         tabindex="0"
         :class="wrapClasses"
+        :style="wrapStyles"
         @click="toggle"
         @keydown.space="toggle"
     >
@@ -52,6 +53,12 @@
             loading: {
                 type: Boolean,
                 default: false
+            },
+            trueColor: {
+                type: String
+            },
+            falseColor: {
+                type: String
             }
         },
         data () {
@@ -70,6 +77,19 @@
                         [`${prefixCls}-loading`]: this.loading,
                     }
                 ];
+            },
+            wrapStyles () {
+                let style = {};
+
+                if (this.trueColor && this.currentValue === this.trueValue) {
+                    style['border-color'] = this.trueColor;
+                    style['background-color'] = this.trueColor;
+                } else if (this.falseColor && this.currentValue === this.falseValue) {
+                    style['border-color'] = this.falseColor;
+                    style['background-color'] = this.falseColor;
+                }
+
+                return style;
             },
             innerClasses () {
                 return `${prefixCls}-inner`;
