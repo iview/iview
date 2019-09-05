@@ -25,6 +25,14 @@
             <a href="#" class="demo-badge"></a>
         </Badge>
         <Button @click="setCount">set count</Button>
+        <Divider></Divider>
+        <Badge :count="count" text="new">
+            <a href="#" class="demo-badge"></a>
+        </Badge>
+        <Badge :count="count">
+            <a href="#" class="demo-badge"></a>
+            <span slot="text">hhh</span>
+        </Badge>
         <br><br>
         <Badge text="hot">
             <Button type="primary" ghost>Hello</Button>
@@ -38,6 +46,9 @@
             <Badge status="warning" />
             <br />
             <Badge status="success" text="Success" />
+            <Badge status="success">
+                <strong slot="text">Success</strong>
+            </Badge>
             <br />
             <Badge status="error" text="Error" />
             <br />
