@@ -1,6 +1,6 @@
 <template>
     <div>
-        <i-switch v-model="m1" :loading="loading">
+        <i-switch v-model="m1" :loading="loading" @on-change="change" :before-change="beforeChange">
             <span slot="open">开</span>
             <span slot="close">关</span>
         </i-switch>
@@ -49,6 +49,20 @@
         methods: {
             change (status) {
                 console.log(status)
+            },
+            beforeChange () {
+                return new Promise((resolve, reject) => {
+                    this.$Modal.confirm({
+                        title: '切换确认',
+                        content: '您确认要切换开关状态吗？',
+                        onOk: () => {
+                            resolve();
+                        },
+                        onCancel: () => {
+                            reject();
+                        }
+                    });
+                });
             }
         }
     }

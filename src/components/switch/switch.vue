@@ -59,7 +59,8 @@
             },
             falseColor: {
                 type: String
-            }
+            },
+            beforeChange: Function
         },
         data () {
             return {
@@ -96,18 +97,33 @@
             }
         },
         methods: {
-            toggle (event) {
-                event.preventDefault();
-                if (this.disabled || this.loading) {
-                    return false;
-                }
-
+            handleToggle () {
                 const checked = this.currentValue === this.trueValue ? this.falseValue : this.trueValue;
 
                 this.currentValue = checked;
                 this.$emit('input', checked);
                 this.$emit('on-change', checked);
                 this.dispatch('FormItem', 'on-form-change', checked);
+            },
+            toggle (event) {
+                event.preventDefault();
+                if (this.disabled || this.loading) {
+                    return false;
+                }
+
+                if (!this.beforeChange) {
+                    return this.handleToggle();
+                }
+
+                const before = this.beforeChange();
+
+                if (before && before.then) {
+                    before.then(() => {
+                        this.handleToggle();
+                    });
+                } else {
+                    this.handleToggle();
+                }
             }
         },
         watch: {
