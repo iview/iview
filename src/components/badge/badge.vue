@@ -3,8 +3,8 @@
         <slot></slot>
         <sup :class="dotClasses" :style="styles" v-show="badge"></sup>
     </span>
-    <span v-else-if="status" :class="classes" class="ivu-badge-status" ref="badge">
-        <span :class="statusClasses"></span>
+    <span v-else-if="status || color" :class="classes" class="ivu-badge-status" ref="badge">
+        <span :class="statusClasses" :style="statusStyles"></span>
         <span class="ivu-badge-status-text"><slot name="text">{{ text }}</slot></span>
     </span>
     <span v-else :class="classes" ref="badge">
@@ -15,6 +15,7 @@
 </template>
 <script>
     import { oneOf } from '../../utils/assist';
+    const initColorList = ['blue', 'green', 'red', 'yellow', 'pink', 'magenta', 'volcano', 'orange', 'gold', 'lime', 'cyan', 'geekblue', 'purple'];
     const prefixCls = 'ivu-badge';
 
     export default {
@@ -50,6 +51,9 @@
             },
             offset: {
                 type: Array
+            },
+            color: {
+                type: String
             }
         },
         computed: {
@@ -82,9 +86,13 @@
                 return [
                     `${prefixCls}-status-dot`,
                     {
-                        [`${prefixCls}-status-${this.status}`]: !!this.status
+                        [`${prefixCls}-status-${this.status}`]: !!this.status,
+                        [`${prefixCls}-status-${this.color}`]: !!this.color && oneOf(this.color, initColorList)
                     }
                 ];
+            },
+            statusStyles () {
+                return oneOf(this.color, initColorList) ? {} : { backgroundColor: this.color};
             },
             styles () {
                 const style = {};
