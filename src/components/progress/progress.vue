@@ -54,7 +54,7 @@
                 default: false
             },
             strokeColor: {
-                type: String
+                type: [String, Array]
             },
             textInside: {
                 type: Boolean,
@@ -93,7 +93,11 @@
                 };
 
                 if (this.strokeColor) {
-                    style['background-color'] = this.strokeColor;
+                    if (typeof this.strokeColor === 'string') {
+                        style['background-color'] = this.strokeColor;
+                    } else {
+                        style['background-image'] = `linear-gradient(to right, ${this.strokeColor[0]} 0%, ${this.strokeColor[1]} 100%)`;
+                    }
                 }
 
                 return style;
