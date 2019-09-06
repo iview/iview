@@ -14,6 +14,7 @@
         auto-complete
         :remote-method="remoteMethod"
         @on-change="handleChange"
+        @on-clickoutside="handleClickOutside"
         :transfer="transfer">
         <slot name="input">
             <i-input
@@ -168,6 +169,11 @@
                 this.currentValue = '';
                 this.$refs.select.reset();
                 this.$emit('on-clear');
+            },
+            handleClickOutside(){
+                this.$nextTick(() => {
+                    this.$refs.input.blur();
+                });
             }
         }
     };
