@@ -15,6 +15,7 @@
             :name="notice.name"
             :transition-name="notice.transitionName"
             :background="notice.background"
+            :msg-type="notice.msgType"
             :on-close="notice.onClose">
         </Notice>
     </div>

@@ -54,6 +54,7 @@ function notice (content = '', duration = defaults.duration, type, onClose = fun
         onClose: onClose,
         closable: closable,
         type: 'message',
+        msgType: type,
         background: background
     });
 

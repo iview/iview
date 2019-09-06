@@ -14,7 +14,8 @@
             info () {
                 this.$Message.info({
                     content: '这是一条普通的提示',
-                    duration: 1000
+                    duration: 1000,
+                    background: true
                 });
             },
             success () {

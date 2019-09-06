@@ -83,6 +83,9 @@
             background: {
                 type: Boolean,
                 default: false
+            },
+            msgType: {
+                type: String
             }
         },
         data () {
@@ -103,7 +106,8 @@
                     {
                         [`${this.className}`]: !!this.className,
                         [`${this.baseClass}-closable`]: this.closable,
-                        [`${this.baseClass}-with-desc`]: this.withDesc
+                        [`${this.baseClass}-with-desc`]: this.withDesc,
+                        [`${this.baseClass}-with-background`]: this.background
                     }
                 ];
             },
