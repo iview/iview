@@ -220,7 +220,6 @@
                 if (this.disabled || this.readonly) {
                     return false;
                 }
-
                 const targetVal = Number(e.target.value);
                 let val = Number(this.currentValue);
                 const step = Number(this.step);
@@ -257,7 +256,8 @@
                 if (val && !isNaN(this.precision)) val = Number(Number(val).toFixed(this.precision));
 
                 const {min, max} = this;
-                if (val!==null) {
+                // #6245
+                if ( val!==null && !this.activeChange ) {
                     if (val > max) {
                         val = max;
                     } else if (val < min) {

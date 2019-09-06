@@ -73,7 +73,7 @@
                 :parser="value => value.replace('%', '')"></InputNumber>
         </div>
         <div style="margin-top: 10px">
-            <InputNumber :min="18" v-model="value4" style="width: 200px"  :precision='2' ></InputNumber>
+            <InputNumber :min="100" :max="3000" v-model="value4" style="width: 200px" :active-change="false"></InputNumber>
         </div>
     </div>
 </template>
