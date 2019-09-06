@@ -13,7 +13,7 @@
                 </a>
             </template>
             <template v-if="type === 'message'">
-                <div :class="[baseClass + '-content']" ref="content">
+                <div :class="messageContentClasses" ref="content">
                     <div :class="[baseClass + '-content-text']" v-html="content"></div>
                     <div :class="[baseClass + '-content-text']">
                         <render-cell
@@ -115,6 +115,15 @@
                 return [
                     `${this.baseClass}-content`,
                     this.render !== undefined ? `${this.baseClass}-content-with-render` : ''
+                ];
+            },
+            messageContentClasses () {
+                return [
+                    `${this.baseClass}-content`,
+                    {
+                        [`${this.baseClass}-content-${this.msgType}`]: this.msgType,
+                        [`${this.baseClass}-content-background`]: this.background
+                    }
                 ];
             },
             contentWithIcon () {

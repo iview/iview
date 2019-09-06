@@ -17,6 +17,21 @@
                     duration: 1000,
                     background: true
                 });
+                this.$Message.success({
+                    content: '这是一条普通的提示',
+                    duration: 1000,
+                    background: true
+                });
+                this.$Message.warning({
+                    content: '这是一条普通的提示',
+                    duration: 1000,
+                    background: true
+                });
+                this.$Message.error({
+                    content: '这是一条普通的提示',
+                    duration: 1000,
+                    background: true
+                });
             },
             success () {
                 this.$Message.success('This is a success tip');
