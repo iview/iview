@@ -16,9 +16,7 @@
 <script>
     import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
-
     const prefixCls = 'ivu-switch';
-
     export default {
         name: 'iSwitch',
         mixins: [ Emitter ],
@@ -59,7 +57,8 @@
             },
             falseColor: {
                 type: String
-            }
+            },
+            beforeChange: Function
         },
         data () {
             return {
@@ -94,18 +93,29 @@
             }
         },
         methods: {
+            handleToggle () {
+                const checked = this.currentValue === this.trueValue ? this.falseValue : this.trueValue;
+                this.currentValue = checked;
+                this.$emit('input', checked);
+                this.$emit('on-change', checked);
+                this.dispatch('FormItem', 'on-form-change', checked);
+            },
             toggle (event) {
                 event.preventDefault();
                 if (this.disabled || this.loading) {
                     return false;
                 }
-
-                const checked = this.currentValue === this.trueValue ? this.falseValue : this.trueValue;
-
-                this.currentValue = checked;
-                this.$emit('input', checked);
-                this.$emit('on-change', checked);
-                this.dispatch('FormItem', 'on-form-change', checked);
+                if (!this.beforeChange) {
+                    return this.handleToggle();
+                }
+                const before = this.beforeChange();
+                if (before && before.then) {
+                    before.then(() => {
+                        this.handleToggle();
+                    });
+                } else {
+                    this.handleToggle();
+                }
             }
         },
         watch: {
