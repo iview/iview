@@ -1,15 +1,15 @@
-.motion-common() {
-    animation-duration: @animation-time;
+.motion-common(@time) {
+    animation-duration: @time;
     animation-fill-mode: both;
 }
 
-.make-motion(@className, @keyframeName) {
+.make-motion(@className, @keyframeName, @time: @animation-time) {
     .@{className}-enter-active, .@{className}-appear {
-        .motion-common();
+        .motion-common(@time);
         animation-play-state: paused;
     }
     .@{className}-leave-active {
-        .motion-common();
+        .motion-common(@time);
         animation-play-state: paused;
     }
     .@{className}-enter-active, .@{className}-appear {
