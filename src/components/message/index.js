@@ -31,7 +31,7 @@ function getMessageInstance () {
     return messageInstance;
 }
 
-function notice (content = '', duration = defaults.duration, type, onClose = function () {}, closable = false, render = function () {}) {
+function notice (content = '', duration = defaults.duration, type, onClose = function () {}, closable = false, render = function () {}, background = false) {
     const iconType = iconTypes[type];
 
     // if loading
@@ -53,7 +53,8 @@ function notice (content = '', duration = defaults.duration, type, onClose = fun
         render: render,
         onClose: onClose,
         closable: closable,
-        type: 'message'
+        type: 'message',
+        background: background
     });
 
     // 用于手动消除
@@ -90,7 +91,7 @@ export default {
                 content: options
             };
         }
-        return notice(options.content, options.duration, type, options.onClose, options.closable, options.render);
+        return notice(options.content, options.duration, type, options.onClose, options.closable, options.render, options.background);
     },
     config (options) {
         if (options.top || options.top === 0) {
