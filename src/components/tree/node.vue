@@ -71,7 +71,9 @@
         data () {
             return {
                 prefixCls: prefixCls,
-                appearByClickArrow: false
+                appearByClickArrow: false,
+                // #6139
+                loadingChildrenState : true
             };
         },
         computed: {
@@ -105,7 +107,7 @@
                 ];
             },
             showArrow () {
-                return (this.data[this.childrenKey] && this.data[this.childrenKey].length) || ('loading' in this.data && !this.data.loading);
+                return (this.data[this.childrenKey] && this.data[this.childrenKey].length) || ('loading' in this.data && !this.data.loading && this.loadingChildrenState);
             },
             showLoading () {
                 return 'loading' in this.data && this.data.loading;
@@ -188,6 +190,8 @@
                             if (children.length) {
                                 this.$set(this.data, this.childrenKey, children);
                                 this.$nextTick(() => this.handleExpand());
+                            }else{
+                                this.loadingChildrenState = false;
                             }
                         });
                         return;

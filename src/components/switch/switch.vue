@@ -2,6 +2,7 @@
     <span
         tabindex="0"
         :class="wrapClasses"
+        :style="wrapStyles"
         @click="toggle"
         @keydown.space="toggle"
     >
@@ -15,9 +16,7 @@
 <script>
     import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
-
     const prefixCls = 'ivu-switch';
-
     export default {
         name: 'iSwitch',
         mixins: [ Emitter ],
@@ -52,7 +51,14 @@
             loading: {
                 type: Boolean,
                 default: false
-            }
+            },
+            trueColor: {
+                type: String
+            },
+            falseColor: {
+                type: String
+            },
+            beforeChange: Function
         },
         data () {
             return {
@@ -71,23 +77,45 @@
                     }
                 ];
             },
+            wrapStyles () {
+                let style = {};
+                if (this.trueColor && this.currentValue === this.trueValue) {
+                    style['border-color'] = this.trueColor;
+                    style['background-color'] = this.trueColor;
+                } else if (this.falseColor && this.currentValue === this.falseValue) {
+                    style['border-color'] = this.falseColor;
+                    style['background-color'] = this.falseColor;
+                }
+                return style;
+            },
             innerClasses () {
                 return `${prefixCls}-inner`;
             }
         },
         methods: {
+            handleToggle () {
+                const checked = this.currentValue === this.trueValue ? this.falseValue : this.trueValue;
+                this.currentValue = checked;
+                this.$emit('input', checked);
+                this.$emit('on-change', checked);
+                this.dispatch('FormItem', 'on-form-change', checked);
+            },
             toggle (event) {
                 event.preventDefault();
                 if (this.disabled || this.loading) {
                     return false;
                 }
-
-                const checked = this.currentValue === this.trueValue ? this.falseValue : this.trueValue;
-
-                this.currentValue = checked;
-                this.$emit('input', checked);
-                this.$emit('on-change', checked);
-                this.dispatch('FormItem', 'on-form-change', checked);
+                if (!this.beforeChange) {
+                    return this.handleToggle();
+                }
+                const before = this.beforeChange();
+                if (before && before.then) {
+                    before.then(() => {
+                        this.handleToggle();
+                    });
+                } else {
+                    this.handleToggle();
+                }
             }
         },
         watch: {

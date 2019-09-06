@@ -544,6 +544,7 @@
                     event.preventDefault();
                     this.hideMenu();
                     this.isFocused = true;
+                    this.$emit('on-clickoutside', event);
                 } else {
                     this.caretPosition = -1;
                     this.isFocused = false;

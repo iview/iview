@@ -14,6 +14,7 @@
         auto-complete
         :remote-method="remoteMethod"
         @on-change="handleChange"
+        @on-clickoutside="handleClickOutside"
         :transfer="transfer">
         <slot name="input">
             <i-input
@@ -113,7 +114,8 @@
         computed: {
             inputIcon () {
                 let icon = '';
-                if (this.clearable && this.currentValue) {
+                //#6161 #7
+                if (this.clearable && this.currentValue  && !this.disabled) {
                     icon = 'ios-close';
                 } else if (this.icon) {
                     icon = this.icon;
@@ -167,6 +169,11 @@
                 this.currentValue = '';
                 this.$refs.select.reset();
                 this.$emit('on-clear');
+            },
+            handleClickOutside(){
+                this.$nextTick(() => {
+                    this.$refs.input.blur();
+                });
             }
         }
     };

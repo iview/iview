@@ -56,7 +56,8 @@
                 if (this.trigger !== 'hover' || !item.children || !item.children.length) return;  // #1922
                 this.handleTriggerItem(item, false, true);
             },
-            handleTriggerItem (item, fromInit = false, fromUser = false) {
+            //#6158 -- default fromInit = false to fromInit = true;
+            handleTriggerItem (item, fromInit = true, fromUser = false) {
                 if (item.disabled) return;
 
                 const cascader = findComponentUpward(this, 'Cascader');

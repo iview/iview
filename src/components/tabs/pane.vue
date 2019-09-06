@@ -1,5 +1,5 @@
 <template>
-    <div :class="prefixCls" v-show="show" :style="contentStyle"><slot></slot></div>
+    <div :class="prefixCls" v-if="show" :style="contentStyle"><slot></slot></div>
 </template>
 <script>
     const prefixCls = 'ivu-tabs-tabpane';

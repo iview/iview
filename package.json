@@ -44,14 +44,14 @@
         "url": "https://github.com/iview/iview/issues"
     },
     "dependencies": {
-        "async-validator": "^1.10.0",
+        "async-validator": "^1.12.2",
         "deepmerge": "^2.2.1",
         "element-resize-detector": "^1.2.0",
         "js-calendar": "^1.2.3",
         "lodash.throttle": "^4.1.1",
         "popper.js": "^1.14.6",
         "tinycolor2": "^1.4.1",
-        "v-click-outside-x": "^3.5.6"
+        "v-click-outside-x": "^4.0.19"
     },
     "peerDependencies": {
         "vue": "^2.5.2"

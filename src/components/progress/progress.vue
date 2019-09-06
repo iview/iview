@@ -2,7 +2,7 @@
     <div :class="wrapClasses">
         <div :class="outerClasses">
             <div :class="innerClasses">
-                <div :class="bgClasses" :style="bgStyle"></div><div :class="successBgClasses" :style="successBgStyle"></div>
+                <div :class="bgClasses" :style="bgStyle"><div class="ivu-progress-inner-text" v-if="textInside">{{ percent }}%</div></div><div :class="successBgClasses" :style="successBgStyle"></div>
             </div>
         </div>
         <span v-if="!hideInfo" :class="textClasses">
@@ -54,7 +54,11 @@
                 default: false
             },
             strokeColor: {
-                type: String
+                type: [String, Array]
+            },
+            textInside: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -89,7 +93,11 @@
                 };
 
                 if (this.strokeColor) {
-                    style['background-color'] = this.strokeColor;
+                    if (typeof this.strokeColor === 'string') {
+                        style['background-color'] = this.strokeColor;
+                    } else {
+                        style['background-image'] = `linear-gradient(to right, ${this.strokeColor[0]} 0%, ${this.strokeColor[1]} 100%)`;
+                    }
                 }
 
                 return style;
@@ -108,7 +116,7 @@
                     `${prefixCls}`,
                     `${prefixCls}-${this.currentStatus}`,
                     {
-                        [`${prefixCls}-show-info`]: !this.hideInfo,
+                        [`${prefixCls}-show-info`]: !this.hideInfo && !this.textInside,
                         [`${prefixCls}-vertical`]: this.vertical
 
                     }
