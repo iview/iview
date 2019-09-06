@@ -79,6 +79,10 @@
             },
             transitionName: {
                 type: String
+            },
+            background: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
