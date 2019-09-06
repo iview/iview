@@ -2,7 +2,7 @@
     <div :class="wrapClasses">
         <div :class="outerClasses">
             <div :class="innerClasses">
-                <div :class="bgClasses" :style="bgStyle"></div><div :class="successBgClasses" :style="successBgStyle"></div>
+                <div :class="bgClasses" :style="bgStyle"><div class="ivu-progress-inner-text" v-if="textInside">{{ percent }}%</div></div><div :class="successBgClasses" :style="successBgStyle"></div>
             </div>
         </div>
         <span v-if="!hideInfo" :class="textClasses">
@@ -55,6 +55,10 @@
             },
             strokeColor: {
                 type: String
+            },
+            textInside: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -108,7 +112,7 @@
                     `${prefixCls}`,
                     `${prefixCls}-${this.currentStatus}`,
                     {
-                        [`${prefixCls}-show-info`]: !this.hideInfo,
+                        [`${prefixCls}-show-info`]: !this.hideInfo && !this.textInside,
                         [`${prefixCls}-vertical`]: this.vertical
 
                     }

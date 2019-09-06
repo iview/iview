@@ -11,6 +11,7 @@
         <Progress  :percent="65" status="wrong"></Progress>
         <Progress  :percent="100"></Progress>
         <Progress  :percent="25" hide-info></Progress>
+        <Progress :percent="10" :stroke-width="20" text-inside></Progress>
     </div>
 </template>
 <script>
