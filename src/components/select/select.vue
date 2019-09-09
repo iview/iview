@@ -44,7 +44,7 @@
                     :max-tag-count="maxTagCount"
                     :max-tag-placeholder="maxTagPlaceholder"
                     :allow-create="allowCreate"
-                    :show-not-found-label="showNotFoundLabel"
+                    :show-create-item="showCreateItem"
 
                     @on-query-change="onQueryChange"
                     @on-input-focus="isFocused = true"

@@ -108,7 +108,7 @@
                 type: Boolean
             },
             // 4.0.0
-            showNotFoundLabel: {
+            showCreateItem: {
                 type: Boolean
             }
         },
@@ -225,7 +225,7 @@
                 this.$emit('on-input-focus');
             },
             onInputBlur () {
-                if (this.allowCreate && this.query !== '') return;
+                if (!this.showCreateItem) return;
                 if (!this.values.length) this.query = '';  // #5155
                 this.$emit('on-input-blur');
             },
