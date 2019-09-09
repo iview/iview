@@ -721,7 +721,7 @@
             },
             // 4.0.0 create new item
             handleCreateItem () {
-                if (this.allowCreate && this.query !== '') {
+                if (this.allowCreate && this.query !== '' && this.showCreateItem) {
                     const query = this.query;
                     this.$emit('on-create', query);
                     this.query = '';
