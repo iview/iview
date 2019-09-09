@@ -70,7 +70,7 @@
                 <ul :class="prefixCls + '-dropdown-list'">
                     <li :class="prefixCls + '-item'" v-if="showCreateItem" @click="handleCreateItem">
                         {{ query }}
-                        <Icon type="ios-return-left" :class="prefixCls + '-item-enter'" />
+                        <Icon type="md-return-left" :class="prefixCls + '-item-enter'" />
                     </li>
                     <functional-options
                         v-if="(!remote) || (remote && !loading)"
