@@ -34,6 +34,10 @@
             isFocused: {
                 type: Boolean,
                 default: false
+            },
+            // 4.0.0
+            tag: {
+                type: [String, Number]
             }
         },
         data () {
@@ -67,10 +71,12 @@
                 this.dispatch('iSelect', 'on-select-selected', {
                     value: this.value,
                     label: this.optionLabel,
+                    tag: this.tag
                 });
                 this.$emit('on-select-selected', {
                     value: this.value,
                     label: this.optionLabel,
+                    tag: this.tag
                 });
             },
         },
