@@ -68,7 +68,10 @@
             >
                 <ul v-show="showNotFoundLabel && !allowCreate" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
                 <ul :class="prefixCls + '-dropdown-list'">
-                    <li :class="prefixCls + '-item'" v-if="showCreateItem" @click="handleCreateItem">{{ query }}</li>
+                    <li :class="prefixCls + '-item'" v-if="showCreateItem" @click="handleCreateItem">
+                        {{ query }}
+                        <Icon type="ios-return-left" :class="prefixCls + '-item-enter'" />
+                    </li>
                     <functional-options
                         v-if="(!remote) || (remote && !loading)"
                         :options="selectOptions"
