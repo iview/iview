@@ -34,6 +34,7 @@
             spellcheck="false"
             @keydown="resetInputState"
             @keydown.delete="handleInputDelete"
+            @keydown.enter="handleInputEnter"
             @focus="onInputFocus"
             @blur="onInputBlur"
 
@@ -101,6 +102,14 @@
             // 3.4.0
             maxTagPlaceholder: {
                 type: Function
+            },
+            // 4.0.0
+            allowCreate: {
+                type: Boolean
+            },
+            // 4.0.0
+            showNotFoundLabel: {
+                type: Boolean
             }
         },
         data () {
@@ -216,6 +225,7 @@
                 this.$emit('on-input-focus');
             },
             onInputBlur () {
+                if (this.allowCreate && this.showNotFoundLabel && this.query !== '') return;
                 if (!this.values.length) this.query = '';  // #5155
                 this.$emit('on-input-blur');
             },
@@ -231,6 +241,9 @@
                 if (this.multiple && this.selectedMultiple.length && this.query === '') {
                     this.removeTag(this.selectedMultiple[this.selectedMultiple.length - 1]);
                 }
+            },
+            handleInputEnter () {
+                this.$emit('on-enter');
             },
             onHeaderClick(e){
                 if (this.filterable && e.target === this.$el){

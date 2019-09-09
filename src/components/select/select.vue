@@ -43,11 +43,14 @@
                     :query-prop="query"
                     :max-tag-count="maxTagCount"
                     :max-tag-placeholder="maxTagPlaceholder"
+                    :allow-create="allowCreate"
+                    :show-not-found-label="showNotFoundLabel"
 
                     @on-query-change="onQueryChange"
                     @on-input-focus="isFocused = true"
                     @on-input-blur="isFocused = false"
                     @on-clear="clearSingleSelect"
+                    @on-enter="handleCreateItem"
                 >
                     <slot name="prefix" slot="prefix"></slot>
                 </select-head>
@@ -63,8 +66,9 @@
                 :transfer="transfer"
                 v-transfer-dom
             >
-                <ul v-show="showNotFoundLabel" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
+                <ul v-show="showNotFoundLabel && !allowCreate" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
                 <ul :class="prefixCls + '-dropdown-list'">
+                    <li :class="prefixCls + '-item'" v-if="showCreateItem" @click="handleCreateItem">{{ query }}</li>
                     <functional-options
                         v-if="(!remote) || (remote && !loading)"
                         :options="selectOptions"
@@ -252,6 +256,11 @@
             // 3.4.0
             maxTagPlaceholder: {
                 type: Function
+            },
+            // 4.0.0
+            allowCreate: {
+                type: Boolean,
+                default: false
             }
         },
         mounted(){
@@ -329,6 +338,11 @@
                 } else {
                     return this.loadingText;
                 }
+            },
+            showCreateItem () {
+                let state = false;
+                if (this.allowCreate && this.query !== '') state = true;
+                return  state;
             },
             transitionName () {
                 return this.placement === 'bottom' ? 'slide-up' : 'slide-down';
@@ -699,6 +713,26 @@
                     this.hasExpectedValue = true;
                 }
             },
+            // 4.0.0 create new item
+            handleCreateItem () {
+                if (this.allowCreate && this.showNotFoundLabel) {
+                    const query = this.query;
+                    this.$emit('on-create', query);
+                    this.query = '';
+
+                    const option = {
+                        value: query,
+                        label: query,
+                        tag: undefined
+                    };
+                    if (this.multiple) {
+                        this.onOptionClick(option);
+                    } else {
+                        // 单选时如果不在 nextTick 里执行，无法赋值
+                        this.$nextTick(() => this.onOptionClick(option));
+                    }
+                }
+            }
         },
         watch: {
             value(value){
