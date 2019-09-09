@@ -225,7 +225,7 @@
                 this.$emit('on-input-focus');
             },
             onInputBlur () {
-                if (this.allowCreate && this.showNotFoundLabel && this.query !== '') return;
+                if (this.allowCreate && this.query !== '') return;
                 if (!this.values.length) this.query = '';  // #5155
                 this.$emit('on-input-blur');
             },

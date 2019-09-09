@@ -51,9 +51,9 @@
         <Select v-model="model13" filterable allow-create @on-create="handleCreate" style="width:260px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
-<!--        <Select v-model="model12" multiple filterable allow-create @on-create="handleCreate" style="width:260px">-->
-<!--            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>-->
-<!--        </Select>-->
+        <Select v-model="model12" multiple filterable allow-create @on-create="handleCreate" style="width:260px">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
 
     </div>
 </template>
@@ -68,7 +68,7 @@
                     },
                     {
                         value: 'London',
-                        label: 'London2'
+                        label: 'London'
                     },
                     {
                         value: 'Sydney',

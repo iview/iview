@@ -85,7 +85,7 @@
     import Drop from './dropdown.vue';
     import {directive as clickOutside} from 'v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
-    import { oneOf } from '../../utils/assist';
+    import { oneOf, findComponentsDownward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     import Locale from '../../mixins/locale';
     import SelectHead from './select-head.vue';
@@ -341,7 +341,13 @@
             },
             showCreateItem () {
                 let state = false;
-                if (this.allowCreate && this.query !== '') state = true;
+                if (this.allowCreate && this.query !== '') {
+                    state = true;
+                    const $options = findComponentsDownward(this, 'iOption');
+                    if ($options && $options.length) {
+                        if ($options.find(item => item.showLabel === this.query)) state = false;
+                    }
+                }
                 return  state;
             },
             transitionName () {
@@ -715,7 +721,7 @@
             },
             // 4.0.0 create new item
             handleCreateItem () {
-                if (this.allowCreate && this.showNotFoundLabel) {
+                if (this.allowCreate && this.query !== '') {
                     const query = this.query;
                     this.$emit('on-create', query);
                     this.query = '';
