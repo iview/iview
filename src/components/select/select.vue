@@ -558,31 +558,32 @@
                 this.filterQueryChange = false;
             },
             handleKeydown (e) {
-                if (e.key === 'Backspace'){
+                const key = e.key || e.code;
+                if ( key === 'Backspace'){
                     return; // so we don't call preventDefault
                 }
 
                 if (this.visible) {
                     e.preventDefault();
-                    if (e.key === 'Tab'){
+                    if ( key === 'Tab'){
                         e.stopPropagation();
                     }
 
                     // Esc slide-up
-                    if (e.key === 'Escape') {
+                    if ( key === 'Escape') {
                         e.stopPropagation();
                         this.hideMenu();
                     }
                     // next
-                    if (e.key === 'ArrowUp') {
+                    if ( key === 'ArrowUp') {
                         this.navigateOptions(-1);
                     }
                     // prev
-                    if (e.key === 'ArrowDown') {
+                    if ( key === 'ArrowDown') {
                         this.navigateOptions(1);
                     }
                     // enter
-                    if (e.key === 'Enter') {
+                    if ( key === 'Enter') {
                         if (this.focusIndex === -1) return this.hideMenu();
                         const optionComponent = this.flatOptions[this.focusIndex];
 
