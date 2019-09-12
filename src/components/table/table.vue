@@ -967,7 +967,9 @@
 
             this.$on('on-visible-change', (val) => {
                 if (val) {
-                    this.handleResize();
+                    this.$nextTick(()=>{
+                        this.handleResize();
+                    });
                 }
             });
         },
