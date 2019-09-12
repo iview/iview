@@ -251,6 +251,23 @@
             <Button icon="logo-googleplus"></Button>
             <Button icon="logo-tumblr"></Button>
         </ButtonGroup>
+        <br><br>
+        <Button>
+            <Icon type="md-alert" />
+            左右图标
+            <Icon type="ios-aperture" />
+        </Button>
+        <Button>
+            左右图标
+            <Icon type="ios-aperture" />
+        </Button>
+        <Button>
+            <Icon type="md-alert" />
+            左右图标
+        </Button>
+        <Button icon="md-alert">
+            左右图标
+        </Button>
     </div>
 </template>
 <script>
