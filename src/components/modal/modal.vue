@@ -187,7 +187,9 @@
 
                 const width = parseInt(this.width);
                 const styleWidth = this.dragData.x !== null ? {
-                    top: 0
+                    top: 0,
+                    margin: 0,
+                    width: width <= 100 ? `${width}%` : `${width}px`
                 } : {
                     width: width <= 100 ? `${width}%` : `${width}px`
                 };
@@ -204,9 +206,8 @@
                 if (this.draggable) {
                     if (this.dragData.x !== null) style.left = `${this.dragData.x}px`;
                     if (this.dragData.y !== null) style.top = `${this.dragData.y}px`;
-                    const width = parseInt(this.width);
                     const styleWidth = {
-                        width: width <= 100 ? `${width}%` : `${width}px`
+                        width: '100%'
                     };
 
                     Object.assign(style, styleWidth);
