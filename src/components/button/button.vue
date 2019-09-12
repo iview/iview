@@ -61,12 +61,10 @@
                 default: false
             }
         },
-        data () {
-            return {
-                showSlot: true
-            };
-        },
         computed: {
+            showSlot () {
+                return !!this.$slots.default;
+            },
             classes () {
                 return [
                     `${prefixCls}`,
@@ -109,9 +107,6 @@
 
                 this.handleCheckClick(event, openInNewWindow);
             }
-        },
-        mounted () {
-            this.showSlot = this.$slots.default !== undefined;
         }
     };
 </script>

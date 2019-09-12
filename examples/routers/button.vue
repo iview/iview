@@ -1,14 +1,18 @@
 <template>
     <div>
         <Button icon="logo-github" size="small" shape="circle"></Button>
-        <Button icon="logo-github" size="large" shape="circle"></Button>
         <Button icon="logo-github" shape="circle"></Button>
+        <Button icon="logo-github" size="large" shape="circle"></Button>
+
         <Button icon="logo-github" size="small"></Button>
         <Button size="small">EN</Button>
+
         <Button icon="logo-github"></Button>
         <Button>EN</Button>
+
         <Button icon="logo-github" size="large"></Button>
         <Button size="large">EN</Button>
+
         <ButtonGroup size="small">
             <Button icon="logo-github"></Button>
             <Button icon="logo-twitter"></Button>
@@ -16,13 +20,15 @@
                 EN
             </Button>
         </ButtonGroup>
+
         <ButtonGroup>
             <Button icon="logo-github"></Button>
             <Button icon="logo-twitter"></Button>
             <Button>
-                EN
+                ENs
             </Button>
         </ButtonGroup>
+
         <ButtonGroup size="large">
             <Button icon="logo-github"></Button>
             <Button icon="logo-twitter"></Button>
@@ -155,8 +161,8 @@
             </Button>
         </Button-group>
         <Button-group>
-            <Button type="primary" icon="ios-skipbackward"></Button>
-            <Button type="primary" icon="ios-skipforward"></Button>
+            <Button type="primary" icon="ios-skip-backward"></Button>
+            <Button type="primary" icon="ios-skip-forward"></Button>
         </Button-group>
         <Button-group>
             <Button type="default" icon="ios-color-wand-outline"></Button>
@@ -178,8 +184,8 @@
             </Button>
         </Button-group>
         <Button-group shape="circle">
-            <Button type="primary" icon="ios-skipbackward"></Button>
-            <Button type="primary" icon="ios-skipforward"></Button>
+            <Button type="primary" icon="ios-skip-backward"></Button>
+            <Button type="primary" icon="ios-skip-forward"></Button>
         </Button-group>
         <Button-group shape="circle">
             <Button type="default" icon="ios-color-wand-outline"></Button>
@@ -223,6 +229,24 @@
         <br><br>
         <Button to="/icon">Open New Window</Button>
         <br><br><br>
+        <ButtonGroup vertical size="small">
+            <Button icon="logo-facebook"></Button>
+            <Button icon="logo-twitter"></Button>
+            <Button icon="logo-googleplus"></Button>
+            <Button icon="logo-tumblr"></Button>
+        </ButtonGroup>
+        <ButtonGroup vertical>
+            <Button icon="logo-facebook"></Button>
+            <Button icon="logo-twitter"></Button>
+            <Button icon="logo-googleplus"></Button>
+            <Button icon="logo-tumblr"></Button>
+        </ButtonGroup>
+        <ButtonGroup vertical size="large">
+            <Button icon="logo-facebook"></Button>
+            <Button icon="logo-twitter"></Button>
+            <Button icon="logo-googleplus"></Button>
+            <Button icon="logo-tumblr"></Button>
+        </ButtonGroup>
     </div>
 </template>
 <script>
