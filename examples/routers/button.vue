@@ -79,9 +79,13 @@
         <Button type="primary" icon="ios-information-circle" size="default">Search</Button>
         <Button type="primary" icon="ios-information-circle" size="large">Search</Button>
         <br><br><br>
-        <Button to="/menu" @click="hc">Open Menu</Button>
+        <Button @click="hc">Open Menu2</Button>
+        <Button to="/menu" @click="hc">Open Menu2</Button>
         <Button to="/menu" replace>Open Menu Replace</Button>
         <Button to="//iviewui.com" target="_blank">Open iView</Button>
+        <hr>
+        <Button @click="hc">链接按钮</Button>
+        <Button to="/menu" @click="hc">链接按钮</Button>
         <hr>
         <Icon custom="i-icon i-icon-search" />
         <Icon custom="i-icon i-icon-video" size="24" color="#ff6600" />
