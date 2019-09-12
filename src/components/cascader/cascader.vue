@@ -351,7 +351,7 @@
                     if ('__label' in new_item) {
                         delete new_item.__label;
                     }
-                    if ('children' in new_item && new_item.children.length) {
+                    if (Array.isArray(new_item.children) && new_item.children.length) {
                         new_item.children = new_item.children.map(i => deleteData(i));
                     }
                     return new_item;
