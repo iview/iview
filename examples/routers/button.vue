@@ -74,6 +74,13 @@
             <Button type="error" ghost disabled>Error</Button>
             <Button type="text" ghost disabled>Text</Button>
         </div>
+        <Divider></Divider>
+        <Button type="primary">普通按钮</Button>
+        <Button type="primary" to="/">普通按钮</Button>
+        <Button type="primary" size="small">普通按钮</Button>
+        <Button type="primary" to="/" size="small">普通按钮</Button>
+        <Button type="primary" size="large">普通按钮</Button>
+        <Button type="primary" to="/" size="large">普通按钮</Button>
         <br><br><br>
         <Button type="primary" icon="ios-information-circle" size="small">Search</Button>
         <Button type="primary" icon="ios-information-circle" size="default">Search</Button>
