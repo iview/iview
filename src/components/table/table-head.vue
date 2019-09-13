@@ -1,5 +1,5 @@
 <template>
-    <table cellspacing="0" cellpadding="0" border="0" :style="styles">
+    <table cellspacing="0" cellpadding="0" border="0" :style="styles" :resize="resize">
         <colgroup>
             <col v-for="(column, index) in columns" :width="setCellWidth(column)">
             <col v-if="$parent.showVerticalScrollBar" :width="$parent.scrollBarWidth"/>
@@ -10,7 +10,9 @@
                     v-for="(column, index) in cols"
                     :colspan="column.colSpan"
                     :rowspan="column.rowSpan"
-                    :class="alignCls(column)">
+                    :class="alignCls(column)"
+                    @mousedown="handleResize()"
+                   >
                     <div :class="cellClasses(column)">
                         <template v-if="column.type === 'expand'">
                             <span v-if="!column.renderHeader">{{ column.title || '' }}</span>
@@ -92,7 +94,8 @@
                 default: false
             },
             columnRows: Array,
-            fixedColumnRows: Array
+            fixedColumnRows: Array,
+            resize:Boolean
         },
         computed: {
             styles () {
@@ -211,6 +214,9 @@
             },
             handleFilterHide (index) {
                 this.$parent.handleFilterHide(index);
+            },
+            handleResize(){
+                alert(this.resize)
             },
             // 因为表头嵌套不是深拷贝，所以没有 _ 开头的方法，在 isGroup 下用此列
             getColumn (rowIndex, index) {
