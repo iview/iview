@@ -7,6 +7,10 @@
             <i class="ivu-icon ivu-icon-ios-search" :class="[prefixCls + '-icon', prefixCls + '-icon-normal', prefixCls + '-search-icon']" v-else-if="search && enterButton === false" @click="handleSearch"></i>
             <span class="ivu-input-suffix" v-else-if="showSuffix"><slot name="suffix"><i class="ivu-icon" :class="['ivu-icon-' + suffix]" v-if="suffix"></i></slot></span>
             <span class="ivu-input-word-count" v-else-if="showWordLimit">{{ textLength }}/{{ upperLimit }}</span>
+            <span class="ivu-input-suffix" v-else-if="password" @click="handleToggleShowPassword">
+                <i class="ivu-icon ivu-icon-ios-eye-off-outline" v-if="showPassword"></i>
+                <i class="ivu-icon ivu-icon-ios-eye-outline" v-else></i>
+            </span>
             <transition name="fade">
                 <i class="ivu-icon ivu-icon-ios-loading ivu-load-loop" :class="[prefixCls + '-icon', prefixCls + '-icon-validate']" v-if="!icon"></i>
             </transition>
@@ -15,7 +19,7 @@
                 :autocomplete="autocomplete"
                 :spellcheck="spellcheck"
                 ref="input"
-                :type="type"
+                :type="currentType"
                 :class="inputClasses"
                 :placeholder="placeholder"
                 :disabled="disabled"
@@ -180,6 +184,11 @@
             showWordLimit: {
                 type: Boolean,
                 default: false
+            },
+            // 4.0.0
+            password: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -188,10 +197,16 @@
                 prefixCls: prefixCls,
                 slotReady: false,
                 textareaStyles: {},
-                isOnComposition: false
+                isOnComposition: false,
+                showPassword: false
             };
         },
         computed: {
+            currentType () {
+                let type = this.type;
+                if (type === 'password' && this.password && this.showPassword) type = 'text';
+                return type;
+            },
             prepend () {
                 let state = false;
                 if (this.type !== 'textarea') state = this.$slots.prepend !== undefined;
@@ -350,6 +365,15 @@
                 if (this.disabled) return false;
                 this.$refs.input.focus();
                 this.$emit('on-search', this.currentValue);
+            },
+            handleToggleShowPassword () {
+                if (this.disabled) return false;
+                this.showPassword = !this.showPassword;
+                this.focus();
+                const len = this.currentValue.length;
+                setTimeout(() => {
+                    this.$refs.input.setSelectionRange(len, len);
+                }, 0);
             }
         },
         watch: {
