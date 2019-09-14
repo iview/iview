@@ -79,7 +79,7 @@
             display: block;
             height: @input-height-base - 2px;
             line-height: @input-height-base - 2px;
-            font-size: @font-size-small;
+            font-size: @font-size-base;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -97,7 +97,7 @@
             height: @input-height-base - 2px;
             line-height: @input-height-base - 2px;
             color: @input-placeholder-color;
-            font-size: @font-size-small;
+            font-size: @font-size-base;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -112,7 +112,7 @@
         .@{select-prefix-cls}-placeholder, .@{select-prefix-cls}-selected-value{
             height: @input-height-large - 2px;
             line-height: @input-height-large - 2px;
-            font-size: @font-size-base;
+            font-size: @font-size-large;
         }
     }
 
@@ -122,7 +122,7 @@
         .@{select-prefix-cls}-placeholder, .@{select-prefix-cls}-selected-value{
             min-height: @input-height-large - 2px;
             line-height: @input-height-large - 2px;
-            font-size: @font-size-base;
+            font-size: @font-size-large;
         }
     }
 
@@ -153,7 +153,7 @@
         height: @input-height-base;
         line-height: @input-height-base;
         padding: 0 24px 0 8px;
-        font-size: @font-size-small;
+        font-size: @font-size-base;
         outline: none;
         border: none;
         box-sizing: border-box;
@@ -175,7 +175,7 @@
     }
 
     &-large &-input{
-        font-size: @font-size-base;
+        font-size: @font-size-large;
         height: @input-height-large;
     }
 
@@ -226,7 +226,7 @@
     &-large&-multiple .@{css-prefix}tag{
         height: 28px;
         line-height: 26px;
-        font-size: @font-size-base;
+        font-size: @font-size-large;
         i{
             top: 6px;
         }
@@ -235,7 +235,7 @@
     &-small&-multiple .@{css-prefix}tag{
         height: 17px;
         line-height: 15px;
-        font-size: @font-size-small;
+        font-size: @font-size-base;
         padding: 0 6px;
         margin: 3px 4px 2px 0;
         span{
@@ -321,7 +321,7 @@
 
     &-title {
         padding-left: 8px;
-        font-size: 12px;
+        font-size: 14px;
         color: @legend-color;
         height: 30px;
         line-height: 30px;
