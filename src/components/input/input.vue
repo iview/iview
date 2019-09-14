@@ -178,16 +178,32 @@
             return {
                 currentValue: this.value,
                 prefixCls: prefixCls,
-                prepend: true,
-                append: true,
                 slotReady: false,
                 textareaStyles: {},
-                showPrefix: false,
-                showSuffix: false,
                 isOnComposition: false
             };
         },
         computed: {
+            prepend () {
+                let state = false;
+                if (this.type !== 'textarea') state = this.$slots.prepend !== undefined;
+                return state;
+            },
+            append () {
+                let state = false;
+                if (this.type !== 'textarea') state = this.$slots.append !== undefined;
+                return state;
+            },
+            showPrefix () {
+                let state = false;
+                if (this.type !== 'textarea') state = this.prefix !== '' || this.$slots.prefix !== undefined;
+                return state;
+            },
+            showSuffix () {
+                let state = false;
+                if (this.type !== 'textarea') state = this.suffix !== '' || this.$slots.suffix !== undefined;
+                return state;
+            },
             wrapClasses () {
                 return [
                     `${prefixCls}-wrapper`,
@@ -324,15 +340,6 @@
             }
         },
         mounted () {
-            if (this.type !== 'textarea') {
-                this.prepend = this.$slots.prepend !== undefined;
-                this.append = this.$slots.append !== undefined;
-                this.showPrefix = this.prefix !== '' || this.$slots.prefix !== undefined;
-                this.showSuffix = this.suffix !== '' || this.$slots.suffix !== undefined;
-            } else {
-                this.prepend = false;
-                this.append = false;
-            }
             this.slotReady = true;
             this.resizeTextarea();
         }
