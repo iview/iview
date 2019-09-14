@@ -1,5 +1,5 @@
 <template>
-    <table cellspacing="0" cellpadding="0" border="0" :style="styles" :resize="resize">
+    <table cellspacing="0" cellpadding="0" border="0" :style="styles">
         <colgroup>
             <col v-for="(column, index) in columns" :width="setCellWidth(column)">
             <col v-if="$parent.showVerticalScrollBar" :width="$parent.scrollBarWidth"/>
@@ -10,10 +10,7 @@
                     v-for="(column, index) in cols"
                     :colspan="column.colSpan"
                     :rowspan="column.rowSpan"
-                    :class="alignCls(column)"
-                    @mousedown="handleResize()"
-                    @mouseup="handleResize()"
-                   >
+                    :class="alignCls(column)">
                     <div :class="cellClasses(column)">
                         <template v-if="column.type === 'expand'">
                             <span v-if="!column.renderHeader">{{ column.title || '' }}</span>
@@ -63,7 +60,18 @@
                             </Poptip>
                         </template>
                     </div>
-                    <div :class="baseLineClasses()"></div>
+                    
+                    <div :index=index v-if="resizeColumn"
+                    :class="baseLineClasses()"
+                    @mousedown="handleMouseDown">
+                        <div></div>
+                    </div>
+
+                     <div :index=index v-if="resizeColumn"
+                    :class="markLineClasses()">
+                        
+                    </div>
+
                 </th>
 
                 <th v-if="$parent.showVerticalScrollBar && rowIndex===0" :class='scrollBarCellClass()' :rowspan="headRows.length"></th>
@@ -191,6 +199,11 @@
                         `${this.prefixCls}-baseline`
                 ];
             },
+            markLineClasses(){
+                return [
+                        `${this.prefixCls}-markline`
+                ];
+            },
             handleSort (index, type) {
                 // 在固定列时，寻找正确的 index #5580
                 const column = this.columns.find(item => item._index === index);
@@ -227,21 +240,50 @@
             handleFilterHide (index) {
                 this.$parent.handleFilterHide(index);
             },
-            handleResize(){
-                if (this.resizeColumn) {
-                   this.handleMouseUp();
-                   this.handleMouseDown();
-                   on(window, 'mousemove', this.handleMouseMove);
-                }
-            },
-            handleMouseMove(){
-               
+            handleMouseDown(e){
+                console.log('onmousedown...');
+
+                this._onMouseDown = true;
+                this._mouseDownClientX = e.clientX;
+
+                console.log(this._mouseDownClientX);
+
+                this._baseLine = e.target;
+                this._columnIndex = e.target.getAttribute('index');
+                this._column = e.target.parentNode;
+                
+                on(window, 'mouseup', this.handleMouseUp);
+                on(window, 'mousemove', this.handleMouseMove);
+                
             },
             handleMouseUp(){
-               
+                console.log('onmouseUp...');
+                off(window, 'mouseup', this.handleMouseUp);
+                off(window, 'mousemove', this.handleMouseMove);
             },
-            handleMouseDown(){
-               
+            handleMouseMove(e){
+
+
+                 console.log(e.clientX +"--"+ e.clientY );
+
+                if (this._onMouseDown) {
+
+                    e.preventDefault();
+                    this._onMouseMove = true;
+
+                    let columnOldWidth = this._column.getBoundingClientRect().width;
+                    let diff = e.clientX - this._mouseDownClientX;
+
+                    let columnWidth = diff + columnOldWidth <= 8 ? 8 : diff + columnOldWidth;
+                    
+                    if (columnWidth != 8) {
+                        
+                        this._baseLine.style.left = (diff)+ 'px';
+                        
+                        console.log("this._baseLine.style.left"+this._baseLine.style.left)
+
+                    }
+                }
             },
             // 因为表头嵌套不是深拷贝，所以没有 _ 开头的方法，在 isGroup 下用此列
             getColumn (rowIndex, index) {

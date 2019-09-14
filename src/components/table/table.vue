@@ -1,5 +1,5 @@
 <template>
-    <div :class="wrapClasses" :style="styles">
+    <div ref="wrap" :class="wrapClasses" :style="styles">
         <div :class="classes">
             <div :class="[prefixCls + '-title']" v-if="showSlotHeader" ref="title"><slot name="header"></slot></div>
             <div :class="[prefixCls + '-header']" v-if="showHeader" ref="header" @mousewheel="handleMouseWheel">

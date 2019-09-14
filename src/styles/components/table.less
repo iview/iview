@@ -120,7 +120,7 @@
     th {
         height: 40px;
         white-space: nowrap;
-        overflow: hidden;
+        overflow: initial;
         position: relative;
         background-color: @table-thead-bg;
     }
@@ -458,6 +458,24 @@
     }
 
     &-baseline {
+        z-index: 100;
+        width: 8px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        cursor: e-resize;
+
+
+        div {
+            border-right: 1px solid #CED2DA;
+            position: absolute;
+            left: 50%;
+            height: 100%;
+        }
+    }
+
+    &-markline {
         opacity: 0;
         border: 6px #f00 solid;
         position: absolute;
