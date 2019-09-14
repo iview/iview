@@ -174,12 +174,12 @@
         width: 100%;
     }
 
-    &-large &-input{
+    &-large &-input, &-large&-multiple &-input{
         font-size: @font-size-large;
-        height: @input-height-large;
+        height: @input-height-large - 2px;
     }
 
-    &-small &-input{
+    &-small &-input, &-small&-multiple &-input{
         height: @input-height-small - 2px;
         line-height: @input-height-small - 2px;
     }
@@ -224,18 +224,18 @@
     }
 
     &-large&-multiple .@{css-prefix}tag{
-        height: 28px;
-        line-height: 26px;
+        height: 32px;
+        line-height: 30px;
         font-size: @font-size-large;
         i{
-            top: 6px;
+            top: 9px;
         }
     }
 
     &-small&-multiple .@{css-prefix}tag{
         height: 17px;
         line-height: 15px;
-        font-size: @font-size-base;
+        font-size: @font-size-small;
         padding: 0 6px;
         margin: 3px 4px 2px 0;
         span{
