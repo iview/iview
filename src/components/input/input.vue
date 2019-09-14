@@ -43,34 +43,36 @@
             </div>
             <span class="ivu-input-prefix" v-else-if="showPrefix"><slot name="prefix"><i class="ivu-icon" :class="['ivu-icon-' + prefix]" v-if="prefix"></i></slot></span>
         </template>
-        <textarea
-            v-else
-            :id="elementId"
-            :wrap="wrap"
-            :autocomplete="autocomplete"
-            :spellcheck="spellcheck"
-            ref="textarea"
-            :class="textareaClasses"
-            :style="textareaStyles"
-            :placeholder="placeholder"
-            :disabled="disabled"
-            :rows="rows"
-            :maxlength="maxlength"
-            :readonly="readonly"
-            :name="name"
-            :value="currentValue"
-            :autofocus="autofocus"
-            @keyup.enter="handleEnter"
-            @keyup="handleKeyup"
-            @keypress="handleKeypress"
-            @keydown="handleKeydown"
-            @focus="handleFocus"
-            @blur="handleBlur"
-            @compositionstart="handleComposition"
-            @compositionupdate="handleComposition"
-            @compositionend="handleComposition"
-            @input="handleInput">
-        </textarea>
+        <template v-else>
+            <textarea
+                :id="elementId"
+                :wrap="wrap"
+                :autocomplete="autocomplete"
+                :spellcheck="spellcheck"
+                ref="textarea"
+                :class="textareaClasses"
+                :style="textareaStyles"
+                :placeholder="placeholder"
+                :disabled="disabled"
+                :rows="rows"
+                :maxlength="maxlength"
+                :readonly="readonly"
+                :name="name"
+                :value="currentValue"
+                :autofocus="autofocus"
+                @keyup.enter="handleEnter"
+                @keyup="handleKeyup"
+                @keypress="handleKeypress"
+                @keydown="handleKeydown"
+                @focus="handleFocus"
+                @blur="handleBlur"
+                @compositionstart="handleComposition"
+                @compositionupdate="handleComposition"
+                @compositionend="handleComposition"
+                @input="handleInput">
+            </textarea>
+            <span class="ivu-input-word-count" v-if="showWordLimit">{{ textLength }}/{{ upperLimit }}</span>
+        </template>
     </div>
 </template>
 <script>
@@ -215,7 +217,7 @@
                     `${prefixCls}-wrapper`,
                     {
                         [`${prefixCls}-wrapper-${this.size}`]: !!this.size,
-                        [`${prefixCls}-type`]: this.type,
+                        [`${prefixCls}-type-${this.type}`]: this.type,
                         [`${prefixCls}-group`]: this.prepend || this.append || (this.search && this.enterButton),
                         [`${prefixCls}-group-${this.size}`]: (this.prepend || this.append || (this.search && this.enterButton)) && !!this.size,
                         [`${prefixCls}-group-with-prepend`]: this.prepend,
