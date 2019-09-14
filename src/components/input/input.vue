@@ -6,6 +6,7 @@
             <i class="ivu-icon" :class="['ivu-icon-' + icon, prefixCls + '-icon', prefixCls + '-icon-normal']" v-else-if="icon" @click="handleIconClick"></i>
             <i class="ivu-icon ivu-icon-ios-search" :class="[prefixCls + '-icon', prefixCls + '-icon-normal', prefixCls + '-search-icon']" v-else-if="search && enterButton === false" @click="handleSearch"></i>
             <span class="ivu-input-suffix" v-else-if="showSuffix"><slot name="suffix"><i class="ivu-icon" :class="['ivu-icon-' + suffix]" v-if="suffix"></i></slot></span>
+            <span class="ivu-input-word-count" v-else-if="showWordLimit"><span class="ivu-input-word-count-inner">{{ textLength }}/{{ upperLimit }}</span></span>
             <transition name="fade">
                 <i class="ivu-icon ivu-icon-ios-loading ivu-load-loop" :class="[prefixCls + '-icon', prefixCls + '-icon-validate']" v-if="!icon"></i>
             </transition>
@@ -106,7 +107,7 @@
                 default: ''
             },
             maxlength: {
-                type: Number
+                type: [String, Number]
             },
             disabled: {
                 type: Boolean,
@@ -171,6 +172,11 @@
             },
             enterButton: {
                 type: [Boolean, String],
+                default: false
+            },
+            // 4.0.0
+            showWordLimit: {
+                type: Boolean,
                 default: false
             }
         },
@@ -237,6 +243,16 @@
                         [`${prefixCls}-disabled`]: this.disabled
                     }
                 ];
+            },
+            upperLimit () {
+                return this.maxlength;
+            },
+            textLength () {
+                if (typeof this.value === 'number') {
+                    return String(this.value).length;
+                }
+
+                return (this.value || '').length;
             }
         },
         methods: {
