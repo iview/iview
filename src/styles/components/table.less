@@ -76,7 +76,7 @@
     }
 
     &-body {
-        //overflow: auto;
+        overflow: auto;
         //position: relative;
 
     }
@@ -458,26 +458,27 @@
     }
 
     &-baseline {
-        z-index: 100;
-        width: 8px;
+        z-index: -100;
+        width: 1px;
+        border-right: 1px solid transparent;
         position: absolute;
         top: 0;
         bottom: 0;
         left: 0;
         cursor: e-resize;
-
+        width: 100%;
+        background:rgba(0,0,0,0.3);
 
         div {
-            border-right: 1px solid #CED2DA;
+            width: 1px;
+            border-right: 1px solid transparent;
             position: absolute;
-            left: 50%;
             height: 100%;
         }
     }
 
     &-markline {
-        opacity: 0;
-        border: 6px #f00 solid;
+        border: 6px transparent solid;
         position: absolute;
         right: -6px;
         top: 0;

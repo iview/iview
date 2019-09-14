@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Table border resize-column tooltip-theme="light" ref="currentRowTable" :columns="columns3" :data="data1" :draggable="true" @on-drag-drop="onDragDrop"></Table>
+        <Table  border resize-column tooltip-theme="light" ref="currentRowTable" :columns="columns3" :data="data1" :draggable="true" @on-drag-drop="onDragDrop"></Table>
         <Button @click="handleClearCurrentRow">Clear</Button>
     </div>
 </template>
@@ -19,16 +19,20 @@
                     },
                     {
                         title: 'Name',
-                        key: 'name'
+                        key: 'name',
+                        width: 60,
                     },
                     {
                         title: 'Age',
-                        key: 'age'
+                        key: 'age',
+                        width: 60
                     },
                     {
                         title: 'Address',
                         key: 'address',
-                        tooltip: true
+                        tooltip: true,
+                        align:"center",
+                        headerAlign:"center"
                     }
                 ],
                 data1: [

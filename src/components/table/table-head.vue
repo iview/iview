@@ -10,7 +10,7 @@
                     v-for="(column, index) in cols"
                     :colspan="column.colSpan"
                     :rowspan="column.rowSpan"
-                    :class="alignCls(column)">
+                    :class="alignHeadCls(column)">
                     <div :class="cellClasses(column)">
                         <template v-if="column.type === 'expand'">
                             <span v-if="!column.renderHeader">{{ column.title || '' }}</span>
@@ -60,17 +60,11 @@
                             </Poptip>
                         </template>
                     </div>
-                    
-                    <div :index=index v-if="resizeColumn"
-                    :class="baseLineClasses()"
-                    @mousedown="handleMouseDown">
-                        <div></div>
-                    </div>
 
-                     <div :index=index v-if="resizeColumn"
-                    :class="markLineClasses()">
-                        
-                    </div>
+                     <div :index="index" v-if="resizeColumn"
+                    :class="markLineClasses()"
+                    @mousedown="handleMouseDown"
+                    ></div>
 
                 </th>
 
@@ -194,11 +188,6 @@
                 const status = !this.isSelectAll;
                 this.$parent.selectAll(status);
             },
-            baseLineClasses(){
-                return [
-                        `${this.prefixCls}-baseline`
-                ];
-            },
             markLineClasses(){
                 return [
                         `${this.prefixCls}-markline`
@@ -241,49 +230,74 @@
                 this.$parent.handleFilterHide(index);
             },
             handleMouseDown(e){
-                console.log('onmousedown...');
-
-                this._onMouseDown = true;
-                this._mouseDownClientX = e.clientX;
-
-                console.log(this._mouseDownClientX);
-
-                this._baseLine = e.target;
-                this._columnIndex = e.target.getAttribute('index');
-                this._column = e.target.parentNode;
                 
+                this._onMouseDown = true;
+                
+                this._columnEle = e.target.parentNode;
+                this._columnBoundingClientRect = this._columnEle.getBoundingClientRect();
+
+                this._wrapEle = this.$parent.$refs.wrap;
+                this._wrapBoundingClientRect = this._wrapEle.getBoundingClientRect();
+                
+                this._markLineEle = e.target;
+                this._mouseDownClientX = e.clientX;
+                
+                this.createBaseLine();
+
+                this._baseLineEle.style.left = (this._columnBoundingClientRect.left - this._wrapBoundingClientRect.left - 1) + 'px';
+                this._baseLineEle.style.width = this._columnBoundingClientRect.width + 'px';
+
                 on(window, 'mouseup', this.handleMouseUp);
                 on(window, 'mousemove', this.handleMouseMove);
                 
             },
-            handleMouseUp(){
-                console.log('onmouseUp...');
+            handleMouseUp(e){
+
+                if (!this._onMouseDown) {
+                    return
+                };
+                this._baseLineEle.style.zIndex = '-100';
+
+                let index = this._markLineEle.getAttribute('index');
+                this.columns[index].width = this._columnWidth;
+
+                this._onMouseDown = false;
+                this._onMouseMove = false;
+
                 off(window, 'mouseup', this.handleMouseUp);
                 off(window, 'mousemove', this.handleMouseMove);
+
             },
             handleMouseMove(e){
-
-
-                 console.log(e.clientX +"--"+ e.clientY );
 
                 if (this._onMouseDown) {
 
                     e.preventDefault();
+
+                    this._baseLineEle.style.zIndex = 'initial';
+
                     this._onMouseMove = true;
 
-                    let columnOldWidth = this._column.getBoundingClientRect().width;
+                    let columnEleWidth = this._columnBoundingClientRect.width;
                     let diff = e.clientX - this._mouseDownClientX;
 
-                    let columnWidth = diff + columnOldWidth <= 8 ? 8 : diff + columnOldWidth;
-                    
-                    if (columnWidth != 8) {
-                        
-                        this._baseLine.style.left = (diff)+ 'px';
-                        
-                        console.log("this._baseLine.style.left"+this._baseLine.style.left)
+                    this._columnWidth = diff + columnEleWidth <= 8 ? 8 : diff + columnEleWidth;
 
+                    if (this._columnWidth != 8) {
+                         this._baseLineEle.style.width = (e.clientX - this._wrapBoundingClientRect.left-(this._columnBoundingClientRect.left - this._wrapBoundingClientRect.left)) + 'px';
                     }
                 }
+
+            },
+            createBaseLine(){
+
+                const outer = document.createElement('div');
+                outer.setAttribute('class', `${this.prefixCls}-baseline`);
+                const inner = document.createElement('div');
+                outer.appendChild(inner);   
+                this._wrapEle.appendChild(outer); 
+                this._baseLineEle = outer;
+
             },
             // 因为表头嵌套不是深拷贝，所以没有 _ 开头的方法，在 isGroup 下用此列
             getColumn (rowIndex, index) {
