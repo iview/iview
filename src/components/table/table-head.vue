@@ -12,6 +12,7 @@
                     :rowspan="column.rowSpan"
                     :class="alignCls(column)"
                     @mousedown="handleResize()"
+                    @mouseup="handleResize()"
                    >
                     <div :class="cellClasses(column)">
                         <template v-if="column.type === 'expand'">
@@ -62,6 +63,7 @@
                             </Poptip>
                         </template>
                     </div>
+                    <div :class="baseLineClasses()"></div>
                 </th>
 
                 <th v-if="$parent.showVerticalScrollBar && rowIndex===0" :class='scrollBarCellClass()' :rowspan="headRows.length"></th>
@@ -70,6 +72,7 @@
     </table>
 </template>
 <script>
+    import {directive as clickOutside} from 'v-click-outside-x';
     import CheckboxGroup from '../checkbox/checkbox-group.vue';
     import Checkbox from '../checkbox/checkbox.vue';
     import Poptip from '../poptip/poptip.vue';
@@ -77,6 +80,7 @@
     import renderHeader from './header';
     import Mixin from './mixin';
     import Locale from '../../mixins/locale';
+    import { on, off } from '../../utils/dom';
 
     export default {
         name: 'TableHead',
@@ -95,7 +99,10 @@
             },
             columnRows: Array,
             fixedColumnRows: Array,
-            resize:Boolean
+            resizeColumn:{
+                type: [Boolean],
+                default: false
+            }
         },
         computed: {
             styles () {
@@ -179,6 +186,11 @@
                 const status = !this.isSelectAll;
                 this.$parent.selectAll(status);
             },
+            baseLineClasses(){
+                return [
+                        `${this.prefixCls}-baseline`
+                ];
+            },
             handleSort (index, type) {
                 // 在固定列时，寻找正确的 index #5580
                 const column = this.columns.find(item => item._index === index);
@@ -216,7 +228,20 @@
                 this.$parent.handleFilterHide(index);
             },
             handleResize(){
-                alert(this.resize)
+                if (this.resizeColumn) {
+                   this.handleMouseUp();
+                   this.handleMouseDown();
+                   on(window, 'mousemove', this.handleMouseMove);
+                }
+            },
+            handleMouseMove(){
+               
+            },
+            handleMouseUp(){
+               
+            },
+            handleMouseDown(){
+               
             },
             // 因为表头嵌套不是深拷贝，所以没有 _ 开头的方法，在 isGroup 下用此列
             getColumn (rowIndex, index) {

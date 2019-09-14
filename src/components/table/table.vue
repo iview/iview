@@ -11,7 +11,7 @@
                     :obj-data="objData"
                     :columns-width="columnsWidth"
                     :data="rebuildData"
-                    :resize="resize"></table-head>
+                    :resize-column="resizeColumn"></table-head>
             </div>
             <div :class="[prefixCls + '-body']" :style="bodyStyle" ref="body" @scroll="handleBodyScroll"
                 v-show="!((!!localeNoDataText && (!data || data.length === 0)) || (!!localeNoFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
@@ -209,6 +209,10 @@
             rowKey: {
                 type: Boolean,
                 default: false
+            },
+            resizeColumn: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -235,8 +239,7 @@
                 showVerticalScrollBar:false,
                 showHorizontalScrollBar:false,
                 headerWidth:0,
-                headerHeight:0,
-                resize:true
+                headerHeight:0
             };
         },
         computed: {

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Table border :resize="true" tooltip-theme="light" ref="currentRowTable" :columns="columns3" :data="data1" :draggable="true" @on-drag-drop="onDragDrop"></Table>
+        <Table border resize-column tooltip-theme="light" ref="currentRowTable" :columns="columns3" :data="data1" :draggable="true" @on-drag-drop="onDragDrop"></Table>
         <Button @click="handleClearCurrentRow">Clear</Button>
     </div>
 </template>
