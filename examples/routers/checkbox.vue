@@ -26,6 +26,24 @@
             <Checkbox v-for="item in tags" :label="item.label" :key="item.label" true-value="true"></Checkbox>
         </Checkbox-group>
         <div>{{ fruit }}</div>
+        <Divider></Divider>
+        <CheckboxGroup v-model="fruit" size="small">
+            <Checkbox label="香蕉"></Checkbox>
+            <Checkbox label="苹果"></Checkbox>
+            <Checkbox label="西瓜"></Checkbox>
+        </CheckboxGroup>
+        <br>
+        <CheckboxGroup v-model="fruit" size="default">
+            <Checkbox label="香蕉"></Checkbox>
+            <Checkbox label="苹果"></Checkbox>
+            <Checkbox label="西瓜"></Checkbox>
+        </CheckboxGroup>
+        <br>
+        <CheckboxGroup v-model="fruit" size="large">
+            <Checkbox label="香蕉"></Checkbox>
+            <Checkbox label="苹果"></Checkbox>
+            <Checkbox label="西瓜"></Checkbox>
+        </CheckboxGroup>
     </div>
 </template>
 <script>
