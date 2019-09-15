@@ -56,6 +56,28 @@
             <Checkbox label="苹果"></Checkbox>
             <Checkbox label="西瓜"></Checkbox>
         </CheckboxGroup>
+        <Divider></Divider>
+        <CheckboxGroup v-model="fruit" size="small">
+            <Checkbox label="香蕉" border></Checkbox>
+            <Checkbox label="苹果" border></Checkbox>
+            <Checkbox label="西瓜" border></Checkbox>
+        </CheckboxGroup>
+        <br>
+        <CheckboxGroup v-model="fruit" size="default">
+            <Checkbox label="香蕉" border></Checkbox>
+            <Checkbox label="苹果" border disabled></Checkbox>
+            <Checkbox label="西瓜" border></Checkbox>
+        </CheckboxGroup>
+        <br>
+        <CheckboxGroup v-model="fruit" size="large">
+            <Checkbox label="香蕉" border></Checkbox>
+            <Checkbox label="苹果" border></Checkbox>
+            <Checkbox label="西瓜" border></Checkbox>
+        </CheckboxGroup>
+        <Divider></Divider>
+        <Checkbox v-model="single" size="small" border>单独</Checkbox>
+        <Checkbox v-model="single" size="default" border disabled>单独</Checkbox>
+        <Checkbox v-model="single" size="large" border>单独</Checkbox>
     </div>
 </template>
 <script>
@@ -69,7 +91,8 @@
                 testValue2: null,
                 indeterminate: true,
                 checkAll: false,
-                checkAllGroup: ['香蕉', '西瓜']
+                checkAllGroup: ['香蕉', '西瓜'],
+                single: false
             };
         },
         methods: {

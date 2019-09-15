@@ -70,6 +70,11 @@
             },
             name: {
                 type: String
+            },
+            // 4.0.0
+            border: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -90,7 +95,8 @@
                         [`${prefixCls}-group-item`]: this.group,
                         [`${prefixCls}-wrapper-checked`]: this.currentValue,
                         [`${prefixCls}-wrapper-disabled`]: this.disabled,
-                        [`${prefixCls}-${this.size}`]: !!this.size
+                        [`${prefixCls}-${this.size}`]: !!this.size,
+                        [`${prefixCls}-border`]: this.border
                     }
                 ];
             },
