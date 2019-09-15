@@ -53,6 +53,11 @@
             },
             name: {
                 type: String
+            },
+            // 4.0.0
+            border: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -74,7 +79,8 @@
                         [`${prefixCls}-wrapper-checked`]: this.currentValue,
                         [`${prefixCls}-wrapper-disabled`]: this.disabled,
                         [`${prefixCls}-${this.size}`]: !!this.size,
-                        [`${prefixCls}-focus`]: this.focusWrapper
+                        [`${prefixCls}-focus`]: this.focusWrapper,
+                        [`${prefixCls}-border`]: this.border
                     }
                 ];
             },

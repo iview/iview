@@ -115,6 +115,32 @@
         opacity: 0;
         cursor: pointer;
     }
+
+    &-border{
+        border: 1px solid @border-color-base;
+        border-radius: @btn-border-radius;
+        height: @btn-height-base;
+        line-height: @btn-height-base - 2px;
+        padding: @btn-padding-base;
+        transition: border @transition-time @ease-in-out;
+    }
+    &-small&-border, .@{radio-group-prefix-cls}-small &-border{
+        height: @btn-height-small;
+        line-height: @btn-height-small - 2px;
+        padding: @btn-padding-small;
+    }
+    &-large&-border, .@{radio-group-prefix-cls}-large &-border{
+        height: @btn-height-large;
+        line-height: @btn-height-large - 4px;
+        padding: @btn-padding-large;
+    }
+}
+
+.@{radio-prefix-cls}-wrapper-checked.@{radio-prefix-cls}-border{
+    border-color: @primary-color;
+}
+.@{radio-prefix-cls}-wrapper-disabled.@{radio-prefix-cls}-border{
+    border-color: @btn-disable-border;
 }
 
 // 选中状态 - Selected state

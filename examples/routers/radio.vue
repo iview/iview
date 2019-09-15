@@ -3,6 +3,10 @@
         <Radio size="large" v-model="single">Radio</Radio>
         <Radio size="default" v-model="single">Radio</Radio>
         <Radio size="small" v-model="single">Radio</Radio>
+        <br>
+        <Radio size="large" v-model="single" border>Radio</Radio>
+        <Radio size="default" v-model="single" border disabled>Radio</Radio>
+        <Radio size="small" v-model="single" border>Radio</Radio>
         <br><br>
         <Radio-group v-model="phone">
             <Radio label="apple">
@@ -38,42 +42,42 @@
         </Radio-group>
         <Divider></Divider>
         <Radio-group v-model="phone" size="small">
-            <Radio label="apple">
+            <Radio label="apple" border>
                 <Icon type="logo-apple"></Icon>
                 <span>选项一</span>
             </Radio>
-            <Radio label="android">
+            <Radio label="android" border>
                 <Icon type="logo-android"></Icon>
                 <span>选项二</span>
             </Radio>
-            <Radio label="windows">
+            <Radio label="windows" border>
                 <Icon type="logo-windows"></Icon>
                 <span>选项三</span>
             </Radio>
         </Radio-group>
         <br><br>
         <Radio-group v-model="phone" size="default">
-            <Radio label="apple">
+            <Radio label="apple" border>
                 <span>选项一</span>
             </Radio>
-            <Radio label="android">
+            <Radio label="android" border disabled>
                 <span>选项二</span>
             </Radio>
-            <Radio label="windows">
+            <Radio label="windows" border>
                 <span>选项三</span>
             </Radio>
         </Radio-group>
         <br><br>
         <Radio-group v-model="phone" size="large">
-            <Radio label="apple">
+            <Radio label="apple" border>
                 <Icon type="logo-apple"></Icon>
                 <span>选项一</span>
             </Radio>
-            <Radio label="android">
+            <Radio label="android" border>
                 <Icon type="logo-android"></Icon>
                 <span>选项二</span>
             </Radio>
-            <Radio label="windows">
+            <Radio label="windows" border>
                 <Icon type="logo-windows"></Icon>
                 <span>选项三</span>
             </Radio>
