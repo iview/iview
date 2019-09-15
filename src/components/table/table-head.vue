@@ -74,7 +74,7 @@
     </table>
 </template>
 <script>
-    import {directive as clickOutside} from 'v-click-outside-x';
+
     import CheckboxGroup from '../checkbox/checkbox-group.vue';
     import Checkbox from '../checkbox/checkbox.vue';
     import Poptip from '../poptip/poptip.vue';
@@ -190,7 +190,7 @@
             },
             markLineClasses(){
                 return [
-                        `${this.prefixCls}-markline`
+                    `${this.prefixCls}-markline`
                 ];
             },
             handleSort (index, type) {
@@ -251,11 +251,11 @@
                 on(window, 'mousemove', this.handleMouseMove);
                 
             },
-            handleMouseUp(e){
+            handleMouseUp(){
 
                 if (!this._onMouseDown) {
-                    return
-                };
+                    return;
+                }
                 this._baseLineEle.style.zIndex = '-100';
 
                 let index = this._markLineEle.getAttribute('index');
@@ -284,7 +284,7 @@
                     this._columnWidth = diff + columnEleWidth <= 8 ? 8 : diff + columnEleWidth;
 
                     if (this._columnWidth != 8) {
-                         this._baseLineEle.style.width = (e.clientX - this._wrapBoundingClientRect.left-(this._columnBoundingClientRect.left - this._wrapBoundingClientRect.left)) + 'px';
+                        this._baseLineEle.style.width = (e.clientX - this._wrapBoundingClientRect.left-(this._columnBoundingClientRect.left - this._wrapBoundingClientRect.left)) + 'px';
                     }
                 }
 
