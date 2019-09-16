@@ -7,6 +7,7 @@
 </template>
 <script>
     import Emitter from '../../mixins/emitter';
+    import mixinsForm from '../../mixins/form';
     import { findComponentUpward } from '../../utils/assist';
 
     const prefixCls = 'ivu-select-item';
@@ -14,7 +15,7 @@
     export default {
         name: 'iOption',
         componentName: 'select-item',
-        mixins: [ Emitter ],
+        mixins: [ Emitter, mixinsForm ],
         props: {
             value: {
                 type: [String, Number],
@@ -51,7 +52,7 @@
                 return [
                     `${prefixCls}`,
                     {
-                        [`${prefixCls}-disabled`]: this.disabled,
+                        [`${prefixCls}-disabled`]: this.itemDisabled,
                         [`${prefixCls}-selected`]: this.selected && !this.autoComplete,
                         [`${prefixCls}-focus`]: this.isFocused
                     }
@@ -66,7 +67,7 @@
         },
         methods: {
             select () {
-                if (this.disabled) return false;
+                if (this.itemDisabled) return false;
 
                 this.dispatch('iSelect', 'on-select-selected', {
                     value: this.value,

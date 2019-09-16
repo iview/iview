@@ -35,7 +35,7 @@
                     :values="values"
                     :clearable="canBeCleared"
                     :prefix="prefix"
-                    :disabled="disabled"
+                    :disabled="itemDisabled"
                     :remote="remote"
                     :input-element-id="elementId"
                     :initial-label="initialLabel"
@@ -91,6 +91,7 @@
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf, findComponentsDownward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
+    import mixinsForm from '../../mixins/form';
     import Locale from '../../mixins/locale';
     import SelectHead from './select-head.vue';
     import FunctionalOptions from './functional-options.vue';
@@ -163,7 +164,7 @@
 
     export default {
         name: 'iSelect',
-        mixins: [ Emitter, Locale ],
+        mixins: [ Emitter, Locale, mixinsForm ],
         components: { FunctionalOptions, Drop, SelectHead, Icon },
         directives: { clickOutside, TransferDom },
         props: {
@@ -307,7 +308,7 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-visible`]: this.visible,
-                        [`${prefixCls}-disabled`]: this.disabled,
+                        [`${prefixCls}-disabled`]: this.itemDisabled,
                         [`${prefixCls}-multiple`]: this.multiple,
                         [`${prefixCls}-single`]: !this.multiple,
                         [`${prefixCls}-show-clear`]: this.showCloseIcon,
@@ -379,7 +380,7 @@
             },
             canBeCleared(){
                 const uiStateMatch = this.hasMouseHoverHead || this.active;
-                const qualifiesForClear = !this.multiple && !this.disabled && this.clearable;
+                const qualifiesForClear = !this.multiple && !this.itemDisabled && this.clearable;
                 return uiStateMatch && qualifiesForClear && this.reset; // we return a function
             },
             selectOptions() {
@@ -446,7 +447,7 @@
                 return extractOptions(this.selectOptions);
             },
             selectTabindex(){
-                return this.disabled || this.filterable ? -1 : 0;
+                return this.itemDisabled || this.filterable ? -1 : 0;
             },
             remote(){
                 return typeof this.remoteMethod === 'function';
@@ -526,7 +527,7 @@
             },
 
             toggleMenu (e, force) {
-                if (this.disabled) {
+                if (this.itemDisabled) {
                     return false;
                 }
 
@@ -710,7 +711,7 @@
                 this.filterQueryChange = true;
             },
             toggleHeaderFocus({type}){
-                if (this.disabled) {
+                if (this.itemDisabled) {
                     return;
                 }
                 this.isFocused = type === 'focus';
