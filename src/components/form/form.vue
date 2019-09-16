@@ -37,6 +37,11 @@
                     return oneOf(value, ['on', 'off']);
                 },
                 default: 'off'
+            },
+            // 4.0.0
+            hideRequiredMark: {
+                type: Boolean,
+                default: false
             }
         },
         provide() {
@@ -53,7 +58,8 @@
                     `${prefixCls}`,
                     `${prefixCls}-label-${this.labelPosition}`,
                     {
-                        [`${prefixCls}-inline`]: this.inline
+                        [`${prefixCls}-inline`]: this.inline,
+                        [`${prefixCls}-hide-required-mark`]: this.hideRequiredMark
                     }
                 ];
             }
