@@ -12,7 +12,7 @@
                     :element-id="elementId"
                     :class="[prefixCls + '-editor']"
                     :readonly="!editable || readonly"
-                    :disabled="disabled"
+                    :disabled="itemDisabled"
                     :size="size"
                     :placeholder="placeholder"
                     :value="visualValue"
@@ -86,6 +86,7 @@
     import { DEFAULT_FORMATS, TYPE_VALUE_RESOLVER_MAP, getDayCountOfMonth } from './util';
     import {findComponentsDownward} from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
+    import mixinsForm from '../../mixins/form';
 
     const prefixCls = 'ivu-date-picker';
     const pickerPrefixCls = 'ivu-picker';
@@ -120,7 +121,7 @@
 
 
     export default {
-        mixins: [ Emitter ],
+        mixins: [ Emitter, mixinsForm ],
         components: { iInput, Drop, Icon },
         directives: { clickOutside, TransferDom },
         props: {
@@ -393,7 +394,7 @@
                 if (this.readonly) return;
                 this.isFocused = true;
                 if (e && e.type === 'focus') return; // just focus, don't open yet
-                if(!this.disabled){
+                if(!this.itemDisabled){
                     this.visible = true;
                 }
             },
@@ -635,7 +636,7 @@
                 }
             },
             handleInputMouseenter () {
-                if (this.readonly || this.disabled) return;
+                if (this.readonly || this.itemDisabled) return;
                 if (this.visualValue && this.clearable) {
                     this.showClose = true;
                 }
@@ -647,7 +648,7 @@
                 if (this.showClose) {
                     if (e) e.stopPropagation();
                     this.handleClear();
-                } else if (!this.disabled) {
+                } else if (!this.itemDisabled) {
                     this.handleFocus();
                 }
             },
