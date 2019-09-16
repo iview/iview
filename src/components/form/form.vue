@@ -42,6 +42,11 @@
             hideRequiredMark: {
                 type: Boolean,
                 default: false
+            },
+            // 4.0.0
+            labelColon: {
+                type: [Boolean, String],
+                default: false
             }
         },
         provide() {
@@ -62,6 +67,13 @@
                         [`${prefixCls}-hide-required-mark`]: this.hideRequiredMark
                     }
                 ];
+            },
+            colon () {
+                let colon = '';
+                if (this.labelColon) {
+                    colon = (typeof this.labelColon === 'boolean') ? ':' : this.labelColon;
+                }
+                return colon;
             }
         },
         methods: {
