@@ -16,12 +16,13 @@
 <script>
     import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
+    import mixinsForm from '../../mixins/form';
 
     const prefixCls = 'ivu-switch';
 
     export default {
         name: 'iSwitch',
-        mixins: [ Emitter ],
+        mixins: [ Emitter, mixinsForm ],
         props: {
             value: {
                 type: [String, Number, Boolean],
@@ -73,7 +74,7 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-checked`]: this.currentValue === this.trueValue,
-                        [`${prefixCls}-disabled`]: this.disabled,
+                        [`${prefixCls}-disabled`]: this.itemDisabled,
                         [`${prefixCls}-${this.size}`]: !!this.size,
                         [`${prefixCls}-loading`]: this.loading,
                     }
@@ -107,7 +108,7 @@
             },
             toggle (event) {
                 event.preventDefault();
-                if (this.disabled || this.loading) {
+                if (this.itemDisabled || this.loading) {
                     return false;
                 }
 
