@@ -3,7 +3,7 @@
         ref="select"
         class="ivu-auto-complete"
         :label="label"
-        :disabled="disabled"
+        :disabled="itemDisabled"
         :clearable="clearable"
         :placeholder="placeholder"
         :size="size"
@@ -24,7 +24,7 @@
                 v-model="currentValue"
                 :name="name"
                 :placeholder="placeholder"
-                :disabled="disabled"
+                :disabled="itemDisabled"
                 :size="size"
                 :icon="inputIcon"
                 @on-click="handleClear"
@@ -42,10 +42,11 @@
     import iInput from '../input/input.vue';
     import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
+    import mixinsForm from '../../mixins/form';
 
     export default {
         name: 'AutoComplete',
-        mixins: [ Emitter ],
+        mixins: [ Emitter, mixinsForm ],
         components: { iSelect, iOption, iInput },
         props: {
             value: {
