@@ -13,7 +13,7 @@
             <Icon :type="arrowType" :custom="customArrowType" :size="arrowSize" :class="arrowClasses"></Icon>
             <div
                 ref="input"
-                :tabindex="disabled ? undefined : 0"
+                :tabindex="itemDisabled ? undefined : 0"
                 :class="inputClasses"
                 @keydown.tab="onTab"
                 @keydown.esc="onEscape"
@@ -129,6 +129,7 @@ import Icon from '../icon/icon.vue';
 import Locale from '../../mixins/locale';
 import {oneOf} from '../../utils/assist';
 import Emitter from '../../mixins/emitter';
+import mixinsForm from '../../mixins/form';
 import Prefixes from './prefixMixin';
 import {changeColor, toRGBAString} from './utils';
 
@@ -139,7 +140,7 @@ export default {
 
     directives: {clickOutside, TransferDom},
 
-    mixins: [Emitter, Locale, Prefixes],
+    mixins: [Emitter, Locale, Prefixes, mixinsForm],
 
     props: {
         value: {
@@ -292,7 +293,7 @@ export default {
                 `${this.inputPrefixCls}-wrapper`,
                 `${this.inputPrefixCls}-wrapper-${this.size}`,
                 {
-                    [`${this.prefixCls}-disabled`]: this.disabled,
+                    [`${this.prefixCls}-disabled`]: this.itemDisabled,
                 },
             ];
         },
@@ -303,7 +304,7 @@ export default {
                 `${this.inputPrefixCls}-${this.size}`,
                 {
                     [`${this.prefixCls}-focused`]: this.visible,
-                    [`${this.prefixCls}-disabled`]: this.disabled,
+                    [`${this.prefixCls}-disabled`]: this.itemDisabled,
                 },
             ];
         },
@@ -430,7 +431,7 @@ export default {
             this.visible = false;
         },
         toggleVisible() {
-            if (this.disabled) {
+            if (this.itemDisabled) {
                 return;
             }
 
