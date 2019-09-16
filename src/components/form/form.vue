@@ -47,6 +47,11 @@
             labelColon: {
                 type: [Boolean, String],
                 default: false
+            },
+            // 4.0.0
+            disabled: {
+                type: Boolean,
+                default: false
             }
         },
         provide () {
