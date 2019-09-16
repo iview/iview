@@ -49,8 +49,8 @@
                 default: false
             }
         },
-        provide() {
-            return { form : this };
+        provide () {
+            return { FormInstance : this };
         },
         data () {
             return {
