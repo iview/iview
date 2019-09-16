@@ -7,7 +7,7 @@
             :max="max"
             :step="step"
             :value="exportValue[0]"
-            :disabled="disabled"
+            :disabled="itemDisabled"
             :active-change="activeChange"
             @on-change="handleInputChange"></Input-number>
         <div
@@ -86,13 +86,14 @@
     import { getStyle, oneOf } from '../../utils/assist';
     import { on, off } from '../../utils/dom';
     import Emitter from '../../mixins/emitter';
+    import mixinsForm from '../../mixins/form';
     import elementResizeDetectorMaker from 'element-resize-detector';
 
     const prefixCls = 'ivu-slider';
 
     export default {
         name: 'Slider',
-        mixins: [ Emitter ],
+        mixins: [ Emitter, mixinsForm ],
         components: { InputNumber, Tooltip },
         props: {
             min: {
@@ -200,7 +201,7 @@
                     {
                         [`${prefixCls}-input`]: this.showInput && !this.range,
                         [`${prefixCls}-range`]: this.range,
-                        [`${prefixCls}-disabled`]: this.disabled
+                        [`${prefixCls}-disabled`]: this.itemDisabled
                     }
                 ];
             },
@@ -280,7 +281,7 @@
                 return [min, max];
             },
             getCurrentValue (event, type) {
-                if (this.disabled) {
+                if (this.itemDisabled) {
                     return;
                 }
 
@@ -304,7 +305,7 @@
                 }
             },
             onPointerDown (event, type) {
-                if (this.disabled) return;
+                if (this.itemDisabled) return;
                 event.preventDefault();
                 this.pointerDown = type;
 
@@ -386,7 +387,7 @@
             },
 
             sliderClick (event) {
-                if (this.disabled) return;
+                if (this.itemDisabled) return;
                 const currentX = this.getPointerX(event);
                 const sliderOffsetLeft = this.$refs.slider.getBoundingClientRect().left;
                 let newPos = ((currentX - sliderOffsetLeft) / this.sliderWidth * this.valueRange) + this.min;
