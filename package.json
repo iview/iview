@@ -116,7 +116,7 @@
         "vue-style-loader": "^4.1.2",
         "vue-template-compiler": "^2.6.10",
         "webpack": "^3.11.0",
-        "webpack-dev-server": "^2.11.3",
+        "webpack-dev-server": "^3.1.11",
         "webpack-merge": "^3.0.0"
     },
     "engines": {
