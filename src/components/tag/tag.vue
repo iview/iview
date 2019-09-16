@@ -50,6 +50,13 @@
             fade: {
                 type: Boolean,
                 default: true
+            },
+            // 4.0.0
+            size: {
+                validator (value) {
+                    return oneOf(value, ['default', 'medium', 'large']);
+                },
+                default: 'default'
             }
         },
         data () {
@@ -61,6 +68,7 @@
             classes () {
                 return [
                     `${prefixCls}`,
+                    `${prefixCls}-size-${this.size}`,
                     {
                         [`${prefixCls}-${this.color}`]: !!this.color && oneOf(this.color, initColorList),
                         [`${prefixCls}-${this.type}`]: !!this.type,

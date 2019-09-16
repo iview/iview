@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="margin: 200px 0;">
         <div>
             <Tag color="default">default</Tag>
             <Tag color="primary">primary</Tag>
@@ -71,6 +71,10 @@
         <span>{{ checked }}</span>
         <br><br>
         <Tag type="dot" color="gold">标签四</Tag>
+        <Divider>Size</Divider>
+        <Tag color="primary" size="large">大号标签</Tag>
+        <Tag color="primary" size="medium">中号标签</Tag>
+        <Tag color="primary">默认尺寸</Tag>
     </div>
 </template>
 <script>
