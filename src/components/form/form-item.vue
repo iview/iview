@@ -203,6 +203,8 @@
                     this.validateMessage = errors ? errors[0].message : '';
 
                     callback(this.validateMessage);
+
+                    this.form && this.form.$emit('on-validate', this.prop, !errors, this.validateMessage || null)
                 });
                 this.validateDisabled = false;
             },
