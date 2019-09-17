@@ -204,7 +204,7 @@
 
                     callback(this.validateMessage);
 
-                    this.FormInstance && this.FormInstance.$emit('on-validate', this.prop, !errors, this.validateMessage || null)
+                    this.FormInstance && this.FormInstance.$emit('on-validate', this.prop, !errors, this.validateMessage || null);
                 });
                 this.validateDisabled = false;
             },

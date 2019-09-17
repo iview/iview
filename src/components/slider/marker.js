@@ -6,7 +6,6 @@ export default {
         }
     },
     render (h) {
-        console.log(this.mark.label)
         let label = typeof this.mark === 'string' ? this.mark : [this.mark.label];
 
         return h('div', {
