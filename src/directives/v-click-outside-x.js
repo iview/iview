@@ -104,17 +104,27 @@ export const directive = Object.defineProperties(
             value: nonCaptureEventHandler,
         },
 
+        /**
+         * 注意，这里的 arg 修改为 capture，这样可以动态设置，原先的事件作为 modifiers
+         * */
         bind: {
             value: function bind(el, binding) {
                 if (typeof binding.value !== 'function') {
                     throw new TypeError('Binding value must be a function.');
                 }
 
-                const arg = binding.arg || CLICK;
+                let eventType;
+                const modifiers = binding.modifiers;
+                if (modifiers.click) eventType = 'click';
+                else if (modifiers.mousedown) eventType = 'mousedown';
+                else if (modifiers.touchstart) eventType = 'touchstart';
+                else eventType = CLICK;
+
+                const useCapture = binding.arg;
+
                 const normalisedBinding = {
                     ...binding,
                     ...{
-                        arg,
                         modifiers: {
                             ...{
                                 capture: false,
@@ -126,17 +136,16 @@ export const directive = Object.defineProperties(
                     },
                 };
 
-                const useCapture = normalisedBinding.modifiers.capture;
                 const instances = useCapture ? captureInstances : nonCaptureInstances;
 
-                if (!Array.isArray(instances[arg])) {
-                    instances[arg] = [];
+                if (!Array.isArray(instances[eventType])) {
+                    instances[eventType] = [];
                 }
 
-                if (instances[arg].push({el, binding: normalisedBinding}) === 1) {
+                if (instances[eventType].push({el, binding: normalisedBinding}) === 1) {
                     if (typeof document === 'object' && document) {
                         document.addEventListener(
-                            arg,
+                            eventType,
                             getEventHandler(useCapture),
                             useCapture,
                         );
