@@ -1,6 +1,6 @@
 <template>
     <div
-        v-click-outside="handleClose"
+        v-click-outside:[capture]="handleClose"
         :class="classes">
         <div
             ref="reference"
@@ -116,7 +116,7 @@
 
 <script>
 import tinycolor from 'tinycolor2';
-import {directive as clickOutside} from 'v-click-outside-x';
+import {directive as clickOutside} from '../../directives/v-click-outside-x';
 import TransferDom from '../../directives/transfer-dom';
 import Drop from '../../components/select/dropdown.vue';
 import RecommendColors from './recommend-colors.vue';
@@ -222,6 +222,13 @@ export default {
             type: Boolean,
             default: true
         },
+        // 4.0.0
+        capture: {
+            type: Boolean,
+            default () {
+                return !this.$IVIEW ? true : this.$IVIEW.capture;
+            }
+        }
     },
 
     data() {

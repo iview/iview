@@ -1,5 +1,5 @@
 <template>
-    <div :class="classes" v-click-outside="handleClose">
+    <div :class="classes" v-click-outside:[capture]="handleClose">
         <div :class="[prefixCls + '-rel']" @click="toggleOpen" ref="reference">
             <input type="hidden" :name="name" :value="currentValue">
             <slot>
@@ -58,7 +58,7 @@
     import Drop from '../select/dropdown.vue';
     import Icon from '../icon/icon.vue';
     import Caspanel from './caspanel.vue';
-    import {directive as clickOutside} from 'v-click-outside-x';
+    import {directive as clickOutside} from '../../directives/v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
@@ -142,6 +142,13 @@
             },
             elementId: {
                 type: String
+            },
+            // 4.0.0
+            capture: {
+                type: Boolean,
+                default () {
+                    return !this.$IVIEW ? true : this.$IVIEW.capture;
+                }
             }
         },
         data () {
