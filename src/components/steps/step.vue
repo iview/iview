@@ -8,10 +8,10 @@
             </div>
         </div>
         <div :class="[prefixCls + '-main']">
-            <div :class="[prefixCls + '-title']">{{ title }}</div>
-            <slot>
-                <div v-if="content" :class="[prefixCls + '-content']">{{ content }}</div>
-            </slot>
+            <div :class="[prefixCls + '-title']"><slot name="title">{{ title }}</slot></div>
+            <div :class="[prefixCls + '-content']" v-if="content || $slots.content">
+                <slot name="content">{{ content }}</slot>
+            </div>
         </div>
     </div>
 </template>
