@@ -1,9 +1,9 @@
 <template>
-    <div :class="wrapClasses" :style="styles">
+    <div :class="wrapClasses">
         <div :class="[prefixCls + '-tail']"><i></i></div>
         <div :class="[prefixCls + '-head']">
             <div :class="[prefixCls + '-head-inner']">
-                <span v-if="!icon && currentStatus != 'finish' && currentStatus != 'error'">{{ stepNumber }}</span>
+                <span v-if="!icon && currentStatus !== 'finish' && currentStatus !== 'error'">{{ stepNumber }}</span>
                 <span v-else :class="iconClasses"></span>
             </div>
         </div>
@@ -68,9 +68,9 @@
                 if (this.icon) {
                     icon = this.icon;
                 } else {
-                    if (this.currentStatus == 'finish') {
+                    if (this.currentStatus === 'finish') {
                         icon = 'ios-checkmark';
-                    } else if (this.currentStatus == 'error') {
+                    } else if (this.currentStatus === 'error') {
                         icon = 'ios-close';
                     }
                 }
@@ -79,20 +79,15 @@
                     `${prefixCls}-icon`,
                     `${iconPrefixCls}`,
                     {
-                        [`${iconPrefixCls}-${icon}`]: icon != ''
+                        [`${iconPrefixCls}-${icon}`]: icon !== ''
                     }
                 ];
-            },
-            styles () {
-                return {
-                    width: `${1/this.total*100}%`
-                };
             }
         },
         watch: {
             status (val) {
                 this.currentStatus = val;
-                if (this.currentStatus == 'error') {
+                if (this.currentStatus === 'error') {
                     this.$parent.setNextError();
                 }
             }
