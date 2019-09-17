@@ -1,9 +1,9 @@
 <template>
     <div
         :class="classes"
-        v-click-outside.capture="onClickOutside"
-        v-click-outside:mousedown.capture="onClickOutside"
-        v-click-outside:touchstart.capture="onClickOutside"
+        v-click-outside:[capture]="onClickOutside"
+        v-click-outside:[capture].mousedown="onClickOutside"
+        v-click-outside:[capture].touchstart="onClickOutside"
     >
         <div
             ref="reference"
@@ -87,7 +87,7 @@
 <script>
     import Drop from './dropdown.vue';
     import Icon from '../icon';
-    import {directive as clickOutside} from 'v-click-outside-x';
+    import {directive as clickOutside} from '../../directives/v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf, findComponentsDownward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
@@ -266,6 +266,13 @@
             allowCreate: {
                 type: Boolean,
                 default: false
+            },
+            // 4.0.0
+            capture: {
+                type: Boolean,
+                default () {
+                    return !this.$IVIEW ? true : this.$IVIEW.capture;
+                }
             }
         },
         mounted(){
