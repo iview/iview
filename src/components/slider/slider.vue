@@ -15,6 +15,10 @@
             ref="slider" @click.self="sliderClick"
         >
             <input type="hidden" :name="name" :value="exportValue">
+            <div
+                :class="[prefixCls + '-bar']"
+                :style="barStyle"
+                @click.self="sliderClick"></div>
             <template v-if="showStops">
                 <div
                     :class="[prefixCls + '-stop']"
@@ -23,10 +27,24 @@
                     @click.self="sliderClick"
                 ></div>
             </template>
-            <div
-                :class="[prefixCls + '-bar']"
-                :style="barStyle"
-                @click.self="sliderClick"></div>
+            <template v-if="markList.length > 0">
+                <div
+                    v-for="(item, key) in markList"
+                    :key="key"
+                    :class="[prefixCls + '-stop']"
+                    :style="{ 'left': item.position + '%' }"
+                    @click.self="sliderClick"
+                ></div>
+                <div class="ivu-slider-marks">
+                    <SliderMarker
+                        v-for="(item, key) in markList"
+                        :key="key"
+                        :mark="item.mark"
+                        :style="{ 'left': item.position + '%' }"
+                        @click.native="sliderClick"
+                    />
+                </div>
+            </template>
             <div
                 :class="[prefixCls + '-button-wrap']"
                 :style="{left: minPosition + '%'}"
@@ -83,6 +101,7 @@
 <script>
     import InputNumber from '../../components/input-number/input-number.vue';
     import Tooltip from '../../components/tooltip/tooltip.vue';
+    import SliderMarker from './marker';
     import { getStyle, oneOf } from '../../utils/assist';
     import { on, off } from '../../utils/dom';
     import Emitter from '../../mixins/emitter';
@@ -94,7 +113,7 @@
     export default {
         name: 'Slider',
         mixins: [ Emitter, mixinsForm ],
-        components: { InputNumber, Tooltip },
+        components: { InputNumber, Tooltip, SliderMarker },
         props: {
             min: {
                 type: Number,
@@ -155,6 +174,10 @@
             activeChange: {
                 type: Boolean,
                 default: true
+            },
+            // 4.0.0
+            marks: {
+                type: Object
             }
         },
         data () {
@@ -254,6 +277,19 @@
                     result.push(i * stepWidth);
                 }
                 return result;
+            },
+            markList() {
+                if (!this.marks) return [];
+
+                const marksKeys = Object.keys(this.marks);
+                return marksKeys.map(parseFloat)
+                    .sort((a, b) => a - b)
+                    .filter(point => point <= this.max && point >= this.min)
+                    .map(point => ({
+                        point,
+                        position: (point - this.min) * 100 / (this.max - this.min),
+                        mark: this.marks[point]
+                    }));
             },
             tipDisabled () {
                 return this.tipFormat(this.currentValue[0]) === null || this.showTip === 'never';
