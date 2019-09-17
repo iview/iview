@@ -21335,9 +21335,12 @@ exports.default = {
         },
         columns: {
             handler: function handler() {
-                var colsWithId = this.makeColumnsId(this.columns);
-                this.allColumns = (0, _util.getAllColumns)(colsWithId);
-                this.cloneColumns = this.makeColumns(colsWithId);
+                    //[Fix Bug]You may have an infinite update loop in watcher with expression "columns"
+                    var tempClonedColumns = (0, _assist.deepCopy)(this.columns);
+                    var colsWithId = this.makeColumnsId(tempClonedColumns);
+                    //[Fix Bug End]
+                    this.allColumns = (0, _util.getAllColumns)(colsWithId);
+                    this.cloneColumns = this.makeColumns(colsWithId);
 
                 this.columnRows = this.makeColumnRows(false, colsWithId);
                 this.leftFixedColumnRows = this.makeColumnRows('left', colsWithId);
@@ -25113,7 +25116,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 var API = (0, _extends3.default)({
-    version: '2.14.3',
+    version: '1.0.0',
     locale: _index2.default.use,
     i18n: _index2.default.i18n,
     install: install,

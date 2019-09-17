@@ -1,6 +1,6 @@
 {
-    "name": "iview",
-    "version": "2.14.3",
+    "name": "iviewtwo-songlink",
+    "version": "1.0.0",
     "title": "iView",
     "description": "A high quality UI components Library with Vue.js",
     "homepage": "http://www.iviewui.com",
@@ -35,7 +35,7 @@
         "type": "git",
         "url": "https://github.com/iview/iview"
     },
-    "author": "Aresn",
+    "author": "Limbo",
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/iview/iview/issues"
