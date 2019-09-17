@@ -1,9 +1,9 @@
 <template>
     <div
         :class="wrapperClasses"
-        v-click-outside:mousedown.capture="handleClose"
-        v-click-outside:touchstart.capture="handleClose"
-        v-click-outside.capture="handleClose"
+        v-click-outside:[capture].mousedown="handleClose"
+        v-click-outside:[capture].touchstart="handleClose"
+        v-click-outside:[capture]="handleClose"
     >
         <div ref="reference" :class="[prefixCls + '-rel']">
             <slot>
@@ -75,12 +75,10 @@
     </div>
 </template>
 <script>
-
-
     import iInput from '../../components/input/input.vue';
     import Drop from '../../components/select/dropdown.vue';
     import Icon from '../../components/icon/icon.vue';
-    import {directive as clickOutside} from 'v-click-outside-x';
+    import {directive as clickOutside} from '../../directives/v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
     import { DEFAULT_FORMATS, TYPE_VALUE_RESOLVER_MAP, getDayCountOfMonth } from './util';
@@ -215,6 +213,13 @@
             separator: {
                 type: String,
                 default: ' - '
+            },
+            // 4.0.0
+            capture: {
+                type: Boolean,
+                default () {
+                    return !this.$IVIEW ? true : this.$IVIEW.capture;
+                }
             }
         },
         data(){
