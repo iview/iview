@@ -128,9 +128,6 @@
         display: inline-block;
         vertical-align: top;
     }
-    .@{steps-prefix-cls}-head {
-        background: #fff;
-    }
 
     .@{steps-prefix-cls}-head-inner {
         display: block;
@@ -172,8 +169,6 @@
         font-size: 14px;
         font-weight: bold;
         color: #666;
-        background: #fff;
-
         > a:first-child:last-child {
             color: #666;
         }
@@ -342,12 +337,39 @@
     &.@{steps-prefix-cls}-hidden {
         visibility: hidden;
     }
+    .@{steps-prefix-cls}-tail {
+        display: none;
+    }
     .@{steps-prefix-cls}-content {
         //max-width: 100px;
-        padding-left: 35px;
+        padding-left: 45px;
     }
     .@{steps-prefix-cls}-item:not(:first-child) .@{steps-prefix-cls}-head {
         padding-left: 10px;
-        margin-left: -10px;
+    }
+    .@{steps-prefix-cls}-item {
+        overflow: hidden;
+        &:last-child .@{steps-prefix-cls}-title:after{
+            display: none;
+        }
+    }
+    .@{steps-prefix-cls}-title {
+        position: relative;
+        &:after{
+            content: '';
+            position: absolute;
+            width: 9999px;
+            height: 1px;
+            left: 100%;
+            top: 50%;
+            background: @border-color-split;
+        }
+    }
+    .@{steps-prefix-cls}-status-finish {
+        .@{steps-prefix-cls}-title:after {
+            background: @primary-color;
+            transition: all @transition-time @ease-in-out;
+            opacity: 1;
+        }
     }
 }
