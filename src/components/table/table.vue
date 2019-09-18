@@ -258,7 +258,8 @@
                     {
                         [`${prefixCls}-hide`]: !this.ready,
                         [`${prefixCls}-with-header`]: this.showSlotHeader,
-                        [`${prefixCls}-with-footer`]: this.showSlotFooter
+                        [`${prefixCls}-with-footer`]: this.showSlotFooter,
+                        [`${prefixCls}-wrapper-with-border`]: this.border
                     }
                 ];
             },
