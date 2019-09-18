@@ -94,6 +94,7 @@
             <div :class="[prefixCls + '-fixed-right-header']" :style="fixedRightHeaderStyle" v-if="isRightFixed"></div>
             <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" ref="footer"><slot name="footer"></slot></div>
         </div>
+        <div class="ivu-table-resize-line" v-show="showResizeLine" ref="resizeLine"></div>
         <Spin fix size="large" v-if="loading">
             <slot name="loading"></slot>
         </Spin>
@@ -235,6 +236,7 @@
                 showHorizontalScrollBar:false,
                 headerWidth:0,
                 headerHeight:0,
+                showResizeLine: false
             };
         },
         computed: {

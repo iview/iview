@@ -60,6 +60,13 @@
                             </Poptip>
                         </template>
                     </div>
+                    <div
+                        v-if="column.resizable"
+                        class="ivu-table-header-resizable"
+                        @mousedown="handleMouseDown(column, $event)"
+                        @mousemove="handleMouseMove(column, $event)"
+                        @mouseout="handleMouseOut"
+                    ></div>
                 </th>
 
                 <th v-if="$parent.showVerticalScrollBar && rowIndex===0" :class='scrollBarCellClass()' :rowspan="headRows.length"></th>
@@ -93,6 +100,13 @@
             },
             columnRows: Array,
             fixedColumnRows: Array
+        },
+        data () {
+            return {
+                draggingColumn: null,
+                dragging: false,
+                dragState: {}
+            };
         },
         computed: {
             styles () {
@@ -222,6 +236,100 @@
                 } else {
                     return this.headRows[rowIndex][index];
                 }
+            },
+            handleMouseDown (column, event) {
+                if (this.$isServer) return;
+
+                if (this.draggingColumn) {
+                    this.dragging = true;
+
+                    const table = this.$parent;
+                    const tableEl = table.$el;
+                    const tableLeft = tableEl.getBoundingClientRect().left;
+                    const columnEl = this.$el.querySelector(`th.ivu-table-column-${column.__id}`);
+                    const columnRect = columnEl.getBoundingClientRect();
+                    const minLeft = columnRect.left - tableLeft + 30;
+
+                    table.showResizeLine = true;
+
+                    this.dragState = {
+                        startMouseLeft: event.clientX,
+                        startLeft: columnRect.right - tableLeft,
+                        startColumnLeft: columnRect.left - tableLeft,
+                        tableLeft
+                    };
+
+                    const resizeProxy = table.$refs.resizeLine;
+                    resizeProxy.style.left = this.dragState.startLeft + 'px';
+
+                    document.onselectstart = function() { return false; };
+                    document.ondragstart = function() { return false; };
+
+                    const handleMouseMove = (event) => {
+                        const deltaLeft = event.clientX - this.dragState.startMouseLeft;
+                        const proxyLeft = this.dragState.startLeft + deltaLeft;
+
+                        resizeProxy.style.left = Math.max(minLeft, proxyLeft) + 'px';
+                    };
+
+                    const handleMouseUp = () => {
+                        if (this.dragging) {
+                            const {
+                                startColumnLeft,
+                                startLeft
+                            } = this.dragState;
+
+                            const finalLeft = parseInt(resizeProxy.style.left, 10);
+                            const columnWidth = finalLeft - startColumnLeft;
+
+                            const _column = table.columns.find(item => item.__id === column.__id);
+                            if (_column) _column.width = columnWidth;
+                            table.$emit('on-column-width-resize', column.width, startLeft - startColumnLeft, column, event);
+
+                            document.body.style.cursor = '';
+                            this.dragging = false;
+                            this.draggingColumn = null;
+                            this.dragState = {};
+
+                            table.showResizeLine = false;
+                        }
+
+                        document.removeEventListener('mousemove', handleMouseMove);
+                        document.removeEventListener('mouseup', handleMouseUp);
+                        document.onselectstart = null;
+                        document.ondragstart = null;
+                    };
+
+                    document.addEventListener('mousemove', handleMouseMove);
+                    document.addEventListener('mouseup', handleMouseUp);
+                }
+            },
+            handleMouseMove (column, event) {
+                let target = event.target;
+
+                while (target && target.tagName !== 'TH') {
+                    target = target.parentNode;
+                }
+
+                if (!column || !column.resizable) return;
+
+                if (!this.dragging) {
+                    let rect = target.getBoundingClientRect();
+
+                    const bodyStyle = document.body.style;
+
+                    if (rect.width > 12 && rect.right - event.pageX < 8) {
+                        bodyStyle.cursor = 'col-resize';
+                        this.draggingColumn = column;
+                    } else if (!this.dragging) {
+                        bodyStyle.cursor = '';
+                        this.draggingColumn = null;
+                    }
+                }
+            },
+            handleMouseOut () {
+                if (this.$isServer) return;
+                document.body.style.cursor = '';
             }
         }
     };
