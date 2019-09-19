@@ -14,7 +14,7 @@
                     @mouseleave.native.stop="handleMouseOut(row._index)"
                     @click.native="clickCurrentRow(row._index)"
                     @dblclick.native.stop="dblclickCurrentRow(row._index)">
-                    <td v-for="column in columns" :class="alignCls(column, row)">
+                    <td v-for="(column, colIndex) in columns" :class="alignCls(column, row)" v-bind="getSpan(row, column, index, colIndex)" v-if="showWithSpan(row, column, index, colIndex)">
                         <table-cell
                             :fixed="fixed"
                             :prefix-cls="prefixCls"
@@ -104,6 +104,36 @@
             },
             dblclickCurrentRow (_index) {
                 this.$parent.dblclickCurrentRow(_index);
+            },
+            getSpan (row, column, rowIndex, columnIndex) {
+                const fn = this.$parent.spanMethod;
+                if (typeof fn === 'function') {
+                    const result = fn({
+                        row,
+                        column,
+                        rowIndex,
+                        columnIndex
+                    });
+                    let rowspan = 1;
+                    let colspan = 1;
+                    if (Array.isArray(result)) {
+                        rowspan = result[0];
+                        colspan = result[1];
+                    } else if (typeof result === 'object') {
+                        rowspan = result.rowspan;
+                        colspan = result.colspan;
+                    }
+                    return {
+                        rowspan,
+                        colspan
+                    };
+                } else {
+                    return {};
+                }
+            },
+            showWithSpan (row, column, rowIndex, columnIndex) {
+                const result = this.getSpan(row, column, rowIndex, columnIndex);
+                return !(('rowspan' in result && result.rowspan === 0) || ('colspan' in result && result.colspan === 0));
             }
         }
     };

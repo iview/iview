@@ -209,6 +209,10 @@
             rowKey: {
                 type: Boolean,
                 default: false
+            },
+            // 4.0.0
+            spanMethod: {
+                type: Function
             }
         },
         data () {
