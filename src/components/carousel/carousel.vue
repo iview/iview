@@ -4,10 +4,10 @@
             <Icon type="ios-arrow-back"></Icon>
         </button>
         <div :class="[prefixCls + '-list']">
-            <div :class="[prefixCls + '-track', showCopyTrack ? '' : 'higher']" :style="trackStyles" ref="originTrack">
+            <div :class="[prefixCls + '-track', showCopyTrack ? '' : 'higher']" :style="trackStyles" ref="originTrack" @click="handlerClickEvent('currentIndex')">
                 <slot></slot>
             </div>
-            <div :class="[prefixCls + '-track', showCopyTrack ? 'higher' : '']" :style="copyTrackStyles" ref="copyTrack" v-if="loop">
+            <div :class="[prefixCls + '-track', showCopyTrack ? 'higher' : '']" :style="copyTrackStyles" @click="handlerClickEvent('copyTrackIndex')" ref="copyTrack" v-if="loop">
             </div>
         </div>
         <button type="button" :class="arrowClasses" class="right" @click="arrowEvent(1)">
@@ -142,6 +142,9 @@
             }
         },
         methods: {
+            handlerClickEvent(type){
+                this.$emit('on-click',this[type]);
+            },
             // find option component
             findChild (cb) {
                 const find = function (child) {

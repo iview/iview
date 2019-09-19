@@ -10,18 +10,11 @@
 </style>
 <template>
     <div style="width: 400px;">
-        <Carousel v-model="value1" loop arrow="always" @on-change="handleChange">
-            <CarouselItem>
-                <div class="demo-carousel">1</div>
-            </CarouselItem>
-            <CarouselItem>
-                <div class="demo-carousel">2</div>
-            </CarouselItem>
-            <CarouselItem>
-                <div class="demo-carousel">3</div>
-            </CarouselItem>
-            <CarouselItem>
-                <div class="demo-carousel">4</div>
+        <Carousel v-model="value1" loop arrow="always" @on-change="handleChange" @on-click="handlerClick">
+            <CarouselItem v-for="it in 4" :key="it">
+                <div class="demo-carousel">
+                    {{it}}
+                </div>
             </CarouselItem>
         </Carousel>
         <Button @click="value1 = 2">change</Button>
@@ -36,8 +29,11 @@
         },
         methods: {
             handleChange (old, newval) {
-                console.log(old, newval);
+                console.log(old, newval,'---on-change');
+            },
+            handlerClick(index){
+                console.log(index,'------on-click');
             }
-        }
+        },
     }
 </script>
