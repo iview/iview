@@ -5,7 +5,7 @@
                 <div :class="bgClasses" :style="bgStyle"><div class="ivu-progress-inner-text" v-if="textInside">{{ percent }}%</div></div><div :class="successBgClasses" :style="successBgStyle"></div>
             </div>
         </div>
-        <span v-if="!hideInfo" :class="textClasses">
+        <span v-if="!hideInfo && !textInside" :class="textClasses">
             <slot>
                 <span v-if="isStatus" :class="textInnerClasses">
                     <Icon :type="statusIcon"></Icon>
