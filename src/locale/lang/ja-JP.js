@@ -13,7 +13,8 @@ const lang = {
             noFilteredDataText: 'スクリーニングしたデータなし',
             confirmFilter: 'スクリーニング',
             resetFilter: 'リセット',
-            clearFilter: '全部'
+            clearFilter: '全部',
+            sumText: '合計'
         },
         datepicker: {
             selectDate: '日時を選んでください',

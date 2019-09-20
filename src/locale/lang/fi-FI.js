@@ -13,7 +13,8 @@ const lang = {
             noFilteredDataText: 'Ei suodatettua dataa',
             confirmFilter: 'Hyväksy',
             resetFilter: 'Nollaa',
-            clearFilter: 'Kaikki'
+            clearFilter: 'Kaikki',
+            sumText: 'Summa'
         },
         datepicker: {
             selectDate: 'Valitse päivämäärä',

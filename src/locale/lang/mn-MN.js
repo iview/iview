@@ -13,7 +13,8 @@ const lang = {
             noFilteredDataText: 'No filter data',
             confirmFilter: 'Батлах',
             resetFilter: 'Шинээр тохируулах',
-            clearFilter: 'Бүгд'
+            clearFilter: 'Бүгд',
+            sumText: 'Нийт'
         },
         datepicker: {
             selectDate: 'Огноо сонгох',

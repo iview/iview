@@ -13,7 +13,8 @@ const lang = {
             noFilteredDataText: 'ไม่พบตัวกรองข้อมูล',
             confirmFilter: 'ยืนยัน',
             resetFilter: 'รีเซ็ต',
-            clearFilter: 'ทั้งหมด'
+            clearFilter: 'ทั้งหมด',
+            sumText: 'Sum'
         },
         datepicker: {
             selectDate: 'เลือกวัน',

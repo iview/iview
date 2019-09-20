@@ -13,7 +13,8 @@ const lang = {
             noFilteredDataText: 'Tidak ada data filter',
             confirmFilter: 'Konfirmasi',
             resetFilter: 'Tata ulang',
-            clearFilter: 'Semua'
+            clearFilter: 'Semua',
+            sumText: 'Jml'
         },
         datepicker: {
             selectDate: 'Pilih tanggal',

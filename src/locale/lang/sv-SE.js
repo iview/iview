@@ -13,7 +13,8 @@ const lang = {
             noFilteredDataText: 'Ingen filter data',
             confirmFilter: 'Bekräfta',
             resetFilter: 'Återställ filter',
-            clearFilter: 'Rensa filter'
+            clearFilter: 'Rensa filter',
+            sumText: 'Sum'
         },
         datepicker: {
             selectDate: 'Välj datum',
