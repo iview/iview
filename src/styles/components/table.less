@@ -25,6 +25,21 @@
     box-sizing: border-box;
     //position: relative;
 
+    &-summary{
+        border-top: 1px solid @border-color-split;
+        tr td{
+            background-color: @table-thead-bg;
+        }
+    }
+
+    &-with-summary{
+        .ivu-table-tbody{
+            tr:last-child td{
+                border-bottom: none;
+            }
+        }
+    }
+
     &-resize-line{
         position: absolute;
         top: 0;
