@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://www.iviewui.com">
+    <a href="http://iview.talkingdata.com/">
         <img width="200" src="https://file.iviewui.com/logo-new.svg">
     </a>
 </p>
@@ -22,7 +22,7 @@ iView
 
 ## Docs
 
-**[3.x](https://www.iviewui.com)** | [2.x](http://v2.iviewui.com) | [1.x](http://v1.iviewui.com)
+**[3.x](http://iview.talkingdata.com/)** | [2.x](http://v2.iviewui.com) | [1.x](http://v1.iviewui.com)
 
 ## Features
 
