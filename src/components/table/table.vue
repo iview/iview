@@ -27,6 +27,7 @@
             </div>
             <table-summary
                 v-if="showSummary && (data && data.length)"
+                ref="summary"
                 :prefix-cls="prefixCls"
                 :styleObject="tableStyle"
                 :columns="cloneColumns"
@@ -769,6 +770,7 @@
                 if (this.showHeader) this.$refs.header.scrollLeft = event.target.scrollLeft;
                 if (this.isLeftFixed) this.$refs.fixedBody.scrollTop = event.target.scrollTop;
                 if (this.isRightFixed) this.$refs.fixedRightBody.scrollTop = event.target.scrollTop;
+                if (this.showSummary) this.$refs.summary.$el.scrollLeft = event.target.scrollLeft;
                 this.hideColumnFilter();
             },
             handleFixedMousewheel(event) {
