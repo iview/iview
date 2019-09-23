@@ -1,6 +1,6 @@
 {
-    "name": "view-ui",
-    "version": "4.0.0",
+    "name": "view-design",
+    "version": "4.0.0-rc.1",
     "title": "ViewUI",
     "description": "A high quality UI components Library with Vue.js",
     "homepage": "http://www.iviewui.com",
