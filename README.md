@@ -61,11 +61,9 @@ We also provide a starter kit [iview-project](https://github.com/iview-design/iv
 
 Using npm:
 ```
-npm install iview --save
-```
+npm install iview@4.0.0 --save
 
-Or:
-```
+# or
 npm install view-design --save
 ```
 
