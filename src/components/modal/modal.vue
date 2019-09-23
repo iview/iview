@@ -4,7 +4,7 @@
             <div :class="maskClasses" :style="wrapStyles" v-show="visible" v-if="showMask" @click="handleMask"></div>
         </transition>
         <div :class="wrapClasses" :style="wrapStyles" @click="handleWrapClick">
-            <transition :name="transitionNames[0]" @after-leave="animationFinish">
+            <transition :name="transitionNames[0]" @after-leave="animationFinish" @before-enter="$emit('on-opening') @after-enter="$emit('on-opened')" @before-leave="$emit('on-closing')">
                 <div :class="classes" :style="mainStyles" v-show="visible" @mousedown="handleMousedown">
                     <div :class="contentClasses" ref="content" :style="contentStyles" @click="handleClickModal">
                         <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
@@ -289,6 +289,7 @@
             },
             animationFinish() {
                 this.$emit('on-hidden');
+                this.$emit('on-closed');
             },
             handleMoveStart (event) {
                 if (!this.draggable) return false;
