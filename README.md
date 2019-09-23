@@ -1,17 +1,17 @@
 <p align="center">
     <a href="https://www.iviewui.com">
-        <img width="200" src="https://file.iviewui.com/logo-new.svg">
+        <img width="200" src="https://file.iviewui.com/view-ui-logo-new.svg">
     </a>
 </p>
 
 <h1>
-iView
+ViewUI
     <h3>A high quality UI Toolkit built on Vue.js.</h3>
 </h1>
 
-> iView 作者将在此仓库继续开发 iView 4.0 和后续版本，以及维护工作。原仓库 iView 作者不再继续提交内容。
+> 该项目即为原先的 iView。iView 作者将在此仓库继续开发 iView 4.0 和后续版本，以及维护工作。新的组件库命名为 ViewUI，原仓库 iView 作者不再提交内容。
 > 
-> The iView author will continue to develop iView 4.0 and subsequent releases, as well as maintenance work, in this repository. The iView author will no longer continue to submit content in the original repository.
+> This project is the original iView. The iView author will continue to develop iView 4.0 and subsequent releases, as well as maintenance work, in this repository. The new component library is named ViewUI, and the iView author will no longer continue to submit content in the original repository.
 
 [![](https://img.shields.io/travis/iview/iview.svg?style=flat-square)](https://travis-ci.org/iview/iview)
 [![iView](https://img.shields.io/npm/v/iview.svg?style=flat-square)](https://www.npmjs.org/package/iview)
@@ -26,7 +26,7 @@ iView
 
 ## Docs
 
-**[3.x](https://www.iviewui.com)** | [2.x](http://v2.iviewui.com) | [1.x](http://v1.iviewui.com)
+**[4.x](https://www.iviewui.com)** | [3.x](http://v3.iviewui.com) | [2.x](http://v2.iviewui.com) | [1.x](http://v1.iviewui.com)
 
 ## Features
 
@@ -36,9 +36,8 @@ iView
 - It is quite beautiful.
 - Supports both Vue.js 2 and Vue.js 1.
 
-## Who's using iView
+## Who's using ViewUI
 
-- [TalkingData 腾云天下](http://www.talkingdata.com/)
 - [Alibaba 阿里巴巴](http://www.alibaba.com/)
 - [Baidu 百度](https://www.baidu.com/)
 - [Tencent 腾讯](https://www.tencent.com/)
@@ -63,6 +62,11 @@ We also provide a starter kit [iview-project](https://github.com/iview-design/iv
 Using npm:
 ```
 npm install iview --save
+```
+
+Or:
+```
+npm install view-ui --save
 ```
 
 Using a script tag for global use:
@@ -135,13 +139,7 @@ If you want to contribute or have questions or bugs to report:
 - [iView-Area](https://github.com/iview/iview-area)
 - [iView-Editor](https://github.com/iview/iview-editor)
 
-## Sponsors
-![](https://opencollective.com/iview/tiers/sponsor.svg?avatarHeight=36)
-
-## Backers
-![](https://opencollective.com/iview/tiers/backer.svg?avatarHeight=36)
-
 ## License
 [MIT](http://opensource.org/licenses/MIT)
 
-Copyright (c) 2016-present, iView
+Copyright (c) 2016-present, ViewDesign
