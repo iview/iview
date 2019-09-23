@@ -66,7 +66,7 @@ npm install iview --save
 
 Or:
 ```
-npm install view-ui --save
+npm install viewui --save
 ```
 
 Using a script tag for global use:
