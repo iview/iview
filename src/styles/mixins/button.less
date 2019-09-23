@@ -185,15 +185,16 @@
 
     > .@{css-prefix-iconfont} {
         line-height: @line-height-base;
-        vertical-align: middle;
+        //vertical-align: middle;
     }
 
     &-icon-only&-circle > .@{css-prefix-iconfont}{
         vertical-align: baseline;
     }
 
-    > span{
-        vertical-align: middle;
+    > span, > i{
+        display: inline-block;
+        //vertical-align: middle;
     }
 
     &,
