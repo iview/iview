@@ -17,24 +17,28 @@
         methods: {
             info (nodesc) {
                 this.$Notice.info({
+                    duration: 10000,
                     title: 'Notification title',
                     desc: nodesc ? '' : 'Here is the notification description. Here is the notification description. '
                 });
             },
             success (nodesc) {
                 this.$Notice.success({
+                    duration: 10000,
                     title: 'Notification title',
                     desc: nodesc ? '' : 'Here is the notification description. Here is the notification description. '
                 });
             },
             warning (nodesc) {
                 this.$Notice.warning({
+                    duration: 10000,
                     title: 'Notification title',
                     desc: nodesc ? '' : 'Here is the notification description. Here is the notification description. '
                 });
             },
             error (nodesc) {
                 this.$Notice.error({
+                    duration: 10000,
                     title: 'Notification title',
                     desc: nodesc ? '' : 'Here is the notification description. Here is the notification description. '
                 });
