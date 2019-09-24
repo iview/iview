@@ -217,7 +217,7 @@
                         if (item.tab === this.name) {
                             TabPanes.push(item);
                         }
-                    } else if (this.$children.indexOf(item) !== -1) {
+                    }else if (this.$children.includes(item)) { // #6279 #6299
                         TabPanes.push(item);
                     }
                 });
