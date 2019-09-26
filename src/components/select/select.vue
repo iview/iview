@@ -252,7 +252,12 @@
             // 3.4.0
             maxTagPlaceholder: {
                 type: Function
-            }
+            },
+            // 点击组件外是否允许事件冒泡
+            propagation: {
+                type: Boolean,
+                default: false
+            },
         },
         mounted(){
             this.$on('on-select-selected', this.onOptionClick);
@@ -540,7 +545,10 @@
                         });
                     }
 
-                    if (!this.autoComplete) event.stopPropagation();
+                    // 增加 propagation,通过设置为true,允许事件冒泡
+                    if (!this.autoComplete && !this.propagation) {
+                        event.stopPropagation();
+                    }
                     event.preventDefault();
                     this.hideMenu();
                     this.isFocused = true;
