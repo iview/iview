@@ -44,7 +44,7 @@ export default {
             this.anchorCom.$emit('on-select', this.href);
             const isRoute = this.$router;
             if (isRoute) {
-                this.$router.push(this.href);
+                this.$router.push(this.href, () => {});
             } else {
                 window.location.href = this.href;
             }

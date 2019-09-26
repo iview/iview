@@ -1,5 +1,9 @@
 <template>
     <div>
+        <Divider>vue-router 3.1 bug</Divider>
+        <Button to="/button">跳转到 Button（当前路径）</Button>
+        <Button to="/button" replace>跳转到 Button（当前路径, replace）</Button>
+        <Divider></Divider>
         <Button icon="logo-github" size="small" shape="circle"></Button>
         <Button icon="logo-github" shape="circle"></Button>
         <Button icon="logo-github" size="large" shape="circle"></Button>
