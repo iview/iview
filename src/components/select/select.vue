@@ -490,7 +490,6 @@
             },
 
             validateOption({children, elm, propsData}){
-                const value = propsData.value;
                 const label = propsData.label || '';
                 const textContent = (elm && elm.textContent) || (children || []).reduce((str, node) => {
                     const nodeText = node.elm ? node.elm.textContent : node.text;
