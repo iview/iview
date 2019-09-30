@@ -100,6 +100,14 @@
             name: {
                 type: String
             },
+            custContentClass: {
+                type: String,
+                default: ''
+            },
+            custContentStyle: {
+                type: Object,
+                default: {}
+            }
         },
         data () {
             return {
@@ -133,7 +141,8 @@
                     `${prefixCls}-content`,
                     {
                         [`${prefixCls}-content-animated`]: this.animated
-                    }
+                    },
+                    this.custContentClass
                 ];
             },
             barClasses () {
@@ -153,6 +162,10 @@
                     style = {
                         transform: `translateX(${p}) translateZ(0px)`
                     };
+                }
+                const { custContentStyle } = this;
+                for (const key in custContentStyle){
+                    style[key] = custContentStyle[key];
                 }
                 return style;
             },
