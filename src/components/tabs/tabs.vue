@@ -106,7 +106,6 @@
             },
             custContentStyle: {
                 type: Object,
-                default: {}
             }
         },
         data () {
@@ -164,8 +163,10 @@
                     };
                 }
                 const { custContentStyle } = this;
-                for (const key in custContentStyle){
-                    style[key] = custContentStyle[key];
+                if (custContentStyle) {
+                    for (const key in custContentStyle){
+                        style[key] = custContentStyle[key];
+                    }
                 }
                 return style;
             },
