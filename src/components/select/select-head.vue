@@ -7,10 +7,11 @@
         </span>
         <div
             class="ivu-tag ivu-tag-checked"
+            :class="{'disabled': item.disabled}"
             v-for="(item, index) in selectedMultiple"
             v-if="maxTagCount === undefined || index < maxTagCount">
             <span class="ivu-tag-text">{{ item.label }}</span>
-            <Icon type="ios-close" @click.native.stop="removeTag(item)"></Icon>
+            <Icon type="ios-close" v-if="!item.disabled" @click.native.stop="removeTag(item)"></Icon>
         </div><div class="ivu-tag ivu-tag-checked" v-if="maxTagCount !== undefined && selectedMultiple.length > maxTagCount">
             <span class="ivu-tag-text ivu-select-max-tag">
                 <template v-if="maxTagPlaceholder">{{ maxTagPlaceholder(selectedMultiple.length - maxTagCount) }}</template>

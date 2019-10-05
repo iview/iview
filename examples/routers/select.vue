@@ -45,7 +45,7 @@
         </Select>
 
         <Select size="large" v-model="model10" multiple style="width:400px" prefix="ios-albums">
-            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <Option v-for="item in cityList" :value="item.value" :key="item.value" :disabled="item.disabled">{{ item.label }}</Option>
         </Select>
     </div>
 </template>
@@ -56,7 +56,8 @@
                 cityList: [
                     {
                         value: 'New York',
-                        label: 'New York'
+                        label: 'New York',
+                        disabled: true
                     },
                     {
                         value: 'London',
@@ -64,7 +65,8 @@
                     },
                     {
                         value: 'Sydney',
-                        label: 'Sydney'
+                        label: 'Sydney',
+                        disabled: true
                     },
                     {
                         value: 'Ottawa',
@@ -80,7 +82,7 @@
                     }
                 ],
                 model1: '',
-                model10: []
+                model10: ['London', 'Sydney']
             }
         },
         methods: {
