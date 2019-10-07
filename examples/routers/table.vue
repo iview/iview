@@ -50,6 +50,8 @@
         <Table :columns="columns11" :data="data10" height="500"></Table>
         <Divider>表头分组（边框）</Divider>
         <Table border :columns="columns11" :data="data10" height="500"></Table>
+        <Divider>筛选</Divider>
+        <Table border :columns="columns6" :data="data5"></Table>
     </div>
 </template>
 <script>

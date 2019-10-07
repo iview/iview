@@ -121,7 +121,7 @@
             capture: {
                 type: Boolean,
                 default () {
-                    return !this.$IVIEW ? true : this.$IVIEW.capture;
+                    return !this.$IVIEW ? false : this.$IVIEW.capture;
                 }
             }
         },

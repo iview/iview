@@ -30,6 +30,7 @@
                                 placement="bottom"
                                 popper-class="ivu-table-popper"
                                 transfer
+                                :capture="false"
                                 @on-popper-hide="handleFilterHide(getColumn(rowIndex, index)._index)">
                                 <span :class="[prefixCls + '-filter']">
                                     <i class="ivu-icon ivu-icon-ios-funnel" :class="{on: getColumn(rowIndex, index)._isFiltered}"></i>
