@@ -258,7 +258,7 @@
             this.$on('on-select-selected', this.onOptionClick);
 
             // set the initial values if there are any
-            if (!this.remote && this.selectOptions.length > 0){
+            if ( this.selectOptions.length > 0){
                 this.values = this.getInitialValue().map(value => {
                     if (typeof value !== 'number' && !value) return null;
                     return this.getOptionData(value);
@@ -710,7 +710,7 @@
                 if (value === '') this.values = [];
                 else if (checkValuesNotEqual(value,publicValue,values)) {
                     this.$nextTick(() => this.values = getInitialValue().map(getOptionData).filter(Boolean));
-                    !(Array.isArray(value)) && (this.dispatch('FormItem', 'on-form-change', this.publicValue));
+                    !(Array.isArray(value)) && this.dispatch('FormItem', 'on-form-change', this.publicValue);
                 }
             },
             values(now, before){
