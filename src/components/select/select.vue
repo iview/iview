@@ -710,11 +710,7 @@
                 if (value === '') this.values = [];
                 else if (checkValuesNotEqual(value,publicValue,values)) {
                     this.$nextTick(() => this.values = getInitialValue().map(getOptionData).filter(Boolean));
-<<<<<<< HEAD
-                    !(Array.isArray(value)) && this.dispatch('FormItem', 'on-form-change', this.publicValue);
-=======
                     this.dispatch('FormItem', 'on-form-change', this.publicValue);
->>>>>>> parent of d61fa0ba... fix bug: #6301
                 }
             },
             values(now, before){
