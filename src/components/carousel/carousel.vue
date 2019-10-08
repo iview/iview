@@ -201,7 +201,7 @@
                     child.width = this.listWidth;
                     child.height = typeof this.height === 'number' ? `${this.height}px` : this.height;
                 });
-                const slidesLength = this.slides.length || 0
+                const slidesLength = this.slides.length || 0;
                 this.trackWidth = slidesLength * this.listWidth;
             },
             // use when slot changed
