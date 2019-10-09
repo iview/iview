@@ -1,7 +1,5 @@
 <style>
-    .ivu-steps{
-        background: greenyellow;
-    }
+
 </style>
 <template>
 <div>
