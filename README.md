@@ -51,9 +51,9 @@ ViewUI
 
 ## Install
 
-We provide an [View UI plugin](https://github.com/iview-design/vue-cli-plugin-iview) for Vue CLI 3, which you can use to quickly build an ViewUI-based project.
+We provide an [View UI plugin](https://github.com/iview-design/vue-cli-plugin-viewui) for Vue CLI 3, which you can use to quickly build an ViewUI-based project.
 
-We also provide a starter kit [view-ui-project](https://github.com/iview-design/iview-project) for you.
+We also provide a starter kit [view-ui-project](https://github.com/iview-design/view-ui-project) for you.
 
 ### Install View UI
 
@@ -123,14 +123,12 @@ If you want to contribute or have questions or bugs to report:
 
 ## Ecosystem Links
 
-- [iView Pro](https://pro.iviewui.com/pro)
-- [iView Admin Pro](https://pro.iviewui.com/admin-pro)
-- [iView Developer](https://dev.iviewui.com)
-- [iView Run](https://run.iviewui.com)
+- [View UI Pro](https://pro.iviewui.com/pro)
+- [View UI Admin Pro](https://pro.iviewui.com/admin-pro)
+- [Developer](https://dev.iviewui.com)
+- [Run](https://run.iviewui.com)
 - [iView-Loader](https://github.com/iview/iview-loader)
-- [iView-Plugin](https://github.com/iview/vue-cli-plugin-iview)
-- [iView-Area](https://github.com/iview/iview-area)
-- [iView-Editor](https://github.com/iview/iview-editor)
+- [ViewUI-Plugin](https://github.com/iview/vue-cli-plugin-iview)
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)
