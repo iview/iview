@@ -49,21 +49,16 @@ ViewUI
 - [iFLYTEK 科大讯飞](http://www.iflytek.com/)
 - [LY 同程艺龙](https://www.ly.com/)
 
-> If your company or products use iView, welcome to click [here](https://github.com/iview/iview/issues/2143) to leave a message.
-
 ## Install
 
-We provide an [iView plugin](https://github.com/iview-design/vue-cli-plugin-iview) for Vue CLI 3, which you can use to quickly build an iView-based project.
+We provide an [View UI plugin](https://github.com/iview-design/vue-cli-plugin-iview) for Vue CLI 3, which you can use to quickly build an ViewUI-based project.
 
-We also provide a starter kit [iview-project](https://github.com/iview-design/iview-project) for you.
+We also provide a starter kit [view-ui-project](https://github.com/iview-design/iview-project) for you.
 
-### Install iView
+### Install View UI
 
 Using npm:
 ```
-npm install iview@4.0.0 --save
-
-# or
 npm install view-design --save
 ```
 
@@ -96,7 +91,7 @@ You can find more info [on the website](https://www.iviewui.com/docs/guide/insta
 Using css via `import`:
 
 ```js
-import 'iview/dist/styles/iview.css';
+import 'view-design/dist/styles/iview.css';
 ```
 
 ## Compatibility
