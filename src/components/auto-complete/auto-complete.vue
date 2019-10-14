@@ -13,7 +13,7 @@
         remote
         auto-complete
         :remote-method="remoteMethod"
-        @on-change="handleChange"
+        @on-select="handleSelect"
         @on-clickoutside="handleClickOutside"
         :transfer="transfer">
         <slot name="input">
@@ -152,9 +152,10 @@
             remoteMethod (query) {
                 this.$emit('on-search', query);
             },
-            handleChange (val) {
+            handleSelect (val) {
                 if (val === undefined || val === null) return;
                 this.currentValue = val;
+
                 this.$refs.input.blur();
                 this.$emit('on-select', val);
             },
