@@ -661,6 +661,7 @@
                     if (!this.autoComplete) this.$nextTick(() => inputField.focus());
                 }
                 this.broadcast('Drop', 'on-update-popper');
+                this.$emit('on-select', this.publicValue); // # 4441
                 setTimeout(() => {
                     this.filterQueryChange = false;
                 }, ANIMATION_TIMEOUT);
