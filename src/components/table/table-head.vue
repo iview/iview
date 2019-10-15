@@ -285,7 +285,7 @@
 
                             const _column = table.columns.find(item => item.__id === column.__id);
                             if (_column) _column.width = columnWidth;
-                            table.$emit('on-column-width-resize', column.width, startLeft - startColumnLeft, column, event);
+                            table.$emit('on-column-width-resize', _column.width, startLeft - startColumnLeft, column, event);
 
                             document.body.style.cursor = '';
                             this.dragging = false;
