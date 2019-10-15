@@ -237,8 +237,9 @@
                 this.inputLength = this.$refs.input.value.length * 12 + 20;
                 this.$emit('on-keydown');
             },
-            handleInputDelete () {
-                if (this.multiple && this.selectedMultiple.length && this.query === '') {
+            handleInputDelete (e) {
+                const targetValue = e.target.value;
+                if (this.multiple && this.selectedMultiple.length && this.query === '' && targetValue === '') {
                     this.removeTag(this.selectedMultiple[this.selectedMultiple.length - 1]);
                 }
             },
