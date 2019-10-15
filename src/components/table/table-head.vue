@@ -249,7 +249,7 @@
                     const tableLeft = tableEl.getBoundingClientRect().left;
                     const columnEl = this.$el.querySelector(`th.ivu-table-column-${column.__id}`);
                     const columnRect = columnEl.getBoundingClientRect();
-                    const minLeft = columnRect.left - tableLeft + 30;
+                    const minLeft = columnRect.left - tableLeft + 60;
 
                     table.showResizeLine = true;
 
