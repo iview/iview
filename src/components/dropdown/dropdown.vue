@@ -1,7 +1,7 @@
 <template>
     <div
         :class="[prefixCls]"
-        v-click-outside:[capture]="onClickoutside"
+        v-click-outside="onClickoutside"
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave">
         <div :class="relClasses" ref="reference" @click="handleClick" @contextmenu.prevent="handleRightClick"><slot></slot></div>
