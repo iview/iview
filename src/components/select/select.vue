@@ -761,7 +761,7 @@
                 if (value === '') this.values = [];
                 else if (checkValuesNotEqual(value,publicValue,values)) {
                     this.$nextTick(() => this.values = getInitialValue().map(getOptionData).filter(Boolean));
-                    this.dispatch('FormItem', 'on-form-change', this.publicValue);
+                    if (!this.multiple) this.dispatch('FormItem', 'on-form-change', this.publicValue);
                 }
             },
             values(now, before){
