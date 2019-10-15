@@ -82,7 +82,10 @@
                 default: false
             },
             styles: {
-                type: Object
+                type: Object,
+                default () {
+                    return {};
+                }
             },
             className: {
                 type: String
@@ -202,8 +205,12 @@
                 let style = {};
 
                 if (this.draggable) {
-                    if (this.dragData.x !== null) style.left = `${this.dragData.x}px`;
+                    const customTop = this.styles.top ? parseFloat(this.styles.top) : 0;
+                    const customLeft = this.styles.left ? parseFloat(this.styles.left) : 0;
+                    if (this.dragData.x !== null) style.left = `${this.dragData.x - customLeft}px`;
                     if (this.dragData.y !== null) style.top = `${this.dragData.y}px`;
+                    if (this.dragData.y !== null) style.top = `${this.dragData.y - customTop}px`;
+
                     const width = parseInt(this.width);
                     const styleWidth = {
                         width: width <= 100 ? `${width}%` : `${width}px`
