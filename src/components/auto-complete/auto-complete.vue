@@ -87,8 +87,8 @@
                 default: false
             },
             placement: {
-                validator (value) {
-                    return oneOf(value, ['top', 'bottom']);
+                  validator (value) {
+                    return oneOf(value, ['top', 'bottom', 'top-start', 'bottom-start', 'top-end', 'bottom-end']);
                 },
                 default: 'bottom'
             },
