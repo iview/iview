@@ -34,6 +34,7 @@
         &-inner{
             color: @title-color;
             font-size: @font-size-base;
+            font-weight: 500;
         }
     }
 
@@ -66,7 +67,7 @@
 
     &-popper{
         min-width: 150px;
-        font-size: @font-size-small;
+        font-size: @font-size-base;
         .popper(@poptip-arrow, @poptip-arrow-width, @poptip-distance, @poptip-arrow-color);
 
         &[x-placement^="top"] .@{poptip-arrow}:after {

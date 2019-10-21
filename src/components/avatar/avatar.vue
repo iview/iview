@@ -1,5 +1,5 @@
 <template>
-    <span :class="classes">
+    <span :class="classes" :style="styles">
         <img :src="src" v-if="src" @error="handleError">
         <Icon :type="icon" :custom="customIcon" v-else-if="icon || customIcon"></Icon>
         <span ref="children" :class="[prefixCls + '-string']" :style="childrenStyle" v-else><slot></slot></span>
@@ -10,6 +10,8 @@
     import { oneOf } from '../../utils/assist';
 
     const prefixCls = 'ivu-avatar';
+
+    const sizeList = ['small', 'large', 'default'];
 
     export default {
         name: 'Avatar',
@@ -22,9 +24,7 @@
                 default: 'circle'
             },
             size: {
-                validator (value) {
-                    return oneOf(value, ['small', 'large', 'default']);
-                },
+                type: [String, Number],
                 default () {
                     return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
@@ -53,12 +53,22 @@
                 return [
                     `${prefixCls}`,
                     `${prefixCls}-${this.shape}`,
-                    `${prefixCls}-${this.size}`,
                     {
                         [`${prefixCls}-image`]: !!this.src,
-                        [`${prefixCls}-icon`]: !!this.icon || !!this.customIcon
+                        [`${prefixCls}-icon`]: !!this.icon || !!this.customIcon,
+                        [`${prefixCls}-${this.size}`]: oneOf(this.size, sizeList)
                     }
                 ];
+            },
+            styles () {
+                let style = {};
+                if (this.size && !oneOf(this.size, sizeList)) {
+                    style.width = `${this.size}px`;
+                    style.height = `${this.size}px`;
+                    style.lineHeight = `${this.size}px`;
+                    style.fontSize = `${this.size/2}px`;
+                }
+                return style;
             },
             childrenStyle () {
                 let style = {};

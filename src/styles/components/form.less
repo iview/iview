@@ -6,7 +6,7 @@
         text-align: right;
         vertical-align: middle;
         float: left;
-        font-size: @font-size-small;
+        font-size: @font-size-base;
         color: @text-color;
         line-height: 1;
         padding: 10px 12px 10px 0;
@@ -36,7 +36,7 @@
     &-content {
         position: relative;
         line-height: 32px;
-        font-size: @font-size-small;
+        font-size: @font-size-base;
     }
     & & {
         margin-bottom: 0;
@@ -61,11 +61,17 @@
             margin-right: 4px;
             line-height: 1;
             font-family: SimSun;
-            font-size: @font-size-small;
+            font-size: @font-size-base;
             color: @error-color;
         }
     }
     &-error {
         // todo
+    }
+}
+
+.@{form-prefix-cls}-hide-required-mark .@{form-item-prefix-cls}-required{
+    .@{form-item-prefix-cls}-label:before {
+        display: none;
     }
 }

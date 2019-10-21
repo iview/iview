@@ -1,9 +1,9 @@
 <template>
     <div
         :class="wrapperClasses"
-        v-click-outside:mousedown.capture="handleClose"
-        v-click-outside:touchstart.capture="handleClose"
-        v-click-outside.capture="handleClose"
+        v-click-outside:[capture].mousedown="handleClose"
+        v-click-outside:[capture].touchstart="handleClose"
+        v-click-outside:[capture]="handleClose"
     >
         <div ref="reference" :class="[prefixCls + '-rel']">
             <slot>
@@ -12,7 +12,7 @@
                     :element-id="elementId"
                     :class="[prefixCls + '-editor']"
                     :readonly="!editable || readonly"
-                    :disabled="disabled"
+                    :disabled="itemDisabled"
                     :size="size"
                     :placeholder="placeholder"
                     :value="visualValue"
@@ -75,17 +75,16 @@
     </div>
 </template>
 <script>
-
-
     import iInput from '../../components/input/input.vue';
     import Drop from '../../components/select/dropdown.vue';
     import Icon from '../../components/icon/icon.vue';
-    import {directive as clickOutside} from 'v-click-outside-x';
+    import {directive as clickOutside} from '../../directives/v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
     import { DEFAULT_FORMATS, TYPE_VALUE_RESOLVER_MAP, getDayCountOfMonth } from './util';
     import {findComponentsDownward} from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
+    import mixinsForm from '../../mixins/form';
 
     const prefixCls = 'ivu-date-picker';
     const pickerPrefixCls = 'ivu-picker';
@@ -120,7 +119,7 @@
 
 
     export default {
-        mixins: [ Emitter ],
+        mixins: [ Emitter, mixinsForm ],
         components: { iInput, Drop, Icon },
         directives: { clickOutside, TransferDom },
         props: {
@@ -214,6 +213,13 @@
             separator: {
                 type: String,
                 default: ' - '
+            },
+            // 4.0.0
+            capture: {
+                type: Boolean,
+                default () {
+                    return !this.$IVIEW ? true : this.$IVIEW.capture;
+                }
             }
         },
         data(){
@@ -393,7 +399,7 @@
                 if (this.readonly) return;
                 this.isFocused = true;
                 if (e && e.type === 'focus') return; // just focus, don't open yet
-                if(!this.disabled){
+                if(!this.itemDisabled){
                     this.visible = true;
                 }
             },
@@ -635,7 +641,7 @@
                 }
             },
             handleInputMouseenter () {
-                if (this.readonly || this.disabled) return;
+                if (this.readonly || this.itemDisabled) return;
                 if (this.visualValue && this.clearable) {
                     this.showClose = true;
                 }
@@ -647,7 +653,7 @@
                 if (this.showClose) {
                     if (e) e.stopPropagation();
                     this.handleClear();
-                } else if (!this.disabled) {
+                } else if (!this.itemDisabled) {
                     this.handleFocus();
                 }
             },

@@ -13,7 +13,7 @@
                 </a>
             </template>
             <template v-if="type === 'message'">
-                <div :class="[baseClass + '-content']" ref="content">
+                <div :class="messageContentClasses" ref="content">
                     <div :class="[baseClass + '-content-text']" v-html="content"></div>
                     <div :class="[baseClass + '-content-text']">
                         <render-cell
@@ -79,6 +79,13 @@
             },
             transitionName: {
                 type: String
+            },
+            background: {
+                type: Boolean,
+                default: false
+            },
+            msgType: {
+                type: String
             }
         },
         data () {
@@ -99,7 +106,8 @@
                     {
                         [`${this.className}`]: !!this.className,
                         [`${this.baseClass}-closable`]: this.closable,
-                        [`${this.baseClass}-with-desc`]: this.withDesc
+                        [`${this.baseClass}-with-desc`]: this.withDesc,
+                        [`${this.baseClass}-with-background`]: this.background
                     }
                 ];
             },
@@ -107,6 +115,15 @@
                 return [
                     `${this.baseClass}-content`,
                     this.render !== undefined ? `${this.baseClass}-content-with-render` : ''
+                ];
+            },
+            messageContentClasses () {
+                return [
+                    `${this.baseClass}-content`,
+                    {
+                        [`${this.baseClass}-content-${this.msgType}`]: this.msgType,
+                        [`${this.baseClass}-content-background`]: this.background
+                    }
                 ];
             },
             contentWithIcon () {

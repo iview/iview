@@ -13,7 +13,8 @@ const lang = {
             noFilteredDataText: 'Немає даних по фільтру',
             confirmFilter: 'Підтвердити',
             resetFilter: 'Скинути',
-            clearFilter: 'Усе'
+            clearFilter: 'Усе',
+            sumText: 'Sum'
         },
         datepicker: {
             selectDate: 'Обрати дату',

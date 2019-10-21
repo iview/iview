@@ -6,14 +6,26 @@
 @steps-title-color: #666;
 
 .@{steps-prefix-cls} {
-    font-size: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
     width: 100%;
+    font-size: 0;
     line-height: 1.5;
 
     &-item{
         display: inline-block;
         position: relative;
         vertical-align: top;
+        -webkit-box-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+        overflow: hidden;
+        &:last-child{
+            -webkit-box-flex: 0;
+            -ms-flex: 0;
+            flex: none;
+        }
 
         &.@{steps-prefix-cls}-status-wait{
             .@{steps-prefix-cls}-head-inner {
@@ -267,8 +279,10 @@
 }
 
 .@{steps-prefix-cls}-vertical {
+    display: block;
     .@{steps-prefix-cls}-item {
         display: block;
+        overflow: visible;
     }
 
     .@{steps-prefix-cls}-tail {

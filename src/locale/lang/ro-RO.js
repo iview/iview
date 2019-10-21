@@ -13,7 +13,8 @@ const lang = {
             noFilteredDataText: 'Filtru fără rezultate',
             confirmFilter: 'Confirmă',
             resetFilter: 'Resetează',
-            clearFilter: 'Tot'
+            clearFilter: 'Tot',
+            sumText: 'Suma'
         },
         datepicker: {
             selectDate: 'Selectează data',

@@ -13,7 +13,8 @@ const lang = {
             noFilteredDataText: 'ᠨᠦᠬᠦᠴᠡᠯ ᠳᠦ ᠨᠡᠶᠢᠴᠡᠭᠰᠡᠨ ᠲᠣᠭ᠎ᠠ ᠪᠠᠷᠢᠮᠲᠠ ᠣᠯᠳᠠᠭᠰᠠᠨ ᠦᠭᠡᠢ',
             confirmFilter: 'ᠰᠢᠯᠢᠬᠦ',
             resetFilter: 'ᠪᠣᠴᠠᠭᠠᠬᠤ',
-            clearFilter: 'ᠪᠦᠬᠦ'
+            clearFilter: 'ᠪᠦᠬᠦ',
+            sumText: 'Sum'
         },
         datepicker: {
             selectDate: 'ᠡᠳᠦᠷ ᠰᠠᠷ᠎ᠠ ᠰᠣᠩᠭᠣᠬᠤ',

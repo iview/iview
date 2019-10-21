@@ -1,17 +1,18 @@
 <template>
-    <div :class="wrapClasses" :style="styles">
+    <div :class="wrapClasses">
         <div :class="[prefixCls + '-tail']"><i></i></div>
         <div :class="[prefixCls + '-head']">
             <div :class="[prefixCls + '-head-inner']">
-                <span v-if="!icon && currentStatus != 'finish' && currentStatus != 'error'">{{ stepNumber }}</span>
+                <span v-if="!icon && !$slots.icon && currentStatus !== 'finish' && currentStatus !== 'error'">{{ stepNumber }}</span>
+                <span v-else-if="$slots.icon" class="ivu-steps-icon"><slot name="icon"></slot></span>
                 <span v-else :class="iconClasses"></span>
             </div>
         </div>
         <div :class="[prefixCls + '-main']">
-            <div :class="[prefixCls + '-title']">{{ title }}</div>
-            <slot>
-                <div v-if="content" :class="[prefixCls + '-content']">{{ content }}</div>
-            </slot>
+            <div :class="[prefixCls + '-title']"><slot name="title">{{ title }}</slot></div>
+            <div :class="[prefixCls + '-content']" v-if="content || $slots.content">
+                <slot name="content">{{ content }}</slot>
+            </div>
         </div>
     </div>
 </template>
@@ -57,7 +58,7 @@
                     `${prefixCls}-item`,
                     `${prefixCls}-status-${this.currentStatus}`,
                     {
-                        [`${prefixCls}-custom`]: !!this.icon,
+                        [`${prefixCls}-custom`]: !!this.icon || !!this.$slots.icon,
                         [`${prefixCls}-next-error`]: this.nextError
                     }
                 ];
@@ -68,9 +69,9 @@
                 if (this.icon) {
                     icon = this.icon;
                 } else {
-                    if (this.currentStatus == 'finish') {
+                    if (this.currentStatus === 'finish') {
                         icon = 'ios-checkmark';
-                    } else if (this.currentStatus == 'error') {
+                    } else if (this.currentStatus === 'error') {
                         icon = 'ios-close';
                     }
                 }
@@ -79,20 +80,15 @@
                     `${prefixCls}-icon`,
                     `${iconPrefixCls}`,
                     {
-                        [`${iconPrefixCls}-${icon}`]: icon != ''
+                        [`${iconPrefixCls}-${icon}`]: icon !== ''
                     }
                 ];
-            },
-            styles () {
-                return {
-                    width: `${1/this.total*100}%`
-                };
             }
         },
         watch: {
             status (val) {
                 this.currentStatus = val;
-                if (this.currentStatus == 'error') {
+                if (this.currentStatus === 'error') {
                     this.$parent.setNextError();
                 }
             }

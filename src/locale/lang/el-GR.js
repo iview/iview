@@ -13,7 +13,8 @@ const lang = {
             noFilteredDataText: 'Χωρίς φίλτρο',
             confirmFilter: 'Επιβεβαίωση',
             resetFilter: 'Επαναφορά',
-            clearFilter: 'Όλα'
+            clearFilter: 'Όλα',
+            sumText: 'Σύνολο'
         },
         datepicker: {
             selectDate: 'Επιλέξτε ημέρα',

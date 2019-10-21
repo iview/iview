@@ -29,6 +29,7 @@
 <script>
     import Locale from '../../mixins/locale';
     import Emitter from '../../mixins/emitter';
+    import mixinsForm from '../../mixins/form';
 
     import Icon from '../icon/icon.vue';
 
@@ -36,7 +37,7 @@
 
     export default {
         name: 'Rate',
-        mixins: [ Locale, Emitter ],
+        mixins: [ Locale, Emitter, mixinsForm ],
         components: { Icon },
         props: {
             count: {
@@ -93,7 +94,7 @@
                 return [
                     `${prefixCls}`,
                     {
-                        [`${prefixCls}-disabled`]: this.disabled
+                        [`${prefixCls}-disabled`]: this.itemDisabled
                     }
                 ];
             },
@@ -145,7 +146,7 @@
                 ];
             },
             handleMousemove(value, event) {
-                if (this.disabled) return;
+                if (this.itemDisabled) return;
 
                 this.isHover = true;
                 if (this.allowHalf) {
@@ -157,7 +158,7 @@
                 this.hoverIndex = value;
             },
             handleMouseleave () {
-                if (this.disabled) return;
+                if (this.itemDisabled) return;
 
                 this.isHover = false;
                 this.setHalf(this.currentValue);
@@ -167,7 +168,7 @@
                 this.isHalf = this.allowHalf && val.toString().indexOf('.') >= 0;
             },
             handleClick (value) {
-                if (this.disabled) return;
+                if (this.itemDisabled) return;
                 //value++;
                 if (this.isHalf) value -= 0.5;
 

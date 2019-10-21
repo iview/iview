@@ -37,10 +37,25 @@
                     return oneOf(value, ['on', 'off']);
                 },
                 default: 'off'
+            },
+            // 4.0.0
+            hideRequiredMark: {
+                type: Boolean,
+                default: false
+            },
+            // 4.0.0
+            labelColon: {
+                type: [Boolean, String],
+                default: false
+            },
+            // 4.0.0
+            disabled: {
+                type: Boolean,
+                default: false
             }
         },
-        provide() {
-            return { form : this };
+        provide () {
+            return { FormInstance : this };
         },
         data () {
             return {
@@ -53,9 +68,17 @@
                     `${prefixCls}`,
                     `${prefixCls}-label-${this.labelPosition}`,
                     {
-                        [`${prefixCls}-inline`]: this.inline
+                        [`${prefixCls}-inline`]: this.inline,
+                        [`${prefixCls}-hide-required-mark`]: this.hideRequiredMark
                     }
                 ];
+            },
+            colon () {
+                let colon = '';
+                if (this.labelColon) {
+                    colon = (typeof this.labelColon === 'boolean') ? ':' : this.labelColon;
+                }
+                return colon;
             }
         },
         methods: {

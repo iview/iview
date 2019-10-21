@@ -6,7 +6,7 @@
     padding: 8px 48px 8px 16px;
     border-radius: @border-radius-small;
     color: @text-color;
-    font-size: @font-size-small;
+    font-size: @font-size-base;
     line-height: 16px;
     margin-bottom: 10px;
 
@@ -22,7 +22,7 @@
     }
 
     &-desc {
-        font-size: @font-size-small;
+        font-size: @font-size-base;
         color: @text-color;
         line-height: 21px;
         display: none;
@@ -87,9 +87,10 @@
     }
 
     &-with-desc &-message {
-        font-size: 14px;
+        font-size: @font-size-large;
         color: @title-color;
         display: block;
+        margin-bottom: 4px;
     }
 
     &-with-desc &-icon {

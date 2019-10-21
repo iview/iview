@@ -1,6 +1,6 @@
 <template>
     <div>
-        <i-switch v-model="m1" :loading="loading">
+        <i-switch v-model="m1" :loading="loading" @on-change="change" :before-change="beforeChange">
             <span slot="open">开</span>
             <span slot="close">关</span>
         </i-switch>
@@ -32,6 +32,8 @@
         <br><br>
         <i-switch :disabled="disabled"></i-switch>
         <Button type="primary" @click="disabled = !disabled">Toggle Disabled</Button>
+        <Divider></Divider>
+        <i-switch v-model="switch1" true-color="#13ce66" false-color="#ff4949" />
     </div>
 </template>
 <script>
@@ -40,12 +42,27 @@
             return {
                 m1: true,
                 disabled: true,
-                loading: false
+                loading: false,
+                switch1: true
             }
         },
         methods: {
             change (status) {
                 console.log(status)
+            },
+            beforeChange () {
+                return new Promise((resolve, reject) => {
+                    this.$Modal.confirm({
+                        title: '切换确认',
+                        content: '您确认要切换开关状态吗？',
+                        onOk: () => {
+                            resolve();
+                        },
+                        onCancel: () => {
+                            reject();
+                        }
+                    });
+                });
             }
         }
     }

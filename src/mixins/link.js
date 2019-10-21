@@ -55,7 +55,7 @@ export default {
                 window.open(to);
             } else {
                 if (router) {
-                    this.replace ? this.$router.replace(this.to) : this.$router.push(this.to);
+                    this.replace ? this.$router.replace(this.to, () => {}) : this.$router.push(this.to, () => {});
                 } else {
                     window.location.href = this.to;
                 }

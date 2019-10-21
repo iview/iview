@@ -13,7 +13,8 @@ const lang = {
             noFilteredDataText: 'Không có dữ liệu lọc',
             confirmFilter: 'Xác nhận',
             resetFilter: 'Làm lại',
-            clearFilter: 'Xóa hết'
+            clearFilter: 'Xóa hết',
+            sumText: 'Tổng'
         },
         datepicker: {
             selectDate: 'Chọn ngày',

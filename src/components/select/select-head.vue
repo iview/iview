@@ -9,7 +9,7 @@
             class="ivu-tag ivu-tag-checked"
             v-for="(item, index) in selectedMultiple"
             v-if="maxTagCount === undefined || index < maxTagCount">
-            <span class="ivu-tag-text">{{ item.label }}</span>
+            <span class="ivu-tag-text">{{ item.tag !== undefined ? item.tag : item.label }}</span>
             <Icon type="ios-close" @click.native.stop="removeTag(item)"></Icon>
         </div><div class="ivu-tag ivu-tag-checked" v-if="maxTagCount !== undefined && selectedMultiple.length > maxTagCount">
             <span class="ivu-tag-text ivu-select-max-tag">
@@ -34,6 +34,7 @@
             spellcheck="false"
             @keydown="resetInputState"
             @keydown.delete="handleInputDelete"
+            @keydown.enter="handleInputEnter"
             @focus="onInputFocus"
             @blur="onInputBlur"
 
@@ -101,6 +102,14 @@
             // 3.4.0
             maxTagPlaceholder: {
                 type: Function
+            },
+            // 4.0.0
+            allowCreate: {
+                type: Boolean
+            },
+            // 4.0.0
+            showCreateItem: {
+                type: Boolean
             }
         },
         data () {
@@ -216,6 +225,7 @@
                 this.$emit('on-input-focus');
             },
             onInputBlur () {
+                if (this.showCreateItem) return;
                 if (!this.values.length) this.query = '';  // #5155
                 this.$emit('on-input-blur');
             },
@@ -227,10 +237,14 @@
                 this.inputLength = this.$refs.input.value.length * 12 + 20;
                 this.$emit('on-keydown');
             },
-            handleInputDelete () {
-                if (this.multiple && this.selectedMultiple.length && this.query === '') {
+            handleInputDelete (e) {
+                const targetValue = e.target.value;
+                if (this.multiple && this.selectedMultiple.length && this.query === '' && targetValue === '') {
                     this.removeTag(this.selectedMultiple[this.selectedMultiple.length - 1]);
                 }
+            },
+            handleInputEnter () {
+                this.$emit('on-enter');
             },
             onHeaderClick(e){
                 if (this.filterable && e.target === this.$el){

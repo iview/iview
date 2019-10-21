@@ -3,7 +3,7 @@
         ref="select"
         class="ivu-auto-complete"
         :label="label"
-        :disabled="disabled"
+        :disabled="itemDisabled"
         :clearable="clearable"
         :placeholder="placeholder"
         :size="size"
@@ -14,6 +14,7 @@
         auto-complete
         :remote-method="remoteMethod"
         @on-change="handleChange"
+        @on-clickoutside="handleClickOutside"
         :transfer="transfer">
         <slot name="input">
             <i-input
@@ -23,7 +24,7 @@
                 v-model="currentValue"
                 :name="name"
                 :placeholder="placeholder"
-                :disabled="disabled"
+                :disabled="itemDisabled"
                 :size="size"
                 :icon="inputIcon"
                 @on-click="handleClear"
@@ -41,10 +42,11 @@
     import iInput from '../input/input.vue';
     import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
+    import mixinsForm from '../../mixins/form';
 
     export default {
         name: 'AutoComplete',
-        mixins: [ Emitter ],
+        mixins: [ Emitter, mixinsForm ],
         components: { iSelect, iOption, iInput },
         props: {
             value: {
@@ -87,9 +89,9 @@
             },
             placement: {
                 validator (value) {
-                    return oneOf(value, ['top', 'bottom']);
+                    return oneOf(value, ['top', 'bottom', 'top-start', 'bottom-start', 'top-end', 'bottom-end']);
                 },
-                default: 'bottom'
+                default: 'bottom-start'
             },
             transfer: {
                 type: Boolean,
@@ -113,7 +115,7 @@
         computed: {
             inputIcon () {
                 let icon = '';
-                if (this.clearable && this.currentValue) {
+                if (this.clearable && this.currentValue && !this.disabled) {
                     icon = 'ios-close';
                 } else if (this.icon) {
                     icon = this.icon;
@@ -167,6 +169,11 @@
                 this.currentValue = '';
                 this.$refs.select.reset();
                 this.$emit('on-clear');
+            },
+            handleClickOutside () {
+                this.$nextTick(() => {
+                    this.$refs.input.blur();
+                });
             }
         }
     };

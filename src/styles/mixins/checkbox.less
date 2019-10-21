@@ -28,8 +28,8 @@
 
         &-inner {
             display: inline-block;
-            width: 14px;
-            height: 14px;
+            width: 16px;
+            height: 16px;
             position: relative;
             top: 0;
             left: 0;
@@ -55,8 +55,8 @@
         }
         &-large{
             & .@{checkbox-inner-prefix-cls} {
-                width: 16px;
-                height: 16px;
+                width: 18px;
+                height: 18px;
                 &:after{
                     width: 5px;
                     height: 9px;
@@ -64,10 +64,10 @@
             }
         }
         &-small{
-            font-size: 12px;
+            font-size: @font-size-base;
             & .@{checkbox-inner-prefix-cls} {
-                width: 12px;
-                height: 12px;
+                width: 14px;
+                height: 14px;
                 &:after{
                     top: 0;
                     left: 3px;
@@ -91,6 +91,31 @@
                 cursor: @cursor-disabled;
             }
         }
+        &-border{
+            border: 1px solid @border-color-base;
+            border-radius: @btn-border-radius;
+            height: @btn-height-base;
+            line-height: @btn-height-base - 2px;
+            padding: @btn-padding-base;
+            transition: border @transition-time @ease-in-out;
+        }
+        &-small&-border, .@{checkbox-prefix-cls}-group.@{checkbox-prefix-cls}-small &-border{
+            height: @btn-height-small;
+            line-height: @btn-height-small - 2px;
+            padding: @btn-padding-small;
+        }
+        &-large&-border, .@{checkbox-prefix-cls}-group.@{checkbox-prefix-cls}-large &-border{
+            height: @btn-height-large;
+            line-height: @btn-height-large - 4px;
+            padding: @btn-padding-large;
+        }
+    }
+
+    .@{checkbox-prefix-cls}-wrapper-checked.@{checkbox-prefix-cls}-border{
+        border-color: @primary-color;
+    }
+    .@{checkbox-prefix-cls}-wrapper-disabled.@{checkbox-prefix-cls}-border{
+        border-color: @btn-disable-border;
     }
 
     // 选中状态
@@ -112,8 +137,8 @@
                 width: 4px;
                 height: 8px;
                 position: absolute;
-                top: 1px;
-                left: 4px;
+                top: 2px;
+                left: 5px;
                 border: 2px solid #fff;
                 border-top: 0;
                 border-left: 0;
@@ -126,8 +151,8 @@
         .@{checkbox-prefix-cls}-checked{
             .@{checkbox-inner-prefix-cls} {
                 &:after{
-                    width: 5px;
-                    height: 9px;
+                    width: 6px;
+                    height: 10px;
                 }
             }
         }
@@ -136,8 +161,8 @@
         .@{checkbox-prefix-cls}-checked{
             .@{checkbox-inner-prefix-cls} {
                 &:after{
-                    top: 0;
-                    left: 3px;
+                    top: 1px;
+                    left: 4px;
                 }
             }
         }
@@ -192,12 +217,12 @@
     .@{checkbox-prefix-cls}-indeterminate{
         .@{checkbox-inner-prefix-cls}:after{
             content: '';
-            width: 8px;
+            width: 10px;
             height: 1px;
             transform: scale(1);
             position: absolute;
             left: 2px;
-            top: 5px;
+            top: 6px;
         }
 
         &:hover {
@@ -222,23 +247,23 @@
     .@{checkbox-prefix-cls}-large {
         .@{checkbox-prefix-cls}-indeterminate{
             .@{checkbox-inner-prefix-cls}:after{
-                width: 10px;
-                top: 6px;
+                width: 12px;
+                top: 7px;
             }
         }
     }
     .@{checkbox-prefix-cls}-small {
         .@{checkbox-prefix-cls}-indeterminate{
             .@{checkbox-inner-prefix-cls}:after{
-                width: 6px;
-                top: 4px;
+                width: 8px;
+                top: 5px;
             }
         }
     }
 
     .@{checkbox-prefix-cls}-wrapper {
         cursor: pointer;
-        font-size: @font-size-small;
+        font-size: @font-size-base;
         display: inline-block;
         margin-right: 8px;
         //outline: none;
@@ -248,7 +273,7 @@
         }
 
         &.@{checkbox-prefix-cls}-large{
-            font-size: @font-size-base;
+            font-size: @font-size-large;
         }
     }
 

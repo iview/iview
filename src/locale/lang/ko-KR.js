@@ -13,7 +13,8 @@ const lang = {
             noFilteredDataText: '필터된 데이터 없음',
             confirmFilter: '확인',
             resetFilter: '초기화',
-            clearFilter: '전부'
+            clearFilter: '전부',
+            sumText: '합'
         },
         datepicker: {
             selectDate: '날짜 선택',

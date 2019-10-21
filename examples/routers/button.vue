@@ -1,14 +1,22 @@
 <template>
     <div>
+        <Divider>vue-router 3.1 bug</Divider>
+        <Button to="/button">跳转到 Button（当前路径）</Button>
+        <Button to="/button" replace>跳转到 Button（当前路径, replace）</Button>
+        <Divider></Divider>
         <Button icon="logo-github" size="small" shape="circle"></Button>
-        <Button icon="logo-github" size="large" shape="circle"></Button>
         <Button icon="logo-github" shape="circle"></Button>
+        <Button icon="logo-github" size="large" shape="circle"></Button>
+
         <Button icon="logo-github" size="small"></Button>
         <Button size="small">EN</Button>
+
         <Button icon="logo-github"></Button>
         <Button>EN</Button>
+
         <Button icon="logo-github" size="large"></Button>
         <Button size="large">EN</Button>
+
         <ButtonGroup size="small">
             <Button icon="logo-github"></Button>
             <Button icon="logo-twitter"></Button>
@@ -16,13 +24,15 @@
                 EN
             </Button>
         </ButtonGroup>
+
         <ButtonGroup>
             <Button icon="logo-github"></Button>
             <Button icon="logo-twitter"></Button>
             <Button>
-                EN
+                ENs
             </Button>
         </ButtonGroup>
+
         <ButtonGroup size="large">
             <Button icon="logo-github"></Button>
             <Button icon="logo-twitter"></Button>
@@ -68,14 +78,27 @@
             <Button type="error" ghost disabled>Error</Button>
             <Button type="text" ghost disabled>Text</Button>
         </div>
+        <Divider></Divider>
+        <Button type="primary">普通按钮</Button>
+        <Button type="primary" to="/">普通按钮</Button>
+        <Button type="primary" size="small">普通按钮</Button>
+        <Button type="primary" to="/" size="small">普通按钮</Button>
+        <Button type="primary" size="large">普通按钮</Button>
+        <Button type="primary" to="/" size="large">普通按钮</Button>
+        <Button type="primary" size="large" shape="circle">普通按钮</Button>
+        <Button type="primary" to="/" size="large" shape="circle">普通按钮</Button>
         <br><br><br>
         <Button type="primary" icon="ios-information-circle" size="small">Search</Button>
         <Button type="primary" icon="ios-information-circle" size="default">Search</Button>
         <Button type="primary" icon="ios-information-circle" size="large">Search</Button>
         <br><br><br>
-        <Button to="/menu" @click="hc">Open Menu</Button>
+        <Button @click="hc">Open Menu2</Button>
+        <Button to="/menu" @click="hc">Open Menu2</Button>
         <Button to="/menu" replace>Open Menu Replace</Button>
         <Button to="//iviewui.com" target="_blank">Open iView</Button>
+        <hr>
+        <Button @click="hc">链接按钮</Button>
+        <Button to="/menu" @click="hc">链接按钮</Button>
         <hr>
         <Icon custom="i-icon i-icon-search" />
         <Icon custom="i-icon i-icon-video" size="24" color="#ff6600" />
@@ -155,8 +178,8 @@
             </Button>
         </Button-group>
         <Button-group>
-            <Button type="primary" icon="ios-skipbackward"></Button>
-            <Button type="primary" icon="ios-skipforward"></Button>
+            <Button type="primary" icon="ios-skip-backward"></Button>
+            <Button type="primary" icon="ios-skip-forward"></Button>
         </Button-group>
         <Button-group>
             <Button type="default" icon="ios-color-wand-outline"></Button>
@@ -178,8 +201,8 @@
             </Button>
         </Button-group>
         <Button-group shape="circle">
-            <Button type="primary" icon="ios-skipbackward"></Button>
-            <Button type="primary" icon="ios-skipforward"></Button>
+            <Button type="primary" icon="ios-skip-backward"></Button>
+            <Button type="primary" icon="ios-skip-forward"></Button>
         </Button-group>
         <Button-group shape="circle">
             <Button type="default" icon="ios-color-wand-outline"></Button>
@@ -223,10 +246,78 @@
         <br><br>
         <Button to="/icon">Open New Window</Button>
         <br><br><br>
+        <ButtonGroup vertical size="small">
+            <Button icon="logo-facebook"></Button>
+            <Button icon="logo-twitter"></Button>
+            <Button icon="logo-googleplus"></Button>
+            <Button icon="logo-tumblr"></Button>
+        </ButtonGroup>
+        <ButtonGroup vertical>
+            <Button icon="logo-facebook"></Button>
+            <Button icon="logo-twitter"></Button>
+            <Button icon="logo-googleplus"></Button>
+            <Button icon="logo-tumblr"></Button>
+        </ButtonGroup>
+        <ButtonGroup vertical size="large">
+            <Button icon="logo-facebook"></Button>
+            <Button icon="logo-twitter"></Button>
+            <Button icon="logo-googleplus"></Button>
+            <Button icon="logo-tumblr"></Button>
+        </ButtonGroup>
+        <br><br>
+        <Button>
+            <Icon type="md-alert" />
+            左右图标
+            <Icon type="ios-aperture" />
+        </Button>
+        <Button>
+            左右图标
+            <Icon type="ios-aperture" />
+        </Button>
+        <Button>
+            <Icon type="md-alert" />
+            左右图标
+        </Button>
+        <Button icon="md-alert">
+            左右图标
+        </Button>
+        <Divider></Divider>
+        <div>
+            <RadioGroup v-model="buttonSize" type="button">
+                <Radio label="large">Large</Radio>
+                <Radio label="default">Default</Radio>
+                <Radio label="small">small</Radio>
+            </RadioGroup>
+            <br><br>
+            <Button :size="buttonSize" type="primary">Primary</Button>
+            <Button :size="buttonSize" type="default">Default</Button>
+            <Button :size="buttonSize" type="dashed">Dashed</Button>
+            <Button :size="buttonSize" type="text">Text</Button>
+            <br><br>
+            <Button :size="buttonSize" icon="md-download" type="primary" shape="circle"></Button>
+            <Button :size="buttonSize" icon="md-download" type="primary">Download</Button>
+            <br><br>
+            <ButtonGroup :size="buttonSize">
+                <Button :size="buttonSize" type="primary">
+                    <Icon type="ios-arrow-back" />
+                    Backward
+                </Button>
+                <Button :size="buttonSize" type="primary">
+                    Forward
+                    <Icon type="ios-arrow-forward" />
+                </Button>
+            </ButtonGroup>
+        </div>
+        <Divider></Divider>
     </div>
 </template>
 <script>
     export default {
+        data () {
+            return {
+                buttonSize: 'large'
+            }
+        },
         methods: {
             hc (data) {
                 console.log(data);

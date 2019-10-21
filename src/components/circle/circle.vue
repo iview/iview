@@ -1,8 +1,14 @@
 <template>
     <div :style="circleSize" :class="wrapClasses">
         <svg viewBox="0 0 100 100">
-            <path :d="pathString" :stroke="trailColor" :stroke-width="trailWidth" :fill-opacity="0" :style="trailStyle" />
-            <path :d="pathString" :stroke-linecap="strokeLinecap" :stroke="strokeColor" :stroke-width="computedStrokeWidth" fill-opacity="0" :style="pathStyle" />
+            <defs v-if="showDefs">
+                <linearGradient :id="id" x1="100%" y1="0%" x2="0%" y2="0%">
+                    <stop offset="0%" :stop-color="strokeColor[0]"></stop>
+                    <stop offset="100%" :stop-color="strokeColor[1]"></stop>
+                </linearGradient>
+            </defs>
+            <path :d="pathString" :stroke="trailColor" :stroke-width="trailWidth" :fill-opacity="0" :style="trailStyle" :stroke-linecap="strokeLinecap" />
+            <path :d="pathString" :stroke-linecap="strokeLinecap" :stroke="strokeValue" :stroke-width="computedStrokeWidth" fill-opacity="0" :style="pathStyle" />
         </svg>
         <div :class="innerClasses">
             <slot></slot>
@@ -11,6 +17,7 @@
 </template>
 <script>
     import { oneOf } from '../../utils/assist';
+    import random from '../../utils/random_str';
 
     const prefixCls = 'ivu-chart-circle';
 
@@ -30,7 +37,7 @@
                 default: 6
             },
             strokeColor: {
-                type: String,
+                type: [String, Array],
                 default: '#2d8cf0'
             },
             strokeLinecap: {
@@ -51,6 +58,11 @@
                 type: Boolean,
                 default: false
             }
+        },
+        data () {
+            return {
+                id: `ivu-chart-circle-${random(3)}`
+            };
         },
         computed: {
             circleSize () {
@@ -112,6 +124,16 @@
             },
             innerClasses () {
                 return `${prefixCls}-inner`;
+            },
+            strokeValue () {
+                let color = this.strokeColor;
+                if (typeof this.strokeColor !== 'string') {
+                    color = `url(#${this.id})`;
+                }
+                return color;
+            },
+            showDefs () {
+                return typeof this.strokeColor !== 'string';
             }
         }
     };

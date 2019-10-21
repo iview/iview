@@ -7,7 +7,7 @@
         <template v-if="renderType === 'html'"><span v-html="row[column.key]"></span></template>
         <template v-if="renderType === 'normal'">
             <template v-if="column.tooltip">
-                <Tooltip transfer :content="row[column.key]" :theme="tableRoot.tooltipTheme" :disabled="!showTooltip" :max-width="300" class="ivu-table-cell-tooltip">
+                <Tooltip transfer :content="row[column.key]" :theme="tableRoot.tooltipTheme" :disabled="!showTooltip && !tooltipShow" :max-width="300" class="ivu-table-cell-tooltip" @on-popper-show="handleTooltipShow" @on-popper-hide="handleTooltipHide">
                     <span ref="content" @mouseenter="handleTooltipIn" @mouseleave="handleTooltipOut" class="ivu-table-cell-tooltip-content">{{ row[column.key] }}</span>
                 </Tooltip>
             </template>
@@ -62,6 +62,7 @@
                 uid: -1,
                 context: this.$parent.$parent.$parent.currentContext,
                 showTooltip: false,  // 鼠标滑过overflow文本时，再检查是否需要显示
+                tooltipShow: false
             };
         },
         computed: {
@@ -101,6 +102,12 @@
             },
             handleTooltipOut () {
                 this.showTooltip = false;
+            },
+            handleTooltipShow () {
+                this.tooltipShow = true;
+            },
+            handleTooltipHide () {
+                this.tooltipShow = false;
             }
         },
         created () {

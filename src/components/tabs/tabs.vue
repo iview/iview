@@ -12,7 +12,7 @@
                 <div ref="navWrap" :class="[prefixCls + '-nav-wrap', scrollable ? prefixCls + '-nav-scrollable' : '']">
                     <span :class="[prefixCls + '-nav-prev', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollPrev"><Icon type="ios-arrow-back"></Icon></span>
                     <span :class="[prefixCls + '-nav-next', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollNext"><Icon type="ios-arrow-forward"></Icon></span>
-                    <div ref="navScroll" :class="[prefixCls + '-nav-scroll']">
+                    <div ref="navScroll" :class="[prefixCls + '-nav-scroll']" @DOMMouseScroll="handleScroll" @mousewheel="handleScroll">
                         <div ref="nav" :class="[prefixCls + '-nav']" :style="navStyle">
                             <div :class="barClasses" :style="barStyle"></div>
                             <div :class="tabCls(item)" v-for="(item, index) in navList" @click="handleChange(index)">
@@ -439,6 +439,20 @@
                     if (currentOffset > 0) {
                         this.setOffset(0);
                     }
+                }
+            },
+            handleScroll (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const type = e.type;
+                let delta = 0;
+                if (type === 'DOMMouseScroll' || type === 'mousewheel') {
+                    delta = (e.wheelDelta) ? e.wheelDelta : -(e.detail || 0) * 40;
+                }
+                if (delta > 0) {
+                    this.scrollPrev();
+                } else {
+                    this.scrollNext();
                 }
             },
             handleResize(){

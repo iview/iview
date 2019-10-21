@@ -1,10 +1,10 @@
 <template>
     <div :class="classes">
-        <label :class="[prefixCls + '-label']" :for="labelFor" :style="labelStyles" v-if="label || $slots.label"><slot name="label">{{ label }}</slot></label>
+        <label :class="[prefixCls + '-label']" :for="labelFor" :style="labelStyles" v-if="label || $slots.label"><slot name="label">{{ label }}{{ FormInstance.colon }}</slot></label>
         <div :class="[prefixCls + '-content']" :style="contentStyles">
             <slot></slot>
             <transition name="fade">
-                <div :class="[prefixCls + '-error-tip']" v-if="validateState === 'error' && showMessage && form.showMessage">{{ validateMessage }}</div>
+                <div :class="[prefixCls + '-error-tip']" v-if="validateState === 'error' && showMessage && FormInstance.showMessage">{{ validateMessage }}</div>
             </transition>
         </div>
     </div>
@@ -98,7 +98,7 @@
                 this.setRules();
             }
         },
-        inject: ['form'],
+        inject: ['FormInstance'],
         computed: {
             classes () {
                 return [
@@ -118,7 +118,7 @@
             //    return parent;
             // },
             fieldValue () {
-                const model = this.form.model;
+                const model = this.FormInstance.model;
                 if (!model || !this.prop) { return; }
 
                 let path = this.prop;
@@ -130,7 +130,7 @@
             },
             labelStyles () {
                 let style = {};
-                const labelWidth = this.labelWidth === 0 || this.labelWidth ? this.labelWidth : this.form.labelWidth;
+                const labelWidth = this.labelWidth === 0 || this.labelWidth ? this.labelWidth : this.FormInstance.labelWidth;
 
                 if (labelWidth || labelWidth === 0) {
                     style.width = `${labelWidth}px`;
@@ -139,7 +139,7 @@
             },
             contentStyles () {
                 let style = {};
-                const labelWidth = this.labelWidth === 0 || this.labelWidth ? this.labelWidth : this.form.labelWidth;
+                const labelWidth = this.labelWidth === 0 || this.labelWidth ? this.labelWidth : this.FormInstance.labelWidth;
 
                 if (labelWidth || labelWidth === 0) {
                     style.marginLeft = `${labelWidth}px`;
@@ -165,7 +165,7 @@
                 this.$on('on-form-change', this.onFieldChange);
             },
             getRules () {
-                let formRules = this.form.rules;
+                let formRules = this.FormInstance.rules;
                 const selfRules = this.rules;
 
                 formRules = formRules ? formRules[this.prop] : [];
@@ -203,6 +203,8 @@
                     this.validateMessage = errors ? errors[0].message : '';
 
                     callback(this.validateMessage);
+
+                    this.FormInstance && this.FormInstance.$emit('on-validate', this.prop, !errors, this.validateMessage || null);
                 });
                 this.validateDisabled = false;
             },
@@ -210,7 +212,7 @@
                 this.validateState = '';
                 this.validateMessage = '';
 
-                let model = this.form.model;
+                let model = this.FormInstance.model;
                 let value = this.fieldValue;
                 let path = this.prop;
                 if (path.indexOf(':') !== -1) {
