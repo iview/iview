@@ -13,7 +13,8 @@ const lang = {
             noFilteredDataText: 'لا توجد بيانات',
             confirmFilter: 'تأكيد',
             resetFilter: 'إعادة تعيين',
-            clearFilter: 'الكل'
+            clearFilter: 'الكل',
+            sumText: 'المجموع'
         },
         datepicker: {
             selectDate: 'إختر التاريخ',

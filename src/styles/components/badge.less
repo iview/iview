@@ -27,6 +27,13 @@
         z-index: 10;
         box-shadow: 0 0 0 1px #fff;
 
+        &-custom{
+            background: transparent;
+            color: inherit;
+            border-color: transparent;
+            box-shadow: none;
+        }
+
         a,
         a:hover {
             color: #fff;
@@ -117,9 +124,21 @@
         &-text {
             display: inline-block;
             color: @text-color;
-            font-size: @font-size-small;
+            font-size: @font-size-base;
             margin-left: 6px;
         }
+
+        @colors: pink, magenta, red, volcano, orange, yellow, gold, cyan, lime, green, blue, geekblue, purple;
+
+        .make-color-classes(@i: length(@colors)) when (@i > 0) {
+            .make-color-classes(@i - 1);
+            @color: extract(@colors, @i);
+            @darkColor: '@{color}-6';
+            &-@{color} {
+                background-color: @@darkColor;
+            }
+        }
+        .make-color-classes();
     }
 }
 

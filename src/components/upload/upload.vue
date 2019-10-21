@@ -29,12 +29,13 @@
     import ajax from './ajax';
     import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
+    import mixinsForm from '../../mixins/form';
 
     const prefixCls = 'ivu-upload';
 
     export default {
         name: 'Upload',
-        mixins: [ Emitter ],
+        mixins: [ Emitter, mixinsForm ],
         components: { UploadList },
         props: {
             action: {
@@ -167,7 +168,7 @@
         },
         methods: {
             handleClick () {
-                if (this.disabled) return;
+                if (this.itemDisabled) return;
                 this.$refs.input.click();
             },
             handleChange (e) {
@@ -181,11 +182,11 @@
             },
             onDrop (e) {
                 this.dragOver = false;
-                if (this.disabled) return;
+                if (this.itemDisabled) return;
                 this.uploadFiles(e.dataTransfer.files);
             },
             handlePaste (e) {
-                if (this.disabled) return;
+                if (this.itemDisabled) return;
                 if (this.paste) {
                     this.uploadFiles(e.clipboardData.files);
                 }

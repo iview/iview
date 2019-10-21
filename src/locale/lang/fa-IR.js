@@ -13,7 +13,8 @@ const lang = {
             noFilteredDataText: 'بدون اطلاعات فیلترشده',
             confirmFilter: 'تایید',
             resetFilter: 'بازنشانی',
-            clearFilter: 'همه'
+            clearFilter: 'همه',
+            sumText: 'جمع'
         },
         datepicker: {
             selectDate: 'انتخاب تاریخ',

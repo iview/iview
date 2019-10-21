@@ -13,7 +13,8 @@ const lang = {
             noFilteredDataText: '暫無篩選結果',
             confirmFilter: '篩選',
             resetFilter: '重置',
-            clearFilter: '全部'
+            clearFilter: '全部',
+            sumText: '合計'
         },
         datepicker: {
             selectDate: '選擇日期',

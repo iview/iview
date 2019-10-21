@@ -65,8 +65,23 @@
         position: absolute;
         .square(@slider-height);
         border-radius: 50%;
-        background-color: @slider-disabled-color;
+        background-color: #fff;
         transform: translateX(-50%);
+    }
+
+    &-marks{
+        top: 0;
+        left: 12px;
+        width: 18px;
+        height: 100%;
+
+        &-item{
+            position: absolute;
+            transform: translateX(-50%);
+            font-size: @font-size-base;
+            color: @subsidiary-color;
+            margin-top: 15px;
+        }
     }
 }
 

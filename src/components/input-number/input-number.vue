@@ -16,7 +16,7 @@
             <input
                 :id="elementId"
                 :class="inputClasses"
-                :disabled="disabled"
+                :disabled="itemDisabled"
                 autocomplete="off"
                 spellcheck="false"
                 :autofocus="autofocus"
@@ -36,6 +36,7 @@
 <script>
     import { oneOf, findComponentUpward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
+    import mixinsForm from '../../mixins/form';
 
     const prefixCls = 'ivu-input-number';
     const iconPrefixCls = 'ivu-icon';
@@ -66,7 +67,7 @@
 
     export default {
         name: 'InputNumber',
-        mixins: [ Emitter ],
+        mixins: [ Emitter, mixinsForm ],
         props: {
             max: {
                 type: Number,
@@ -146,7 +147,7 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-${this.size}`]: !!this.size,
-                        [`${prefixCls}-disabled`]: this.disabled,
+                        [`${prefixCls}-disabled`]: this.itemDisabled,
                         [`${prefixCls}-focused`]: this.focused
                     }
                 ];
@@ -216,7 +217,7 @@
                 this.changeStep('down', e);
             },
             changeStep (type, e) {
-                if (this.disabled || this.readonly) {
+                if (this.itemDisabled || this.readonly) {
                     return false;
                 }
 

@@ -7,7 +7,7 @@
                     :element-id="elementId"
                     ref="input"
                     :readonly="!filterable"
-                    :disabled="disabled"
+                    :disabled="itemDisabled"
                     :value="displayInputRender"
                     @on-change="handleInput"
                     :size="size"
@@ -34,7 +34,7 @@
                         ref="caspanel"
                         :prefix-cls="prefixCls"
                         :data="data"
-                        :disabled="disabled"
+                        :disabled="itemDisabled"
                         :change-on-select="changeOnSelect"
                         :trigger="trigger"></Caspanel>
                     <div :class="[prefixCls + '-dropdown']" v-show="filterable && query !== '' && querySelections.length">
@@ -58,18 +58,19 @@
     import Drop from '../select/dropdown.vue';
     import Icon from '../icon/icon.vue';
     import Caspanel from './caspanel.vue';
-    import {directive as clickOutside} from 'v-click-outside-x';
+    import {directive as clickOutside} from '../../directives/v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     import Locale from '../../mixins/locale';
+    import mixinsForm from '../../mixins/form';
 
     const prefixCls = 'ivu-cascader';
     const selectPrefixCls = 'ivu-select';
 
     export default {
         name: 'Cascader',
-        mixins: [ Emitter, Locale ],
+        mixins: [ Emitter, Locale, mixinsForm ],
         components: { iInput, Drop, Icon, Caspanel },
         directives: { clickOutside, TransferDom },
         props: {
@@ -141,6 +142,13 @@
             },
             elementId: {
                 type: String
+            },
+            // 4.0.0
+            capture: {
+                type: Boolean,
+                default () {
+                    return !this.$IVIEW ? true : this.$IVIEW.capture;
+                }
             }
         },
         data () {
@@ -165,13 +173,13 @@
                         [`${prefixCls}-show-clear`]: this.showCloseIcon,
                         [`${prefixCls}-size-${this.size}`]: !!this.size,
                         [`${prefixCls}-visible`]: this.visible,
-                        [`${prefixCls}-disabled`]: this.disabled,
+                        [`${prefixCls}-disabled`]: this.itemDisabled,
                         [`${prefixCls}-not-found`]: this.filterable && this.query !== '' && !this.querySelections.length
                     }
                 ];
             },
             showCloseIcon () {
-                return this.currentValue && this.currentValue.length && this.clearable && !this.disabled;
+                return this.currentValue && this.currentValue.length && this.clearable && !this.itemDisabled;
             },
             displayRender () {
                 let label = [];
@@ -271,7 +279,7 @@
         },
         methods: {
             clearSelect () {
-                if (this.disabled) return false;
+                if (this.itemDisabled) return false;
                 const oldVal = JSON.stringify(this.currentValue);
                 this.currentValue = this.selected = this.tmpSelected = [];
                 this.handleClose();
@@ -283,7 +291,7 @@
                 this.visible = false;
             },
             toggleOpen () {
-                if (this.disabled) return false;
+                if (this.itemDisabled) return false;
                 if (this.visible) {
                     if (!this.filterable) this.handleClose();
                 } else {

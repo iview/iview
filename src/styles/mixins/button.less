@@ -1,4 +1,5 @@
-.button-size(@padding; @font-size; @border-radius) {
+.button-size(@height; @padding; @font-size; @border-radius) {
+    height: @height;
     padding: @padding;
     font-size: @font-size;
     border-radius: @border-radius;
@@ -65,21 +66,22 @@
         }
     }
 
-    & .@{btnClassName}-icon-only .ivu-icon {
-        font-size: 13px;
-        position: relative;
-        //top: 1px;
-    }
 
-    &-large .@{btnClassName}-icon-only .ivu-icon{
-        font-size: 15px;
-        //top: 2px;
-    }
-
-    &-small .@{btnClassName}-icon-only .ivu-icon{
-        font-size: 12px;
-        //top: 0;
-    }
+    //& .@{btnClassName}-icon-only .ivu-icon {
+    //    font-size: 13px;
+    //    position: relative;
+    //    //top: 1px;
+    //}
+    //
+    //&-large .@{btnClassName}-icon-only .ivu-icon{
+    //    font-size: 15px;
+    //    //top: 2px;
+    //}
+    //
+    //&-small .@{btnClassName}-icon-only .ivu-icon{
+    //    font-size: 12px;
+    //    //top: 0;
+    //}
 
     &-circle .@{btnClassName} {
         border-radius: @btn-circle-size;
@@ -91,7 +93,7 @@
     }
     &-large {
         & > .@{btnClassName} {
-            .button-size(@btn-padding-large; @btn-font-size-large; @btn-border-radius);
+            .button-size(@btn-height-large; @btn-padding-large; @btn-font-size-large; @btn-border-radius);
         }
     }
 
@@ -100,19 +102,21 @@
     }
     &-small {
         & > .@{btnClassName}{
-            .button-size(@btn-padding-small; @btn-font-size; @btn-border-radius-small);
+            .button-size(@btn-height-small; @btn-padding-small; @btn-font-size; @btn-border-radius-small);
             > .@{css-prefix-iconfont} {
                 font-size: @btn-font-size;
             }
         }
     }
 
-    //&-small .@{btnClassName}-icon-only{
-    //    .button-size(@btn-padding-small-icon; @btn-font-size; @btn-border-radius-small);
-    //}
-    //&-large .@{btnClassName}-icon-only{
-    //    .button-size(@btn-padding-large-icon; @btn-font-size-large; @btn-border-radius);
-    //}
+    &-small .@{btnClassName}-icon-only{
+        .square(@btn-height-small);
+        padding: 0;
+    }
+    &-large .@{btnClassName}-icon-only{
+        .square(@btn-height-large);
+        padding: 0;
+    }
 }
 
 .button-group-vertical-base(@btnClassName) {
@@ -123,6 +127,41 @@
         width: 100%;
         max-width: 100%;
         float: none;
+        min-width: @btn-height-base;
+
+    }
+    &.@{btnClassName}-group-small > .@{btnClassName}{
+        min-width: @btn-height-small;
+    }
+    &.@{btnClassName}-group-large > .@{btnClassName}{
+        min-width: @btn-height-large;
+    }
+
+    //> .@{btnClassName}-icon-only {
+    //    height: @btn-height-base;
+    //    padding: 0;
+    //}
+    //> .@{btnClassName}-small.@{btnClassName}-icon-only {
+    //    height: @btn-height-small;
+    //    padding: 0;
+    //}
+    //> .@{btnClassName}-large.@{btnClassName}-icon-only {
+    //    height: @btn-height-large;
+    //    padding: 0;
+    //}
+}
+
+// square button: the content only contains icon
+.btn-square(@btnClassName) {
+    .square(@btn-square-size);
+    .button-size(@btn-square-size; 0; @font-size-base + 2px; @btn-border-radius);
+    &.@{btnClassName}-large {
+        .square(@btn-square-size-large);
+        .button-size(@btn-square-size-large; 0; @btn-font-size-large + 2px; @btn-border-radius);
+    }
+    &.@{btnClassName}-small {
+        .square(@btn-square-size-small);
+        .button-size(@btn-square-size-small; 0; @font-size-base; @btn-border-radius);
     }
 }
 
@@ -139,22 +178,23 @@
     white-space: nowrap;
     line-height: @line-height-base;
     user-select: none;
-    .button-size(@btn-padding-base; @btn-font-size; @btn-border-radius);
+    .button-size(@btn-height-base; @btn-padding-base; @btn-font-size; @btn-border-radius);
     //transform: translate3d(0, 0, 0);
     //transition: all @transition-time linear;
     transition: color @transition-time linear, background-color @transition-time linear, border @transition-time linear, box-shadow @transition-time linear;
 
     > .@{css-prefix-iconfont} {
         line-height: @line-height-base;
-        vertical-align: middle;
+        //vertical-align: middle;
     }
 
     &-icon-only&-circle > .@{css-prefix-iconfont}{
         vertical-align: baseline;
     }
 
-    > span{
-        vertical-align: middle;
+    > span, > i{
+        display: inline-block;
+        //vertical-align: middle;
     }
 
     &,
@@ -181,21 +221,15 @@
     }
 
     &-large {
-        .button-size(@btn-padding-large; @btn-font-size-large; @btn-border-radius);
+        .button-size(@btn-height-large; @btn-padding-large; @btn-font-size-large; @btn-border-radius);
     }
 
     &-small {
-        .button-size(@btn-padding-small; @btn-font-size; @btn-border-radius-small);
+        .button-size(@btn-height-small; @btn-padding-small; @btn-font-size; @btn-border-radius-small);
     }
 
     &-icon-only{
-        .button-size(@btn-padding-base-icon; @btn-font-size; @btn-border-radius);
-    }
-    &-icon-only&-small{
-        .button-size(@btn-padding-small-icon; @btn-font-size; @btn-border-radius-small);
-    }
-    &-icon-only&-large{
-        .button-size(@btn-padding-large-icon; @btn-font-size-large; @btn-border-radius);
+        .btn-square(@btn-prefix-cls);
     }
 }
 
@@ -324,16 +358,16 @@
 
     &.@{btnClassName}-icon-only{
         .square(@btn-circle-size);
-        .button-size(0; @font-size-base + 2; 50%);
+        .button-size(@btn-height-base; 0; @font-size-base + 2; 50%);
 
         &.@{btnClassName}-large{
             .square(@btn-circle-size-large);
-            .button-size(0; @btn-font-size-large + 2; 50%);
+            .button-size(@btn-height-large; 0; @btn-font-size-large + 2; 50%);
         }
 
         &.@{btnClassName}-small{
             .square(@btn-circle-size-small);
-            .button-size(0; @font-size-base; 50%);
+            .button-size(@btn-height-small; 0; @font-size-base; 50%);
         }
     }
 }

@@ -10,7 +10,7 @@
 
 .@{radio-group-prefix-cls} {
     display: inline-block;
-    font-size: @font-size-small;
+    font-size: @font-size-base;
     vertical-align: middle;
     //outline: none;
     &-vertical{
@@ -24,7 +24,7 @@
 
 // 普通状态 - Normal state
 .@{radio-prefix-cls}-wrapper {
-    font-size: @font-size-small;
+    font-size: @font-size-base;
     vertical-align: middle;
     display: inline-block;
     position: relative;
@@ -53,8 +53,8 @@
     }
     &-inner {
         display: inline-block;
-        width: 14px;
-        height: 14px;
+        width: 16px;
+        height: 16px;
         position: relative;
         top: 0;
         left: 0;
@@ -65,8 +65,8 @@
 
         &:after {
             position: absolute;
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             left: 2px;
             top: 2px;
             border-radius: @border-radius-base;
@@ -81,26 +81,26 @@
         }
     }
     &-large{
-        font-size: @font-size-base;
+        font-size: @font-size-large;
         & .@{radio-inner-prefix-cls}{
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             &:after{
-                width: 10px;
-                height: 10px;
+                width: 12px;
+                height: 12px;
             }
         }
         &.@{radio-prefix-cls}-wrapper, & .@{radio-prefix-cls}-wrapper{
-            font-size: @font-size-base;
+            font-size: @font-size-large;
         }
     }
     &-small{
         & .@{radio-inner-prefix-cls}{
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             &:after{
-                width: 6px;
-                height: 6px;
+                width: 8px;
+                height: 8px;
             }
         }
     }
@@ -115,6 +115,32 @@
         opacity: 0;
         cursor: pointer;
     }
+
+    &-border{
+        border: 1px solid @border-color-base;
+        border-radius: @btn-border-radius;
+        height: @btn-height-base;
+        line-height: @btn-height-base - 2px;
+        padding: @btn-padding-base;
+        transition: border @transition-time @ease-in-out;
+    }
+    &-small&-border, .@{radio-group-prefix-cls}-small &-border{
+        height: @btn-height-small;
+        line-height: @btn-height-small - 2px;
+        padding: @btn-padding-small;
+    }
+    &-large&-border, .@{radio-group-prefix-cls}-large &-border{
+        height: @btn-height-large;
+        line-height: @btn-height-large - 4px;
+        padding: @btn-padding-large;
+    }
+}
+
+.@{radio-prefix-cls}-wrapper-checked.@{radio-prefix-cls}-border{
+    border-color: @primary-color;
+}
+.@{radio-prefix-cls}-wrapper-disabled.@{radio-prefix-cls}-border{
+    border-color: @btn-disable-border;
 }
 
 // 选中状态 - Selected state
@@ -179,7 +205,7 @@ span.@{radio-prefix-cls} + * {
         line-height: @btn-circle-size - 2px;
         margin: 0;
         padding: 0 16px - 1px;
-        font-size: @font-size-small;
+        font-size: @font-size-base;
         color: @btn-default-color;
         transition: all @transition-time ease-in-out;
         cursor: pointer;
@@ -317,7 +343,7 @@ span.@{radio-prefix-cls} + * {
 .@{radio-group-button-prefix-cls}.@{radio-group-prefix-cls}-large .@{radio-prefix-cls}-wrapper{
     height: @btn-circle-size-large;
     line-height: @btn-circle-size-large - 2px;
-    font-size: @font-size-base;
+    font-size: @font-size-large;
     &:after{
         height: @btn-circle-size-large + 4px;
     }
@@ -327,7 +353,7 @@ span.@{radio-prefix-cls} + * {
     height: @btn-circle-size-small;
     line-height: @btn-circle-size-small - 2px;
     padding: 0 12px;
-    font-size: @font-size-small;
+    font-size: @font-size-base;
 
     &:after{
         height: @btn-circle-size-small + 4px;

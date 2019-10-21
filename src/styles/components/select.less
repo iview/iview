@@ -79,7 +79,7 @@
             display: block;
             height: @input-height-base - 2px;
             line-height: @input-height-base - 2px;
-            font-size: @font-size-small;
+            font-size: @font-size-base;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -97,13 +97,16 @@
             height: @input-height-base - 2px;
             line-height: @input-height-base - 2px;
             color: @input-placeholder-color;
-            font-size: @font-size-small;
+            font-size: @font-size-base;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
             padding-left: 4px;
             padding-right: 22px;
         }
+    }
+    &-default&-multiple &-selection{
+        min-height: @input-height-base;
     }
 
     &-large&-single &-selection{
@@ -112,7 +115,7 @@
         .@{select-prefix-cls}-placeholder, .@{select-prefix-cls}-selected-value{
             height: @input-height-large - 2px;
             line-height: @input-height-large - 2px;
-            font-size: @font-size-base;
+            font-size: @font-size-large;
         }
     }
 
@@ -122,7 +125,7 @@
         .@{select-prefix-cls}-placeholder, .@{select-prefix-cls}-selected-value{
             min-height: @input-height-large - 2px;
             line-height: @input-height-large - 2px;
-            font-size: @font-size-base;
+            font-size: @font-size-large;
         }
     }
 
@@ -153,7 +156,7 @@
         height: @input-height-base;
         line-height: @input-height-base;
         padding: 0 24px 0 8px;
-        font-size: @font-size-small;
+        font-size: @font-size-base;
         outline: none;
         border: none;
         box-sizing: border-box;
@@ -174,20 +177,24 @@
         width: 100%;
     }
 
-    &-large &-input{
-        font-size: @font-size-base;
-        height: @input-height-large;
+    &-large &-input, &-large&-multiple &-input{
+        font-size: @font-size-large;
+        height: @input-height-large - 8px;
+        line-height: @input-height-large - 8px;
+        top: 3px;
     }
 
-    &-small &-input{
-        height: @input-height-small - 2px;
-        line-height: @input-height-small - 2px;
+    &-small &-input, &-small&-multiple &-input{
+        height: @input-height-small - 6px;
+        line-height: @input-height-small - 6px;
+        top: 2px;
     }
 
     &-multiple &-input{
-        height: @input-height-base - 2px;
-        line-height: @input-height-base;
+        height: @input-height-base - 6px;
+        line-height: @input-height-base - 6px;
         padding: 0 0 0 4px;
+        top: 2px;
     }
 
     &-not-found{
@@ -224,11 +231,11 @@
     }
 
     &-large&-multiple .@{css-prefix}tag{
-        height: 28px;
-        line-height: 26px;
-        font-size: @font-size-base;
+        height: 32px;
+        line-height: 30px;
+        font-size: @font-size-large;
         i{
-            top: 6px;
+            top: 9px;
         }
     }
 
@@ -321,7 +328,7 @@
 
     &-title {
         padding-left: 8px;
-        font-size: 12px;
+        font-size: 14px;
         color: @legend-color;
         height: 30px;
         line-height: 30px;

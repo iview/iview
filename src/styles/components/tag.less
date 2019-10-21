@@ -14,8 +14,18 @@
     vertical-align: middle;
     opacity: 1;
     overflow: hidden;
-    cursor: pointer;
     //transition: all @transition-time @ease-in-out;
+
+    &-size-large{
+        height: 32px;
+        line-height: 32px;
+        padding: 0 12px;
+    }
+    &-size-medium{
+        height: 28px;
+        line-height: 28px;
+        padding: 0 10px;
+    }
 
     // for color and unchecked
     &:not(&-border):not(&-dot):not(&-checked){

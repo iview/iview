@@ -13,7 +13,8 @@ const lang = {
             noFilteredDataText: 'Nenalezeny žádné položky',
             confirmFilter: 'Potvrdit',
             resetFilter: 'Reset',
-            clearFilter: 'Vše'
+            clearFilter: 'Vše',
+            sumText: 'Sum'
         },
         datepicker: {
             selectDate: 'Vybrat datum',

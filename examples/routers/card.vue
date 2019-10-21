@@ -1,5 +1,5 @@
 <template>
-    <Card style="width:350px">
+    <Card style="width:350px" to="/button">
         <p slot="title">
             <Icon type="ios-film-outline"></Icon>
             <span>经典电影</span>

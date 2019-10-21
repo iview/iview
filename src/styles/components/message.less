@@ -79,4 +79,32 @@
             vertical-align: middle;
         }
     }
+
+    &-notice-with-background{
+        .@{message-prefix-cls}-notice-content{
+            &-background{
+                box-shadow: none;
+            }
+            &-info{
+                background: ~`colorPalette("@{primary-color}", 1)`;
+                color: ~`colorPalette("@{primary-color}", 6)`;
+                border: 1px solid ~`colorPalette("@{primary-color}", 2)`;
+            }
+            &-success{
+                background: ~`colorPalette("@{success-color}", 1)`;
+                color: ~`colorPalette("@{success-color}", 6)`;
+                border: 1px solid ~`colorPalette("@{success-color}", 2)`;
+            }
+            &-warning{
+                background: ~`colorPalette("@{warning-color}", 1)`;
+                color: ~`colorPalette("@{warning-color}", 6)`;
+                border: 1px solid ~`colorPalette("@{warning-color}", 2)`;
+            }
+            &-error{
+                background: ~`colorPalette("@{error-color}", 1)`;
+                color: ~`colorPalette("@{error-color}", 6)`;
+                border: 1px solid ~`colorPalette("@{error-color}", 2)`;
+            }
+        }
+    }
 }

@@ -11,10 +11,24 @@
         <Progress  :percent="65" status="wrong"></Progress>
         <Progress  :percent="100"></Progress>
         <Progress  :percent="25" hide-info></Progress>
+
+        <Divider></Divider>
+
+        <Progress :percent="10" :stroke-width="20" text-inside></Progress>
+
+        <Divider></Divider>
+
+        <Progress :percent="90" :stroke-color="color1"></Progress>
+        <Progress :percent="90" :stroke-color="color2" status="active"></Progress>
     </div>
 </template>
 <script>
     export default {
-
+        data () {
+            return {
+                color1: '#ff6600',
+                color2: ['#108ee9', '#87d068']
+            }
+        }
     }
 </script>

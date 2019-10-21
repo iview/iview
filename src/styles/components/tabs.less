@@ -66,22 +66,27 @@
         margin-left: 5px;
     }
 
-    &-nav-prev{
-        position:absolute;
+    &-nav-prev, &-nav-next{
+        width: 32px;
+        text-align: center;
+        position: absolute;
         line-height: 32px;
         cursor: pointer;
-        left:0;
+        i{
+            font-size: 16px;
+        }
+    }
+
+    &-nav-prev{
+        left: 0;
     }
 
     &-nav-next{
-        position:absolute;
-        line-height: 32px;
-        cursor: pointer;
-        right:0;
+        right: 0;
     }
 
     &-nav-scrollable{
-        padding: 0 12px;
+        padding: 0 32px;
     }
 
     &-nav-scroll-disabled{

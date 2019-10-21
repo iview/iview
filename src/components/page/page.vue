@@ -12,6 +12,7 @@
                 :value="currentPage"
                 autocomplete="off"
                 spellcheck="false"
+                :disabled="disabled"
                 @keydown="keyDown"
                 @keyup="keyUp"
                 @change="keyUp">
@@ -61,6 +62,7 @@
             :show-elevator="showElevator"
             :_current.once="currentPage"
             :current="currentPage"
+            :disabled="disabled"
             :all-pages="allPages"
             :is-small="isSmall"
             @on-size="onSize"
@@ -144,6 +146,10 @@
             nextText: {
                 type: String,
                 default: ''
+            },
+            disabled: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -192,6 +198,7 @@
                     `${prefixCls}`,
                     {
                         [`${this.className}`]: !!this.className,
+                        [`${prefixCls}-with-disabled`]: this.disabled,
                         'mini': !!this.size
                     }
                 ];
@@ -200,7 +207,7 @@
                 return [
                     `${prefixCls}-prev`,
                     {
-                        [`${prefixCls}-disabled`]: this.currentPage === 1,
+                        [`${prefixCls}-disabled`]: this.currentPage === 1 || this.disabled,
                         [`${prefixCls}-custom-text`]: this.prevText !== ''
                     }
                 ];
@@ -209,7 +216,7 @@
                 return [
                     `${prefixCls}-next`,
                     {
-                        [`${prefixCls}-disabled`]: this.currentPage === this.allPages,
+                        [`${prefixCls}-disabled`]: this.currentPage === this.allPages || this.disabled,
                         [`${prefixCls}-custom-text`]: this.nextText !== ''
                     }
                 ];
@@ -233,6 +240,7 @@
         },
         methods: {
             changePage (page) {
+                if (this.disabled) return;
                 if (this.currentPage != page) {
                     this.currentPage = page;
                     this.$emit('update:current', page);
@@ -240,6 +248,7 @@
                 }
             },
             prev () {
+                if (this.disabled) return;
                 const current = this.currentPage;
                 if (current <= 1) {
                     return false;
@@ -247,6 +256,7 @@
                 this.changePage(current - 1);
             },
             next () {
+                if (this.disabled) return;
                 const current = this.currentPage;
                 if (current >= this.allPages) {
                     return false;
@@ -254,6 +264,7 @@
                 this.changePage(current + 1);
             },
             fastPrev () {
+                if (this.disabled) return;
                 const page = this.currentPage - 5;
                 if (page > 0) {
                     this.changePage(page);
@@ -262,6 +273,7 @@
                 }
             },
             fastNext () {
+                if (this.disabled) return;
                 const page = this.currentPage + 5;
                 if (page > this.allPages) {
                     this.changePage(this.allPages);
@@ -270,11 +282,13 @@
                 }
             },
             onSize (pageSize) {
+                if (this.disabled) return;
                 this.currentPageSize = pageSize;
                 this.$emit('on-page-size-change', pageSize);
                 this.changePage(1);
             },
             onPage (page) {
+                if (this.disabled) return;
                 this.changePage(page);
             },
             keyDown (e) {

@@ -2,10 +2,15 @@
     <div :class="wrapClasses">
         <template v-if="type !== 'textarea'">
             <div :class="[prefixCls + '-group-prepend']" v-if="prepend" v-show="slotReady"><slot name="prepend"></slot></div>
-            <i class="ivu-icon" :class="['ivu-icon-ios-close-circle', prefixCls + '-icon', prefixCls + '-icon-clear' , prefixCls + '-icon-normal']" v-if="clearable && currentValue && !disabled" @click="handleClear"></i>
+            <i class="ivu-icon" :class="['ivu-icon-ios-close-circle', prefixCls + '-icon', prefixCls + '-icon-clear' , prefixCls + '-icon-normal']" v-if="clearable && currentValue && !itemDisabled" @click="handleClear"></i>
             <i class="ivu-icon" :class="['ivu-icon-' + icon, prefixCls + '-icon', prefixCls + '-icon-normal']" v-else-if="icon" @click="handleIconClick"></i>
             <i class="ivu-icon ivu-icon-ios-search" :class="[prefixCls + '-icon', prefixCls + '-icon-normal', prefixCls + '-search-icon']" v-else-if="search && enterButton === false" @click="handleSearch"></i>
             <span class="ivu-input-suffix" v-else-if="showSuffix"><slot name="suffix"><i class="ivu-icon" :class="['ivu-icon-' + suffix]" v-if="suffix"></i></slot></span>
+            <span class="ivu-input-word-count" v-else-if="showWordLimit">{{ textLength }}/{{ upperLimit }}</span>
+            <span class="ivu-input-suffix" v-else-if="password" @click="handleToggleShowPassword">
+                <i class="ivu-icon ivu-icon-ios-eye-off-outline" v-if="showPassword"></i>
+                <i class="ivu-icon ivu-icon-ios-eye-outline" v-else></i>
+            </span>
             <transition name="fade">
                 <i class="ivu-icon ivu-icon-ios-loading ivu-load-loop" :class="[prefixCls + '-icon', prefixCls + '-icon-validate']" v-if="!icon"></i>
             </transition>
@@ -14,10 +19,10 @@
                 :autocomplete="autocomplete"
                 :spellcheck="spellcheck"
                 ref="input"
-                :type="type"
+                :type="currentType"
                 :class="inputClasses"
                 :placeholder="placeholder"
-                :disabled="disabled"
+                :disabled="itemDisabled"
                 :maxlength="maxlength"
                 :readonly="readonly"
                 :name="name"
@@ -42,46 +47,49 @@
             </div>
             <span class="ivu-input-prefix" v-else-if="showPrefix"><slot name="prefix"><i class="ivu-icon" :class="['ivu-icon-' + prefix]" v-if="prefix"></i></slot></span>
         </template>
-        <textarea
-            v-else
-            :id="elementId"
-            :wrap="wrap"
-            :autocomplete="autocomplete"
-            :spellcheck="spellcheck"
-            ref="textarea"
-            :class="textareaClasses"
-            :style="textareaStyles"
-            :placeholder="placeholder"
-            :disabled="disabled"
-            :rows="rows"
-            :maxlength="maxlength"
-            :readonly="readonly"
-            :name="name"
-            :value="currentValue"
-            :autofocus="autofocus"
-            @keyup.enter="handleEnter"
-            @keyup="handleKeyup"
-            @keypress="handleKeypress"
-            @keydown="handleKeydown"
-            @focus="handleFocus"
-            @blur="handleBlur"
-            @compositionstart="handleComposition"
-            @compositionupdate="handleComposition"
-            @compositionend="handleComposition"
-            @input="handleInput">
-        </textarea>
+        <template v-else>
+            <textarea
+                :id="elementId"
+                :wrap="wrap"
+                :autocomplete="autocomplete"
+                :spellcheck="spellcheck"
+                ref="textarea"
+                :class="textareaClasses"
+                :style="textareaStyles"
+                :placeholder="placeholder"
+                :disabled="itemDisabled"
+                :rows="rows"
+                :maxlength="maxlength"
+                :readonly="readonly"
+                :name="name"
+                :value="currentValue"
+                :autofocus="autofocus"
+                @keyup.enter="handleEnter"
+                @keyup="handleKeyup"
+                @keypress="handleKeypress"
+                @keydown="handleKeydown"
+                @focus="handleFocus"
+                @blur="handleBlur"
+                @compositionstart="handleComposition"
+                @compositionupdate="handleComposition"
+                @compositionend="handleComposition"
+                @input="handleInput">
+            </textarea>
+            <span class="ivu-input-word-count" v-if="showWordLimit">{{ textLength }}/{{ upperLimit }}</span>
+        </template>
     </div>
 </template>
 <script>
     import { oneOf, findComponentUpward } from '../../utils/assist';
     import calcTextareaHeight from '../../utils/calcTextareaHeight';
     import Emitter from '../../mixins/emitter';
+    import mixinsForm from '../../mixins/form';
 
     const prefixCls = 'ivu-input';
 
     export default {
         name: 'Input',
-        mixins: [ Emitter ],
+        mixins: [ Emitter, mixinsForm ],
         props: {
             type: {
                 validator (value) {
@@ -106,7 +114,7 @@
                 default: ''
             },
             maxlength: {
-                type: Number
+                type: [String, Number]
             },
             disabled: {
                 type: Boolean,
@@ -172,28 +180,60 @@
             enterButton: {
                 type: [Boolean, String],
                 default: false
+            },
+            // 4.0.0
+            showWordLimit: {
+                type: Boolean,
+                default: false
+            },
+            // 4.0.0
+            password: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
             return {
                 currentValue: this.value,
                 prefixCls: prefixCls,
-                prepend: true,
-                append: true,
                 slotReady: false,
                 textareaStyles: {},
-                showPrefix: false,
-                showSuffix: false,
-                isOnComposition: false
+                isOnComposition: false,
+                showPassword: false
             };
         },
         computed: {
+            currentType () {
+                let type = this.type;
+                if (type === 'password' && this.password && this.showPassword) type = 'text';
+                return type;
+            },
+            prepend () {
+                let state = false;
+                if (this.type !== 'textarea') state = this.$slots.prepend !== undefined;
+                return state;
+            },
+            append () {
+                let state = false;
+                if (this.type !== 'textarea') state = this.$slots.append !== undefined;
+                return state;
+            },
+            showPrefix () {
+                let state = false;
+                if (this.type !== 'textarea') state = this.prefix !== '' || this.$slots.prefix !== undefined;
+                return state;
+            },
+            showSuffix () {
+                let state = false;
+                if (this.type !== 'textarea') state = this.suffix !== '' || this.$slots.suffix !== undefined;
+                return state;
+            },
             wrapClasses () {
                 return [
                     `${prefixCls}-wrapper`,
                     {
                         [`${prefixCls}-wrapper-${this.size}`]: !!this.size,
-                        [`${prefixCls}-type`]: this.type,
+                        [`${prefixCls}-type-${this.type}`]: this.type,
                         [`${prefixCls}-group`]: this.prepend || this.append || (this.search && this.enterButton),
                         [`${prefixCls}-group-${this.size}`]: (this.prepend || this.append || (this.search && this.enterButton)) && !!this.size,
                         [`${prefixCls}-group-with-prepend`]: this.prepend,
@@ -208,7 +248,7 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-${this.size}`]: !!this.size,
-                        [`${prefixCls}-disabled`]: this.disabled,
+                        [`${prefixCls}-disabled`]: this.itemDisabled,
                         [`${prefixCls}-with-prefix`]: this.showPrefix,
                         [`${prefixCls}-with-suffix`]: this.showSuffix || (this.search && this.enterButton === false)
                     }
@@ -218,9 +258,19 @@
                 return [
                     `${prefixCls}`,
                     {
-                        [`${prefixCls}-disabled`]: this.disabled
+                        [`${prefixCls}-disabled`]: this.itemDisabled
                     }
                 ];
+            },
+            upperLimit () {
+                return this.maxlength;
+            },
+            textLength () {
+                if (typeof this.value === 'number') {
+                    return String(this.value).length;
+                }
+
+                return (this.value || '').length;
             }
         },
         methods: {
@@ -313,9 +363,18 @@
                 this.$emit('on-clear');
             },
             handleSearch () {
-                if (this.disabled) return false;
+                if (this.itemDisabled) return false;
                 this.$refs.input.focus();
                 this.$emit('on-search', this.currentValue);
+            },
+            handleToggleShowPassword () {
+                if (this.itemDisabled) return false;
+                this.showPassword = !this.showPassword;
+                this.focus();
+                const len = this.currentValue.length;
+                setTimeout(() => {
+                    this.$refs.input.setSelectionRange(len, len);
+                }, 0);
             }
         },
         watch: {
@@ -324,15 +383,6 @@
             }
         },
         mounted () {
-            if (this.type !== 'textarea') {
-                this.prepend = this.$slots.prepend !== undefined;
-                this.append = this.$slots.append !== undefined;
-                this.showPrefix = this.prefix !== '' || this.$slots.prefix !== undefined;
-                this.showSuffix = this.suffix !== '' || this.$slots.suffix !== undefined;
-            } else {
-                this.prepend = false;
-                this.append = false;
-            }
             this.slotReady = true;
             this.resizeTextarea();
         }

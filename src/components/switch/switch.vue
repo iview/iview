@@ -2,6 +2,7 @@
     <span
         tabindex="0"
         :class="wrapClasses"
+        :style="wrapStyles"
         @click="toggle"
         @keydown.space="toggle"
     >
@@ -15,12 +16,13 @@
 <script>
     import { oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
+    import mixinsForm from '../../mixins/form';
 
     const prefixCls = 'ivu-switch';
 
     export default {
         name: 'iSwitch',
-        mixins: [ Emitter ],
+        mixins: [ Emitter, mixinsForm ],
         props: {
             value: {
                 type: [String, Number, Boolean],
@@ -52,7 +54,14 @@
             loading: {
                 type: Boolean,
                 default: false
-            }
+            },
+            trueColor: {
+                type: String
+            },
+            falseColor: {
+                type: String
+            },
+            beforeChange: Function
         },
         data () {
             return {
@@ -65,29 +74,57 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-checked`]: this.currentValue === this.trueValue,
-                        [`${prefixCls}-disabled`]: this.disabled,
+                        [`${prefixCls}-disabled`]: this.itemDisabled,
                         [`${prefixCls}-${this.size}`]: !!this.size,
                         [`${prefixCls}-loading`]: this.loading,
                     }
                 ];
+            },
+            wrapStyles () {
+                let style = {};
+
+                if (this.trueColor && this.currentValue === this.trueValue) {
+                    style['border-color'] = this.trueColor;
+                    style['background-color'] = this.trueColor;
+                } else if (this.falseColor && this.currentValue === this.falseValue) {
+                    style['border-color'] = this.falseColor;
+                    style['background-color'] = this.falseColor;
+                }
+
+                return style;
             },
             innerClasses () {
                 return `${prefixCls}-inner`;
             }
         },
         methods: {
-            toggle (event) {
-                event.preventDefault();
-                if (this.disabled || this.loading) {
-                    return false;
-                }
-
+            handleToggle () {
                 const checked = this.currentValue === this.trueValue ? this.falseValue : this.trueValue;
 
                 this.currentValue = checked;
                 this.$emit('input', checked);
                 this.$emit('on-change', checked);
                 this.dispatch('FormItem', 'on-form-change', checked);
+            },
+            toggle (event) {
+                event.preventDefault();
+                if (this.itemDisabled || this.loading) {
+                    return false;
+                }
+
+                if (!this.beforeChange) {
+                    return this.handleToggle();
+                }
+
+                const before = this.beforeChange();
+
+                if (before && before.then) {
+                    before.then(() => {
+                        this.handleToggle();
+                    });
+                } else {
+                    this.handleToggle();
+                }
             }
         },
         watch: {

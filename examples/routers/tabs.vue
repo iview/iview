@@ -1,10 +1,8 @@
 <template>
-    <div>
-        <Button @click="showSecond = !showSecond">change</Button>
-        <Tabs value="name1">
-            <TabPane label="标签一" name="name1" :index="1">标签一的内容</TabPane>
-            <TabPane label="标签二" name="name2" :index="2" v-if="showSecond">标签二的内容</TabPane>
-            <TabPane label="标签三" name="name3" :index="3">标签三的内容</TabPane>
+    <div style="height: 5000px">
+        <Tabs type="card">
+            <TabPane v-for="tab in tabs" :key="tab" :label="'标签' + tab">标签{{ tab }}</TabPane>
+            <Button @click="handleTabsAdd" size="small" slot="extra">增加</Button>
         </Tabs>
     </div>
 </template>
@@ -12,7 +10,12 @@
     export default {
         data () {
             return {
-                showSecond: false
+                tabs: 20
+            }
+        },
+        methods: {
+            handleTabsAdd () {
+                this.tabs ++;
             }
         }
     }

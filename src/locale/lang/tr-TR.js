@@ -13,7 +13,8 @@ const lang = {
             noFilteredDataText: 'Süzülen veri yok',
             confirmFilter: 'Onayla',
             resetFilter: 'Sıfırla',
-            clearFilter: 'Hepsi'
+            clearFilter: 'Hepsi',
+            sumText: 'Sum'
         },
         datepicker: {
             selectDate: 'Tarih seç',

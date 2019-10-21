@@ -1,6 +1,6 @@
 <template>
     <div
-        v-click-outside="handleClose"
+        v-click-outside:[capture]="handleClose"
         :class="classes">
         <div
             ref="reference"
@@ -13,7 +13,7 @@
             <Icon :type="arrowType" :custom="customArrowType" :size="arrowSize" :class="arrowClasses"></Icon>
             <div
                 ref="input"
-                :tabindex="disabled ? undefined : 0"
+                :tabindex="itemDisabled ? undefined : 0"
                 :class="inputClasses"
                 @keydown.tab="onTab"
                 @keydown.esc="onEscape"
@@ -116,7 +116,7 @@
 
 <script>
 import tinycolor from 'tinycolor2';
-import {directive as clickOutside} from 'v-click-outside-x';
+import {directive as clickOutside} from '../../directives/v-click-outside-x';
 import TransferDom from '../../directives/transfer-dom';
 import Drop from '../../components/select/dropdown.vue';
 import RecommendColors from './recommend-colors.vue';
@@ -129,6 +129,7 @@ import Icon from '../icon/icon.vue';
 import Locale from '../../mixins/locale';
 import {oneOf} from '../../utils/assist';
 import Emitter from '../../mixins/emitter';
+import mixinsForm from '../../mixins/form';
 import Prefixes from './prefixMixin';
 import {changeColor, toRGBAString} from './utils';
 
@@ -139,7 +140,7 @@ export default {
 
     directives: {clickOutside, TransferDom},
 
-    mixins: [Emitter, Locale, Prefixes],
+    mixins: [Emitter, Locale, Prefixes, mixinsForm],
 
     props: {
         value: {
@@ -221,6 +222,13 @@ export default {
             type: Boolean,
             default: true
         },
+        // 4.0.0
+        capture: {
+            type: Boolean,
+            default () {
+                return !this.$IVIEW ? true : this.$IVIEW.capture;
+            }
+        }
     },
 
     data() {
@@ -292,7 +300,7 @@ export default {
                 `${this.inputPrefixCls}-wrapper`,
                 `${this.inputPrefixCls}-wrapper-${this.size}`,
                 {
-                    [`${this.prefixCls}-disabled`]: this.disabled,
+                    [`${this.prefixCls}-disabled`]: this.itemDisabled,
                 },
             ];
         },
@@ -303,7 +311,7 @@ export default {
                 `${this.inputPrefixCls}-${this.size}`,
                 {
                     [`${this.prefixCls}-focused`]: this.visible,
-                    [`${this.prefixCls}-disabled`]: this.disabled,
+                    [`${this.prefixCls}-disabled`]: this.itemDisabled,
                 },
             ];
         },
@@ -430,7 +438,7 @@ export default {
             this.visible = false;
         },
         toggleVisible() {
-            if (this.disabled) {
+            if (this.itemDisabled) {
                 return;
             }
 

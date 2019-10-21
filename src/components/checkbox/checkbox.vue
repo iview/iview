@@ -6,7 +6,7 @@
                 v-if="group"
                 type="checkbox"
                 :class="inputClasses"
-                :disabled="disabled"
+                :disabled="itemDisabled"
                 :value="label"
                 v-model="model"
                 :name="name"
@@ -17,7 +17,7 @@
                 v-else
                 type="checkbox"
                 :class="inputClasses"
-                :disabled="disabled"
+                :disabled="itemDisabled"
                 :checked="currentValue"
                 :name="name"
                 @change="change"
@@ -30,12 +30,13 @@
 <script>
     import { findComponentUpward, oneOf } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
+    import mixinsForm from '../../mixins/form';
 
     const prefixCls = 'ivu-checkbox';
 
     export default {
         name: 'Checkbox',
-        mixins: [ Emitter ],
+        mixins: [ Emitter, mixinsForm ],
         props: {
             disabled: {
                 type: Boolean,
@@ -70,6 +71,11 @@
             },
             name: {
                 type: String
+            },
+            // 4.0.0
+            border: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -89,8 +95,9 @@
                     {
                         [`${prefixCls}-group-item`]: this.group,
                         [`${prefixCls}-wrapper-checked`]: this.currentValue,
-                        [`${prefixCls}-wrapper-disabled`]: this.disabled,
-                        [`${prefixCls}-${this.size}`]: !!this.size
+                        [`${prefixCls}-wrapper-disabled`]: this.itemDisabled,
+                        [`${prefixCls}-${this.size}`]: !!this.size,
+                        [`${prefixCls}-border`]: this.border
                     }
                 ];
             },
@@ -99,7 +106,7 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-checked`]: this.currentValue,
-                        [`${prefixCls}-disabled`]: this.disabled,
+                        [`${prefixCls}-disabled`]: this.itemDisabled,
                         [`${prefixCls}-indeterminate`]: this.indeterminate
                     }
                 ];
@@ -131,7 +138,7 @@
         },
         methods: {
             change (event) {
-                if (this.disabled) {
+                if (this.itemDisabled) {
                     return false;
                 }
 

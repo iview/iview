@@ -13,7 +13,8 @@ const lang = {
             noFilteredDataText: 'कोई आकड़ा उपलब्ध नहीं है',
             confirmFilter: 'पुष्टि करें',
             resetFilter: 'पुनः तैयार करना',
-            clearFilter: 'सब कुछ'
+            clearFilter: 'सब कुछ',
+            sumText: 'Sum'
         },
         datepicker: {
             selectDate: 'दिनांक चुनें',

@@ -21,7 +21,7 @@
 </template>
 <script>
     import Drop from '../select/dropdown.vue';
-    import {directive as clickOutside} from 'v-click-outside-x';
+    import {directive as clickOutside} from '../../directives/v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf, findComponentUpward } from '../../utils/assist';
 
@@ -61,6 +61,13 @@
                 type: Boolean,
                 default: false
             },
+            // 4.0.0
+            capture: {
+                type: Boolean,
+                default () {
+                    return !this.$IVIEW ? true : this.$IVIEW.capture;
+                }
+            }
         },
         computed: {
             transition () {

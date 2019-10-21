@@ -11,7 +11,8 @@ import locale from '../src/locale/lang/zh-CN';
 
 Vue.use(VueRouter);
 Vue.use(iView, {
-    locale
+    locale,
+    capture: true
 });
 
 // 开启debug模式

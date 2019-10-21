@@ -1,9 +1,9 @@
 <template>
     <div
         :class="classes"
-        v-click-outside.capture="onClickOutside"
-        v-click-outside:mousedown.capture="onClickOutside"
-        v-click-outside:touchstart.capture="onClickOutside"
+        v-click-outside:[capture]="onClickOutside"
+        v-click-outside:[capture].mousedown="onClickOutside"
+        v-click-outside:[capture].touchstart="onClickOutside"
     >
         <div
             ref="reference"
@@ -35,7 +35,7 @@
                     :values="values"
                     :clearable="canBeCleared"
                     :prefix="prefix"
-                    :disabled="disabled"
+                    :disabled="itemDisabled"
                     :remote="remote"
                     :input-element-id="elementId"
                     :initial-label="initialLabel"
@@ -43,11 +43,14 @@
                     :query-prop="query"
                     :max-tag-count="maxTagCount"
                     :max-tag-placeholder="maxTagPlaceholder"
+                    :allow-create="allowCreate"
+                    :show-create-item="showCreateItem"
 
                     @on-query-change="onQueryChange"
                     @on-input-focus="isFocused = true"
                     @on-input-blur="isFocused = false"
                     @on-clear="clearSingleSelect"
+                    @on-enter="handleCreateItem"
                 >
                     <slot name="prefix" slot="prefix"></slot>
                 </select-head>
@@ -63,8 +66,12 @@
                 :transfer="transfer"
                 v-transfer-dom
             >
-                <ul v-show="showNotFoundLabel" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
+                <ul v-show="showNotFoundLabel && !allowCreate" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
                 <ul :class="prefixCls + '-dropdown-list'">
+                    <li :class="prefixCls + '-item'" v-if="showCreateItem" @click="handleCreateItem">
+                        {{ query }}
+                        <Icon type="md-return-left" :class="prefixCls + '-item-enter'" />
+                    </li>
                     <functional-options
                         v-if="(!remote) || (remote && !loading)"
                         :options="selectOptions"
@@ -79,10 +86,12 @@
 </template>
 <script>
     import Drop from './dropdown.vue';
-    import {directive as clickOutside} from 'v-click-outside-x';
+    import Icon from '../icon';
+    import {directive as clickOutside} from '../../directives/v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
-    import { oneOf } from '../../utils/assist';
+    import { oneOf, findComponentsDownward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
+    import mixinsForm from '../../mixins/form';
     import Locale from '../../mixins/locale';
     import SelectHead from './select-head.vue';
     import FunctionalOptions from './functional-options.vue';
@@ -155,8 +164,8 @@
 
     export default {
         name: 'iSelect',
-        mixins: [ Emitter, Locale ],
-        components: { FunctionalOptions, Drop, SelectHead },
+        mixins: [ Emitter, Locale, mixinsForm ],
+        components: { FunctionalOptions, Drop, SelectHead, Icon },
         directives: { clickOutside, TransferDom },
         props: {
             value: {
@@ -258,6 +267,18 @@
                 type: Boolean,
                 default: false
             },
+            // 4.0.0
+            allowCreate: {
+                type: Boolean,
+                default: false
+            },
+            // 4.0.0
+            capture: {
+                type: Boolean,
+                default () {
+                    return !this.$IVIEW ? true : this.$IVIEW.capture;
+                }
+            }
         },
         mounted(){
             this.$on('on-select-selected', this.onOptionClick);
@@ -299,7 +320,7 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-visible`]: this.visible,
-                        [`${prefixCls}-disabled`]: this.disabled,
+                        [`${prefixCls}-disabled`]: this.itemDisabled,
                         [`${prefixCls}-multiple`]: this.multiple,
                         [`${prefixCls}-single`]: !this.multiple,
                         [`${prefixCls}-show-clear`]: this.showCloseIcon,
@@ -335,6 +356,17 @@
                     return this.loadingText;
                 }
             },
+            showCreateItem () {
+                let state = false;
+                if (this.allowCreate && this.query !== '') {
+                    state = true;
+                    const $options = findComponentsDownward(this, 'iOption');
+                    if ($options && $options.length) {
+                        if ($options.find(item => item.showLabel === this.query)) state = false;
+                    }
+                }
+                return  state;
+            },
             transitionName () {
                 return this.placement === 'bottom' ? 'slide-up' : 'slide-down';
             },
@@ -360,7 +392,7 @@
             },
             canBeCleared(){
                 const uiStateMatch = this.hasMouseHoverHead || this.active;
-                const qualifiesForClear = !this.multiple && !this.disabled && this.clearable;
+                const qualifiesForClear = !this.multiple && !this.itemDisabled && this.clearable;
                 return uiStateMatch && qualifiesForClear && this.reset; // we return a function
             },
             selectOptions() {
@@ -427,7 +459,7 @@
                 return extractOptions(this.selectOptions);
             },
             selectTabindex(){
-                return this.disabled || this.filterable ? -1 : 0;
+                return this.itemDisabled || this.filterable ? -1 : 0;
             },
             remote(){
                 return typeof this.remoteMethod === 'function';
@@ -507,7 +539,7 @@
             },
 
             toggleMenu (e, force) {
-                if (this.disabled) {
+                if (this.itemDisabled) {
                     return false;
                 }
 
@@ -552,6 +584,7 @@
                     event.preventDefault();
                     this.hideMenu();
                     this.isFocused = true;
+                    this.$emit('on-clickoutside', event);
                 } else {
                     this.caretPosition = -1;
                     this.isFocused = false;
@@ -565,31 +598,32 @@
                 this.filterQueryChange = false;
             },
             handleKeydown (e) {
-                if (e.key === 'Backspace'){
+                const key = e.key || e.code;
+                if (key === 'Backspace'){
                     return; // so we don't call preventDefault
                 }
 
                 if (this.visible) {
                     e.preventDefault();
-                    if (e.key === 'Tab'){
+                    if (key === 'Tab'){
                         e.stopPropagation();
                     }
 
                     // Esc slide-up
-                    if (e.key === 'Escape') {
+                    if (key === 'Escape') {
                         e.stopPropagation();
                         this.hideMenu();
                     }
                     // next
-                    if (e.key === 'ArrowUp') {
+                    if (key === 'ArrowUp') {
                         this.navigateOptions(-1);
                     }
                     // prev
-                    if (e.key === 'ArrowDown') {
+                    if (key === 'ArrowDown') {
                         this.navigateOptions(1);
                     }
                     // enter
-                    if (e.key === 'Enter') {
+                    if (key === 'Enter') {
                         if (this.focusIndex === -1) return this.hideMenu();
                         const optionComponent = this.flatOptions[this.focusIndex];
 
@@ -694,7 +728,7 @@
                 this.filterQueryChange = true;
             },
             toggleHeaderFocus({type}){
-                if (this.disabled) {
+                if (this.itemDisabled) {
                     return;
                 }
                 this.isFocused = type === 'focus';
@@ -707,6 +741,26 @@
                     this.hasExpectedValue = true;
                 }
             },
+            // 4.0.0 create new item
+            handleCreateItem () {
+                if (this.allowCreate && this.query !== '' && this.showCreateItem) {
+                    const query = this.query;
+                    this.$emit('on-create', query);
+                    this.query = '';
+
+                    const option = {
+                        value: query,
+                        label: query,
+                        tag: undefined
+                    };
+                    if (this.multiple) {
+                        this.onOptionClick(option);
+                    } else {
+                        // 单选时如果不在 nextTick 里执行，无法赋值
+                        this.$nextTick(() => this.onOptionClick(option));
+                    }
+                }
+            }
         },
         watch: {
             value(value){
@@ -717,7 +771,7 @@
                 if (value === '') this.values = [];
                 else if (checkValuesNotEqual(value,publicValue,values)) {
                     this.$nextTick(() => this.values = getInitialValue().map(getOptionData).filter(Boolean));
-                    this.dispatch('FormItem', 'on-form-change', this.publicValue);
+                    if (!this.multiple) this.dispatch('FormItem', 'on-form-change', this.publicValue);
                 }
             },
             values(now, before){

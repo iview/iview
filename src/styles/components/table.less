@@ -4,21 +4,50 @@
 .@{table-prefix-cls} {
     &-wrapper{
         position: relative;
-        border: 1px solid @border-color-base;
-        border-bottom: 0;
-        border-right: 0;
+        //border: 1px solid @border-color-base;
+        //border-bottom: 0;
+        //border-right: 0;
         overflow: hidden; // 开启 max-height 时，没有 overflow: hidden，则底部多出 1px，早期没有 overflow 是因为有些控件没有加 transfer
+        &-with-border{
+            border: 1px solid @border-color-base;
+            border-bottom: 0;
+            border-right: 0;
+        }
     }
     width: inherit;
     height: 100%;
     max-width: 100%;
     overflow: hidden;
     color: @text-color;
-    font-size: @font-size-small;
+    font-size: @font-size-base;
     background-color: #fff;
 
     box-sizing: border-box;
     //position: relative;
+
+    &-summary{
+        border-top: 1px solid @border-color-split;
+        tr td{
+            background-color: @table-thead-bg;
+        }
+    }
+
+    &-with-summary{
+        .ivu-table-tbody{
+            tr:last-child td{
+                border-bottom: none;
+            }
+        }
+    }
+
+    &-resize-line{
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 1px;
+        border-right: 1px dashed @border-color-split;
+    }
 
     &-hide{
         opacity: 0;
@@ -35,7 +64,7 @@
         z-index: 1;
     }
 
-    &:after{
+    &-border:after{
         content: '';
         width: 1px;
         height: 100%;
@@ -70,6 +99,24 @@
 
     &-header{
         overflow: hidden;
+        thead{
+            tr{
+                th{
+                    position: relative;
+                    height: 100%;
+                    padding: 8px 0;
+                }
+            }
+        }
+        &-resizable{
+            position: absolute;
+            width: 10px;
+            height: 100%;
+            bottom: 0;
+            right: -5px;
+            cursor: col-resize;
+            z-index: 1;
+        }
     }
     &-body{
         //overflow: auto;
@@ -238,7 +285,7 @@
     }
 
     &-large {
-        font-size: @font-size-base;
+        font-size: @font-size-large;
         th{
             height: 48px;
         }
@@ -259,6 +306,7 @@
     }
 
     &-small{
+        font-size: @font-size-small;
         th{
             height: 32px;
         }
@@ -330,6 +378,15 @@
         //        }
         //    }
         //}
+        thead{
+            tr{
+                th{
+                    position: relative;
+                    height: 100%;
+                    padding: 8px 0;
+                }
+            }
+        }
     }
     &-fixed-body{
         overflow: hidden;

@@ -173,6 +173,7 @@ const install = function(Vue, opts = {}) {
     Vue.prototype.$IVIEW = {
         size: opts.size || '',
         transfer: 'transfer' in opts ? opts.transfer : '',
+        capture: 'capture' in opts ? opts.capture : true,
         select: {
             arrow: opts.select ? opts.select.arrow ? opts.select.arrow : '' : '',
             customArrow: opts.select ? opts.select.customArrow ? opts.select.customArrow : '' : '',

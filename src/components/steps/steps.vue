@@ -72,8 +72,8 @@
                     // 如果已存在status,且在初始化时,则略过
                     // todo 如果当前是error,在current改变时需要处理
                     if (!(isInit && child.currentStatus)) {
-                        if (index == this.current) {
-                            if (this.status != 'error') {
+                        if (index === this.current) {
+                            if (this.status !== 'error') {
                                 child.currentStatus = 'process';
                             }
                         } else if (index < this.current) {
@@ -83,14 +83,14 @@
                         }
                     }
 
-                    if (child.currentStatus != 'error' && index != 0) {
+                    if (child.currentStatus !== 'error' && index !== 0) {
                         this.$children[index - 1].nextError = false;
                     }
                 });
             },
             setNextError () {
                 this.$children.forEach((child, index) => {
-                    if (child.currentStatus == 'error' && index != 0) {
+                    if (child.currentStatus === 'error' && index !== 0) {
                         this.$children[index - 1].nextError = true;
                     }
                 });

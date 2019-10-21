@@ -1,5 +1,5 @@
 <template>
-    <component :is="tagName" :class="classes" :disabled="disabled" @click="handleClickLink" v-bind="tagProps">
+    <component :is="tagName" :class="classes" :disabled="itemDisabled" @click="handleClickLink" v-bind="tagProps">
         <Icon class="ivu-load-loop" type="ios-loading" v-if="loading"></Icon>
         <Icon :type="icon" :custom="customIcon" v-if="(icon || customIcon) && !loading"></Icon>
         <span v-if="showSlot" ref="slot"><slot></slot></span>
@@ -9,12 +9,13 @@
     import Icon from '../icon';
     import { oneOf } from '../../utils/assist';
     import mixinsLink from '../../mixins/link';
+    import mixinsForm from '../../mixins/form';
 
     const prefixCls = 'ivu-btn';
 
     export default {
         name: 'Button',
-        mixins: [ mixinsLink ],
+        mixins: [ mixinsLink, mixinsForm ],
         components: { Icon },
         props: {
             type: {
@@ -61,12 +62,10 @@
                 default: false
             }
         },
-        data () {
-            return {
-                showSlot: true
-            };
-        },
         computed: {
+            showSlot () {
+                return !!this.$slots.default;
+            },
             classes () {
                 return [
                     `${prefixCls}`,
@@ -109,9 +108,6 @@
 
                 this.handleCheckClick(event, openInNewWindow);
             }
-        },
-        mounted () {
-            this.showSlot = this.$slots.default !== undefined;
         }
     };
 </script>

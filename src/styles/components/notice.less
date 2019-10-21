@@ -59,8 +59,8 @@
     }
 
     &-title {
-        font-size: @font-size-base;
-        line-height: @font-size-base + 3;  //fixed the bug that the bottom of some letters were hidden just like 'g'
+        font-size: @font-size-large;
+        line-height: @font-size-large + 3;  //fixed the bug that the bottom of some letters were hidden just like 'g'
         color: @title-color;
         padding-right: 10px;
         overflow: hidden;
@@ -68,12 +68,12 @@
         white-space: nowrap;
     }
     &-with-desc &-title{
-        font-weight: bold;
+        //font-weight: bold;
         margin-bottom: 8px;
     }
 
     &-desc {
-        font-size: 12px;
+        font-size: @font-size-base;
         //color: @legend-color;
         color: @text-color;
         text-align: justify;
@@ -90,7 +90,7 @@
     &-icon {
         position: absolute;
         top: -2px;
-        font-size: @font-size-large;
+        font-size: @font-size-large + 4;
 
         &-success {
             color: @success-color;
