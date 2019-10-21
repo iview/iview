@@ -442,9 +442,9 @@
                 }
             },
             clearSingleSelect(){ // PUBLIC API
-                this.$emit('on-clear');
                 this.hideMenu();
                 if (this.clearable) this.reset();
+                this.$emit('on-clear'); // #6331
             },
             getOptionData(value){
                 const option = this.flatOptions.find(({componentOptions}) => componentOptions.propsData.value === value);
