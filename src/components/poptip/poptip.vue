@@ -3,7 +3,7 @@
         :class="classes"
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave"
-        v-click-outside:[capture]="handleClose">
+        v-click-outside="handleClose">
         <div
             :class="[prefixCls + '-rel']"
             ref="reference"
@@ -49,7 +49,7 @@
 <script>
     import Popper from '../base/popper';
     import iButton from '../button/button.vue';
-    import {directive as clickOutside} from '../../directives/v-click-outside-x';
+    import clickOutside from '../../directives/clickoutside';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
     import { transferIndex, transferIncrease } from '../../utils/transfer-queue';
