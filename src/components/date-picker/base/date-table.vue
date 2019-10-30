@@ -75,6 +75,7 @@
 
                 return this.calendar(tableYear, tableMonth, (cell) => {
                     // normalize date offset from the dates provided by jsCalendar
+                    // Comment out this code to fix daylight saving time bug
                     if (cell.date instanceof Date) cell.date.setTime(clearHours(cell.date));
 
                     const time = cell.date && clearHours(cell.date);

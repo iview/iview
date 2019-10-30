@@ -201,7 +201,7 @@
                     child.width = this.listWidth;
                     child.height = typeof this.height === 'number' ? `${this.height}px` : this.height;
                 });
-                const slidesLength = this.slides.length || 0
+                const slidesLength = this.slides.length || 0;
                 this.trackWidth = slidesLength * this.listWidth;
             },
             // use when slot changed
@@ -272,8 +272,10 @@
             },
             dotsEvent (event, n) {
                 let curIndex = this.showCopyTrack ? this.copyTrackIndex : this.trackIndex;
+                const oldCurrentIndex = this.currentIndex;
                 if (event === this.trigger && curIndex !== n) {
                     this.updateTrackIndex(n);
+                    this.$emit('on-change', oldCurrentIndex, this.currentIndex);
                     this.$emit('input', n);
                     // Reset autoplay timer when trigger be activated
                     this.setAutoplay();

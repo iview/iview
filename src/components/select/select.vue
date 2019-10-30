@@ -258,7 +258,7 @@
             this.$on('on-select-selected', this.onOptionClick);
 
             // set the initial values if there are any
-            if (!this.remote && this.selectOptions.length > 0){
+            if ( this.selectOptions.length > 0){
                 this.values = this.getInitialValue().map(value => {
                     if (typeof value !== 'number' && !value) return null;
                     return this.getOptionData(value);
@@ -442,9 +442,9 @@
                 }
             },
             clearSingleSelect(){ // PUBLIC API
-                this.$emit('on-clear');
                 this.hideMenu();
                 if (this.clearable) this.reset();
+                this.$emit('on-clear'); // #6331
             },
             getOptionData(value){
                 const option = this.flatOptions.find(({componentOptions}) => componentOptions.propsData.value === value);
@@ -490,13 +490,12 @@
             },
 
             validateOption({children, elm, propsData}){
-                const value = propsData.value;
                 const label = propsData.label || '';
                 const textContent = (elm && elm.textContent) || (children || []).reduce((str, node) => {
                     const nodeText = node.elm ? node.elm.textContent : node.text;
                     return `${str} ${nodeText}`;
                 }, '') || '';
-                const stringValues = JSON.stringify([value, label, textContent]);
+                const stringValues = JSON.stringify([label, textContent]);
                 const query = this.query.toLowerCase().trim();
                 return stringValues.toLowerCase().includes(query);
             },
@@ -662,6 +661,7 @@
                     if (!this.autoComplete) this.$nextTick(() => inputField.focus());
                 }
                 this.broadcast('Drop', 'on-update-popper');
+                this.$emit('on-select', this.publicValue); // # 4441
                 setTimeout(() => {
                     this.filterQueryChange = false;
                 }, ANIMATION_TIMEOUT);
@@ -710,7 +710,7 @@
                 if (value === '') this.values = [];
                 else if (checkValuesNotEqual(value,publicValue,values)) {
                     this.$nextTick(() => this.values = getInitialValue().map(getOptionData).filter(Boolean));
-                    this.dispatch('FormItem', 'on-form-change', this.publicValue);
+                    if (!this.multiple) this.dispatch('FormItem', 'on-form-change', this.publicValue);
                 }
             },
             values(now, before){

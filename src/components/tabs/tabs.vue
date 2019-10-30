@@ -100,6 +100,13 @@
             name: {
                 type: String
             },
+            custContentClass: {
+                type: String,
+                default: ''
+            },
+            custContentStyle: {
+                type: Object,
+            }
         },
         data () {
             return {
@@ -133,7 +140,8 @@
                     `${prefixCls}-content`,
                     {
                         [`${prefixCls}-content-animated`]: this.animated
-                    }
+                    },
+                    this.custContentClass
                 ];
             },
             barClasses () {
@@ -153,6 +161,12 @@
                     style = {
                         transform: `translateX(${p}) translateZ(0px)`
                     };
+                }
+                const { custContentStyle } = this;
+                if (custContentStyle) {
+                    for (const key in custContentStyle){
+                        style[key] = custContentStyle[key];
+                    }
                 }
                 return style;
             },
@@ -217,7 +231,7 @@
                         if (item.tab === this.name) {
                             TabPanes.push(item);
                         }
-                    } else {
+                    }else if (this.$children.includes(item)) { // #6279 #6299
                         TabPanes.push(item);
                     }
                 });
