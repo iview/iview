@@ -27,6 +27,10 @@
                <Button @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button>
            </FormItem>
        </Form>
+       <!-- fix #6349 -->
+       <Select v-model='test' filterable clearable>
+            <Option v-for='item in list' :value='item.value' :label="item.name"></Option>
+        </Select>
    </div>
 </template>
 <script>
@@ -44,7 +48,15 @@
                     binterest: [
                         { required: true, type: 'array', min: 1, message: 'Choose at least one hobby', trigger: 'change' },
                     ],
-                }
+                },
+                test:'',
+                list:[{
+                    name:"测试测试",
+                    value:8
+                },{
+                    name:"\"年龄\"123",
+                    value:9
+                }]
             }
         },
         methods: {
