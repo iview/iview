@@ -182,7 +182,7 @@
             on(window, 'resize', this.computeOffset);
         },
         beforeDestroy () {
-            off(window, 'resize', this.computeOffset)
+            off(window, 'resize', this.computeOffset);
         }
     };
 </script>
