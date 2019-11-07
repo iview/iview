@@ -139,8 +139,60 @@
         <!--<br><br>-->
         <!--<Input v-model="value" search enter-button="Search" style="width: 300px" @on-search="hs" />-->
     <!--</div>-->
-    <div style="width: 200px">
+    <!-- <div style="width: 200px">
         <Input v-model="value7" type="textarea" :autosize="true" placeholder="Enter something..."></Input>
+    </div> -->
+    <!-- fix #6338 -->
+    <div style="width: 200px">
+        <Input v-model="value" search enter-button="Search" clearable/>
+        <br>
+        <Input v-model="value" search enter-button="Search" icon="ios-clock-outline" />
+        <br>
+        <Input v-model="value" icon="ios-clock-outline" placeholder="Enter something..." style="width: 200px" />
+        <br><br>
+        <Input v-model="value" search enter-button style="width: 300px" @on-search="hs" size="small" />
+        <br>
+        <Input v-model="value" search enter-button style="width: 300px" @on-search="hs" />
+        <br>
+        <Input v-model="value" search enter-button style="width: 300px" @on-search="hs" size="large" />
+        <br>
+        <Input v-model="value" search style="width: 300px" @on-search="hs" />
+        <br><br>
+        <Input  v-model="value" search enter-button="Search" style="width: 300px" @on-search="hs" />
+        <br>
+        <Input
+                v-model="value"
+                size="small"
+                prefix="ios-contact"
+                suffix="ios-search"
+                placeholder="Enter something..."
+                style="width: 300px"></Input>
+        <br><br>
+        <Input
+                v-model="value"
+                prefix="ios-contact"
+                suffix="ios-search"
+                placeholder="Enter something..."
+                style="width: 300px"></Input>
+        <br><br>
+        <Input
+                v-model="value"
+                size="large"
+                prefix="ios-contact"
+                suffix="ios-search"
+                placeholder="Enter something..."
+                style="width: 300px"></Input>
+        <br><br>
+        <Input
+                v-model="value"
+                size="small"
+                icon="ios-search"
+                placeholder="Enter something..."
+                style="width: 300px"></Input>
+        <br><br>
+        <Input v-model="value"/>
+        <br><br>
+        <Input v-model="value" clearable/>
     </div>
 </template>
 <script>
