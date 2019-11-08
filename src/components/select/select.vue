@@ -495,9 +495,14 @@
                     const nodeText = node.elm ? node.elm.textContent : node.text;
                     return `${str} ${nodeText}`;
                 }, '') || '';
-                const stringValues = JSON.stringify([label, textContent]);
+                const stringValues = [label, textContent];
                 const query = this.query.toLowerCase().trim();
-                return stringValues.toLowerCase().includes(query);
+                for (let i = 0; i < stringValues.length; ++i) {
+                    if (stringValues[i].toLowerCase().includes(query)) {
+                        return true;
+                    }
+                }
+                return false;
             },
 
             toggleMenu (e, force) {
