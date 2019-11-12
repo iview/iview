@@ -286,6 +286,8 @@
                 hasExpectedValue: false,
                 preventRemoteCall: false,
                 filterQueryChange: false,  // #4273
+                // #6349
+                hideMenuTimer: null
             };
         },
         computed: {
@@ -410,9 +412,8 @@
                             const optionPassesFilter = this.filterable ? this.validateOption(cOptions) : option;
                             if (!optionPassesFilter) continue;
                         }
-
                         optionCounter = optionCounter + 1;
-                        selectOptions.push(this.processOption(option, selectedValues, optionCounter === currentIndex));
+                        selectOptions.push(this.processOption(option, selectedValues, this.focusIndex === optionCounter));
                     }
                 }
 
@@ -472,7 +473,6 @@
                 const optionValue = option.componentOptions.propsData.value;
                 const disabled = option.componentOptions.propsData.disabled;
                 const isSelected = values.includes(optionValue);
-
                 const propsData = {
                     ...option.componentOptions.propsData,
                     selected: isSelected,
@@ -497,12 +497,11 @@
                 }, '') || '';
                 const stringValues = [label, textContent];
                 const query = this.query.toLowerCase().trim();
-                for (let i = 0; i < stringValues.length; ++i) {
-                    if (stringValues[i].toLowerCase().includes(query)) {
-                        return true;
-                    }
-                }
-                return false;
+                const findValuesIndex = stringValues.findIndex(item=>{
+                    let itemToLowerCase = item.toLowerCase();
+                    return itemToLowerCase.includes(query);
+                });
+                return findValuesIndex === -1 ? false : true;
             },
 
             toggleMenu (e, force) {
@@ -516,9 +515,24 @@
                     this.broadcast('Drop', 'on-update-popper');
                 }
             },
+            updateFocusIndex(){
+                this.focusIndex = this.flatOptions.findIndex((opt) => {
+                    if (!opt || !opt.componentOptions) return false;
+                    return opt.componentOptions.propsData.value === this.publicValue;
+                });
+            },
             hideMenu () {
                 this.toggleMenu(null, false);
-                setTimeout(() => this.unchangedQuery = true, ANIMATION_TIMEOUT);
+                setTimeout(() =>{
+                    this.unchangedQuery = true;
+                    // resolve if we use filterable, dropItem not selected #6349
+                    if(this.filterable){
+                        this.hideMenuTimer = setTimeout(()=>{
+                            this.updateFocusIndex();
+                            this.hideMenuTimer = null;
+                        });
+                    }
+                }, ANIMATION_TIMEOUT);
             },
             onClickOutside(event){
                 if (this.visible) {
@@ -636,7 +650,6 @@
             },
             onOptionClick(option) {
                 if (this.multiple){
-
                     // keep the query for remote select
                     if (this.remote) this.lastRemoteQuery = this.lastRemoteQuery || this.query;
                     else this.lastRemoteQuery = '';
@@ -647,7 +660,6 @@
                     } else {
                         this.values = this.values.concat(option);
                     }
-
                     this.isFocused = true; // so we put back focus after clicking with mouse on option elements
                 } else {
                     this.query = String(option.label).trim();
@@ -655,12 +667,10 @@
                     this.lastRemoteQuery = '';
                     this.hideMenu();
                 }
-
                 this.focusIndex = this.flatOptions.findIndex((opt) => {
                     if (!opt || !opt.componentOptions) return false;
                     return opt.componentOptions.propsData.value === option.value;
                 });
-
                 if (this.filterable){
                     const inputField = this.$el.querySelector('input[type="text"]');
                     if (!this.autoComplete) this.$nextTick(() => inputField.focus());
@@ -690,6 +700,9 @@
                 this.query = query;
                 this.unchangedQuery = this.visible;
                 this.filterQueryChange = true;
+                if(this.filterable){
+                    this.updateFocusIndex();
+                }
             },
             toggleHeaderFocus({type}){
                 if (this.disabled) {
@@ -709,7 +722,6 @@
         watch: {
             value(value){
                 const {getInitialValue, getOptionData, publicValue, values} = this;
-
                 this.checkUpdateStatus();
 
                 if (value === '') this.values = [];
@@ -777,14 +789,15 @@
                 const optionInstance = findChild(this, ({$options}) => {
                     return $options.componentName === 'select-item' && $options.propsData.value === optionValue;
                 });
-
-                let bottomOverflowDistance = optionInstance.$el.getBoundingClientRect().bottom - this.$refs.dropdown.$el.getBoundingClientRect().bottom;
-                let topOverflowDistance = optionInstance.$el.getBoundingClientRect().top - this.$refs.dropdown.$el.getBoundingClientRect().top;
-                if (bottomOverflowDistance > 0) {
-                    this.$refs.dropdown.$el.scrollTop += bottomOverflowDistance;
-                }
-                if (topOverflowDistance < 0) {
-                    this.$refs.dropdown.$el.scrollTop += topOverflowDistance;
+                if(optionInstance && optionInstance.$el ){
+                    let bottomOverflowDistance = optionInstance.$el.getBoundingClientRect().bottom - this.$refs.dropdown.$el.getBoundingClientRect().bottom;
+                    let topOverflowDistance = optionInstance.$el.getBoundingClientRect().top - this.$refs.dropdown.$el.getBoundingClientRect().top;
+                    if (bottomOverflowDistance > 0) {
+                        this.$refs.dropdown.$el.scrollTop += bottomOverflowDistance;
+                    }
+                    if (topOverflowDistance < 0) {
+                        this.$refs.dropdown.$el.scrollTop += topOverflowDistance;
+                    }
                 }
             },
             dropVisible(open){

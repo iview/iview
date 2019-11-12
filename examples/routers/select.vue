@@ -51,6 +51,12 @@
                 },
                 test:'',
                 list:[{
+                    name:"测试测试2",
+                    value:1
+                },{
+                    name:"dddddd",
+                    value:2
+                },{
                     name:"测试测试",
                     value:8
                 },{
