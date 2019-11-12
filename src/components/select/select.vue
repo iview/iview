@@ -413,7 +413,7 @@
                             if (!optionPassesFilter) continue;
                         }
                         optionCounter = optionCounter + 1;
-                        selectOptions.push(this.processOption(option, selectedValues, this.focusIndex === optionCounter));
+                        selectOptions.push(this.processOption(option, selectedValues, currentIndex === optionCounter));
                     }
                 }
 
@@ -526,12 +526,10 @@
                 setTimeout(() =>{
                     this.unchangedQuery = true;
                     // resolve if we use filterable, dropItem not selected #6349
-                    if(this.filterable){
-                        this.hideMenuTimer = setTimeout(()=>{
-                            this.updateFocusIndex();
-                            this.hideMenuTimer = null;
-                        });
-                    }
+                    this.hideMenuTimer = setTimeout(()=>{
+                        this.updateFocusIndex();
+                        this.hideMenuTimer = null;
+                    });
                 }, ANIMATION_TIMEOUT);
             },
             onClickOutside(event){
@@ -665,12 +663,9 @@
                     this.query = String(option.label).trim();
                     this.values = [option];
                     this.lastRemoteQuery = '';
+                    this.query = '';
                     this.hideMenu();
                 }
-                this.focusIndex = this.flatOptions.findIndex((opt) => {
-                    if (!opt || !opt.componentOptions) return false;
-                    return opt.componentOptions.propsData.value === option.value;
-                });
                 if (this.filterable){
                     const inputField = this.$el.querySelector('input[type="text"]');
                     if (!this.autoComplete) this.$nextTick(() => inputField.focus());

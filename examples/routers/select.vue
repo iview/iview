@@ -27,9 +27,20 @@
                <Button @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button>
            </FormItem>
        </Form>
-       <!-- fix #6349 -->
        <Select v-model='test' filterable clearable>
-            <Option v-for='item in list' :value='item.value' :label="item.name"></Option>
+            <Option v-for='item in list' :value='item.value' :label="item.name" :key="item.value"></Option>
+        </Select>
+        <h2 style="margin-top:20px">#5216</h2>
+        <Select v-model="model11" filterable clearable>
+            <OptionGroup label="分组">
+                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </OptionGroup>
+        </Select>
+        <h2 style="margin-top:20px">Demo</h2>
+        <Select v-model="model12">
+            <OptionGroup label="分组">
+                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </OptionGroup>
         </Select>
    </div>
 </template>
@@ -51,19 +62,47 @@
                 },
                 test:'',
                 list:[{
-                    name:"测试测试2",
+                    name: '测试测试2',
                     value:1
                 },{
-                    name:"dddddd",
+                    name: 'dddddd',
                     value:2
                 },{
-                    name:"测试测试",
+                    name:'测试测试',
                     value:8
                 },{
-                    name:"\"年龄\"123",
+                    name: '\"年龄\"123',
                     value:9
-                }]
-            }
+                }],
+                cityList: [
+                    {
+                        value: 'New York',
+                        label: 'New York'
+                    },
+                    {
+                        value: 'London',
+                        label: 'London'
+                    },
+                    {
+                        value: 'Sydney',
+                        label: 'Sydney'
+                    },
+                    {
+                        value: 'Ottawa',
+                        label: 'Ottawa'
+                    },
+                    {
+                        value: 'Paris',
+                        label: 'Paris'
+                    },
+                    {
+                        value: 'Canberra',
+                        label: 'Canberra'
+                    }
+                ],
+                model11: '',
+                model12: ''
+            };
         },
         methods: {
             handleSubmit (name) {
@@ -73,11 +112,11 @@
                     } else {
                         this.$Message.error('Fail!');
                     }
-                })
+                });
             },
             handleReset (name) {
                 this.$refs[name].resetFields();
             }
         }
-    }
+    };
 </script>
