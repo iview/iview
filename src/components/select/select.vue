@@ -719,8 +719,10 @@
                 const {getInitialValue, getOptionData, publicValue, values} = this;
                 this.checkUpdateStatus();
 
+                const vModelValue = (publicValue && this.labelInValue) ?
+                    (this.multiple ? publicValue.map(({value}) => value) : publicValue.value) : publicValue;
                 if (value === '') this.values = [];
-                else if (checkValuesNotEqual(value,publicValue,values)) {
+                else if (checkValuesNotEqual(value,vModelValue,values)) {
                     this.$nextTick(() => this.values = getInitialValue().map(getOptionData).filter(Boolean));
                     if (!this.multiple) this.dispatch('FormItem', 'on-form-change', this.publicValue);
                 }
