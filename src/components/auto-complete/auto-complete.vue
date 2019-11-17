@@ -13,7 +13,8 @@
         remote
         auto-complete
         :remote-method="remoteMethod"
-        @on-change="handleChange"
+        @on-select="handleSelect"
+        @on-clickoutside="handleClickOutside"
         :transfer="transfer">
         <slot name="input">
             <i-input
@@ -86,15 +87,15 @@
                 default: false
             },
             placement: {
-                validator (value) {
-                    return oneOf(value, ['top', 'bottom']);
+                  validator (value) {
+                    return oneOf(value, ['top', 'bottom', 'top-start', 'bottom-start', 'top-end', 'bottom-end']);
                 },
                 default: 'bottom'
             },
             transfer: {
                 type: Boolean,
                 default () {
-                    return this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
+                    return !this.$IVIEW || this.$IVIEW.transfer === '' ? false : this.$IVIEW.transfer;
                 }
             },
             name: {
@@ -113,7 +114,8 @@
         computed: {
             inputIcon () {
                 let icon = '';
-                if (this.clearable && this.currentValue) {
+                //#6161 #7
+                if (this.clearable && this.currentValue  && !this.disabled) {
                     icon = 'ios-close';
                 } else if (this.icon) {
                     icon = this.icon;
@@ -150,9 +152,10 @@
             remoteMethod (query) {
                 this.$emit('on-search', query);
             },
-            handleChange (val) {
+            handleSelect (val) {
                 if (val === undefined || val === null) return;
                 this.currentValue = val;
+
                 this.$refs.input.blur();
                 this.$emit('on-select', val);
             },
@@ -167,6 +170,11 @@
                 this.currentValue = '';
                 this.$refs.select.reset();
                 this.$emit('on-clear');
+            },
+            handleClickOutside(){
+                this.$nextTick(() => {
+                    this.$refs.input.blur();
+                });
             }
         }
     };

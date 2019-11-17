@@ -37,14 +37,10 @@
         },
         methods: {
             handleClick () {
+                if (this.disabled) return;
                 const $parent = findComponentUpward(this, 'Dropdown');
                 const hasChildren = this.$parent && this.$parent.$options.name === 'Dropdown';
-
-                if (this.disabled) {
-                    this.$nextTick(() => {
-                        $parent.currentVisible = true;
-                    });
-                } else if (hasChildren) {
+                if (hasChildren) {
                     this.$parent.$emit('on-haschild-click');
                 } else {
                     if ($parent && $parent.$options.name === 'Dropdown') {

@@ -258,7 +258,7 @@
             this.$on('on-select-selected', this.onOptionClick);
 
             // set the initial values if there are any
-            if (!this.remote && this.selectOptions.length > 0){
+            if ( this.selectOptions.length > 0){
                 this.values = this.getInitialValue().map(value => {
                     if (typeof value !== 'number' && !value) return null;
                     return this.getOptionData(value);
@@ -286,6 +286,8 @@
                 hasExpectedValue: false,
                 preventRemoteCall: false,
                 filterQueryChange: false,  // #4273
+                // #6349
+                hideMenuTimer: null
             };
         },
         computed: {
@@ -410,9 +412,8 @@
                             const optionPassesFilter = this.filterable && !this.remote ? this.validateOption(cOptions) : option;
                             if (!optionPassesFilter) continue;
                         }
-
                         optionCounter = optionCounter + 1;
-                        selectOptions.push(this.processOption(option, selectedValues, optionCounter === currentIndex));
+                        selectOptions.push(this.processOption(option, selectedValues, currentIndex === optionCounter));
                     }
                 }
 
@@ -442,9 +443,9 @@
                 }
             },
             clearSingleSelect(){ // PUBLIC API
-                this.$emit('on-clear');
                 this.hideMenu();
                 if (this.clearable) this.reset();
+                this.$emit('on-clear'); // #6331
             },
             getOptionData(value){
                 const option = this.flatOptions.find(({componentOptions}) => componentOptions.propsData.value === value);
@@ -472,7 +473,6 @@
                 const optionValue = option.componentOptions.propsData.value;
                 const disabled = option.componentOptions.propsData.disabled;
                 const isSelected = values.includes(optionValue);
-
                 const propsData = {
                     ...option.componentOptions.propsData,
                     selected: isSelected,
@@ -490,15 +490,18 @@
             },
 
             validateOption({children, elm, propsData}){
-                const value = propsData.value;
                 const label = propsData.label || '';
                 const textContent = (elm && elm.textContent) || (children || []).reduce((str, node) => {
                     const nodeText = node.elm ? node.elm.textContent : node.text;
                     return `${str} ${nodeText}`;
                 }, '') || '';
-                const stringValues = JSON.stringify([value, label, textContent]);
+                const stringValues = [label, textContent];
                 const query = this.query.toLowerCase().trim();
-                return stringValues.toLowerCase().includes(query);
+                const findValuesIndex = stringValues.findIndex(item=>{
+                    let itemToLowerCase = item.toLowerCase();
+                    return itemToLowerCase.includes(query);
+                });
+                return findValuesIndex === -1 ? false : true;
             },
 
             toggleMenu (e, force) {
@@ -512,9 +515,22 @@
                     this.broadcast('Drop', 'on-update-popper');
                 }
             },
+            updateFocusIndex(){
+                this.focusIndex = this.flatOptions.findIndex((opt) => {
+                    if (!opt || !opt.componentOptions) return false;
+                    return opt.componentOptions.propsData.value === this.publicValue;
+                });
+            },
             hideMenu () {
                 this.toggleMenu(null, false);
-                setTimeout(() => this.unchangedQuery = true, ANIMATION_TIMEOUT);
+                setTimeout(() =>{
+                    this.unchangedQuery = true;
+                    // resolve if we use filterable, dropItem not selected #6349
+                    this.hideMenuTimer = setTimeout(()=>{
+                        this.updateFocusIndex();
+                        this.hideMenuTimer = null;
+                    });
+                }, ANIMATION_TIMEOUT);
             },
             onClickOutside(event){
                 if (this.visible) {
@@ -544,6 +560,7 @@
                     event.preventDefault();
                     this.hideMenu();
                     this.isFocused = true;
+                    this.$emit('on-clickoutside', event);
                 } else {
                     this.caretPosition = -1;
                     this.isFocused = false;
@@ -557,31 +574,32 @@
                 this.filterQueryChange = false;
             },
             handleKeydown (e) {
-                if (e.key === 'Backspace'){
+                const key = e.key || e.code;
+                if ( key === 'Backspace'){
                     return; // so we don't call preventDefault
                 }
 
                 if (this.visible) {
                     e.preventDefault();
-                    if (e.key === 'Tab'){
+                    if ( key === 'Tab'){
                         e.stopPropagation();
                     }
 
                     // Esc slide-up
-                    if (e.key === 'Escape') {
+                    if ( key === 'Escape') {
                         e.stopPropagation();
                         this.hideMenu();
                     }
                     // next
-                    if (e.key === 'ArrowUp') {
+                    if ( key === 'ArrowUp') {
                         this.navigateOptions(-1);
                     }
                     // prev
-                    if (e.key === 'ArrowDown') {
+                    if ( key === 'ArrowDown') {
                         this.navigateOptions(1);
                     }
                     // enter
-                    if (e.key === 'Enter') {
+                    if ( key === 'Enter') {
                         if (this.focusIndex === -1) return this.hideMenu();
                         const optionComponent = this.flatOptions[this.focusIndex];
 
@@ -630,7 +648,6 @@
             },
             onOptionClick(option) {
                 if (this.multiple){
-
                     // keep the query for remote select
                     if (this.remote) this.lastRemoteQuery = this.lastRemoteQuery || this.query;
                     else this.lastRemoteQuery = '';
@@ -641,25 +658,20 @@
                     } else {
                         this.values = this.values.concat(option);
                     }
-
                     this.isFocused = true; // so we put back focus after clicking with mouse on option elements
                 } else {
                     this.query = String(option.label).trim();
                     this.values = [option];
                     this.lastRemoteQuery = '';
+                    this.query = '';
                     this.hideMenu();
                 }
-
-                this.focusIndex = this.flatOptions.findIndex((opt) => {
-                    if (!opt || !opt.componentOptions) return false;
-                    return opt.componentOptions.propsData.value === option.value;
-                });
-
                 if (this.filterable){
                     const inputField = this.$el.querySelector('input[type="text"]');
                     if (!this.autoComplete) this.$nextTick(() => inputField.focus());
                 }
                 this.broadcast('Drop', 'on-update-popper');
+                this.$emit('on-select', this.publicValue); // # 4441
                 setTimeout(() => {
                     this.filterQueryChange = false;
                 }, ANIMATION_TIMEOUT);
@@ -683,6 +695,9 @@
                 this.query = query;
                 this.unchangedQuery = this.visible;
                 this.filterQueryChange = true;
+                if(this.filterable){
+                    this.updateFocusIndex();
+                }
             },
             toggleHeaderFocus({type}){
                 if (this.disabled) {
@@ -702,13 +717,12 @@
         watch: {
             value(value){
                 const {getInitialValue, getOptionData, publicValue, values} = this;
-
                 this.checkUpdateStatus();
 
                 if (value === '') this.values = [];
                 else if (checkValuesNotEqual(value,publicValue,values)) {
                     this.$nextTick(() => this.values = getInitialValue().map(getOptionData).filter(Boolean));
-                    this.dispatch('FormItem', 'on-form-change', this.publicValue);
+                    if (!this.multiple) this.dispatch('FormItem', 'on-form-change', this.publicValue);
                 }
             },
             values(now, before){
@@ -770,14 +784,15 @@
                 const optionInstance = findChild(this, ({$options}) => {
                     return $options.componentName === 'select-item' && $options.propsData.value === optionValue;
                 });
-
-                let bottomOverflowDistance = optionInstance.$el.getBoundingClientRect().bottom - this.$refs.dropdown.$el.getBoundingClientRect().bottom;
-                let topOverflowDistance = optionInstance.$el.getBoundingClientRect().top - this.$refs.dropdown.$el.getBoundingClientRect().top;
-                if (bottomOverflowDistance > 0) {
-                    this.$refs.dropdown.$el.scrollTop += bottomOverflowDistance;
-                }
-                if (topOverflowDistance < 0) {
-                    this.$refs.dropdown.$el.scrollTop += topOverflowDistance;
+                if(optionInstance && optionInstance.$el ){
+                    let bottomOverflowDistance = optionInstance.$el.getBoundingClientRect().bottom - this.$refs.dropdown.$el.getBoundingClientRect().bottom;
+                    let topOverflowDistance = optionInstance.$el.getBoundingClientRect().top - this.$refs.dropdown.$el.getBoundingClientRect().top;
+                    if (bottomOverflowDistance > 0) {
+                        this.$refs.dropdown.$el.scrollTop += bottomOverflowDistance;
+                    }
+                    if (topOverflowDistance < 0) {
+                        this.$refs.dropdown.$el.scrollTop += topOverflowDistance;
+                    }
                 }
             },
             dropVisible(open){

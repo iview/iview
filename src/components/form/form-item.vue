@@ -178,33 +178,35 @@
                 return rules.filter(rule => !rule.trigger || rule.trigger.indexOf(trigger) !== -1);
             },
             validate(trigger, callback = function () {}) {
-                let rules = this.getFilteredRule(trigger);
-                if (!rules || rules.length === 0) {
-                    if (!this.required) {
-                        callback();
-                        return true;
-                    }else {
-                        rules = [{required: true}];
+                this.$nextTick(() => {
+                    let rules = this.getFilteredRule(trigger);
+                    if (!rules || rules.length === 0) {
+                        if (!this.required) {
+                            callback();
+                            return true;
+                        }else {
+                            rules = [{required: true}];
+                        }
                     }
-                }
 
-                this.validateState = 'validating';
+                    this.validateState = 'validating';
 
-                let descriptor = {};
-                descriptor[this.prop] = rules;
+                    let descriptor = {};
+                    descriptor[this.prop] = rules;
 
-                const validator = new AsyncValidator(descriptor);
-                let model = {};
+                    const validator = new AsyncValidator(descriptor);
+                    let model = {};
 
-                model[this.prop] = this.fieldValue;
+                    model[this.prop] = this.fieldValue;
 
-                validator.validate(model, { firstFields: true }, errors => {
-                    this.validateState = !errors ? 'success' : 'error';
-                    this.validateMessage = errors ? errors[0].message : '';
+                    validator.validate(model, { firstFields: true }, errors => {
+                        this.validateState = !errors ? 'success' : 'error';
+                        this.validateMessage = errors ? errors[0].message : '';
 
-                    callback(this.validateMessage);
+                        callback(this.validateMessage);
+                    });
+                    this.validateDisabled = false;
                 });
-                this.validateDisabled = false;
             },
             resetField () {
                 this.validateState = '';

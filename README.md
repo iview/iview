@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://www.iviewui.com">
+    <a href="http://iview.talkingdata.com/">
         <img width="200" src="https://file.iviewui.com/logo-new.svg">
     </a>
 </p>
@@ -20,47 +20,9 @@ iView
 [![Sponers on Open Collective](https://opencollective.com/iview/tiers/sponsor/badge.svg?label=sponsor&color=brightgreen)](#sponers)
 
 
-<h2 align="center">Special Sponsors</h2>
-<table>
-      <tbody>
-        <tr>
-          <td align="center" valign="middle">
-            <a href="https://segmentfault.com/ls/1650000016424063" target="_blank">
-              <img width="300" src="https://file.iviewui.com/asd/asd-i-2.png">
-            </a>
-          </td>
-          <td align="center" valign="middle">
-            <a href="https://e.coding.net/?utm_source=iview" target="_blank">
-              <img width="300" src="https://file.iviewui.com/asd/asd-coding5.png">
-            </a>
-          </td>
-            <td align="center" valign="middle">
-            <a href="https://cn.udacity.com/course/wechat-mini-program-nanodegree--nd666-cn?utm_source=iviewui&utm_medium=banner&utm_campaign=wmpnd" target="_blank">
-              <img width="300" src="https://file.iviewui.com/asd/asd-u-13.png">
-            </a>
-          </td>
-        </tr>
-        <tr>
-            </td>
-            <td align="center" valign="middle">
-            <a href="https://m3w.cn/track/uniapp/iview" target="_blank">
-              <img width="300" src="https://file.iviewui.com/asd/asd-uniapp3.png">
-            </a>
-          </td>
-          <td align="center" valign="middle">
-            <a href="https://s.growingio.com/p0732m" target="_blank">
-              <img width="300" src="https://file.iviewui.com/asd/asd-kkb-1.png">
-            </a>
-          </td>
-        </tr>
-      </tbody>
-</table>
-
-> If you'd like be a sponsor, to show your ads in GitHub and iView doc, please email admin@aresn.com to get more information.
-
 ## Docs
 
-**[3.x](https://www.iviewui.com)** | [2.x](http://v2.iviewui.com) | [1.x](http://v1.iviewui.com)
+**[3.x](http://iview.talkingdata.com/)** | [2.x](http://v2.iviewui.com) | [1.x](http://v1.iviewui.com)
 
 ## Features
 
@@ -147,7 +109,7 @@ If you want to contribute or have questions or bugs to report:
 
 **Questions:** Find other users at the [Gitter chat](https://gitter.im/iview/iview) or post on [StackOverflow using `[iview-ui]` tag](https://stackoverflow.com/questions/tagged/iview-ui)  
 **Bugs:** [File a issue here](https://github.com/iview/iview/issues) - please provide a example so we can help you better  
-**Contribute:** Contact us in [Gitter chat](https://gitter.im/iview/iview), WeChat or via mail to `admin@aresn.com`. PRs welcome!
+**Contribute:** Contact us in [Gitter chat](https://gitter.im/iview/iview), WeChat or via mail to `iview@tendcloud.com`. PRs welcome!
 
 ## Major Contributors
 |Name|Avatar|Name|Avatar|Name|Avatar|
@@ -168,13 +130,8 @@ If you want to contribute or have questions or bugs to report:
 - [iView-Area](https://github.com/iview/iview-area)
 - [iView-Editor](https://github.com/iview/iview-editor)
 
-## Sponsors
-![](https://opencollective.com/iview/tiers/sponsor.svg?avatarHeight=36)
-
-## Backers
-![](https://opencollective.com/iview/tiers/backer.svg?avatarHeight=36)
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)
 
-Copyright (c) 2016-present, iView
+Copyright (c) 2016-present, TalkingData

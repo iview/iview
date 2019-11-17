@@ -1,11 +1,16 @@
 <template>
-    <Tree :data="data2" check-directly show-checkbox></Tree>
+    <div>
+        <Tree ref="treeRef" :data="data4" show-checkbox multiple></Tree>
+        <Button @click="get">
+            get
+        </Button>
+    </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                data2: [
+                data4: [
                     {
                         title: 'parent 1',
                         expand: true,
@@ -15,7 +20,9 @@
                                 expand: true,
                                 children: [
                                     {
-                                        title: 'leaf 1-1-1'
+                                        title: 'leaf 1-1-1',
+                                        checked : false,
+                                        disabled: true
                                     },
                                     {
                                         title: 'leaf 1-1-2'
@@ -27,7 +34,7 @@
                                 expand: true,
                                 children: [
                                     {
-                                        title: 'leaf 1-2-1'
+                                        title: 'leaf 1-2-1',
                                     },
                                     {
                                         title: 'leaf 1-2-1'
@@ -37,6 +44,11 @@
                         ]
                     }
                 ]
+            }
+        },
+        methods: {
+            get(){
+                console.log(this.$refs.treeRef.getCheckedNodes())
             }
         }
     }

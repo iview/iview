@@ -42,12 +42,13 @@
         methods: {
             setActive () {
                 const activeKey = this.getActiveKey();
+                this.$nextTick(() => {
+                    this.$children.forEach((child, index) => {
+                        const name = child.name || index.toString();
 
-                this.$children.forEach((child, index) => {
-                    const name = child.name || index.toString();
-
-                    child.isActive = activeKey.indexOf(name) > -1;
-                    child.index = index;
+                        child.isActive = activeKey.indexOf(name) > -1;
+                        child.index = index;
+                    });
                 });
             },
             getActiveKey () {
