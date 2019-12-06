@@ -3,21 +3,19 @@
         <ul v-if="data && data.length" :class="[prefixCls + '-menu']">
             <Casitem
                 v-for="item in data"
-                :key="getKey()"
+                :key="item.value"
                 :prefix-cls="prefixCls"
                 :data="item"
                 :tmp-item="tmpItem"
                 @click.native.stop="handleClickItem(item)"
                 @mouseenter.native.stop="handleHoverItem(item)"></Casitem>
-        </ul><Caspanel v-if="sublist && sublist.length" :prefix-cls="prefixCls" :data="sublist" :disabled="disabled" :trigger="trigger" :change-on-select="changeOnSelect"></Caspanel>
+        </ul><Caspanel v-if="sublist && sublist.length" :prefix-cls="prefixCls" :data="sublist" :disabled="disabled" :trigger="trigger" :change-on-select="changeOnSelect" :select-on-all-level="selectOnAllLevel"></Caspanel>
     </span>
 </template>
 <script>
     import Casitem from './casitem.vue';
     import Emitter from '../../mixins/emitter';
     import { findComponentUpward, findComponentDownward } from '../../utils/assist';
-
-    let key = 1;
 
     export default {
         name: 'Caspanel',
@@ -32,6 +30,7 @@
             },
             disabled: Boolean,
             changeOnSelect: Boolean,
+            selectOnAllLevel: Boolean,
             trigger: String,
             prefixCls: String
         },
@@ -49,14 +48,15 @@
         },
         methods: {
             handleClickItem (item) {
-                if (this.trigger !== 'click' && item.children && item.children.length) return;  // #1922
-                this.handleTriggerItem(item, false, true);
+                if (this.trigger !== 'click' && (item.children && item.children.length && !this.selectOnAllLevel)) return;  // #1922
+                const fromEvent = 'click';
+                this.handleTriggerItem(item, false, true, fromEvent);
             },
             handleHoverItem (item) {
                 if (this.trigger !== 'hover' || !item.children || !item.children.length) return;  // #1922
                 this.handleTriggerItem(item, false, true);
             },
-            handleTriggerItem (item, fromInit = false, fromUser = false) {
+            handleTriggerItem (item, fromInit = false, fromUser = false, fromEvent) {
                 if (item.disabled) return;
 
                 const cascader = findComponentUpward(this, 'Cascader');
@@ -89,8 +89,12 @@
 
                 if (item.children && item.children.length){
                     this.sublist = item.children;
+                    let lastValue = false;
+                    if (this.selectOnAllLevel && fromEvent === 'click') {
+                        lastValue = true;
+                    }
                     this.dispatch('Cascader', 'on-result-change', {
-                        lastValue: false,
+                        lastValue: lastValue,
                         changeOnSelect: this.changeOnSelect,
                         fromInit: fromInit
                     });
@@ -133,9 +137,6 @@
                 } else {
                     this.$parent.$parent.updateResult(result);
                 }
-            },
-            getKey () {
-                return key++;
             }
         },
         mounted () {

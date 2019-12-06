@@ -36,6 +36,7 @@
                         :data="data"
                         :disabled="itemDisabled"
                         :change-on-select="changeOnSelect"
+                        :select-on-all-level="selectOnAllLevel"
                         :trigger="trigger"></Caspanel>
                     <div :class="[prefixCls + '-dropdown']" v-show="filterable && query !== '' && querySelections.length">
                         <ul :class="[selectPrefixCls + '-dropdown-list']">
@@ -149,6 +150,10 @@
                 default () {
                     return !this.$IVIEW ? true : this.$IVIEW.capture;
                 }
+            },
+            selectOnAllLevel: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
