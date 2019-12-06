@@ -38,7 +38,7 @@ export declare class Menu extends Vue {
    */
   $emit(eventName: 'on-select', name?: string | number): this;
   /**
-   * 当 展开/收起 子菜单时触发	
+   * 当 展开/收起 子菜单时触发
    * @default 当前展开的 Submenu 的 name 值数组
    */
   $emit(eventName: 'on-open-change', names: string[] | number[]): this;
@@ -78,7 +78,7 @@ export declare class MenuItem extends Vue {
   append?: boolean;
 }
 
-export declare class MenuSub extends Vue {
+export declare class Submenu extends Vue {
   /**
    * 子菜单的唯一标识，必填
    */

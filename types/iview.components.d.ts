@@ -37,7 +37,7 @@ export { Scroll } from './scroll';
 export { Split } from './split';
 export { Layout } from './layout';
 export { LoadingBar, LoadingBarConfig } from './loading-bar';
-export { Menu, MenuGroup, MenuItem, MenuSub } from './menu';
+export { Menu, MenuGroup, MenuItem, Submenu } from './menu';
 export { Message, MessageConfig } from './message';
 export { Modal, ModalInstance, ModalConfig } from './modal';
 export { Notice, NoticeConfig, NoticeGlobalConfig } from './notice';

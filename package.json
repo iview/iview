@@ -1,9 +1,9 @@
 {
     "name": "iview",
-    "version": "3.5.1",
+    "version": "3.5.4",
     "title": "iView",
     "description": "A high quality UI components Library with Vue.js",
-    "homepage": "http://www.iviewui.com",
+    "homepage": "http://iview.talkingdata.com",
     "keywords": [
         "iview",
         "vue",

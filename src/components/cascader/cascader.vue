@@ -44,6 +44,7 @@
                                     [selectPrefixCls + '-item-disabled']: item.disabled
                                 }]"
                                 v-for="(item, index) in querySelections"
+                                :key="index"
                                 @click="handleSelectItem(index)" v-html="item.display"></li>
                         </ul>
                     </div>
