@@ -124,6 +124,9 @@
             loadData: {
                 type: Function
             },
+            remoteQuery: {
+                type: Function
+            },
             filterable: {
                 type: Boolean,
                 default: false
@@ -211,6 +214,11 @@
             },
             querySelections () {
                 let selections = [];
+                // 防止初始化时，重复执行导致渲染卡顿
+                if (!this.query) {
+                    return selections;
+                }
+
                 function getSelections (arr, label, value) {
                     for (let i = 0; i < arr.length; i++) {
                         let item = arr[i];
@@ -232,13 +240,20 @@
                         }
                     }
                 }
-                getSelections(this.data);
-                selections = selections.filter(item => {
-                    return item.label ? item.label.indexOf(this.query) > -1 : false;
-                }).map(item => {
-                    item.display = item.display.replace(new RegExp(this.query, 'g'), `<span>${this.query}</span>`);
-                    return item;
-                });
+
+                // 支持自定义的搜索方法，配合load-data的使用，加快渲染速度
+                if (this.remoteQuery) {
+                    selections = this.remoteQuery(this.query);
+                } else {
+                    getSelections(this.data);
+                    selections = selections.filter(item => {
+                        return item.label ? item.label.indexOf(this.query) > -1 : false;
+                    }).map(item => {
+                        item.display = item.display.replace(new RegExp(this.query, 'g'), `<span>${this.query}</span>`);
+                        return item;
+                    });
+                }
+
                 return selections;
             },
             // 3.4.0, global setting customArrow 有值时，arrow 赋值空
