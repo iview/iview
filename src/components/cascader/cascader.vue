@@ -255,7 +255,7 @@
                     selections = selections.filter(item => {
                         return item.label ? item.label.toLowerCase().indexOf(this.query.toLowerCase()) > -1 : false;
                     }).map(item => {
-                        item.display = item.display.replace(new RegExp(`(${this.query})`, 'ig'), `<span>$1</span>`);
+                        item.display = item.display.replace(new RegExp(`(${this.query})`, 'ig'), '<span>$1</span>');
                         return item;
                     });
                 }

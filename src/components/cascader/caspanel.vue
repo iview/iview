@@ -53,8 +53,9 @@
                 this.handleTriggerItem(item, false, true, fromEvent);
             },
             handleHoverItem (item) {
-                if (this.trigger !== 'hover' || !item.children || !item.children.length) return;  // #1922
-                this.handleTriggerItem(item, false, true);
+                if (this.trigger !== 'hover') return;  // #1922
+                const fromEvent = 'hover';
+                this.handleTriggerItem(item, false, true, fromEvent);
             },
             handleTriggerItem (item, fromInit = false, fromUser = false, fromEvent) {
                 if (item.disabled) return;
@@ -108,8 +109,12 @@
                     }
                 } else {
                     this.sublist = [];
+                    let lastValue = true;
+                    if (fromEvent === 'hover') {
+                        lastValue = false;
+                    }
                     this.dispatch('Cascader', 'on-result-change', {
-                        lastValue: true,
+                        lastValue: lastValue,
                         changeOnSelect: this.changeOnSelect,
                         fromInit: fromInit
                     });
