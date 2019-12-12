@@ -10,6 +10,7 @@
                     :disabled="itemDisabled"
                     :value="displayInputRender"
                     @on-change="handleInput"
+                    @on-enter="handleEnter"
                     :size="size"
                     :placeholder="inputPlaceholder"></i-input>
                 <div
@@ -348,6 +349,9 @@
             },
             handleInput (event) {
                 this.query = event.target.value;
+            },
+            handleEnter (event) {
+                this.$emit('on-enter', event);
             },
             handleSelectItem (index) {
                 const item = this.querySelections[index];
