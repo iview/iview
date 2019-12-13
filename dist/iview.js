@@ -22561,6 +22561,10 @@ var Popper = isServer ? function () {} : __webpack_require__(110);exports.defaul
                 this.$emit('on-popper-show');
             } else {
                 this.$emit('on-popper-hide');
+
+                if (!this.$IVIEW.initPopper) {
+                    this.doDestroy();
+                }
             }
             this.$emit('input', val);
         }
@@ -22613,10 +22617,12 @@ var Popper = isServer ? function () {} : __webpack_require__(110);exports.defaul
     updated: function updated() {
         var _this2 = this;
 
-        this.$nextTick(function () {
-            (0, _newArrowCheck3.default)(this, _this2);
-            return this.updatePopper();
-        }.bind(this));
+        if (this.$IVIEW.initPopper) {
+            this.$nextTick(function () {
+                (0, _newArrowCheck3.default)(this, _this2);
+                return this.updatePopper();
+            }.bind(this));
+        }
     },
     beforeDestroy: function beforeDestroy() {
         if (isServer) return;
@@ -29558,7 +29564,8 @@ var install = function install(Vue) {
         },
         modal: {
             maskClosable: opts.modal ? 'maskClosable' in opts.modal ? opts.modal.maskClosable : '' : ''
-        }
+        },
+        initPopper: 'initPopper' in opts ? opts.initPopper : true
     };
 
     Vue.prototype.$Loading = _loadingBar2.default;
@@ -29573,7 +29580,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 var API = (0, _extends3.default)({
-    version: '4.0.3',
+    version: '4.0.4',
     locale: _index2.default.use,
     i18n: _index2.default.i18n,
     install: install,
