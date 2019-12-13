@@ -65,6 +65,11 @@ export default {
                 this.$emit('on-popper-show');
             } else {
                 this.$emit('on-popper-hide');
+
+                // 如果不初始化popper 则在隐藏之后注销
+                if (!this.$IVIEW.initPopper) {
+                    this.doDestroy();
+                }
             }
             this.$emit('input', val);
         }
@@ -112,8 +117,10 @@ export default {
         }
     },
     updated (){
-        this.$nextTick(()=>this.updatePopper());
-
+        // 是否初始化 popper，可全局配置，防止监听事件过多
+        if (this.$IVIEW.initPopper) {
+            this.$nextTick(()=>this.updatePopper());
+        }
     },
     beforeDestroy() {
         if (isServer) return;
