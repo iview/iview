@@ -113,10 +113,13 @@
                 ];
             },
             trackStyles () {
+                // #6076
+                const visibleStyle = this.trackIndex === -1 ? 'hidden' : 'visible';
                 return {
                     width: `${this.trackWidth}px`,
                     transform: `translate3d(${-this.trackOffset}px, 0px, 0px)`,
-                    transition: `transform 500ms ${this.easing}`
+                    transition: `transform 500ms ${this.easing}`,
+                    visibility : visibleStyle
                 };
             },
             copyTrackStyles () {
@@ -125,7 +128,7 @@
                     transform: `translate3d(${-this.trackCopyOffset}px, 0px, 0px)`,
                     transition: `transform 500ms ${this.easing}`,
                     position: 'absolute',
-                    top: 0
+                    // top: 0
                 };
             },
             arrowClasses () {
