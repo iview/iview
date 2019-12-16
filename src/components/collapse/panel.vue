@@ -64,6 +64,7 @@
         },
         mounted () {
             this.mounted = true;
+            this.$parent.setActive();
         }
     };
 </script>
