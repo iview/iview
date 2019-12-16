@@ -96,7 +96,13 @@
             },
             rules (){
                 this.setRules();
-            }
+            },
+            required (n, o) {
+                this.isRequired = n;
+                if (o && !n) {
+                    this.resetField();
+                }
+            },
         },
         inject: ['FormInstance'],
         computed: {
