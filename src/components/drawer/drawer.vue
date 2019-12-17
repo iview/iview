@@ -1,11 +1,11 @@
 <template>
     <div v-transfer-dom :data-transfer="transfer">
         <transition name="fade">
-            <div :class="maskClasses" :style="maskStyle" v-show="visible" v-if="mask" @click="handleMask"></div>
+            <div :class="maskClasses" :style="maskStyle" v-if="mask && visible" @click="handleMask"></div>
         </transition>
         <div :class="wrapClasses" @click="handleWrapClick">
             <transition :name="'move-' + placement">
-                <div :class="classes" :style="mainStyles" v-show="visible">
+                <div :class="classes" :style="mainStyles" v-if="visible">
                     <div :class="contentClasses" ref="content">
                         <a class="ivu-drawer-close" v-if="closable" @click="close">
                             <slot name="close">
