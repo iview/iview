@@ -1,3 +1,4 @@
+<!--
 <template>
     <table cellspacing="0" cellpadding="0" border="0" :style="styleObject">
         <colgroup>
@@ -38,6 +39,7 @@
         </tbody>
     </table>
 </template>
+-->
 <script>
     // todo :key="row"
     import TableTr from './table-tr.vue';
@@ -93,16 +95,19 @@
             rowExpanded(_index){
                 return this.objData[_index] && this.objData[_index]._isExpanded;
             },
-            handleMouseIn (_index) {
+            handleMouseIn (_index, event) {
+                event.stopPropagation();
                 this.$parent.handleMouseIn(_index);
             },
-            handleMouseOut (_index) {
+            handleMouseOut (_index, event) {
+                event.stopPropagation();
                 this.$parent.handleMouseOut(_index);
             },
             clickCurrentRow (_index) {
                 this.$parent.clickCurrentRow(_index);
             },
-            dblclickCurrentRow (_index) {
+            dblclickCurrentRow (_index, event) {
+                event.stopPropagation();
                 this.$parent.dblclickCurrentRow(_index);
             },
             getSpan (row, column, rowIndex, columnIndex) {
@@ -134,7 +139,169 @@
             showWithSpan (row, column, rowIndex, columnIndex) {
                 const result = this.getSpan(row, column, rowIndex, columnIndex);
                 return !(('rowspan' in result && result.rowspan === 0) || ('colspan' in result && result.colspan === 0));
+            },
+            getChildNode (h, data, nodes, level = 1) {
+                if (data.children && data.children.length) {
+                    data.children.forEach((row, index) => {
+                        let $tds = [];
+
+                        this.columns.forEach((column, colIndex) => {
+                            if (this.showWithSpan(row, column, index, colIndex)) {
+                                const $tableCell = h(TableCell, {
+                                    props: {
+                                        fixed: this.fixed,
+                                        'prefix-cls': this.prefixCls,
+                                        row: row,
+                                        column: column,
+                                        'natural-index': index,
+                                        index: row._index,
+                                        checked: this.rowChecked(row._index),
+                                        disabled: this.rowDisabled(row._index),
+                                        expanded: this.rowExpanded(row._index),
+                                        treeNode: true,
+                                        treeLevel: level
+                                    },
+                                    key: column._columnKey,
+                                });
+
+                                const $td = h('td', {
+                                    class: this.alignCls(column, row),
+                                    attrs: this.getSpan(row, column, index, colIndex)
+                                }, [$tableCell]);
+                                $tds.push($td);
+                            }
+                        });
+
+                        const $tableTr = h(TableTr, {
+                            props: {
+                                draggable: false,
+                                row: row,
+                                'prefix-cls': this.prefixCls
+                            },
+                            key: this.rowKey ? row._rowKey : index,
+                            nativeOn: {
+                                mouseenter: (e) => this.handleMouseIn(row._index, e),
+                                mouseleave: (e) => this.handleMouseOut(row._index, e),
+                                click: (e) => this.clickCurrentRow(row._index, e),
+                                dblclick: (e) => this.dblclickCurrentRow(row._index, e)
+                            }
+                        }, $tds);
+
+                        nodes.push($tableTr);
+
+                        if (row.children && row.children.length) {
+                            level++;
+                            this.getChildNode(h, row, nodes, level, level);
+                        }
+                    });
+                    return nodes;
+                } else {
+                    return nodes;
+                }
             }
+        },
+        render (h) {
+            let $cols = [];
+            this.columns.forEach((column, index) => {
+                const $col = h('col', {
+                    attrs: {
+                        width: this.setCellWidth(column)
+                    }
+                });
+                $cols.push($col);
+            });
+            const $colgroup = h('colgroup', {}, $cols);
+
+            let $tableTrs = [];
+            this.data.forEach((row, index) => {
+                let $tds = [];
+
+                this.columns.forEach((column, colIndex) => {
+                    if (this.showWithSpan(row, column, index, colIndex)) {
+                        const $tableCell = h(TableCell, {
+                            props: {
+                                fixed: this.fixed,
+                                'prefix-cls': this.prefixCls,
+                                row: row,
+                                column: column,
+                                'natural-index': index,
+                                index: row._index,
+                                checked: this.rowChecked(row._index),
+                                disabled: this.rowDisabled(row._index),
+                                expanded: this.rowExpanded(row._index)
+                            },
+                            key: column._columnKey,
+                        });
+
+                        const $td = h('td', {
+                            class: this.alignCls(column, row),
+                            attrs: this.getSpan(row, column, index, colIndex)
+                        }, [$tableCell]);
+                        $tds.push($td);
+                    }
+                });
+
+                const $tableTr = h(TableTr, {
+                    props: {
+                        draggable: this.draggable,
+                        row: row,
+                        'prefix-cls': this.prefixCls
+                    },
+                    key: this.rowKey ? row._rowKey : index,
+                    nativeOn: {
+                        mouseenter: (e) => this.handleMouseIn(row._index, e),
+                        mouseleave: (e) => this.handleMouseOut(row._index, e),
+                        click: (e) => this.clickCurrentRow(row._index, e),
+                        dblclick: (e) => this.dblclickCurrentRow(row._index, e)
+                    }
+                }, $tds);
+                $tableTrs.push($tableTr);
+
+                // 可展开
+                if (this.rowExpanded(row._index)) {
+                    const $Expand = h(Expand, {
+                        props: {
+                            row: row,
+                            render: this.expandRender,
+                            index: row._index
+                        },
+                        key: this.rowKey ? row._rowKey : index
+                    });
+                    const $td = h('td', {
+                        attrs: {
+                            colspan: this.columns.length
+                        },
+                        class: this.prefixCls + '-expanded-cell'
+                    }, [$Expand]);
+                    const $tr = h('tr', {
+                        class: {
+                            [this.prefixCls + '-expanded-hidden']: this.fixed
+                        }
+                    }, [$td]);
+                    $tableTrs.push($tr);
+                }
+
+                // 子数据
+                if (row.children && row.children.length) {
+                    const $childNodes = this.getChildNode(h, row, []);
+                    $childNodes.forEach(item => {
+                        $tableTrs.push(item);
+                    });
+                }
+            });
+
+            const $tbody = h('tbody', {
+                class: this.prefixCls + '-tbody'
+            }, [$tableTrs]);
+
+            return h('table', {
+                attrs: {
+                    cellspacing: '0',
+                    cellpadding: '0',
+                    border: '0'
+                },
+                style: this.styleObject
+            }, [$colgroup, $tbody]);
         }
     };
 </script>

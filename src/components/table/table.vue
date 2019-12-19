@@ -256,6 +256,11 @@
             // 4.0.0
             sumText: {
                 type: String
+            },
+            // 4.1.0
+            indentSize: {
+                type: Number,
+                default: 16
             }
         },
         data () {
@@ -925,8 +930,26 @@
                 data.forEach((row, index) => {
                     row._index = index;
                     row._rowKey = rowKey++;
+                    if (row.child && row.children.length) {
+                        row.children = this.makeChildrenData(row);
+                    }
                 });
                 return data;
+            },
+            makeChildrenData (data) {
+                if (data.children && data.children.length) {
+                    data.children.map((row, index) => {
+                        const newRow = deepCopy(row);
+                        newRow._index = index;
+                        newRow._rowKey = rowKey++;
+                        if (newRow.children && newRow.children.length) {
+                            newRow.children = this.makeChildrenData(newRow);
+                        }
+                        return newRow;
+                    });
+                } else {
+                    return data;
+                }
             },
             makeDataWithSort () {
                 let data = this.makeData();
@@ -955,34 +978,59 @@
                 this.cloneColumns.forEach(col => data = this.filterData(data, col));
                 return data;
             },
+            makeObjBaseData (row) {
+                const newRow = deepCopy(row);
+                newRow._isHover = false;
+                if (newRow._disabled) {
+                    newRow._isDisabled = newRow._disabled;
+                } else {
+                    newRow._isDisabled = false;
+                }
+                if (newRow._checked) {
+                    newRow._isChecked = newRow._checked;
+                } else {
+                    newRow._isChecked = false;
+                }
+                if (newRow._expanded) {
+                    newRow._isExpanded = newRow._expanded;
+                } else {
+                    newRow._isExpanded = false;
+                }
+                if (newRow._highlight) {
+                    newRow._isHighlight = newRow._highlight;
+                } else {
+                    newRow._isHighlight = false;
+                }
+                return newRow;
+            },
             makeObjData () {
                 let data = {};
                 this.data.forEach((row, index) => {
-                    const newRow = deepCopy(row);// todo 直接替换
-                    newRow._isHover = false;
-                    if (newRow._disabled) {
-                        newRow._isDisabled = newRow._disabled;
-                    } else {
-                        newRow._isDisabled = false;
-                    }
-                    if (newRow._checked) {
-                        newRow._isChecked = newRow._checked;
-                    } else {
-                        newRow._isChecked = false;
-                    }
-                    if (newRow._expanded) {
-                        newRow._isExpanded = newRow._expanded;
-                    } else {
-                        newRow._isExpanded = false;
-                    }
-                    if (newRow._highlight) {
-                        newRow._isHighlight = newRow._highlight;
-                    } else {
-                        newRow._isHighlight = false;
+                    const newRow = this.makeObjBaseData(row);
+                    if (newRow.children && newRow.children.length) {
+                        if (newRow._showChildren) {
+                            newRow._isShowChildren = newRow._showChildren;
+                        } else {
+                            newRow._isShowChildren = false;
+                        }
+                        newRow.children = this.makeChildrenObjData(newRow);
                     }
                     data[index] = newRow;
                 });
                 return data;
+            },
+            makeChildrenObjData (data) {
+                if (data.children && data.children.length) {
+                    data.children.map(row => {
+                        const newRow = this.makeObjBaseData(row);
+                        if (newRow.children && newRow.children.length) {
+                            newRow.children = this.makeChildrenObjData(newRow);
+                        }
+                        return newRow;
+                    });
+                } else {
+                    return data;
+                }
             },
             // 修改列，设置一个隐藏的 id，便于后面的多级表头寻找对应的列，否则找不到
             makeColumnsId (columns) {

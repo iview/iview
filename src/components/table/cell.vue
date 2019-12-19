@@ -4,6 +4,12 @@
         <template v-if="renderType === 'selection'">
             <Checkbox :value="checked" @click.native.stop="handleClick" @on-change="toggleSelect" :disabled="disabled"></Checkbox>
         </template>
+        <div class="ivu-table-cell-tree-level" v-if="showLevel" :style="treeLevelStyle"></div>
+        <div class="ivu-table-cell-tree" v-if="showChildren">
+            <Icon type="ios-add" v-if="!row._isShowChildren" @click="handleOpenTree" />
+            <Icon type="ios-remove" v-else @click="handleCloseTree" />
+        </div>
+        <div class="ivu-table-cell-tree ivu-table-cell-tree-empty" v-else-if="showTreeNode"></div>
         <template v-if="renderType === 'html'"><span v-html="row[column.key]"></span></template>
         <template v-if="renderType === 'normal'">
             <template v-if="column.tooltip">
@@ -54,6 +60,12 @@
             fixed: {
                 type: [Boolean, String],
                 default: false
+            },
+            // 是否为 tree 子节点
+            treeNode: Boolean,
+            treeLevel: {
+                type: Number,
+                default: 0
             }
         },
         data () {
@@ -84,6 +96,35 @@
                         [`${this.prefixCls}-cell-expand-expanded`]: this.expanded
                     }
                 ];
+            },
+            showChildren () {
+                let status = false;
+                if (this.renderType === 'html' || this.renderType === 'normal' || this.renderType === 'render' || this.renderType === 'slot') {
+                    const data = this.row;
+                    if ((data.children && data.children.length) || ('_loading' in data && data._loading)) {
+                        if (this.column.tree) status = true;
+                    }
+                }
+                return status;
+            },
+            showTreeNode () {
+                let status = false;
+                if (this.renderType === 'html' || this.renderType === 'normal' || this.renderType === 'render' || this.renderType === 'slot') {
+                    if (this.column.tree && this.treeNode) status = true;
+                }
+                return status;
+            },
+            showLevel () {
+                let status = false;
+                if (this.renderType === 'html' || this.renderType === 'normal' || this.renderType === 'render' || this.renderType === 'slot') {
+                    if (this.column.tree && this.treeNode) status = true;
+                }
+                return status;
+            },
+            treeLevelStyle () {
+                return {
+                    'padding-left': this.treeLevel * this.tableRoot.indentSize + 'px'
+                };
             }
         },
         methods: {
@@ -108,6 +149,12 @@
             },
             handleTooltipHide () {
                 this.tooltipShow = false;
+            },
+            handleOpenTree () {
+
+            },
+            handleCloseTree () {
+
             }
         },
         created () {
