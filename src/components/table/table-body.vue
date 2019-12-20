@@ -202,7 +202,7 @@
         },
         render (h) {
             let $cols = [];
-            this.columns.forEach((column, index) => {
+            this.columns.forEach(column => {
                 const $col = h('col', {
                     attrs: {
                         width: this.setCellWidth(column)
