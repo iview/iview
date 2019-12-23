@@ -182,6 +182,7 @@
                     let rules = this.getFilteredRule(trigger);
                     if (!rules || rules.length === 0) {
                         if (!this.required) {
+                            this.validateState = '';
                             callback();
                             return true;
                         }else {
