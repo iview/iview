@@ -261,7 +261,7 @@
                     this.preventRemoteCall = false;
                     return;
                 }
-
+                this.inputLength = this.$refs.input.value.length * 12 + 20;
                 this.$emit('on-query-change', val);
             },
             queryProp(query){
