@@ -1,5 +1,15 @@
 <style>
+.demo-status{
+    display: block;
+    color: #fff;
+}
 
+.demo-step-tip .ivu-steps-status-finish .ivu-icon{
+    color: #2d8cf0
+}
+.demo-step-tip .ivu-steps-status-error .ivu-icon{
+    color: #ed4014
+}
 </style>
 <template>
 <div>
@@ -9,6 +19,42 @@
         <!--<Step title="结束"></Step>-->
     </Steps>
     <Button @click="change">change</Button>
+    <div style="margin:30px">
+        <h2>
+            <a href="https://github.com/iview/iview/issues/6078">#6078</a>
+        </h2>
+        <br><br>
+        <Steps class="demo-step-tip" :current="2" status="error" size="small">
+            <Step>
+                <div slot="status">
+                    <Tooltip content="已完成" size="14" placement="top" transfer>
+                        <Icon size="18" type="ios-checkmark" />
+                    </Tooltip>
+                </div>
+            </Step>
+            <Step>
+                <div slot="status">
+                    <Tooltip content="进行中" size="14" placement="top" transfer>
+                        <Icon size="18" type="ios-checkmark" />
+                    </Tooltip>
+                </div>
+            </Step>
+            <Step>
+                <div slot="status">
+                    <Tooltip content="待处理" placement="top" transfer>
+                        <Icon size="18" type="ios-checkmark" />
+                    </Tooltip>
+                </div>
+            </Step>
+            <Step>
+                <div slot="status">
+                    <Tooltip content="待进行" placement="top" transfer>
+                        <Icon size="18" type="ios-checkmark" />
+                    </Tooltip>
+                </div>
+            </Step>
+        </Steps>
+    </div>
     <br><br><br><br>
     <hr>
     <!--<Steps :current="1" size="small">-->
@@ -100,10 +146,19 @@
                 activitiList:[
                     {
                         approveUserName:'123',
+                        tooltip:'测试标题',
                         startTime:'1'
                     },{
                         approveUserName:'123',
+                        tooltip:'测试标题2',
                         startTime:'2'
+                    }
+                ],
+                statusList:[
+                    {
+                        tooltip:'测试标题',
+                    },{
+                        tooltip:'测试标题2',
                     }
                 ],
                 changeList:[
