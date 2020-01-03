@@ -1021,7 +1021,7 @@
             },
             makeChildrenObjData (data) {
                 if (data.children && data.children.length) {
-                    data.children.map(row => {
+                    return data.children.map(row => {
                         const newRow = this.makeObjBaseData(row);
                         if (newRow.children && newRow.children.length) {
                             newRow.children = this.makeChildrenObjData(newRow);
