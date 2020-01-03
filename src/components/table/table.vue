@@ -930,7 +930,7 @@
                 data.forEach((row, index) => {
                     row._index = index;
                     row._rowKey = rowKey++;
-                    if (row.child && row.children.length) {
+                    if (row.children && row.children.length) {
                         row.children = this.makeChildrenData(row);
                     }
                 });
@@ -938,7 +938,7 @@
             },
             makeChildrenData (data) {
                 if (data.children && data.children.length) {
-                    data.children.map((row, index) => {
+                    return data.children.map((row, index) => {
                         const newRow = deepCopy(row);
                         newRow._index = index;
                         newRow._rowKey = rowKey++;

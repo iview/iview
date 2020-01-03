@@ -25,6 +25,10 @@
                         key: 'age'
                     },
                     {
+                        title: 'Date',
+                        key: 'date'
+                    },
+                    {
                         title: 'Address',
                         key: 'address'
                     }
