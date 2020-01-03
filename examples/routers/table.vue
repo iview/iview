@@ -45,6 +45,7 @@
                         age: 24,
                         address: 'London No. 1 Lake Park',
                         date: '2016-10-01',
+                        _showChildren: false,
                         children: [
                             {
                                 name: '张三',

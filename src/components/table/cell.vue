@@ -5,9 +5,9 @@
             <Checkbox :value="checked" @click.native.stop="handleClick" @on-change="toggleSelect" :disabled="disabled"></Checkbox>
         </template>
         <div class="ivu-table-cell-tree-level" v-if="showLevel" :style="treeLevelStyle"></div>
-        <div class="ivu-table-cell-tree" v-if="showChildren">
-            <Icon type="ios-add" v-if="!row._isShowChildren" @click="handleOpenTree" />
-            <Icon type="ios-remove" v-else @click="handleCloseTree" />
+        <div class="ivu-table-cell-tree" v-if="showChildren" @click="handleToggleTree">
+            <Icon type="ios-add" v-if="!row._isShowChildren" />
+            <Icon type="ios-remove" v-else />
         </div>
         <div class="ivu-table-cell-tree ivu-table-cell-tree-empty" v-else-if="showTreeNode"></div>
         <template v-if="renderType === 'html'"><span v-html="row[column.key]"></span></template>
@@ -150,11 +150,8 @@
             handleTooltipHide () {
                 this.tooltipShow = false;
             },
-            handleOpenTree () {
-
-            },
-            handleCloseTree () {
-
+            handleToggleTree () {
+                this.$parent.$parent.$parent.toggleTree(this.row._rowKey);
             }
         },
         created () {

@@ -693,6 +693,36 @@
                     this.$nextTick(()=>this.fixedBody());
                 }
             },
+            toggleTree (rowKey) {
+                const data = this.getDataByRowKey(rowKey);
+                data._isShowChildren = !data._isShowChildren;
+            },
+            getDataByRowKey (rowKey, objData = this.rebuildData) {
+                let data = null;
+                for (let i in objData) {
+                    const thisData = objData[i];
+                    if (thisData._rowKey === rowKey) {
+                        data = thisData;
+                        break;
+                    } else if (thisData.children && thisData.children.length) {
+                        data = this.getChildrenByRowKey(rowKey, thisData);
+                    }
+                }
+                return data;
+            },
+            getChildrenByRowKey (rowKey, objData) {
+                let data = null;
+                if (objData.children && objData.children.length) {
+                    objData.children.forEach(item => {
+                        if (item._rowKey === rowKey) {
+                            data = item;
+                        } else if (item.children && item.children.length) {
+                            data = this.getChildrenByRowKey(rowKey, item);
+                        }
+                    });
+                }
+                return data;
+            },
             selectAll (status) {
                 // this.rebuildData.forEach((data) => {
                 //     if(this.objData[data._index]._isDisabled){
@@ -931,6 +961,11 @@
                     row._index = index;
                     row._rowKey = rowKey++;
                     if (row.children && row.children.length) {
+                        if (row._showChildren) {
+                            row._isShowChildren = row._showChildren;
+                        } else {
+                            row._isShowChildren = false;
+                        }
                         row.children = this.makeChildrenData(row);
                     }
                 });
@@ -942,6 +977,11 @@
                         const newRow = deepCopy(row);
                         newRow._index = index;
                         newRow._rowKey = rowKey++;
+                        if (newRow._showChildren) {
+                            newRow._isShowChildren = newRow._showChildren;
+                        } else {
+                            newRow._isShowChildren = false;
+                        }
                         if (newRow.children && newRow.children.length) {
                             newRow.children = this.makeChildrenData(newRow);
                         }
@@ -1008,11 +1048,12 @@
                 this.data.forEach((row, index) => {
                     const newRow = this.makeObjBaseData(row);
                     if (newRow.children && newRow.children.length) {
-                        if (newRow._showChildren) {
-                            newRow._isShowChildren = newRow._showChildren;
-                        } else {
-                            newRow._isShowChildren = false;
-                        }
+                        // todo 这里不在 objData 设置 _isShowChildren 了，改在 rebuildData，否则拿不到 rowKey
+                        // if (newRow._showChildren) {
+                        //     newRow._isShowChildren = newRow._showChildren;
+                        // } else {
+                        //     newRow._isShowChildren = false;
+                        // }
                         newRow.children = this.makeChildrenObjData(newRow);
                     }
                     data[index] = newRow;

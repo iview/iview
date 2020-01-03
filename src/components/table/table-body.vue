@@ -89,11 +89,15 @@
             rowChecked (_index) {
                 return this.objData[_index] && this.objData[_index]._isChecked;
             },
-            rowDisabled(_index){
+            rowDisabled (_index) {
                 return this.objData[_index] && this.objData[_index]._isDisabled;
             },
-            rowExpanded(_index){
+            rowExpanded (_index) {
                 return this.objData[_index] && this.objData[_index]._isExpanded;
+            },
+            // todo
+            rowShowChildren (_index) {
+                return this.objData[_index] && this.objData[_index]._isShowChildren;
             },
             handleMouseIn (_index, event) {
                 event.stopPropagation();
@@ -172,12 +176,18 @@
                             }
                         });
 
+                        // 判断节点是否展开
+                        const trStyle = {};
+                        // todo
+                        if (!this.rowShowChildren(row._index)) trStyle.display = 'none';
+
                         const $tableTr = h(TableTr, {
                             props: {
                                 draggable: false,
                                 row: row,
                                 'prefix-cls': this.prefixCls
                             },
+                            style: trStyle,
                             key: this.rowKey ? row._rowKey : index,
                             nativeOn: {
                                 mouseenter: (e) => this.handleMouseIn(row._index, e),
