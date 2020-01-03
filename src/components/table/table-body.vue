@@ -95,10 +95,6 @@
             rowExpanded (_index) {
                 return this.objData[_index] && this.objData[_index]._isExpanded;
             },
-            // todo
-            rowShowChildren (_index) {
-                return this.objData[_index] && this.objData[_index]._isShowChildren;
-            },
             handleMouseIn (_index, event) {
                 event.stopPropagation();
                 this.$parent.handleMouseIn(_index);
@@ -144,6 +140,32 @@
                 const result = this.getSpan(row, column, rowIndex, columnIndex);
                 return !(('rowspan' in result && result.rowspan === 0) || ('colspan' in result && result.colspan === 0));
             },
+            isTrShow (rowKey) {
+                let status = true;
+                this.data.forEach(row => {
+                    const showChildren = row._isShowChildren;
+                    if (row._rowKey === rowKey) {
+                        status = status && showChildren;
+                    } else if (row.children && row.children.length) {
+                        status = this.getTrStatus(rowKey, row, status && showChildren);
+                    }
+                });
+                return status;
+            },
+            getTrStatus (rowKey, data, parentStatus) {
+                let status = parentStatus;
+                if (data.children && data.children.length) {
+                    data.children.forEach(row => {
+                        const showChildren = row._isShowChildren;
+                        if (row._rowKey === rowKey) {
+                            status = status && showChildren;
+                        } else if (row.children && row.children.length) {
+                            status = this.getTrStatus(rowKey, row, status && showChildren);
+                        }
+                    });
+                }
+                return status;
+            },
             getChildNode (h, data, nodes, level = 1) {
                 if (data.children && data.children.length) {
                     data.children.forEach((row, index) => {
@@ -178,8 +200,7 @@
 
                         // 判断节点是否展开
                         const trStyle = {};
-                        // todo
-                        if (!this.rowShowChildren(row._index)) trStyle.display = 'none';
+                        if (!this.isTrShow(data._rowKey)) trStyle.display = 'none';
 
                         const $tableTr = h(TableTr, {
                             props: {

@@ -1,6 +1,6 @@
 <template>
     <div style="margin: 100px;">
-        <Table border ref="selection" :columns="columns4" :data="data1" row-key></Table>
+        <Table disabled-hover border ref="selection" :columns="columns4" :data="data1" row-key></Table>
         <Button @click="handleSelectAll(true)">Set all selected</Button>
         <Button @click="handleSelectAll(false)">Cancel all selected</Button>
     </div>
