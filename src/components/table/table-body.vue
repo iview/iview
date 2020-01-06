@@ -95,20 +95,20 @@
             rowExpanded (_index) {
                 return this.objData[_index] && this.objData[_index]._isExpanded;
             },
-            handleMouseIn (_index, event) {
+            handleMouseIn (_index, event, rowKey) {
                 event.stopPropagation();
-                this.$parent.handleMouseIn(_index);
+                this.$parent.handleMouseIn(_index, rowKey);
             },
-            handleMouseOut (_index, event) {
+            handleMouseOut (_index, event, rowKey) {
                 event.stopPropagation();
-                this.$parent.handleMouseOut(_index);
+                this.$parent.handleMouseOut(_index, rowKey);
             },
-            clickCurrentRow (_index) {
-                this.$parent.clickCurrentRow(_index);
+            clickCurrentRow (_index, rowKey) {
+                this.$parent.clickCurrentRow(_index, rowKey);
             },
-            dblclickCurrentRow (_index, event) {
+            dblclickCurrentRow (_index, event, rowKey) {
                 event.stopPropagation();
-                this.$parent.dblclickCurrentRow(_index);
+                this.$parent.dblclickCurrentRow(_index, rowKey);
             },
             getSpan (row, column, rowIndex, columnIndex) {
                 const fn = this.$parent.spanMethod;
@@ -207,15 +207,16 @@
                             props: {
                                 draggable: false,
                                 row: row,
-                                'prefix-cls': this.prefixCls
+                                'prefix-cls': this.prefixCls,
+                                isChildren: true
                             },
                             style: trStyle,
                             key: this.rowKey ? row._rowKey : index,
                             nativeOn: {
-                                mouseenter: (e) => this.handleMouseIn(row._index, e),
-                                mouseleave: (e) => this.handleMouseOut(row._index, e),
-                                click: (e) => this.clickCurrentRow(row._index, e),
-                                dblclick: (e) => this.dblclickCurrentRow(row._index, e)
+                                mouseenter: (e) => this.handleMouseIn(row._index, e, row._rowKey),
+                                mouseleave: (e) => this.handleMouseOut(row._index, e, row._rowKey),
+                                click: (e) => this.clickCurrentRow(row._index, e, row._rowKey),
+                                dblclick: (e) => this.dblclickCurrentRow(row._index, e, row._rowKey)
                             }
                         }, $tds);
 

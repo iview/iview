@@ -614,14 +614,16 @@
                 this.columnsWidth = columnsWidth;
                 this.fixedHeader();
             },
-            handleMouseIn (_index) {
+            handleMouseIn (_index, rowKey) {
                 if (this.disabledHover) return;
-                if (this.objData[_index]._isHover) return;
-                this.objData[_index]._isHover = true;
+                const objData = rowKey ? this.getDataByRowKey(rowKey) : this.objData[_index];
+                if (objData._isHover) return;
+                objData._isHover = true;
             },
-            handleMouseOut (_index) {
+            handleMouseOut (_index, rowKey) {
                 if (this.disabledHover) return;
-                this.objData[_index]._isHover = false;
+                const objData = rowKey ? this.getDataByRowKey(rowKey) : this.objData[_index];
+                objData._isHover = false;
             },
             // 通用处理 highlightCurrentRow 和 clearCurrentRow
             handleCurrentRow (type, _index) {
@@ -714,13 +716,15 @@
             getChildrenByRowKey (rowKey, objData) {
                 let data = null;
                 if (objData.children && objData.children.length) {
-                    objData.children.forEach(item => {
+                    for (let i = 0; i < objData.children.length; i++) {
+                        const item = objData.children[i];
                         if (item._rowKey === rowKey) {
                             data = item;
+                            break;
                         } else if (item.children && item.children.length) {
                             data = this.getChildrenByRowKey(rowKey, item);
                         }
-                    });
+                    }
                 }
                 return data;
             },
@@ -1011,10 +1015,10 @@
             },
             makeObjBaseData (row) {
                 const newRow = deepCopy(row);
-                newRow._isHover = false;
                 if ((typeof this.rowKey) === 'string') {
                     newRow._rowKey = newRow[this.rowKey];
                 }
+                newRow._isHover = false;
                 if (newRow._disabled) {
                     newRow._isDisabled = newRow._disabled;
                 } else {
