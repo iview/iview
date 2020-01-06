@@ -676,8 +676,11 @@
             },
             clickCurrentRow (_index, rowKey) {
                 this.highlightCurrentRow (_index, rowKey);
-                // todo
-                this.$emit('on-row-click', JSON.parse(JSON.stringify(this.cloneData[_index])), _index);
+                if (rowKey) {
+                    this.$emit('on-row-click', JSON.parse(JSON.stringify(this.getCloneDataByRowKey(rowKey))));
+                } else {
+                    this.$emit('on-row-click', JSON.parse(JSON.stringify(this.cloneData[_index])), _index);
+                }
             },
             dblclickCurrentRow (_index) {
                 this.highlightCurrentRow (_index);

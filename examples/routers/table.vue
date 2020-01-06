@@ -1,6 +1,14 @@
 <template>
     <div style="margin: 100px;">
-        <Table border highlight-row @on-current-change="occ" ref="selection" :columns="columns4" :data="data1" row-key="id">
+        <Table
+                border
+                highlight-row
+                @on-current-change="occ"
+                @on-row-click="orc"
+                ref="selection"
+                :columns="columns4"
+                :data="data1"
+                row-key="id">
             <template slot-scope="{ row }" slot="age">
                 <strong>{{row.age}}</strong>
             </template>
@@ -139,8 +147,12 @@
                 this.$refs.selection.selectAll(status);
             },
             occ (n, o) {
-                console.log(n);
-                console.log(o);
+                // console.log(n);
+                // console.log(o);
+            },
+            orc (data, index) {
+                console.log(data);
+                console.log(index);
             }
         }
     }
