@@ -67,7 +67,7 @@
                 default: false
             },
             rowKey: {
-                type: Boolean,
+                type: [Boolean, String],
                 default: false
             }
         },

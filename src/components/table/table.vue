@@ -236,8 +236,9 @@
                 default: 'dark'
             },
             // #5380 开启后，:key 强制更新，否则使用 index
+            // 4.1 开始支持 String，指定具体字段
             rowKey: {
-                type: Boolean,
+                type: [Boolean, String],
                 default: false
             },
             // 4.0.0
@@ -959,7 +960,7 @@
                 let data = deepCopy(this.data);
                 data.forEach((row, index) => {
                     row._index = index;
-                    row._rowKey = rowKey++;
+                    row._rowKey = (typeof this.rowKey) === 'string' ? row[this.rowKey] : rowKey++;
                     if (row.children && row.children.length) {
                         if (row._showChildren) {
                             row._isShowChildren = row._showChildren;
@@ -976,7 +977,7 @@
                     return data.children.map((row, index) => {
                         const newRow = deepCopy(row);
                         newRow._index = index;
-                        newRow._rowKey = rowKey++;
+                        newRow._rowKey = (typeof this.rowKey) === 'string' ? row[this.rowKey] : rowKey++;
                         if (newRow._showChildren) {
                             newRow._isShowChildren = newRow._showChildren;
                         } else {
