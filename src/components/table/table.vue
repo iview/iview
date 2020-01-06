@@ -682,9 +682,13 @@
                     this.$emit('on-row-click', JSON.parse(JSON.stringify(this.cloneData[_index])), _index);
                 }
             },
-            dblclickCurrentRow (_index) {
-                this.highlightCurrentRow (_index);
-                this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.cloneData[_index])), _index);
+            dblclickCurrentRow (_index, rowKey) {
+                this.highlightCurrentRow (_index, rowKey);
+                if (rowKey) {
+                    this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.getCloneDataByRowKey(rowKey))));
+                } else {
+                    this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.cloneData[_index])), _index);
+                }
             },
             getSelection () {
                 let selectionIndexes = [];

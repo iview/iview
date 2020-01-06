@@ -5,6 +5,7 @@
                 highlight-row
                 @on-current-change="occ"
                 @on-row-click="orc"
+                @on-row-dblclick="ordc"
                 ref="selection"
                 :columns="columns4"
                 :data="data1"
@@ -151,6 +152,10 @@
                 // console.log(o);
             },
             orc (data, index) {
+                // console.log(data);
+                // console.log(index);
+            },
+            ordc (data, index) {
                 console.log(data);
                 console.log(index);
             }
