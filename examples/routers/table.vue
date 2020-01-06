@@ -1,10 +1,11 @@
 <template>
     <div style="margin: 100px;">
-        <Table border ref="selection" :columns="columns4" :data="data1" row-key="id">
+        <Table border highlight-row @on-current-change="occ" ref="selection" :columns="columns4" :data="data1" row-key="id">
             <template slot-scope="{ row }" slot="age">
                 <strong>{{row.age}}</strong>
             </template>
         </Table>
+        <br><br>
         <Button @click="handleSelectAll(true)">Set all selected</Button>
         <Button @click="handleSelectAll(false)">Cancel all selected</Button>
     </div>
@@ -14,6 +15,11 @@
         data () {
             return {
                 columns4: [
+                    // {
+                    //     type: 'index',
+                    //     width: 60,
+                    //     align: 'center'
+                    // },
                     {
                         type: 'selection',
                         width: 60,
@@ -131,6 +137,10 @@
         methods: {
             handleSelectAll (status) {
                 this.$refs.selection.selectAll(status);
+            },
+            occ (n, o) {
+                console.log(n);
+                console.log(o);
             }
         }
     }

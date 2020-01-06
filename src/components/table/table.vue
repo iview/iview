@@ -626,29 +626,57 @@
                 objData._isHover = false;
             },
             // 通用处理 highlightCurrentRow 和 clearCurrentRow
-            handleCurrentRow (type, _index) {
+            handleCurrentRow (type, _index, rowKey) {
+                const objData = rowKey ? this.getDataByRowKey(rowKey) : this.objData[_index];
+
+                let oldData = null;
                 let oldIndex = -1;
+
                 for (let i in this.objData) {
                     if (this.objData[i]._isHighlight) {
                         oldIndex = parseInt(i);
                         this.objData[i]._isHighlight = false;
+                        break;
+                    } else if (this.objData[i].children && this.objData[i].children.length) {
+                        const resetData = this.handleResetChildrenRow(this.objData[i]);
+                        if (resetData) oldData = JSON.parse(JSON.stringify(resetData));
                     }
                 }
-                if (type === 'highlight') this.objData[_index]._isHighlight = true;
-                const oldData = oldIndex < 0 ? null : JSON.parse(JSON.stringify(this.cloneData[oldIndex]));
-                const newData = type === 'highlight' ? JSON.parse(JSON.stringify(this.cloneData[_index])) : null;
+                if (type === 'highlight') objData._isHighlight = true;
+                if (oldIndex >= 0) {
+                    oldData = JSON.parse(JSON.stringify(this.cloneData[oldIndex]));
+                }
+                const newData = type === 'highlight' ? rowKey ? JSON.parse(JSON.stringify(this.getCloneDataByRowKey(rowKey))) : JSON.parse(JSON.stringify(this.cloneData[_index])) : null;
                 this.$emit('on-current-change', newData, oldData);
             },
-            highlightCurrentRow (_index) {
-                if (!this.highlightRow || this.objData[_index]._isHighlight) return;
-                this.handleCurrentRow('highlight', _index);
+            handleResetChildrenRow (objData) {
+                let data = null;
+                if (objData.children && objData.children.length) {
+                    for (let i = 0; i < objData.children.length; i++) {
+                        const item = objData.children[i];
+                        if (item._isHighlight) {
+                            item._isHighlight = false;
+                            data = item;
+                            break;
+                        } else if (item.children && item.children.length) {
+                            data = this.handleResetChildrenRow(item);
+                        }
+                    }
+                }
+                return data;
+            },
+            highlightCurrentRow (_index, rowKey) {
+                const objData = rowKey ? this.getDataByRowKey(rowKey) : this.objData[_index];
+                if (!this.highlightRow || objData._isHighlight) return;
+                this.handleCurrentRow('highlight', _index, rowKey);
             },
             clearCurrentRow () {
                 if (!this.highlightRow) return;
                 this.handleCurrentRow('clear');
             },
-            clickCurrentRow (_index) {
-                this.highlightCurrentRow (_index);
+            clickCurrentRow (_index, rowKey) {
+                this.highlightCurrentRow (_index, rowKey);
+                // todo
                 this.$emit('on-row-click', JSON.parse(JSON.stringify(this.cloneData[_index])), _index);
             },
             dblclickCurrentRow (_index) {
@@ -723,6 +751,34 @@
                             break;
                         } else if (item.children && item.children.length) {
                             data = this.getChildrenByRowKey(rowKey, item);
+                        }
+                    }
+                }
+                return data;
+            },
+            getCloneDataByRowKey (rowKey) {
+                let data = null;
+                for (let i = 0; i < this.cloneData.length; i++) {
+                    const thisData = this.cloneData[i];
+                    if (thisData[this.rowKey] === rowKey) {
+                        data = thisData;
+                        break;
+                    } else if (thisData.children && thisData.children.length) {
+                        data = this.getChildrenCloneDataByRowKey(rowKey, thisData);
+                    }
+                }
+                return data;
+            },
+            getChildrenCloneDataByRowKey (rowKey, cloneData) {
+                let data = null;
+                if (cloneData.children && cloneData.children.length) {
+                    for (let i = 0; i < cloneData.children.length; i++) {
+                        const item = cloneData.children[i];
+                        if (item[this.rowKey] === rowKey) {
+                            data = item;
+                            break;
+                        } else if (item.children && item.children.length) {
+                            data = this.getChildrenCloneDataByRowKey(rowKey, item);
                         }
                     }
                 }

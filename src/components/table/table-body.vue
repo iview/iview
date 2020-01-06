@@ -103,7 +103,7 @@
                 event.stopPropagation();
                 this.$parent.handleMouseOut(_index, rowKey);
             },
-            clickCurrentRow (_index, rowKey) {
+            clickCurrentRow (_index, event, rowKey) {
                 this.$parent.clickCurrentRow(_index, rowKey);
             },
             dblclickCurrentRow (_index, event, rowKey) {
