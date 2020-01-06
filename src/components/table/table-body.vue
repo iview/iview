@@ -142,14 +142,15 @@
             },
             isTrShow (rowKey) {
                 let status = true;
-                this.data.forEach(row => {
+                for (let i in this.objData) {
+                    const row = this.objData[i];
                     const showChildren = row._isShowChildren;
                     if (row._rowKey === rowKey) {
                         status = status && showChildren;
                     } else if (row.children && row.children.length) {
                         status = this.getTrStatus(rowKey, row, status && showChildren);
                     }
-                });
+                }
                 return status;
             },
             getTrStatus (rowKey, data, parentStatus) {

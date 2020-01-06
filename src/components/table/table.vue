@@ -698,7 +698,7 @@
                 const data = this.getDataByRowKey(rowKey);
                 data._isShowChildren = !data._isShowChildren;
             },
-            getDataByRowKey (rowKey, objData = this.rebuildData) {
+            getDataByRowKey (rowKey, objData = this.objData) {
                 let data = null;
                 for (let i in objData) {
                     const thisData = objData[i];
@@ -962,11 +962,6 @@
                     row._index = index;
                     row._rowKey = (typeof this.rowKey) === 'string' ? row[this.rowKey] : rowKey++;
                     if (row.children && row.children.length) {
-                        if (row._showChildren) {
-                            row._isShowChildren = row._showChildren;
-                        } else {
-                            row._isShowChildren = false;
-                        }
                         row.children = this.makeChildrenData(row);
                     }
                 });
@@ -977,12 +972,7 @@
                     return data.children.map((row, index) => {
                         const newRow = deepCopy(row);
                         newRow._index = index;
-                        newRow._rowKey = (typeof this.rowKey) === 'string' ? row[this.rowKey] : rowKey++;
-                        if (newRow._showChildren) {
-                            newRow._isShowChildren = newRow._showChildren;
-                        } else {
-                            newRow._isShowChildren = false;
-                        }
+                        newRow._rowKey = (typeof this.rowKey) === 'string' ? newRow[this.rowKey] : rowKey++;
                         if (newRow.children && newRow.children.length) {
                             newRow.children = this.makeChildrenData(newRow);
                         }
@@ -1022,6 +1012,9 @@
             makeObjBaseData (row) {
                 const newRow = deepCopy(row);
                 newRow._isHover = false;
+                if ((typeof this.rowKey) === 'string') {
+                    newRow._rowKey = newRow[this.rowKey];
+                }
                 if (newRow._disabled) {
                     newRow._isDisabled = newRow._disabled;
                 } else {
@@ -1049,12 +1042,11 @@
                 this.data.forEach((row, index) => {
                     const newRow = this.makeObjBaseData(row);
                     if (newRow.children && newRow.children.length) {
-                        // todo 这里不在 objData 设置 _isShowChildren 了，改在 rebuildData，否则拿不到 rowKey
-                        // if (newRow._showChildren) {
-                        //     newRow._isShowChildren = newRow._showChildren;
-                        // } else {
-                        //     newRow._isShowChildren = false;
-                        // }
+                        if (newRow._showChildren) {
+                            newRow._isShowChildren = newRow._showChildren;
+                        } else {
+                            newRow._isShowChildren = false;
+                        }
                         newRow.children = this.makeChildrenObjData(newRow);
                     }
                     data[index] = newRow;
@@ -1065,6 +1057,11 @@
                 if (data.children && data.children.length) {
                     return data.children.map(row => {
                         const newRow = this.makeObjBaseData(row);
+                        if (newRow._showChildren) {
+                            newRow._isShowChildren = newRow._showChildren;
+                        } else {
+                            newRow._isShowChildren = false;
+                        }
                         if (newRow.children && newRow.children.length) {
                             newRow.children = this.makeChildrenObjData(newRow);
                         }

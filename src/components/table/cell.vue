@@ -6,7 +6,7 @@
         </template>
         <div class="ivu-table-cell-tree-level" v-if="showLevel" :style="treeLevelStyle"></div>
         <div class="ivu-table-cell-tree" v-if="showChildren" @click="handleToggleTree">
-            <Icon type="ios-add" v-if="!row._isShowChildren" />
+            <Icon type="ios-add" v-if="!childrenExpand" />
             <Icon type="ios-remove" v-else />
         </div>
         <div class="ivu-table-cell-tree ivu-table-cell-tree-empty" v-else-if="showTreeNode"></div>
@@ -125,6 +125,10 @@
                 return {
                     'padding-left': this.treeLevel * this.tableRoot.indentSize + 'px'
                 };
+            },
+            childrenExpand () {
+                const data = this.tableRoot.getDataByRowKey(this.row._rowKey);
+                return data._isShowChildren;
             }
         },
         methods: {
