@@ -1,5 +1,7 @@
 <template>
     <div style="margin: 100px;">
+        <Table border ref="selection" :columns="columns5" :data="data2"></Table>
+        <Divider></Divider>
         <Table
                 border
                 highlight-row
@@ -61,7 +63,8 @@
                         name: 'John Brown',
                         age: 18,
                         address: 'New York No. 1 Lake Park',
-                        date: '2016-10-03'
+                        date: '2016-10-03',
+                        _disabled: true,
                     },
                     {
                         id: '101',
@@ -70,20 +73,23 @@
                         address: 'London No. 1 Lake Park',
                         date: '2016-10-01',
                         _showChildren: true,
+                        _disabled: true,
                         children: [
                             {
                                 id: '10100',
                                 name: '张三',
                                 age: 18,
                                 address: '发动机莲富大厦放假了开始的',
-                                date: '2016-10-01'
+                                date: '2016-10-01',
+                                _disabled: true,
                             },
                             {
                                 id: '10101',
                                 name: '李四',
                                 age: 19,
                                 address: '风刀霜剑分离的思路开发',
-                                date: '2016-10-02'
+                                date: '2016-10-02',
+                                _disabled: true,
                             },
                             {
                                 id: '10102',
@@ -92,13 +98,15 @@
                                 address: '分离的付款就说个就是范德萨发生',
                                 date: '2016-10-03',
                                 _showChildren: true,
+                                _disabled: true,
                                 children: [
                                     {
                                         id: '10102100',
                                         name: '赵六',
                                         age: 21,
                                         address: '梵蒂冈人太热疼我',
-                                        date: '2016-10-05'
+                                        date: '2016-10-05',
+                                        _disabled: true,
                                     },
                                     {
                                         id: '10102101',
@@ -107,20 +115,23 @@
                                         address: '法第三方的范德萨范德萨发送到',
                                         date: '2016-10-06',
                                         _showChildren: true,
+                                        _disabled: true,
                                         children: [
                                             {
                                                 id: '10102101100',
                                                 name: '第九',
                                                 age: 23,
                                                 address: '9梵蒂冈人太热疼我',
-                                                date: '2016-10-07'
+                                                date: '2016-10-07',
+                                                _disabled: true,
                                             },
                                             {
                                                 id: '10102101101',
                                                 name: '第十',
                                                 age: 24,
                                                 address: '10法第三方的范德萨范德萨发送到',
-                                                date: '2016-10-08'
+                                                date: '2016-10-08',
+                                                _disabled: true,
                                             },
                                         ]
                                     },
@@ -133,14 +144,65 @@
                         name: 'Joe Black',
                         age: 30,
                         address: 'Sydney No. 1 Lake Park',
-                        date: '2016-10-02'
+                        date: '2016-10-02',
+                        _disabled: true,
                     },
                     {
                         id: '103',
                         name: 'Jon Snow',
                         age: 26,
                         address: 'Ottawa No. 2 Lake Park',
-                        date: '2016-10-04'
+                        date: '2016-10-04',
+                        _disabled: true,
+                    }
+                ],
+                columns5: [
+                    {
+                        type: 'selection',
+                        width: 60,
+                        align: 'center'
+                    },
+                    {
+                        title: 'Name',
+                        key: 'name'
+                    },
+                    {
+                        title: 'Age',
+                        key: 'age'
+                    },
+                    {
+                        title: 'Address',
+                        key: 'address'
+                    }
+                ],
+                data2: [
+                    {
+                        name: 'John Brown',
+                        age: 18,
+                        address: 'New York No. 1 Lake Park',
+                        date: '2016-10-03',
+                        _disabled: true,
+                    },
+                    {
+                        name: 'Jim Green',
+                        age: 24,
+                        address: 'London No. 1 Lake Park',
+                        date: '2016-10-01',
+                        _disabled: true
+                    },
+                    {
+                        name: 'Joe Black',
+                        age: 30,
+                        address: 'Sydney No. 1 Lake Park',
+                        date: '2016-10-02',
+                        _disabled: true
+                    },
+                    {
+                        name: 'Jon Snow',
+                        age: 26,
+                        address: 'Ottawa No. 2 Lake Park',
+                        date: '2016-10-04',
+                        _disabled: true
                     }
                 ]
             }
