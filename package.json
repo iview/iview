@@ -55,7 +55,7 @@
         "v-click-outside-x": "^3.7.1"
     },
     "peerDependencies": {
-        "vue": "^2.5.2"
+        "vue": "^2.6.10"
     },
     "devDependencies": {
         "autoprefixer-loader": "^3.2.0",

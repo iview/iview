@@ -38,9 +38,13 @@
                         :disabled="itemDisabled"
                         :change-on-select="changeOnSelect"
                         :select-on-all-level="selectOnAllLevel"
-                        :trigger="trigger"></Caspanel>
+                        :trigger="trigger">
+                        <template v-slot:item="soltItem">
+                            <slot name="item" v-bind:data="soltItem.data"></slot>
+                        </template>
+                        </Caspanel>
                     <div :class="[prefixCls + '-dropdown']" v-show="filterable && query !== '' && querySelections.length">
-                        <ul :class="[selectPrefixCls + '-dropdown-list']">
+                        <ul ref="searchResult" :class="[selectPrefixCls + '-dropdown-list']">
                             <li
                                 :class="[selectPrefixCls + '-item', {
                                     [selectPrefixCls + '-item-disabled']: item.disabled
@@ -156,6 +160,10 @@
                 }
             },
             selectOnAllLevel: {
+                type: Boolean,
+                default: false
+            },
+            multiple: {
                 type: Boolean,
                 default: false
             }
@@ -308,7 +316,12 @@
 //                this.$broadcast('on-clear');
                 this.broadcast('Caspanel', 'on-clear');
             },
-            handleClose () {
+            handleClose (e) {
+                // 如果是多选，并且是点击搜索结果 则不自动关闭
+                if (e.target  && this.multiple && this.$refs.searchResult.contains(e.target)) {
+                    return false;
+                }
+
                 this.visible = false;
             },
             toggleOpen () {
@@ -357,14 +370,21 @@
                 const item = this.querySelections[index];
 
                 if (item.item.disabled) return false;
-                this.query = '';
-                this.$refs.input.currentValue = '';
+
+                // 多选时清空搜索关键词会导致搜索直接消失
+                if (!this.multiple) {
+                    this.query = '';
+                    this.$refs.input.currentValue = '';
+                }
+
                 const oldVal = JSON.stringify(this.currentValue);
                 this.currentValue = item.value.split(',');
                 // use setTimeout for #4786, can not use nextTick, because @on-find-selected use nextTick
                 setTimeout(() => {
                     this.emitValue(this.currentValue, oldVal);
-                    this.handleClose();
+                    if (!this.multiple) {
+                        this.handleClose();
+                    }
                 }, 0);
             },
             handleFocus () {
@@ -416,7 +436,7 @@
                         this.emitValue(this.currentValue, oldVal);
                     }
                 }
-                if (lastValue && !fromInit) {
+                if (lastValue && !fromInit && !this.multiple) {
                     this.handleClose();
                 }
             });

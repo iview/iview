@@ -1,6 +1,8 @@
 <template>
     <div style="margin: 100px;width: 200px;">
-        <Cascader :data="data" v-model="value1"></Cascader>
+        <Cascader transfer filterable multiple selectOnAllLevel trigger="hover" :data="data" v-model="value1">
+            <template v-slot:item="item"><Checkbox @click.native.stop />{{item.data.label}}</template>
+        </Cascader>
     </div>
 </template>
 <script>
