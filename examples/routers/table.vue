@@ -6,6 +6,8 @@
                 @on-current-change="occ"
                 @on-row-click="orc"
                 @on-row-dblclick="ordc"
+                @on-select="os"
+                @on-select-cancel="osc"
                 ref="selection"
                 :columns="columns4"
                 :data="data1"
@@ -156,8 +158,16 @@
                 // console.log(index);
             },
             ordc (data, index) {
-                console.log(data);
-                console.log(index);
+                // console.log(data);
+                // console.log(index);
+            },
+            os (s, r) {
+                console.log(s);
+                console.log(r);
+            },
+            osc (s, r) {
+                console.log(s);
+                console.log(r);
             }
         }
     }

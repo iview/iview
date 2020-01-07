@@ -646,7 +646,7 @@
                 if (oldIndex >= 0) {
                     oldData = JSON.parse(JSON.stringify(this.cloneData[oldIndex]));
                 }
-                const newData = type === 'highlight' ? rowKey ? JSON.parse(JSON.stringify(this.getCloneDataByRowKey(rowKey))) : JSON.parse(JSON.stringify(this.cloneData[_index])) : null;
+                const newData = type === 'highlight' ? rowKey ? JSON.parse(JSON.stringify(this.getBaseDataByRowKey(rowKey))) : JSON.parse(JSON.stringify(this.cloneData[_index])) : null;
                 this.$emit('on-current-change', newData, oldData);
             },
             handleResetChildrenRow (objData) {
@@ -677,7 +677,7 @@
             clickCurrentRow (_index, rowKey) {
                 this.highlightCurrentRow (_index, rowKey);
                 if (rowKey) {
-                    this.$emit('on-row-click', JSON.parse(JSON.stringify(this.getCloneDataByRowKey(rowKey))));
+                    this.$emit('on-row-click', JSON.parse(JSON.stringify(this.getBaseDataByRowKey(rowKey))));
                 } else {
                     this.$emit('on-row-click', JSON.parse(JSON.stringify(this.cloneData[_index])), _index);
                 }
@@ -685,33 +685,84 @@
             dblclickCurrentRow (_index, rowKey) {
                 this.highlightCurrentRow (_index, rowKey);
                 if (rowKey) {
-                    this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.getCloneDataByRowKey(rowKey))));
+                    this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.getBaseDataByRowKey(rowKey))));
                 } else {
                     this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.cloneData[_index])), _index);
                 }
             },
             getSelection () {
+                // 分别拿根数据和子数据的已选项
                 let selectionIndexes = [];
+                let selectionRowKeys = [];
                 for (let i in this.objData) {
-                    if (this.objData[i]._isChecked) selectionIndexes.push(parseInt(i));
+                    const objData = this.objData[i];
+                    if (objData._isChecked) selectionIndexes.push(parseInt(i));
+                    if (objData.children && objData.children.length) {
+                        selectionRowKeys = selectionRowKeys.concat(this.getSelectionChildrenRowKeys(objData, selectionRowKeys));
+                    }
                 }
-                return JSON.parse(JSON.stringify(this.data.filter((data, index) => selectionIndexes.indexOf(index) > -1)));
+
+                // 去重的 RowKeys
+                selectionRowKeys = [...new Set(selectionRowKeys)];
+
+                let selection = [];
+
+                this.data.forEach((item, index) => {
+                    if (selectionIndexes.indexOf(index) > -1) {
+                        selection = selection.concat(item);
+                    }
+                    if (item.children && item.children.length && selectionRowKeys.length) {
+                        selection = selection.concat(this.getSelectionChildren(item, selection, selectionRowKeys));
+                    }
+                });
+
+
+                selection = [...new Set(selection)];
+                return JSON.parse(JSON.stringify(selection));
             },
-            toggleSelect (_index) {
+            getSelectionChildrenRowKeys (objData, selectionRowKeys) {
+                if (objData.children && objData.children.length) {
+                    objData.children.forEach(item => {
+                        if (item._isChecked) selectionRowKeys.push(item._rowKey);
+                        if (item.children && item.children.length) {
+                            selectionRowKeys = selectionRowKeys.concat(this.getSelectionChildrenRowKeys(item, selectionRowKeys));
+                        }
+                    });
+                }
+                return selectionRowKeys;
+            },
+            getSelectionChildren (data, selection, selectionRowKeys) {
+                if (data.children && data.children.length) {
+                    data.children.forEach(item => {
+                        if (selectionRowKeys.indexOf(item[this.rowKey]) > -1) {
+                            selection = selection.concat(item);
+                        }
+                        if (item.children && item.children.length) {
+                            selection = selection.concat(this.getSelectionChildren(item, selection, selectionRowKeys));
+                        }
+                    });
+                }
+                return selection;
+            },
+            toggleSelect (_index, rowKey) {
                 let data = {};
 
-                for (let i in this.objData) {
-                    if (parseInt(i) === _index) {
-                        data = this.objData[i];
-                        break;
+                if (rowKey) {
+                    data = this.getDataByRowKey(rowKey);
+                } else {
+                    for (let i in this.objData) {
+                        if (parseInt(i) === _index) {
+                            data = this.objData[i];
+                            break;
+                        }
                     }
                 }
                 const status = !data._isChecked;
 
-                this.objData[_index]._isChecked = status;
-
+                data._isChecked = status;
                 const selection = this.getSelection();
-                this.$emit(status ? 'on-select' : 'on-select-cancel', selection, JSON.parse(JSON.stringify(this.data[_index])));
+                const selectedData = rowKey ? this.getBaseDataByRowKey(rowKey, this.data) : this.data[_index];
+                this.$emit(status ? 'on-select' : 'on-select-cancel', selection, JSON.parse(JSON.stringify(selectedData)));
                 this.$emit('on-selection-change', selection);
             },
             toggleExpand (_index) {
@@ -763,20 +814,20 @@
                 }
                 return data;
             },
-            getCloneDataByRowKey (rowKey) {
+            getBaseDataByRowKey (rowKey, sourceData = this.cloneData) {
                 let data = null;
-                for (let i = 0; i < this.cloneData.length; i++) {
-                    const thisData = this.cloneData[i];
+                for (let i = 0; i < sourceData.length; i++) {
+                    const thisData = sourceData[i];
                     if (thisData[this.rowKey] === rowKey) {
                         data = thisData;
                         break;
                     } else if (thisData.children && thisData.children.length) {
-                        data = this.getChildrenCloneDataByRowKey(rowKey, thisData);
+                        data = this.getChildrenDataByRowKey(rowKey, thisData);
                     }
                 }
                 return data;
             },
-            getChildrenCloneDataByRowKey (rowKey, cloneData) {
+            getChildrenDataByRowKey (rowKey, cloneData) {
                 let data = null;
                 if (cloneData.children && cloneData.children.length) {
                     for (let i = 0; i < cloneData.children.length; i++) {
@@ -785,7 +836,7 @@
                             data = item;
                             break;
                         } else if (item.children && item.children.length) {
-                            data = this.getChildrenCloneDataByRowKey(rowKey, item);
+                            data = this.getChildrenDataByRowKey(rowKey, item);
                         }
                     }
                 }

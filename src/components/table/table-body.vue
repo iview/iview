@@ -95,6 +95,10 @@
             rowExpanded (_index) {
                 return this.objData[_index] && this.objData[_index]._isExpanded;
             },
+            rowStatusByRowKey (type, rowKey) {
+                const data = this.$parent.getDataByRowKey(rowKey);
+                return data[type];
+            },
             handleMouseIn (_index, event, rowKey) {
                 event.stopPropagation();
                 this.$parent.handleMouseIn(_index, rowKey);
@@ -182,9 +186,9 @@
                                         column: column,
                                         'natural-index': index,
                                         index: row._index,
-                                        checked: this.rowChecked(row._index),
-                                        disabled: this.rowDisabled(row._index),
-                                        expanded: this.rowExpanded(row._index),
+                                        checked: this.rowStatusByRowKey('_isChecked', row._rowKey),
+                                        disabled: this.rowStatusByRowKey('_isDisabled', row._rowKey),
+                                        expanded: this.rowStatusByRowKey('_isExpanded', row._rowKey),
                                         treeNode: true,
                                         treeLevel: level
                                     },

@@ -133,7 +133,11 @@
         },
         methods: {
             toggleSelect () {
-                this.$parent.$parent.$parent.toggleSelect(this.index);
+                if (this.treeNode) {
+                    this.$parent.$parent.$parent.toggleSelect(this.index, this.row._rowKey);
+                } else {
+                    this.$parent.$parent.$parent.toggleSelect(this.index);
+                }
             },
             toggleExpand () {
                 this.$parent.$parent.$parent.toggleExpand(this.index);
