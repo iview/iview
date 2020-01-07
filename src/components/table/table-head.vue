@@ -150,9 +150,17 @@
                 }
             },
             isSelectDisabled () {
-                let isSelectDisabled = false;
-                if (!this.data.length) isSelectDisabled = true;
-                if (!this.data.find(item => !item._disabled)) isSelectDisabled = true;
+                let isSelectDisabled = true;
+                if (this.data.length) {
+                    for (let i in this.objData) {
+                        const objData = this.objData[i];
+                        if (!objData._isDisabled) {
+                            isSelectDisabled = false;
+                        } else if (objData.children && objData.children.length) {
+                            isSelectDisabled = this.isChildrenDisabled(objData, isSelectDisabled);
+                        }
+                    }
+                }
                 return isSelectDisabled;
             }
         },
@@ -365,6 +373,19 @@
                             status = false;
                         } else if (row.children && row.children.length) {
                             status = this.isChildrenAllDisabledAndUnSelected(row, status);
+                        }
+                    });
+                }
+                return status;
+            },
+            isChildrenDisabled (objData, isSelectDisabled) {
+                let status = isSelectDisabled;
+                if (objData.children && objData.children.length) {
+                    objData.children.forEach(row => {
+                        if (!row._isDisabled) {
+                            status = false;
+                        } else if (row.children && row.children.length) {
+                            status = this.isChildrenDisabled(row, status);
                         }
                     });
                 }
