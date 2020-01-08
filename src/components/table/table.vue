@@ -851,11 +851,13 @@
                 //     }
 
                 // });
-                for(const data of this.rebuildData){
-                    if(this.objData[data._index]._isDisabled){
-                        continue;
-                    }else{
-                        this.objData[data._index]._isChecked = status;
+                for (const data of this.rebuildData) {
+                    const objData = this.objData[data._index];
+                    if (!objData._isDisabled) {
+                        objData._isChecked = status;
+                    }
+                    if (data.children && data.children.length) {
+                        this.selectAllChildren(objData, status);
                     }
                 }
                 const selection = this.getSelection();
@@ -866,7 +868,18 @@
                 }
                 this.$emit('on-selection-change', selection);
             },
-            
+            selectAllChildren (data, status) {
+                if (data.children && data.children.length) {
+                    data.children.map(item => {
+                        if (!item._isDisabled) {
+                            item._isChecked = status;
+                        }
+                        if (item.children && item.children.length) {
+                            this.selectAllChildren(item, status);
+                        }
+                    });
+                }
+            },
             fixedHeader () {
                 if (this.height || this.maxHeight) {
                     this.$nextTick(() => {

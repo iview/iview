@@ -10,6 +10,8 @@
                 @on-row-dblclick="ordc"
                 @on-select="os"
                 @on-select-cancel="osc"
+                @on-select-all="osa"
+                @on-select-all-cancel="osac"
                 ref="selection"
                 :columns="columns4"
                 :data="data1"
@@ -46,7 +48,8 @@
                     {
                         title: 'Age',
                         // key: 'age',
-                        slot: 'age'
+                        slot: 'age',
+                        sortable: true
                     },
                     {
                         title: 'Date',
@@ -73,7 +76,7 @@
                         address: 'London No. 1 Lake Park',
                         date: '2016-10-01',
                         _showChildren: true,
-                        _disabled: true,
+                        _disabled: false,
                         children: [
                             {
                                 id: '10100',
@@ -117,7 +120,8 @@
                                                 name: '第九',
                                                 age: 23,
                                                 address: '9梵蒂冈人太热疼我',
-                                                date: '2016-10-07'
+                                                date: '2016-10-07',
+                                                _disabled: true
                                             },
                                             {
                                                 id: '10102101101',
@@ -138,7 +142,7 @@
                         age: 30,
                         address: 'Sydney No. 1 Lake Park',
                         date: '2016-10-02',
-                        _disabled: true,
+                        _disabled: false,
                     },
                     {
                         id: '103',
@@ -217,12 +221,18 @@
                 // console.log(index);
             },
             os (s, r) {
-                console.log(s);
-                console.log(r);
+                // console.log(s);
+                // console.log(r);
             },
             osc (s, r) {
                 console.log(s);
                 console.log(r);
+            },
+            osa (s) {
+                console.log(s);
+            },
+            osac (s) {
+                console.log(s);
             }
         }
     }
