@@ -318,7 +318,7 @@
             },
             handleClose (e) {
                 // 如果是多选，并且是点击搜索结果 则不自动关闭
-                if (e.target  && this.multiple && this.$refs.searchResult.contains(e.target)) {
+                if (e && e.target  && this.multiple && this.$refs.searchResult.contains(e.target)) {
                     return false;
                 }
 
