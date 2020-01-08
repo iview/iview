@@ -998,6 +998,11 @@
                         }
                     }
                 });
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i].children && data[i].children.length) {
+                        data[i].children = this.sortData(data[i].children, type, index);
+                    }
+                }
                 return data;
             },
             handleSort (_index, type) {

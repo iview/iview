@@ -47,8 +47,7 @@
                     },
                     {
                         title: 'Age',
-                        // key: 'age',
-                        slot: 'age',
+                        key: 'age',
                         sortable: true
                     },
                     {
@@ -68,6 +67,7 @@
                         address: 'New York No. 1 Lake Park',
                         date: '2016-10-03',
                         _disabled: true,
+                        level: 0
                     },
                     {
                         id: '101',
@@ -77,58 +77,66 @@
                         date: '2016-10-01',
                         _showChildren: true,
                         _disabled: false,
+                        level: 0,
                         children: [
                             {
                                 id: '10100',
                                 name: '张三',
-                                age: 18,
+                                age: 235,
                                 address: '发动机莲富大厦放假了开始的',
-                                date: '2016-10-01'
+                                date: '2016-10-01',
+                                level: 1
                             },
                             {
                                 id: '10101',
                                 name: '李四',
-                                age: 19,
+                                age: 129,
                                 address: '风刀霜剑分离的思路开发',
-                                date: '2016-10-02'
+                                date: '2016-10-02',
+                                level: 1
                             },
                             {
                                 id: '10102',
                                 name: '王五',
-                                age: 20,
+                                age: 290,
                                 address: '分离的付款就说个就是范德萨发生',
                                 date: '2016-10-03',
                                 _showChildren: true,
+                                level: 1,
                                 children: [
                                     {
                                         id: '10102100',
                                         name: '赵六',
-                                        age: 21,
+                                        age: 211,
                                         address: '梵蒂冈人太热疼我',
-                                        date: '2016-10-05'
+                                        date: '2016-10-05',
+                                        level: 2
                                     },
                                     {
                                         id: '10102101',
                                         name: '丁八',
-                                        age: 22,
+                                        age: 272,
                                         address: '法第三方的范德萨范德萨发送到',
                                         date: '2016-10-06',
                                         _showChildren: true,
+                                        level: 2,
                                         children: [
                                             {
                                                 id: '10102101100',
                                                 name: '第九',
-                                                age: 23,
+                                                age: 123,
                                                 address: '9梵蒂冈人太热疼我',
                                                 date: '2016-10-07',
-                                                _disabled: true
+                                                _disabled: true,
+                                                level: 3
                                             },
                                             {
                                                 id: '10102101101',
                                                 name: '第十',
-                                                age: 24,
+                                                age: 254,
                                                 address: '10法第三方的范德萨范德萨发送到',
-                                                date: '2016-10-08'
+                                                date: '2016-10-08',
+                                                level: 3
                                             },
                                         ]
                                     },
@@ -143,6 +151,7 @@
                         address: 'Sydney No. 1 Lake Park',
                         date: '2016-10-02',
                         _disabled: false,
+                        level: 0
                     },
                     {
                         id: '103',
@@ -151,6 +160,7 @@
                         address: 'Ottawa No. 2 Lake Park',
                         date: '2016-10-04',
                         _disabled: true,
+                        level: 0
                     }
                 ],
                 columns5: [
@@ -165,7 +175,8 @@
                     },
                     {
                         title: 'Age',
-                        key: 'age'
+                        key: 'age',
+                        sortable: true
                     },
                     {
                         title: 'Address',

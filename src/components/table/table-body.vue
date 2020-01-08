@@ -171,6 +171,34 @@
                 }
                 return status;
             },
+            getLevel (rowKey) {
+                let level;
+                for (let i = 0; i < this.data.length; i++) {
+                    const row = this.data[i];
+                    if (row[this.rowKey] === rowKey) {
+                        level = 0;
+                        break;
+                    } else if (row.children && row.children.length) {
+                        level = this.getChildLevel(row, rowKey, 1);
+                    }
+                }
+                return level;
+            },
+            getChildLevel (data, rowKey, level) {
+                let newLevel;
+                if (data.children && data.children.length) {
+                    for (let i = 0; i < data.children.length; i++) {
+                        const row = data.children[i];
+                        if (row[this.rowKey] === rowKey) {
+                            newLevel = level;
+                            break;
+                        } else if (row.children && row.children.length) {
+                            newLevel = this.getChildLevel(row, rowKey, level + 1);
+                        }
+                    }
+                }
+                return newLevel;
+            },
             getChildNode (h, data, nodes, level = 1) {
                 if (data.children && data.children.length) {
                     data.children.forEach((row, index) => {
@@ -190,7 +218,7 @@
                                         disabled: this.rowStatusByRowKey('_isDisabled', row._rowKey),
                                         expanded: this.rowStatusByRowKey('_isExpanded', row._rowKey),
                                         treeNode: true,
-                                        treeLevel: level
+                                        treeLevel: this.getLevel(row._rowKey)
                                     },
                                     key: column._columnKey,
                                 });
@@ -228,7 +256,7 @@
 
                         if (row.children && row.children.length) {
                             level++;
-                            this.getChildNode(h, row, nodes, level, level);
+                            this.getChildNode(h, row, nodes, level);
                         }
                     });
                     return nodes;
