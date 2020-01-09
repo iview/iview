@@ -48,7 +48,25 @@
                     {
                         title: 'Age',
                         key: 'age',
-                        sortable: true
+                        sortable: true,
+                        filters: [
+                            {
+                                label: 'Greater than 180',
+                                value: 1
+                            },
+                            {
+                                label: 'Less than 180',
+                                value: 2
+                            }
+                        ],
+                        filterMultiple: false,
+                        filterMethod (value, row) {
+                            if (value === 1) {
+                                return row.age > 180;
+                            } else if (value === 2) {
+                                return row.age < 180;
+                            }
+                        }
                     },
                     {
                         title: 'Date',
@@ -56,14 +74,31 @@
                     },
                     {
                         title: 'Address',
-                        key: 'address'
+                        key: 'address',
+                        filters: [
+                            {
+                                label: 'New York',
+                                value: 'New York'
+                            },
+                            {
+                                label: 'London',
+                                value: 'London'
+                            },
+                            {
+                                label: 'Sydney',
+                                value: 'Sydney'
+                            }
+                        ],
+                        filterMethod (value, row) {
+                            return row.address.indexOf(value) > -1;
+                        }
                     }
                 ],
                 data1: [
                     {
                         id: '100',
                         name: 'John Brown',
-                        age: 18,
+                        age: 118,
                         address: 'New York No. 1 Lake Park',
                         date: '2016-10-03',
                         _disabled: true,
@@ -72,7 +107,7 @@
                     {
                         id: '101',
                         name: 'Jim Green',
-                        age: 24,
+                        age: 224,
                         address: 'London No. 1 Lake Park',
                         date: '2016-10-01',
                         _showChildren: true,
@@ -107,7 +142,7 @@
                                     {
                                         id: '10102100',
                                         name: '赵六',
-                                        age: 211,
+                                        age: 111,
                                         address: '梵蒂冈人太热疼我',
                                         date: '2016-10-05',
                                         level: 2
@@ -147,7 +182,7 @@
                     {
                         id: '102',
                         name: 'Joe Black',
-                        age: 30,
+                        age: 130,
                         address: 'Sydney No. 1 Lake Park',
                         date: '2016-10-02',
                         _disabled: false,
@@ -156,7 +191,7 @@
                     {
                         id: '103',
                         name: 'Jon Snow',
-                        age: 26,
+                        age: 126,
                         address: 'Ottawa No. 2 Lake Park',
                         date: '2016-10-04',
                         _disabled: true,
@@ -176,11 +211,46 @@
                     {
                         title: 'Age',
                         key: 'age',
-                        sortable: true
+                        sortable: true,
+                        filters: [
+                            {
+                                label: 'Greater than 25',
+                                value: 1
+                            },
+                            {
+                                label: 'Less than 25',
+                                value: 2
+                            }
+                        ],
+                        filterMultiple: false,
+                        filterMethod (value, row) {
+                            if (value === 1) {
+                                return row.age > 25;
+                            } else if (value === 2) {
+                                return row.age < 25;
+                            }
+                        }
                     },
                     {
                         title: 'Address',
-                        key: 'address'
+                        key: 'address',
+                        filters: [
+                            {
+                                label: 'New York',
+                                value: 'New York'
+                            },
+                            {
+                                label: 'London',
+                                value: 'London'
+                            },
+                            {
+                                label: 'Sydney',
+                                value: 'Sydney'
+                            }
+                        ],
+                        filterMethod (value, row) {
+                            return row.address.indexOf(value) > -1;
+                        }
                     }
                 ],
                 data2: [
