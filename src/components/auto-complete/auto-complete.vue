@@ -15,6 +15,7 @@
         auto-complete
         :remote-method="remoteMethod"
         @on-change="handleChange"
+        @on-open-change="handleOpenChange"
         @on-clickoutside="handleClickOutside"
         :transfer="transfer">
         <slot name="input">
@@ -161,6 +162,9 @@
                 this.currentValue = val;
                 this.$refs.input.blur();
                 this.$emit('on-select', val);
+            },
+            handleOpenChange (event) {
+                this.$emit('on-open-change', event);
             },
             handleFocus (event) {
                 this.$emit('on-focus', event);
