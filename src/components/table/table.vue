@@ -262,6 +262,10 @@
             indentSize: {
                 type: Number,
                 default: 16
+            },
+            // 4.1.0
+            loadData: {
+                type: Function
             }
         },
         data () {
@@ -784,6 +788,23 @@
             },
             toggleTree (rowKey) {
                 const data = this.getDataByRowKey(rowKey);
+                // async loading
+                if ('_loading' in data && data._loading) return;
+                if ('_loading' in data && !data._loading && data.children.length === 0) {
+                    const sourceData = this.getBaseDataByRowKey(rowKey, this.data);
+                    this.$set(sourceData, '_loading', true);
+                    this.loadData(sourceData, children => {
+                        this.$set(sourceData, '_loading', false);
+                        if (children.length) {
+                            // todo
+                            this.$set(sourceData, 'children', children);
+                            const data2 = this.getDataByRowKey(rowKey);
+                            data2._isShowChildren = !data2._isShowChildren;
+                        }
+                    });
+                    return;
+                }
+
                 data._isShowChildren = !data._isShowChildren;
             },
             getDataByRowKey (rowKey, objData = this.objData) {

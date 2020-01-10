@@ -5,8 +5,9 @@
             <Checkbox :value="checked" @click.native.stop="handleClick" @on-change="toggleSelect" :disabled="disabled"></Checkbox>
         </template>
         <div class="ivu-table-cell-tree-level" v-if="showLevel" :style="treeLevelStyle"></div>
-        <div class="ivu-table-cell-tree" v-if="showChildren" @click="handleToggleTree">
-            <Icon type="ios-add" v-if="!childrenExpand" />
+        <div class="ivu-table-cell-tree" :class="{ 'ivu-table-cell-tree-loading': childrenLoading }" v-if="showChildren" @click.prevent.stop="handleToggleTree">
+            <Icon type="ios-loading" v-if="childrenLoading" class="ivu-load-loop" />
+            <Icon type="ios-add" v-else-if="!childrenExpand" />
             <Icon type="ios-remove" v-else />
         </div>
         <div class="ivu-table-cell-tree ivu-table-cell-tree-empty" v-else-if="showTreeNode"></div>
@@ -101,7 +102,7 @@
                 let status = false;
                 if (this.renderType === 'html' || this.renderType === 'normal' || this.renderType === 'render' || this.renderType === 'slot') {
                     const data = this.row;
-                    if ((data.children && data.children.length) || ('_loading' in data && data._loading)) {
+                    if ((data.children && data.children.length) || ('_loading' in data)) {
                         if (this.column.tree) status = true;
                     }
                 }
@@ -129,6 +130,10 @@
             childrenExpand () {
                 const data = this.tableRoot.getDataByRowKey(this.row._rowKey);
                 return data._isShowChildren;
+            },
+            childrenLoading () {
+                const data = this.tableRoot.getDataByRowKey(this.row._rowKey);
+                return '_loading' in data && data._loading;
             }
         },
         methods: {

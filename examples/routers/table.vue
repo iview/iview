@@ -1,6 +1,6 @@
 <template>
     <div style="margin: 100px;">
-        <Table border ref="selection" :columns="columns5" :data="data2"></Table>
+<!--        <Table border ref="selection" :columns="columns5" :data="data2"></Table>-->
         <Divider></Divider>
         <Table
                 border
@@ -15,12 +15,16 @@
                 ref="selection"
                 :columns="columns4"
                 :data="data1"
-                row-key="id">
+                row-key="id"
+                :load-data="loadData"
+        >
             <template slot-scope="{ row }" slot="age">
                 <strong>{{row.age}}</strong>
             </template>
         </Table>
         <br><br>
+        <Button @click="addData">添加数据</Button>
+        <Button @click="addData2">添加数据2</Button>
         <Button @click="handleSelectAll(true)">Set all selected</Button>
         <Button @click="handleSelectAll(false)">Cancel all selected</Button>
     </div>
@@ -102,7 +106,9 @@
                         address: 'New York No. 1 Lake Park',
                         date: '2016-10-03',
                         _disabled: true,
-                        level: 0
+                        level: 0,
+                        // _loading: false,
+                        // children: []
                     },
                     {
                         id: '101',
@@ -186,17 +192,36 @@
                         address: 'Sydney No. 1 Lake Park',
                         date: '2016-10-02',
                         _disabled: false,
-                        level: 0
+                        level: 0,
+                        _showChildren: true,
+                        children: [
+                            {
+                                id: '10200',
+                                name: '张三3',
+                                age: 235,
+                                address: '发动机莲富大厦放假了开始的',
+                                date: '2016-10-01',
+                                level: 1
+                            },
+                            {
+                                id: '10201',
+                                name: '张三4',
+                                age: 235,
+                                address: '发动机莲富大厦放假了开始的',
+                                date: '2016-10-01',
+                                level: 1
+                            },
+                        ]
                     },
-                    {
-                        id: '103',
-                        name: 'Jon Snow',
-                        age: 126,
-                        address: 'Ottawa No. 2 Lake Park',
-                        date: '2016-10-04',
-                        _disabled: true,
-                        level: 0
-                    }
+                    // {
+                    //     id: '103',
+                    //     name: 'Jon Snow',
+                    //     age: 126,
+                    //     address: 'Ottawa No. 2 Lake Park',
+                    //     date: '2016-10-04',
+                    //     _disabled: true,
+                    //     level: 0
+                    // }
                 ],
                 columns5: [
                     {
@@ -314,6 +339,58 @@
             },
             osac (s) {
                 console.log(s);
+            },
+            loadData (item, callback) {
+                setTimeout(() => {
+                    const data = [
+                        {
+                            id: '10000',
+                            name: '张三1',
+                            age: 123,
+                            address: '1发动机莲富大厦放假了开始的',
+                            date: '2016-10-01'
+                        },
+                        {
+                            id: '10001',
+                            name: '张三2',
+                            age: 124,
+                            address: '2发动机莲富大厦放假了开始的',
+                            date: '2016-10-02'
+                        },
+                    ];
+                    callback(data);
+                }, 100);
+            },
+            addData () {
+                const d = this.data1[3];
+                d.children = [
+                    {
+                        id: '10000',
+                        name: '张三1',
+                        age: 123,
+                        address: '1发动机莲富大厦放假了开始的',
+                        date: '2016-10-01'
+                    },
+                    {
+                        id: '10001',
+                        name: '张三2',
+                        age: 124,
+                        address: '2发动机莲富大厦放假了开始的',
+                        date: '2016-10-02'
+                    }
+                ];
+                this.$set(this.data1, 3, d);
+            },
+            addData2 () {
+                this.data1.push({
+                    id: '104',
+                    name: 'Jon Snow4',
+                    age: 124,
+                    address: 'Ottawa No. 2 Lake Park',
+                    date: '2016-10-04',
+                    _disabled: true,
+                    level: 0
+                })
             }
         }
     }
