@@ -107,8 +107,8 @@
                         date: '2016-10-03',
                         _disabled: true,
                         level: 0,
-                        // _loading: false,
-                        // children: []
+                        _loading: false,
+                        children: []
                     },
                     {
                         id: '101',
@@ -193,7 +193,7 @@
                         date: '2016-10-02',
                         _disabled: false,
                         level: 0,
-                        _showChildren: true,
+                        _showChildren: false,
                         children: [
                             {
                                 id: '10200',

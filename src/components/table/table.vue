@@ -816,6 +816,7 @@
                         break;
                     } else if (thisData.children && thisData.children.length) {
                         data = this.getChildrenByRowKey(rowKey, thisData);
+                        if (data && data._rowKey === rowKey) return data;
                     }
                 }
                 return data;
@@ -844,6 +845,7 @@
                         break;
                     } else if (thisData.children && thisData.children.length) {
                         data = this.getChildrenDataByRowKey(rowKey, thisData);
+                        return data;
                     }
                 }
                 return data;

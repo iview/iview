@@ -151,8 +151,10 @@
                     const showChildren = row._isShowChildren;
                     if (row._rowKey === rowKey) {
                         status = status && showChildren;
+                        break;
                     } else if (row.children && row.children.length) {
                         status = this.getTrStatus(rowKey, row, status && showChildren);
+                        return status;
                     }
                 }
                 return status;
@@ -173,33 +175,42 @@
             },
             getLevel (rowKey) {
                 let level;
+                let child;
                 for (let i = 0; i < this.data.length; i++) {
                     const row = this.data[i];
                     if (row[this.rowKey] === rowKey) {
                         level = 0;
                         break;
                     } else if (row.children && row.children.length) {
-                        level = this.getChildLevel(row, rowKey, 1);
+                        child = this.getChildLevel(row, rowKey, 1);
+                        if (child[0] && child[0][this.rowKey] === rowKey) {
+                            return child[1];
+                        }
                     }
                 }
                 return level;
             },
             getChildLevel (data, rowKey, level) {
                 let newLevel;
+                let childData;
                 if (data.children && data.children.length) {
                     for (let i = 0; i < data.children.length; i++) {
                         const row = data.children[i];
                         if (row[this.rowKey] === rowKey) {
+                            childData = row;
                             newLevel = level;
                             break;
                         } else if (row.children && row.children.length) {
-                            newLevel = this.getChildLevel(row, rowKey, level + 1);
+                            const child = this.getChildLevel(row, rowKey, level + 1);
+                            if (child[0] && child[0][this.rowKey] === rowKey) {
+                                return child;
+                            }
                         }
                     }
                 }
-                return newLevel;
+                return [childData, newLevel];
             },
-            getChildNode (h, data, nodes, level = 1) {
+            getChildNode (h, data, nodes) {
                 if (data.children && data.children.length) {
                     data.children.forEach((row, index) => {
                         let $tds = [];
@@ -255,8 +266,7 @@
                         nodes.push($tableTr);
 
                         if (row.children && row.children.length) {
-                            level++;
-                            this.getChildNode(h, row, nodes, level);
+                            this.getChildNode(h, row, nodes);
                         }
                     });
                     return nodes;
