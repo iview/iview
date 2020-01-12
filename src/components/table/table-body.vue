@@ -146,6 +146,7 @@
             },
             isTrShow (rowKey) {
                 let status = true;
+                let child;
                 for (let i in this.objData) {
                     const row = this.objData[i];
                     const showChildren = row._isShowChildren;
@@ -153,25 +154,34 @@
                         status = status && showChildren;
                         break;
                     } else if (row.children && row.children.length) {
-                        status = this.getTrStatus(rowKey, row, status && showChildren);
-                        return status;
+                        child = this.getTrStatus(rowKey, row, status && showChildren);
+                        if (child[0] && child[0]._rowKey === rowKey) {
+                            return child[1];
+                        }
                     }
                 }
                 return status;
             },
             getTrStatus (rowKey, data, parentStatus) {
                 let status = parentStatus;
+                let childData;
                 if (data.children && data.children.length) {
-                    data.children.forEach(row => {
+                    for (let i = 0; i < data.children.length; i++) {
+                        const row = data.children[i];
                         const showChildren = row._isShowChildren;
                         if (row._rowKey === rowKey) {
+                            childData = row;
                             status = status && showChildren;
+                            break;
                         } else if (row.children && row.children.length) {
-                            status = this.getTrStatus(rowKey, row, status && showChildren);
+                            const child = this.getTrStatus(rowKey, row, status && showChildren);
+                            if (child[0] && child[0]._rowKey === rowKey) {
+                                return child;
+                            }
                         }
-                    });
+                    }
                 }
-                return status;
+                return [childData, status];
             },
             getLevel (rowKey) {
                 let level;
