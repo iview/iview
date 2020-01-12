@@ -796,16 +796,30 @@
                     this.loadData(sourceData, children => {
                         this.$set(sourceData, '_loading', false);
                         if (children.length) {
-                            // todo
                             this.$set(sourceData, 'children', children);
-                            const data2 = this.getDataByRowKey(rowKey);
-                            data2._isShowChildren = !data2._isShowChildren;
+                            this.$nextTick(() => {
+                                const newData = this.getDataByRowKey(rowKey);
+                                newData._isShowChildren = !newData._isShowChildren;
+                                this.updateDataStatus(rowKey, '_showChildren', newData._isShowChildren);
+                            });
                         }
                     });
                     return;
                 }
 
                 data._isShowChildren = !data._isShowChildren;
+                this.updateDataStatus(rowKey, '_showChildren', data._isShowChildren);
+            },
+            /**
+             * @description 当修改某内置属性，如 _isShowChildren 时，因当将原 data 对应 _showChildren 也修改，否则修改 data 时，状态会重置
+             * @param rowKey rowKey
+             * @param key 原数据对应的字段
+             * @param value 修改的值
+             * */
+            // todo 单选、多选等状态可能也需要更新原数据
+            updateDataStatus (rowKey, key, value) {
+                const data = this.getBaseDataByRowKey(rowKey, this.data);
+                this.$set(data, key, value);
             },
             getDataByRowKey (rowKey, objData = this.objData) {
                 let data = null;
@@ -1208,6 +1222,9 @@
                         }
                         newRow.children = this.makeChildrenObjData(newRow);
                     }
+                    // else if ('_loading' in newRow && newRow.children && newRow.children.length === 0) {
+                    //     newRow._isShowChildren = false;
+                    // }
                     data[index] = newRow;
                 });
                 return data;

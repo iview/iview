@@ -359,7 +359,7 @@
                         },
                     ];
                     callback(data);
-                }, 100);
+                }, 1000);
             },
             addData () {
                 const d = this.data1[3];
