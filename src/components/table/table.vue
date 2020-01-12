@@ -266,6 +266,11 @@
             // 4.1.0
             loadData: {
                 type: Function
+            },
+            // 4.1.0
+            contentMenu: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -692,6 +697,13 @@
                     this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.getBaseDataByRowKey(rowKey))));
                 } else {
                     this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.cloneData[_index])), _index);
+                }
+            },
+            contextmenuCurrentRow (_index, rowKey) {
+                if (rowKey) {
+                    this.$emit('on-contextmenu', JSON.parse(JSON.stringify(this.getBaseDataByRowKey(rowKey))));
+                } else {
+                    this.$emit('on-contextmenu', JSON.parse(JSON.stringify(this.cloneData[_index])), _index);
                 }
             },
             getSelection () {

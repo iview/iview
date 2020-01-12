@@ -5,6 +5,7 @@
         <Table
                 border
                 highlight-row
+                content-menu
                 @on-current-change="occ"
                 @on-row-click="orc"
                 @on-row-dblclick="ordc"
@@ -12,6 +13,7 @@
                 @on-select-cancel="osc"
                 @on-select-all="osa"
                 @on-select-all-cancel="osac"
+                @on-contextmenu="ocm"
                 ref="selection"
                 :columns="columns4"
                 :data="data1"
@@ -338,6 +340,9 @@
                 console.log(s);
             },
             osac (s) {
+                console.log(s);
+            },
+            ocm (s) {
                 console.log(s);
             },
             loadData (item, callback) {
