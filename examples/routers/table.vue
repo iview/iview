@@ -213,15 +213,15 @@
                             },
                         ]
                     },
-                    // {
-                    //     id: '103',
-                    //     name: 'Jon Snow',
-                    //     age: 126,
-                    //     address: 'Ottawa No. 2 Lake Park',
-                    //     date: '2016-10-04',
-                    //     _disabled: true,
-                    //     level: 0
-                    // }
+                    {
+                        id: '103',
+                        name: 'Jon Snow',
+                        age: 126,
+                        address: 'Ottawa No. 2 Lake Park',
+                        date: '2016-10-04',
+                        _disabled: true,
+                        level: 0
+                    }
                 ],
                 columns5: [
                     {
