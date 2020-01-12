@@ -342,8 +342,9 @@
             osac (s) {
                 console.log(s);
             },
-            ocm (s) {
+            ocm (s, e) {
                 console.log(s);
+                console.log(e);
             },
             loadData (item, callback) {
                 setTimeout(() => {

@@ -699,11 +699,11 @@
                     this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.cloneData[_index])), _index);
                 }
             },
-            contextmenuCurrentRow (_index, rowKey) {
+            contextmenuCurrentRow (_index, rowKey, event) {
                 if (rowKey) {
-                    this.$emit('on-contextmenu', JSON.parse(JSON.stringify(this.getBaseDataByRowKey(rowKey))));
+                    this.$emit('on-contextmenu', JSON.parse(JSON.stringify(this.getBaseDataByRowKey(rowKey))), event);
                 } else {
-                    this.$emit('on-contextmenu', JSON.parse(JSON.stringify(this.cloneData[_index])), _index);
+                    this.$emit('on-contextmenu', JSON.parse(JSON.stringify(this.cloneData[_index])), event);
                 }
             },
             getSelection () {
