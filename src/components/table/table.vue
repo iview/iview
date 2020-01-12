@@ -859,7 +859,7 @@
                         break;
                     } else if (thisData.children && thisData.children.length) {
                         data = this.getChildrenDataByRowKey(rowKey, thisData);
-                        return data;
+                        if (data && data[this.rowKey] === rowKey) return data;
                     }
                 }
                 return data;
