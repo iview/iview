@@ -268,7 +268,7 @@
                 type: Function
             },
             // 4.1.0
-            contentMenu: {
+            contextMenu: {
                 type: Boolean,
                 default: false
             }

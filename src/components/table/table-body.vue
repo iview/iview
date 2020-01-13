@@ -116,7 +116,7 @@
             },
             contextmenuCurrentRow (_index, event, rowKey) {
                 event.stopPropagation();
-                if (this.$parent.contentMenu) event.preventDefault();
+                if (this.$parent.contextMenu) event.preventDefault();
                 this.$parent.contextmenuCurrentRow(_index, rowKey, event);
             },
             getSpan (row, column, rowIndex, columnIndex) {
