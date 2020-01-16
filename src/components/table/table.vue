@@ -553,7 +553,7 @@
                     columnWidth = parseInt(usableWidth / usableLength);
                 }
 
-                    
+
                 for (let i = 0; i < this.cloneColumns.length; i++) {
                     const column = this.cloneColumns[i];
                     let width = columnWidth + (column.minWidth?column.minWidth:0);
@@ -571,7 +571,7 @@
                             else if (column.maxWidth < width){
                                 width = column.maxWidth;
                             }
-                            
+
                             if (usableWidth>0) {
                                 usableWidth -= width - (column.minWidth?column.minWidth:0);
                                 usableLength--;
@@ -618,7 +618,7 @@
 
                     }
                 }
-                
+
                 this.tableWidth = this.cloneColumns.map(cell => cell._width).reduce((a, b) => a + b, 0) + (this.showVerticalScrollBar?this.scrollBarWidth:0) + 1;
                 this.columnsWidth = columnsWidth;
                 this.fixedHeader();
@@ -793,7 +793,7 @@
                 const status = !data._isExpanded;
                 this.objData[_index]._isExpanded = status;
                 this.$emit('on-expand', JSON.parse(JSON.stringify(this.cloneData[_index])), status);
-                
+
                 if(this.height || this.maxHeight){
                     this.$nextTick(()=>this.fixedBody());
                 }
@@ -842,7 +842,9 @@
                         break;
                     } else if (thisData.children && thisData.children.length) {
                         data = this.getChildrenByRowKey(rowKey, thisData);
-                        if (data && data._rowKey === rowKey) return data;
+                        if (data) {
+                            break;
+                        }
                     }
                 }
                 return data;
@@ -857,6 +859,9 @@
                             break;
                         } else if (item.children && item.children.length) {
                             data = this.getChildrenByRowKey(rowKey, item);
+                            if (data) {
+                                break;
+                            }
                         }
                     }
                 }
@@ -965,7 +970,7 @@
 
                     this.showHorizontalScrollBar = bodyEl.offsetWidth < bodyContentEl.offsetWidth + (this.showVerticalScrollBar?this.scrollBarWidth:0);
                     this.showVerticalScrollBar = this.bodyHeight? bodyHeight - (this.showHorizontalScrollBar?this.scrollBarWidth:0) < bodyContentHeight : false;
-                    
+
                     if(this.showVerticalScrollBar){
                         bodyEl.classList.add(this.prefixCls +'-overflowY');
                     }else{
@@ -976,7 +981,7 @@
                     }else{
                         bodyEl.classList.remove(this.prefixCls +'-overflowX');
                     }
-                } 
+                }
             },
 
             hideColumnFilter () {
