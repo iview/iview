@@ -125,7 +125,6 @@
                 this.$refs[name].resetFields();
             },
             onCityListChange () {
-                this.cityList[0].label = 'New York city';
                 this.cityList.splice(this.cityList.length - 1, 1);
                 const value = Math.round(Math.random() * 10000);
                 this.cityList.push({
