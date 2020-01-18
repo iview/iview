@@ -44,6 +44,10 @@
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </OptionGroup>
         </Select>
+        <h2 style="margin-top:20px">#6399</h2>
+        <Select v-model="model1" style="width:200px">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value"><span>{{ item.label }}</span></Option>
+        </Select> <Button type="primary" @click="onCityListChange">切换cityList</Button>
    </div>
 </template>
 <script>
@@ -102,6 +106,7 @@
                         label: 'Canberra'
                     }
                 ],
+                model1: '',
                 model11: '',
                 model12: ''
             };
@@ -118,6 +123,15 @@
             },
             handleReset (name) {
                 this.$refs[name].resetFields();
+            },
+            onCityListChange () {
+                this.cityList[0].label = 'New York city';
+                this.cityList.splice(this.cityList.length - 1, 1);
+                const value = Math.round(Math.random() * 10000);
+                this.cityList.push({
+                    value,
+                    label: 'laebl: ' + value
+                })
             }
         }
     };
