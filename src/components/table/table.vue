@@ -891,6 +891,9 @@
                             break;
                         } else if (item.children && item.children.length) {
                             data = this.getChildrenDataByRowKey(rowKey, item);
+                            if (data) {
+                                break;
+                            }
                         }
                     }
                 }
