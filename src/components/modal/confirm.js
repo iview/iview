@@ -9,7 +9,7 @@ Modal.newInstance = properties => {
     const _props = properties || {};
 
     const Instance = new Vue({
-        mixins: [ Locale ],
+        mixins: [ Locale, Vue.localCfg || {} ],
         data: Object.assign({}, _props, {
             visible: false,
             width: 416,
