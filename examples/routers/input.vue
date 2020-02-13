@@ -139,8 +139,9 @@
         <!--<br><br>-->
         <!--<Input v-model="value" search enter-button="Search" style="width: 300px" @on-search="hs" />-->
     <!--</div>-->
+    <!--#6338-->
     <div style="width: 200px">
-        <Input v-model="value7" type="textarea" :autosize="true" placeholder="Enter something..."></Input>
+        <Input search enter-button="搜索" clearable placeholder="Enter something..." />
     </div>
 </template>
 <script>
@@ -154,8 +155,8 @@
                 select1: 'http',
                 select2: 'com',
                 select3: 'day',
-                value7: ``
-            }
+                value7: ''
+            };
         },
         methods: {
             hs (val) {

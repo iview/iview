@@ -3,8 +3,10 @@
         <div :class="[prefixCls + '-tail']"><i></i></div>
         <div :class="[prefixCls + '-head']">
             <div :class="[prefixCls + '-head-inner']">
-                <span v-if="!icon && currentStatus != 'finish' && currentStatus != 'error'">{{ stepNumber }}</span>
-                <span v-else :class="iconClasses"></span>
+                <slot name="status">
+                    <span v-if="!icon && currentStatus != 'finish' && currentStatus != 'error'">{{ stepNumber }}</span>
+                    <span v-else :class="iconClasses"></span>
+                </slot>
             </div>
         </div>
         <div :class="[prefixCls + '-main']">

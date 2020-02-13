@@ -130,11 +130,6 @@ If you want to contribute or have questions or bugs to report:
 - [iView-Area](https://github.com/iview/iview-area)
 - [iView-Editor](https://github.com/iview/iview-editor)
 
-## Sponsors
-![](https://opencollective.com/iview/tiers/sponsor.svg?avatarHeight=36)
-
-## Backers
-![](https://opencollective.com/iview/tiers/backer.svg?avatarHeight=36)
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)

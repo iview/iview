@@ -1,7 +1,7 @@
 <template>
     <div>
         <!--#6076-->
-        <Carousel loop>
+        <Carousel loop @on-change="onChange">
             <CarouselItem>
                 <div class="demo-carousel">111111111111</div>
             </CarouselItem>
@@ -25,7 +25,9 @@
             }
         },
         methods: {
-
+            onChange(oldIndex,newIndex){
+                console.log(oldIndex,newIndex,'------')
+            }
         },
         mounted () {
 
