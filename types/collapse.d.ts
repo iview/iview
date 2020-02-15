@@ -26,7 +26,7 @@ export declare class Collapse extends Vue {
   $emit(eventName: 'on-change', []): this;
 }
 
-export declare class CollapsePanel extends Vue {
+export declare class Panel extends Vue {
   /**
    * 当前面板的 name，与 Collapse的value对应，不填为索引值
    * @default index的值

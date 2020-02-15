@@ -128,7 +128,7 @@ export declare class Modal extends Vue {
     };
 }
 
-export declare class ModalInstance extends Modal {
+export declare class ModalInstance {
     /**
      * 消息
      * @param config ModalConfig为相关配置,string为待显示的内容
@@ -219,6 +219,6 @@ declare module "vue/types/vue" {
         /**
          * 对话框
          */
-        $Modal: ModalInstance;
+        $Modal: Modal & ModalInstance;
     }
 }
