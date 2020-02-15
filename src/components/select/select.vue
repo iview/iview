@@ -662,17 +662,23 @@
                     }
                     this.isFocused = true; // so we put back focus after clicking with mouse on option elements
                 } else {
-                    this.query = '';
+                    this.query = String(option.label).trim();
                     this.values = [option];
                     this.lastRemoteQuery = '';
                     this.hideMenu();
                 }
+
+                this.focusIndex = this.flatOptions.findIndex((opt) => {
+                    if (!opt || !opt.componentOptions) return false;
+                    return opt.componentOptions.propsData.value === option.value;
+                });
+
                 if (this.filterable){
                     const inputField = this.$el.querySelector('input[type="text"]');
                     if (!this.autoComplete) this.$nextTick(() => inputField.focus());
                 }
+                this.$emit('on-select', option); // # 4441
                 this.broadcast('Drop', 'on-update-popper');
-                this.$emit('on-select', this.publicValue); // # 4441
                 setTimeout(() => {
                     this.filterQueryChange = false;
                 }, ANIMATION_TIMEOUT);
