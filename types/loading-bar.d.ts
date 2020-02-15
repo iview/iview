@@ -4,9 +4,9 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue from 'vue';
 
-export const LoadingBar: LoadingBarClass;
+export declare class LoadingBar extends Vue {}
 
-export declare class LoadingBarClass extends Vue {
+export declare class LoadingBarInstance {
   /**
    * 开始从 0 显示进度条，并自动加载进度
    */
@@ -58,11 +58,12 @@ export declare class LoadingBarConfig {
   duration?: number;
 }
 
+import * as m from 'vue';
 declare module 'vue/types/vue' {
   interface Vue {
     /**
      * 加载进度条
      */
-    $Loading: LoadingBarClass;
+    $Loading: LoadingBar & LoadingBarInstance;
   }
 }
