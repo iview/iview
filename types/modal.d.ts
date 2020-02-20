@@ -4,7 +4,9 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode, CreateElement } from "vue";
 
-export declare class Modal extends Vue {
+export const Modal: ModalInstance;
+
+export declare class ModalClass extends Vue {
     /**
      * 对话框是否显示，可使用 v-model 双向绑定数据。
      * @default false
@@ -128,7 +130,7 @@ export declare class Modal extends Vue {
     };
 }
 
-export declare class ModalInstance extends Modal {
+export declare class ModalInstance extends ModalClass {
     /**
      * 消息
      * @param config ModalConfig为相关配置,string为待显示的内容
