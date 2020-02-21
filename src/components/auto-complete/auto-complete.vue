@@ -9,11 +9,13 @@
         :size="size"
         :placement="placement"
         :value="currentValue"
+        :transfer-class-name="transferClassName"
         filterable
         remote
         auto-complete
         :remote-method="remoteMethod"
         @on-change="handleChange"
+        @on-open-change="handleOpenChange"
         @on-clickoutside="handleClickOutside"
         :transfer="transfer">
         <slot name="input">
@@ -104,6 +106,9 @@
             },
             elementId: {
                 type: String
+            },
+            transferClassName: {
+                type: String
             }
         },
         data () {
@@ -157,6 +162,9 @@
                 this.currentValue = val;
                 this.$refs.input.blur();
                 this.$emit('on-select', val);
+            },
+            handleOpenChange (event) {
+                this.$emit('on-open-change', event);
             },
             handleFocus (event) {
                 this.$emit('on-focus', event);

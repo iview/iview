@@ -8,8 +8,16 @@
                 :data="item"
                 :tmp-item="tmpItem"
                 @click.native.stop="handleClickItem(item)"
-                @mouseenter.native.stop="handleHoverItem(item)"></Casitem>
-        </ul><Caspanel v-if="sublist && sublist.length" :prefix-cls="prefixCls" :data="sublist" :disabled="disabled" :trigger="trigger" :change-on-select="changeOnSelect" :select-on-all-level="selectOnAllLevel"></Caspanel>
+                @mouseenter.native.stop="handleHoverItem(item)">
+                <template v-slot:item="soltItem">
+                    <slot name="item" v-bind:data="soltItem.data"></slot>
+                </template>
+                </Casitem>
+        </ul><Caspanel v-if="sublist && sublist.length" :prefix-cls="prefixCls" :data="sublist" :disabled="disabled" :trigger="trigger" :change-on-select="changeOnSelect" :select-on-all-level="selectOnAllLevel">
+            <template v-slot:item="soltItem">
+                <slot name="item" v-bind:data="soltItem.data"></slot>
+            </template>
+        </Caspanel>
     </span>
 </template>
 <script>

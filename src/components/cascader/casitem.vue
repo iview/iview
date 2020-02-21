@@ -1,6 +1,6 @@
 <template>
     <li :class="classes">
-        {{ data.label }}
+        <slot name="item" v-bind:data="data">{{ data.label }}</slot>
         <Icon :type="arrowType" :custom="customArrowType" :size="arrowSize" v-if="showArrow" />
         <i v-if="showLoading" class="ivu-icon ivu-icon-ios-loading ivu-load-loop ivu-cascader-menu-item-loading"></i>
     </li>

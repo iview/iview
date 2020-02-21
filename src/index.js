@@ -224,7 +224,8 @@ const install = function(Vue, opts = {}) {
         },
         modal: {
             maskClosable: opts.modal ? 'maskClosable' in opts.modal ? opts.modal.maskClosable : '' : ''
-        }
+        },
+        initPopper: 'initPopper' in opts ? opts.initPopper : true
     };
 
     Vue.prototype.$Loading = LoadingBar;

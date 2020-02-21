@@ -5,6 +5,7 @@
                 icon="ios-search"
                 placeholder="input here"
                 placement="bottom-start"
+                transfer-class-name="test"
                 style="width:300px">
             <div class="demo-auto-complete-item" v-for="item in data4">
                 <div class="demo-auto-complete-group">
@@ -127,5 +128,8 @@
         padding: 4px;
         text-align: center;
         font-size: 12px;
+    }
+    .test{
+        background: red;
     }
 </style>

@@ -1,6 +1,6 @@
 {
     "name": "tm-iview",
-    "version": "4.0.3",
+    "version": "4.0.8",
     "title": "iView",
     "description": "A high quality UI components Library with Vue.js",
     "homepage": "http://www.iviewui.com",
@@ -37,7 +37,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/view-design/ViewUI"
+        "url": "https://github.com/tm-fe/iview"
     },
     "author": "Aresn",
     "license": "MIT",
@@ -55,7 +55,7 @@
         "v-click-outside-x": "^3.7.1"
     },
     "peerDependencies": {
-        "vue": "^2.5.2"
+        "vue": "^2.6.10"
     },
     "devDependencies": {
         "autoprefixer-loader": "^3.2.0",
