@@ -152,7 +152,9 @@
 
     const checkValuesNotEqual = (value,publicValue,values) => {
         const strValue = JSON.stringify(value);
-        const strPublic = JSON.stringify(publicValue);
+        const strPublic = JSON.stringify(publicValue && publicValue.map ? publicValue.map(item => {
+            return item.value || item;
+        }) : publicValue);
         const strValues = JSON.stringify(values.map( item => {
             return item.value;
         }));
