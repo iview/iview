@@ -1,12 +1,17 @@
 <template>
-    <div :class="prefixCls" v-show="show" :style="contentStyle"><slot></slot></div>
+    <div :class="prefixCls" v-show="show" :style="contentStyle"> 
+        <Render v-if="content && typeof content === 'function'" :render="content"></Render>
+        <slot v-else></slot>
+    </div>
 </template>
 <script>
     const prefixCls = 'ivu-tabs-tabpane';
-
+    import Render from '../base/render';
+    
     export default {
         name: 'TabPane',
         inject: ['TabsInstance'],
+        components: { Render },
         props: {
             name: {
                 type: String
@@ -34,6 +39,10 @@
             // 数值需大于 0
             index: {
                 type: Number
+            },
+            content: {
+                type: [Function],
+                default: ''
             }
         },
         data () {
