@@ -9,27 +9,32 @@ export declare class Message extends Vue {
      * 消息
      * @param config MessageConfig为相关配置,string为待显示的内容
      */
-    info(config?: MessageConfig | string): void;
+    info(config?: MessageConfig | string): () => void;
+    static info(config?: MessageConfig | string): () => void;
     /**
      * 成功
      * @param config MessageConfig为相关配置,string为待显示的内容
      */
-    success(config?: MessageConfig | string): void;
+    success(config?: MessageConfig | string): () => void;
+    static success(config?: MessageConfig | string): () => void;
     /**
      * 警告
      * @param config MessageConfig为相关配置,string为待显示的内容
      */
-    warning(config?: MessageConfig | string): void;
+    warning(config?: MessageConfig | string): () => void;
+    static warning(config?: MessageConfig | string): () => void;
     /**
      * 错误
      * @param config MessageConfig为相关配置,string为待显示的内容
      */
-    error(config?: MessageConfig | string): void;
+    error(config?: MessageConfig | string): () => void;
+    static error(config?: MessageConfig | string): () => void;
     /**
      * 配置
      * @param config MessageConfig为相关配置,string为待显示的内容
      */
-    loading(options?: MessageConfig | string): void;
+    loading(options?: MessageConfig | string): () => void;
+    static loading(config?: MessageConfig | string): () => void;
     /**
      * 配置
      * @param config MessageConfig为相关配置,string为待显示的内容
