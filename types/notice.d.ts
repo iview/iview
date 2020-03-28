@@ -4,48 +4,47 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode, CreateElement } from "vue";
 
-export interface Notice extends Vue {}
+declare const VueNew: Omit<Vue, "config"> & { new (): Vue };
 
-export declare const Notice: {
-    new (): Notice;
+export declare class Notice extends VueNew {
     /**
      * 打开
      * @param config NoticeConfig为相关配置,string为待显示的内容
      */
-    open(config?: NoticeConfig | string): void;
+    static open(config?: NoticeConfig | string): void;
     /**
      * 信息
      * @param config NoticeConfig为相关配置,string为待显示的内容
      */
-    info(config?: NoticeConfig | string): void;
+    static info(config?: NoticeConfig | string): void;
     /**
      * 成功
      * @param config NoticeConfig为相关配置,string为待显示的内容
      */
-    success(config?: NoticeConfig | string): void;
+    static success(config?: NoticeConfig | string): void;
     /**
      * 警告
      * @param config NoticeConfig为相关配置,string为待显示的内容
      */
-    warning(config?: NoticeConfig | string): void;
+    static warning(config?: NoticeConfig | string): void;
     /**
      * 错误
      * @param config NoticeConfig为相关配置,string为待显示的内容
      */
-    error(config?: NoticeConfig): void;
+    static error(config?: NoticeConfig): void;
     /**
      * 全局配置
      */
-    config(options?: NoticeGlobalConfig): void;
+    static config(options?: NoticeGlobalConfig): void;
     /**
      * 全局关闭某个通知
      */
-    close(name?: string): void;
+    static close(name?: string): void;
     /**
      * 全局销毁
      */
-    destroy(): void;
-};
+    static destroy(): void;
+}
 
 export declare class NoticeConfig {
     /**
@@ -92,6 +91,6 @@ declare module "vue/types/vue" {
         /**
          * 通知提醒
          */
-        $Notice: typeof Notice;
+        $Notice: Notice;
     }
 }

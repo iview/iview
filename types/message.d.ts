@@ -4,45 +4,44 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode, CreateElement } from "vue";
 
-export interface Message extends Vue {}
+declare const VueNew: Omit<Vue, "config"> & { new (): Vue };
 
-export declare const Message: {
-    new (): Message;
+export declare class Message extends VueNew {
     /**
      * 消息
      * @param config MessageConfig为相关配置,string为待显示的内容
      */
-    info(config?: MessageConfig | string): () => void;
+    static info(config?: MessageConfig | string): () => void;
     /**
      * 成功
      * @param config MessageConfig为相关配置,string为待显示的内容
      */
-    success(config?: MessageConfig | string): () => void;
+    static success(config?: MessageConfig | string): () => void;
     /**
      * 警告
      * @param config MessageConfig为相关配置,string为待显示的内容
      */
-    warning(config?: MessageConfig | string): () => void;
+    static warning(config?: MessageConfig | string): () => void;
     /**
      * 错误
      * @param config MessageConfig为相关配置,string为待显示的内容
      */
-    error(config?: MessageConfig | string): () => void;
+    static error(config?: MessageConfig | string): () => void;
     /**
      * 配置
      * @param config MessageConfig为相关配置,string为待显示的内容
      */
-    loading(options?: MessageConfig | string): () => void;
+    static loading(options?: MessageConfig | string): () => void;
     /**
      * 配置
      * @param config MessageConfig为相关配置,string为待显示的内容
      */
-    config(options?: MessageConfig): void;
+    static config(options?: MessageConfig): void;
     /**
      * 销毁
      */
-    destroy(): void;
-} & Message;
+    static destroy(): void;
+}
 
 export declare class MessageConfig {
     /**
@@ -81,6 +80,6 @@ declare module "vue/types/vue" {
         /**
          * 全局提示
          */
-        $Message: typeof Message;
+        $Message: Message;
     }
 }

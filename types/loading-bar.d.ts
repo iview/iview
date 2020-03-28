@@ -4,37 +4,36 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue from "vue";
 
-export declare interface LoadingBar extends Vue {}
+declare const VueNew: Omit<Vue, "config"> & { new (): Vue };
 
-export declare const LoadingBar: {
-    new (): LoadingBar;
+export declare class LoadingBar extends VueNew {
     /**
      * 开始从 0 显示进度条，并自动加载进度
      */
-    start(): void;
+    static start(): void;
     /**
      * 结束进度条，自动补全剩余进度
      */
-    finish(): void;
+    static finish(): void;
     /**
      * 以错误的类型结束进度条，自动补全剩余进度
      */
-    error(): void;
+    static error(): void;
     /**
      * 精确加载到指定的进度
      * @param percent 指定的进度百分比
      */
-    update(percent?: number): void;
+    static update(percent?: number): void;
     /**
      * 全局配置
      * @param options 配置对象
      */
-    config(options?: LoadingBarConfig): void;
+    static config(options?: LoadingBarConfig): void;
     /**
      * 全局销毁
      */
-    destroy(): void;
-} & LoadingBar;
+    static destroy(): void;
+}
 
 export declare class LoadingBarConfig {
     /**
@@ -65,6 +64,6 @@ declare module "vue/types/vue" {
         /**
          * 加载进度条
          */
-        $Loading: typeof LoadingBar;
+        $Loading: LoadingBar;
     }
 }
