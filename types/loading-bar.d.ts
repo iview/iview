@@ -6,7 +6,7 @@ import Vue from "vue";
 
 export declare class LoadingBar extends Vue {}
 
-export interface LoadingBarStatic {
+export declare interface LoadingBarStatic {
     /**
      * 开始从 0 显示进度条，并自动加载进度
      */

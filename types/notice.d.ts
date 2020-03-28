@@ -6,44 +6,44 @@ import Vue, { VNode, CreateElement } from "vue";
 
 export declare class Notice extends Vue {}
 
-export declare class NoticeStatic {
+export declare interface NoticeStatic {
     /**
      * 打开
      * @param config NoticeConfig为相关配置,string为待显示的内容
      */
-    static open(config?: NoticeConfig | string): void;
+    open(config?: NoticeConfig | string): void;
     /**
      * 信息
      * @param config NoticeConfig为相关配置,string为待显示的内容
      */
-    static info(config?: NoticeConfig | string): void;
+    info(config?: NoticeConfig | string): void;
     /**
      * 成功
      * @param config NoticeConfig为相关配置,string为待显示的内容
      */
-    static success(config?: NoticeConfig | string): void;
+    success(config?: NoticeConfig | string): void;
     /**
      * 警告
      * @param config NoticeConfig为相关配置,string为待显示的内容
      */
-    static warning(config?: NoticeConfig | string): void;
+    warning(config?: NoticeConfig | string): void;
     /**
      * 错误
      * @param config NoticeConfig为相关配置,string为待显示的内容
      */
-    static error(config?: NoticeConfig): void;
+    error(config?: NoticeConfig): void;
     /**
      * 全局配置
      */
-    static config(options?: NoticeGlobalConfig): void;
+    config(options?: NoticeGlobalConfig): void;
     /**
      * 全局关闭某个通知
      */
-    static close(name?: string): void;
+    close(name?: string): void;
     /**
      * 全局销毁
      */
-    static destroy(): void;
+    destroy(): void;
 }
 
 export declare class NoticeConfig {
@@ -91,6 +91,6 @@ declare module "vue/types/vue" {
         /**
          * 通知提醒
          */
-        $Notice: NoticeStatic &　Notice;
+        $Notice: NoticeStatic & Notice;
     }
 }

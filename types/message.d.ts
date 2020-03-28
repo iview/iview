@@ -6,7 +6,7 @@ import Vue, { VNode, CreateElement } from "vue";
 
 export declare class Message extends Vue {}
 
-export declare class MessageStatic {
+export declare interface MessageStatic {
     /**
      * 消息
      * @param config MessageConfig为相关配置,string为待显示的内容
