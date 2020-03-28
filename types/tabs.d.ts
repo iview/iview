@@ -9,7 +9,7 @@ export declare class Tabs extends Vue {
    * 当前激活 tab 面板的 name，可以使用 v-model 双向绑定数据
    * @default 默认为第一项的 name
    */
-  value?: string;
+  value?: string | number;
   /**
    * 页签的基本样式，可选值为 line 和 card
    * @default line
@@ -46,11 +46,11 @@ export declare class Tabs extends Vue {
   /**
    * tab 被点击时触发
    */
-  $emit(eventName: 'on-click', name: string): this;
+  $emit(eventName: 'on-click', name: string | number): this;
   /**
    * tab 被关闭时触发
    */
-  $emit(eventName: 'on-tab-remove', name: string): this;
+  $emit(eventName: 'on-tab-remove', name: string | number): this;
   /**
    * slot插槽对象
    */
