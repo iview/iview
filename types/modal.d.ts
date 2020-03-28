@@ -217,6 +217,6 @@ declare module "vue/types/vue" {
         /**
          * 对话框
          */
-        $Modal: Modal;
+        $Modal: typeof Modal;
     }
 }
