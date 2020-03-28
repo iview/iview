@@ -4,9 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode, CreateElement } from "vue";
 
-declare const VueNew: Omit<Vue, "config"> & { new (): Vue };
-
-export declare class Modal extends VueNew {
+export declare class Modal extends Vue {
     /**
      * 消息
      * @param config ModalConfig为相关配置,string为待显示的内容

@@ -4,9 +4,7 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode, CreateElement } from "vue";
 
-declare const VueNew: Omit<Vue, "config"> & { new (): Vue };
-
-export declare class Spin extends VueNew {
+export declare class Spin extends Vue {
     /**
      * 展示
      */
