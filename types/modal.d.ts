@@ -129,36 +129,36 @@ export interface Modal extends Vue {
 }
 
 export declare const Modal: {
-  new(): Modal;
-  /**
-   * 消息
-   * @param config ModalConfig为相关配置,string为待显示的内容
-   */
-  info(config?: ModalConfig | string): void;
-  /**
-   * 成功
-   * @param config ModalConfig为相关配置,string为待显示的内容
-   */
-  success(config?: ModalConfig | string): void;
-  /**
-   * 警告
-   * @param config ModalConfig为相关配置,string为待显示的内容
-   */
-  warning(config?: ModalConfig | string): void;
-  /**
-   * 错误
-   * @param config ModalConfig为相关配置,string为待显示的内容
-   */
-  error(config?: ModalConfig | string): void;
-  /**
-   * 对话框
-   * @param config ModalConfig为相关配置,string为待显示的内容
-   */
-  confirm(config?: ModalConfig | string): void;
-  /**
-   * 移除
-   */
-  remove(): void;
+    new (): Modal;
+    /**
+     * 消息
+     * @param config ModalConfig为相关配置,string为待显示的内容
+     */
+    info(config?: ModalConfig | string): void;
+    /**
+     * 成功
+     * @param config ModalConfig为相关配置,string为待显示的内容
+     */
+    success(config?: ModalConfig | string): void;
+    /**
+     * 警告
+     * @param config ModalConfig为相关配置,string为待显示的内容
+     */
+    warning(config?: ModalConfig | string): void;
+    /**
+     * 错误
+     * @param config ModalConfig为相关配置,string为待显示的内容
+     */
+    error(config?: ModalConfig | string): void;
+    /**
+     * 对话框
+     * @param config ModalConfig为相关配置,string为待显示的内容
+     */
+    confirm(config?: ModalConfig | string): void;
+    /**
+     * 移除
+     */
+    remove(): void;
 } & Modal;
 
 export declare class ModalConfig {
@@ -215,11 +215,12 @@ export declare class ModalConfig {
     onCancel?: () => void;
 }
 
-declare module 'vue/types/vue' {
+import * as m from "vue";
+declare module "vue/types/vue" {
     interface Vue {
         /**
          * 对话框
          */
-        $Modal: Modal;
+        $Modal: typeof Modal;
     }
 }
