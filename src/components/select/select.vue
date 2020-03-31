@@ -357,7 +357,7 @@
                     state = true;
                     const $options = findComponentsDownward(this, 'iOption');
                     if ($options && $options.length) {
-                        if ($options.find(item => item.showLabel === this.query)) state = false;
+                        if ($options.find(item => item.optionLabel === this.query)) state = false;
                     }
                 }
                 return  state;
