@@ -1,5 +1,5 @@
 <template>
-    <div :class="classes" ref="cell">
+    <div :class="classes" ref="cell" @click="handleCellClick">
         <template v-if="renderType === 'index'"><span>{{ column.indexMethod ? column.indexMethod(row) : (naturalIndex + 1) }}</span></template>
         <template v-if="renderType === 'selection'">
             <Checkbox :value="checked" @click.native.stop="handleClick" @on-change="toggleSelect" :disabled="disabled"></Checkbox>
@@ -165,6 +165,9 @@
             },
             handleToggleTree () {
                 this.$parent.$parent.$parent.toggleTree(this.row._rowKey);
+            },
+            handleCellClick (event) {
+                this.$parent.$parent.$parent.$emit('on-cell-click', this.row, this.column, this.row[this.column.key], event);
             }
         },
         created () {
