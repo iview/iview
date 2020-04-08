@@ -35,6 +35,7 @@
             v-if="renderType === 'slot'"
             :row="row"
             :column="column"
+            :display="column.display || 'block'"
             :index="index"></table-slot>
     </div>
 </template>
