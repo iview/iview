@@ -157,13 +157,9 @@
                 this.$nextTick(() => {
                     this.computedMin = this.getComputedThresholdValue('min');
                     this.computedMax = this.getComputedThresholdValue('max');
-                    let value = this.valueIsPx ? this.px2percent(this.value, this.$refs.outerWrapper[this.offsetSize]) : this.value;
-                    let anotherValue = this.getAnotherOffset(value);
-                    if (parseFloat(value) <= parseFloat(this.computedMin)) value = this.getMax(value, this.computedMin);
-                    if (parseFloat(anotherValue) <= parseFloat(this.computedMax)) value = this.getAnotherOffset(this.getMax(anotherValue, this.computedMax));
-                    this.offset = value * 10000 / 100;
-                    this.currentValue = value;
-                    this.$emit('input', value);
+                    // https://github.com/view-design/ViewUI/commit/d827b6405c365b9b7c130448f509724564cad8c1
+                    // todo 这里对 px 没有适配，先还原
+                    this.offset = (this.valueIsPx ? this.px2percent(this.value, this.$refs.outerWrapper[this.offsetSize]) : this.value) * 10000 / 100;
                 });
             }
         },
