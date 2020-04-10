@@ -1,5 +1,5 @@
 <template>
-    <div :class="wrapClasses" :style="styles">
+    <div :class="wrapClasses" :style="styles" ref="tableWrap">
         <div :class="classes">
             <div :class="[prefixCls + '-title']" v-if="showSlotHeader" ref="title"><slot name="header"></slot></div>
             <div :class="[prefixCls + '-header']" v-if="showHeader" ref="header" @mousewheel="handleMouseWheel">
@@ -124,6 +124,13 @@
             <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" ref="footer"><slot name="footer"></slot></div>
         </div>
         <div class="ivu-table-resize-line" v-show="showResizeLine" ref="resizeLine"></div>
+        <div class="ivu-table-context-menu" :style="contextMenuStyles" v-if="showContextMenu">
+            <Dropdown trigger="custom" :visible="contextMenuVisible" transfer @on-clickoutside="handleClickContextMenuOutside">
+                <DropdownMenu slot="list">
+                    <slot name="contextMenu"></slot>
+                </DropdownMenu>
+            </Dropdown>
+        </div>
         <Spin fix size="large" v-if="loading">
             <slot name="loading"></slot>
         </Spin>
@@ -271,6 +278,11 @@
             contextMenu: {
                 type: Boolean,
                 default: false
+            },
+            // 4.2.0
+            showContextMenu: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -298,7 +310,12 @@
                 showHorizontalScrollBar:false,
                 headerWidth:0,
                 headerHeight:0,
-                showResizeLine: false
+                showResizeLine: false,
+                contextMenuVisible: false,
+                contextMenuStyles: {
+                    top: 0,
+                    left: 0
+                }
             };
         },
         computed: {
@@ -700,10 +717,18 @@
                 }
             },
             contextmenuCurrentRow (_index, rowKey, event) {
+                const $TableWrap = this.$refs.tableWrap;
+                const TableBounding = $TableWrap.getBoundingClientRect();
+                const position = {
+                    left: `${event.clientX - TableBounding.left}px`,
+                    top: `${event.clientY - TableBounding.top}px`
+                };
+                this.contextMenuStyles = position;
+                this.contextMenuVisible = true;
                 if (rowKey) {
-                    this.$emit('on-contextmenu', JSON.parse(JSON.stringify(this.getBaseDataByRowKey(rowKey))), event);
+                    this.$emit('on-contextmenu', JSON.parse(JSON.stringify(this.getBaseDataByRowKey(rowKey))), event, position);
                 } else {
-                    this.$emit('on-contextmenu', JSON.parse(JSON.stringify(this.cloneData[_index])), event);
+                    this.$emit('on-contextmenu', JSON.parse(JSON.stringify(this.cloneData[_index])), event, position);
                 }
             },
             getSelection () {
@@ -1349,6 +1374,9 @@
             },
             dragAndDrop(a,b) {
                 this.$emit('on-drag-drop', a,b);
+            },
+            handleClickContextMenuOutside (event) {
+                this.contextMenuVisible = false;
             }
         },
         created () {
