@@ -78,7 +78,7 @@ export declare class MenuItem extends Vue {
   append?: boolean;
 }
 
-export declare class MenuSub extends Vue {
+export declare class Submenu extends Vue {
   /**
    * 子菜单的唯一标识，必填
    */

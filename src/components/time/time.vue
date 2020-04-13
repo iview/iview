@@ -49,6 +49,12 @@
                 ];
             }
         },
+        watch: {
+            time () {
+                // https://segmentfault.com/q/1010000021110866
+                if (!isServer) this.setTime();
+            }
+        },
         methods: {
             handleClick () {
                 if (this.hash !== '') window.location.hash = this.hash;

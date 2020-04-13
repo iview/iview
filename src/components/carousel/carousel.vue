@@ -4,10 +4,10 @@
             <Icon type="ios-arrow-back"></Icon>
         </button>
         <div :class="[prefixCls + '-list']">
-            <div :class="[prefixCls + '-track', showCopyTrack ? '' : 'higher']" :style="trackStyles" ref="originTrack">
+            <div :class="[prefixCls + '-track', showCopyTrack ? '' : 'higher']" :style="trackStyles" ref="originTrack" @click="handleClick('currentIndex')">
                 <slot></slot>
             </div>
-            <div :class="[prefixCls + '-track', showCopyTrack ? 'higher' : '']" :style="copyTrackStyles" ref="copyTrack" v-if="loop">
+            <div :class="[prefixCls + '-track', showCopyTrack ? 'higher' : '']" :style="copyTrackStyles" ref="copyTrack" v-if="loop" @click="handleClick('copyTrackIndex')">
             </div>
         </div>
         <button type="button" :class="arrowClasses" class="right" @click="arrowEvent(1)">
@@ -113,10 +113,13 @@
                 ];
             },
             trackStyles () {
+                // #6076
+                const visibleStyle = this.trackIndex === -1 ? 'hidden' : 'visible';
                 return {
                     width: `${this.trackWidth}px`,
                     transform: `translate3d(${-this.trackOffset}px, 0px, 0px)`,
-                    transition: `transform 500ms ${this.easing}`
+                    transition: `transform 500ms ${this.easing}`,
+                    visibility : visibleStyle
                 };
             },
             copyTrackStyles () {
@@ -125,7 +128,7 @@
                     transform: `translate3d(${-this.trackCopyOffset}px, 0px, 0px)`,
                     transition: `transform 500ms ${this.easing}`,
                     position: 'absolute',
-                    top: 0
+                    // top: 0
                 };
             },
             arrowClasses () {
@@ -266,8 +269,10 @@
             },
             dotsEvent (event, n) {
                 let curIndex = this.showCopyTrack ? this.copyTrackIndex : this.trackIndex;
+                const oldCurrentIndex = this.currentIndex;
                 if (event === this.trigger && curIndex !== n) {
                     this.updateTrackIndex(n);
+                    this.$emit('on-change', oldCurrentIndex, this.currentIndex);
                     this.$emit('input', n);
                     // Reset autoplay timer when trigger be activated
                     this.setAutoplay();
@@ -288,6 +293,9 @@
                     this.trackOffset = this.trackIndex * this.listWidth;
                     this.trackCopyOffset = this.copyTrackIndex * this.listWidth + ofs;
                 });
+            },
+            handleClick (type) {
+                this.$emit('on-click', this[type]);
             }
         },
         watch: {

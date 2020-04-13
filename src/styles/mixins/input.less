@@ -103,7 +103,10 @@
     border-collapse: separate;
     position: relative;
     font-size: @font-size-base;
-    top: 1px; // fixed when using in form inline,
+
+    .ivu-form-inline &{
+        top: 1px; // fixed when using in form inline,
+    }
 
     &-large{
         font-size: @font-size-large;

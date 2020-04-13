@@ -171,6 +171,7 @@
                 }
             },
             handleSelect (nodeKey) {
+                if (!this.flatState[nodeKey]) return;
                 const node = this.flatState[nodeKey].node;
                 if (!this.multiple){ // reset previously selected node
                     const currentSelectedKey = this.flatState.findIndex(obj => obj.node.selected);
@@ -181,6 +182,7 @@
                 this.$emit('on-select-change', this.getSelectedNodes(), node);
             },
             handleCheck({ checked, nodeKey }) {
+                if (!this.flatState[nodeKey]) return;
                 const node = this.flatState[nodeKey].node;
                 this.$set(node, 'checked', checked);
                 this.$set(node, 'indeterminate', false);

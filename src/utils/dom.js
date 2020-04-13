@@ -4,9 +4,9 @@ const isServer = Vue.prototype.$isServer;
 /* istanbul ignore next */
 export const on = (function() {
     if (!isServer && document.addEventListener) {
-        return function(element, event, handler) {
+        return function(element, event, handler, useCapture = false) {
             if (element && event && handler) {
-                element.addEventListener(event, handler, false);
+                element.addEventListener(event, handler, useCapture);
             }
         };
     } else {
@@ -21,9 +21,9 @@ export const on = (function() {
 /* istanbul ignore next */
 export const off = (function() {
     if (!isServer && document.removeEventListener) {
-        return function(element, event, handler) {
+        return function(element, event, handler, useCapture = false) {
             if (element && event) {
-                element.removeEventListener(event, handler, false);
+                element.removeEventListener(event, handler, useCapture);
             }
         };
     } else {
