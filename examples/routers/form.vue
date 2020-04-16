@@ -169,6 +169,24 @@
                     </FormItem>
                 </Form>
             </i-col>
+            <i-col span="6">
+                <Form :model="formValidate5" ref="formValidate5">
+                    <FormItem label="name" prop="name">
+                         <Input v-model="formValidate5.name" placeholder="Enter your name"></Input>
+                    </FormItem>
+                    <FormItem label="name">
+                        <i-switch v-model="formValidate5.msgCheck"  />
+                    </FormItem>
+                    <FormItem label="msg" v-if="formValidate5.msgCheck" prop="msg" :rules="[{
+                        required: true
+                    }]" >
+                         <Input v-model="formValidate5.msg" placeholder="msg"></Input>
+                    </FormItem>
+                    <FormItem>
+                        <Button type="primary" @click="handleSubmit('formValidate5')">Submit</Button>
+                    </FormItem>
+                </Form>
+            </i-col>
         </row>
         <div style="margin: 100px;width: 200px;">
             <Divider>普通组件</Divider>
@@ -283,6 +301,11 @@
                     inputNumber: 2,
                     rate: 3,
                     colorPicker: ''
+                },
+                formValidate5: {
+                    name: '',
+                    msgCheck: false,
+                    msg: ''
                 },
                 ruleValidate: {
                     name: [

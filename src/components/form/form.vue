@@ -91,6 +91,10 @@
                 return new Promise(resolve => {
                     let valid = true;
                     let count = 0;
+                    // fields 为空需要返回promise
+                    if (this.fields.length === 0) {
+                        resolve(valid);
+                    }
                     this.fields.forEach(field => {
                         field.validate('', errors => {
                             if (errors) {
