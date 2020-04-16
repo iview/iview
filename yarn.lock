@@ -88,9 +88,9 @@ after@0.8.2:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/after/-/after-0.8.2.tgz#fedb394f9f0e02aa9768e702bda23b505fae7e1f"
 
-agent-base@4, agent-base@^4.1.0, agent-base@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/agent-base/-/agent-base-4.2.0.tgz#9838b5c3392b962bad031e6a4c5e1024abec45ce"
+agent-base@4, agent-base@^4.1.0, agent-base@^4.2.0, agent-base@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/agent-base/-/agent-base-4.3.0.tgz#8165f01c436009bccad0b1d122f05ed770efc6ee"
   dependencies:
     es6-promisify "^5.0.0"
 
@@ -394,7 +394,7 @@ async-limiter@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/async-limiter/-/async-limiter-1.0.0.tgz#78faed8c3d074ab81f22b4e985d79e8738f720f8"
 
-async-validator@^1.10.0:
+async-validator@^1.12.2:
   version "1.12.2"
   resolved "https://registry.yarnpkg.com/async-validator/-/async-validator-1.12.2.tgz#beae671e7174d2938b7b4b69d2fb7e722b7fd72c"
 
@@ -2166,13 +2166,13 @@ debug@2, debug@2.6.9, debug@^2.1.1, debug@^2.1.2, debug@^2.2.0, debug@^2.3.3, de
   dependencies:
     ms "2.0.0"
 
-debug@3.1.0, debug@^3.1.0, debug@~3.1.0:
+debug@3.1.0, debug@~3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
   dependencies:
     ms "2.0.0"
 
-debug@^3.2.6:
+debug@^3.1.0, debug@^3.2.6:
   version "3.2.6"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.2.6.tgz#e83d17de16d8a7efb7717edbe5fb10135eee629b"
   dependencies:
@@ -2645,8 +2645,8 @@ es6-map@^0.1.3:
     event-emitter "~0.3.5"
 
 es6-promise@^4.0.3:
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.4.tgz#dc4221c2b16518760bd8c39a52d8f356fc00ed29"
+  version "4.2.8"
+  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.8.tgz#4eb21594c972bc40553d276e510539143db53e0a"
 
 es6-promisify@^5.0.0:
   version "5.0.0"
@@ -4033,10 +4033,10 @@ https-browserify@^1.0.0:
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-1.0.0.tgz#ec06c10e0a34c0f2faf199f7fd7fc78fffd03c73"
 
 https-proxy-agent@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/https-proxy-agent/-/https-proxy-agent-2.2.1.tgz#51552970fa04d723e04c56d04178c3f92592bbc0"
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/https-proxy-agent/-/https-proxy-agent-2.2.4.tgz#4ee7a737abd92678a293d9b34a1af4d0d08c787b"
   dependencies:
-    agent-base "^4.1.0"
+    agent-base "^4.3.0"
     debug "^3.1.0"
 
 iconv-lite@0.4.15:
@@ -8319,9 +8319,9 @@ uws@~9.14.0:
   version "9.14.0"
   resolved "https://registry.yarnpkg.com/uws/-/uws-9.14.0.tgz#fac8386befc33a7a3705cbd58dc47b430ca4dd95"
 
-v-click-outside-x@^3.5.6:
-  version "3.7.1"
-  resolved "https://registry.yarnpkg.com/v-click-outside-x/-/v-click-outside-x-3.7.1.tgz#aa03eaa0e41e44cb5207dcf86c2d9f0dd64084c1"
+v-click-outside-x@^4.0.19:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/v-click-outside-x/-/v-click-outside-x-4.1.0.tgz#be826680e2d25666a8a185332929d46244aa2447"
 
 v8flags@^2.0.2, v8flags@^2.1.1:
   version "2.1.1"
