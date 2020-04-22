@@ -162,7 +162,11 @@
                 if (this.checkStrictly) return;
 
                 for (let key in changes) {
-                    this.$set(node, key, changes[key]);
+                    if (key === 'checked' && node.disabled) {
+                        this.$set(node, key, node.checked);
+                    } else {
+                        this.$set(node, key, changes[key]);
+                    }
                 }
                 if (node[this.childrenKey]) {
                     node[this.childrenKey].forEach(child => {
