@@ -195,7 +195,7 @@
             uploadFiles (files) {
                 let postFiles = Array.prototype.slice.call(files);
                 if (!this.multiple) postFiles = postFiles.slice(0, 1);
-                if (!this.filesFilter) {
+                if (this.filesFilter) {
                     postFiles = this.filesFilter(files, this.fileList);
                 }
 
