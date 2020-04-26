@@ -314,7 +314,9 @@
             handleProgress (e, file) {
                 const _file = this.getFile(file);
                 this.onProgress(e, _file, this.fileList);
-                _file.percentage = e.percent || 0;
+                if (_file) {
+                    _file.percentage = e.percent || 0;
+                }
             },
             handleSuccess (res, file) {
                 const _file = this.getFile(file);

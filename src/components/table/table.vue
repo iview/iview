@@ -1,5 +1,5 @@
 <template>
-    <div :class="wrapClasses" :style="styles">
+    <div :class="wrapClasses" :style="styles" ref="tableWrap">
         <div :class="classes">
             <div :class="[prefixCls + '-title']" v-if="showSlotHeader" ref="title"><slot name="header"></slot></div>
             <div :class="[prefixCls + '-header']" v-if="showHeader" ref="header" @mousewheel="handleMouseWheel">
@@ -124,6 +124,13 @@
             <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" ref="footer"><slot name="footer"></slot></div>
         </div>
         <div class="ivu-table-resize-line" v-show="showResizeLine" ref="resizeLine"></div>
+        <div class="ivu-table-context-menu" :style="contextMenuStyles" v-if="showContextMenu">
+            <Dropdown trigger="custom" :visible="contextMenuVisible" transfer @on-clickoutside="handleClickContextMenuOutside">
+                <DropdownMenu slot="list">
+                    <slot name="contextMenu"></slot>
+                </DropdownMenu>
+            </Dropdown>
+        </div>
         <Spin fix size="large" v-if="loading">
             <slot name="loading"></slot>
         </Spin>
@@ -236,8 +243,9 @@
                 default: 'dark'
             },
             // #5380 开启后，:key 强制更新，否则使用 index
+            // 4.1 开始支持 String，指定具体字段
             rowKey: {
-                type: Boolean,
+                type: [Boolean, String],
                 default: false
             },
             // 4.0.0
@@ -256,6 +264,25 @@
             // 4.0.0
             sumText: {
                 type: String
+            },
+            // 4.1.0
+            indentSize: {
+                type: Number,
+                default: 16
+            },
+            // 4.1.0
+            loadData: {
+                type: Function
+            },
+            // 4.1.0
+            contextMenu: {
+                type: Boolean,
+                default: false
+            },
+            // 4.2.0
+            showContextMenu: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -283,7 +310,12 @@
                 showHorizontalScrollBar:false,
                 headerWidth:0,
                 headerHeight:0,
-                showResizeLine: false
+                showResizeLine: false,
+                contextMenuVisible: false,
+                contextMenuStyles: {
+                    top: 0,
+                    left: 0
+                }
             };
         },
         computed: {
@@ -538,7 +570,7 @@
                     columnWidth = parseInt(usableWidth / usableLength);
                 }
 
-                    
+
                 for (let i = 0; i < this.cloneColumns.length; i++) {
                     const column = this.cloneColumns[i];
                     let width = columnWidth + (column.minWidth?column.minWidth:0);
@@ -556,7 +588,7 @@
                             else if (column.maxWidth < width){
                                 width = column.maxWidth;
                             }
-                            
+
                             if (usableWidth>0) {
                                 usableWidth -= width - (column.minWidth?column.minWidth:0);
                                 usableLength--;
@@ -603,72 +635,175 @@
 
                     }
                 }
-                
+
                 this.tableWidth = this.cloneColumns.map(cell => cell._width).reduce((a, b) => a + b, 0) + (this.showVerticalScrollBar?this.scrollBarWidth:0) + 1;
                 this.columnsWidth = columnsWidth;
                 this.fixedHeader();
             },
-            handleMouseIn (_index) {
+            handleMouseIn (_index, rowKey) {
                 if (this.disabledHover) return;
-                if (this.objData[_index]._isHover) return;
-                this.objData[_index]._isHover = true;
+                const objData = rowKey ? this.getDataByRowKey(rowKey) : this.objData[_index];
+                if (objData._isHover) return;
+                objData._isHover = true;
             },
-            handleMouseOut (_index) {
+            handleMouseOut (_index, rowKey) {
                 if (this.disabledHover) return;
-                this.objData[_index]._isHover = false;
+                const objData = rowKey ? this.getDataByRowKey(rowKey) : this.objData[_index];
+                objData._isHover = false;
             },
             // 通用处理 highlightCurrentRow 和 clearCurrentRow
-            handleCurrentRow (type, _index) {
+            handleCurrentRow (type, _index, rowKey) {
+                const objData = rowKey ? this.getDataByRowKey(rowKey) : this.objData[_index];
+
+                let oldData = null;
                 let oldIndex = -1;
+
                 for (let i in this.objData) {
                     if (this.objData[i]._isHighlight) {
                         oldIndex = parseInt(i);
                         this.objData[i]._isHighlight = false;
+                        break;
+                    } else if (this.objData[i].children && this.objData[i].children.length) {
+                        const resetData = this.handleResetChildrenRow(this.objData[i]);
+                        if (resetData) oldData = JSON.parse(JSON.stringify(resetData));
                     }
                 }
-                if (type === 'highlight') this.objData[_index]._isHighlight = true;
-                const oldData = oldIndex < 0 ? null : JSON.parse(JSON.stringify(this.cloneData[oldIndex]));
-                const newData = type === 'highlight' ? JSON.parse(JSON.stringify(this.cloneData[_index])) : null;
+                if (type === 'highlight') objData._isHighlight = true;
+                if (oldIndex >= 0) {
+                    oldData = JSON.parse(JSON.stringify(this.cloneData[oldIndex]));
+                }
+                const newData = type === 'highlight' ? rowKey ? JSON.parse(JSON.stringify(this.getBaseDataByRowKey(rowKey))) : JSON.parse(JSON.stringify(this.cloneData[_index])) : null;
                 this.$emit('on-current-change', newData, oldData);
             },
-            highlightCurrentRow (_index) {
-                if (!this.highlightRow || this.objData[_index]._isHighlight) return;
-                this.handleCurrentRow('highlight', _index);
+            handleResetChildrenRow (objData) {
+                let data = null;
+                if (objData.children && objData.children.length) {
+                    for (let i = 0; i < objData.children.length; i++) {
+                        const item = objData.children[i];
+                        if (item._isHighlight) {
+                            item._isHighlight = false;
+                            data = item;
+                            break;
+                        } else if (item.children && item.children.length) {
+                            data = this.handleResetChildrenRow(item);
+                        }
+                    }
+                }
+                return data;
+            },
+            highlightCurrentRow (_index, rowKey) {
+                const objData = rowKey ? this.getDataByRowKey(rowKey) : this.objData[_index];
+                if (!this.highlightRow || objData._isHighlight) return;
+                this.handleCurrentRow('highlight', _index, rowKey);
             },
             clearCurrentRow () {
                 if (!this.highlightRow) return;
                 this.handleCurrentRow('clear');
             },
-            clickCurrentRow (_index) {
-                this.highlightCurrentRow (_index);
-                this.$emit('on-row-click', JSON.parse(JSON.stringify(this.cloneData[_index])), _index);
+            clickCurrentRow (_index, rowKey) {
+                this.highlightCurrentRow (_index, rowKey);
+                if (rowKey) {
+                    this.$emit('on-row-click', JSON.parse(JSON.stringify(this.getBaseDataByRowKey(rowKey))));
+                } else {
+                    this.$emit('on-row-click', JSON.parse(JSON.stringify(this.cloneData[_index])), _index);
+                }
             },
-            dblclickCurrentRow (_index) {
-                this.highlightCurrentRow (_index);
-                this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.cloneData[_index])), _index);
+            dblclickCurrentRow (_index, rowKey) {
+                this.highlightCurrentRow (_index, rowKey);
+                if (rowKey) {
+                    this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.getBaseDataByRowKey(rowKey))));
+                } else {
+                    this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.cloneData[_index])), _index);
+                }
+            },
+            contextmenuCurrentRow (_index, rowKey, event) {
+                const $TableWrap = this.$refs.tableWrap;
+                const TableBounding = $TableWrap.getBoundingClientRect();
+                const position = {
+                    left: `${event.clientX - TableBounding.left}px`,
+                    top: `${event.clientY - TableBounding.top}px`
+                };
+                this.contextMenuStyles = position;
+                this.contextMenuVisible = true;
+                if (rowKey) {
+                    this.$emit('on-contextmenu', JSON.parse(JSON.stringify(this.getBaseDataByRowKey(rowKey))), event, position);
+                } else {
+                    this.$emit('on-contextmenu', JSON.parse(JSON.stringify(this.cloneData[_index])), event, position);
+                }
             },
             getSelection () {
+                // 分别拿根数据和子数据的已选项
                 let selectionIndexes = [];
+                let selectionRowKeys = [];
                 for (let i in this.objData) {
-                    if (this.objData[i]._isChecked) selectionIndexes.push(parseInt(i));
+                    const objData = this.objData[i];
+                    if (objData._isChecked) selectionIndexes.push(parseInt(i));
+                    if (objData.children && objData.children.length) {
+                        selectionRowKeys = selectionRowKeys.concat(this.getSelectionChildrenRowKeys(objData, selectionRowKeys));
+                    }
                 }
-                return JSON.parse(JSON.stringify(this.data.filter((data, index) => selectionIndexes.indexOf(index) > -1)));
+
+                // 去重的 RowKeys
+                selectionRowKeys = [...new Set(selectionRowKeys)];
+
+                let selection = [];
+
+                this.data.forEach((item, index) => {
+                    if (selectionIndexes.indexOf(index) > -1) {
+                        selection = selection.concat(item);
+                    }
+                    if (item.children && item.children.length && selectionRowKeys.length) {
+                        selection = selection.concat(this.getSelectionChildren(item, selection, selectionRowKeys));
+                    }
+                });
+
+
+                selection = [...new Set(selection)];
+                return JSON.parse(JSON.stringify(selection));
             },
-            toggleSelect (_index) {
+            getSelectionChildrenRowKeys (objData, selectionRowKeys) {
+                if (objData.children && objData.children.length) {
+                    objData.children.forEach(item => {
+                        if (item._isChecked) selectionRowKeys.push(item._rowKey);
+                        if (item.children && item.children.length) {
+                            selectionRowKeys = selectionRowKeys.concat(this.getSelectionChildrenRowKeys(item, selectionRowKeys));
+                        }
+                    });
+                }
+                return selectionRowKeys;
+            },
+            getSelectionChildren (data, selection, selectionRowKeys) {
+                if (data.children && data.children.length) {
+                    data.children.forEach(item => {
+                        if (selectionRowKeys.indexOf(item[this.rowKey]) > -1) {
+                            selection = selection.concat(item);
+                        }
+                        if (item.children && item.children.length) {
+                            selection = selection.concat(this.getSelectionChildren(item, selection, selectionRowKeys));
+                        }
+                    });
+                }
+                return selection;
+            },
+            toggleSelect (_index, rowKey) {
                 let data = {};
 
-                for (let i in this.objData) {
-                    if (parseInt(i) === _index) {
-                        data = this.objData[i];
-                        break;
+                if (rowKey) {
+                    data = this.getDataByRowKey(rowKey);
+                } else {
+                    for (let i in this.objData) {
+                        if (parseInt(i) === _index) {
+                            data = this.objData[i];
+                            break;
+                        }
                     }
                 }
                 const status = !data._isChecked;
 
-                this.objData[_index]._isChecked = status;
-
+                data._isChecked = status;
                 const selection = this.getSelection();
-                this.$emit(status ? 'on-select' : 'on-select-cancel', selection, JSON.parse(JSON.stringify(this.data[_index])));
+                const selectedData = rowKey ? this.getBaseDataByRowKey(rowKey, this.data) : this.data[_index];
+                this.$emit(status ? 'on-select' : 'on-select-cancel', selection, JSON.parse(JSON.stringify(selectedData)));
                 this.$emit('on-selection-change', selection);
             },
             toggleExpand (_index) {
@@ -683,10 +818,111 @@
                 const status = !data._isExpanded;
                 this.objData[_index]._isExpanded = status;
                 this.$emit('on-expand', JSON.parse(JSON.stringify(this.cloneData[_index])), status);
-                
+
                 if(this.height || this.maxHeight){
                     this.$nextTick(()=>this.fixedBody());
                 }
+            },
+            toggleTree (rowKey) {
+                const data = this.getDataByRowKey(rowKey);
+                // async loading
+                if ('_loading' in data && data._loading) return;
+                if ('_loading' in data && !data._loading && data.children.length === 0) {
+                    const sourceData = this.getBaseDataByRowKey(rowKey, this.data);
+                    this.$set(sourceData, '_loading', true);
+                    this.loadData(sourceData, children => {
+                        this.$set(sourceData, '_loading', false);
+                        if (children.length) {
+                            this.$set(sourceData, 'children', children);
+                            this.$nextTick(() => {
+                                const newData = this.getDataByRowKey(rowKey);
+                                newData._isShowChildren = !newData._isShowChildren;
+                                this.updateDataStatus(rowKey, '_showChildren', newData._isShowChildren);
+                            });
+                        }
+                    });
+                    return;
+                }
+
+                data._isShowChildren = !data._isShowChildren;
+                this.updateDataStatus(rowKey, '_showChildren', data._isShowChildren);
+            },
+            /**
+             * @description 当修改某内置属性，如 _isShowChildren 时，因当将原 data 对应 _showChildren 也修改，否则修改 data 时，状态会重置
+             * @param rowKey rowKey
+             * @param key 原数据对应的字段
+             * @param value 修改的值
+             * */
+            // todo 单选、多选等状态可能也需要更新原数据
+            updateDataStatus (rowKey, key, value) {
+                const data = this.getBaseDataByRowKey(rowKey, this.data);
+                this.$set(data, key, value);
+            },
+            getDataByRowKey (rowKey, objData = this.objData) {
+                let data = null;
+                for (let i in objData) {
+                    const thisData = objData[i];
+                    if (thisData._rowKey === rowKey) {
+                        data = thisData;
+                        break;
+                    } else if (thisData.children && thisData.children.length) {
+                        data = this.getChildrenByRowKey(rowKey, thisData);
+                        if (data) {
+                            break;
+                        }
+                    }
+                }
+                return data;
+            },
+            getChildrenByRowKey (rowKey, objData) {
+                let data = null;
+                if (objData.children && objData.children.length) {
+                    for (let i = 0; i < objData.children.length; i++) {
+                        const item = objData.children[i];
+                        if (item._rowKey === rowKey) {
+                            data = item;
+                            break;
+                        } else if (item.children && item.children.length) {
+                            data = this.getChildrenByRowKey(rowKey, item);
+                            if (data) {
+                                break;
+                            }
+                        }
+                    }
+                }
+                return data;
+            },
+            getBaseDataByRowKey (rowKey, sourceData = this.cloneData) {
+                let data = null;
+                for (let i = 0; i < sourceData.length; i++) {
+                    const thisData = sourceData[i];
+                    if (thisData[this.rowKey] === rowKey) {
+                        data = thisData;
+                        break;
+                    } else if (thisData.children && thisData.children.length) {
+                        data = this.getChildrenDataByRowKey(rowKey, thisData);
+                        if (data && data[this.rowKey] === rowKey) return data;
+                    }
+                }
+                return data;
+            },
+            getChildrenDataByRowKey (rowKey, cloneData) {
+                let data = null;
+                if (cloneData.children && cloneData.children.length) {
+                    for (let i = 0; i < cloneData.children.length; i++) {
+                        const item = cloneData.children[i];
+                        if (item[this.rowKey] === rowKey) {
+                            data = item;
+                            break;
+                        } else if (item.children && item.children.length) {
+                            data = this.getChildrenDataByRowKey(rowKey, item);
+                            if (data) {
+                                break;
+                            }
+                        }
+                    }
+                }
+                return data;
             },
             selectAll (status) {
                 // this.rebuildData.forEach((data) => {
@@ -697,11 +933,13 @@
                 //     }
 
                 // });
-                for(const data of this.rebuildData){
-                    if(this.objData[data._index]._isDisabled){
-                        continue;
-                    }else{
-                        this.objData[data._index]._isChecked = status;
+                for (const data of this.rebuildData) {
+                    const objData = this.objData[data._index];
+                    if (!objData._isDisabled) {
+                        objData._isChecked = status;
+                    }
+                    if (data.children && data.children.length) {
+                        this.selectAllChildren(objData, status);
                     }
                 }
                 const selection = this.getSelection();
@@ -712,7 +950,18 @@
                 }
                 this.$emit('on-selection-change', selection);
             },
-            
+            selectAllChildren (data, status) {
+                if (data.children && data.children.length) {
+                    data.children.map(item => {
+                        if (!item._isDisabled) {
+                            item._isChecked = status;
+                        }
+                        if (item.children && item.children.length) {
+                            this.selectAllChildren(item, status);
+                        }
+                    });
+                }
+            },
             fixedHeader () {
                 if (this.height || this.maxHeight) {
                     this.$nextTick(() => {
@@ -749,7 +998,7 @@
 
                     this.showHorizontalScrollBar = bodyEl.offsetWidth < bodyContentEl.offsetWidth + (this.showVerticalScrollBar?this.scrollBarWidth:0);
                     this.showVerticalScrollBar = this.bodyHeight? bodyHeight - (this.showHorizontalScrollBar?this.scrollBarWidth:0) < bodyContentHeight : false;
-                    
+
                     if(this.showVerticalScrollBar){
                         bodyEl.classList.add(this.prefixCls +'-overflowY');
                     }else{
@@ -760,7 +1009,7 @@
                     }else{
                         bodyEl.classList.remove(this.prefixCls +'-overflowX');
                     }
-                } 
+                }
             },
 
             hideColumnFilter () {
@@ -831,6 +1080,11 @@
                         }
                     }
                 });
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i].children && data[i].children.length) {
+                        data[i].children = this.sortData(data[i].children, type, index);
+                    }
+                }
                 return data;
             },
             handleSort (_index, type) {
@@ -924,9 +1178,27 @@
                 let data = deepCopy(this.data);
                 data.forEach((row, index) => {
                     row._index = index;
-                    row._rowKey = rowKey++;
+                    row._rowKey = (typeof this.rowKey) === 'string' ? row[this.rowKey] : rowKey++;
+                    if (row.children && row.children.length) {
+                        row.children = this.makeChildrenData(row);
+                    }
                 });
                 return data;
+            },
+            makeChildrenData (data) {
+                if (data.children && data.children.length) {
+                    return data.children.map((row, index) => {
+                        const newRow = deepCopy(row);
+                        newRow._index = index;
+                        newRow._rowKey = (typeof this.rowKey) === 'string' ? newRow[this.rowKey] : rowKey++;
+                        if (newRow.children && newRow.children.length) {
+                            newRow.children = this.makeChildrenData(newRow);
+                        }
+                        return newRow;
+                    });
+                } else {
+                    return data;
+                }
             },
             makeDataWithSort () {
                 let data = this.makeData();
@@ -955,34 +1227,70 @@
                 this.cloneColumns.forEach(col => data = this.filterData(data, col));
                 return data;
             },
+            makeObjBaseData (row) {
+                const newRow = deepCopy(row);
+                if ((typeof this.rowKey) === 'string') {
+                    newRow._rowKey = newRow[this.rowKey];
+                }
+                newRow._isHover = false;
+                if (newRow._disabled) {
+                    newRow._isDisabled = newRow._disabled;
+                } else {
+                    newRow._isDisabled = false;
+                }
+                if (newRow._checked) {
+                    newRow._isChecked = newRow._checked;
+                } else {
+                    newRow._isChecked = false;
+                }
+                if (newRow._expanded) {
+                    newRow._isExpanded = newRow._expanded;
+                } else {
+                    newRow._isExpanded = false;
+                }
+                if (newRow._highlight) {
+                    newRow._isHighlight = newRow._highlight;
+                } else {
+                    newRow._isHighlight = false;
+                }
+                return newRow;
+            },
             makeObjData () {
                 let data = {};
                 this.data.forEach((row, index) => {
-                    const newRow = deepCopy(row);// todo 直接替换
-                    newRow._isHover = false;
-                    if (newRow._disabled) {
-                        newRow._isDisabled = newRow._disabled;
-                    } else {
-                        newRow._isDisabled = false;
+                    const newRow = this.makeObjBaseData(row);
+                    if (newRow.children && newRow.children.length) {
+                        if (newRow._showChildren) {
+                            newRow._isShowChildren = newRow._showChildren;
+                        } else {
+                            newRow._isShowChildren = false;
+                        }
+                        newRow.children = this.makeChildrenObjData(newRow);
                     }
-                    if (newRow._checked) {
-                        newRow._isChecked = newRow._checked;
-                    } else {
-                        newRow._isChecked = false;
-                    }
-                    if (newRow._expanded) {
-                        newRow._isExpanded = newRow._expanded;
-                    } else {
-                        newRow._isExpanded = false;
-                    }
-                    if (newRow._highlight) {
-                        newRow._isHighlight = newRow._highlight;
-                    } else {
-                        newRow._isHighlight = false;
-                    }
+                    // else if ('_loading' in newRow && newRow.children && newRow.children.length === 0) {
+                    //     newRow._isShowChildren = false;
+                    // }
                     data[index] = newRow;
                 });
                 return data;
+            },
+            makeChildrenObjData (data) {
+                if (data.children && data.children.length) {
+                    return data.children.map(row => {
+                        const newRow = this.makeObjBaseData(row);
+                        if (newRow._showChildren) {
+                            newRow._isShowChildren = newRow._showChildren;
+                        } else {
+                            newRow._isShowChildren = false;
+                        }
+                        if (newRow.children && newRow.children.length) {
+                            newRow.children = this.makeChildrenObjData(newRow);
+                        }
+                        return newRow;
+                    });
+                } else {
+                    return data;
+                }
             },
             // 修改列，设置一个隐藏的 id，便于后面的多级表头寻找对应的列，否则找不到
             makeColumnsId (columns) {
@@ -1066,6 +1374,9 @@
             },
             dragAndDrop(a,b) {
                 this.$emit('on-drag-drop', a,b);
+            },
+            handleClickContextMenuOutside (event) {
+                this.contextMenuVisible = false;
             }
         },
         created () {

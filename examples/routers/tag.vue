@@ -75,6 +75,9 @@
         <Tag color="primary" size="large">大号标签</Tag>
         <Tag color="primary" size="medium">中号标签</Tag>
         <Tag color="primary">默认尺寸</Tag>
+        <Tag color="blue" size="large">大号标签</Tag>
+        <Tag color="blue" size="medium">中号标签</Tag>
+        <Tag color="blue">默认尺寸</Tag>
     </div>
 </template>
 <script>

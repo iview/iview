@@ -12,9 +12,11 @@
                         :indeterminate="data.indeterminate"
                         :disabled="data.disabled || data.disableCheckbox"
                         @click.native.prevent="handleCheck"></Checkbox>
-                <Render v-if="data.render" :render="data.render" :data="data" :node="node"></Render>
-                <Render v-else-if="isParentRender" :render="parentRender" :data="data" :node="node"></Render>
-                <span v-else :class="titleClasses" @click="handleSelect">{{ data.title }}</span>
+                <span :class="titleClasses" @click="handleSelect">
+                    <Render v-if="data.render" :render="data.render" :data="data" :node="node"></Render>
+                    <Render v-else-if="isParentRender" :render="parentRender" :data="data" :node="node"></Render>
+                    <template v-else>{{ data.title }}</template>
+                </span>
                 <Tree-node
                         v-if="data.expand"
                         :appear="appearByClickArrow"
@@ -173,7 +175,7 @@
         methods: {
             handleExpand () {
                 const item = this.data;
-                if (item.disabled) return;
+                // if (item.disabled) return;
 
                 // Vue.js 2.6.9 对 transition 的 appear 进行了调整，导致 iView 初始化时无动画，加此方法来判断通过点击箭头展开时，加 appear，否则初始渲染时 appear 为 false
                 this.appearByClickArrow = true;

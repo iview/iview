@@ -61,7 +61,8 @@
         left: 0;
         bottom: 0;
         background-color: @border-color-base;
-        z-index: 1;
+        //z-index: 1;
+        z-index: 4; // 解决开启 border，同时固定表头和列，fixed 的最底下没有边框
     }
 
     &-border:after{
@@ -244,6 +245,57 @@
         &-with-selection{
             .@{checkbox-prefix-cls}-wrapper{
                 margin-right: 0;
+            }
+        }
+
+        &-tree{
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 1px solid @border-color-base;
+            border-radius: 2px;
+            background-color: #fff;
+            line-height: 12px;
+            cursor: pointer;
+            vertical-align: middle;
+            transition: color @transition-time @ease-in-out, border-color @transition-time @ease-in-out;
+
+            &-empty{
+                cursor: default;
+                color: transparent;
+                background-color: transparent;
+                border-color: transparent;
+            }
+
+            &:hover {
+                color: @primary-color;
+                border-color: @primary-color;
+            }
+            &-empty:hover{
+                color: transparent;
+                border-color: transparent;
+            }
+
+            &-loading{
+                cursor: default;
+                background-color: transparent;
+                border-color: transparent;
+                &:hover{
+                    border-color: transparent;
+                }
+            }
+
+            &-level{
+                display: inline-block;
+                height: 16px;
+            }
+        }
+        &-slot{
+            &-inline{
+                display: inline;
+            }
+            &-inline-block{
+                display: inline-block;
             }
         }
     }
@@ -470,6 +522,10 @@
 
     &-expanded-hidden{
         visibility: hidden;
+    }
+
+    &-context-menu{
+        position: absolute;
     }
 }
 .ivu-table-popper{

@@ -69,7 +69,10 @@
                 prefix: 'ivu-split',
                 offset: 0,
                 oldOffset: 0,
-                isMoving: false
+                isMoving: false,
+                computedMin: 0,
+                computedMax: 0,
+                currentValue: 0.5
             };
         },
         computed: {
@@ -98,12 +101,6 @@
             },
             offsetSize () {
                 return this.isHorizontal ? 'offsetWidth' : 'offsetHeight';
-            },
-            computedMin () {
-                return this.getComputedThresholdValue('min');
-            },
-            computedMax () {
-                return this.getComputedThresholdValue('max');
             }
         },
         methods: {
@@ -157,12 +154,21 @@
                 this.$emit('on-move-start');
             },
             computeOffset(){
-                this.offset = (this.valueIsPx ? this.px2percent(this.value, this.$refs.outerWrapper[this.offsetSize]) : this.value) * 10000 / 100;
+                this.$nextTick(() => {
+                    this.computedMin = this.getComputedThresholdValue('min');
+                    this.computedMax = this.getComputedThresholdValue('max');
+                    // https://github.com/view-design/ViewUI/commit/d827b6405c365b9b7c130448f509724564cad8c1
+                    // todo 这里对 px 没有适配，先还原
+                    this.offset = (this.valueIsPx ? this.px2percent(this.value, this.$refs.outerWrapper[this.offsetSize]) : this.value) * 10000 / 100;
+                });
             }
         },
         watch: {
-            value () {
-                this.computeOffset();
+            value (val) {
+                if (val !== this.currentValue) {
+                    this.currentValue = val;
+                    this.computeOffset();
+                }
             }
         },
         mounted () {
@@ -170,9 +176,10 @@
                 this.computeOffset();
             });
 
-            window.addEventListener('resize', ()=>{
-                this.computeOffset();
-            });
+            on(window, 'resize', this.computeOffset);
+        },
+        beforeDestroy () {
+            off(window, 'resize', this.computeOffset);
         }
     };
 </script>

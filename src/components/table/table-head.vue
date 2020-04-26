@@ -119,13 +119,25 @@
             isSelectAll () {
                 let isSelectAll = true;
                 if (!this.data.length) isSelectAll = false;
-                if (!this.data.find(item => !item._disabled)) isSelectAll = false;    // #1751
-                for (let i = 0; i < this.data.length; i++) {
-                    if (!this.objData[this.data[i]._index]._isChecked && !this.objData[this.data[i]._index]._isDisabled) {
+
+                // 全部disabled且全false，#1751
+                let isAllDisabledAndUnSelected = true;
+
+                for (let i in this.objData) {
+                    const objData = this.objData[i];
+                    if (!objData._isChecked && !objData._isDisabled) {
                         isSelectAll = false;
                         break;
+                    } else if (objData.children && objData.children.length) {
+                        isSelectAll = this.isChildrenSelected(objData, isSelectAll);
+                    }
+                    if (!(objData._isDisabled && !objData._isChecked)) {
+                        isAllDisabledAndUnSelected = false;
+                    } else if (objData.children && objData.children.length) {
+                        isAllDisabledAndUnSelected = this.isChildrenAllDisabledAndUnSelected(objData, isAllDisabledAndUnSelected);
                     }
                 }
+                if (isAllDisabledAndUnSelected) isSelectAll = false;
 
                 return isSelectAll;
             },
@@ -138,9 +150,17 @@
                 }
             },
             isSelectDisabled () {
-                let isSelectDisabled = false;
-                if (!this.data.length) isSelectDisabled = true;
-                if (!this.data.find(item => !item._disabled)) isSelectDisabled = true;
+                let isSelectDisabled = true;
+                if (this.data.length) {
+                    for (let i in this.objData) {
+                        const objData = this.objData[i];
+                        if (!objData._isDisabled) {
+                            isSelectDisabled = false;
+                        } else if (objData.children && objData.children.length) {
+                            isSelectDisabled = this.isChildrenDisabled(objData, isSelectDisabled);
+                        }
+                    }
+                }
                 return isSelectDisabled;
             }
         },
@@ -331,6 +351,45 @@
             handleMouseOut () {
                 if (this.$isServer) return;
                 document.body.style.cursor = '';
+            },
+            isChildrenSelected (objData, isSelectAll) {
+                let status = isSelectAll;
+                if (objData.children && objData.children.length) {
+                    objData.children.forEach(row => {
+                        if (!row._isChecked && !row._isDisabled) {
+                            status = false;
+                        } else if (row.children && row.children.length) {
+                            status = this.isChildrenSelected(row, status);
+                        }
+                    });
+                }
+                return status;
+            },
+            isChildrenAllDisabledAndUnSelected (objData, isAllDisabledAndUnSelected) {
+                let status = isAllDisabledAndUnSelected;
+                if (objData.children && objData.children.length) {
+                    objData.children.forEach(row => {
+                        if (!(row._isDisabled && !row._isChecked)) {
+                            status = false;
+                        } else if (row.children && row.children.length) {
+                            status = this.isChildrenAllDisabledAndUnSelected(row, status);
+                        }
+                    });
+                }
+                return status;
+            },
+            isChildrenDisabled (objData, isSelectDisabled) {
+                let status = isSelectDisabled;
+                if (objData.children && objData.children.length) {
+                    objData.children.forEach(row => {
+                        if (!row._isDisabled) {
+                            status = false;
+                        } else if (row.children && row.children.length) {
+                            status = this.isChildrenDisabled(row, status);
+                        }
+                    });
+                }
+                return status;
             }
         }
     };
