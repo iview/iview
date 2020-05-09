@@ -164,6 +164,25 @@
             }
         }
     }
+
+    &-word-count{
+        text-align: center;
+        position: absolute;
+        right: @input-padding-horizontal;
+        top: 1px;
+        bottom: 1px;
+        padding-left: @input-padding-horizontal;
+        background: #fff;
+        z-index: 1;
+        display: inline-flex;
+        align-items: center;
+        color: @subsidiary-color;
+        font-size: @font-size-small;
+    }
+    &-type-textarea &-word-count{
+        align-items: flex-end;
+        top: auto;
+    }
 }
 
 .@{input-prefix-cls}-group{
