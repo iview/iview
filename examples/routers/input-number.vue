@@ -72,6 +72,18 @@
                 :formatter="value => `${value}%`"
                 :parser="value => value.replace('%', '')"></InputNumber>
         </div>
+        <InputNumber v-model="valueNull" style="width: 200px">
+            <Select v-model="select1" slot="prepend" style="width: 50px">
+                <Option value=">">></Option>
+                <Option value="<="> <= </Option>
+            </Select>
+        </InputNumber>
+
+        <div style="margin:10px 0px">
+            <InputNumber v-model="valueNull" style="width: 200px">
+                <span slot="append" style="width: 30px">%</span>
+            </InputNumber>
+        </div>
     </div>
 </template>
 <script>
@@ -87,7 +99,8 @@
                 formatter2: (value) => `${value}%`,
                 parser2: (value) => value.replace('%', ''),
                 value9: 1000,
-                value10: 100
+                value10: 100,
+                select1: '>'
             };
         },
         methods: {
