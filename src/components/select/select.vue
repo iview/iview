@@ -597,7 +597,8 @@
             },
             handleKeydown (e) {
                 const key = e.key || e.code;
-                if (key === 'Backspace'){
+                const keyCode = e.keyCode || e.which;
+                if (key === 'Backspace' || keyCode===8){
                     return; // so we don't call preventDefault
                 }
 
