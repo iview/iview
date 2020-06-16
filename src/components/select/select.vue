@@ -534,7 +534,7 @@
                     const nodeText = node.elm ? node.elm.textContent : node.text;
                     return `${str} ${nodeText}`;
                 }, '') || '';
-                const stringValues = this.filterByLabel ? JSON.stringify([label]) : JSON.stringify([value, label, textContent]);
+                const stringValues = this.filterByLabel ? [label].toString() : [value, label, textContent].toString();
                 const query = this.query.toLowerCase().trim();
                 return stringValues.toLowerCase().includes(query);
             },
