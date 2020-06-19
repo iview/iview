@@ -296,11 +296,18 @@
             },
             changePanelDate(panel, type, increment, updateOtherPanel = true){
                 const current = new Date(this[`${panel}PanelDate`]);
-                if (panel === 'left') {
-                    current[`set${type}`](current[`get${type}`](), 0);
-                } else {
+                
+                if (this.splitPanels) {
+                    // fix #6404
                     current[`set${type}`](current[`get${type}`]() + increment);
+                } else {
+                    if (panel === 'left') {
+                        current[`set${type}`](current[`get${type}`]() + increment);
+                    } else {
+                        current[`set${type}`](current[`get${type}`]() + increment);
+                    }
                 }
+
                 this[`${panel}PanelDate`] = current;
 
                 if (!updateOtherPanel) return;

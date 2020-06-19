@@ -58,9 +58,9 @@
         },
         methods: {
             isIcon(node){
-                let nodeName = (node.nodeName || "").toLocaleUpperCase();
-                let isIvu = node.classList.contains("ivu-icon");
-                if(nodeName == "I" && isIvu){
+                let nodeName = (node.nodeName || '').toLocaleUpperCase();
+                let isIvu = node.classList.contains('ivu-icon');
+                if(nodeName == 'I' && isIvu){
                     return true;
                 }
                 return false;

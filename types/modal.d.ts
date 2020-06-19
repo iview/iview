@@ -6,6 +6,35 @@ import Vue, { VNode, CreateElement } from "vue";
 
 export declare class Modal extends Vue {
     /**
+     * 消息
+     * @param config ModalConfig为相关配置,string为待显示的内容
+     */
+    static info(config?: ModalConfig | string): void;
+    /**
+     * 成功
+     * @param config ModalConfig为相关配置,string为待显示的内容
+     */
+    static success(config?: ModalConfig | string): void;
+    /**
+     * 警告
+     * @param config ModalConfig为相关配置,string为待显示的内容
+     */
+    static warning(config?: ModalConfig | string): void;
+    /**
+     * 错误
+     * @param config ModalConfig为相关配置,string为待显示的内容
+     */
+    static error(config?: ModalConfig | string): void;
+    /**
+     * 对话框
+     * @param config ModalConfig为相关配置,string为待显示的内容
+     */
+    static confirm(config?: ModalConfig | string): void;
+    /**
+     * 移除
+     */
+    static remove(): void;
+    /**
      * 对话框是否显示，可使用 v-model 双向绑定数据。
      * @default false
      */
@@ -128,38 +157,6 @@ export declare class Modal extends Vue {
     };
 }
 
-export declare class ModalInstance extends Modal {
-    /**
-     * 消息
-     * @param config ModalConfig为相关配置,string为待显示的内容
-     */
-    info(config?: ModalConfig | string): void;
-    /**
-     * 成功
-     * @param config ModalConfig为相关配置,string为待显示的内容
-     */
-    success(config?: ModalConfig | string): void;
-    /**
-     * 警告
-     * @param config ModalConfig为相关配置,string为待显示的内容
-     */
-    warning(config?: ModalConfig | string): void;
-    /**
-     * 错误
-     * @param config ModalConfig为相关配置,string为待显示的内容
-     */
-    error(config?: ModalConfig | string): void;
-    /**
-     * 对话框
-     * @param config ModalConfig为相关配置,string为待显示的内容
-     */
-    confirm(config?: ModalConfig | string): void;
-    /**
-     * 移除
-     */
-    remove(): void;
-}
-
 export declare class ModalConfig {
     /**
      * 标题或者Element选择器字符串
@@ -214,11 +211,12 @@ export declare class ModalConfig {
     onCancel?: () => void;
 }
 
+import * as m from "vue";
 declare module "vue/types/vue" {
     interface Vue {
         /**
          * 对话框
          */
-        $Modal: ModalInstance;
+        $Modal: typeof Modal;
     }
 }

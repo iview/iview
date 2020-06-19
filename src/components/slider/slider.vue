@@ -7,7 +7,7 @@
             :max="max"
             :step="step"
             :value="exportValue[0]"
-            :disabled="disabled"
+            :disabled="itemDisabled"
             :active-change="activeChange"
             @on-change="handleInputChange"></Input-number>
         <div
@@ -15,18 +15,37 @@
             ref="slider" @click.self="sliderClick"
         >
             <input type="hidden" :name="name" :value="exportValue">
-            <template v-if="showStops">
-                <div
-                    :class="[prefixCls + '-stop']"
-                    v-for="item in stops"
-                    :style="{ 'left': item + '%' }"
-                    @click.self="sliderClick"
-                ></div>
-            </template>
             <div
                 :class="[prefixCls + '-bar']"
                 :style="barStyle"
                 @click.self="sliderClick"></div>
+            <template v-if="showStops">
+                <div
+                    :class="[prefixCls + '-stop']"
+                    v-for="(item,index) in stops" 
+                    :key="index"
+                    :style="{ 'left': item + '%' }"
+                    @click.self="sliderClick"
+                ></div>
+            </template>
+            <template v-if="markList.length > 0">
+                <div
+                    v-for="(item, key) in markList"
+                    :key="key"
+                    :class="[prefixCls + '-stop']"
+                    :style="{ 'left': item.position + '%' }"
+                    @click.self="sliderClick"
+                ></div>
+                <div class="ivu-slider-marks">
+                    <SliderMarker
+                        v-for="(item, key) in markList"
+                        :key="key"
+                        :mark="item.mark"
+                        :style="{ 'left': item.position + '%' }"
+                        @click.native="sliderClick"
+                    />
+                </div>
+            </template>
             <div
                 :class="[prefixCls + '-button-wrap']"
                 :style="{left: minPosition + '%'}"
@@ -83,17 +102,19 @@
 <script>
     import InputNumber from '../../components/input-number/input-number.vue';
     import Tooltip from '../../components/tooltip/tooltip.vue';
+    import SliderMarker from './marker';
     import { getStyle, oneOf } from '../../utils/assist';
     import { on, off } from '../../utils/dom';
     import Emitter from '../../mixins/emitter';
+    import mixinsForm from '../../mixins/form';
     import elementResizeDetectorMaker from 'element-resize-detector';
 
     const prefixCls = 'ivu-slider';
 
     export default {
         name: 'Slider',
-        mixins: [ Emitter ],
-        components: { InputNumber, Tooltip },
+        mixins: [ Emitter, mixinsForm ],
+        components: { InputNumber, Tooltip, SliderMarker },
         props: {
             min: {
                 type: Number,
@@ -154,6 +175,10 @@
             activeChange: {
                 type: Boolean,
                 default: true
+            },
+            // 3.5.4
+            marks: {
+                type: Object
             }
         },
         data () {
@@ -200,7 +225,7 @@
                     {
                         [`${prefixCls}-input`]: this.showInput && !this.range,
                         [`${prefixCls}-range`]: this.range,
-                        [`${prefixCls}-disabled`]: this.disabled
+                        [`${prefixCls}-disabled`]: this.itemDisabled
                     }
                 ];
             },
@@ -254,6 +279,19 @@
                 }
                 return result;
             },
+            markList() {
+                if (!this.marks) return [];
+
+                const marksKeys = Object.keys(this.marks);
+                return marksKeys.map(parseFloat)
+                    .sort((a, b) => a - b)
+                    .filter(point => point <= this.max && point >= this.min)
+                    .map(point => ({
+                        point,
+                        position: (point - this.min) * 100 / (this.max - this.min),
+                        mark: this.marks[point]
+                    }));
+            },
             tipDisabled () {
                 return this.tipFormat(this.currentValue[0]) === null || this.showTip === 'never';
             },
@@ -280,7 +318,7 @@
                 return [min, max];
             },
             getCurrentValue (event, type) {
-                if (this.disabled) {
+                if (this.itemDisabled) {
                     return;
                 }
 
@@ -304,7 +342,7 @@
                 }
             },
             onPointerDown (event, type) {
-                if (this.disabled) return;
+                if (this.itemDisabled) return;
                 event.preventDefault();
                 this.pointerDown = type;
 
@@ -359,10 +397,10 @@
                 this.currentValue = [...value];
 
                 if (!this.dragging) {
-                    if (this.currentValue[index] !== this.oldValue[index]) {
-                        this.emitChange();
-                        this.oldValue[index] = this.currentValue[index];
-                    }
+                    // if (this.currentValue[index] !== this.oldValue[index]) {
+                    this.emitChange();
+                        // this.oldValue[index] = this.currentValue[index];
+                    // }
                 }
             },
             handleDecimal(pos,step){
@@ -386,7 +424,7 @@
             },
 
             sliderClick (event) {
-                if (this.disabled) return;
+                if (this.itemDisabled) return;
                 const currentX = this.getPointerX(event);
                 const sliderOffsetLeft = this.$refs.slider.getBoundingClientRect().left;
                 let newPos = ((currentX - sliderOffsetLeft) / this.sliderWidth * this.valueRange) + this.min;

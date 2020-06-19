@@ -63,7 +63,9 @@
                 :transfer="transfer"
                 v-transfer-dom
             >
-                <ul v-show="showNotFoundLabel" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
+                <ul v-show="showNotFoundLabel && !$slots.empty" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
+                <!--feature #5327-->
+                <ul v-if="showNotFoundLabel && $slots.empty" :class="[prefixCls + '-not-found']"  @mousedown.prevent><li><slot name="empty"></slot></li></ul>
                 <ul :class="prefixCls + '-dropdown-list'">
                     <functional-options
                         v-if="(!remote) || (remote && !loading)"
@@ -663,15 +665,20 @@
                     this.query = String(option.label).trim();
                     this.values = [option];
                     this.lastRemoteQuery = '';
-                    this.query = '';
                     this.hideMenu();
                 }
+
+                this.focusIndex = this.flatOptions.findIndex((opt) => {
+                    if (!opt || !opt.componentOptions) return false;
+                    return opt.componentOptions.propsData.value === option.value;
+                });
+
                 if (this.filterable){
                     const inputField = this.$el.querySelector('input[type="text"]');
                     if (!this.autoComplete) this.$nextTick(() => inputField.focus());
                 }
+                this.$emit('on-select', option); // # 4441
                 this.broadcast('Drop', 'on-update-popper');
-                this.$emit('on-select', this.publicValue); // # 4441
                 setTimeout(() => {
                     this.filterQueryChange = false;
                 }, ANIMATION_TIMEOUT);
@@ -718,9 +725,10 @@
             value(value){
                 const {getInitialValue, getOptionData, publicValue, values} = this;
                 this.checkUpdateStatus();
-
+                const vModelValue = (publicValue && this.labelInValue) ? 
+                                    (this.multiple ? publicValue.map(({value}) => value) : publicValue.value) : publicValue;
                 if (value === '') this.values = [];
-                else if (checkValuesNotEqual(value,publicValue,values)) {
+                else if (checkValuesNotEqual(value,vModelValue,values)) {
                     this.$nextTick(() => this.values = getInitialValue().map(getOptionData).filter(Boolean));
                     if (!this.multiple) this.dispatch('FormItem', 'on-form-change', this.publicValue);
                 }

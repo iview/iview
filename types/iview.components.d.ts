@@ -19,7 +19,7 @@ export { Cascader } from './cascader';
 export { Cell, CellGroup } from './cell';
 export { Checkbox, CheckboxGroup } from './checkbox';
 export { Circle, Circle as ICircle } from './circle';
-export { Collapse, CollapsePanel } from './collapse';
+export { Collapse, Panel } from './collapse';
 export { ColorPicker } from './color-picker';
 export { Content } from './content';
 export { DatePicker, DatePickerOptions } from './date-picker';
@@ -36,10 +36,10 @@ export { InputNumber } from './input-number';
 export { Scroll } from './scroll';
 export { Split } from './split';
 export { Layout } from './layout';
-export { LoadingBar, LoadingBarConfig } from './loading-bar';
-export { Menu, MenuGroup, MenuItem, MenuSub } from './menu';
-export { Message, MessageConfig } from './message';
-export { Modal, ModalInstance, ModalConfig } from './modal';
+export { LoadingBar, LoadingBarStatic, LoadingBarConfig } from './loading-bar';
+export { Menu, MenuGroup, MenuItem, Submenu } from './menu';
+export { Message, MessageStatic, MessageConfig } from './message';
+export { Modal, ModalConfig } from './modal';
 export { Notice, NoticeConfig, NoticeGlobalConfig } from './notice';
 export { Page } from './page';
 export { Poptip } from './poptip';
@@ -52,7 +52,14 @@ export { Slider } from './slider';
 export { Spin } from './spin';
 export { Steps, StepsStep } from './steps';
 export { Switch, Switch as ISwitch } from './switch';
-export { Table, TableColumn, TableRenderCreateElementData, TableColumnRenderParams, TableColumnRenderHeadParams, TableExportCsvParams } from './table';
+export {
+  Table,
+  TableColumn,
+  TableRenderCreateElementData,
+  TableColumnRenderParams,
+  TableColumnRenderHeadParams,
+  TableExportCsvParams,
+} from './table';
 export { Tabs, TabPane } from './tabs';
 export { Tag } from './tag';
 export { Time } from './time';
@@ -63,82 +70,99 @@ export { Transfer } from './transfer';
 export { Tree, TreeChild } from './tree';
 export { Upload } from './upload';
 
-interface IViewGlobalOptions{
-    size?: string;
-    transfer?: boolean | string;
-    select: {
-        arrow: string;
-        customArrow: string;
-        arrowSize: number | string;
-    };
-    cell: {
-        arrow: string;
-        customArrow: string;
-        arrowSize: number | string;
-    };
-    menu: {
-        arrow: string;
-        customArrow: string;
-        arrowSize: number | string;
-    };
-    tree: {
-        arrow: string;
-        customArrow: string;
-        arrowSize: number | string;
-    };
-    cascader: {
-        arrow: string;
-        customArrow: string;
-        arrowSize: number | string;
-        itemArrow: string;
-        customItemArrow: string;
-        itemArrowSize: number | string;
-    };
-    colorPicker: {
-        arrow: string;
-        customArrow: string;
-        arrowSize: number | string;
-    };
-    datePicker: {
-        icon: string;
-        customIcon: string;
-        iconSize: number | string;
-    };
-    timePicker: {
-        icon: string;
-        customIcon: string;
-        iconSize: number | string;
-    };
-    tabs: {
-        closeIcon: string;
-        customCloseIcon: string;
-        closeIconSize: number | string;
-    };
-    modal: {
-        maskClosable: boolean | string;
-    };
-}
-
-interface IViewInstallOptions extends IViewGlobalOptions{
-    locale?: any;
-    i18n?: any;
-}
-
-declare const API: {
-    version: string;
-    locale: (l: any) => void;
-    i18n: (fn: any) => void;
-    install: (
-        Vue: Vue,
-        opts: IViewInstallOptions
-    ) => void;
-    lang: (code: string) => void;
+export const exportCsv: {
+  _isIE11(): boolean;
+  _isEdge(): boolean;
+  _getDownloadUrl(text: string): string;
+  download: (filename: string, text: string, dataType: string) => string;
 };
+export function csv(
+  columns: Array<string | { key: string; title?: string }>,
+  datas: Array<any[] | object>[],
+  options: object,
+  noHeader?: boolean,
+): string;
 
-export default API;
+interface IViewGlobalOptions {
+  size?: string;
+  transfer?: boolean | string;
+  select: {
+    arrow: string;
+    customArrow: string;
+    arrowSize: number | string;
+  };
+  cell: {
+    arrow: string;
+    customArrow: string;
+    arrowSize: number | string;
+  };
+  menu: {
+    arrow: string;
+    customArrow: string;
+    arrowSize: number | string;
+  };
+  tree: {
+    arrow: string;
+    customArrow: string;
+    arrowSize: number | string;
+  };
+  cascader: {
+    arrow: string;
+    customArrow: string;
+    arrowSize: number | string;
+    itemArrow: string;
+    customItemArrow: string;
+    itemArrowSize: number | string;
+  };
+  colorPicker: {
+    arrow: string;
+    customArrow: string;
+    arrowSize: number | string;
+  };
+  datePicker: {
+    icon: string;
+    customIcon: string;
+    iconSize: number | string;
+  };
+  timePicker: {
+    icon: string;
+    customIcon: string;
+    iconSize: number | string;
+  };
+  tabs: {
+    closeIcon: string;
+    customCloseIcon: string;
+    closeIconSize: number | string;
+  };
+  modal: {
+    maskClosable: boolean | string;
+  };
+}
 
+interface IViewInstallOptions extends IViewGlobalOptions {
+  locale?: any;
+  i18n?: any;
+}
+
+// declare const API: {
+//   version: string;
+//   locale: (l: any) => void;
+//   i18n: (fn: any) => void;
+//   install: (Vue: Vue, opts: IViewInstallOptions) => void;
+//   lang: (code: string) => void;
+// };
+
+// export default API;
+
+export const version: string;
+export const locale: (l: any) => void;
+export const i18n: (fn: any) => void;
+export const install: (Vue: Vue, opts: IViewInstallOptions) => void;
+export const lang: (code: string) => void;
+
+import * as m from 'vue';
 declare module 'vue/types/vue' {
-    interface Vue {
-        $IVIEW: IViewGlobalOptions;
-    }
+  interface Vue {
+    $IVIEW: IViewGlobalOptions;
+  }
 }
