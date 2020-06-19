@@ -80,6 +80,7 @@
                     ></functional-options>
                 </ul>
                 <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
+                <template #footer><slot name="footer"></slot></template>
             </Drop>
         </transition>
     </div>
