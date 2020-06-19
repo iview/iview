@@ -557,44 +557,47 @@
                 this.filterQueryChange = false;
             },
             handleKeydown (e) {
-                if (e.key === 'Backspace'){
+                const { key } = e;
+                if (key === 'Backspace'){
                     return; // so we don't call preventDefault
                 }
 
                 if (this.visible) {
                     e.preventDefault();
-                    if (e.key === 'Tab'){
-                        e.stopPropagation();
-                    }
-
-                    // Esc slide-up
-                    if (e.key === 'Escape') {
-                        e.stopPropagation();
-                        this.hideMenu();
-                    }
-                    // next
-                    if (e.key === 'ArrowUp') {
-                        this.navigateOptions(-1);
-                    }
-                    // prev
-                    if (e.key === 'ArrowDown') {
-                        this.navigateOptions(1);
-                    }
-                    // enter
-                    if (e.key === 'Enter') {
-                        if (this.focusIndex === -1) return this.hideMenu();
-                        const optionComponent = this.flatOptions[this.focusIndex];
-
-                        // fix a script error when searching
-                        if (optionComponent) {
-                            const option = this.getOptionData(optionComponent.componentOptions.propsData.value);
-                            this.onOptionClick(option);
-                        } else {
+                    switch (key) {
+                        case 'Tab':
+                            e.stopPropagation();
+                            break;
+                        case 'Esc':
+                        case 'Escape':
+                            e.stopPropagation();
                             this.hideMenu();
-                        }
+                            break;
+                        case 'Up':
+                        case 'ArrowUp':
+                            this.navigateOptions(-1);
+                            break;
+                        case 'Down':
+                        case 'ArrowDown':
+                            this.navigateOptions(1);
+                            break;
+                        case 'Enter':
+                            if (this.focusIndex === -1) return this.hideMenu();
+                            const optionComponent = this.flatOptions[this.focusIndex];
+
+                            // fix a script error when searching
+                            if (optionComponent) {
+                                const option = this.getOptionData(optionComponent.componentOptions.propsData.value);
+                                this.onOptionClick(option);
+                            } else {
+                                this.hideMenu();
+                            }
+                            break;
+                        default:
+                            break;
                     }
                 } else {
-                    const keysThatCanOpenSelect = ['ArrowUp', 'ArrowDown'];
+                    const keysThatCanOpenSelect = ['ArrowUp', 'Up', 'ArrowDown', 'Down'];
                     if (keysThatCanOpenSelect.includes(e.key)) this.toggleMenu(null, true);
                 }
 
@@ -764,7 +767,7 @@
                 }
             },
             focusIndex(index){
-                if (index < 0 || this.autoComplete) return;
+                if (index < 0) return;
                 // update scroll
                 const optionValue = this.flatOptions[index].componentOptions.propsData.value;
                 const optionInstance = findChild(this, ({$options}) => {
