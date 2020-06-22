@@ -733,7 +733,7 @@ export default {
             }
         },
         focusIndex(index) {
-            if (index < 0 || this.autoComplete) return;
+            if (index < 0) return;
             // update scroll
             const optionValue = this.flatOptions[index].componentOptions.propsData.value;
             const optionInstance = findChild(this, ({ $options }) => {
