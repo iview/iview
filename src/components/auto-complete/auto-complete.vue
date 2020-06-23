@@ -154,7 +154,11 @@
             },
             handleSelect (val) {
                 if (val === undefined || val === null) return;
-                this.currentValue = val;
+                let value = val;
+                if (typeof val === 'object' && val.value) {
+                    value = val.value
+                }
+                this.currentValue = value;
 
                 this.$refs.input.blur();
                 this.$emit('on-select', val);
