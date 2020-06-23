@@ -57,7 +57,8 @@
                         prefixCls: this.prefixCls,
                         operations: this.operations,
                         leftActive: this.leftValidKeysCount > 0,
-                        rightActive: this.rightValidKeysCount > 0
+                        rightActive: this.rightValidKeysCount > 0,
+                        reverseOperation: this.reverseOperation
                     }
                 }),
 
@@ -138,6 +139,12 @@
             },
             notFoundText: {
                 type: String
+            },
+            // 4.2.0
+            // 反转两个按钮
+            reverseOperation: {
+                type: Boolean,
+                default: false
             }
         },
         data () {

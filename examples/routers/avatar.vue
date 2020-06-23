@@ -38,6 +38,7 @@
         <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" size="64" shape="square" />
         <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" size="64" shape="circle" />
         <Avatar icon="ios-person" size="64" shape="circle" />
+        <Avatar size="42">U</Avatar>
     </div>
 </template>
 <script>

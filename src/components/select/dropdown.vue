@@ -1,5 +1,9 @@
 <template>
-    <div class="ivu-select-dropdown" :class="className" :style="styles"><slot></slot></div>
+    <div v-if="$slots.footer" :style="styles" class="ivu-select-dropdown ivu-select-dropdown-with-footer" :class="className">
+        <div class="ivu-select-dropdown-options"><slot></slot></div>
+        <div class="ivu-select-dropdown-footer"><slot name="footer"></slot></div>
+    </div>
+    <div v-else class="ivu-select-dropdown" :class="className" :style="styles"><slot></slot></div>
 </template>
 <script>
     import Vue from 'vue';

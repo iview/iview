@@ -94,6 +94,19 @@
         <Select v-model="model34" filterable allow-create multiple size="large" style="width:200px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
+        <Divider></Divider>
+        <Select v-model="model34" filterable multiple size="small" style="width:200px">
+            <Option v-for="item in scrollCityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <template #footer><a href="javascript:" style="text-align: center;display: block;">App Manage</a></template>
+        </Select>
+        <Select v-model="model34" filterable multiple style="width:200px">
+            <Option v-for="item in scrollCityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <template #footer><a href="javascript:" style="text-align: center;display: block;">App Manage</a></template>
+        </Select>
+        <Select v-model="model34" filterable allow-create multiple size="large" style="width:200px">
+            <Option v-for="item in scrollCityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <template #footer><a href="javascript:" style="text-align: center;display: block;">App Manage</a></template>
+        </Select>
     </div>
 </template>
 <script>
@@ -136,6 +149,20 @@
                 model34: [],
                 model35: [],
                 model36: []
+            };
+        },
+        computed: {
+            scrollCityList() {
+                return this.cityList.concat([
+                    {
+                        value: 'Beijing',
+                        label: 'Beijing'
+                    },
+                    {
+                        value: 'Tokyo',
+                        label: 'Tokyo'
+                    }
+                ]);
             }
         },
         methods: {
@@ -150,5 +177,5 @@
                 });
             }
         }
-    }
+    };
 </script>

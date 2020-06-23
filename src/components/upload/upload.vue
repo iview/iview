@@ -88,6 +88,7 @@
             },
             beforeUpload: Function,
             postMethod: Function,
+            filesFilter: Function,
             onProgress: {
                 type: Function,
                 default () {
@@ -194,6 +195,9 @@
             uploadFiles (files) {
                 let postFiles = Array.prototype.slice.call(files);
                 if (!this.multiple) postFiles = postFiles.slice(0, 1);
+                if (this.filesFilter) {
+                    postFiles = this.filesFilter(postFiles, this.fileList);
+                }
 
                 if (postFiles.length === 0) return;
 

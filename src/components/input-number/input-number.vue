@@ -1,36 +1,42 @@
 <template>
     <div :class="wrapClasses">
-        <div :class="handlerClasses">
-            <a
-                @click="up"
-                :class="upClasses">
-                <span :class="innerUpClasses" @click="preventDefault"></span>
-            </a>
-            <a
-                @click="down"
-                :class="downClasses">
-                <span :class="innerDownClasses" @click="preventDefault"></span>
-            </a>
+        <div :class="[prefixInputCls + '-group-prepend']" v-if="prepend" v-show="slotReady"><slot name="prepend"></slot></div>
+
+        <div :class="wrapInputClasses">
+            <div :class="handlerClasses">
+                <a
+                    @click="up"
+                    :class="upClasses">
+                    <span :class="innerUpClasses" @click="preventDefault"></span>
+                </a>
+                <a
+                    @click="down"
+                    :class="downClasses">
+                    <span :class="innerDownClasses" @click="preventDefault"></span>
+                </a>
+            </div>
+            <div :class="inputWrapClasses">
+                <input
+                    :id="elementId"
+                    :class="inputClasses"
+                    :disabled="itemDisabled"
+                    autocomplete="off"
+                    spellcheck="false"
+                    :autofocus="autofocus"
+                    @focus="focus"
+                    @blur="blur"
+                    @keydown.stop="keyDown"
+                    @input="change"
+                    @mouseup="preventDefault"
+                    @change="change"
+                    :readonly="readonly || !editable"
+                    :name="name"
+                    :value="formatterValue"
+                    :placeholder="placeholder">
+            </div>
         </div>
-        <div :class="inputWrapClasses">
-            <input
-                :id="elementId"
-                :class="inputClasses"
-                :disabled="itemDisabled"
-                autocomplete="off"
-                spellcheck="false"
-                :autofocus="autofocus"
-                @focus="focus"
-                @blur="blur"
-                @keydown.stop="keyDown"
-                @input="change"
-                @mouseup="preventDefault"
-                @change="change"
-                :readonly="readonly || !editable"
-                :name="name"
-                :value="formatterValue"
-                :placeholder="placeholder">
-        </div>
+        
+        <div :class="[prefixInputCls + '-group-append']" v-if="append" v-show="slotReady"><slot name="append"></slot></div>
     </div>
 </template>
 <script>
@@ -39,6 +45,7 @@
     import mixinsForm from '../../mixins/form';
 
     const prefixCls = 'ivu-input-number';
+    const prefixInputCls = 'ivu-input';
     const iconPrefixCls = 'ivu-icon';
 
     function addNum (num1, num2) {
@@ -138,7 +145,10 @@
                 focused: false,
                 upDisabled: false,
                 downDisabled: false,
-                currentValue: this.value
+                currentValue: this.value,
+                slotReady: false,
+                prefixCls: prefixCls,
+                prefixInputCls: prefixInputCls
             };
         },
         computed: {
@@ -148,7 +158,10 @@
                     {
                         [`${prefixCls}-${this.size}`]: !!this.size,
                         [`${prefixCls}-disabled`]: this.itemDisabled,
-                        [`${prefixCls}-focused`]: this.focused
+                        [`${prefixCls}-focused`]: this.focused,
+                        [`${prefixInputCls}-group`]: this.prepend || this.append,
+                        [`${prefixInputCls}-group-with-prepend`]: this.prepend,
+                        [`${prefixInputCls}-group-with-append`]: this.append
                     }
                 ];
             },
@@ -183,7 +196,15 @@
                 return `${prefixCls}-input-wrap`;
             },
             inputClasses () {
-                return `${prefixCls}-input`;
+                return [
+                    `${prefixCls}-input`,
+                    {
+                        [`${prefixInputCls} ${prefixInputCls}-default`]: this.prepend || this.append,
+                    }
+                ];
+            },
+            wrapInputClasses() {
+                return [`${prefixCls}-con-wrap`];
             },
             precisionValue () {
                 // can not display 1.0
@@ -196,6 +217,12 @@
                 } else {
                     return this.precisionValue;
                 }
+            },
+            prepend() {
+                return this.$slots.prepend !== undefined;
+            },
+            append () {
+                return this.$slots.append !== undefined;
             }
         },
         methods: {
@@ -331,6 +358,7 @@
             }
         },
         mounted () {
+            this.slotReady = true;
             this.changeVal(this.currentValue);
         },
         watch: {
