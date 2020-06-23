@@ -154,10 +154,10 @@
             },
             handleSelect (val) {
                 if (val === undefined || val === null) return;
-                this.currentValue = val;
+                this.currentValue = val.value;
 
                 this.$refs.input.blur();
-                this.$emit('on-select', val);
+                this.$emit('on-select', val.value);
             },
             handleFocus (event) {
                 this.$emit('on-focus', event);
