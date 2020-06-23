@@ -846,6 +846,7 @@
 
                 data._isShowChildren = !data._isShowChildren;
                 this.updateDataStatus(rowKey, '_showChildren', data._isShowChildren);
+                this.$emit('on-expand-tree', rowKey, data._isShowChildren);
             },
             /**
              * @description 当修改某内置属性，如 _isShowChildren 时，因当将原 data 对应 _showChildren 也修改，否则修改 data 时，状态会重置
