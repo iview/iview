@@ -94,6 +94,9 @@
                     // fields 为空需要返回promise
                     if (this.fields.length === 0) {
                         resolve(valid);
+                        if (typeof callback === 'function') {
+                            callback(valid);
+                        }
                     }
                     this.fields.forEach(field => {
                         field.validate('', errors => {
