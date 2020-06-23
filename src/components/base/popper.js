@@ -112,7 +112,9 @@ export default {
         doDestroy() {
             if (isServer) return;
             if (this.visible) return;
-            this.popperJS.destroy();
+            if (this.popperJS) {
+                this.popperJS.destroy();
+            }
             this.popperJS = null;
         }
     },
