@@ -292,7 +292,7 @@
                 setTimeout(() => this.transitioning = false, transitionTime);
 
                 const nav = this.navList[index];
-                if (nav.disabled) return;
+                if (!nav || nav.disabled) return;
                 this.activeKey = nav.name;
                 this.$emit('input', nav.name);
                 this.$emit('on-click', nav.name);
