@@ -68,22 +68,28 @@
                 return new Promise(resolve => {
                     let valid = true;
                     let count = 0;
-                    this.fields.forEach(field => {
-                        field.validate('', errors => {
-                            if (errors) {
-                                valid = false;
-                            }
 
-                            ++count;
-                        });
-                    });
-
-                    if (count === this.fields.length) {
+                    if (this.fields.length === 0) {
                         // all finish
                         resolve(valid);
                         if (typeof callback === 'function') {
                             callback(valid);
                         }
+                    } else {
+                        this.fields.forEach(field => {
+                            field.validate('', errors => {
+                                if (errors) {
+                                    valid = false;
+                                }
+                                if (++count === this.fields.length) {
+                                    // all finish
+                                    resolve(valid);
+                                    if (typeof callback === 'function') {
+                                        callback(valid);
+                                    }
+                                }
+                            });
+                        });
                     }
                 });
             },
