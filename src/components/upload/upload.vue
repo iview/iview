@@ -337,7 +337,9 @@
                 const _file = this.getFile(file);
                 const fileList = this.fileList;
 
-                _file.status = 'fail';
+                if (_file) {
+                    _file.status = 'fail';
+                }
 
                 fileList.splice(fileList.indexOf(_file), 1);
 
