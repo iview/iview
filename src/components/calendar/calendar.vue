@@ -15,10 +15,11 @@
                 <tr v-for="item in trDays" :key="item">
                     <td :class="[classes + '-content-col']" v-for="(child, dindex) in getRenderDays(item)" :key="dindex">
                         <span 
-                            :class="[classes + '-content-num', selectYear === nowYear && nowMonth === selectMonth && child.day === nowDate ? prefixCls+'-content-num-current' : '']"
                             @click="handlerClick(child)"
+                            :class="[classes + '-content-num',child.selected ? classes + '-content-num-selected' : '']"
                             v-if="child.type === 'now'">
                             {{zeroFill(child.day)}}
+                            <i :class="[selectYear === nowYear && nowMonth === selectMonth && child.day === nowDate ? prefixCls+'-content-num-current' : '']"></i>
                         </span>
                         <div :class="[classes + '-slot-item']" v-if=" child.type === 'now' ">
                             <slot :date="selectYear + format  + zeroFill(selectMonth) + format + zeroFill(child.day)"></slot>
@@ -101,6 +102,9 @@ export default {
             const zeroFillMonth = this.zeroFill(selectMonth);
             const zeroFillDay = this.zeroFill(item.day);
             const time = selectYear + format + zeroFillMonth + format + zeroFillDay;
+            this.days.forEach(children => {
+                children.selected = children.day === item.day
+            })
             this.$emit('on-click', {
                 date: time
             })

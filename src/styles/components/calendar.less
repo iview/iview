@@ -24,24 +24,39 @@
         }
         &-num{
             font-size: 14px;
-            width: 30px;
-            height: 30px;
+            width: 36px;
+            height: 36px;
             display: block;
             text-align: right;
-            line-height: 30px;
+            line-height: 36px;
             text-align: center;
+            position: relative;
             border-radius: 50%;
             cursor: pointer;
             &:hover{
                 background: @normal-color;
             } 
         }
-        &-num-current{
+        &-num-selected{
             background: @primary-color;
             color: #fff;
             &:hover{
                 background: @primary-color;
             }
+        }
+        &-num-selected &-num-current{
+            background: #fff;
+        }
+        &-num-current{
+            position: absolute;
+            z-index: 1;
+            right: 6px;
+            top: 5px;
+            width: 6px;
+            height: 6px;
+            border-radius: 100%;
+            display: block;
+            background: @primary-color;
         }
     }
     &-slot-item{
