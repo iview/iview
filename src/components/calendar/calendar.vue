@@ -40,6 +40,10 @@ export default {
     name: 'Calendar',
     mixins: [ Locale ],
     props: {
+        value: {
+            type: String,
+            default: ''
+        },
         format: {
             type: String,
             validator (value) {
@@ -76,6 +80,26 @@ export default {
             return days ? Math.ceil(days.length/7) : 0;
         }
     },
+    watch: {
+        value: {
+            handler () {
+                const val = this.value;
+                const format = this.format;
+                if (val) {
+                    const splitTime = val.split(format);
+                    const year = splitTime[0];
+                    const month = splitTime[1];
+                    if (year) {
+                        this.selectYear = parseInt(year);
+                    }
+                    if (month) {
+                        this.selectMonth = parseInt(month);
+                    }
+                }
+            },
+            immediate: true
+        }
+    },
     methods: {
         getRenderDays (index) {
             const prevIndex = (index-1)*7;
@@ -92,7 +116,11 @@ export default {
             this.updateDays();
         },
         updateDays () {
-            this.days = getCalendarList(this.selectMonth, this.selectYear);
+            const {selectYear, selectMonth, format} = this;
+            const zeroFillMonth = this.zeroFill(selectMonth);
+            const time = selectYear + format + zeroFillMonth;
+            this.$emit('input', time);
+            this.days = getCalendarList(selectMonth, selectYear);
         },
         zeroFill (num) {
             return num < 10 ? '0'+num : num;

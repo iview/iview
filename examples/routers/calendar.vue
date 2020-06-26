@@ -1,6 +1,9 @@
 <template>
     <div>
-        <Calendar @on-click="handlerClick">
+        {{selectedTime}}
+        <Calendar
+            @on-click="handlerClick"
+            v-model="selectedTime">
             <template  v-slot:default="slotProps">
                 <ul class="info-list">
                     <li class="info-item" v-for="(it, index) in newsList[slotProps.date]" :key="index">
@@ -16,6 +19,7 @@
         name: 'CalendarDemo',
         data(){
             return {
+                selectedTime: '2020-06',
                 newsList: {
                     '2020-06-01': [
                         { label: 'name1' }
