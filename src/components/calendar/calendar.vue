@@ -20,7 +20,7 @@
                             {{zeroFill(child.day)}}
                         </span>
                         <div :class="[classes + '-slot-item']" v-if=" child.type === 'now' ">
-                            <slot :date="selectYear + zeroFill(selectMonth) + zeroFill(child.day)"></slot>
+                            <slot :date="selectYear + format  + zeroFill(selectMonth) + format + zeroFill(child.day)"></slot>
                         </div>
                     </td>
                 </tr>
@@ -30,12 +30,22 @@
 </template>
 <script>
 import Locale from '../../mixins/locale';
+import { oneOf } from '../../utils/assist';
 import { getCalendarList, getNowTime} from './date-format';
 const nowTime = getNowTime();
 const prefixCls = 'ivu-calendar';
 export default {
     name: 'Calendar',
     mixins: [ Locale ],
+    props: {
+        format: {
+            type: String,
+            validator (value) {
+                return oneOf(value, ['-', '/']);
+            },
+            default: '-'
+        }
+    },
     data(){
         return {
             prefixCls: prefixCls,
