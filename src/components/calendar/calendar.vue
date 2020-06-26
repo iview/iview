@@ -15,7 +15,8 @@
                 <tr v-for="item in trDays" :key="item">
                     <td :class="[classes + '-content-col']" v-for="(child, dindex) in getRenderDays(item)" :key="dindex">
                         <span 
-                            :class="[classes + '-content-num', selectYear === nowYear && nowMonth === selectMonth && child.day === nowDate ? prefixCls+'-content-num-current' : '']" 
+                            :class="[classes + '-content-num', selectYear === nowYear && nowMonth === selectMonth && child.day === nowDate ? prefixCls+'-content-num-current' : '']"
+                            @click="handlerClick(child)"
                             v-if="child.type === 'now'">
                             {{zeroFill(child.day)}}
                         </span>
@@ -94,6 +95,15 @@ export default {
         },
         zeroFill (num) {
             return num < 10 ? '0'+num : num;
+        },
+        handlerClick (item) {
+            const {selectYear, selectMonth, format} = this;
+            const zeroFillMonth = this.zeroFill(selectMonth);
+            const zeroFillDay = this.zeroFill(item.day);
+            const time = selectYear + format + zeroFillMonth + format + zeroFillDay;
+            this.$emit('on-click', {
+                date: time
+            })
         },
         next () {
             if( this.selectMonth === 12 ){

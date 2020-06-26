@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Calendar>
+        <Calendar @on-click="handlerClick">
             <template  v-slot:default="slotProps">
                 <ul class="info-list">
                     <li class="info-item" v-for="(it, index) in newsList[slotProps.date]" :key="index">
@@ -21,6 +21,11 @@
                         { label: 'name1' }
                     ]
                 }
+            }
+        },
+        methods: {
+            handlerClick (value) {
+                console.log(value, '点击选择日期');
             }
         }
     }
