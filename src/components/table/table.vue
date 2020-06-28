@@ -837,7 +837,8 @@
                             this.$nextTick(() => {
                                 const newData = this.getDataByRowKey(rowKey);
                                 newData._isShowChildren = !newData._isShowChildren;
-                                this.updateDataStatus(rowKey, '_showChildren', newData._isShowChildren);
+                                // 由于 updateDataStatus 是基于原数据修改，导致单选、多选等状态重置，所以暂不处理 _showChildren 状态，而是通过事件 @on-expand-tree
+                                // this.updateDataStatus(rowKey, '_showChildren', newData._isShowChildren);
                             });
                         }
                     });
@@ -845,7 +846,8 @@
                 }
 
                 data._isShowChildren = !data._isShowChildren;
-                this.updateDataStatus(rowKey, '_showChildren', data._isShowChildren);
+                // 由于 updateDataStatus 是基于原数据修改，导致单选、多选等状态重置，所以暂不处理 _showChildren 状态，而是通过事件 @on-expand-tree
+                // this.updateDataStatus(rowKey, '_showChildren', data._isShowChildren);
                 this.$emit('on-expand-tree', rowKey, data._isShowChildren);
             },
             /**
