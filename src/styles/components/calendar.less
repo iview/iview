@@ -59,6 +59,15 @@
             background: @primary-color;
         }
     }
+    &-content-col-disabled{
+        .@{calendar-prefix-cls}-content-num{
+            color: @btn-disable-color;
+            cursor: @cursor-disabled;
+            &:hover{
+                background: none;
+            }
+        }
+    }
     &-slot-item{
         height: 90px;
         overflow-y: scroll;

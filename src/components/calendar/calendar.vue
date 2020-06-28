@@ -13,7 +13,10 @@
             </thead>
             <tbody :class="[classes + '-content']">
                 <tr v-for="item in trDays" :key="item">
-                    <td :class="[classes + '-content-col']" v-for="(child, dindex) in getRenderDays(item)" :key="dindex">
+                    <td 
+                        v-for="(child, dindex) in getRenderDays(item)"
+                        :class="[classes + '-content-col', child.disabled ? classes + '-content-col-disabled' : '' ]" 
+                        :key="dindex">
                         <span 
                             @click="handlerClick(child)"
                             :class="[classes + '-content-num',child.selected ? classes + '-content-num-selected' : '']"
@@ -50,6 +53,9 @@ export default {
                 return oneOf(value, ['-', '/']);
             },
             default: '-'
+        },
+        disabledDate: {
+            type: Function
         }
     },
     data(){
@@ -78,6 +84,19 @@ export default {
         trDays () {
             const days = this.days;
             return days ? Math.ceil(days.length/7) : 0;
+        },
+        cells () {
+            const {selectYear, selectMonth, format} = this;
+            const joinYearMonth = selectYear + format + this.zeroFill(selectMonth);
+            const cells = this.days.map(item => {
+                let hasDisabledDate = typeof this.disabledDate === 'function';
+                let joinTotalTime = joinYearMonth + format + this.zeroFill(item.day);
+                if (hasDisabledDate && this.disabledDate(joinTotalTime)) {
+                    item.disabled = true;
+                }
+                return item;
+            })
+            return cells;
         }
     },
     watch: {
@@ -103,8 +122,8 @@ export default {
     methods: {
         getRenderDays (index) {
             const prevIndex = (index-1)*7;
-            const nextIndex = index*7
-            return this.days ? this.days.slice(prevIndex, nextIndex) : [];
+            const nextIndex = index*7;
+            return this.cells ? this.cells.slice(prevIndex, nextIndex) : [];
         },
         prev () {
             if( this.selectMonth === 1 ){
@@ -126,6 +145,9 @@ export default {
             return num < 10 ? '0'+num : num;
         },
         handlerClick (item) {
+            if (item.disabled){
+                return false;
+            }
             const {selectYear, selectMonth, format} = this;
             const zeroFillMonth = this.zeroFill(selectMonth);
             const zeroFillDay = this.zeroFill(item.day);

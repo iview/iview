@@ -2,7 +2,9 @@
     <div>
         {{selectedTime}}
         <Calendar
-            @on-click="handlerClick"
+            @on-click="handlerClick" 
+            format="/"
+            :disabledDate="disabledDate"
             v-model="selectedTime">
             <template  v-slot:default="slotProps">
                 <ul class="info-list">
@@ -19,11 +21,14 @@
         name: 'CalendarDemo',
         data(){
             return {
-                selectedTime: '2020-06',
+                selectedTime: '2020/06',
                 newsList: {
-                    '2020-06-01': [
+                    '2020/06/01': [
                         { label: 'name1' }
                     ]
+                },
+                disabledDate: (time)=>{
+                    return ['2020/06/01','2020/06/02'].includes(time);
                 }
             }
         },

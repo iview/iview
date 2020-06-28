@@ -17,7 +17,8 @@ function getPrevDaysList (month,year){
         return {
             day: item,
             type: 'prev',
-            selected: false
+            selected: false,
+            disabled: false
         };
     });
     return startToArray;
@@ -30,7 +31,8 @@ function getNextDaysList(prev, now){
         return {
             day: item,
             type: 'next',
-            selected: false
+            selected: false,
+            disabled: false
         };
     });
     return nextToArray;
@@ -51,7 +53,8 @@ export function getCalendarList(month, year) {
         return {
             day: item,
             type: 'now',
-            selected: false
+            selected: false,
+            disabled: false
         };
     });
     return prevToArray.concat(nowToArray, nextToArray);
