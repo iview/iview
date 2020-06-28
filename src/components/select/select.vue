@@ -480,6 +480,8 @@
                 }
             },
             clearSingleSelect(){ // PUBLIC API
+                // fix #446
+                if (!this.multiple) this.$emit('input', '');
                 this.$emit('on-clear');
                 this.hideMenu();
                 if (this.clearable) this.reset();
