@@ -2,7 +2,7 @@
     <div :class="[classes + '-wrapper']">
         <div :class="[classes + '-action']">
             <Icon type="ios-arrow-back" :class="[classes + '-action-arrow']" @click.native="prev" />
-            <span :class="[classes + '-action-title']">{{selectYear}}年{{zeroFill(selectMonth)}}月</span>
+            <span :class="[classes + '-action-title']">{{selectYear}}{{t('i.datepicker.year')}}{{zeroFill(selectMonth)}}{{t('i.datepicker.month')}}</span>
             <Icon type="ios-arrow-forward" :class="[classes + '-action-arrow']"  @click.native="next" />
         </div>
         <table :class="classes">
