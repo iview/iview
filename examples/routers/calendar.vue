@@ -21,7 +21,7 @@
         name: 'CalendarDemo',
         data(){
             return {
-                selectedTime: '2020/06',
+                selectedTime: '2020/08',
                 newsList: {
                     '2020/06/01': [
                         { label: 'name1' }

@@ -2,9 +2,22 @@
     <div :class="[classes + '-wrapper']">
         <div :class="[classes + '-action']">
             <Icon type="ios-arrow-back" :class="[classes + '-action-arrow']" @click.native="prev" />
-            <span :class="[classes + '-action-title']">{{selectYear}}{{t('i.datepicker.year')}}{{zeroFill(selectMonth)}}{{t('i.datepicker.month')}}</span>
+            <DatePicker 
+                type="month"
+                :value="DatePickerTime"
+                transfer
+                placement="bottom" 
+                @on-change="handlerPickerClick" 
+                @on-clickoutside="handlerPickerClose"
+                :open="datePickerVisible">
+                <span :class="[classes + '-action-title']" @click="ChoosePickerDate">
+                    {{selectYear}}{{t('i.datepicker.year')}}{{zeroFill(selectMonth)}}{{t('i.datepicker.month')}}
+                </span>
+            </DatePicker>
             <Icon type="ios-arrow-forward" :class="[classes + '-action-arrow']"  @click.native="next" />
         </div>
+        <!--datePicker-->
+        <!--DatePicker end-->
         <table :class="classes">
             <thead>
                 <tr :class="[classes + '-header']">
@@ -60,6 +73,9 @@ export default {
     },
     data(){
         return {
+            // datePicker status
+            datePickerVisible: false,
+            DatePickerTime: '',
             prefixCls: prefixCls,
             days: [],
             nowYear: nowTime.year,
@@ -84,46 +100,66 @@ export default {
         trDays () {
             const days = this.days;
             return days ? Math.ceil(days.length/7) : 0;
-        },
-        cells () {
-            const {selectYear, selectMonth, format} = this;
-            const joinYearMonth = selectYear + format + this.zeroFill(selectMonth);
-            const cells = this.days.map(item => {
-                let hasDisabledDate = typeof this.disabledDate === 'function';
-                let joinTotalTime = joinYearMonth + format + this.zeroFill(item.day);
-                if (hasDisabledDate && this.disabledDate(joinTotalTime)) {
-                    item.disabled = true;
-                }
-                return item;
-            })
-            return cells;
         }
     },
     watch: {
         value: {
             handler () {
                 const val = this.value;
-                const format = this.format;
                 if (val) {
-                    const splitTime = val.split(format);
-                    const year = splitTime[0];
-                    const month = splitTime[1];
-                    if (year) {
-                        this.selectYear = parseInt(year);
-                    }
-                    if (month) {
-                        this.selectMonth = parseInt(month);
-                    }
+                    this.updateDefaultSelectTime();
                 }
+                this.updatePickerSelectTime();
             },
             immediate: true
         }
     },
     methods: {
+        updateDefaultSelectTime () {
+            const { value, format } = this;
+            const splitTime = value.split(format);
+            const year = splitTime[0];
+            const month = splitTime[1];
+            if (year) {
+                this.selectYear = parseInt(year);
+            }
+            if (month) {
+                this.selectMonth = parseInt(month);
+            }
+        },
+        updatePickerSelectTime () {
+            const { selectYear, selectMonth } = this;
+            this.DatePickerTime = selectYear + '-' + selectMonth;
+            this.updateDays();
+        },
+        handlerPickerClick (value) {
+            const times = value.split('-');
+            const year = times[0];
+            const month = times[1];
+            this.selectYear = year;
+            this.selectMonth = parseInt(month);
+            this.updateDays();
+            this.handlerPickerClose();
+        },
+        ChoosePickerDate () {
+            this.datePickerVisible = !this.datePickerVisible;
+        },
+        handlerPickerClose () {
+            this.datePickerVisible = false;
+        },
         getRenderDays (index) {
             const prevIndex = (index-1)*7;
             const nextIndex = index*7;
-            return this.cells ? this.cells.slice(prevIndex, nextIndex) : [];
+            const { selectYear, selectMonth, format } = this;
+            const joinYearMonth = selectYear + format + this.zeroFill(selectMonth);
+            this.days.forEach(item => {
+                let hasDisabledDate = typeof this.disabledDate === 'function';
+                let joinTotalTime = joinYearMonth + format + this.zeroFill(item.day);
+                if (hasDisabledDate && this.disabledDate(joinTotalTime)) {
+                    item.disabled = true;
+                }
+            })
+            return this.days ? this.days.slice(prevIndex, nextIndex) : [];
         },
         prev () {
             if( this.selectMonth === 1 ){
@@ -138,8 +174,8 @@ export default {
             const {selectYear, selectMonth, format} = this;
             const zeroFillMonth = this.zeroFill(selectMonth);
             const time = selectYear + format + zeroFillMonth;
-            this.$emit('input', time);
             this.days = getCalendarList(selectMonth, selectYear);
+            this.$emit('input', time);
         },
         zeroFill (num) {
             return num < 10 ? '0'+num : num;
@@ -168,9 +204,6 @@ export default {
             }
             this.updateDays();
         }
-    },
-    created () {
-        this.days = getCalendarList(this.nowMonth, this.nowYear);
     }
 }
 </script>
