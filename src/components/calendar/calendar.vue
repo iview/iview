@@ -4,13 +4,13 @@
             <Icon type="ios-arrow-back" :class="[classes + '-action-arrow']" @click.native="prev" />
             <DatePicker 
                 type="month"
-                :value="DatePickerTime"
+                :value="datePickerTime"
                 transfer
                 placement="bottom" 
                 @on-change="handlerPickerClick" 
                 @on-clickoutside="handlerPickerClose"
                 :open="datePickerVisible">
-                <span :class="[classes + '-action-title']" @click="ChoosePickerDate">
+                <span :class="[classes + '-action-title']" @click="choosePickerDate">
                     {{selectYear}}{{t('i.datepicker.year')}}{{zeroFill(selectMonth)}}{{t('i.datepicker.month')}}
                 </span>
             </DatePicker>
@@ -75,7 +75,7 @@ export default {
         return {
             // datePicker status
             datePickerVisible: false,
-            DatePickerTime: '',
+            datePickerTime: '',
             prefixCls: prefixCls,
             days: [],
             nowYear: nowTime.year,
@@ -141,7 +141,7 @@ export default {
             this.updateDays();
             this.handlerPickerClose();
         },
-        ChoosePickerDate () {
+        choosePickerDate () {
             this.datePickerVisible = !this.datePickerVisible;
         },
         handlerPickerClose () {
