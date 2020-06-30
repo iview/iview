@@ -16,8 +16,6 @@
             </DatePicker>
             <Icon type="ios-arrow-forward" :class="[classes + '-action-arrow']"  @click.native="next" />
         </div>
-        <!--datePicker-->
-        <!--DatePicker end-->
         <table :class="classes">
             <thead>
                 <tr :class="[classes + '-header']">
