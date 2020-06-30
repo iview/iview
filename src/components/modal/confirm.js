@@ -98,6 +98,10 @@ Modal.newInstance = properties => {
                 ]);
             }
 
+            if (this.footer === false) {
+                footerVNodes = null;
+            }
+
             return h(Modal, {
                 props: Object.assign({}, _props, {
                     width: this.width,
@@ -121,11 +125,11 @@ Modal.newInstance = properties => {
                 }, [
                     head_render,
                     body_render,
-                    h('div', {
+                    footerVNodes ? h('div', {
                         attrs: {
                             class: `${prefixCls}-footer`
                         }
-                    }, footerVNodes)
+                    }, footerVNodes) : null
                 ])
             ]);
         },
@@ -261,6 +265,10 @@ Modal.newInstance = properties => {
 
             if ('scrollable' in props) {
                 modal.$parent.scrollable = props.scrollable;
+            }
+
+            if ('footer' in props) {
+                modal.$parent.footer = props.footer;
             }
 
             // notice when component destroy

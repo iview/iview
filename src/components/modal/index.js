@@ -7,6 +7,7 @@ function getModalInstance (render = undefined) {
         closable: false,
         maskClosable: false,
         footerHide: true,
+        footer: true,
         render: render
     });
 
