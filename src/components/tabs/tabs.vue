@@ -15,7 +15,7 @@
                     <div ref="navScroll" :class="[prefixCls + '-nav-scroll']" @DOMMouseScroll="handleScroll" @mousewheel="handleScroll">
                         <div ref="nav" :class="[prefixCls + '-nav']" :style="navStyle">
                             <div :class="barClasses" :style="barStyle"></div>
-                            <div :class="tabCls(item)" v-for="(item, index) in navList" @click="handleChange(index)">
+                            <div :class="tabCls(item)" v-for="(item, index) in navList" @click="handleChange(index)" @dblclick="handleDblclick(index)">
                                 <Icon v-if="item.icon !== ''" :type="item.icon"></Icon>
                                 <Render v-if="item.labelType === 'function'" :render="item.label"></Render>
                                 <template v-else>{{ item.label }}</template>
@@ -296,6 +296,11 @@
                 this.activeKey = nav.name;
                 this.$emit('input', nav.name);
                 this.$emit('on-click', nav.name);
+            },
+            handleDblclick (index) {
+                const nav = this.navList[index];
+                if (!nav || nav.disabled) return;
+                this.$emit('on-dblclick', nav.name);
             },
             handleTabKeyNavigation(e){
                 if (e.keyCode !== 37 && e.keyCode !== 39) return;
