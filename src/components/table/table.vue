@@ -22,6 +22,7 @@
                     :columns="cloneColumns"
                     :data="rebuildData"
                     :row-key="rowKey"
+                    :column-key="columnKey"
                     :columns-width="columnsWidth"
                     :obj-data="objData"></table-body>
             </div>
@@ -61,6 +62,7 @@
                         :columns="leftFixedColumns"
                         :data="rebuildData"
                         :row-key="rowKey"
+                        :column-key="columnKey"
                         :columns-width="columnsWidth"
                         :obj-data="objData"></table-body>
                 </div>
@@ -87,6 +89,7 @@
                         :columns="rightFixedColumns"
                         :data="rebuildData"
                         :row-key="rowKey"
+                        :column-key="columnKey"
                         :columns-width="columnsWidth"
                         :obj-data="objData"></table-body>
                 </div>
@@ -206,6 +209,10 @@
             },
             // #5380 开启后，:key 强制更新，否则使用 index
             rowKey: {
+                type: Boolean,
+                default: false
+            },
+            columnKey: {
                 type: Boolean,
                 default: false
             }
