@@ -1405,8 +1405,11 @@
             });
         },
         beforeDestroy () {
+            this.$off('on-visible-change');
             off(window, 'resize', this.handleResize);
-            this.observer.removeListener(this.$el, this.handleResize);
+            this.observer.removeAllListeners(this.$el);
+            this.observer.uninstall(this.$el);
+            this.observer = null;
         },
         watch: {
             data: {
