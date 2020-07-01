@@ -1378,7 +1378,7 @@
             dragAndDrop(a,b) {
                 this.$emit('on-drag-drop', a,b);
             },
-            handleClickContextMenuOutside (event) {
+            handleClickContextMenuOutside () {
                 this.contextMenuVisible = false;
             }
         },
