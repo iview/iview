@@ -119,6 +119,12 @@
                 if (this.$parent.contextMenu) event.preventDefault();
                 this.$parent.contextmenuCurrentRow(_index, rowKey, event);
             },
+            selectStartCurrentRow (_index, event) {
+                if (this.$parent.contextMenu) {
+                    // event.stopPropagation();
+                    // event.preventDefault();
+                }
+            },
             getSpan (row, column, rowIndex, columnIndex) {
                 const fn = this.$parent.spanMethod;
                 if (typeof fn === 'function') {
@@ -275,7 +281,8 @@
                                 mouseleave: (e) => this.handleMouseOut(row._index, e, row._rowKey),
                                 click: (e) => this.clickCurrentRow(row._index, e, row._rowKey),
                                 dblclick: (e) => this.dblclickCurrentRow(row._index, e, row._rowKey),
-                                contextmenu: (e) => this.contextmenuCurrentRow(row._index, e, row._rowKey)
+                                contextmenu: (e) => this.contextmenuCurrentRow(row._index, e, row._rowKey),
+                                selectstart: (e) => this.selectStartCurrentRow(row._index, e, row._rowKey)
                             }
                         }, $tds);
 
@@ -344,7 +351,8 @@
                         mouseleave: (e) => this.handleMouseOut(row._index, e),
                         click: (e) => this.clickCurrentRow(row._index, e),
                         dblclick: (e) => this.dblclickCurrentRow(row._index, e),
-                        contextmenu: (e) => this.contextmenuCurrentRow(row._index, e)
+                        contextmenu: (e) => this.contextmenuCurrentRow(row._index, e),
+                        selectstart: (e) => this.selectStartCurrentRow(row._index, e)
                     }
                 }, $tds);
                 $tableTrs.push($tableTr);
