@@ -133,7 +133,7 @@
                 type: Function,
                 default (data, query) {
                     const type = ('label' in data) ? 'label' : 'key';
-                    return data[type].indexOf(query) > -1;
+                    return (data[type]+'').indexOf(query) > -1;
                 }
             },
             notFoundText: {
