@@ -1,5 +1,5 @@
 <template>
-    <div :class="classes">
+    <div :class="classes" ref="tabsWrap">
         <div :class="[prefixCls + '-bar']">
             <div :class="[prefixCls + '-nav-right']" v-if="showSlot"><slot name="extra"></slot></div>
             <div
@@ -15,7 +15,7 @@
                     <div ref="navScroll" :class="[prefixCls + '-nav-scroll']" @DOMMouseScroll="handleScroll" @mousewheel="handleScroll">
                         <div ref="nav" :class="[prefixCls + '-nav']" :style="navStyle">
                             <div :class="barClasses" :style="barStyle"></div>
-                            <div :class="tabCls(item)" v-for="(item, index) in navList" @click="handleChange(index)" @dblclick="handleDblclick(index)">
+                            <div :class="tabCls(item)" v-for="(item, index) in navList" @click="handleChange(index)" @dblclick="handleDblclick(index)" @contextmenu.stop="handleContextmenu(index, $event)">
                                 <Icon v-if="item.icon !== ''" :type="item.icon"></Icon>
                                 <Render v-if="item.labelType === 'function'" :render="item.label"></Render>
                                 <template v-else>{{ item.label }}</template>
@@ -27,6 +27,13 @@
             </div>
         </div>
         <div :class="contentClasses" :style="contentStyle" ref="panes"><slot></slot></div>
+        <div class="ivu-tabs-context-menu" :style="contextMenuStyles">
+            <Dropdown trigger="custom" :visible="contextMenuVisible" transfer @on-clickoutside="handleClickContextMenuOutside">
+                <DropdownMenu slot="list">
+                    <slot name="contextMenu"></slot>
+                </DropdownMenu>
+            </Dropdown>
+        </div>
     </div>
 </template>
 <script>
@@ -115,6 +122,11 @@
                 },
                 scrollable: false,
                 transitioning: false,
+                contextMenuVisible: false,
+                contextMenuStyles: {
+                    top: 0,
+                    left: 0
+                }
             };
         },
         computed: {
@@ -239,7 +251,8 @@
                         icon: pane.icon || '',
                         name: pane.currentName || index,
                         disabled: pane.disabled,
-                        closable: pane.closable
+                        closable: pane.closable,
+                        contextMenu: pane.contextMenu
                     });
                     if (!pane.currentName) pane.currentName = index;
                     if (index === 0) {
@@ -301,6 +314,24 @@
                 const nav = this.navList[index];
                 if (!nav || nav.disabled) return;
                 this.$emit('on-dblclick', nav.name);
+            },
+            handleContextmenu (index, event) {
+                const nav = this.navList[index];
+                if (!nav || nav.disabled || !nav.contextMenu) return;
+
+                event.preventDefault();
+                const $TabsWrap = this.$refs.tabsWrap;
+                const TabsBounding = $TabsWrap.getBoundingClientRect();
+                const position = {
+                    left: `${event.clientX - TabsBounding.left}px`,
+                    top: `${event.clientY - TabsBounding.top}px`
+                };
+                this.contextMenuStyles = position;
+                this.contextMenuVisible = true;
+                this.$emit('on-contextmenu', nav, event, position);
+            },
+            handleClickContextMenuOutside () {
+                this.contextMenuVisible = false;
             },
             handleTabKeyNavigation(e){
                 if (e.keyCode !== 37 && e.keyCode !== 39) return;
