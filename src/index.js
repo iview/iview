@@ -7,14 +7,20 @@ import Avatar from './components/avatar';
 import BackTop from './components/back-top';
 import Badge from './components/badge';
 import Breadcrumb from './components/breadcrumb';
+import BreadcrumbItem from './components/breadcrumb-item';
 import Button from './components/button';
+import ButtonGroup from './components/button-group';
 import Card from './components/card';
 import Carousel from './components/carousel';
+import CarouselItem from './components/carousel-item';
 import Cascader from './components/cascader';
 import Cell from './components/cell';
+import CellGroup from './components/cell-group';
 import Checkbox from './components/checkbox';
+import CheckboxGroup from './components/checkbox-group';
 import Circle from './components/circle';
 import Collapse from './components/collapse';
+import Panel from './components/panel';
 import ColorPicker from './components/color-picker';
 import Content from './components/content';
 import DatePicker from './components/date-picker';
@@ -22,8 +28,11 @@ import Calendar from './components/calendar';
 import Divider from './components/divider';
 import Drawer from './components/drawer';
 import Dropdown from './components/dropdown';
+import DropdownItem from './components/dropdown-item';
+import DropdownMenu from './components/dropdown-menu';
 import Footer from './components/footer';
 import Form from './components/form';
+import FormItem from './components/form-item';
 import Header from './components/header';
 import Icon from './components/icon';
 import Input from './components/input';
@@ -34,6 +43,9 @@ import Layout from './components/layout';
 import List from './components/list';
 import LoadingBar from './components/loading-bar';
 import Menu from './components/menu';
+import Submenu from './components/submenu';
+import MenuGroup from './components/menu-group';
+import MenuItem from './components/menu-item';
 import Message from './components/message';
 import Modal from './components/modal';
 import Notice from './components/notice';
@@ -41,17 +53,21 @@ import Page from './components/page';
 import Poptip from './components/poptip';
 import Progress from './components/progress';
 import Radio from './components/radio';
+import RadioGroup from './components/radio-group';
 import Rate from './components/rate';
 import Sider from './components/sider';
 import Slider from './components/slider';
 import Spin from './components/spin';
 import Steps from './components/steps';
+import Step from './components/step';
 import Switch from './components/switch';
 import Table from './components/table';
 import Tabs from './components/tabs';
+import TabPane from './components/tab-pane';
 import Tag from './components/tag';
 import Time from './components/time';
 import Timeline from './components/timeline';
+import TimelineItem from './components/timeline-item';
 import TimePicker from './components/time-picker';
 import Tooltip from './components/tooltip';
 import Transfer from './components/transfer';
@@ -60,6 +76,9 @@ import Upload from './components/upload';
 import {Row, Col} from './components/grid';
 import {Select, Option, OptionGroup} from './components/select';
 import locale from './locale/index';
+
+const ListItem = List.Item;
+const ListItemMeta = List.Item.Meta;
 
 const components = {
     Affix,
@@ -71,72 +90,72 @@ const components = {
     BackTop,
     Badge,
     Breadcrumb,
-    BreadcrumbItem: Breadcrumb.Item,
+    BreadcrumbItem,
     Button,
-    ButtonGroup: Button.Group,
+    ButtonGroup,
     Card,
     Carousel,
-    CarouselItem: Carousel.Item,
+    CarouselItem,
     Cascader,
     Cell,
-    CellGroup: Cell.Group,
+    CellGroup,
     Checkbox,
-    CheckboxGroup: Checkbox.Group,
+    CheckboxGroup,
     Col,
     Collapse,
     ColorPicker,
-    Content: Content,
+    Content,
     DatePicker,
     Calendar,
     Divider,
     Drawer,
     Dropdown,
-    DropdownItem: Dropdown.Item,
-    DropdownMenu: Dropdown.Menu,
-    Footer: Footer,
+    DropdownItem,
+    DropdownMenu,
+    Footer,
     Form,
-    FormItem: Form.Item,
-    Header: Header,
+    FormItem,
+    Header,
     Icon,
     Input,
     InputNumber,
     Scroll,
-    Sider: Sider,
+    Sider,
     Split,
-    Submenu: Menu.Sub,
-    Layout: Layout,
+    Submenu,
+    Layout,
     List,
-    ListItem: List.Item,
-    ListItemMeta: List.Item.Meta,
+    ListItem,
+    ListItemMeta,
     LoadingBar,
     Menu,
-    MenuGroup: Menu.Group,
-    MenuItem: Menu.Item,
+    MenuGroup,
+    MenuItem,
     Message,
     Modal,
     Notice,
-    Option: Option,
+    Option,
     OptionGroup,
     Page,
-    Panel: Collapse.Panel,
+    Panel,
     Poptip,
     Progress,
     Radio,
-    RadioGroup: Radio.Group,
+    RadioGroup,
     Rate,
     Row,
     Select,
     Slider,
     Spin,
-    Step: Steps.Step,
+    Step,
     Steps,
     Table,
-    Tabs: Tabs,
-    TabPane: Tabs.Pane,
+    Tabs,
+    TabPane,
     Tag,
     Time,
     Timeline,
-    TimelineItem: Timeline.Item,
+    TimelineItem,
     TimePicker,
     Tooltip,
     Transfer,
@@ -163,7 +182,7 @@ const iview = {
     iTime: Time
 };
 
-const install = function(Vue, opts = {}) {
+const install = function (Vue, opts = {}) {
     if (install.installed) return;
     locale.use(opts.locale);
     locale.i18n(opts.i18n);
@@ -240,20 +259,113 @@ if (typeof window !== 'undefined' && window.Vue) {
     install(window.Vue);
 }
 
-const API = {
-    version: process.env.VERSION, // eslint-disable-line no-undef
-    locale: locale.use,
-    i18n: locale.i18n,
+
+const version = process.env.VERSION; // eslint-disable-line no-undef
+const use = locale.use;
+const i18n = locale.i18n;
+
+const lang = (code) => {
+    const langObject = window['iview/locale'].default;
+    if (code === langObject.i.locale) locale.use(langObject);
+    else console.log(`The ${code} language pack is not loaded.`); // eslint-disable-line no-console
+};
+
+export default {
+    version,
+    locale: use,
+    i18n,
+    lang,
     install,
     Circle,
     Switch,
     ...components
 };
 
-API.lang = (code) => {
-    const langObject = window['iview/locale'].default;
-    if (code === langObject.i.locale) locale.use(langObject);
-    else console.log(`The ${code} language pack is not loaded.`); // eslint-disable-line no-console
+export {
+    version,
+    use as locale,
+    i18n,
+    lang,
+    install,
+    Circle,
+    Switch,
+    Affix,
+    Alert,
+    Anchor,
+    AnchorLink,
+    AutoComplete,
+    Avatar,
+    BackTop,
+    Badge,
+    Breadcrumb,
+    BreadcrumbItem,
+    Button,
+    ButtonGroup,
+    Card,
+    Carousel,
+    CarouselItem,
+    Cascader,
+    Cell,
+    CellGroup,
+    Checkbox,
+    CheckboxGroup,
+    Col,
+    Collapse,
+    ColorPicker,
+    Content,
+    DatePicker,
+    Divider,
+    Drawer,
+    Dropdown,
+    DropdownItem,
+    DropdownMenu,
+    Footer,
+    Form,
+    FormItem,
+    Header,
+    Icon,
+    Input,
+    InputNumber,
+    Scroll,
+    Sider,
+    Split,
+    Submenu,
+    Layout,
+    List,
+    ListItem,
+    ListItemMeta,
+    LoadingBar,
+    Menu,
+    MenuGroup,
+    MenuItem,
+    Message,
+    Modal,
+    Notice,
+    Option,
+    OptionGroup,
+    Page,
+    Panel,
+    Poptip,
+    Progress,
+    Radio,
+    RadioGroup,
+    Rate,
+    Row,
+    Select,
+    Slider,
+    Spin,
+    Step,
+    Steps,
+    Table,
+    Tabs,
+    TabPane,
+    Tag,
+    Time,
+    Timeline,
+    TimelineItem,
+    TimePicker,
+    Tooltip,
+    Transfer,
+    Tree,
+    Upload
 };
-
-module.exports.default = module.exports = API;   // eslint-disable-line no-undef
