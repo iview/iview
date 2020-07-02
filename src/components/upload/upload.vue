@@ -318,6 +318,7 @@
                 const fileList = this.fileList;
                 fileList.splice(fileList.indexOf(file), 1);
                 this.onRemove(file, fileList);
+                this.dispatch('FormItem', 'on-form-change', file, fileList);
             },
             handlePreview(file) {
                 if (file.status === 'finished') {
