@@ -15,6 +15,7 @@
         name: 'iOption',
         componentName: 'select-item',
         mixins: [ Emitter ],
+        inject: ['iSelect'],
         props: {
             value: {
                 type: [String, Number],
@@ -78,5 +79,13 @@
             const Select = findComponentUpward(this, 'iSelect');
             if (Select) this.autoComplete = Select.autoComplete;
         },
+        created () {
+            this.iSelect.options.push(this);
+        },
+        beforeDestroy () {
+            if (this.iSelect) {
+                this.iSelect.destroyOption(this.iSelect.options.indexOf(this));
+            }
+        }
     };
 </script>

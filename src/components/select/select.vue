@@ -160,6 +160,11 @@
         mixins: [ Emitter, Locale ],
         components: { FunctionalOptions, Drop, SelectHead },
         directives: { clickOutside, TransferDom },
+        provide() {
+            return {
+                'iSelect': this
+            };
+        },
         props: {
             value: {
                 type: [String, Number, Array],
@@ -289,7 +294,9 @@
                 preventRemoteCall: false,
                 filterQueryChange: false,  // #4273
                 // #6349
-                hideMenuTimer: null
+                hideMenuTimer: null,
+                // #6399
+                options: []
             };
         },
         computed: {
@@ -452,7 +459,12 @@
             getOptionData(value){
                 const option = this.flatOptions.find(({componentOptions}) => componentOptions.propsData.value === value);
                 if (!option) return null;
-                const label = getOptionLabel(option);
+                let label = getOptionLabel(option);
+                // fix #6399
+                if (!label) {
+                    let index = this.options.findIndex(option => option.value === value);
+                    if (index !== -1) label = this.options[index].optionLabel;
+                }
                 return {
                     value: value,
                     label: label,
@@ -647,6 +659,11 @@
                 }
 
                 this.focusIndex = index;
+            },
+            destroyOption (index) {
+                if (index > -1) {
+                    this.options.splice(index, 1);
+                }
             },
             onOptionClick(option) {
                 if (this.multiple){
