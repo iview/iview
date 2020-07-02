@@ -28,7 +28,7 @@
            </FormItem>
        </Form>
        <h2 style="margin-top:20px">#5327 feature</h2>
-       <Select v-model='test' filterable clearable>
+       <Select v-model='test' filterable clearable multiple>
             <Option v-for='item in list' :value='item.value' :label="item.name" :key="item.value"></Option>
             <div slot="empty">2222</div>
         </Select>
