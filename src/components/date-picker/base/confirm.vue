@@ -3,7 +3,7 @@
         <i-button :class="timeClasses" size="small" type="text" :disabled="timeDisabled" v-if="showTime" @click="handleToggleTime">
             {{labels.time}}
         </i-button>
-        <i-button size="small" @click.native="handleClear" @keydown.enter.native="handleClear">
+        <i-button size="small" v-if="clearable" @click.native="handleClear" @keydown.enter.native="handleClear">
             {{labels.clear}}
         </i-button>
         <i-button size="small" type="primary" @click.native="handleSuccess" @keydown.enter.native="handleSuccess">
@@ -24,7 +24,8 @@
         props: {
             showTime: false,
             isTime: false,
-            timeDisabled: false
+            timeDisabled: false,
+            clearable: true
         },
         data() {
             return {

@@ -6,6 +6,10 @@ export default {
         confirm: {
             type: Boolean,
             default: false
+        },
+        clearable:{
+            type: Boolean,
+            default: true
         }
     },
     methods: {

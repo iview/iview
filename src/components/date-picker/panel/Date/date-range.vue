@@ -106,6 +106,7 @@
             <Confirm
                 v-if="confirm"
                 :show-time="showTime"
+                :clearable="clearable"
                 :is-time="isTime"
                 :time-disabled="timeDisabled"
                 @on-pick-toggle-time="handleToggleTime"
@@ -146,7 +147,7 @@
             splitPanels: {
                 type: Boolean,
                 default: false
-            },
+            }
         },
         data(){
             const [minDate, maxDate] = this.value.map(date => date || initTimeDate());
