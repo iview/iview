@@ -74,6 +74,10 @@
             },
             maxWidth: {
                 type: [String, Number]
+            },
+            canBeTriggered: {
+                type: Boolean,
+                default: true
             }
         },
         data () {
@@ -110,6 +114,7 @@
         },
         methods: {
             handleShowPopper() {
+                if(!this.canBeTriggered) return;
                 if (this.timeout) clearTimeout(this.timeout);
                 this.timeout = setTimeout(() => {
                     this.visible = true;
