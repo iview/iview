@@ -456,7 +456,7 @@
                 }
             },
             handleResize(){
-                this.updateNavScroll();
+                this.updateBar();
             },
             isInsideHiddenElement () {
                 let parentNode = this.$el.parentNode;
