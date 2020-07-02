@@ -9,9 +9,9 @@
                 <th
                     v-for="(column, index) in cols"
                     :colspan="column.colSpan"
-                    :rowspan="column.rowSpan"
+                    :rowspan="column.rowSpan"alignCls
                     :class="alignCls(column)">
-                    <div :class="cellClasses(column)">
+                    <div :class="cellClasses(column)" v-if="showTh(column)">
                         <template v-if="column.type === 'expand'">
                             <span v-if="!column.renderHeader">{{ column.title || '' }}</span>
                             <render-header v-else :render="column.renderHeader" :column="column" :index="index"></render-header>
@@ -61,7 +61,6 @@
                         </template>
                     </div>
                 </th>
-
                 <th v-if="$parent.showVerticalScrollBar && rowIndex===0" :class='scrollBarCellClass()' :rowspan="headRows.length"></th>
             </tr>
         </thead>
@@ -222,6 +221,26 @@
                 } else {
                     return this.headRows[rowIndex][index];
                 }
+            },
+            showTh(column){
+                let show = true;
+                let isFixHeader = !!this.fixed;
+                let fixColumn = !!column.fixed;
+
+                if(isFixHeader){
+                    if(fixColumn){
+                        show = true;
+                    }else{
+                        show = false;
+                    }
+                }else{
+                    if(fixColumn){
+                        show = false;
+                    }else{
+                        show = true;
+                    }
+                }
+                return show;
             }
         }
     };
