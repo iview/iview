@@ -27,7 +27,8 @@
 <script>
     import Icon from '../icon/icon.vue';
     import { getStyle, oneOf } from '../../utils/assist';
-    import { on, off } from '../../utils/dom';
+    import elementResizeDetectorMaker from 'element-resize-detector';
+    // import { on, off } from '../../utils/dom';
 
     const prefixCls = 'ivu-carousel';
 
@@ -325,12 +326,14 @@
             this.updateSlides(true);
             this.handleResize();
             this.setAutoplay();
-//            window.addEventListener('resize', this.handleResize, false);
-            on(window, 'resize', this.handleResize);
+
+            this.observer = elementResizeDetectorMaker();
+            this.observer.listenTo(this.$el, this.handleResize);
+            // on(window, 'resize', this.handleResize);
         },
         beforeDestroy () {
-//            window.removeEventListener('resize', this.handleResize, false);
-            off(window, 'resize', this.handleResize);
+            this.observer.removeListener(this.$el, this.handleResize);
+            // off(window, 'resize', this.handleResize);
         }
     };
 </script>
