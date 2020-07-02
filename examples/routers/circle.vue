@@ -3,6 +3,9 @@
         <i-circle :percent="80">
             <span class="demo-i-circle-inner" style="font-size:24px">80%</span>
         </i-circle>
+        <i-circle :percent="80" :stroke-color="['#17EAD9','#6078EA']">
+            <span class="demo-i-circle-inner" style="font-size:24px">80%</span>
+        </i-circle>
         <i-circle :percent="100" stroke-color="#5cb85c">
             <Icon type="ios-checkmark" size="60" style="color:#5cb85c"></Icon>
         </i-circle>
