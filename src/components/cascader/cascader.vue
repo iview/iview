@@ -26,6 +26,7 @@
                 :class="{ [prefixCls + '-transfer']: transfer }"
                 ref="drop"
                 :data-transfer="transfer"
+                :pop-options="popOptions"
                 :transfer="transfer"
                 v-transfer-dom>
                 <div>
@@ -142,6 +143,21 @@
             },
             elementId: {
                 type: String
+            },
+            popOptions: {
+                type: Object,
+                default () {
+                    return {
+                        modifiers: {
+                            computeStyle:{
+                                gpuAcceleration: false,
+                            },
+                            preventOverflow :{
+                                boundariesElement: 'window'
+                            }
+                        }
+                    };
+                }
             }
         },
         data () {

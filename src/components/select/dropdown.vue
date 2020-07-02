@@ -19,6 +19,21 @@
             className: {
                 type: String
             },
+            popOptions: {
+                type: Object,
+                default () {
+                    return {
+                        modifiers: {
+                            computeStyle:{
+                                gpuAcceleration: false,
+                            },
+                            preventOverflow :{
+                                boundariesElement: 'window'
+                            }
+                        }
+                    };
+                }
+            },
             transfer: {
                 type: Boolean
             }
@@ -51,24 +66,21 @@
                     });
                 } else {
                     this.$nextTick(() => {
-                        this.popper = new Popper(this.$parent.$refs.reference, this.$el, {
-                            placement: this.placement,
-                            modifiers: {
-                                computeStyle:{
-                                    gpuAcceleration: false
-                                },
-                                preventOverflow :{
-                                    boundariesElement: 'window'
-                                }
-                            },
-                            onCreate:()=>{
-                                this.resetTransformOrigin();
-                                this.$nextTick(this.popper.update());
-                            },
-                            onUpdate:()=>{
-                                this.resetTransformOrigin();
-                            }
-                        });
+                        const options = this.popOptions;
+
+                        options.placement = this.placement;
+
+                        if (!options.modifiers.offset) {
+                            options.modifiers.offset = {};
+                        }
+                        options.onCreate =()=>{
+                            this.resetTransformOrigin();
+                            this.$nextTick(this.popper.update());
+                        };
+                        options.onUpdate =()=>{
+                            this.resetTransformOrigin();
+                        }
+                        this.popper = new Popper(this.$parent.$refs.reference, this.$el, options);
                     });
                 }
                 // set a height for parent is Modal and Select's width is 100%

@@ -60,6 +60,7 @@
                 :placement="placement"
                 ref="dropdown"
                 :data-transfer="transfer"
+                :pop-options="popOptions"
                 :transfer="transfer"
                 v-transfer-dom
             >
@@ -239,6 +240,21 @@
             },
             elementId: {
                 type: String
+            },
+            popOptions: {
+                type: Object,
+                default () {
+                    return {
+                        modifiers: {
+                            computeStyle:{
+                                gpuAcceleration: false,
+                            },
+                            preventOverflow :{
+                                boundariesElement: 'window'
+                            }
+                        }
+                    };
+                }
             },
             transferClassName: {
                 type: String

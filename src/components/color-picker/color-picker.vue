@@ -39,6 +39,7 @@
                 ref="drop"
                 :placement="placement"
                 :data-transfer="transfer"
+                :pop-options="popOptions"
                 :transfer="transfer"
                 :class="dropClasses"
             >
@@ -221,6 +222,21 @@ export default {
             type: Boolean,
             default: true
         },
+        popOptions: {
+            type: Object,
+            default () {
+                return {
+                    modifiers: {
+                        computeStyle:{
+                            gpuAcceleration: false,
+                        },
+                        preventOverflow :{
+                            boundariesElement: 'window'
+                        }
+                    }
+                };
+            }
+        }
     },
 
     data() {
