@@ -2,7 +2,7 @@
     <div :class="[prefixCls]">
         <div
             :class="classes"
-            @click="handleClick"
+            @click.stop="handleClick"
             @drop.prevent="onDrop"
             @paste="handlePaste"
             @dragover.prevent="dragOver = true"
