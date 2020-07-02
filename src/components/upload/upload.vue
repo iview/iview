@@ -206,8 +206,9 @@
 
                 const before = this.beforeUpload(file);
                 if (before && before.then) {
+                    const supportPrototypes = ['[object File]', '[object Blob]'];
                     before.then(processedFile => {
-                        if (Object.prototype.toString.call(processedFile) === '[object File]') {
+                        if (supportPrototypes.indexOf(Object.prototype.toString.call(processedFile)) !== -1) {
                             this.post(processedFile);
                         } else {
                             this.post(file);
@@ -241,15 +242,14 @@
                 }
 
                 this.handleStart(file);
-                let formData = new FormData();
-                formData.append(this.name, file);
 
                 ajax({
                     headers: this.headers,
                     withCredentials: this.withCredentials,
                     file: file,
                     data: this.data,
-                    filename: this.name,
+                    name: this.name,
+                    filename: file.name,
                     action: this.action,
                     onProgress: e => {
                         this.handleProgress(e, file);
