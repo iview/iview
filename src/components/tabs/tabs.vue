@@ -15,7 +15,7 @@
                     <div ref="navScroll" :class="[prefixCls + '-nav-scroll']" @DOMMouseScroll="handleScroll" @mousewheel="handleScroll">
                         <div ref="nav" :class="[prefixCls + '-nav']" :style="navStyle">
                             <div :class="barClasses" :style="barStyle"></div>
-                            <div :class="tabCls(item)" v-for="(item, index) in navList" @click="handleChange(index)" @dblclick="handleDblclick(index)" @contextmenu.stop="handleContextmenu(index, $event)">
+                            <div :class="tabCls(item)" v-for="(item, index) in navList" @click="handleChange(index)" @dblclick="handleDblclick(index)" @contextmenu.stop="handleContextmenu(index, $event)" @selectstart.stop="handlePreventSelect(index, $event)">
                                 <Icon v-if="item.icon !== ''" :type="item.icon"></Icon>
                                 <Render v-if="item.labelType === 'function'" :render="item.label"></Render>
                                 <template v-else>{{ item.label }}</template>
@@ -332,6 +332,13 @@
             },
             handleClickContextMenuOutside () {
                 this.contextMenuVisible = false;
+            },
+            // 禁用右键选择文本
+            handlePreventSelect (index, event) {
+                const nav = this.navList[index];
+                if (!nav || nav.disabled || !nav.contextMenu) return;
+
+                event.preventDefault();
             },
             handleTabKeyNavigation(e){
                 if (e.keyCode !== 37 && e.keyCode !== 39) return;
