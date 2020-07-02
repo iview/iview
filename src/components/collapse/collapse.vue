@@ -96,7 +96,7 @@
 
                 this.currentValue = newActiveKey;
                 this.$emit('input', newActiveKey);
-                this.$emit('on-change', newActiveKey);
+                this.$emit('on-change', newActiveKey, name);
             }
         },
         watch: {
