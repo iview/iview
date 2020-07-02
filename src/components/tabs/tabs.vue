@@ -15,7 +15,18 @@
                     <div ref="navScroll" :class="[prefixCls + '-nav-scroll']" @DOMMouseScroll="handleScroll" @mousewheel="handleScroll">
                         <div ref="nav" :class="[prefixCls + '-nav']" :style="navStyle">
                             <div :class="barClasses" :style="barStyle"></div>
-                            <div :class="tabCls(item)" v-for="(item, index) in navList" @click="handleChange(index)" @dblclick="handleDblclick(index)" @contextmenu.stop="handleContextmenu(index, $event)" @selectstart.stop="handlePreventSelect(index, $event)">
+                            <div
+                                :class="tabCls(item)"
+                                v-for="(item, index) in navList"
+                                @click="handleChange(index)"
+                                @dblclick="handleDblclick(index)"
+                                @contextmenu.stop="handleContextmenu(index, $event)"
+                                @selectstart.stop="handlePreventSelect(index, $event)"
+                                :draggable="draggable"
+                                @dragstart="handleDrag(index, $event)"
+                                @drop="handleDrop(index, $event)"
+                                @dragover.prevent
+                            >
                                 <Icon v-if="item.icon !== ''" :type="item.icon"></Icon>
                                 <Render v-if="item.labelType === 'function'" :render="item.label"></Render>
                                 <template v-else>{{ item.label }}</template>
@@ -107,6 +118,11 @@
             name: {
                 type: String
             },
+            // 4.3.0
+            draggable: {
+                type: Boolean,
+                default: false
+            }
         },
         data () {
             return {
@@ -522,6 +538,26 @@
                         }, transitionTime);
                     }
                 });
+            },
+            // 拖拽
+            handleDrag (index, event) {
+                const nav = this.navList[index];
+                if (nav) {
+                    event.dataTransfer.setData('tab-name', nav.name);
+                }
+            },
+            handleDrop (index, event) {
+                const nav = this.navList[index];
+                if (nav) {
+                    const dragName = event.dataTransfer.getData('tab-name');
+                    event.preventDefault();
+
+                    let navNames = this.navList.map(item => item.name);
+                    const a = parseInt(navNames.findIndex(item => item === dragName));
+                    const b = parseInt(navNames.findIndex(item => item === nav.name));
+                    navNames.splice(b, 1, ...navNames.splice(a, 1 , navNames[b]));
+                    this.$emit('on-drag-drop', dragName, nav.name, a, b, navNames);
+                }
             }
         },
         watch: {
