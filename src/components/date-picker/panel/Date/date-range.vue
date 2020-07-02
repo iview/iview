@@ -345,6 +345,7 @@
                 this[`${panel}PickerTable`] = 'month-table';
             },
             handlePreSelection(panel, value){
+                this.$emit('on-change-part',{panel,value})
                 this[`${panel}PanelDate`] = value;
                 const currentViewType = this[`${panel}PickerTable`];
                 if (currentViewType === 'year-table') this[`${panel}PickerTable`] = 'month-table';

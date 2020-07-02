@@ -62,7 +62,7 @@
                         :time-picker-options="timePickerOptions"
 
                         v-bind="ownPickerProps"
-
+                        @on-change-part="handleChangePart"
                         @on-pick="onPick"
                         @on-pick-clear="handleClear"
                         @on-pick-success="onPickSuccess"
@@ -362,6 +362,10 @@
             // 开启 transfer 时，点击 Drop 即会关闭，这里不让其关闭
             handleTransferClick () {
                 if (this.transfer) this.disableCloseUnderTransfer = true;
+            },
+            //每个时间选择完成时触发该方法
+            handleChangePart(dateInfo){
+              this.$emit('on-change-part',dateInfo)
             },
             handleClose (e) {
                 if (this.disableCloseUnderTransfer) {
