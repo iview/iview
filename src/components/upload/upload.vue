@@ -287,7 +287,10 @@
             handleProgress (e, file) {
                 const _file = this.getFile(file);
                 this.onProgress(e, _file, this.fileList);
-                _file.percentage = e.percent || 0;
+                // 解决上传过程中 defaultFileList 重置，产生的错误
+                if(_file){
+                    _file.percentage = e.percent || 0;
+                }
             },
             handleSuccess (res, file) {
                 const _file = this.getFile(file);
@@ -307,10 +310,13 @@
             handleError (err, response, file) {
                 const _file = this.getFile(file);
                 const fileList = this.fileList;
+                
+                // 解决上传过程中 defaultFileList 重置，产生的错误
+                if(_file){
+                    _file.status = 'fail';
 
-                _file.status = 'fail';
-
-                fileList.splice(fileList.indexOf(_file), 1);
+                    fileList.splice(fileList.indexOf(_file), 1);
+                }
 
                 this.onError(err, response, file);
             },
