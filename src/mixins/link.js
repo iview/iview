@@ -55,7 +55,7 @@ export default {
                 window.open(to);
             } else {
                 if (router) {
-                    if (this.to.includes('//')) {
+                    if ((typeof this.to === 'string') && this.to.includes('//')) {
                         window.location.href = this.to;
                     } else {
                         this.replace ? this.$router.replace(this.to, () => {}) : this.$router.push(this.to, () => {});
