@@ -490,9 +490,12 @@
                 const option = this.flatOptions.find(({componentOptions}) => componentOptions.propsData.value === value);
                 if (!option) return null;
                 const label = getOptionLabel(option);
+                // 修复多选时，选项有disabled属性，选中项仍然能删除的 bug
+                const disabled = option.componentOptions.propsData.disabled;
                 return {
                     value: value,
                     label: label,
+                    disabled: disabled
                 };
             },
             getInitialValue(){
