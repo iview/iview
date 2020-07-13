@@ -838,7 +838,8 @@
                                 const newData = this.getDataByRowKey(rowKey);
                                 newData._isShowChildren = !newData._isShowChildren;
                                 // 由于 updateDataStatus 是基于原数据修改，导致单选、多选等状态重置，所以暂不处理 _showChildren 状态，而是通过事件 @on-expand-tree
-                                // this.updateDataStatus(rowKey, '_showChildren', newData._isShowChildren);
+                                // 异步时，需设置 _showChildren，否则嵌套子集展开，会自动收起父级
+                                this.updateDataStatus(rowKey, '_showChildren', newData._isShowChildren);
                             });
                         }
                     });
