@@ -44,14 +44,13 @@
         methods: {
             update () {
                 if (isServer) return;
-                if (this.popper) {
-                    this.$nextTick(() => {
+                this.$nextTick(() => {
+                    if (this.popper) {
                         this.popper.update();
                         this.popperStatus = true;
-                    });
-                } else {
-                    this.$nextTick(() => {
+                    } else {
                         this.popper = new Popper(this.$parent.$refs.reference, this.$el, {
+                            eventsEnabled: false,
                             placement: this.placement,
                             modifiers: {
                                 computeStyle:{
@@ -69,13 +68,13 @@
                                 this.resetTransformOrigin();
                             }
                         });
-                    });
-                }
-                // set a height for parent is Modal and Select's width is 100%
-                if (this.$parent.$options.name === 'iSelect') {
-                    this.width = parseInt(getStyle(this.$parent.$el, 'width'));
-                }
-                this.tIndex = this.handleGetIndex();
+                    }
+                    // set a height for parent is Modal and Select's width is 100%
+                    if (this.$parent.$options.name === 'iSelect') {
+                        this.width = parseInt(getStyle(this.$parent.$el, 'width'));
+                    }
+                    this.tIndex = this.handleGetIndex();
+                });
             },
             destroy () {
                 if (this.popper) {
