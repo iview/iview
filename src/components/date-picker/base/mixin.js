@@ -40,7 +40,9 @@ export default {
         },
     },
     methods: {
-        handleClick (cell) {
+        handleClick (cell, e) {
+            e.stopPropagation();
+
             if (cell.disabled || cell.type === 'weekLabel') return;
             const newDate = new Date(clearHours(cell.date));
 

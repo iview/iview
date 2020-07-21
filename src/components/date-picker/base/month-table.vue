@@ -3,7 +3,7 @@
         <span
             :class="getCellCls(cell)"
             v-for="cell in cells"
-            @click="handleClick(cell)"
+            @click="handleClick(cell, $event)"
             @mouseenter="handleMouseMove(cell)"
 
         >
