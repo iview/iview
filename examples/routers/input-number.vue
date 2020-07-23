@@ -80,7 +80,7 @@
         </InputNumber>
 
         <div style="margin:10px 0px">
-            <InputNumber v-model="valueNull" style="width: 200px">
+            <InputNumber @on-enter="handleEnter" v-model="valueNull" style="width: 200px">
                 <span slot="append" style="width: 30px">%</span>
             </InputNumber>
         </div>
@@ -109,6 +109,9 @@
             },
             change (v) {
                 console.log(v);
+            },
+            handleEnter(event) {
+                console.log(event);
             }
         }
     };
