@@ -1,5 +1,5 @@
 <template>
-    <div :class="prefixCls">
+    <div :class="prefixCls" ref="treeWrap">
         <Tree-node
             v-for="(item, i) in stateTree"
             :key="i"
@@ -10,6 +10,13 @@
             :children-key="childrenKey">
         </Tree-node>
         <div :class="[prefixCls + '-empty']" v-if="!stateTree.length">{{ localeEmptyText }}</div>
+        <div class="ivu-tree-context-menu" :style="contextMenuStyles">
+            <Dropdown trigger="custom" :visible="contextMenuVisible" transfer @on-clickoutside="handleClickContextMenuOutside">
+                <DropdownMenu slot="list">
+                    <slot name="contextMenu"></slot>
+                </DropdownMenu>
+            </Dropdown>
+        </div>
     </div>
 </template>
 <script>
@@ -70,6 +77,11 @@
                 prefixCls: prefixCls,
                 stateTree: this.data,
                 flatState: [],
+                contextMenuVisible: false,
+                contextMenuStyles: {
+                    top: 0,
+                    left: 0
+                }
             };
         },
         watch: {
@@ -191,6 +203,20 @@
                 this.updateTreeDown(node, {checked, indeterminate: false}); // reset `indeterminate` when going down
 
                 this.$emit('on-check-change', this.getCheckedNodes(), node);
+            },
+            handleContextmenu ({ data, event }) {
+                const $TreeWrap = this.$refs.treeWrap;
+                const TreeBounding = $TreeWrap.getBoundingClientRect();
+                const position = {
+                    left: `${event.clientX - TreeBounding.left}px`,
+                    top: `${event.clientY - TreeBounding.top}px`
+                };
+                this.contextMenuStyles = position;
+                this.contextMenuVisible = true;
+                this.$emit('on-contextmenu', data, event, position);
+            },
+            handleClickContextMenuOutside () {
+                this.contextMenuVisible = false;
             }
         },
         created(){
@@ -201,6 +227,7 @@
             this.$on('on-check', this.handleCheck);
             this.$on('on-selected', this.handleSelect);
             this.$on('toggle-expand', node => this.$emit('on-toggle-expand', node));
+            this.$on('contextmenu', this.handleContextmenu);
         }
     };
 </script>

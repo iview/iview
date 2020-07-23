@@ -488,6 +488,8 @@
                 }
             },
             clearSingleSelect(){ // PUBLIC API
+                // fix #446
+                if (!this.multiple) this.$emit('input', '');
                 this.$emit('on-clear');
                 this.hideMenu();
                 if (this.clearable) this.reset();
@@ -496,9 +498,12 @@
                 const option = this.flatOptions.find(({componentOptions}) => componentOptions.propsData.value === value);
                 if (!option) return null;
                 const label = getOptionLabel(option);
+                // 修复多选时，选项有disabled属性，选中项仍然能删除的 bug
+                const disabled = option.componentOptions.propsData.disabled;
                 return {
                     value: value,
                     label: label,
+                    disabled: disabled
                 };
             },
             getInitialValue(){
@@ -542,7 +547,7 @@
                     const nodeText = node.elm ? node.elm.textContent : node.text;
                     return `${str} ${nodeText}`;
                 }, '') || '';
-                const stringValues = this.filterByLabel ? JSON.stringify([label]) : JSON.stringify([value, label, textContent]);
+                const stringValues = this.filterByLabel ? [label].toString() : [value, label, textContent].toString();
                 const query = this.query.toLowerCase().trim();
                 return stringValues.toLowerCase().includes(query);
             },
@@ -608,7 +613,8 @@
             },
             handleKeydown (e) {
                 const key = e.key || e.code;
-                if (key === 'Backspace'){
+                const keyCode = e.keyCode || e.which;
+                if (key === 'Backspace' || keyCode===8){
                     return; // so we don't call preventDefault
                 }
 

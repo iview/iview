@@ -837,6 +837,8 @@
                             this.$nextTick(() => {
                                 const newData = this.getDataByRowKey(rowKey);
                                 newData._isShowChildren = !newData._isShowChildren;
+                                // 由于 updateDataStatus 是基于原数据修改，导致单选、多选等状态重置，所以暂不处理 _showChildren 状态，而是通过事件 @on-expand-tree
+                                // 异步时，需设置 _showChildren，否则嵌套子集展开，会自动收起父级
                                 this.updateDataStatus(rowKey, '_showChildren', newData._isShowChildren);
                             });
                         }
@@ -845,7 +847,9 @@
                 }
 
                 data._isShowChildren = !data._isShowChildren;
-                this.updateDataStatus(rowKey, '_showChildren', data._isShowChildren);
+                // 由于 updateDataStatus 是基于原数据修改，导致单选、多选等状态重置，所以暂不处理 _showChildren 状态，而是通过事件 @on-expand-tree
+                // this.updateDataStatus(rowKey, '_showChildren', data._isShowChildren);
+                this.$emit('on-expand-tree', rowKey, data._isShowChildren);
             },
             /**
              * @description 当修改某内置属性，如 _isShowChildren 时，因当将原 data 对应 _showChildren 也修改，否则修改 data 时，状态会重置
@@ -1019,7 +1023,7 @@
                 if (this.showHeader) this.$refs.header.scrollLeft = event.target.scrollLeft;
                 if (this.isLeftFixed) this.$refs.fixedBody.scrollTop = event.target.scrollTop;
                 if (this.isRightFixed) this.$refs.fixedRightBody.scrollTop = event.target.scrollTop;
-                if (this.showSummary) this.$refs.summary.$el.scrollLeft = event.target.scrollLeft;
+                if (this.showSummary && this.$refs.summary) this.$refs.summary.$el.scrollLeft = event.target.scrollLeft;
                 this.hideColumnFilter();
             },
             handleFixedMousewheel(event) {
@@ -1375,7 +1379,7 @@
             dragAndDrop(a,b) {
                 this.$emit('on-drag-drop', a,b);
             },
-            handleClickContextMenuOutside (event) {
+            handleClickContextMenuOutside () {
                 this.contextMenuVisible = false;
             }
         },
@@ -1402,8 +1406,11 @@
             });
         },
         beforeDestroy () {
+            this.$off('on-visible-change');
             off(window, 'resize', this.handleResize);
-            this.observer.removeListener(this.$el, this.handleResize);
+            this.observer.removeAllListeners(this.$el);
+            this.observer.uninstall(this.$el);
+            this.observer = null;
         },
         watch: {
             data: {

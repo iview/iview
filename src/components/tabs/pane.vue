@@ -34,6 +34,11 @@
             // 数值需大于 0
             index: {
                 type: Number
+            },
+            // 4.3.0
+            contextMenu: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
