@@ -101,7 +101,8 @@
                 ];
             },
             showSeconds () {
-                return !(this.format || '').match(/mm$/);
+                //fix Hour & Minute Picker bug,show seconds when has "ss"
+                return !!(this.format || '').match(/ss/);
             },
             leftDatePanelLabel () {
                 return this.panelLabelConfig(this.date);

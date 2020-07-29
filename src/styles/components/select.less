@@ -229,6 +229,9 @@
             top: 4px;
         }
     }
+    &-multiple-tag-hidden{
+        margin-right: 0 !important;
+    }
 
     &-large&-multiple .@{css-prefix}tag{
         height: 32px;
@@ -318,6 +321,15 @@
         position: absolute;
         top: 2px;
         right: 8px;
+    }
+    &-selected.ivu-select-item-disabled{
+        color: @btn-disable-color;
+        &:after{
+            color: @btn-disable-color;
+        }
+        &:hover{
+            background-color: #fff;
+        }
     }
 }
 

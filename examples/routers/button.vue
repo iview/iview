@@ -309,6 +309,9 @@
             </ButtonGroup>
         </div>
         <Divider></Divider>
+        <Button to="http://baidu.com" replace>http跳转</Button>
+        <Button to="https://iviewui.com" replace>https跳转</Button>
+        <Button :to="{path: '/icon'}">Router 对象跳转</Button>
     </div>
 </template>
 <script>

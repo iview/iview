@@ -317,6 +317,8 @@
                 } else if (e.keyCode === 40) {
                     e.preventDefault();
                     this.down(e);
+                } else if (e.keyCode === 13) { // 支持回车键
+                    this.$emit('on-enter', event);
                 }
             },
             change (event) {

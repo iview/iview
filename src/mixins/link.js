@@ -55,7 +55,11 @@ export default {
                 window.open(to);
             } else {
                 if (router) {
-                    this.replace ? this.$router.replace(this.to, () => {}) : this.$router.push(this.to, () => {});
+                    if ((typeof this.to === 'string') && this.to.includes('//')) {
+                        window.location.href = this.to;
+                    } else {
+                        this.replace ? this.$router.replace(this.to, () => {}) : this.$router.push(this.to, () => {});
+                    }
                 } else {
                     window.location.href = this.to;
                 }

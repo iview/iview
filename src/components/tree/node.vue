@@ -1,7 +1,7 @@
 <template>
     <collapse-transition :appear="appear">
         <ul :class="classes">
-            <li>
+            <li @contextmenu.stop="handleContextmenu(data, $event)" @selectstart.stop="handlePreventSelect(data, $event)">
                 <span :class="arrowClasses" @click="handleExpand">
                     <Icon v-if="showArrow" :type="arrowType" :custom="customArrowType" :size="arrowSize" />
                     <Icon v-if="showLoading" type="ios-loading" class="ivu-load-loop" />
@@ -216,6 +216,17 @@
                     nodeKey: this.data.nodeKey
                 };
                 this.dispatch('Tree', 'on-check', changes);
+            },
+            handleContextmenu (data, event) {
+                if (data.contextmenu) {
+                    event.preventDefault();
+                    this.dispatch('Tree', 'contextmenu', { data, event });
+                }
+            },
+            handlePreventSelect (data, event) {
+                if (data.contextmenu) {
+                    event.preventDefault();
+                }
             }
         }
     };
