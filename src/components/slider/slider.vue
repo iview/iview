@@ -341,10 +341,10 @@
                 this.currentValue = [...value];
 
                 if (!this.dragging) {
-                    if (this.currentValue[index] !== this.oldValue[index]) {
-                        this.emitChange();
-                        this.oldValue[index] = this.currentValue[index];
-                    }
+                    // if (this.currentValue[index] !== this.oldValue[index]) {
+                    this.emitChange();
+                    //     this.oldValue[index] = this.currentValue[index];
+                    // }
                 }
             },
             handleDecimal(pos,step){
