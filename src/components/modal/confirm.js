@@ -19,12 +19,14 @@ Modal.newInstance = properties => {
             iconName: '',
             okText: undefined,
             cancelText: undefined,
+            showConfirm: true,
             showCancel: false,
             loading: false,
             buttonLoading: false,
             scrollable: false,
             closable: false,
-            closing: false // 关闭有动画，期间使用此属性避免重复点击
+            closing: false, // 关闭有动画，期间使用此属性避免重复点击
+            maskClosable: false,
         }),
         render (h) {
             let footerVNodes = [];
@@ -39,16 +41,29 @@ Modal.newInstance = properties => {
                     }
                 }, this.localeCancelText));
             }
-            footerVNodes.push(h(Button, {
-                props: {
-                    type: 'primary',
-                    size: 'large',
-                    loading: this.buttonLoading
-                },
-                on: {
-                    click: this.ok
-                }
-            }, this.localeOkText));
+
+            if (this.showConfirm) {
+                footerVNodes.push(h(Button, {
+                    props: {
+                        type: 'primary',
+                        size: 'large',
+                        loading: this.buttonLoading
+                    },
+                    on: {
+                        click: this.ok
+                    }
+                }, this.localeOkText));
+            }
+
+            let footer_render;
+            if (footerVNodes.length > 0) {
+                footer_render = h('div', {
+                    attrs: {
+                        class: `${prefixCls}-footer`
+                    }
+                }, footerVNodes);
+            }
+
 
             // render content
             let body_render;
@@ -102,7 +117,8 @@ Modal.newInstance = properties => {
                 props: Object.assign({}, _props, {
                     width: this.width,
                     scrollable: this.scrollable,
-                    closable: this.closable
+                    closable: this.closable,
+                    maskClosable: this.maskClosable
                 }),
                 domProps: {
                     value: this.visible
@@ -121,11 +137,7 @@ Modal.newInstance = properties => {
                 }, [
                     head_render,
                     body_render,
-                    h('div', {
-                        attrs: {
-                            class: `${prefixCls}-footer`
-                        }
-                    }, footerVNodes)
+                    footer_render
                 ])
             ]);
         },
@@ -202,6 +214,7 @@ Modal.newInstance = properties => {
     return {
         show (props) {
             modal.$parent.showCancel = props.showCancel;
+            modal.$parent.showConfirm = props.showConfirm;
             modal.$parent.iconType = props.icon;
 
             switch (props.icon) {
@@ -228,6 +241,10 @@ Modal.newInstance = properties => {
 
             if ('closable' in props) {
                 modal.$parent.closable = props.closable;
+            }
+
+            if ('maskClosable' in props){
+                modal.$parent.maskClosable = props.maskClosable
             }
 
             if ('title' in props) {
