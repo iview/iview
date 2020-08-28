@@ -1,20 +1,29 @@
 <template>
     <div>
-        <Button type="primary" @click="modal1 = true">Display dialog box</Button>
-        <Modal
-                v-model="modal1"
-                title="Common Modal dialog box title"
-                @on-ok="ok"
-                @on-cancel="cancel">
+        <Button type="primary"
+                @click="modal1 = true">Display dialog box</Button>
+        <Button @click="onConfirm">Modal instance Confirm</Button>
+        <Modal v-model="modal1"
+               title="Common Modal dialog box title"
+               @on-ok="ok"
+               @on-cancel="cancel">
             <p>Content of dialog</p>
             <p>Content of dialog</p>
             <p>Content of dialog</p>
             <Button @click="openMessage">Message</Button>
-            <Select v-model="model1" style="width:200px" :transfer="false">
-                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <Select v-model="model1"
+                    style="width:200px"
+                    :transfer="false">
+                <Option v-for="item in cityList"
+                        :value="item.value"
+                        :key="item.value">{{ item.label }}</Option>
             </Select>
-            <Select v-model="model1" style="width:200px" :transfer="true">
-                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <Select v-model="model1"
+                    style="width:200px"
+                    :transfer="true">
+                <Option v-for="item in cityList"
+                        :value="item.value"
+                        :key="item.value">{{ item.label }}</Option>
             </Select>
             <Dropdown transfer>
                 <a href="javascript:void(0)">
@@ -29,21 +38,39 @@
                     <DropdownItem divided>北京烤鸭</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
-            <DatePicker type="date" placeholder="Select date" style="width: 200px" transfer></DatePicker>
-            <Cascader :data="data" v-model="value1" transfer></Cascader>
-            <Tooltip content="Here is the prompt text" transfer>
+            <DatePicker type="date"
+                        placeholder="Select date"
+                        style="width: 200px"
+                        transfer></DatePicker>
+            <Cascader :data="data"
+                      v-model="value1"
+                      transfer></Cascader>
+            <Tooltip content="Here is the prompt text"
+                     transfer>
                 A balloon appears when the mouse passes over this text
             </Tooltip>
-            <Poptip trigger="hover" title="Title" content="content" transfer>
+            <Poptip trigger="hover"
+                    title="Title"
+                    content="content"
+                    transfer>
                 <Button>Hover</Button>
             </Poptip>
-            <Button type="primary" @click="handleSpinShow">整页显示，3秒后关闭</Button>
+            <Button type="primary"
+                    @click="handleSpinShow">整页显示，3秒后关闭</Button>
         </Modal>
-        <Select v-model="model1" style="width:200px" :transfer="false">
-            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        <Select v-model="model1"
+                style="width:200px"
+                :transfer="false">
+            <Option v-for="item in cityList"
+                    :value="item.value"
+                    :key="item.value">{{ item.label }}</Option>
         </Select>
-        <Select v-model="model1" style="width:200px" :transfer="true">
-            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        <Select v-model="model1"
+                style="width:200px"
+                :transfer="true">
+            <Option v-for="item in cityList"
+                    :value="item.value"
+                    :key="item.value">{{ item.label }}</Option>
         </Select>
     </div>
 </template>
@@ -140,6 +167,25 @@
                 this.$Message.info({
                     content: 'hello world',
                     duration: 2
+                });
+            },
+            onConfirm () {
+                this.$Modal.confirm({
+                    title: 'hello world',
+                    content: 'Modal instance - Confirm',
+                    closable: true,
+                    onOk: () => {
+                        this.$Message.info('Clicked ok');
+                    },
+                    onCancel: () => {
+                        console.log('原先的cancel方法不变');
+                    },
+                    onClose: () => {
+                        this.$Message.info('Clicked top close');
+                    },
+                    onBtnCancel: () => {
+                        this.$Message.info('Clicked footer button cancel');
+                    }
                 });
             },
             handleSpinShow () {

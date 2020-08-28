@@ -15,16 +15,6 @@
     &-label-left .@{form-item-prefix-cls}-label {
         text-align: left;
     }
-    &-label-left {
-        .@{form-item-prefix-cls}-required {
-            .@{form-item-prefix-cls}-label:before {
-                display: none;
-            }
-            .@{form-item-prefix-cls}-label:after {
-                display: inline-block;
-            }
-        }
-    }
     &-label-top .@{form-item-prefix-cls}-label {
         float: none;
         display: inline-block;
@@ -65,8 +55,7 @@
     }
 
     &-required {
-        .@{form-item-prefix-cls}-label:before,
-        .@{form-item-prefix-cls}-label:after {
+        .@{form-item-prefix-cls}-label:before {
             content: '*';
             display: inline-block;
             margin-right: 4px;
@@ -74,9 +63,6 @@
             font-family: SimSun;
             font-size: @font-size-base;
             color: @error-color;
-        }
-        .@{form-item-prefix-cls}-label:after {
-            display: none;
         }
     }
     &-error {
