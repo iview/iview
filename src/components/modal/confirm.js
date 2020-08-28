@@ -34,7 +34,7 @@ Modal.newInstance = properties => {
                         type: 'text'
                     },
                     on: {
-                        click: this.cancel
+                        click: this.btnCancel
                     }
                 }, this.localeCancelText));
             }
@@ -109,7 +109,7 @@ Modal.newInstance = properties => {
                     input: (status) => {
                         this.visible = status;
                     },
-                    'on-cancel': this.cancel
+                    'on-cancel': this.close
                 }
             }, [
                 h('div', {
@@ -163,6 +163,14 @@ Modal.newInstance = properties => {
                 this.onCancel();
                 this.remove();
             },
+            close () {
+                this.cancel();
+                this.onClose();
+            },
+            btnCancel() {
+                this.cancel();
+                this.onBtnCancel();
+            },
             ok () {
                 if (this.closing) return;
                 if (this.loading) {
@@ -187,6 +195,8 @@ Modal.newInstance = properties => {
             },
             onOk () {},
             onCancel () {},
+            onClose () {},
+            onBtnCancel () {},
             onRemove () {}
         }
     });
@@ -244,6 +254,14 @@ Modal.newInstance = properties => {
 
             if ('onCancel' in props) {
                 modal.$parent.onCancel = props.onCancel;
+            }
+
+            if ('onBtnCancel' in props) {
+                modal.$parent.onBtnCancel = props.onBtnCancel;
+            }
+
+            if ('onClose' in props) {
+                modal.$parent.onClose = props.onClose;
             }
 
             if ('onOk' in props) {

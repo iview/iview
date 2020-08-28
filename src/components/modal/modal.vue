@@ -244,10 +244,12 @@
                 this.visible = false;
                 this.$emit('input', false);
                 this.$emit('on-cancel');
+                this.$emit('on-close');
             },
             handleMask () {
                 if (this.maskClosable && this.showMask) {
                     this.close();
+                    this.$emit('on-close');
                 }
             },
             handleWrapClick (event) {
@@ -264,6 +266,7 @@
             },
             cancel () {
                 this.close();
+                this.$emit('on-btn-cancel');
             },
             ok () {
                 if (this.loading) {
