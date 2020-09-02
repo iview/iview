@@ -332,19 +332,22 @@
                 this.$emit('on-dblclick', nav.name);
             },
             handleContextmenu (index, event) {
-                const nav = this.navList[index];
-                if (!nav || nav.disabled || !nav.contextMenu) return;
+                if (this.contextMenuVisible) this.handleClickContextMenuOutside();
+                this.$nextTick(() => {
+                    const nav = this.navList[index];
+                    if (!nav || nav.disabled || !nav.contextMenu) return;
 
-                event.preventDefault();
-                const $TabsWrap = this.$refs.tabsWrap;
-                const TabsBounding = $TabsWrap.getBoundingClientRect();
-                const position = {
-                    left: `${event.clientX - TabsBounding.left}px`,
-                    top: `${event.clientY - TabsBounding.top}px`
-                };
-                this.contextMenuStyles = position;
-                this.contextMenuVisible = true;
-                this.$emit('on-contextmenu', nav, event, position);
+                    event.preventDefault();
+                    const $TabsWrap = this.$refs.tabsWrap;
+                    const TabsBounding = $TabsWrap.getBoundingClientRect();
+                    const position = {
+                        left: `${event.clientX - TabsBounding.left}px`,
+                        top: `${event.clientY - TabsBounding.top}px`
+                    };
+                    this.contextMenuStyles = position;
+                    this.contextMenuVisible = true;
+                    this.$emit('on-contextmenu', nav, event, position);
+                });
             },
             handleClickContextMenuOutside () {
                 this.contextMenuVisible = false;
