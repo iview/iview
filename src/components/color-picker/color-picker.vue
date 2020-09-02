@@ -228,6 +228,9 @@ export default {
             default () {
                 return !this.$IVIEW ? true : this.$IVIEW.capture;
             }
+        },
+        transferClassName: {
+            type: String
         }
     },
 
@@ -321,6 +324,7 @@ export default {
                 {
                     [`${this.prefixCls}-transfer`]: this.transfer,
                     [`${this.prefixCls}-hide-drop`]: this.hideDropDown,
+                    [this.transferClassName]: this.transferClassName
                 },
             ];
         },
