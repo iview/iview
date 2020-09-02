@@ -35,7 +35,7 @@
             <Drop
                 @click.native="handleTransferClick"
                 v-show="opened"
-                :class="{ [prefixCls + '-transfer']: transfer }"
+                :class="dropdownCls"
                 :placement="placement"
                 ref="drop"
                 :data-transfer="transfer"
@@ -220,6 +220,9 @@
                 default () {
                     return !this.$IVIEW ? true : this.$IVIEW.capture;
                 }
+            },
+            transferClassName: {
+                type: String
             }
         },
         data(){
@@ -357,6 +360,12 @@
                 }
 
                 return size;
+            },
+            dropdownCls () {
+                return {
+                    [prefixCls + '-transfer']: this.transfer,
+                    [this.transferClassName]: this.transferClassName
+                };
             }
         },
         methods: {
