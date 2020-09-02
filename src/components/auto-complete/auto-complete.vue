@@ -9,6 +9,7 @@
         :size="size"
         :placement="placement"
         :value="currentValue"
+        :transfer-class-name="transferClassName"
         filterable
         remote
         auto-complete
@@ -103,6 +104,9 @@
                 type: String
             },
             elementId: {
+                type: String
+            },
+            transferClassName: {
                 type: String
             }
         },
