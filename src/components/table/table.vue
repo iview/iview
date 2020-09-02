@@ -717,19 +717,22 @@
                 }
             },
             contextmenuCurrentRow (_index, rowKey, event) {
-                const $TableWrap = this.$refs.tableWrap;
-                const TableBounding = $TableWrap.getBoundingClientRect();
-                const position = {
-                    left: `${event.clientX - TableBounding.left}px`,
-                    top: `${event.clientY - TableBounding.top}px`
-                };
-                this.contextMenuStyles = position;
-                this.contextMenuVisible = true;
-                if (rowKey) {
-                    this.$emit('on-contextmenu', JSON.parse(JSON.stringify(this.getBaseDataByRowKey(rowKey))), event, position);
-                } else {
-                    this.$emit('on-contextmenu', JSON.parse(JSON.stringify(this.cloneData[_index])), event, position);
-                }
+                if (this.contextMenuVisible) this.handleClickContextMenuOutside();
+                this.$nextTick(() => {
+                    const $TableWrap = this.$refs.tableWrap;
+                    const TableBounding = $TableWrap.getBoundingClientRect();
+                    const position = {
+                        left: `${event.clientX - TableBounding.left}px`,
+                        top: `${event.clientY - TableBounding.top}px`
+                    };
+                    this.contextMenuStyles = position;
+                    this.contextMenuVisible = true;
+                    if (rowKey) {
+                        this.$emit('on-contextmenu', JSON.parse(JSON.stringify(this.getBaseDataByRowKey(rowKey))), event, position);
+                    } else {
+                        this.$emit('on-contextmenu', JSON.parse(JSON.stringify(this.cloneData[_index])), event, position);
+                    }
+                });
             },
             getSelection () {
                 // 分别拿根数据和子数据的已选项
