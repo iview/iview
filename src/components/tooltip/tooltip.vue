@@ -5,7 +5,7 @@
         </div>
         <transition name="fade">
             <div
-                :class="[prefixCls + '-popper', prefixCls + '-' + theme]"
+                :class="dropdownCls"
                 :style="dropStyles"
                 ref="popper"
                 v-show="!disabled && (visible || always)"
@@ -74,6 +74,9 @@
             },
             maxWidth: {
                 type: [String, Number]
+            },
+            transferClassName: {
+                type: String
             }
         },
         data () {
@@ -101,6 +104,16 @@
                 if (this.transfer) styles['z-index'] = 1060 + this.tIndex;
 
                 return styles;
+            },
+            dropdownCls () {
+                return [
+                    `${prefixCls}-popper`,
+                    `${prefixCls}-${this.theme}`,
+                    {
+                        [prefixCls + '-transfer']: this.transfer,
+                        [this.transferClassName]: this.transferClassName
+                    }
+                ];
             }
         },
         watch: {
