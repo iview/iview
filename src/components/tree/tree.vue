@@ -205,15 +205,18 @@
                 this.$emit('on-check-change', this.getCheckedNodes(), node);
             },
             handleContextmenu ({ data, event }) {
-                const $TreeWrap = this.$refs.treeWrap;
-                const TreeBounding = $TreeWrap.getBoundingClientRect();
-                const position = {
-                    left: `${event.clientX - TreeBounding.left}px`,
-                    top: `${event.clientY - TreeBounding.top}px`
-                };
-                this.contextMenuStyles = position;
-                this.contextMenuVisible = true;
-                this.$emit('on-contextmenu', data, event, position);
+                if (this.contextMenuVisible) this.handleClickContextMenuOutside();
+                this.$nextTick(() => {
+                    const $TreeWrap = this.$refs.treeWrap;
+                    const TreeBounding = $TreeWrap.getBoundingClientRect();
+                    const position = {
+                        left: `${event.clientX - TreeBounding.left}px`,
+                        top: `${event.clientY - TreeBounding.top}px`
+                    };
+                    this.contextMenuStyles = position;
+                    this.contextMenuVisible = true;
+                    this.$emit('on-contextmenu', data, event, position);
+                });
             },
             handleClickContextMenuOutside () {
                 this.contextMenuVisible = false;
