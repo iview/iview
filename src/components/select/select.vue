@@ -541,6 +541,9 @@
             },
 
             validateOption({children, elm, propsData}){
+                if (this.filterMethod) {
+                    return this.filterMethod({ query: this.query, componentOptions: { children, elm, propsData } });
+                }
                 const value = propsData.value;
                 const label = propsData.label || '';
                 const textContent = (elm && elm.textContent) || (children || []).reduce((str, node) => {
