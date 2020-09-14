@@ -113,7 +113,9 @@
                 if (this.trigger !== 'click') {
                     return false;
                 }
-                this.currentVisible = !this.currentVisible;
+                // #661
+                const $parent = this.hasParent();
+                if (!$parent) this.currentVisible = !this.currentVisible;
             },
             handleRightClick () {
                 if (this.trigger === 'custom') return false;
