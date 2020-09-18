@@ -177,6 +177,11 @@
                 type: [String, Number, Array],
                 default: ''
             },
+            // 4.4.0
+            defaultLabel: {
+                type: [String, Number, Array],
+                default: ''
+            },
             multiple: {
                 type: Boolean,
                 default: false
@@ -293,6 +298,24 @@
             }
 
             this.checkUpdateStatus();
+
+            // remote search, set default-label
+            if (this.remote && this.value && this.defaultLabel) {
+                if (!this.multiple) {
+                    this.query = this.defaultLabel;
+                } else if (this.multiple && (this.defaultLabel instanceof Array) && this.value.length === this.defaultLabel.length) {
+                    const values = this.value.map((item, index) => {
+                        return {
+                            value: item,
+                            label: this.defaultLabel[index]
+                        };
+                    });
+                    this.$emit('on-set-default-options', JSON.parse(JSON.stringify(values)));
+                    setTimeout(() => {
+                        this.values = values;
+                    });
+                }
+            }
         },
         data () {
 
