@@ -31,9 +31,9 @@ ViewUI
 ## Features
 
 - Dozens of useful and beautiful components.
-- Friendly API. It's made for people with any skill level.
-- Extensive documentation and demos.
-- It is quite beautiful.
+- Friendly API. It's made for people with any skills level.
+- Extensive documentations and demos.
+- It is  quite awesome.
 - Supports both Vue.js 2 and Vue.js 1.
 
 ## Who's using ViewUI
@@ -97,7 +97,7 @@ import 'view-design/dist/styles/iview.css';
 
 ## Community
 
-If you want to contribute or have questions or bugs to report:
+If you want to contribute us or in case you are haiving any doubt.
 
 **Questions:** Find other users at the [Gitter chat](https://gitter.im/iview/iview) or post on [StackOverflow using `[iview-ui]` tag](https://stackoverflow.com/questions/tagged/iview-ui)  
 **Bugs:** [File a issue here](https://github.com/iview-design/iview/issues) - please provide a example so we can help you better  
