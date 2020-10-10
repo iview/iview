@@ -239,7 +239,8 @@
                         [`${prefixCls}-group-with-prepend`]: this.prepend,
                         [`${prefixCls}-group-with-append`]: this.append || (this.search && this.enterButton),
                         [`${prefixCls}-hide-icon`]: this.append,  // #554
-                        [`${prefixCls}-with-search`]: (this.search && this.enterButton)
+                        [`${prefixCls}-with-search`]: (this.search && this.enterButton),
+                        [`${prefixCls}-wrapper-disabled`]: this.itemDisabled // #685
                     }
                 ];
             },
