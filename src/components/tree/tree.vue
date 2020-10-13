@@ -21,6 +21,8 @@
 </template>
 <script>
     import TreeNode from './node.vue';
+    import Dropdown from '../dropdown/dropdown.vue';
+    import DropdownMenu from '../dropdown/dropdown-menu.vue';
     import Emitter from '../../mixins/emitter';
     import Locale from '../../mixins/locale';
 
@@ -29,7 +31,7 @@
     export default {
         name: 'Tree',
         mixins: [ Emitter, Locale ],
-        components: { TreeNode },
+        components: { TreeNode, Dropdown, DropdownMenu },
         provide () {
             return { TreeInstance: this };
         },

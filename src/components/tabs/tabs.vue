@@ -50,6 +50,8 @@
 <script>
     import Icon from '../icon/icon.vue';
     import Render from '../base/render';
+    import Dropdown from '../dropdown/dropdown.vue';
+    import DropdownMenu from '../dropdown/dropdown-menu.vue';
     import { oneOf, MutationObserver, findComponentsDownward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     import elementResizeDetectorMaker from 'element-resize-detector';
@@ -81,7 +83,7 @@
     export default {
         name: 'Tabs',
         mixins: [ Emitter ],
-        components: { Icon, Render },
+        components: { Icon, Render, Dropdown, DropdownMenu },
         provide () {
             return { TabsInstance: this };
         },

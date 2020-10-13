@@ -140,6 +140,8 @@
     import tableHead from './table-head.vue';
     import tableBody from './table-body.vue';
     import tableSummary from './summary.vue';
+    import Dropdown from '../dropdown/dropdown.vue';
+    import DropdownMenu from '../dropdown/dropdown-menu.vue';
     import Spin from '../spin/spin.vue';
     import { oneOf, getStyle, deepCopy, getScrollBarSize } from '../../utils/assist';
     import { on, off } from '../../utils/dom';
@@ -157,7 +159,7 @@
     export default {
         name: 'Table',
         mixins: [ Locale ],
-        components: { tableHead, tableBody, tableSummary, Spin },
+        components: { tableHead, tableBody, tableSummary, Spin, Dropdown, DropdownMenu },
         provide () {
             return {
                 tableRoot: this
