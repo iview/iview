@@ -12,6 +12,21 @@
 		overflow-y: scroll;
 	}
 
+    @keyframes ani-stop-slide {
+        from {
+            overflow-y: hidden;
+            tansform:translateZ(0);
+        }
+        to {
+            overflow-y: scroll;
+            tansform:translateZ(0);
+        }
+    }
+
+    &-container-loading {
+        animation: ani-stop-slide 1.5s;
+    }
+
 	&-content {
 		opacity: 1;
 		transition: opacity 0.5s;

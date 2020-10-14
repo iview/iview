@@ -86,7 +86,12 @@
                 return `${prefixCls}-wrapper`;
             },
             scrollContainerClasses() {
-                return `${prefixCls}-container`;
+                return [
+                    `${prefixCls}-container`,
+                    {
+                        [`${prefixCls}-container-loading`]: this.showBodyLoader
+                    }
+                ];
             },
             slotContainerClasses() {
                 return [
