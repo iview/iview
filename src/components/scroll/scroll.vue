@@ -55,7 +55,11 @@
             loadingText: {
                 type: String
             },
-            distanceToEdge: [Number, Array]
+            distanceToEdge: [Number, Array],
+            stopSlide: {
+                type: Boolean,
+                default: false
+            }
         },
         data() {
             const distanceToEdge = this.calculateProximityThreshold();
@@ -89,7 +93,7 @@
                 return [
                     `${prefixCls}-container`,
                     {
-                        [`${prefixCls}-container-loading`]: this.showBodyLoader
+                        [`${prefixCls}-container-loading`]: this.showBodyLoader && this.stopSlide
                     }
                 ];
             },
