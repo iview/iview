@@ -72,7 +72,14 @@
             render: {
                 type: Function
             },
-
+            selectNode: {
+                type: Boolean,
+                default: true
+            },
+            expandNode: {
+                type: Boolean,
+                default: false
+            }
         },
         data () {
             return {

@@ -12,7 +12,7 @@
                         :indeterminate="data.indeterminate"
                         :disabled="data.disabled || data.disableCheckbox"
                         @click.native.prevent="handleCheck"></Checkbox>
-                <span :class="titleClasses" @click="handleSelect">
+                <span :class="titleClasses" @click="handleClickNode">
                     <Render v-if="data.render" :render="data.render" :data="data" :node="node"></Render>
                     <Render v-else-if="isParentRender" :render="parentRender" :data="data" :node="node"></Render>
                     <template v-else>{{ data.title }}</template>
@@ -199,6 +199,13 @@
                 if (item[this.childrenKey] && item[this.childrenKey].length) {
                     this.$set(this.data, 'expand', !this.data.expand);
                     this.dispatch('Tree', 'toggle-expand', this.data);
+                }
+            },
+            handleClickNode () {
+                if (this.TreeInstance.expandNode) {
+                    if (this.showArrow) this.handleExpand();
+                } else if (this.TreeInstance.selectNode) {
+                    this.handleSelect();
                 }
             },
             handleSelect () {
