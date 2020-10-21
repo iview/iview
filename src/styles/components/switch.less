@@ -3,6 +3,7 @@
 .@{switch-prefix-cls} {
     display: inline-block;
     width: 44px;
+    min-width: 44px;
     height: 22px;
     line-height: 20px;
     border-radius: 22px;
@@ -81,6 +82,7 @@
 
     &-small {
         width: 28px;
+        min-width: 28px;
         height: 16px;
         line-height: 14px;
         &:after {
@@ -111,6 +113,7 @@
 
     &-large{
         width: 56px;
+        min-width: 56px;
         &:active:after {
             width: 26px;
         }
@@ -169,7 +172,7 @@
         border-color: @primary-color;
         background-color: @primary-color;
         opacity: .4;
-        
+
         &:after {
             background: #fff;
         }
