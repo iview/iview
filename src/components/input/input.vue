@@ -375,6 +375,7 @@
                 setTimeout(() => {
                     this.$refs.input.setSelectionRange(len, len);
                 }, 0);
+                this.$emit('on-show-password', this.showPassword);
             }
         },
         watch: {
