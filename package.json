@@ -1,6 +1,6 @@
 {
     "name": "tm-iview",
-    "version": "4.4.0",
+    "version": "4.4.2",
     "title": "iView",
     "description": "A high quality UI components Library with Vue.js",
     "homepage": "http://www.iviewui.com",
@@ -83,7 +83,7 @@
         "extract-text-webpack-plugin": "^2.1.2",
         "file-loader": "^1.1.11",
         "friendly-errors-webpack-plugin": "^1.6.1",
-        "gulp": "^3.9.1",
+        "gulp": "^4.0.2",
         "gulp-autoprefixer": "^5.0.0",
         "gulp-clean-css": "^3.10.0",
         "gulp-less": "^4.0.1",
