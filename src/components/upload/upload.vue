@@ -13,6 +13,7 @@
                 :class="[prefixCls + '-input']"
                 @change="handleChange"
                 :multiple="multiple"
+                :webkitdirectory="webkitdirectory"
                 :accept="accept">
             <slot></slot>
         </div>
@@ -142,6 +143,10 @@
                 default: false
             },
             disabled: {
+                type: Boolean,
+                default: false
+            },
+            webkitdirectory: {
                 type: Boolean,
                 default: false
             }

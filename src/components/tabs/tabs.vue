@@ -50,6 +50,8 @@
 <script>
     import Icon from '../icon/icon.vue';
     import Render from '../base/render';
+    import Dropdown from '../dropdown/dropdown.vue';
+    import DropdownMenu from '../dropdown/dropdown-menu.vue';
     import { oneOf, MutationObserver, findComponentsDownward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     import elementResizeDetectorMaker from 'element-resize-detector';
@@ -81,7 +83,7 @@
     export default {
         name: 'Tabs',
         mixins: [ Emitter ],
-        components: { Icon, Render },
+        components: { Icon, Render, Dropdown, DropdownMenu },
         provide () {
             return { TabsInstance: this };
         },
@@ -332,19 +334,22 @@
                 this.$emit('on-dblclick', nav.name);
             },
             handleContextmenu (index, event) {
-                const nav = this.navList[index];
-                if (!nav || nav.disabled || !nav.contextMenu) return;
+                if (this.contextMenuVisible) this.handleClickContextMenuOutside();
+                this.$nextTick(() => {
+                    const nav = this.navList[index];
+                    if (!nav || nav.disabled || !nav.contextMenu) return;
 
-                event.preventDefault();
-                const $TabsWrap = this.$refs.tabsWrap;
-                const TabsBounding = $TabsWrap.getBoundingClientRect();
-                const position = {
-                    left: `${event.clientX - TabsBounding.left}px`,
-                    top: `${event.clientY - TabsBounding.top}px`
-                };
-                this.contextMenuStyles = position;
-                this.contextMenuVisible = true;
-                this.$emit('on-contextmenu', nav, event, position);
+                    event.preventDefault();
+                    const $TabsWrap = this.$refs.tabsWrap;
+                    const TabsBounding = $TabsWrap.getBoundingClientRect();
+                    const position = {
+                        left: `${event.clientX - TabsBounding.left}px`,
+                        top: `${event.clientY - TabsBounding.top}px`
+                    };
+                    this.contextMenuStyles = position;
+                    this.contextMenuVisible = true;
+                    this.$emit('on-contextmenu', nav, event, position);
+                });
             },
             handleClickContextMenuOutside () {
                 this.contextMenuVisible = false;

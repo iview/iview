@@ -140,6 +140,8 @@
     import tableHead from './table-head.vue';
     import tableBody from './table-body.vue';
     import tableSummary from './summary.vue';
+    import Dropdown from '../dropdown/dropdown.vue';
+    import DropdownMenu from '../dropdown/dropdown-menu.vue';
     import Spin from '../spin/spin.vue';
     import { oneOf, getStyle, deepCopy, getScrollBarSize } from '../../utils/assist';
     import { on, off } from '../../utils/dom';
@@ -157,7 +159,7 @@
     export default {
         name: 'Table',
         mixins: [ Locale ],
-        components: { tableHead, tableBody, tableSummary, Spin },
+        components: { tableHead, tableBody, tableSummary, Spin, Dropdown, DropdownMenu },
         provide () {
             return {
                 tableRoot: this
@@ -273,6 +275,11 @@
             // 4.1.0
             loadData: {
                 type: Function
+            },
+            // 4.4.0
+            updateShowChildren: {
+                type: Boolean,
+                default: false
             },
             // 4.1.0
             contextMenu: {
@@ -717,19 +724,22 @@
                 }
             },
             contextmenuCurrentRow (_index, rowKey, event) {
-                const $TableWrap = this.$refs.tableWrap;
-                const TableBounding = $TableWrap.getBoundingClientRect();
-                const position = {
-                    left: `${event.clientX - TableBounding.left}px`,
-                    top: `${event.clientY - TableBounding.top}px`
-                };
-                this.contextMenuStyles = position;
-                this.contextMenuVisible = true;
-                if (rowKey) {
-                    this.$emit('on-contextmenu', JSON.parse(JSON.stringify(this.getBaseDataByRowKey(rowKey))), event, position);
-                } else {
-                    this.$emit('on-contextmenu', JSON.parse(JSON.stringify(this.cloneData[_index])), event, position);
-                }
+                if (this.contextMenuVisible) this.handleClickContextMenuOutside();
+                this.$nextTick(() => {
+                    const $TableWrap = this.$refs.tableWrap;
+                    const TableBounding = $TableWrap.getBoundingClientRect();
+                    const position = {
+                        left: `${event.clientX - TableBounding.left}px`,
+                        top: `${event.clientY - TableBounding.top}px`
+                    };
+                    this.contextMenuStyles = position;
+                    this.contextMenuVisible = true;
+                    if (rowKey) {
+                        this.$emit('on-contextmenu', JSON.parse(JSON.stringify(this.getBaseDataByRowKey(rowKey))), event, position);
+                    } else {
+                        this.$emit('on-contextmenu', JSON.parse(JSON.stringify(this.cloneData[_index])), event, position);
+                    }
+                });
             },
             getSelection () {
                 // 分别拿根数据和子数据的已选项
@@ -848,7 +858,8 @@
 
                 data._isShowChildren = !data._isShowChildren;
                 // 由于 updateDataStatus 是基于原数据修改，导致单选、多选等状态重置，所以暂不处理 _showChildren 状态，而是通过事件 @on-expand-tree
-                // this.updateDataStatus(rowKey, '_showChildren', data._isShowChildren);
+                // #675，增加 updateShowChildren
+                if (this.updateShowChildren) this.updateDataStatus(rowKey, '_showChildren', data._isShowChildren);
                 this.$emit('on-expand-tree', rowKey, data._isShowChildren);
             },
             /**

@@ -123,6 +123,9 @@
                 default () {
                     return !this.$IVIEW ? false : this.$IVIEW.capture;
                 }
+            },
+            transferClassName: {
+                type: String
             }
         },
         data () {
@@ -148,7 +151,9 @@
                     `${prefixCls}-popper`,
                     {
                         [`${prefixCls}-confirm`]: this.transfer && this.confirm,
-                        [`${this.popperClass}`]: !!this.popperClass
+                        [`${this.popperClass}`]: !!this.popperClass,
+                        [prefixCls + '-transfer']: this.transfer,
+                        [this.transferClassName]: this.transferClassName
                     }
                 ];
             },

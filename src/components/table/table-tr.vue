@@ -1,6 +1,6 @@
 <template>
     <tr :class="rowClasses(row._index)" :draggable="draggable" @dragstart="onDrag($event,row._index)" @drop="onDrop($event,row._index)" @dragover="allowDrop($event)" v-if="draggable"><slot></slot></tr>
-    <tr :class="rowClasses(row._index)" v-else><slot></slot></tr>
+    <tr :class="rowClasses(row._index)" :draggable="false" v-else><slot></slot></tr>
 </template>
 <script>
     export default {

@@ -1,6 +1,12 @@
 // used for Modal & $Spin & Drawer
 import { getScrollBarSize } from '../../utils/assist';
 export default {
+    props: {
+        lockScroll: {
+            type: Boolean,
+            default: true
+        }
+    },
     methods: {
         checkScrollBar () {
             let fullWindowWidth = window.innerWidth;
@@ -26,11 +32,13 @@ export default {
             document.body.style.paddingRight = '';
         },
         addScrollEffect () {
+            if (!this.lockScroll) return;
             this.checkScrollBar();
             this.setScrollBar();
             document.body.style.overflow = 'hidden';
         },
         removeScrollEffect() {
+            if (!this.lockScroll) return;
             if (this.checkMaskInVisible()) {
                 document.body.style.overflow = '';
                 this.resetScrollBar();
