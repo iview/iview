@@ -1,20 +1,22 @@
 <template>
-    <div :class="wrapClasses" style="touch-action: none;">
+    <div :class="disabled ? '' : wrapClasses" style="touch-action: none;">
+        <slot v-if="disabled"></slot>
         <div
+            v-else
             :class="scrollContainerClasses"
-            :style="{height: height + 'px'}"
+            :style="{height: height + 'px', maxHeight: maxHeight + 'px'}"
             @scroll="handleScroll"
             @wheel="onWheel"
             @touchstart="onPointerDown"
             ref="scrollContainer"
         >
-            <div :class="loaderClasses" :style="{paddingTop: wrapperPadding.paddingTop}" ref="toploader">
+            <div v-show="showLoader" :class="loaderClasses" :style="{paddingTop: wrapperPadding.paddingTop}" ref="toploader">
                 <loader :text="localeLoadingText" :active="showTopLoader"></loader>
             </div>
             <div :class="slotContainerClasses" ref="scrollContent">
                 <slot></slot>
             </div>
-            <div :class="loaderClasses" :style="{paddingBottom: wrapperPadding.paddingBottom}" ref="bottomLoader">
+            <div v-show="showLoader" :class="loaderClasses" :style="{paddingBottom: wrapperPadding.paddingBottom}" ref="bottomLoader">
                 <loader :text="localeLoadingText" :active="showBottomLoader"></loader>
             </div>
         </div>
@@ -59,7 +61,19 @@
             stopSlide: {
                 type: Boolean,
                 default: false
-            }
+            },
+            disabled: {
+                type: Boolean,
+                default: false
+            },
+            maxHeight: {
+                type: [Number, String],
+                default: 'auto'
+            },
+            showLoader: {
+                type: Boolean,
+                default: true
+            },
         },
         data() {
             const distanceToEdge = this.calculateProximityThreshold();
