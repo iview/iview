@@ -67,18 +67,26 @@
                 v-transfer-dom
             >
                 <ul v-show="showNotFoundLabel && !allowCreate" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
-                <ul :class="prefixCls + '-dropdown-list'">
-                    <li :class="prefixCls + '-item'" v-if="showCreateItem" @click="handleCreateItem">
-                        {{ query }}
-                        <Icon type="md-return-left" :class="prefixCls + '-item-enter'" />
-                    </li>
-                    <functional-options
-                        v-if="(!remote) || (remote && !loading)"
-                        :options="selectOptions"
-                        :slot-update-hook="updateSlotOptions"
-                        :slot-options="slotOptions"
-                    ></functional-options>
-                </ul>
+                <Scroll
+                    ref="scroll"
+                    height="auto"
+                    :max-height="scrollMaxHeight"
+                    :disabled="!scrollLoad"
+                    :show-loader="false"
+                    :on-reach-bottom="onScrollRequest">
+                    <ul :class="prefixCls + '-dropdown-list'">
+                        <li :class="prefixCls + '-item'" v-if="showCreateItem" @click="handleCreateItem">
+                            {{ query }}
+                            <Icon type="md-return-left" :class="prefixCls + '-item-enter'" />
+                        </li>
+                        <functional-options
+                            v-if="(!remote) || (remote && !loading)"
+                            :options="selectOptions"
+                            :slot-update-hook="updateSlotOptions"
+                            :slot-options="slotOptions"
+                        ></functional-options>
+                    </ul>
+                </Scroll>
                 <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
                 <template #footer><slot name="footer"></slot></template>
             </Drop>
@@ -94,6 +102,7 @@
     import Emitter from '../../mixins/emitter';
     import mixinsForm from '../../mixins/form';
     import Locale from '../../mixins/locale';
+    import Scroll from '../scroll/scroll.vue';
     import SelectHead from './select-head.vue';
     import FunctionalOptions from './functional-options.vue';
 
@@ -168,7 +177,7 @@
     export default {
         name: 'iSelect',
         mixins: [ Emitter, Locale, mixinsForm ],
-        components: { FunctionalOptions, Drop, SelectHead, Icon },
+        components: { FunctionalOptions, Drop, SelectHead, Icon, Scroll },
         directives: { clickOutside, TransferDom },
         props: {
             value: {
@@ -292,6 +301,23 @@
             filterByLabel: {
                 type: Boolean,
                 default: false
+            },
+
+            // 是否允许滚动加载
+            scrollLoad: {
+                type: Boolean,
+                default: false
+            },
+
+            // 滚动加载是执行的方法，必须返回promise
+            onScrollRequest: {
+                type: Function
+            },
+
+            // 滚动区域高度, 200 是跟样式保持一致
+            scrollMaxHeight: {
+                type: Number,
+                default: 200
             }
         },
         mounted(){

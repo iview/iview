@@ -107,6 +107,23 @@
             <Option v-for="item in scrollCityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             <template #footer><a href="javascript:" style="text-align: center;display: block;">App Manage</a></template>
         </Select>
+        <Divider></Divider>
+        <h2>滚动加载</h2>
+        <Select
+            v-model="model37"
+            transfer
+            filterable
+            multiple
+            scroll-load
+            :on-scroll-request="onScrollRequest"
+            :scroll-max-height="120"
+            :loading="loading"
+            style="width:200px">
+            <Option
+                v-for="item in cityList"
+                :value="item.value"
+                :key="item.value">{{ item.label }}</Option>
+        </Select>
     </div>
 </template>
 <script>
@@ -148,7 +165,11 @@
                 model33: '',
                 model34: [],
                 model35: [],
-                model36: []
+                model36: [],
+                model37: [],
+
+                hasLoaded: false,
+                loading: false,
             };
         },
         computed: {
@@ -170,10 +191,25 @@
                 return 'more' + num;
             },
             handleCreate (val) {
-                console.log(111,val);
                 this.cityList.push({
                     value: val,
                     label: val
+                });
+            },
+            onScrollRequest() {
+                return new Promise((reslove) => {
+                    this.loading = true;
+                    setTimeout(() => {
+                        if (!this.hasLoaded) {
+                            this.cityList.push({
+                                value: 'test_load_city',
+                                label: 'test_load_city'
+                            });
+                            this.hasLoaded = true;
+                        }
+                        reslove();
+                        this.loading = false;
+                    }, 2000);
                 });
             }
         }
