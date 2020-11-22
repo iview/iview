@@ -40,7 +40,7 @@
     import { on, off } from '../../utils/dom';
     import { findComponentsDownward } from '../../utils/assist';
 
-    import { transferIndex as modalIndex, transferIncrease as modalIncrease } from '../../utils/transfer-queue';
+    import { transferIndex as modalIndex, transferIncrease as modalIncrease, lastVisibleIndex, lastVisibleIncrease } from '../../utils/transfer-queue';
 
     const prefixCls = 'ivu-modal';
 
@@ -343,6 +343,10 @@
             },
             handleClickModal () {
                 if (this.draggable) {
+                    if (lastVisibleIndex !== this.lastVisibleIndex){
+                        this.lastVisibleIndex = lastVisibleIndex;
+                        return;
+                    }
                     this.modalIndex = this.handleGetModalIndex();
                 }
             }
@@ -379,7 +383,10 @@
                         this.removeScrollEffect();
                     }, 300);
                 } else {
-                    this.modalIndex = this.handleGetModalIndex();
+                    if (this.lastVisible !== val) {
+                        this.modalIndex = this.handleGetModalIndex();
+                        lastVisibleIncrease();
+                    }
 
                     if (this.timer) clearTimeout(this.timer);
                     this.wrapShow = true;
@@ -390,6 +397,8 @@
                 this.broadcast('Table', 'on-visible-change', val);
                 this.broadcast('Slider', 'on-visible-change', val);  // #2852
                 this.$emit('on-visible-change', val);
+                this.lastVisible = val;
+                this.lastVisibleIndex = lastVisibleIndex;
             },
             loading (val) {
                 if (!val) {
