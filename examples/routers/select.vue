@@ -107,6 +107,13 @@
             <Option v-for="item in scrollCityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             <template #footer><a href="javascript:" style="text-align: center;display: block;">App Manage</a></template>
         </Select>
+        <Divider>beforeSelect</Divider>
+        <Select v-model="model34" :before-select="beforeSelect" style="width:200px">
+            <Option v-for="item in scrollCityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+        <Select v-model="model34" :before-select="beforeSelect" transfer style="width:200px">
+            <Option v-for="item in scrollCityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
         <Divider></Divider>
         <h2>滚动加载</h2>
         <Select
@@ -195,6 +202,16 @@
                     value: val,
                     label: val
                 });
+            },
+            beforeSelect (option, toContinue) {
+                this.$Modal.confirm({
+                    title: '弹窗',
+                    content: '弹窗内容',
+                    onOk: () => {
+                        toContinue();
+                    }
+                });
+                return false;
             },
             onScrollRequest() {
                 return new Promise((reslove) => {

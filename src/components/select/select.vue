@@ -302,6 +302,9 @@
                 type: Boolean,
                 default: false
             },
+            beforeSelect: {
+                type: Function
+            },
 
             // 是否允许滚动加载
             scrollLoad: {
@@ -321,7 +324,21 @@
             }
         },
         mounted(){
-            this.$on('on-select-selected', this.onOptionClick);
+            this.$on('on-select-selected', (...args)=>{
+                const toContinue = () => {
+                    this.onOptionClick(...args);
+                };
+                if (this.beforeSelect) {
+                    const isPrevent = this.beforeSelect(...args, toContinue) === false;
+                    if (isPrevent) {
+                        this.hideMenu();
+                    } else {
+                        toContinue();
+                    }
+                } else {
+                    toContinue();
+                }
+            });
 
             // set the initial values if there are any
             if (!this.remote && this.selectOptions.length > 0){
