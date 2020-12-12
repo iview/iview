@@ -1,5 +1,5 @@
 <template>
-    <div @click="onHeaderClick" :class="headCls">
+    <div @click.prevent="onHeaderClick" :class="headCls">
         <span :class="[prefixCls + '-prefix']" v-if="$slots.prefix || prefix">
             <slot name="prefix">
                 <Icon :type="prefix" v-if="prefix" />
