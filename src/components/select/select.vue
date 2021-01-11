@@ -334,7 +334,7 @@
                 lastRemoteQuery: '',
                 unchangedQuery: true,
                 hasExpectedValue: false,
-                isTyping: false,           // #728
+                isTyping: false,  // #728
                 preventRemoteCall: false,
                 filterQueryChange: false,  // #4273
             };
@@ -582,7 +582,7 @@
             hideMenu () {
                 this.toggleMenu(null, false);
                 // fix #728
-                this.isTyping = false
+                this.isTyping = false;
                 setTimeout(() => this.unchangedQuery = true, ANIMATION_TIMEOUT);
             },
             onClickOutside(event){
@@ -738,7 +738,7 @@
                 }, ANIMATION_TIMEOUT);
             },
             onQueryChange(query) {
-                this.isTyping = true
+                this.isTyping = true;
                 if (query.length > 0 && query !== this.query) {
                   // in 'AutoComplete', when set an initial value asynchronously,
                   // the 'dropdown list' should be stay hidden.
