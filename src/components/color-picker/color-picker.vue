@@ -84,7 +84,7 @@
                         <div :class="[prefixCls + '-confirm']">
                             <span :class="confirmColorClasses">
                                 <template v-if="editable">
-                                    <i-input :value="formatColor" size="small" @on-enter="handleEditColor" @on-blur="handleEditColor"></i-input>
+                                    <i-input ref="editColorInput" :value="formatColor" size="small" @on-enter="handleEditColor" @on-blur="handleEditColor"></i-input>
                                 </template>
                                 <template v-else>{{formatColor}}</template>
                             </span>
@@ -424,7 +424,9 @@ export default {
         handleClose(event) {
             if (this.visible) {
                 if (this.dragging || event.type === 'mousedown') {
-                    event.preventDefault();
+                    if (this.$refs.editColorInput && event.target !== this.$refs.editColorInput.$el.querySelector('input')) {
+                        event.preventDefault();
+                    }
                     return;
                 }
 
