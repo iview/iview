@@ -1,7 +1,8 @@
 <template>
-    <div v-if="$slots.footer" :style="styles" class="ivu-select-dropdown ivu-select-dropdown-with-footer" :class="className">
+    <div v-if="$slots.footer || $slots.header" :style="styles" class="ivu-select-dropdown ivu-select-dropdown-with-header-footer" :class="className">
+        <div v-if="$slots.header" class="ivu-select-dropdown-header"><slot name="header"></slot></div>
         <div class="ivu-select-dropdown-options"><slot></slot></div>
-        <div class="ivu-select-dropdown-footer"><slot name="footer"></slot></div>
+        <div v-if="$slots.footer" class="ivu-select-dropdown-footer"><slot name="footer"></slot></div>
     </div>
     <div v-else class="ivu-select-dropdown" :class="className" :style="styles"><slot></slot></div>
 </template>

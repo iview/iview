@@ -88,6 +88,7 @@
                     </ul>
                 </Scroll>
                 <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
+                <template #header><slot name="header"></slot></template>
                 <template #footer><slot name="footer"></slot></template>
             </Drop>
         </transition>

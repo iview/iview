@@ -24,6 +24,10 @@
         width: inherit;
         max-height: 200px;
     }
+    &-header{
+        border-bottom: @border-color-base @border-width-base @border-style-base;
+        padding:  7px 0;
+    }
     &-footer{
         border-top: @border-color-base @border-width-base @border-style-base;
         padding: 7px 0 2px 0;
@@ -31,7 +35,7 @@
     &.@{transfer-no-max-height} {
         max-height: none;
     }
-    &-with-footer {
+    &-with-header-footer {
         padding-top: 0;
         overflow: hidden;
         max-height: none;
