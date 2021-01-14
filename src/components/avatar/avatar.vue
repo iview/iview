@@ -111,8 +111,8 @@
             }
         },
         beforeCreate () {
-		    this.slotTemp = this.$slots.default;
-	    },
+            this.slotTemp = this.$slots.default;
+        },
         mounted () {
             this.setScale();
         },
