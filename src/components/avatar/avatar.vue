@@ -87,9 +87,9 @@
             }
         },
         watch: {
-            size: function (val, oldVal) {
+            size (val, oldVal) {
                 if (val !== oldVal) this.setScale();
-            },
+            }
         },
         methods: {
             setScale () {
