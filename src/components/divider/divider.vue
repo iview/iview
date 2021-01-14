@@ -37,6 +37,11 @@
                     return oneOf(value, ['small', 'default']);
                 },
                 default: 'default'
+            },
+            // 4.5.0
+            plain: {
+                type: Boolean,
+                default: false
             }
         },
         computed: {
@@ -51,7 +56,8 @@
                     {
                         [`${prefixCls}-with-text`]: this.hasSlot && this.orientation === 'center',
                         [`${prefixCls}-with-text-${this.orientation}`]: this.hasSlot,
-                        [`${prefixCls}-dashed`]: !!this.dashed
+                        [`${prefixCls}-dashed`]: !!this.dashed,
+                        [`${prefixCls}-plain`]: this.plain
                     }
                 ];
             },

@@ -67,7 +67,9 @@
                         iView is a set of UI components and widgets built on Vue.js.
                         iView is a set of UI components and widgets built on Vue.js.
                     </p>
-
+                    <Divider plain>iView</Divider>
+                    <Divider orientation="left" plain>iView</Divider>
+                    <Divider orientation="right" plain>iView</Divider>
                 </div>
             </Card>
         </i-col>
