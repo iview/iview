@@ -338,6 +338,16 @@ span.@{radio-prefix-cls} + * {
             box-shadow: none!important;
         }
     }
+    &-solid .@{radio-prefix-cls}-wrapper{
+        &-checked:not(.@{radio-prefix-cls}-wrapper-disabled){
+            background: @primary-color;
+            color: #fff;
+            &:hover{
+                background: tint(@primary-color, 20%);
+                color: #fff;
+            }
+        }
+    }
 }
 
 .@{radio-group-button-prefix-cls}.@{radio-group-prefix-cls}-large .@{radio-prefix-cls}-wrapper{

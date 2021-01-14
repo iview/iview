@@ -41,6 +41,13 @@
             name: {
                 type: String,
                 default: getUuid
+            },
+            // 4.5.0
+            buttonStyle: {
+                validator (value) {
+                    return oneOf(value, ['default', 'solid']);
+                },
+                default: 'default'
             }
         },
         data () {
@@ -57,6 +64,7 @@
                         [`${prefixCls}-${this.size}`]: !!this.size,
                         [`ivu-radio-${this.size}`]: !!this.size,
                         [`${prefixCls}-${this.type}`]: !!this.type,
+                        [`${prefixCls}-button-${this.buttonStyle}`]: this.type === 'button' && this.buttonStyle !== 'default',
                         [`${prefixCls}-vertical`]: this.vertical
                     }
                 ];
