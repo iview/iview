@@ -11,6 +11,7 @@
     export default {
         name: 'Row',
         props: {
+            // todo 4.5.0 已无效，强制 flex
             type: {
                 validator (value) {
                     return oneOf(value, ['flex']);
@@ -30,17 +31,26 @@
                 type: Number,
                 default: 0
             },
-            className: String
+            className: String,
+            // 4.5.0
+            wrap: {
+                type: Boolean,
+                default: true
+            }
         },
         computed: {
             classes () {
                 return [
+                    // todo 4.5.0 已无效，强制 flex
+                    `${prefixCls}`,
                     {
-                        [`${prefixCls}`]: !this.type,
                         [`${prefixCls}-${this.type}`]: !!this.type,
                         [`${prefixCls}-${this.type}-${this.align}`]: !!this.align,
                         [`${prefixCls}-${this.type}-${this.justify}`]: !!this.justify,
-                        [`${this.className}`]: !!this.className
+                        [`${prefixCls}-${this.align}`]: !!this.align,
+                        [`${prefixCls}-${this.justify}`]: !!this.justify,
+                        [`${this.className}`]: !!this.className,
+                        [`${prefixCls}-no-wrap`]: !this.wrap
                     }
                 ];
             },
