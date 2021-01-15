@@ -188,6 +188,78 @@
             .handler-disabled();
         }
     }
+
+    &-controls-outside{
+        width: 80px + 32px * 2;
+        padding: 0 32px;
+        .@{input-number-prefix-cls}-input{
+            border-radius: 0;
+        }
+        &-btn{
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            line-height: 30px;
+            position: absolute;
+            top: 0;
+            text-align: center;
+            background-color: @input-group-bg;
+            color: @input-color;
+            cursor: pointer;
+            i{
+                font-size: 16px;
+            }
+            &:hover i{
+                color: @primary-color;
+            }
+            &-disabled, &-disabled:hover{
+                cursor: @cursor-disabled;
+                i{
+                    color: #ccc;
+                }
+            }
+        }
+        &-up{
+            right: 0;
+            border-left: 1px solid @input-border-color;
+        }
+        &-down{
+            left: 0;
+            border-right: 1px solid @input-border-color;
+        }
+    }
+    &-disabled&-controls-outside{
+        .@{input-number-prefix-cls}-controls-outside-btn{
+            cursor: @cursor-disabled;
+            i{
+                color: #ccc;
+            }
+        }
+    }
+    &-large&-controls-outside{
+        width: 80px + 40px *2;
+        padding: 0 40px;
+        .@{input-number-prefix-cls}-controls-outside-btn{
+            width: 40px;
+            height: 40px;
+            line-height: 38px;
+            i{
+                font-size: 20px;
+            }
+        }
+    }
+    &-small&-controls-outside{
+        width: 80px + 24px *2;
+        padding: 0 24px;
+        .@{input-number-prefix-cls}-controls-outside-btn{
+            width: 24px;
+            height: 24px;
+            line-height: 22px;
+            i{
+                font-size: 14px;
+            }
+        }
+    }
 }
 
 .@{form-item-prefix-cls}-error {

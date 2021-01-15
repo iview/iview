@@ -1,6 +1,6 @@
 <template>
     <div :class="wrapClasses">
-        <div :class="handlerClasses">
+        <div :class="handlerClasses" v-if="!controlsOutside">
             <a
                 @click="up"
                 :class="upClasses">
@@ -11,6 +11,20 @@
                 :class="downClasses">
                 <span :class="innerDownClasses" @click="preventDefault"></span>
             </a>
+        </div>
+        <div
+            class="ivu-input-number-controls-outside-btn ivu-input-number-controls-outside-down"
+            :class="{ 'ivu-input-number-controls-outside-btn-disabled': downDisabled }"
+            v-if="controlsOutside"
+            @click="down">
+            <i class="ivu-icon ivu-icon-ios-remove"></i>
+        </div>
+        <div
+            class="ivu-input-number-controls-outside-btn ivu-input-number-controls-outside-up"
+            :class="{ 'ivu-input-number-controls-outside-btn-disabled': upDisabled }"
+            v-if="controlsOutside"
+            @click="up">
+            <i class="ivu-icon ivu-icon-ios-add"></i>
         </div>
         <div :class="inputWrapClasses">
             <input
@@ -132,6 +146,11 @@
                 type: String,
                 default: ''
             },
+            // 4.5.0
+            controlsOutside: {
+                type: Boolean,
+                default: false
+            }
         },
         data () {
             return {
@@ -148,7 +167,8 @@
                     {
                         [`${prefixCls}-${this.size}`]: !!this.size,
                         [`${prefixCls}-disabled`]: this.itemDisabled,
-                        [`${prefixCls}-focused`]: this.focused
+                        [`${prefixCls}-focused`]: this.focused,
+                        [`${prefixCls}-controls-outside`]: this.controlsOutside
                     }
                 ];
             },
