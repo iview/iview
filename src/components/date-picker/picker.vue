@@ -779,7 +779,7 @@
                 if (state === false){
                     this.$refs.drop.destroy();
                 }
-                this.$refs.drop.update();
+                if (state) this.$refs.drop.update(); // 解决：修改完 #589 #590 #592，Drop 收起时闪动
                 this.$emit('on-open-change', state);
             },
             value(val) {
@@ -809,6 +809,10 @@
             // to handle focus from confirm buttons
             this.$on('focus-input', () => this.focus());
             this.$on('update-popper', () => this.updatePopper());
+        },
+        beforeDestroy() {
+            this.$off('focus-input');
+            this.$off('update-popper');
         }
     };
 </script>
