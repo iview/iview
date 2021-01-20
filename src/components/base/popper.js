@@ -7,6 +7,10 @@ const Popper = isServer ? function() {} : require('popper.js/dist/umd/popper.js'
 
 export default {
     props: {
+        eventsEnabled: {
+            type: Boolean,
+            default: false
+        },
         placement: {
             type: String,
             default: 'bottom'
@@ -85,6 +89,8 @@ export default {
             if (this.popperJS && this.popperJS.hasOwnProperty('destroy')) {
                 this.popperJS.destroy();
             }
+            
+            options.eventsEnabled = this.eventsEnabled;
 
             options.placement = this.placement;
 
