@@ -52,6 +52,7 @@
                 } else {
                     this.$nextTick(() => {
                         this.popper = new Popper(this.$parent.$refs.reference, this.$el, {
+                            eventsEnabled: false,
                             placement: this.placement,
                             modifiers: {
                                 computeStyle:{
