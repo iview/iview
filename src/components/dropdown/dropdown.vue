@@ -23,7 +23,7 @@
     import Drop from '../select/dropdown.vue';
     import clickOutside from '../../directives/clickoutside';
     import TransferDom from '../../directives/transfer-dom';
-    import { oneOf, findComponentUpward } from '../../utils/assist';
+    import { oneOf, findComponentUpward, typeOf } from '../../utils/assist';
 
     const prefixCls = 'ivu-dropdown';
 
@@ -55,7 +55,7 @@
                 }
             },
             transferClassName: {
-                type: String
+                type: [String, Object, Array]
             },
             stopPropagation: {
                 type: Boolean,
@@ -74,10 +74,20 @@
                 return ['bottom-start', 'bottom', 'bottom-end'].indexOf(this.placement) > -1 ? 'slide-up' : 'fade';
             },
             dropdownCls () {
-                return {
-                    [prefixCls + '-transfer']: this.transfer,
-                    [this.transferClassName]: this.transferClassName
+                const classNames = {
+                    [prefixCls + '-transfer']: this.transfer
                 };
+
+                if (typeof this.transferClassName === 'string' && this.transferClassName) {
+                    classNames[this.transferClassName] = this.transferClassName;
+                } else if (Array.isArray(this.transferClassName)) {
+                    this.transferClassName.forEach(className=>{
+                        classNames[className] = 1;
+                    });
+                } else if(typeOf(this.transferClassName) === 'object') {
+                    Object.assign(classNames, this.transferClassName);
+                }
+                return classNames;
             },
             relClasses () {
                 return [

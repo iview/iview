@@ -1,7 +1,12 @@
 <template>
     <div>
         <DatePicker :capture="false" size="small" v-model="updatedate" type="datetimerange" placement="bottom-end" placeholder="请输入变更时间" style="width: 150px"></DatePicker>
-        <Dropdown trigger="click" transfer @on-click="aaaa(111)">
+        <Row><Col>修改transferClassName数据类型:
+            <Button @click="changeClassName('string')">String</Button>
+            <Button @click="changeClassName('object')">Object</Button>
+            <Button @click="changeClassName('array')">Array</Button>
+        </Col></Row>
+        <Dropdown trigger="click" transfer @on-click="aaaa(111)" :transfer-class-name="transferClassName">
             <Button  size="small" type="primary">
                 更多
                 <Icon type="md-arrow-dropdown" />
@@ -114,16 +119,40 @@
                         label: 'Canberra'
                     }
                 ],
-                model1: []
-            }
+                model1: [],
+                transferClassName: '',
+            };
         },
         methods: {
             aaaa(){
-                this.$Message.info("aaaaa")
+                this.$Message.info('aaaaa');
+            },
+            changeClassName(type) {
+                switch (type) {
+                    case 'string':
+                        this.transferClassName = 'string-transfer-class';
+                        break;
+                    case 'object':
+                        this.transferClassName = 'object-transfer-class';
+                        break;
+                    default:
+                        this.transferClassName = 'array-transfer-class';
+                }
             }
         },
         mounted () {
 
         }
-    }
+    };
 </script>
+<style type="text/css">
+    .string-transfer-class{
+        background-color: yellow;
+    }
+    .object-transfer-class{
+        background-color: red;
+    }
+    .array-transfer-class{
+        background-color: blue;
+    }
+</style>
