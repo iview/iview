@@ -244,6 +244,11 @@
                 },
                 default: 'dark'
             },
+            // 4.5.0
+            tooltipMaxWidth: {
+                type: Number,
+                default: 300
+            },
             // #5380 开启后，:key 强制更新，否则使用 index
             // 4.1 开始支持 String，指定具体字段
             rowKey: {

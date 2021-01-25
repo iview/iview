@@ -14,8 +14,8 @@
         <template v-if="renderType === 'html'"><span v-html="row[column.key]"></span></template>
         <template v-if="renderType === 'normal'">
             <template v-if="column.tooltip">
-                <Tooltip transfer :content="row[column.key]" :theme="tableRoot.tooltipTheme" :disabled="!showTooltip && !tooltipShow" :max-width="300" class="ivu-table-cell-tooltip" @on-popper-show="handleTooltipShow" @on-popper-hide="handleTooltipHide">
-                    <span ref="content" @mouseenter="handleTooltipIn" @mouseleave="handleTooltipOut" class="ivu-table-cell-tooltip-content">{{ row[column.key] }}</span>
+                <Tooltip transfer :content="row[column.key]" :theme="column.tooltipTheme ? column.tooltipTheme : tableRoot.tooltipTheme" :disabled="!showTooltip" :max-width="column.tooltipMaxWidth ? column.tooltipMaxWidth : tableRoot.tooltipMaxWidth" class="ivu-table-cell-tooltip">
+                    <span ref="content" @mouseenter="handleTooltipIn" class="ivu-table-cell-tooltip-content">{{ row[column.key] }}</span>
                 </Tooltip>
             </template>
             <span v-else>{{row[column.key]}}</span>
@@ -75,8 +75,7 @@
                 renderType: '',
                 uid: -1,
                 context: this.$parent.$parent.$parent.currentContext,
-                showTooltip: false,  // 鼠标滑过overflow文本时，再检查是否需要显示
-                tooltipShow: false
+                showTooltip: false  // 鼠标滑过overflow文本时，再检查是否需要显示
             };
         },
         computed: {
@@ -153,16 +152,12 @@
             },
             handleTooltipIn () {
                 const $content = this.$refs.content;
-                this.showTooltip = $content.scrollWidth > $content.offsetWidth;
-            },
-            handleTooltipOut () {
-                this.showTooltip = false;
-            },
-            handleTooltipShow () {
-                this.tooltipShow = true;
-            },
-            handleTooltipHide () {
-                this.tooltipShow = false;
+                let range = document.createRange();
+                range.setStart($content, 0);
+                range.setEnd($content, $content.childNodes.length);
+                const rangeWidth = range.getBoundingClientRect().width;
+                this.showTooltip = rangeWidth > $content.offsetWidth;
+                range = null;
             },
             handleToggleTree () {
                 this.$parent.$parent.$parent.toggleTree(this.row._rowKey);
