@@ -190,6 +190,11 @@
             password: {
                 type: Boolean,
                 default: false
+            },
+            // 4.5.0
+            border: {
+                type: Boolean,
+                default: true
             }
         },
         data () {
@@ -250,6 +255,7 @@
                     {
                         [`${prefixCls}-${this.size}`]: !!this.size,
                         [`${prefixCls}-disabled`]: this.itemDisabled,
+                        [`${prefixCls}-no-border`]: !this.border,
                         [`${prefixCls}-with-prefix`]: this.showPrefix,
                         [`${prefixCls}-with-suffix`]: this.showSuffix || (this.search && this.enterButton === false)
                     }
@@ -259,7 +265,8 @@
                 return [
                     `${prefixCls}`,
                     {
-                        [`${prefixCls}-disabled`]: this.itemDisabled
+                        [`${prefixCls}-disabled`]: this.itemDisabled,
+                        [`${prefixCls}-no-border`]: !this.border
                     }
                 ];
             },

@@ -85,6 +85,24 @@
     &-small {
         .input-small();
     }
+
+    &-no-border{
+        border-radius: 0;
+        border-color: transparent;
+        &:hover{
+            border-color: transparent;
+        }
+        &:focus{
+            border-color: transparent;
+            box-shadow: none;
+        }
+        &[disabled]{
+            background-color: transparent;
+            &:hover {
+                border-color: transparent;
+            }
+        }
+    }
 }
 
 .input-error() {
