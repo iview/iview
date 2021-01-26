@@ -8,8 +8,8 @@
             <span class="ivu-input-suffix" v-else-if="showSuffix"><slot name="suffix"><i class="ivu-icon" :class="['ivu-icon-' + suffix]" v-if="suffix"></i></slot></span>
             <span class="ivu-input-word-count" v-else-if="showWordLimit">{{ textLength }}/{{ upperLimit }}</span>
             <span class="ivu-input-suffix" v-else-if="password" @click="handleToggleShowPassword">
-                <i class="ivu-icon ivu-icon-ios-eye-off-outline" v-if="showPassword"></i>
-                <i class="ivu-icon ivu-icon-ios-eye-outline" v-else></i>
+                <i class="ivu-icon ivu-icon-ios-eye-outline" v-if="showPassword"></i>
+                <i class="ivu-icon ivu-icon-ios-eye-off-outline" v-else></i>
             </span>
             <transition name="fade">
                 <i class="ivu-icon ivu-icon-ios-loading ivu-load-loop" :class="[prefixCls + '-icon', prefixCls + '-icon-validate']" v-if="!icon"></i>
