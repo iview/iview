@@ -342,11 +342,24 @@
 
                 this.textareaStyles = calcTextareaHeight(this.$refs.textarea, minRows, maxRows);
             },
-            focus () {
-                if (this.type === 'textarea') {
-                    this.$refs.textarea.focus();
-                } else {
-                    this.$refs.input.focus();
+            focus (option) {
+                const $el = this.type === 'textarea' ? this.$refs.textarea : this.$refs.input;
+                $el.focus(option);
+                // Selection content
+                const { cursor } = option || {};
+                if (cursor) {
+                    const len = $el.value.length;
+
+                    switch (cursor) {
+                        case 'start':
+                            $el.setSelectionRange(0, 0);
+                            break;
+                        case 'end':
+                            $el.setSelectionRange(len, len);
+                            break;
+                        default:
+                            $el.setSelectionRange(0, len);
+                    }
                 }
             },
             blur () {
