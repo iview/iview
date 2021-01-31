@@ -30649,7 +30649,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 var API = (0, _extends3.default)({
-    version: '4.5.0-beta.5',
+    version: '4.5.0-rc.1',
     locale: _index2.default.use,
     i18n: _index2.default.i18n,
     install: install,
