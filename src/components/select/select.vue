@@ -322,6 +322,10 @@
             scrollMaxHeight: {
                 type: Number,
                 default: 200
+            },
+            allowEmptyListShow: {
+                type: Boolean,
+                default: false
             }
         },
         mounted(){
@@ -449,9 +453,11 @@
             dropVisible () {
                 let status = true;
                 const noOptions = !this.selectOptions || this.selectOptions.length === 0;
-                if (!this.loading && this.remote && this.query === '' && noOptions) status = false;
+                if (!this.allowEmptyListShow) {
+                    if (!this.loading && this.remote && this.query === '' && noOptions) status = false;
 
-                if (this.autoComplete && noOptions) status = false;
+                    if (this.autoComplete && noOptions) status = false;
+                }
 
                 return this.visible && status;
             },
