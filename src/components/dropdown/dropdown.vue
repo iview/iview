@@ -78,15 +78,18 @@
                     [prefixCls + '-transfer']: this.transfer
                 };
 
-                if (typeof this.transferClassName === 'string' && this.transferClassName) {
-                    classNames[this.transferClassName] = this.transferClassName;
-                } else if (Array.isArray(this.transferClassName)) {
-                    this.transferClassName.forEach(className=>{
-                        classNames[className] = 1;
-                    });
-                } else if(typeOf(this.transferClassName) === 'object') {
-                    Object.assign(classNames, this.transferClassName);
+                if (this.transfer) {
+                    if (typeof this.transferClassName === 'string' && this.transferClassName) {
+                        classNames[this.transferClassName] = this.transferClassName;
+                    } else if (Array.isArray(this.transferClassName)) {
+                        this.transferClassName.forEach(className=>{
+                            classNames[className] = 1;
+                        });
+                    } else if(typeOf(this.transferClassName) === 'object') {
+                        Object.assign(classNames, this.transferClassName);
+                    }
                 }
+
                 return classNames;
             },
             relClasses () {
