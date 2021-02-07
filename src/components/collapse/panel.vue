@@ -4,7 +4,14 @@
             <Icon type="ios-arrow-forward" v-if="!hideArrow"></Icon>
             <slot></slot>
         </div>
-        <collapse-transition v-if="mounted">
+        <collapse-transition v-if="mounted"
+                             @transition-before-enter="handleTransitionBeforeEnter"
+                             @transition-enter="handleTransitionEnter"
+                             @transition-after-enter="handleTransitionAfterEnter"
+                             @transition-before-leave="handleTransitionBeforeLeave"
+                             @transition-leave="handleTransitionLeave"
+                             @transition-after-leave="handleTransitionAfterLeave"
+        >
             <div :class="contentClasses" v-show="isActive">
                 <div :class="boxClasses"><slot name="content"></slot></div>
             </div>
@@ -60,7 +67,25 @@
                     name: this.name || this.index,
                     isActive: this.isActive
                 });
-            }
+            },
+            handleTransitionBeforeEnter(...args){
+                this.$emit('transition-before-enter', ...args);
+            },
+            handleTransitionEnter(...args){
+                this.$emit('transition-enter', ...args);
+            },
+            handleTransitionAfterEnter(...args){
+                this.$emit('transition-after-enter', ...args);
+            },
+            handleTransitionBeforeLeave(...args){
+                this.$emit('transition-before-leave', ...args);
+            },
+            handleTransitionLeave(...args){
+                this.$emit('transition-leave', ...args);
+            },
+            handleTransitionAfterLeave(...args){
+                this.$emit('transition-after-leave', ...args);
+            },
         },
         mounted () {
             this.mounted = true;
