@@ -44,7 +44,7 @@ ViewUI
 
 We provide an [View UI plugin](https://github.com/view-design/vue-cli-plugin-viewui) for Vue CLI 3, which you can use to quickly build an ViewUI-based project.
 
-We also provide a starter kit [view-ui-project](https://github.com/iview-design/view-ui-project) for you.
+We also provide a starter kit [view-ui-project](https://github.com/view-design/view-ui-project) for you.
 
 ### Install View UI
 
