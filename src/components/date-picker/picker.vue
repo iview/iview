@@ -27,6 +27,9 @@
                     @mouseenter.native="handleInputMouseenter"
                     @mouseleave.native="handleInputMouseleave"
                 >
+                    <template slot="prepend" v-if="$slots['prepend']">
+                        <slot name="prepend"></slot>
+                    </template>
                     <Icon @click="handleIconClick" :type="arrowType" :custom="customArrowType" :size="arrowSize" slot="suffix" />
                 </i-input>
             </slot>

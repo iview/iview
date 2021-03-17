@@ -260,6 +260,9 @@
         <DatePicker type="daterange" transfer show-week-numbers placeholder="Select date" style="width: 400px"></DatePicker>
         <DatePicker type="datetimerange" transfer show-week-numbers placeholder="Select date" style="width: 400px"></DatePicker>
         <Time-Picker :steps="[1, 1, 15]" :value="new Date()"></Time-Picker>
+        <DatePicker type="month" show-week-numbers placeholder="Select date" style="width: 200px">
+            <span slot="prepend">前缀文本</span>
+        </DatePicker>
         <Divider>快捷方式</Divider>
         <Row>
             <Col span="12">
