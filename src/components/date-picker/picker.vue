@@ -30,6 +30,9 @@
                     <template slot="prepend" v-if="$slots['prepend']">
                         <slot name="prepend"></slot>
                     </template>
+                    <template slot="prefix" v-if="$slots['prefix']">
+                        <slot name="prefix"></slot>
+                    </template>
                     <Icon @click="handleIconClick" :type="arrowType" :custom="customArrowType" :size="arrowSize" slot="suffix" />
                 </i-input>
             </slot>
