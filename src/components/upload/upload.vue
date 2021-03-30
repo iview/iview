@@ -299,6 +299,7 @@
                     status: 'uploading',
                     name: file.name,
                     size: file.size,
+                    type: file.type,
                     percentage: 0,
                     uid: file.uid,
                     showProgress: true
