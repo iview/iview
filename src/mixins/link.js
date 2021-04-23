@@ -42,17 +42,21 @@ export default {
         }
     },
     methods: {
+        handleOpenTo () {
+            const router = this.$router;
+            let to = this.to;
+            if (router) {
+                const current = this.$route;
+                const route = router.resolve(this.to, current, this.append);
+                to = route ? route.href : this.to;
+            }
+            window.open(to);
+        },
         handleClick (new_window = false) {
             const router = this.$router;
 
             if (new_window) {
-                let to = this.to;
-                if (router) {
-                    const current = this.$route;
-                    const route = router.resolve(this.to, current, this.append);
-                    to = route ? route.href : this.to;
-                }
-                window.open(to);
+                this.handleOpenTo();
             } else {
                 if (router) {
                     if ((typeof this.to === 'string') && this.to.includes('//')) {
@@ -68,6 +72,7 @@ export default {
         handleCheckClick (event, new_window = false) {
             if (this.to) {
                 if (this.target === '_blank') {
+                    this.handleOpenTo();
                     return false;
                 } else {
                     event.preventDefault();
