@@ -45,8 +45,8 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-${this.type}`]: !!this.type,
-                        [`${prefixCls}-${this.type}-${this.align}`]: !!this.align,
-                        [`${prefixCls}-${this.type}-${this.justify}`]: !!this.justify,
+                        [`${prefixCls}-${this.type}-${this.align}`]: !!this.align && this.type,
+                        [`${prefixCls}-${this.type}-${this.justify}`]: !!this.justify && this.type,
                         [`${prefixCls}-${this.align}`]: !!this.align,
                         [`${prefixCls}-${this.justify}`]: !!this.justify,
                         [`${this.className}`]: !!this.className,
