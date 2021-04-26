@@ -1,7 +1,8 @@
 <template>
     <div
+        id="aaaaaa"
         :class="[prefixCls]"
-        v-click-outside="onClickoutside"
+        v-click-outside:[capture]="onClickoutside"
         @mouseenter="handleMouseenter"
         @mouseleave="handleMouseleave">
         <div :class="relClasses" ref="reference" @click="handleClick" @contextmenu.prevent="handleRightClick"><slot></slot></div>
@@ -21,7 +22,7 @@
 </template>
 <script>
     import Drop from '../select/dropdown.vue';
-    import clickOutside from '../../directives/clickoutside';
+    import { directive as clickOutside} from '../../directives/v-click-outside-x';
     import TransferDom from '../../directives/transfer-dom';
     import { oneOf, findComponentUpward, typeOf } from '../../utils/assist';
 
@@ -160,9 +161,12 @@
                 }
             },
             onClickoutside (e) {
-                this.handleClose();
-                this.handleRightClose();
-                if (this.currentVisible) this.$emit('on-clickoutside', e);
+                if (!this.transfer || (this.transfer && !this.$refs.drop.$el.contains(e.target))) {
+                    const isVisible = this.currentVisible;
+                    this.handleClose();
+                    this.handleRightClose();
+                    if (isVisible) { this.$emit('on-clickoutside', e); }
+                }
             },
             handleClose () {
                 if (this.trigger === 'custom') return false;

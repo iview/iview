@@ -32,11 +32,14 @@ const commonHandler = function _onCommonEvent(context, instances, event) {
         }
     };
 
-    const keysIteratee = function _keysIteratee(eventName) {
-        return instances[eventName].forEach(itemIteratee);
-    };
+    // const keysIteratee = function _keysIteratee(eventName) {
+    //     return instances[eventName].forEach(itemIteratee);
+    // };
 
-    Object.keys(instances).forEach(keysIteratee);
+    // Object.keys(instances).forEach(keysIteratee);
+    if (instances[event.type]) {
+        instances[event.type].forEach(itemIteratee)
+    }
 };
 
 /**
