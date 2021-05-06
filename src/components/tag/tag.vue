@@ -3,13 +3,13 @@
         <div :class="classes" @click.stop="check" :style="wraperStyles">
             <span :class="dotClasses" v-if="showDot" :style="bgColorStyle"></span>
             <span :class="textClasses" :style="textColorStyle"><slot></slot></span>
-            <Icon v-if="closable" :class="iconClass" :color="lineColor" type="ios-close" @click.native.stop="close"></Icon>
+            <Icon v-if="closable" :class="iconClass" :color="lineColor" type="ios-close" @click.native="close"></Icon>
         </div>
     </transition>
     <div v-else :class="classes" @click.stop="check" :style="wraperStyles">
         <span :class="dotClasses" v-if="showDot" :style="bgColorStyle"></span>
         <span :class="textClasses" :style="textColorStyle"><slot></slot></span>
-        <Icon v-if="closable" :class="iconClass" :color="lineColor" type="ios-close" @click.native.stop="close"></Icon>
+        <Icon v-if="closable" :class="iconClass" :color="lineColor" type="ios-close" @click.native="close"></Icon>
     </div>
 </template>
 <script>
@@ -26,6 +26,10 @@
             closable: {
                 type: Boolean,
                 default: false
+            },
+            closeEventStop: {
+                type: Boolean,
+                default: true,
             },
             checkable: {
                 type: Boolean,
@@ -129,6 +133,9 @@
         },
         methods: {
             close (event) {
+                if (this.closeEventStop) {
+                    event.stopPropagation();
+                }
                 if (this.name === undefined) {
                     this.$emit('on-close', event);
                 } else {
