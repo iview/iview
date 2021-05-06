@@ -1,12 +1,12 @@
 <template>
     <transition name="fade" v-if="fade">
-        <div :class="classes" @click.stop="check" :style="wraperStyles">
+        <div :class="classes" @click="check" :style="wraperStyles">
             <span :class="dotClasses" v-if="showDot" :style="bgColorStyle"></span>
             <span :class="textClasses" :style="textColorStyle"><slot></slot></span>
             <Icon v-if="closable" :class="iconClass" :color="lineColor" type="ios-close" @click.native="close"></Icon>
         </div>
     </transition>
-    <div v-else :class="classes" @click.stop="check" :style="wraperStyles">
+    <div v-else :class="classes" @click="check" :style="wraperStyles">
         <span :class="dotClasses" v-if="showDot" :style="bgColorStyle"></span>
         <span :class="textClasses" :style="textColorStyle"><slot></slot></span>
         <Icon v-if="closable" :class="iconClass" :color="lineColor" type="ios-close" @click.native="close"></Icon>
@@ -26,6 +26,10 @@
             closable: {
                 type: Boolean,
                 default: false
+            },
+            clickEventStop: {
+                type: Boolean,
+                default: true,
             },
             closeEventStop: {
                 type: Boolean,
@@ -142,7 +146,10 @@
                     this.$emit('on-close', event, this.name);
                 }
             },
-            check () {
+            check (event) {
+                if (this.clickEventStop) {
+                    event.stopPropagation();
+                }
                 if (!this.checkable) return;
                 const checked = !this.isChecked;
                 this.isChecked = checked;
