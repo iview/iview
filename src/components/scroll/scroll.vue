@@ -218,6 +218,7 @@
 
                 // get the wheel direction
                 const wheelDelta = event.wheelDelta ? event.wheelDelta : -(event.detail || event.deltaY);
+
                 this.stretchEdge(wheelDelta);
             },
 
@@ -240,11 +241,13 @@
 
                 // to give the feeling its ruberish and can be puled more to start loading
                 if (direction > 0 && this.reachedTopScrollLimit) {
-                    this.topRubberPadding += 5 - this.topRubberPadding / 5;
-                    if (this.topRubberPadding > this.topProximityThreshold) this.onCallback(1);
+                    // this.topRubberPadding += 5 - this.topRubberPadding / 5;
+                    // if (this.topRubberPadding > this.topProximityThreshold) this.onCallback(1);
+                    this.onCallback(1);
                 } else if (direction < 0 && this.reachedBottomScrollLimit) {
-                    this.bottomRubberPadding += 6 - this.bottomRubberPadding / 4;
-                    if (this.bottomRubberPadding > this.bottomProximityThreshold) this.onCallback(-1);
+                    // this.bottomRubberPadding += 6 - this.bottomRubberPadding / 4;
+                    // if (this.bottomRubberPadding > this.bottomProximityThreshold) this.onCallback(-1);
+                    this.onCallback(-1);
                 } else {
                     this.onScroll();
                 }
