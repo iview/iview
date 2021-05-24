@@ -296,7 +296,9 @@
             },
             changePanelDate(panel, type, increment, updateOtherPanel = true){
                 const current = new Date(this[`${panel}PanelDate`]);
-                current[`set${type}`](current[`get${type}`]() + increment);
+                // fix https://github.com/view-design/ViewUI/issues/418
+                // 强行把左视图日期设置为1号
+                current[`set${type}`](current[`get${type}`]() + increment, 1);
                 this[`${panel}PanelDate`] = current;
 
                 if (!updateOtherPanel) return;
