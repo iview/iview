@@ -114,6 +114,9 @@
                 event.stopPropagation();
                 this.$parent.dblclickCurrentRow(_index, rowKey);
             },
+            clickCell (row, column, key, event) {
+                this.$parent.$emit('on-cell-click', row, column, row[key], event);
+            },
             contextmenuCurrentRow (_index, event, rowKey) {
                 event.stopPropagation();
                 if (this.$parent.contextMenu) event.preventDefault();
@@ -257,7 +260,10 @@
 
                                 const $td = h('td', {
                                     class: this.alignCls(column, row),
-                                    attrs: this.getSpan(row, column, index, colIndex)
+                                    attrs: this.getSpan(row, column, index, colIndex),
+                                    on: {
+                                        click: (e) => this.clickCell(row, column, column.key, e)
+                                    }
                                 }, [$tableCell]);
                                 $tds.push($td);
                             }
@@ -333,7 +339,10 @@
 
                         const $td = h('td', {
                             class: this.alignCls(column, row),
-                            attrs: this.getSpan(row, column, index, colIndex)
+                            attrs: this.getSpan(row, column, index, colIndex),
+                            on: {
+                                click: (e) => this.clickCell(row, column, column.key, e)
+                            }
                         }, [$tableCell]);
                         $tds.push($td);
                     }
