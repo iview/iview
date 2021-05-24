@@ -417,11 +417,13 @@
                 return selectOptions && selectOptions.length === 0 && (!remote || (remote && !loading));
             },
             publicValue(){
-                if (this.labelInValue){
-                    return this.multiple ? this.values : this.values[0];
-                } else {
-                    return this.multiple ? this.values.map(option => option.value) : (this.values[0] || {}).value;
-                }
+                // 改变 labelInValue 实现，解决 bug:Select，label-in-value时，搜索、多选，先选一个，再选第二个，会替代第一个
+                // if (this.labelInValue){
+                //     return this.multiple ? this.values : this.values[0];
+                // } else {
+                //     return this.multiple ? this.values.map(option => option.value) : (this.values[0] || {}).value;
+                // }
+                return this.multiple ? this.values.map(option => option.value) : (this.values[0] || {}).value;
             },
             canBeCleared(){
                 const uiStateMatch = this.hasMouseHoverHead || this.active;
@@ -817,14 +819,24 @@
                 const newValue = JSON.stringify(now);
                 const oldValue = JSON.stringify(before);
                 // v-model is always just the value, event with labelInValue === true
-                const vModelValue = (this.publicValue && this.labelInValue) ?
-                    (this.multiple ? this.publicValue.map(({value}) => value) : this.publicValue.value) :
-                    this.publicValue;
+                // const vModelValue = (this.publicValue && this.labelInValue === false) ?
+                //     (this.multiple ? this.publicValue.map(({value}) => value) : this.publicValue.value) :
+                //     this.publicValue;
+                // 改变 labelInValue 的实现：直接在 emit 时改数据
+                const vModelValue = this.publicValue;
                 const shouldEmitInput = newValue !== oldValue && vModelValue !== this.value;
                 if (shouldEmitInput) {
+                    let emitValue = this.publicValue;
+                    if (this.labelInValue) {
+                        if (this.multiple) {
+                            emitValue = this.values;
+                        } else {
+                            emitValue = this.values[0];
+                        }
+                    }
                     this.$emit('input', vModelValue); // to update v-model
-                    this.$emit('on-change', this.publicValue);
-                    this.dispatch('FormItem', 'on-form-change', this.publicValue);
+                    this.$emit('on-change', JSON.stringify(emitValue));
+                    this.dispatch('FormItem', 'on-form-change', JSON.stringify(emitValue));
                 }
             },
             query (query) {
