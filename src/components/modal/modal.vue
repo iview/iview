@@ -247,7 +247,7 @@
                 }
             },
             showMask () {
-                return this.draggable ? false : this.mask;
+                return this.mask;
             }
         },
         methods: {
