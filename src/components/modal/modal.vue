@@ -123,10 +123,20 @@
                 type: Boolean,
                 default: false
             },
+            // 4.6.0
+            overstep: {
+                type: Boolean,
+                default: false
+            },
+            // 4.6.0
+            overstepDistance: {
+                type: Number,
+                default: 10
+            },
             zIndex: {
                 type: Number,
                 default: 1000
-            },
+            }
         },
         data () {
             return {
@@ -140,7 +150,8 @@
                     y: null,
                     dragX: null,
                     dragY: null,
-                    dragging: false
+                    dragging: false,
+                    rect: null
                 },
                 modalIndex: this.handleGetModalIndex(),  // for Esc close the top modal
                 isMouseTriggerIn: false, // #5800
@@ -297,6 +308,8 @@
 
                 const $content = this.$refs.content;
                 const rect = $content.getBoundingClientRect();
+
+                this.dragData.rect = rect;
                 this.dragData.x = rect.x || rect.left;
                 this.dragData.y = rect.y || rect.top;
 
@@ -326,8 +339,29 @@
                     y: distance.y - this.dragData.dragY
                 };
 
-                this.dragData.x += diff_distance.x;
-                this.dragData.y += diff_distance.y;
+                if (this.overstep) {
+                    const clientWidth = document.documentElement.clientWidth;
+                    const clientHeight = document.documentElement.clientHeight;
+
+                    if ((this.dragData.x + diff_distance.x <= this.overstepDistance) && diff_distance.x < 0) {
+                        this.dragData.x = 0;
+                    } else if ((this.dragData.x + this.dragData.rect.width - clientWidth > -this.overstepDistance) && diff_distance.x > 0) {
+                        this.dragData.x = clientWidth - this.dragData.rect.width;
+                    } else {
+                        this.dragData.x += diff_distance.x;
+                    }
+
+                    if ((this.dragData.y + diff_distance.y <= this.overstepDistance) && diff_distance.y < 0) {
+                        this.dragData.y = 0;
+                    } else if ((this.dragData.y + this.dragData.rect.height - clientHeight > -this.overstepDistance) && diff_distance.y > 0) {
+                        this.dragData.y = clientHeight - this.dragData.rect.height;
+                    } else {
+                        this.dragData.y += diff_distance.y;
+                    }
+                } else {
+                    this.dragData.x += diff_distance.x;
+                    this.dragData.y += diff_distance.y;
+                }
 
                 this.dragData.dragX = distance.x;
                 this.dragData.dragY = distance.y;
