@@ -835,8 +835,8 @@
                         }
                     }
                     this.$emit('input', vModelValue); // to update v-model
-                    this.$emit('on-change', JSON.stringify(emitValue));
-                    this.dispatch('FormItem', 'on-form-change', JSON.stringify(emitValue));
+                    this.$emit('on-change', emitValue);
+                    this.dispatch('FormItem', 'on-form-change', emitValue);
                 }
             },
             query (query) {
