@@ -65,6 +65,7 @@
             :disabled="disabled"
             :all-pages="allPages"
             :is-small="isSmall"
+            :eventsEnabled="eventsEnabled"
             @on-size="onSize"
             @on-page="onPage">
         </Options>
@@ -148,6 +149,11 @@
                 default: ''
             },
             disabled: {
+                type: Boolean,
+                default: false
+            },
+            // 4.6.0
+            eventsEnabled: {
                 type: Boolean,
                 default: false
             }
