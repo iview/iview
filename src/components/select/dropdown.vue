@@ -21,6 +21,11 @@
             },
             transfer: {
                 type: Boolean
+            },
+            // 4.6.0
+            eventsEnabled: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -50,7 +55,7 @@
                         this.popperStatus = true;
                     } else {
                         this.popper = new Popper(this.$parent.$refs.reference, this.$el, {
-                            eventsEnabled: false,
+                            eventsEnabled: this.eventsEnabled,
                             placement: this.placement,
                             modifiers: {
                                 computeStyle:{

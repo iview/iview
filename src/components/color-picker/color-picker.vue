@@ -41,6 +41,7 @@
                 :data-transfer="transfer"
                 :transfer="transfer"
                 :class="dropClasses"
+                :eventsEnabled="eventsEnabled"
             >
                 <transition name="fade">
                     <div
@@ -231,6 +232,11 @@ export default {
         },
         transferClassName: {
             type: String
+        },
+        // 4.6.0
+        eventsEnabled: {
+            type: Boolean,
+            default: false
         }
     },
 

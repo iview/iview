@@ -18,6 +18,7 @@
         @on-clickoutside="handleClickOutside"
         :transfer="transfer"
         :capture="capture"
+        :eventsEnabled="eventsEnabled"
     >
         <slot name="input">
             <i-input
@@ -117,6 +118,11 @@
                 default () {
                     return !this.$IVIEW ? true : this.$IVIEW.capture;
                 }
+            },
+            // 4.6.0
+            eventsEnabled: {
+                type: Boolean,
+                default: false
             }
         },
         data () {

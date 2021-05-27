@@ -25,6 +25,7 @@
                 v-show="visible"
                 :class="dropdownCls"
                 ref="drop"
+                :eventsEnabled="eventsEnabled"
                 :data-transfer="transfer"
                 :transfer="transfer"
                 v-transfer-dom>
@@ -152,6 +153,11 @@
             },
             transferClassName: {
                 type: String
+            },
+            // 4.6.0
+            eventsEnabled: {
+                type: Boolean,
+                default: false
             }
         },
         data () {

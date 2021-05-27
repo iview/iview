@@ -63,6 +63,7 @@
                 :data-transfer="transfer"
                 :transfer="transfer"
                 v-transfer-dom
+                :eventsEnabled="eventsEnabled"
             >
                 <ul v-show="showNotFoundLabel && !allowCreate" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
 
@@ -288,6 +289,11 @@
             // 4.2.0
             // 搜索时，只按 label 进行搜索
             filterByLabel: {
+                type: Boolean,
+                default: false
+            },
+            // 4.6.0
+            eventsEnabled: {
                 type: Boolean,
                 default: false
             }
