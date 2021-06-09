@@ -38,11 +38,20 @@
     import ScrollbarMixins from './mixins-scrollbar';
 
     import { on, off } from '../../utils/dom';
-    import { findComponentsDownward } from '../../utils/assist';
+    import { findComponentsDownward, deepCopy } from '../../utils/assist';
 
     import { transferIndex as modalIndex, transferIncrease as modalIncrease, lastVisibleIndex, lastVisibleIncrease } from '../../utils/transfer-queue';
 
     const prefixCls = 'ivu-modal';
+
+    const dragData = {
+        x: null,
+        y: null,
+        dragX: null,
+        dragY: null,
+        dragging: false,
+        rect: null
+    };
 
     export default {
         name: 'Modal',
@@ -133,6 +142,11 @@
                 type: Number,
                 default: 10
             },
+            // 4.6.0
+            resetDragPosition: {
+                type: Boolean,
+                default: false
+            },
             zIndex: {
                 type: Number,
                 default: 1000
@@ -145,14 +159,7 @@
                 showHead: true,
                 buttonLoading: false,
                 visible: this.value,
-                dragData: {
-                    x: null,
-                    y: null,
-                    dragX: null,
-                    dragY: null,
-                    dragging: false,
-                    rect: null
-                },
+                dragData: deepCopy(dragData),
                 modalIndex: this.handleGetModalIndex(),  // for Esc close the top modal
                 isMouseTriggerIn: false, // #5800
             };
@@ -433,6 +440,9 @@
                 this.$emit('on-visible-change', val);
                 this.lastVisible = val;
                 this.lastVisibleIndex = lastVisibleIndex;
+                if (val && this.resetDragPosition) {
+                    this.dragData = deepCopy(dragData);
+                }
             },
             loading (val) {
                 if (!val) {
