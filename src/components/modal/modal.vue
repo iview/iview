@@ -124,12 +124,12 @@
                 default: false
             },
             // 4.6.0
-            overstep: {
+            sticky: {
                 type: Boolean,
                 default: false
             },
             // 4.6.0
-            overstepDistance: {
+            stickyDistance: {
                 type: Number,
                 default: 10
             },
@@ -339,21 +339,21 @@
                     y: distance.y - this.dragData.dragY
                 };
 
-                if (this.overstep) {
+                if (this.sticky) {
                     const clientWidth = document.documentElement.clientWidth;
                     const clientHeight = document.documentElement.clientHeight;
 
-                    if ((this.dragData.x + diff_distance.x <= this.overstepDistance) && diff_distance.x < 0) {
+                    if ((this.dragData.x + diff_distance.x <= this.stickyDistance) && diff_distance.x < 0) {
                         this.dragData.x = 0;
-                    } else if ((this.dragData.x + this.dragData.rect.width - clientWidth > -this.overstepDistance) && diff_distance.x > 0) {
+                    } else if ((this.dragData.x + this.dragData.rect.width - clientWidth > -this.stickyDistance) && diff_distance.x > 0) {
                         this.dragData.x = clientWidth - this.dragData.rect.width;
                     } else {
                         this.dragData.x += diff_distance.x;
                     }
 
-                    if ((this.dragData.y + diff_distance.y <= this.overstepDistance) && diff_distance.y < 0) {
+                    if ((this.dragData.y + diff_distance.y <= this.stickyDistance) && diff_distance.y < 0) {
                         this.dragData.y = 0;
-                    } else if ((this.dragData.y + this.dragData.rect.height - clientHeight > -this.overstepDistance) && diff_distance.y > 0) {
+                    } else if ((this.dragData.y + this.dragData.rect.height - clientHeight > -this.stickyDistance) && diff_distance.y > 0) {
                         this.dragData.y = clientHeight - this.dragData.rect.height;
                     } else {
                         this.dragData.y += diff_distance.y;
