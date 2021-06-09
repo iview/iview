@@ -18,6 +18,7 @@ import Collapse from './components/collapse';
 import ColorPicker from './components/color-picker';
 import Content from './components/content';
 import DatePicker from './components/date-picker';
+import Calendar from './components/calendar';
 import Divider from './components/divider';
 import Drawer from './components/drawer';
 import Dropdown from './components/dropdown';
@@ -86,6 +87,7 @@ const components = {
     ColorPicker,
     Content: Content,
     DatePicker,
+    Calendar,
     Divider,
     Drawer,
     Dropdown,

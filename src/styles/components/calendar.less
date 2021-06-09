@@ -1,0 +1,97 @@
+@calendar-prefix-cls: ~"@{css-prefix}calendar";
+.@{calendar-prefix-cls}{
+    width: 100%;
+    border-collapse: collapse;
+    &-header{
+        border-top: @border-color-split solid 1px;
+        border-left: @border-color-split solid 1px;
+        &-col{
+            height: 48px;
+            line-height: 48px;
+            font-weight: bold;
+            font-size: 14px;
+            border-right: @border-color-split solid 1px;
+            border-bottom: @border-color-split solid 1px;
+            // background: @table-thead-bg
+        }
+    }
+    &-content{
+        border-left: @border-color-split solid 1px;
+        &-col{
+            border-right: @border-color-split solid 1px;
+            border-bottom: @border-color-split solid 1px;
+            padding: 12px;
+        }
+        &-num{
+            font-size: 14px;
+            width: 36px;
+            height: 36px;
+            display: block;
+            text-align: right;
+            line-height: 36px;
+            text-align: center;
+            position: relative;
+            border-radius: 50%;
+            cursor: pointer;
+            &:hover{
+                background: @normal-color;
+            } 
+        }
+        &-num-selected{
+            background: @primary-color;
+            color: #fff;
+            &:hover{
+                background: @primary-color;
+            }
+        }
+        &-num-selected &-num-current{
+            background: #fff;
+        }
+        &-num-current{
+            position: absolute;
+            z-index: 1;
+            right: 6px;
+            top: 5px;
+            width: 6px;
+            height: 6px;
+            border-radius: 100%;
+            display: block;
+            background: @primary-color;
+        }
+    }
+    &-content-col-disabled{
+        .@{calendar-prefix-cls}-content-num{
+            color: @btn-disable-color;
+            cursor: @cursor-disabled;
+            &:hover{
+                background: none;
+            }
+        }
+    }
+    &-slot-item{
+        height: 90px;
+        overflow-y: scroll;
+    }
+    
+}
+
+.@{calendar-prefix-cls}-wrapper{
+    .@{calendar-prefix-cls}-action{
+        height: 80px;
+        line-height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &-arrow{
+            font-size: 20px;
+            cursor: pointer;
+            height: 20px;
+        }
+        &-title{
+            font-size: 18px;
+            display: inline-block;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+    }
+}

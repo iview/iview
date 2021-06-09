@@ -54,6 +54,7 @@ nav {
                 <li><router-link to="/page">Page</router-link></li>
                 <li><router-link to="/transfer">Transfer</router-link></li>
                 <li><router-link to="/date">Date</router-link></li>
+                <li><router-link to="/calendar">Calendar</router-link></li>
                 <li><router-link to="/form">Form</router-link></li>
                 <li><router-link to="/table">Table</router-link></li>
                 <li><router-link to="/loading-bar">LoadingBar</router-link></li>
