@@ -782,8 +782,10 @@
                     // 选中时不需要触发搜索
                     this.lastRemoteQuery = this.query;
                     this.hideMenu();
+                    if (!this.filterable) {
+                        this.isFocused = false;
+                    }
                 }
-
                 this.focusIndex = this.flatOptions.findIndex((opt) => {
                     if (!opt || !opt.componentOptions) return false;
                     return opt.componentOptions.propsData.value === option.value;
