@@ -37,7 +37,8 @@
         &:after {
             content: '';
             display: table-cell;
-            position: relative;
+            // Chrome 91 #913
+            //position: relative;
             top: 50%;
             width: 50%;
             border-top: 1px solid @border-color-split;
