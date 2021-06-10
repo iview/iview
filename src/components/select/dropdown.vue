@@ -85,6 +85,8 @@
                 if (this.popper) {
                     setTimeout(() => {
                         if (this.popper && !this.popperStatus) {
+                            //fix:#910
+                            this.popper.popper.style.display = 'none';
                             this.popper.destroy();
                             this.popper = null;
                         }
