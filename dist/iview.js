@@ -2139,6 +2139,7 @@ exports.default = {
                 var route = router.resolve(this.to, current, this.append);
                 to = route ? route.href : this.to;
             }
+            if (typeof this.to === 'string') return;
             window.open(to);
         },
         handleClick: function handleClick() {
@@ -30783,7 +30784,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 var API = (0, _extends3.default)({
-    version: '4.6.0',
+    version: '4.6.1',
     locale: _index2.default.use,
     i18n: _index2.default.i18n,
     install: install,
