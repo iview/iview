@@ -50,6 +50,7 @@ export default {
                 const route = router.resolve(this.to, current, this.append);
                 to = route ? route.href : this.to;
             }
+            if (typeof this.to === 'string') return; // 会跳转两次
             window.open(to);
         },
         handleClick (new_window = false) {
