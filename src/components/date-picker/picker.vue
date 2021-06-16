@@ -73,6 +73,7 @@
                         @on-pick-clear="handleClear"
                         @on-pick-success="onPickSuccess"
                         @on-pick-click="disableClickOutSide = true"
+                        @get-date="getDate"
                         @on-selection-mode-change="onSelectionModeChange"
                     ></component>
                 </div>
@@ -778,6 +779,9 @@
             },
             updatePopper () {
                 this.$refs.drop.update();
+            },
+            getDate(val){
+                this.$emit('getDate', val);
             }
         },
         watch: {

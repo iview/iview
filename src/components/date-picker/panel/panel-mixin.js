@@ -29,6 +29,7 @@ export default {
             this.$emit('on-pick-success');
         },
         handlePickClick () {
+            this.$emit('get-date', this.rangeState);
             this.$emit('on-pick-click');
         },
         resetView(){
