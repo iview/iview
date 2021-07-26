@@ -191,6 +191,11 @@
                     });
                 }
             },
+            handleClickNode (nodeKey) {
+                if (!this.flatState[nodeKey]) return;
+                const node = this.flatState[nodeKey].node;
+                this.$emit('handle-click-node', node);
+            },
             handleSelect (nodeKey) {
                 if (!this.flatState[nodeKey]) return;
                 const node = this.flatState[nodeKey].node;
@@ -237,6 +242,7 @@
         },
         mounted () {
             this.$on('on-check', this.handleCheck);
+            this.$on('click-node', this.handleClickNode);
             this.$on('on-selected', this.handleSelect);
             this.$on('toggle-expand', node => this.$emit('on-toggle-expand', node));
             this.$on('contextmenu', this.handleContextmenu);

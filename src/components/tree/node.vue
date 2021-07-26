@@ -202,6 +202,7 @@
                 }
             },
             handleClickNode () {
+                this.dispatch('Tree', 'click-node', this.data.nodeKey);
                 if (this.TreeInstance.expandNode) {
                     if (this.showArrow) this.handleExpand();
                 } else if (this.TreeInstance.selectNode) {

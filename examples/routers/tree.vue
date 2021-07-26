@@ -1,5 +1,5 @@
 <template>
-    <Tree :data="data4" show-checkbox multiple @on-contextmenu="handleContextMenu">
+    <Tree :data="data4" show-checkbox multiple @on-contextmenu="handleContextMenu" @handle-click-node="handleClickNode">
         <template slot="contextMenu">
             <DropdownItem @click.native="handleContextMenuEdit">编辑</DropdownItem>
             <DropdownItem @click.native="handleContextMenuDelete" style="color: #ed4014">删除</DropdownItem>
@@ -62,6 +62,9 @@
             },
             handleContextMenuDelete () {
                 this.$Message.info('Click delete of line' + this.contextTitle);
+            },
+            handleClickNode(node) {
+                this.$set(node, 'expand', true);
             }
         }
     }
