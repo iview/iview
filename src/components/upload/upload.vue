@@ -304,7 +304,9 @@
                     uid: file.uid,
                     showProgress: true
                 };
-
+                if (this.webkitdirectory) {
+                    _file.webkitRelativePath = file.webkitRelativePath;
+                }
                 this.fileList.push(_file);
                 return file.uid;
             },
