@@ -302,11 +302,9 @@
                     type: file.type,
                     percentage: 0,
                     uid: file.uid,
-                    showProgress: true
+                    showProgress: true,
+                    path: file.webkitRelativePath || file.path,  // 拖拽时webkitRelativePath值为空, 需要手动赋值
                 };
-                if (this.webkitdirectory) {
-                    _file.webkitRelativePath = file.webkitRelativePath;
-                }
                 this.fileList.push(_file);
                 return file.uid;
             },
