@@ -29844,7 +29844,41 @@ exports.default = {
         onDrop: function onDrop(e) {
             this.dragOver = false;
             if (this.itemDisabled) return;
-            this.uploadFiles(e.dataTransfer.files);
+            if (this.webkitdirectory) {
+                var items = e.dataTransfer.items;
+                for (var i = 0; i < items.length; i++) {
+                    var item = items[i];
+                    if (item.kind === "file") {
+                        var entry = item.webkitGetAsEntry();
+
+                        this.getFileFromEntryRecursively(entry);
+                    }
+                }
+            } else {
+                this.uploadFiles(e.dataTransfer.files);
+            }
+        },
+        getFileFromEntryRecursively: function getFileFromEntryRecursively(entry) {
+            var _this = this;
+
+            if (entry.isFile) {
+                entry.file(function (file) {
+                    (0, _newArrowCheck3.default)(this, _this);
+
+                    file.path = entry.fullPath;
+                    this.uploadFiles([file]);
+                }.bind(this));
+            } else {
+                var reader = entry.createReader();
+                reader.readEntries(function (entries) {
+                    (0, _newArrowCheck3.default)(this, _this);
+
+                    entries.forEach(function (entry) {
+                        (0, _newArrowCheck3.default)(this, _this);
+                        return this.getFileFromEntryRecursively(entry);
+                    }.bind(this));
+                }.bind(this));
+            }
         },
         handlePaste: function handlePaste(e) {
             if (this.itemDisabled) return;
@@ -29853,7 +29887,7 @@ exports.default = {
             }
         },
         uploadFiles: function uploadFiles(files) {
-            var _this = this;
+            var _this2 = this;
 
             var postFiles = Array.prototype.slice.call(files);
             if (!this.multiple) postFiles = postFiles.slice(0, 1);
@@ -29864,13 +29898,13 @@ exports.default = {
             if (postFiles.length === 0) return;
 
             postFiles.forEach(function (file) {
-                (0, _newArrowCheck3.default)(this, _this);
+                (0, _newArrowCheck3.default)(this, _this2);
 
                 this.upload(file);
             }.bind(this));
         },
         upload: function upload(file) {
-            var _this2 = this;
+            var _this3 = this;
 
             if (!this.beforeUpload) {
                 return this.post(file);
@@ -29879,7 +29913,7 @@ exports.default = {
             var before = this.beforeUpload(file);
             if (before && before.then) {
                 before.then(function (processedFile) {
-                    (0, _newArrowCheck3.default)(this, _this2);
+                    (0, _newArrowCheck3.default)(this, _this3);
 
                     if (Object.prototype.toString.call(processedFile) === '[object File]') {
                         this.post(processedFile);
@@ -29887,19 +29921,19 @@ exports.default = {
                         this.post(file);
                     }
                 }.bind(this), function () {
-                    (0, _newArrowCheck3.default)(this, _this2);
+                    (0, _newArrowCheck3.default)(this, _this3);
                 }.bind(this));
             } else if (before !== false) {
                 this.post(file);
             } else {}
         },
         post: function post(file) {
-            var _this3 = this;
+            var _this4 = this;
 
             if (this.format.length) {
                 var _file_format = file.name.split('.').pop().toLocaleLowerCase();
                 var checked = this.format.some(function (item) {
-                    (0, _newArrowCheck3.default)(this, _this3);
+                    (0, _newArrowCheck3.default)(this, _this4);
                     return item.toLocaleLowerCase() === _file_format;
                 }.bind(this));
                 if (!checked) {
@@ -29929,18 +29963,18 @@ exports.default = {
                     filename: this.name,
                     action: this.action,
                     onProgress: function onProgress(e) {
-                        (0, _newArrowCheck3.default)(this, _this3);
+                        (0, _newArrowCheck3.default)(this, _this4);
 
                         this.handleProgress(e, file);
                     }.bind(this)
                 }).then(function (res) {
-                    (0, _newArrowCheck3.default)(this, _this3);
+                    (0, _newArrowCheck3.default)(this, _this4);
 
                     this.handleSuccess(res, file);
                 }.bind(this)).catch(function (_ref2) {
                     var err = _ref2.err,
                         response = _ref2.response;
-                    (0, _newArrowCheck3.default)(this, _this3);
+                    (0, _newArrowCheck3.default)(this, _this4);
 
                     this.handleError(err, response, file);
                 }.bind(this));
@@ -29955,17 +29989,17 @@ exports.default = {
                 filename: this.name,
                 action: this.action,
                 onProgress: function onProgress(e) {
-                    (0, _newArrowCheck3.default)(this, _this3);
+                    (0, _newArrowCheck3.default)(this, _this4);
 
                     this.handleProgress(e, file);
                 }.bind(this),
                 onSuccess: function onSuccess(res) {
-                    (0, _newArrowCheck3.default)(this, _this3);
+                    (0, _newArrowCheck3.default)(this, _this4);
 
                     this.handleSuccess(res, file);
                 }.bind(this),
                 onError: function onError(err, response) {
-                    (0, _newArrowCheck3.default)(this, _this3);
+                    (0, _newArrowCheck3.default)(this, _this4);
 
                     this.handleError(err, response, file);
                 }.bind(this)
@@ -29986,12 +30020,12 @@ exports.default = {
             return file.uid;
         },
         getFile: function getFile(file) {
-            var _this4 = this;
+            var _this5 = this;
 
             var fileList = this.fileList;
             var target = void 0;
             fileList.every(function (item) {
-                (0, _newArrowCheck3.default)(this, _this4);
+                (0, _newArrowCheck3.default)(this, _this5);
 
                 target = file.uid === item.uid ? item : null;
                 return !target;
@@ -30006,7 +30040,7 @@ exports.default = {
             }
         },
         handleSuccess: function handleSuccess(res, file) {
-            var _this5 = this;
+            var _this6 = this;
 
             var _file = this.getFile(file);
 
@@ -30018,7 +30052,7 @@ exports.default = {
                 this.dispatch('FormItem', 'on-form-change', _file);
 
                 setTimeout(function () {
-                    (0, _newArrowCheck3.default)(this, _this5);
+                    (0, _newArrowCheck3.default)(this, _this6);
 
                     _file.showProgress = false;
                 }.bind(this), 1000);
@@ -30054,10 +30088,10 @@ exports.default = {
         defaultFileList: {
             immediate: true,
             handler: function handler(fileList) {
-                var _this6 = this;
+                var _this7 = this;
 
                 this.fileList = fileList.map(function (item) {
-                    (0, _newArrowCheck3.default)(this, _this6);
+                    (0, _newArrowCheck3.default)(this, _this7);
 
                     item.status = 'finished';
                     item.percentage = 100;
@@ -30865,7 +30899,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 var API = (0, _extends3.default)({
-    version: '4.4.23',
+    version: '4.4.24',
     locale: _index2.default.use,
     i18n: _index2.default.i18n,
     install: install,
@@ -45570,8 +45604,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_vue__ = __webpack_require__(255);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_f9a2cb16_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_vue__ = __webpack_require__(621);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_f9a2cb16_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_f9a2cb16_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_39a76afa_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_vue__ = __webpack_require__(621);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_39a76afa_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_39a76afa_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 /* script */
 
@@ -45589,8 +45623,8 @@ var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_f9a2cb16_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_f9a2cb16_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_39a76afa_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_39a76afa_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,

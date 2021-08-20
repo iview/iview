@@ -189,7 +189,36 @@
             onDrop (e) {
                 this.dragOver = false;
                 if (this.itemDisabled) return;
-                this.uploadFiles(e.dataTransfer.files);
+                if (this.webkitdirectory) {
+                    const items = e.dataTransfer.items;	
+                    for (let i = 0; i < items.length; i++) {
+                        const item = items[i];
+                        if (item.kind === "file") {
+                            const entry = item.webkitGetAsEntry();
+                            // 递归地获取entry下包含的所有File
+                            this.getFileFromEntryRecursively(entry);
+                        }
+                    }
+                } else {
+                    this.uploadFiles(e.dataTransfer.files);
+                }
+            },
+            getFileFromEntryRecursively(entry) {
+                if (entry.isFile) {
+                    entry.file(
+                        (file) => {
+                            file.path = entry.fullPath;
+                            this.uploadFiles([file]);
+                        },
+                    );
+                } else {
+                    let reader = entry.createReader();
+                    reader.readEntries(
+                        (entries) => {
+                            entries.forEach((entry) => this.getFileFromEntryRecursively(entry));
+                        },
+                    );
+                }
             },
             handlePaste (e) {
                 if (this.itemDisabled) return;
