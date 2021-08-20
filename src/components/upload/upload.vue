@@ -207,7 +207,7 @@
                 if (entry.isFile) {
                     entry.file(
                         (file) => {
-                            file.path = entry.fullPath;
+                            file.path = entry.fullPath;  // 拖拽时webkitRelativePath值为空, 需要手动赋值
                             this.uploadFiles([file]);
                         },
                     );
@@ -229,6 +229,11 @@
             uploadFiles (files) {
                 let postFiles = Array.prototype.slice.call(files);
                 if (!this.multiple) postFiles = postFiles.slice(0, 1);
+                for(let i = 0; i < postFiles.length; i++) {
+                    const file = postFiles[i];
+                    // 路径前面统一加'/'
+                    file.path = file.webkitRelativePath ? `/${file.webkitRelativePath}` : file.path;
+                }
                 if (this.filesFilter) {
                     postFiles = this.filesFilter(postFiles, this.fileList);
                 }
@@ -332,7 +337,7 @@
                     percentage: 0,
                     uid: file.uid,
                     showProgress: true,
-                    path: file.webkitRelativePath || file.path,  // 拖拽时webkitRelativePath值为空, 需要手动赋值
+                    path: file.path,
                 };
                 this.fileList.push(_file);
                 return file.uid;
