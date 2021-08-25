@@ -156,7 +156,8 @@
                 prefixCls: prefixCls,
                 dragOver: false,
                 fileList: [],
-                tempIndex: 1
+                tempIndex: 1,
+                awaitUploadList: [],
             };
         },
         computed: {
@@ -186,38 +187,40 @@
                 this.uploadFiles(files);
                 this.$refs.input.value = null;
             },
-            onDrop (e) {
+            async onDrop (e) {
                 this.dragOver = false;
                 if (this.itemDisabled) return;
                 if (this.webkitdirectory) {
-                    const items = e.dataTransfer.items;	
+                    const items = e.dataTransfer.items;
                     for (let i = 0; i < items.length; i++) {
                         const item = items[i];
                         if (item.kind === "file") {
                             const entry = item.webkitGetAsEntry();
                             // 递归地获取entry下包含的所有File
-                            this.getFileFromEntryRecursively(entry);
+                            await this.getFileFromEntryRecursively(entry);
                         }
                     }
+                    this.uploadFiles(this.awaitUploadList);
+                    this.awaitUploadList = [];
                 } else {
                     this.uploadFiles(e.dataTransfer.files);
                 }
             },
-            getFileFromEntryRecursively(entry) {
+            async getFileFromEntryRecursively(entry) {
                 if (entry.isFile) {
-                    entry.file(
-                        (file) => {
-                            file.path = entry.fullPath;  // 拖拽时webkitRelativePath值为空, 需要手动赋值
-                            this.uploadFiles([file]);
-                        },
-                    );
+                    const file = await new Promise((resolve, reject) => {
+                        return entry.file(resolve, reject);
+                    });
+                    file.path = entry.fullPath;  // 拖拽时webkitRelativePath值为空, 需要手动赋值
+                    this.awaitUploadList.push(file);
                 } else {
                     let reader = entry.createReader();
-                    reader.readEntries(
-                        (entries) => {
-                            entries.forEach((entry) => this.getFileFromEntryRecursively(entry));
-                        },
-                    );
+                    const entries = await new Promise((resolve, reject) => {
+                        return reader.readEntries(resolve, reject);
+                    });
+                    for (const entry of entries) {
+                        await this.getFileFromEntryRecursively(entry);
+                    }
                 }
             },
             handlePaste (e) {
@@ -234,12 +237,15 @@
                     // 路径前面统一加'/'
                     file.path = file.webkitRelativePath ? `/${file.webkitRelativePath}` : file.path;
                 }
+                postFiles = postFiles.filter((item) => {
+                    // 上传文件夹时候, 不能上传文件
+                    return !(this.webkitdirectory && (item.path || '').split('/').length <= 2);
+                });
                 if (this.filesFilter) {
                     postFiles = this.filesFilter(postFiles, this.fileList);
                 }
 
                 if (postFiles.length === 0) return;
-
                 postFiles.forEach(file => {
                     this.upload(file);
                 });
