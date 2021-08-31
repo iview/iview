@@ -187,7 +187,7 @@
                 this.uploadFiles(files);
                 this.$refs.input.value = null;
             },
-            onDrop (e) {
+            async onDrop (e) {
                 this.dragOver = false;
                 if (this.itemDisabled) return;
                 if (this.webkitdirectory) {
@@ -197,11 +197,10 @@
                         if (item.kind === "file") {
                             const entry = item.webkitGetAsEntry();
                             // 递归地获取entry下包含的所有File
-                            this.getFileFromEntryRecursively(entry);
+                            await this.getFileFromEntryRecursively(entry);
                         }
                     }
                     this.uploadFiles(this.awaitUploadList);
-                    debugger;
                     this.awaitUploadList = [];
                 } else {
                     this.uploadFiles(e.dataTransfer.files);
@@ -218,7 +217,7 @@
                     let reader = entry.createReader();
                     const entries = await this.handleDirectoryReader(reader);
                     for (const entry of entries) {
-                        this.getFileFromEntryRecursively(entry);
+                        await this.getFileFromEntryRecursively(entry);
                     }
                 }
             },

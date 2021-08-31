@@ -29671,10 +29671,6 @@ var _newArrowCheck2 = __webpack_require__(1);
 
 var _newArrowCheck3 = _interopRequireDefault(_newArrowCheck2);
 
-var _regenerator = __webpack_require__(618);
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
 var _getIterator2 = __webpack_require__(34);
 
 var _getIterator3 = _interopRequireDefault(_getIterator2);
@@ -29682,6 +29678,10 @@ var _getIterator3 = _interopRequireDefault(_getIterator2);
 var _promise = __webpack_require__(59);
 
 var _promise2 = _interopRequireDefault(_promise);
+
+var _regenerator = __webpack_require__(618);
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
 
 var _asyncToGenerator2 = __webpack_require__(621);
 
@@ -29863,120 +29863,178 @@ exports.default = {
             this.$refs.input.value = null;
         },
         onDrop: function onDrop(e) {
-            this.dragOver = false;
-            if (this.itemDisabled) return;
-            if (this.webkitdirectory) {
-                var items = e.dataTransfer.items;
-                for (var i = 0; i < items.length; i++) {
-                    var item = items[i];
-                    if (item.kind === "file") {
-                        var entry = item.webkitGetAsEntry();
-
-                        this.getFileFromEntryRecursively(entry);
-                    }
-                }
-                this.uploadFiles(this.awaitUploadList);
-                debugger;
-                this.awaitUploadList = [];
-            } else {
-                this.uploadFiles(e.dataTransfer.files);
-            }
-        },
-        getFileFromEntryRecursively: function getFileFromEntryRecursively(entry) {
             var _this = this;
 
             return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-                var file, reader, entries, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, _entry;
-
+                var items, i, item, entry;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
-                                if (!entry.isFile) {
-                                    _context.next = 8;
+                                _this.dragOver = false;
+
+                                if (!_this.itemDisabled) {
+                                    _context.next = 3;
                                     break;
                                 }
 
-                                _context.next = 3;
+                                return _context.abrupt('return');
+
+                            case 3:
+                                if (!_this.webkitdirectory) {
+                                    _context.next = 19;
+                                    break;
+                                }
+
+                                items = e.dataTransfer.items;
+                                i = 0;
+
+                            case 6:
+                                if (!(i < items.length)) {
+                                    _context.next = 15;
+                                    break;
+                                }
+
+                                item = items[i];
+
+                                if (!(item.kind === "file")) {
+                                    _context.next = 12;
+                                    break;
+                                }
+
+                                entry = item.webkitGetAsEntry();
+                                _context.next = 12;
+                                return _this.getFileFromEntryRecursively(entry);
+
+                            case 12:
+                                i++;
+                                _context.next = 6;
+                                break;
+
+                            case 15:
+                                _this.uploadFiles(_this.awaitUploadList);
+                                _this.awaitUploadList = [];
+                                _context.next = 20;
+                                break;
+
+                            case 19:
+                                _this.uploadFiles(e.dataTransfer.files);
+
+                            case 20:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, _this);
+            }))();
+        },
+        getFileFromEntryRecursively: function getFileFromEntryRecursively(entry) {
+            var _this2 = this;
+
+            return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+                var file, reader, entries, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, _entry;
+
+                return _regenerator2.default.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                if (!entry.isFile) {
+                                    _context2.next = 8;
+                                    break;
+                                }
+
+                                _context2.next = 3;
                                 return new _promise2.default(function (resolve, reject) {
                                     return entry.file(resolve, reject);
                                 });
 
                             case 3:
-                                file = _context.sent;
+                                file = _context2.sent;
 
                                 file.path = entry.fullPath;
-                                _this.awaitUploadList.push(file);
-                                _context.next = 31;
+                                _this2.awaitUploadList.push(file);
+                                _context2.next = 38;
                                 break;
 
                             case 8:
                                 reader = entry.createReader();
-                                _context.next = 11;
-                                return _this.handleDirectoryReader(reader);
+                                _context2.next = 11;
+                                return _this2.handleDirectoryReader(reader);
 
                             case 11:
-                                entries = _context.sent;
+                                entries = _context2.sent;
                                 _iteratorNormalCompletion = true;
                                 _didIteratorError = false;
                                 _iteratorError = undefined;
-                                _context.prev = 15;
+                                _context2.prev = 15;
+                                _iterator = (0, _getIterator3.default)(entries);
 
-                                for (_iterator = (0, _getIterator3.default)(entries); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                                    _entry = _step.value;
-
-                                    _this.getFileFromEntryRecursively(_entry);
+                            case 17:
+                                if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+                                    _context2.next = 24;
+                                    break;
                                 }
-                                _context.next = 23;
+
+                                _entry = _step.value;
+                                _context2.next = 21;
+                                return _this2.getFileFromEntryRecursively(_entry);
+
+                            case 21:
+                                _iteratorNormalCompletion = true;
+                                _context2.next = 17;
                                 break;
 
-                            case 19:
-                                _context.prev = 19;
-                                _context.t0 = _context['catch'](15);
-                                _didIteratorError = true;
-                                _iteratorError = _context.t0;
+                            case 24:
+                                _context2.next = 30;
+                                break;
 
-                            case 23:
-                                _context.prev = 23;
-                                _context.prev = 24;
+                            case 26:
+                                _context2.prev = 26;
+                                _context2.t0 = _context2['catch'](15);
+                                _didIteratorError = true;
+                                _iteratorError = _context2.t0;
+
+                            case 30:
+                                _context2.prev = 30;
+                                _context2.prev = 31;
 
                                 if (!_iteratorNormalCompletion && _iterator.return) {
                                     _iterator.return();
                                 }
 
-                            case 26:
-                                _context.prev = 26;
+                            case 33:
+                                _context2.prev = 33;
 
                                 if (!_didIteratorError) {
-                                    _context.next = 29;
+                                    _context2.next = 36;
                                     break;
                                 }
 
                                 throw _iteratorError;
 
-                            case 29:
-                                return _context.finish(26);
+                            case 36:
+                                return _context2.finish(33);
 
-                            case 30:
-                                return _context.finish(23);
+                            case 37:
+                                return _context2.finish(30);
 
-                            case 31:
+                            case 38:
                             case 'end':
-                                return _context.stop();
+                                return _context2.stop();
                         }
                     }
-                }, _callee, _this, [[15, 19, 23, 31], [24,, 26, 30]]);
+                }, _callee2, _this2, [[15, 26, 30, 38], [31,, 33, 37]]);
             }))();
         },
         handleDirectoryReader: function handleDirectoryReader(reader) {
-            var _this2 = this;
+            var _this3 = this;
 
             return new _promise2.default(function (resolve) {
-                (0, _newArrowCheck3.default)(this, _this2);
+                (0, _newArrowCheck3.default)(this, _this3);
 
                 var entries = [];
                 var cb = function (items) {
-                    (0, _newArrowCheck3.default)(this, _this2);
+                    (0, _newArrowCheck3.default)(this, _this3);
 
                     if (items.length) {
                         entries.push.apply(entries, (0, _toConsumableArray3.default)(items));
@@ -29995,7 +30053,7 @@ exports.default = {
             }
         },
         uploadFiles: function uploadFiles(files) {
-            var _this3 = this;
+            var _this4 = this;
 
             var postFiles = Array.prototype.slice.call(files);
             if (!this.multiple) postFiles = postFiles.slice(0, 1);
@@ -30005,7 +30063,7 @@ exports.default = {
                 file.path = file.webkitRelativePath ? '/' + String(file.webkitRelativePath) : file.path;
             }
             postFiles = postFiles.filter(function (item) {
-                (0, _newArrowCheck3.default)(this, _this3);
+                (0, _newArrowCheck3.default)(this, _this4);
 
                 return !(this.webkitdirectory && (item.path || '').split('/').length <= 2);
             }.bind(this));
@@ -30015,13 +30073,13 @@ exports.default = {
 
             if (postFiles.length === 0) return;
             postFiles.forEach(function (file) {
-                (0, _newArrowCheck3.default)(this, _this3);
+                (0, _newArrowCheck3.default)(this, _this4);
 
                 this.upload(file);
             }.bind(this));
         },
         upload: function upload(file) {
-            var _this4 = this;
+            var _this5 = this;
 
             if (!this.beforeUpload) {
                 return this.post(file);
@@ -30030,7 +30088,7 @@ exports.default = {
             var before = this.beforeUpload(file);
             if (before && before.then) {
                 before.then(function (processedFile) {
-                    (0, _newArrowCheck3.default)(this, _this4);
+                    (0, _newArrowCheck3.default)(this, _this5);
 
                     if (Object.prototype.toString.call(processedFile) === '[object File]') {
                         this.post(processedFile);
@@ -30038,19 +30096,19 @@ exports.default = {
                         this.post(file);
                     }
                 }.bind(this), function () {
-                    (0, _newArrowCheck3.default)(this, _this4);
+                    (0, _newArrowCheck3.default)(this, _this5);
                 }.bind(this));
             } else if (before !== false) {
                 this.post(file);
             } else {}
         },
         post: function post(file) {
-            var _this5 = this;
+            var _this6 = this;
 
             if (this.format.length) {
                 var _file_format = file.name.split('.').pop().toLocaleLowerCase();
                 var checked = this.format.some(function (item) {
-                    (0, _newArrowCheck3.default)(this, _this5);
+                    (0, _newArrowCheck3.default)(this, _this6);
                     return item.toLocaleLowerCase() === _file_format;
                 }.bind(this));
                 if (!checked) {
@@ -30080,18 +30138,18 @@ exports.default = {
                     filename: this.name,
                     action: this.action,
                     onProgress: function onProgress(e) {
-                        (0, _newArrowCheck3.default)(this, _this5);
+                        (0, _newArrowCheck3.default)(this, _this6);
 
                         this.handleProgress(e, file);
                     }.bind(this)
                 }).then(function (res) {
-                    (0, _newArrowCheck3.default)(this, _this5);
+                    (0, _newArrowCheck3.default)(this, _this6);
 
                     this.handleSuccess(res, file);
                 }.bind(this)).catch(function (_ref2) {
                     var err = _ref2.err,
                         response = _ref2.response;
-                    (0, _newArrowCheck3.default)(this, _this5);
+                    (0, _newArrowCheck3.default)(this, _this6);
 
                     this.handleError(err, response, file);
                 }.bind(this));
@@ -30106,17 +30164,17 @@ exports.default = {
                 filename: this.name,
                 action: this.action,
                 onProgress: function onProgress(e) {
-                    (0, _newArrowCheck3.default)(this, _this5);
+                    (0, _newArrowCheck3.default)(this, _this6);
 
                     this.handleProgress(e, file);
                 }.bind(this),
                 onSuccess: function onSuccess(res) {
-                    (0, _newArrowCheck3.default)(this, _this5);
+                    (0, _newArrowCheck3.default)(this, _this6);
 
                     this.handleSuccess(res, file);
                 }.bind(this),
                 onError: function onError(err, response) {
-                    (0, _newArrowCheck3.default)(this, _this5);
+                    (0, _newArrowCheck3.default)(this, _this6);
 
                     this.handleError(err, response, file);
                 }.bind(this)
@@ -30138,12 +30196,12 @@ exports.default = {
             return file.uid;
         },
         getFile: function getFile(file) {
-            var _this6 = this;
+            var _this7 = this;
 
             var fileList = this.fileList;
             var target = void 0;
             fileList.every(function (item) {
-                (0, _newArrowCheck3.default)(this, _this6);
+                (0, _newArrowCheck3.default)(this, _this7);
 
                 target = file.uid === item.uid ? item : null;
                 return !target;
@@ -30158,7 +30216,7 @@ exports.default = {
             }
         },
         handleSuccess: function handleSuccess(res, file) {
-            var _this7 = this;
+            var _this8 = this;
 
             var _file = this.getFile(file);
 
@@ -30170,7 +30228,7 @@ exports.default = {
                 this.dispatch('FormItem', 'on-form-change', _file);
 
                 setTimeout(function () {
-                    (0, _newArrowCheck3.default)(this, _this7);
+                    (0, _newArrowCheck3.default)(this, _this8);
 
                     _file.showProgress = false;
                 }.bind(this), 1000);
@@ -30206,10 +30264,10 @@ exports.default = {
         defaultFileList: {
             immediate: true,
             handler: function handler(fileList) {
-                var _this8 = this;
+                var _this9 = this;
 
                 this.fileList = fileList.map(function (item) {
-                    (0, _newArrowCheck3.default)(this, _this8);
+                    (0, _newArrowCheck3.default)(this, _this9);
 
                     item.status = 'finished';
                     item.percentage = 100;
@@ -31017,7 +31075,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 var API = (0, _extends3.default)({
-    version: '4.4.28',
+    version: '4.4.29',
     locale: _index2.default.use,
     i18n: _index2.default.i18n,
     install: install,
@@ -45722,8 +45780,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_vue__ = __webpack_require__(255);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9d9082dc_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_vue__ = __webpack_require__(625);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9d9082dc_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9d9082dc_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_4e4ee19f_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_vue__ = __webpack_require__(625);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_4e4ee19f_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_4e4ee19f_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 /* script */
 
@@ -45741,8 +45799,8 @@ var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_upload_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9d9082dc_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9d9082dc_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_4e4ee19f_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_4e4ee19f_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_upload_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
