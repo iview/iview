@@ -187,7 +187,7 @@
                 this.uploadFiles(files);
                 this.$refs.input.value = null;
             },
-            async onDrop (e) {
+            onDrop (e) {
                 this.dragOver = false;
                 if (this.itemDisabled) return;
                 if (this.webkitdirectory) {
@@ -197,10 +197,11 @@
                         if (item.kind === "file") {
                             const entry = item.webkitGetAsEntry();
                             // 递归地获取entry下包含的所有File
-                            await this.getFileFromEntryRecursively(entry);
+                            this.getFileFromEntryRecursively(entry);
                         }
                     }
                     this.uploadFiles(this.awaitUploadList);
+                    debugger;
                     this.awaitUploadList = [];
                 } else {
                     this.uploadFiles(e.dataTransfer.files);
@@ -215,14 +216,28 @@
                     this.awaitUploadList.push(file);
                 } else {
                     let reader = entry.createReader();
-                    const entries = await new Promise((resolve, reject) => {
-                        return reader.readEntries(resolve, reject);
-                    });
+                    const entries = await this.handleDirectoryReader(reader);
                     for (const entry of entries) {
-                        await this.getFileFromEntryRecursively(entry);
+                        this.getFileFromEntryRecursively(entry);
                     }
                 }
             },
+
+            handleDirectoryReader(reader) {
+                return new Promise((resolve) => {
+                    const entries = [];
+                    const cb = (items => {
+                        if (items.length) {
+                            entries.push(...items);
+                            reader.readEntries(cb);
+                        } else {
+                            resolve(entries);
+                        }
+                    });
+                    reader.readEntries(cb);
+                });
+            },
+
             handlePaste (e) {
                 if (this.itemDisabled) return;
                 if (this.paste) {
