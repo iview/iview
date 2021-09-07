@@ -115,7 +115,7 @@
             },
             size: {
                 validator (value) {
-                    return oneOf(value, ['small']);
+                    return oneOf(value, ['small', 'default']);
                 }
             },
             simple: {
@@ -181,7 +181,7 @@
         },
         computed: {
             isSmall () {
-                return !!this.size;
+                return this.size === 'small';
             },
             allPages () {
                 const allPage = Math.ceil(this.total / this.currentPageSize);
@@ -205,7 +205,7 @@
                     {
                         [`${this.className}`]: !!this.className,
                         [`${prefixCls}-with-disabled`]: this.disabled,
-                        'mini': !!this.size
+                        'mini': this.size === 'small'
                     }
                 ];
             },
