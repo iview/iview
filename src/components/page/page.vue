@@ -260,6 +260,7 @@
                     return false;
                 }
                 this.changePage(current - 1);
+                this.$emit('on-prev', current - 1);
             },
             next () {
                 if (this.disabled) return;
@@ -268,6 +269,7 @@
                     return false;
                 }
                 this.changePage(current + 1);
+                this.$emit('on-next', current + 1);
             },
             fastPrev () {
                 if (this.disabled) return;
