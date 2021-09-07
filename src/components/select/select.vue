@@ -690,6 +690,7 @@
             },
             navigateOptions(direction){
                 const optionsLength = this.flatOptions.length - 1;
+                if (optionsLength < 0) return;
 
                 let index = this.focusIndex + direction;
                 if (index < 0) index = optionsLength;
