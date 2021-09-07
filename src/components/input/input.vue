@@ -2,7 +2,7 @@
     <div :class="wrapClasses">
         <template v-if="type !== 'textarea'">
             <div :class="[prefixCls + '-group-prepend']" v-if="prepend" v-show="slotReady"><slot name="prepend"></slot></div>
-            <i class="ivu-icon" :class="['ivu-icon-ios-close-circle', prefixCls + '-icon', prefixCls + '-icon-clear' , prefixCls + '-icon-normal']" v-if="clearable && currentValue && !itemDisabled" @click="handleClear"></i>
+            <i class="ivu-icon" :class="['ivu-icon-ios-close-circle', prefixCls + '-icon', prefixCls + '-icon-clear' , prefixCls + '-icon-normal']" v-if="clearable && currentValue && !itemDisabled" @click="handleClear" :style="clearableStyles"></i>
             <i class="ivu-icon" :class="['ivu-icon-' + icon, prefixCls + '-icon', prefixCls + '-icon-normal']" v-else-if="icon" @click="handleIconClick"></i>
             <i class="ivu-icon ivu-icon-ios-search" :class="[prefixCls + '-icon', prefixCls + '-icon-normal', prefixCls + '-search-icon']" v-else-if="search && enterButton === false" @click="handleSearch"></i>
             <span class="ivu-input-suffix" v-else-if="showSuffix"><slot name="suffix"><i class="ivu-icon" :class="['ivu-icon-' + suffix]" v-if="suffix"></i></slot></span>
@@ -204,7 +204,8 @@
                 slotReady: false,
                 textareaStyles: {},
                 isOnComposition: false,
-                showPassword: false
+                showPassword: false,
+                clearableIconOffset: 0
             };
         },
         computed: {
@@ -279,6 +280,12 @@
                 }
 
                 return (this.value || '').length;
+            },
+            clearableStyles () {
+                const style = {};
+                let offset = this.clearableIconOffset;
+                if (offset) style.transform = `translateX(-${offset}px)`;
+                return style;
             }
         },
         methods: {
@@ -396,16 +403,31 @@
                 setTimeout(() => {
                     this.$refs.input.setSelectionRange(len, len);
                 }, 0);
+            },
+            handleCalcIconOffset () {
+                const $el = this.$el.querySelectorAll('.ivu-input-group-append')[0];
+                if ($el) {
+                    this.clearableIconOffset = $el.offsetWidth;
+                } else {
+                    this.clearableIconOffset = 0;
+                }
             }
         },
         watch: {
             value (val) {
                 this.setCurrentValue(val);
+            },
+            type () {
+                this.$nextTick(this.handleCalcIconOffset);
             }
         },
         mounted () {
             this.slotReady = true;
             this.resizeTextarea();
+            this.handleCalcIconOffset();
+        },
+        updated () {
+            this.$nextTick(this.handleCalcIconOffset);
         }
     };
 </script>
