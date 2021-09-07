@@ -34,7 +34,7 @@
             spellcheck="false"
             @keydown="resetInputState"
             @keydown.delete="handleInputDelete"
-            @keydown.enter.prevent.stop="handleInputEnter"
+            @keydown.enter="handleInputEnter"
             @focus="onInputFocus"
             @blur="onInputBlur"
 
@@ -243,8 +243,10 @@
                     this.removeTag(this.selectedMultiple[this.selectedMultiple.length - 1]);
                 }
             },
-            handleInputEnter () {
+            handleInputEnter (e) {
                 this.$emit('on-enter');
+                // #926
+                if (this.showCreateItem) e.stopPropagation();
             },
             onHeaderClick(e){
                 if (this.filterable && e.target === this.$el){
