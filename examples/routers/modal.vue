@@ -5,7 +5,9 @@
                 v-model="modal1"
                 title="Common Modal dialog box title"
                 @on-ok="ok"
-                @on-cancel="cancel">
+                @on-cancel="cancel"
+                :before-close="handleBeforeClose"
+        >
             <p>Content of dialog</p>
             <p>Content of dialog</p>
             <p>Content of dialog</p>
@@ -145,6 +147,20 @@
             handleSpinShow () {
                 this.$Spin.show();
             },
+            handleBeforeClose () {
+                return new Promise((resolve, reject) => {
+                    this.$Modal.confirm({
+                        title: '关闭确认',
+                        content: '您确认要关闭弹窗吗？',
+                        onOk: () => {
+                            resolve();
+                        },
+                        onCancel: () => {
+                            reject();
+                        }
+                    });
+                });
+            }
         }
     }
 </script>
