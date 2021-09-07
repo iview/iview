@@ -135,7 +135,7 @@
             inputIcon () {
                 let icon = '';
                 if (this.clearable && this.currentValue && !this.disabled) {
-                    icon = 'ios-close';
+                    icon = 'ios-close-circle';
                 } else if (this.icon) {
                     icon = this.icon;
                 }
