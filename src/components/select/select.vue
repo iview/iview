@@ -800,12 +800,8 @@
                         label: query,
                         tag: undefined
                     };
-                    if (this.multiple) {
-                        this.onOptionClick(option);
-                    } else {
-                        // 单选时如果不在 nextTick 里执行，无法赋值
-                        this.$nextTick(() => this.onOptionClick(option));
-                    }
+                    // 单选（和多选，#926）时如果不在 nextTick 里执行，无法赋值
+                    this.$nextTick(() => this.onOptionClick(option));
                 }
             }
         },

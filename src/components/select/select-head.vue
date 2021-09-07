@@ -34,7 +34,7 @@
             spellcheck="false"
             @keydown="resetInputState"
             @keydown.delete="handleInputDelete"
-            @keydown.enter="handleInputEnter"
+            @keydown.enter.prevent.stop="handleInputEnter"
             @focus="onInputFocus"
             @blur="onInputBlur"
 
