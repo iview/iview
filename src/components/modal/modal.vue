@@ -199,7 +199,7 @@
                     `${prefixCls}-content`,
                     {
                         [`${prefixCls}-content-no-mask`]: !this.showMask,
-                        [`${prefixCls}-content-drag`]: this.draggable,
+                        [`${prefixCls}-content-drag`]: this.draggable && !this.fullscreen,
                         [`${prefixCls}-content-dragging`]: this.draggable && this.dragData.dragging
                     }
                 ];
@@ -223,7 +223,7 @@
             contentStyles () {
                 let style = {};
 
-                if (this.draggable) {
+                if (this.draggable && !this.fullscreen) {
                     const customTop = this.styles.top ? parseFloat(this.styles.top) : 0;
                     const customLeft = this.styles.left ? parseFloat(this.styles.left) : 0;
                     if (this.dragData.x !== null) style.left = `${this.dragData.x - customLeft}px`;
@@ -327,7 +327,7 @@
                 this.$emit('on-hidden');
             },
             handleMoveStart (event) {
-                if (!this.draggable) return false;
+                if (!this.draggable || this.fullscreen) return false;
 
                 const $content = this.$refs.content;
                 const rect = $content.getBoundingClientRect();
@@ -350,7 +350,7 @@
                 on(window, 'mouseup', this.handleMoveEnd);
             },
             handleMoveMove (event) {
-                if (!this.dragData.dragging) return false;
+                if (!this.dragData.dragging || this.fullscreen) return false;
 
                 const distance = {
                     x: event.clientX,
