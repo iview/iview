@@ -1,5 +1,5 @@
 <template>
-    <transition name="fade">
+    <transition :name="fade ? 'fade' : ''">
         <div v-if="!closed" :class="wrapClasses">
             <span :class="iconClasses" v-if="showIcon">
                 <slot name="icon">
@@ -43,6 +43,10 @@
             banner: {
                 type: Boolean,
                 default: false
+            },
+            fade: {
+                type: Boolean,
+                default: true
             }
         },
         data () {
