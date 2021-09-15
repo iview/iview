@@ -168,7 +168,7 @@
                 selected: [],
                 tmpSelected: [],
                 updatingValue: false,    // to fix set value in changeOnSelect type
-                currentValue: this.value,
+                currentValue: this.value || [],
                 query: '',
                 validDataStr: '',
                 isLoadedChildren: false    // #950
