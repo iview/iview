@@ -242,8 +242,8 @@ export default {
 
     data() {
         return {
-            val: changeColor(this.value),
-            currentValue: this.value,
+            val: changeColor(this.value || ''),
+            currentValue: this.value || '',
             dragging: false,
             visible: false,
             recommendedColor: [
@@ -412,7 +412,7 @@ export default {
             this.val = changeColor(newVal);
         },
         visible(val) {
-            this.val = changeColor(this.value);
+            this.val = changeColor(this.value || '');
             this.$refs.drop[val ? 'update' : 'destroy']();
             this.$emit('on-open-change', Boolean(val));
         },
