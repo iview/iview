@@ -53,7 +53,7 @@
         data () {
             return {
                 currentValue: this.value,
-                childrens: []
+                children: []
             };
         },
         computed: {
@@ -75,9 +75,9 @@
         },
         methods: {
             updateValue () {
-                this.childrens = findComponentsDownward(this, 'Radio');
-                if (this.childrens) {
-                    this.childrens.forEach(child => {
+                this.children = findComponentsDownward(this, 'Radio');
+                if (this.children) {
+                    this.children.forEach(child => {
                         child.currentValue = this.currentValue === child.label;
                         child.group = true;
                     });
