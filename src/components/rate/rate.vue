@@ -81,12 +81,13 @@
             }
         },
         data () {
+            const value = this.value || 0;
             return {
                 prefixCls: prefixCls,
                 hoverIndex: -1,
                 isHover: false,
-                isHalf: this.allowHalf && this.value.toString().indexOf('.') >= 0,
-                currentValue: this.value
+                isHalf: this.allowHalf && value.toString().indexOf('.') >= 0,
+                currentValue: value
             };
         },
         computed: {
@@ -136,7 +137,7 @@
                 }
 
                 return [
-                    {   
+                    {
                         [`${prefixCls}-star`]: !this.showCharacter,
                         [`${prefixCls}-star-chart`]: this.showCharacter,
                         [`${prefixCls}-star-full`]: (!isLast && full) || (isLast && !this.isHalf),
