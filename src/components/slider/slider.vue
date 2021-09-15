@@ -181,7 +181,8 @@
             }
         },
         data () {
-            const val = this.checkLimits(Array.isArray(this.value) ? this.value : [this.value]);
+            let val = this.checkLimits(Array.isArray(this.value) ? this.value : [this.value]);
+            if (this.range && this.value === null) val = [0, 0];
             return {
                 prefixCls: prefixCls,
                 currentValue: val,
