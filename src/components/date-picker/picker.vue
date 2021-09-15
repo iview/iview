@@ -805,11 +805,12 @@
             },
         },
         mounted () {
-            const initialValue = this.value;
-            const parsedValue = this.publicVModelValue;
-            if (typeof initialValue !== typeof parsedValue || JSON.stringify(initialValue) !== JSON.stringify(parsedValue)){
-                this.$emit('input', this.publicVModelValue); // to update v-model
-            }
+            // 下面的判断可能是没必要的，反而会破坏初始的 null 值
+            // const initialValue = this.value;
+            // const parsedValue = this.publicVModelValue;
+            // if (typeof initialValue !== typeof parsedValue || JSON.stringify(initialValue) !== JSON.stringify(parsedValue)){
+            //     this.$emit('input', this.publicVModelValue); // to update v-model
+            // }
             if (this.open !== null) this.visible = this.open;
 
             // to handle focus from confirm buttons
