@@ -234,7 +234,7 @@
 //                    this.validateDisabled = true;
 //                    prop.o[prop.k] = this.initialValue;
 //                }
-                if (Array.isArray(value)) {
+                if (Array.isArray(value) && this.initialValue !== null) {
                     this.validateDisabled = true;
                     prop.o[prop.k] = [].concat(this.initialValue);
                 } else {
