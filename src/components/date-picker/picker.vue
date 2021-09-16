@@ -255,6 +255,7 @@
                     active: false
                 },
                 internalFocus: false,
+                isValueNull: false // hack：解决 value 置为 null 时，$emit:input 不是 null
             };
         },
         computed: {
@@ -789,6 +790,7 @@
                 this.$emit('on-open-change', state);
             },
             value(val) {
+                if (val === null) this.isValueNull = true;
                 this.internalValue = this.parseDate(val);
             },
             open (val) {
@@ -801,7 +803,15 @@
                 const newValue = JSON.stringify(now);
                 const oldValue = JSON.stringify(before);
                 const shouldEmitInput = newValue !== oldValue || typeof now !== typeof before;
-                if (shouldEmitInput) this.$emit('input', now); // to update v-model
+                // to update v-model
+                if (shouldEmitInput) {
+                    if (this.isValueNull) {
+                        this.isValueNull = false;
+                        this.$emit('input', null);
+                    } else {
+                        this.$emit('input', now);
+                    }
+                }
             },
         },
         mounted () {
