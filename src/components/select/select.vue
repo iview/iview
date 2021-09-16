@@ -826,7 +826,7 @@
                 //     (this.multiple ? this.publicValue.map(({value}) => value) : this.publicValue.value) :
                 //     this.publicValue;
                 // 改变 labelInValue 的实现：直接在 emit 时改数据
-                const vModelValue = this.publicValue;
+                let vModelValue = this.publicValue;
                 const shouldEmitInput = newValue !== oldValue && vModelValue !== this.value;
                 if (shouldEmitInput) {
                     let emitValue = this.publicValue;
@@ -837,6 +837,11 @@
                             emitValue = this.values[0];
                         }
                     }
+
+                    // Form 重置时，如果初始值是 null，也置为 null，而不是 []
+                    if (Array.isArray(vModelValue) && !vModelValue.length && this.value === null) vModelValue = null;
+                    else if (vModelValue === undefined && this.value === null) vModelValue = null
+
                     this.$emit('input', vModelValue); // to update v-model
                     this.$emit('on-change', emitValue);
                     this.dispatch('FormItem', 'on-form-change', emitValue);
