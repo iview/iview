@@ -114,7 +114,7 @@
         },
         watch: {
             value (val) {
-                this.currentValue = val;
+                this.currentValue = val || 0;
             },
             currentValue (val) {
                 this.setHalf(val);
