@@ -196,14 +196,17 @@
                     min: 0,
                     max: 1,
                 },
-                sliderWidth: 0
+                sliderWidth: 0,
+                isValueNull: false // hack：解决 value 置为 null 时，$emit:input 0 而不是 null
             };
         },
         watch: {
             value (val) {
+                if (val === null) this.isValueNull = true;
                 val = this.checkLimits(Array.isArray(val) ? val : [val]);
                 if (!this.dragging && (val[0] !== this.currentValue[0] || val[1] !== this.currentValue[1])) {
-                    this.currentValue = val;
+                    if (this.isValueNull && this.range) this.currentValue = [0, 0];
+                    else this.currentValue = val;
                 }
             },
             exportValue (values) {
@@ -214,7 +217,12 @@
                     }
                 });
                 const value = this.range ? values : values[0];
-                this.$emit('input', value);
+                if (this.isValueNull) {
+                    this.isValueNull = false;
+                    this.$emit('input', null);
+                } else {
+                    this.$emit('input', value);
+                }
                 this.$emit('on-input', value);
             }
         },
