@@ -129,7 +129,7 @@
         },
         watch: {
             value (val) {
-                if (val !== this.trueValue && val !== this.falseValue) {
+                if (val !== this.trueValue && val !== this.falseValue && val !== null) {
                     throw 'Value should be trueValue or falseValue.';
                 }
                 this.currentValue = val;
