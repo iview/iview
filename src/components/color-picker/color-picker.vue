@@ -409,7 +409,7 @@ export default {
 
     watch: {
         value(newVal) {
-            this.val = changeColor(newVal);
+            this.val = changeColor(newVal || '');
         },
         visible(val) {
             this.val = changeColor(this.value || '');
