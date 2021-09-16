@@ -171,7 +171,8 @@
                 currentValue: this.value || [],
                 query: '',
                 validDataStr: '',
-                isLoadedChildren: false    // #950
+                isLoadedChildren: false,    // #950
+                isValueNull: false // hack：解决 value 置为 null 时，$emit:input [] 而不是 null
             };
         },
         computed: {
@@ -438,11 +439,17 @@
                 this.$emit('on-visible-change', val);
             },
             value (val) {
-                this.currentValue = val;
-                if (!val.length) this.selected = [];
+                if (val === null) this.isValueNull = true;
+                this.currentValue = val || [];
+                if (val === null || !val.length) this.selected = [];
             },
             currentValue () {
-                this.$emit('input', this.currentValue);
+                if (this.isValueNull) {
+                    this.isValueNull = false;
+                    this.$emit('input', null);
+                } else {
+                    this.$emit('input', this.currentValue);
+                }
                 if (this.updatingValue) {
                     this.updatingValue = false;
                     return;
