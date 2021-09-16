@@ -840,7 +840,7 @@
 
                     // Form 重置时，如果初始值是 null，也置为 null，而不是 []
                     if (Array.isArray(vModelValue) && !vModelValue.length && this.value === null) vModelValue = null;
-                    else if (vModelValue === undefined && this.value === null) vModelValue = null
+                    else if (vModelValue === undefined && this.value === null) vModelValue = null;
 
                     this.$emit('input', vModelValue); // to update v-model
                     this.$emit('on-change', emitValue);
