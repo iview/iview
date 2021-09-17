@@ -119,7 +119,7 @@
 
     const findOptionsInVNode = (node) => {
         const opts = node.componentOptions;
-        if (opts && opts.tag.match(optionRegexp)) return [node];
+        if (opts && optionRegexp.test(opts.tag)) return [node];
         if (!node.children && (!opts || !opts.children)) return [];
         const children = [...(node.children || []), ...(opts && opts.children || [])];
         const options = children.reduce(
@@ -464,7 +464,7 @@
 
                     const cOptions = option.componentOptions;
                     if (!cOptions) continue;
-                    if (cOptions.tag.match(optionGroupRegexp)){
+                    if (optionGroupRegexp.test(cOptions.tag)){
                         let children = cOptions.children;
 
                         // remove filtered children
