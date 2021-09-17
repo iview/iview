@@ -497,7 +497,12 @@
                 let style = {};
                 if (this.bodyHeight !== 0) {
                     let height = this.bodyHeight - (this.showHorizontalScrollBar?this.scrollBarWidth:0);
-                    style.height = this.showHorizontalScrollBar ? `${height}px` : `${height - 1}px`;
+                    if(this.height) {
+                        style.height = this.showHorizontalScrollBar ? `${height}px` : `${height - 1}px`;
+                    } else if (this.maxHeight) {
+                        style.maxHeight = this.showHorizontalScrollBar ? `${height}px` : `${height - 1}px`;
+                    }
+                    
                 }
                 return style;
             },
