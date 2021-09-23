@@ -1,6 +1,6 @@
 <template>
     <div :class="classes" ref="cell">
-        <template v-if="renderType === 'index'"><span>{{ column.indexMethod ? column.indexMethod(row) : (naturalIndex + 1) }}</span></template>
+        <template v-if="renderType === 'index'"><span>{{ column.indexMethod ? column.indexMethod(row, naturalIndex) : (naturalIndex + 1) }}</span></template>
         <template v-if="renderType === 'selection'">
             <Checkbox :value="checked" @click.native.stop="handleClick" @on-change="toggleSelect" :disabled="disabled"></Checkbox>
         </template>
