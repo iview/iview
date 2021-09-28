@@ -218,9 +218,16 @@
                 this.validateState = '';
                 this.validateMessage = '';
 
+
                 let model = this.FormInstance.model;
                 let value = this.fieldValue;
                 let path = this.prop;
+
+                // 如果没有设置model或prop属性，则不做任何处理，防止异常抛出
+                if(!model || !path) {
+                    return ;
+                }
+
                 if (path.indexOf(':') !== -1) {
                     path = path.replace(/:/, '.');
                 }
