@@ -70,7 +70,7 @@
         display: block;
     }
 
-    &:focus {
+    &:not(&-disabled):focus {
         box-shadow: 0 0 0 2px fade(@primary-color, 20%);
         outline: 0;
     }
