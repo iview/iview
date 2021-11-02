@@ -520,7 +520,9 @@
                 }
             },
             handleResize(){
-                this.updateNavScroll();
+                if (this.$refs.nav) { // 页面销毁时，不做限制这里会报错
+                    this.updateNavScroll();
+                }
             },
             isInsideHiddenElement () {
                 let parentNode = this.$el.parentNode;
