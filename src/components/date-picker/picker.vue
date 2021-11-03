@@ -417,6 +417,7 @@
                 if (e && e.type === 'focus') return; // just focus, don't open yet
                 if(!this.itemDisabled){
                     this.visible = true;
+                    e.target.focus();
                 }
             },
             handleBlur (e) {
@@ -425,6 +426,7 @@
                     return;
                 }
                 if (this.visible) {
+                    this.isFocused = false;
                     e.preventDefault();
                     return;
                 }
