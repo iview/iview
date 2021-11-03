@@ -96,7 +96,8 @@
 
                 // near to edge detectors
                 topProximityThreshold: distanceToEdge[0],
-                bottomProximityThreshold: distanceToEdge[1]
+                bottomProximityThreshold: distanceToEdge[1],
+                timeoutIdList: []
             };
         },
         computed: {
@@ -165,12 +166,15 @@
                     const container = this.$refs.scrollContainer;
                     const initialScrollTop = container.scrollTop;
                     for (let i = 0; i < 20; i++) {
-                        setTimeout(() => {
-                            bottomLoaderHeight = Math.max(
-                                bottomLoaderHeight,
-                                this.$refs.bottomLoader.getBoundingClientRect().height
-                            );
-                            container.scrollTop = initialScrollTop + bottomLoaderHeight;
+                        this.timeoutIdList.push('');
+                        this.timeoutIdList[this.timeoutIdList.length - 1] = setTimeout (() => {
+                            if(this.$refs && this.$refs.bottomLoader) {
+                                bottomLoaderHeight = Math.max(
+                                        bottomLoaderHeight,
+                                        this.$refs.bottomLoader.getBoundingClientRect().height
+                                    );
+                                container.scrollTop = initialScrollTop + bottomLoaderHeight;
+                            }
                         }, i * 50);
                     }
                 }
@@ -182,6 +186,8 @@
                     this.reset();
                 }, 5000);
 
+                this.timeoutIdList.push(tooSlow);
+                
                 Promise.all(callbacks).then(() => {
                     clearTimeout(tooSlow);
                     this.reset();
@@ -324,6 +330,11 @@
             this.handleScroll = throttle(this.onScroll, 150, {leading: false});
             this.pointerUpHandler = this.onPointerUp.bind(this); // because we need the same function to add and remove event handlers
             this.pointerMoveHandler = throttle(this.onPointerMove, 50, {leading: false});
+        },
+        beforeDestroy() {
+            this.timeoutIdList.forEach(id => {
+                clearTimeout(id);
+            });
         }
     };
 
