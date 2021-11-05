@@ -1,9 +1,7 @@
 <template>
     <div :class="itemClasses">
         <div :class="headerClasses" @click="toggle">
-            <slot name="arrow-forward-icon" v-if="!hideArrow">
-                <Icon type="ios-arrow-forward"></Icon>
-            </slot>
+            <Icon type="ios-arrow-forward" v-if="!hideArrow"></Icon>
             <slot></slot>
         </div>
         <collapse-transition v-if="mounted"
