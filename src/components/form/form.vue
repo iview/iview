@@ -121,11 +121,13 @@
                 field.validate('', cb);
             }
         },
-        watch: {
-            rules() {
-                this.validate();
-            }
-        },
+        // 完全理解不了为什么要watch rules来重新执行校验，注释掉
+        // 这会引发一些问题，比如通过getter生成rules切换了某些字段的校验规则，但整个表单都校验都触发了
+        // watch: {
+        //     rules() {
+        //         this.validate();
+        //     }
+        // },
         created () {
             this.$on('on-form-item-add', (field) => {
                 if (field) this.fields.push(field);
