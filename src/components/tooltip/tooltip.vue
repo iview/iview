@@ -9,8 +9,8 @@
                 :style="dropStyles"
                 ref="popper"
                 v-show="!disabled && (visible || always)"
-                @mouseenter="handleShowPopper"
-                @mouseleave="handleClosePopper"
+                @mouseenter.stop="handleShowPopper"
+                @mouseleave.stop="handleClosePopper"
                 :data-transfer="transfer"
                 v-transfer-dom>
                 <div :class="[prefixCls + '-content']">
@@ -123,6 +123,7 @@
         },
         methods: {
             handleShowPopper() {
+                this.updatePopper();
                 if (this.timeout) clearTimeout(this.timeout);
                 this.timeout = setTimeout(() => {
                     this.visible = true;
@@ -135,6 +136,11 @@
                     if (!this.controlled) {
                         this.timeout = setTimeout(() => {
                             this.visible = false;
+                            setTimeout(() => {
+                                if(this.popperJS) {
+                                    this.doDestroy();
+                                }
+                            }, 300);
                         }, 100);
                     }
                 }
@@ -148,6 +154,12 @@
             if (this.always) {
                 this.updatePopper();
             }
-        }
+        },
+        updated (){
+            // 是否初始化 popper，可全局配置，防止监听事件过多
+            // if (this.$IVIEW.initPopper) {
+            //     this.$nextTick(()=>this.updatePopper());
+            // }
+        },
     };
 </script>
