@@ -12,10 +12,14 @@
         <Poptip trigger="focus" title="Title" content="content">
             <Input placeholder="Input focus" />
         </Poptip>
+
+        <Poptip title="Title" content="content" confirm>
+           <Button>hover</Button>
+        </Poptip>
     </div>
 </template>
 <script>
     export default {
 
-    }
+    };
 </script>

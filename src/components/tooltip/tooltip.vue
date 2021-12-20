@@ -134,7 +134,10 @@
                 if (this.timeout) {
                     clearTimeout(this.timeout);
                     if (!this.controlled) {
-                        this.doDestroy();
+                        if (!this.always) {
+                            this.doDestroy();
+                        }
+                      
                         this.timeout = setTimeout(() => {
                             this.visible = false;
                         }, 100);
