@@ -134,13 +134,9 @@
                 if (this.timeout) {
                     clearTimeout(this.timeout);
                     if (!this.controlled) {
+                        this.doDestroy();
                         this.timeout = setTimeout(() => {
                             this.visible = false;
-                            setTimeout(() => {
-                                if(this.popperJS) {
-                                    this.doDestroy();
-                                }
-                            }, 300);
                         }, 100);
                     }
                 }
