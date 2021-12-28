@@ -538,9 +538,15 @@
                 }
                 return JSON.parse(JSON.stringify(this.data.filter((data, index) => selectionIndexes.indexOf(index) > -1)));
             },
-            toggleSelect (_index) {
+            toggleSelect (_index, type) {
                 let data = {};
-
+                if (type === 'selection_single')
+                {
+                    for (let i in this.objData) 
+                    {
+                        this.objData[i]._isChecked = false;
+                    }
+                }
                 for (let i in this.objData) {
                     if (parseInt(i) === _index) {
                         data = this.objData[i];
@@ -552,8 +558,15 @@
                 this.objData[_index]._isChecked = status;
 
                 const selection = this.getSelection();
-                this.$emit(status ? 'on-select' : 'on-select-cancel', selection, JSON.parse(JSON.stringify(this.data[_index])));
-                this.$emit('on-selection-change', selection);
+                if (type === 'selection_single')
+                {
+                    this.$emit(status ? 'on-select' : 'on-select-cancel', JSON.parse(JSON.stringify(this.data[_index])));
+                    this.$emit('on-selection-change', selection);
+                } else
+                {
+                    this.$emit(status ? 'on-select' : 'on-select-cancel', selection, JSON.parse(JSON.stringify(this.data[_index])));
+                    this.$emit('on-selection-change', selection);
+                }
             },
             toggleExpand (_index) {
                 let data = {};
