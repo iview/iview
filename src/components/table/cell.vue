@@ -4,6 +4,9 @@
         <template v-if="renderType === 'selection'">
             <Checkbox :value="checked" @click.native.stop="handleClick" @on-change="toggleSelect" :disabled="disabled"></Checkbox>
         </template>
+        <template v-if="renderType === 'selection_single'">
+            <Radio :value="checked" @click.native.stop="handleClick" @on-change="toggleSelect" :disabled="disabled"></Radio>
+        </template>
         <template v-if="renderType === 'html'"><span v-html="row[column.key]"></span></template>
         <template v-if="renderType === 'normal'">
             <template v-if="column.tooltip">
@@ -36,11 +39,12 @@
     import TableSlot from './slot';
     import Icon from '../icon/icon.vue';
     import Checkbox from '../checkbox/checkbox.vue';
+    import Radio from '../radio/radio.vue';
     import Tooltip from '../tooltip/tooltip.vue';
 
     export default {
         name: 'TableCell',
-        components: { Icon, Checkbox, TableExpand, TableSlot, Tooltip },
+        components: { Icon, Checkbox, Radio, TableExpand, TableSlot, Tooltip },
         inject: ['tableRoot'],
         props: {
             prefixCls: String,
@@ -62,6 +66,7 @@
                 uid: -1,
                 context: this.$parent.$parent.$parent.currentContext,
                 showTooltip: false,  // 鼠标滑过overflow文本时，再检查是否需要显示
+                radioValue: {}
             };
         },
         computed: {
@@ -72,7 +77,8 @@
                         [`${this.prefixCls}-hidden`]: !this.fixed && this.column.fixed && (this.column.fixed === 'left' || this.column.fixed === 'right'),
                         [`${this.prefixCls}-cell-ellipsis`]: this.column.ellipsis || false,
                         [`${this.prefixCls}-cell-with-expand`]: this.renderType === 'expand',
-                        [`${this.prefixCls}-cell-with-selection`]: this.renderType === 'selection'
+                        [`${this.prefixCls}-cell-with-selection`]: this.renderType === 'selection',
+                        [`${this.prefixCls}-cell-with-single-selection`]: this.renderType === 'selection_single'
                     }
                 ];
             },
@@ -87,7 +93,7 @@
         },
         methods: {
             toggleSelect () {
-                this.$parent.$parent.$parent.toggleSelect(this.index);
+                this.$parent.$parent.$parent.toggleSelect(this.index, this.renderType);
             },
             toggleExpand () {
                 this.$parent.$parent.$parent.toggleExpand(this.index);
@@ -108,6 +114,8 @@
                 this.renderType = 'index';
             } else if (this.column.type === 'selection') {
                 this.renderType = 'selection';
+            } else if (this.column.type === 'selection_single') {
+                this.renderType = 'selection_single';
             } else if (this.column.type === 'html') {
                 this.renderType = 'html';
             } else if (this.column.type === 'expand') {
