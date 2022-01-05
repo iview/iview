@@ -287,18 +287,21 @@
                     const prevTabs = this.$refs.nav.querySelectorAll(`.${prefixCls}-tab`);
                     const tab = prevTabs[index];
                     this.barWidth = tab ? parseFloat(tab.offsetWidth) : 0;
-
+                    const { marginLeft: _currentTabMarginLeft } = getComputedStyle(prevTabs[index]);
+                    const currentTabMarginLeft = + _currentTabMarginLeft.replace('px', '');
+                    let offset = 0;
                     if (index > 0) {
-                        let offset = 0;
-                        const gutter = this.size === 'small' ? 0 : 16;
                         for (let i = 0; i < index; i++) {
-                            offset += parseFloat(prevTabs[i].offsetWidth) + gutter;
+                            const { marginLeft: _marginLeft, marginRight: _marginRight } = getComputedStyle(prevTabs[i]);
+                            const marginLeft = + _marginLeft.replace('px', '');
+                            const marginRight = + _marginRight.replace('px', '');
+                            offset += parseFloat(prevTabs[i].offsetWidth) + marginLeft + marginRight;
                         }
-
-                        this.barOffset = offset;
+                        offset += currentTabMarginLeft;
                     } else {
-                        this.barOffset = 0;
+                        offset = currentTabMarginLeft;
                     }
+                    this.barOffset = offset;
                     this.updateNavScroll();
                 });
             },

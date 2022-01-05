@@ -13,6 +13,12 @@
        <Tabs type="card" :draggable="true" @on-drag-drop="handleDragDrop">
            <TabPane v-for="(tab, index) in tabs" :key="index" :label="tab.label" :name="tab.name">{{ tab.label }}</TabPane>
        </Tabs>
+       <Divider></Divider>
+       <Tabs class="compact-tabs">
+           <TabPane label="标签一" name="tab1">标签一的内容</TabPane>
+           <TabPane label="标签二" name="tab2">标签二的内容</TabPane>
+           <TabPane label="标签三" name="tab3">标签三的内容</TabPane>
+       </Tabs>
    </div>
 </template>
 <script>
@@ -60,3 +66,11 @@
         }
     }
 </script>
+<style lang="less">
+.compact-tabs {
+    .ivu-tabs-tab {
+        margin: 0px;
+        padding: 8px;
+    }
+}
+</style>
