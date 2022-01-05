@@ -62,10 +62,13 @@
                 <Button>Bottom Right</Button>
             </Tooltip>
         </div>
+            <Tooltip content="Bottom Right text" placement="bottom-end" always>
+                <Button>Bottom Right</Button>
+            </Tooltip>
     </div>
 </template>
 <script>
     export default {
 
-    }
+    };
 </script>

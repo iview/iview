@@ -118,12 +118,6 @@ export default {
             this.popperJS = null;
         }
     },
-    updated (){
-        // 是否初始化 popper，可全局配置，防止监听事件过多
-        if (this.$IVIEW.initPopper) {
-            this.$nextTick(()=>this.updatePopper());
-        }
-    },
     beforeDestroy() {
         if (isServer) return;
         if (this.popperJS) {
