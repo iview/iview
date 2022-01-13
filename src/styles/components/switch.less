@@ -70,13 +70,13 @@
         display: block;
     }
 
-    &:focus {
+    &:not(&-disabled):focus {
         box-shadow: 0 0 0 2px fade(@primary-color, 20%);
         outline: 0;
     }
 
     &:focus:hover {
-        box-shadow: none;
+        //box-shadow: none;
     }
 
     &-small {
@@ -169,7 +169,7 @@
         border-color: @primary-color;
         background-color: @primary-color;
         opacity: .4;
-        
+
         &:after {
             background: #fff;
         }

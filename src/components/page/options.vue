@@ -1,7 +1,7 @@
 <template>
     <div v-if="showSizer || showElevator" :class="optsClasses">
         <div v-if="showSizer" :class="sizerClasses">
-            <i-select v-model="currentPageSize" :size="size" :placement="placement" :transfer="transfer" :disabled="disabled" @on-change="changeSize">
+            <i-select v-model="currentPageSize" :size="size" :placement="placement" :transfer="transfer" :disabled="disabled" :eventsEnabled="eventsEnabled" @on-change="changeSize">
                 <i-option v-for="item in pageSizeOpts" :key="item" :value="item" style="text-align:center;">{{ item }} {{ t('i.page.page') }}</i-option>
             </i-select>
         </div>
@@ -45,7 +45,8 @@
             isSmall: Boolean,
             placement: String,
             transfer: Boolean,
-            disabled: Boolean
+            disabled: Boolean,
+            eventsEnabled: Boolean
         },
         data () {
             return {

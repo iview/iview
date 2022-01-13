@@ -21,7 +21,7 @@
                 @click="handleTransferClick"
                 @mouseenter="handleMouseenter"
                 @mouseleave="handleMouseleave"
-                :data-transfer="transfer" 
+                :data-transfer="transfer"
                 v-transfer-dom>
                 <div :class="[prefixCls + '-content']">
                     <div :class="[prefixCls + '-arrow']"></div>
@@ -219,14 +219,12 @@
                 }
                 if (this.confirm) {
                     this.visible = false;
-                    this.destroyPoper();
                     return true;
                 }
                 if (this.trigger !== 'click') {
                     return false;
                 }
                 this.visible = false;
-                this.destroyPoper();
             },
             handleFocus (fromInput = true) {
                 if (this.disabled) return;
@@ -241,7 +239,6 @@
                     return false;
                 }
                 this.visible = false;
-                this.destroyPoper();
             },
             handleMouseenter () {
                 if (this.disabled) return;
@@ -262,18 +259,15 @@
                     clearTimeout(this.enterTimer);
                     this.enterTimer = setTimeout(() => {
                         this.visible = false;
-                        this.destroyPoper();
                     }, 100);
                 }
             },
             cancel () {
                 this.visible = false;
-                this.destroyPoper();
                 this.$emit('on-cancel');
             },
             ok () {
                 this.visible = false;
-                this.destroyPoper();
                 this.$emit('on-ok');
             },
             getInputChildren () {
@@ -295,13 +289,6 @@
             },
             handleIndexIncrease () {
                 this.tIndex = this.handleGetIndex();
-            },
-            destroyPoper() {
-                setTimeout(() => {
-                    if(this.popperJS) {
-                        this.doDestroy();
-                    }
-                }, 300);
             }
         },
         mounted () {

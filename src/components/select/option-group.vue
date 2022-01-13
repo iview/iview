@@ -43,6 +43,9 @@
                 this.queryChange();
                 return true;
             });
+        },
+        beforeDestroy() {
+            this.$off('on-query-change');
         }
     };
 </script>

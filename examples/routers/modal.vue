@@ -1,12 +1,13 @@
 <template>
     <div>
-        <Button type="primary"
-                @click="modal1 = true">Display dialog box</Button>
-        <Button @click="onConfirm">Modal instance Confirm</Button>
-        <Modal v-model="modal1"
-               title="Common Modal dialog box title"
-               @on-ok="ok"
-               @on-cancel="cancel">
+        <Button type="primary" @click="modal1 = true">Display dialog box</Button>
+        <Modal
+                v-model="modal1"
+                title="Common Modal dialog box title"
+                @on-ok="ok"
+                @on-cancel="cancel"
+                :before-close="handleBeforeClose"
+        >
             <p>Content of dialog</p>
             <p>Content of dialog</p>
             <p>Content of dialog</p>
@@ -154,7 +155,7 @@
                         }
                     ],
                 }]
-            }
+            };
         },
         methods: {
             ok () {
@@ -191,6 +192,20 @@
             handleSpinShow () {
                 this.$Spin.show();
             },
+            handleBeforeClose () {
+                return new Promise((resolve, reject) => {
+                    this.$Modal.confirm({
+                        title: '关闭确认',
+                        content: '您确认要关闭弹窗吗？',
+                        onOk: () => {
+                            resolve();
+                        },
+                        onCancel: () => {
+                            reject();
+                        }
+                    });
+                });
+            }
         }
-    }
+    };
 </script>

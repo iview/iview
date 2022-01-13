@@ -4,7 +4,7 @@
             <div :class="maskClasses" :style="maskStyle" v-show="visible" v-if="mask" @click="handleMask"></div>
         </transition>
         <div :class="wrapClasses" @click="handleWrapClick">
-            <transition :name="'move-' + placement">
+            <transition :name="transitionName">
                 <div :class="classes" :style="mainStyles" v-show="visible">
                     <div :class="contentClasses" ref="content">
                         <a class="ivu-drawer-close" v-if="closable" @click="close">
@@ -15,7 +15,7 @@
                         <div :class="[prefixCls + '-header']" v-if="showHead"><slot name="header"><div :class="[prefixCls + '-header-inner']">{{ title }}</div></slot></div>
                         <div :class="[prefixCls + '-body']" :style="styles"><slot></slot></div>
                     </div>
-                    <div class="ivu-drawer-drag" :class="{ 'ivu-drawer-drag-left': placement === 'left' }" v-if="draggable" @mousedown="handleTriggerMousedown">
+                    <div class="ivu-drawer-drag" :class="'ivu-drawer-drag-' + placement" v-if="draggable && (placement === 'left' || placement === 'right')" @mousedown="handleTriggerMousedown">
                         <slot name="trigger">
                             <div class="ivu-drawer-drag-move-trigger">
                                 <div class="ivu-drawer-drag-move-trigger-point">
@@ -57,6 +57,11 @@
                 type: [Number, String],
                 default: 256
             },
+            // 4.6.0
+            height: {
+                type: [Number, String],
+                default: 256
+            },
             closable: {
                 type: Boolean,
                 default: true
@@ -79,9 +84,10 @@
                 type: Boolean,
                 default: false
             },
+            // 4.6.0 add top, bottom
             placement: {
                 validator (value) {
-                    return oneOf(value, ['left', 'right']);
+                    return oneOf(value, ['left', 'right', 'top', 'bottom']);
                 },
                 default: 'right'
             },
@@ -117,9 +123,12 @@
                 showHead: true,
                 canMove: false,
                 dragWidth: this.width,
+                dragHeight: this.height,
                 wrapperWidth: this.width,
+                wrapperHeight: this.height,
                 wrapperLeft: 0,
-                minWidth: 256
+                minWidth: 256,
+                minHeight: 256
             };
         },
         computed: {
@@ -138,13 +147,23 @@
             mainStyles () {
                 let style = {};
 
-                const width = parseInt(this.dragWidth);
+                if (this.placement === 'left' || this.placement === 'right') {
+                    const width = parseInt(this.dragWidth);
 
-                const styleWidth = {
-                    width: width <= 100 ? `${width}%` : `${width}px`
-                };
+                    const styleWidth = {
+                        width: width <= 100 ? `${width}%` : `${width}px`
+                    };
 
-                Object.assign(style, styleWidth);
+                    Object.assign(style, styleWidth);
+                } else {
+                    const height = parseInt(this.dragHeight);
+
+                    const styleHeight = {
+                        height: height <= 100 ? `${height}%` : `${height}px`
+                    };
+
+                    Object.assign(style, styleHeight);
+                }
 
                 return style;
             },
@@ -173,6 +192,11 @@
                         [`${prefixCls}-mask-inner`]: this.inner
                     }
                 ];
+            },
+            transitionName () {
+                if (this.placement === 'left' || this.placement === 'right') return `move-${this.placement}`;
+                else if (this.placement === 'top') return 'move-up';
+                else return 'move-down';
             }
         },
         methods: {
@@ -306,6 +330,9 @@
             },
             width (val) {
                 this.dragWidth = val;
+            },
+            height (val) {
+                this.dragHeight = val;
             }
         }
     };

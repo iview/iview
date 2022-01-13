@@ -38,11 +38,20 @@
     import ScrollbarMixins from './mixins-scrollbar';
 
     import { on, off } from '../../utils/dom';
-    import { findComponentsDownward } from '../../utils/assist';
+    import { findComponentsDownward, deepCopy } from '../../utils/assist';
 
-    import { transferIndex as modalIndex, transferIncrease as modalIncrease } from '../../utils/transfer-queue';
+    import { transferIndex as modalIndex, transferIncrease as modalIncrease, lastVisibleIndex, lastVisibleIncrease } from '../../utils/transfer-queue';
 
     const prefixCls = 'ivu-modal';
+
+    const dragData = {
+        x: null,
+        y: null,
+        dragX: null,
+        dragY: null,
+        dragging: false,
+        rect: null
+    };
 
     export default {
         name: 'Modal',
@@ -123,10 +132,26 @@
                 type: Boolean,
                 default: false
             },
+            // 4.6.0
+            sticky: {
+                type: Boolean,
+                default: false
+            },
+            // 4.6.0
+            stickyDistance: {
+                type: Number,
+                default: 10
+            },
+            // 4.6.0
+            resetDragPosition: {
+                type: Boolean,
+                default: false
+            },
             zIndex: {
                 type: Number,
                 default: 1000
             },
+            beforeClose: Function
         },
         data () {
             return {
@@ -135,13 +160,7 @@
                 showHead: true,
                 buttonLoading: false,
                 visible: this.value,
-                dragData: {
-                    x: null,
-                    y: null,
-                    dragX: null,
-                    dragY: null,
-                    dragging: false
-                },
+                dragData: deepCopy(dragData),
                 modalIndex: this.handleGetModalIndex(),  // for Esc close the top modal
                 isMouseTriggerIn: false, // #5800
             };
@@ -180,7 +199,7 @@
                     `${prefixCls}-content`,
                     {
                         [`${prefixCls}-content-no-mask`]: !this.showMask,
-                        [`${prefixCls}-content-drag`]: this.draggable,
+                        [`${prefixCls}-content-drag`]: this.draggable && !this.fullscreen,
                         [`${prefixCls}-content-dragging`]: this.draggable && this.dragData.dragging
                     }
                 ];
@@ -204,7 +223,7 @@
             contentStyles () {
                 let style = {};
 
-                if (this.draggable) {
+                if (this.draggable && !this.fullscreen) {
                     const customTop = this.styles.top ? parseFloat(this.styles.top) : 0;
                     const customLeft = this.styles.left ? parseFloat(this.styles.left) : 0;
                     if (this.dragData.x !== null) style.left = `${this.dragData.x - customLeft}px`;
@@ -236,11 +255,26 @@
                 }
             },
             showMask () {
-                return this.draggable ? false : this.mask;
+                return this.mask;
             }
         },
         methods: {
             close () {
+                if (!this.beforeClose) {
+                    return this.handleClose();
+                }
+
+                const before = this.beforeClose();
+
+                if (before && before.then) {
+                    before.then(() => {
+                        this.handleClose();
+                    });
+                } else {
+                    this.handleClose();
+                }
+            },
+            handleClose () {
                 this.visible = false;
                 this.$emit('input', false);
                 this.$emit('on-cancel');
@@ -296,10 +330,12 @@
                 this.$emit('on-hidden');
             },
             handleMoveStart (event) {
-                if (!this.draggable) return false;
+                if (!this.draggable || this.fullscreen) return false;
 
                 const $content = this.$refs.content;
                 const rect = $content.getBoundingClientRect();
+
+                this.dragData.rect = rect;
                 this.dragData.x = rect.x || rect.left;
                 this.dragData.y = rect.y || rect.top;
 
@@ -317,7 +353,7 @@
                 on(window, 'mouseup', this.handleMoveEnd);
             },
             handleMoveMove (event) {
-                if (!this.dragData.dragging) return false;
+                if (!this.dragData.dragging || this.fullscreen) return false;
 
                 const distance = {
                     x: event.clientX,
@@ -329,8 +365,29 @@
                     y: distance.y - this.dragData.dragY
                 };
 
-                this.dragData.x += diff_distance.x;
-                this.dragData.y += diff_distance.y;
+                if (this.sticky) {
+                    const clientWidth = document.documentElement.clientWidth;
+                    const clientHeight = document.documentElement.clientHeight;
+
+                    if ((this.dragData.x + diff_distance.x <= this.stickyDistance) && diff_distance.x < 0) {
+                        this.dragData.x = 0;
+                    } else if ((this.dragData.x + this.dragData.rect.width - clientWidth > -this.stickyDistance) && diff_distance.x > 0) {
+                        this.dragData.x = clientWidth - this.dragData.rect.width;
+                    } else {
+                        this.dragData.x += diff_distance.x;
+                    }
+
+                    if ((this.dragData.y + diff_distance.y <= this.stickyDistance) && diff_distance.y < 0) {
+                        this.dragData.y = 0;
+                    } else if ((this.dragData.y + this.dragData.rect.height - clientHeight > -this.stickyDistance) && diff_distance.y > 0) {
+                        this.dragData.y = clientHeight - this.dragData.rect.height;
+                    } else {
+                        this.dragData.y += diff_distance.y;
+                    }
+                } else {
+                    this.dragData.x += diff_distance.x;
+                    this.dragData.y += diff_distance.y;
+                }
 
                 this.dragData.dragX = distance.x;
                 this.dragData.dragY = distance.y;
@@ -346,6 +403,10 @@
             },
             handleClickModal () {
                 if (this.draggable) {
+                    if (lastVisibleIndex !== this.lastVisibleIndex){
+                        this.lastVisibleIndex = lastVisibleIndex;
+                        return;
+                    }
                     this.modalIndex = this.handleGetModalIndex();
                 }
             }
@@ -382,7 +443,10 @@
                         this.removeScrollEffect();
                     }, 300);
                 } else {
-                    this.modalIndex = this.handleGetModalIndex();
+                    if (this.lastVisible !== val) {
+                        this.modalIndex = this.handleGetModalIndex();
+                        lastVisibleIncrease();
+                    }
 
                     if (this.timer) clearTimeout(this.timer);
                     this.wrapShow = true;
@@ -393,6 +457,11 @@
                 this.broadcast('Table', 'on-visible-change', val);
                 this.broadcast('Slider', 'on-visible-change', val);  // #2852
                 this.$emit('on-visible-change', val);
+                this.lastVisible = val;
+                this.lastVisibleIndex = lastVisibleIndex;
+                if (val && this.resetDragPosition) {
+                    this.dragData = deepCopy(dragData);
+                }
             },
             loading (val) {
                 if (!val) {

@@ -193,11 +193,11 @@ export {findComponentUpward};
 
 // Find component downward
 export function findComponentDownward (context, componentName) {
-    const childrens = context.$children;
+    const $children = context.$children;
     let children = null;
 
-    if (childrens.length) {
-        for (const child of childrens) {
+    if ($children.length) {
+        for (const child of $children) {
             const name = child.$options.name;
             if (name === componentName) {
                 children = child;

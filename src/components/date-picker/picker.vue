@@ -44,6 +44,7 @@
                 :class="dropdownCls"
                 :placement="placement"
                 ref="drop"
+                :eventsEnabled="eventsEnabled"
                 :data-transfer="transfer"
                 :transfer="transfer"
                 v-transfer-dom>
@@ -230,6 +231,11 @@
             },
             transferClassName: {
                 type: String
+            },
+            // 4.6.0
+            eventsEnabled: {
+                type: Boolean,
+                default: false
             }
         },
         data(){
@@ -256,6 +262,7 @@
                     active: false
                 },
                 internalFocus: false,
+                isValueNull: false // hack：解决 value 置为 null 时，$emit:input 不是 null
             };
         },
         computed: {
@@ -789,10 +796,11 @@
                 if (state === false){
                     this.$refs.drop.destroy();
                 }
-                this.$refs.drop.update();
+                if (state) this.$refs.drop.update(); // 解决：修改完 #589 #590 #592，Drop 收起时闪动
                 this.$emit('on-open-change', state);
             },
             value(val) {
+                if (val === null) this.isValueNull = true;
                 this.internalValue = this.parseDate(val);
             },
             open (val) {
@@ -805,20 +813,33 @@
                 const newValue = JSON.stringify(now);
                 const oldValue = JSON.stringify(before);
                 const shouldEmitInput = newValue !== oldValue || typeof now !== typeof before;
-                if (shouldEmitInput) this.$emit('input', now); // to update v-model
+                // to update v-model
+                if (shouldEmitInput) {
+                    if (this.isValueNull) {
+                        this.isValueNull = false;
+                        this.$emit('input', null);
+                    } else {
+                        this.$emit('input', now);
+                    }
+                }
             },
         },
         mounted () {
-            const initialValue = this.value;
-            const parsedValue = this.publicVModelValue;
-            if (typeof initialValue !== typeof parsedValue || JSON.stringify(initialValue) !== JSON.stringify(parsedValue)){
-                this.$emit('input', this.publicVModelValue); // to update v-model
-            }
+            // 下面的判断可能是没必要的，反而会破坏初始的 null 值
+            // const initialValue = this.value;
+            // const parsedValue = this.publicVModelValue;
+            // if (typeof initialValue !== typeof parsedValue || JSON.stringify(initialValue) !== JSON.stringify(parsedValue)){
+            //     this.$emit('input', this.publicVModelValue); // to update v-model
+            // }
             if (this.open !== null) this.visible = this.open;
 
             // to handle focus from confirm buttons
             this.$on('focus-input', () => this.focus());
             this.$on('update-popper', () => this.updatePopper());
+        },
+        beforeDestroy() {
+            this.$off('focus-input');
+            this.$off('update-popper');
         }
     };
 </script>

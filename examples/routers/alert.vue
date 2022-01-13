@@ -1,6 +1,7 @@
 <template>
     <div>
-        <Alert>
+        <Button @click="show = !show">toggle show</Button>
+        <Alert v-if="show" :fade="false">
             An info prompt
             <template slot="desc">Content of prompt. Content of prompt. Content of prompt. Content of prompt. </template>
         </Alert>
@@ -56,7 +57,7 @@
             A success prompt
             <span slot="desc">Content of prompt. Content of prompt. Content of prompt. Content of prompt. </span>
         </Alert>
-        <Alert type="warning" closable>
+        <Alert type="warning" closable :fade="false">
             Custom closing content
             <span slot="close">No longer prompt</span>
         </Alert>
@@ -65,6 +66,11 @@
 <script>
     import { Alert, Icon } from 'iview';
     export default {
-        components: { Alert, Icon }
+        components: { Alert, Icon },
+        data () {
+            return {
+                show: true
+            }
+        }
     }
 </script>

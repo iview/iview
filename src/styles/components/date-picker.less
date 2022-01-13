@@ -54,7 +54,7 @@
                 box-shadow: 0 0 0 1px @primary-color inset;
             }
         }
-        
+
         &-cell{
             span&{
                 width: 28px;
@@ -235,7 +235,7 @@
         width: auto;
     }
 
-    &-focused input{
+    &-focused input:not([disabled]){
         .active();
     }
 }

@@ -7,6 +7,18 @@
     import { findComponentUpward } from '../../utils/assist';
     const prefixCls = 'ivu-col';
 
+    function parseFlex(flex) {
+        if (typeof flex === 'number') {
+            return `${flex} ${flex} auto`;
+        }
+
+        if (/^\d+(\.\d+)?(px|em|rem|%)$/.test(flex)) {
+            return `0 0 ${flex}`;
+        }
+
+        return flex;
+    }
+
     export default {
         name: 'iCol',
         props: {
@@ -21,7 +33,12 @@
             md: [Number, Object],
             lg: [Number, Object],
             xl: [Number, Object],
-            xxl: [Number, Object]
+            xxl: [Number, Object],
+            // 4.5.0
+            flex: {
+                type: [Number, String],
+                default: ''
+            }
         },
         data () {
             return {
@@ -66,6 +83,11 @@
                         paddingLeft: this.gutter / 2 + 'px',
                         paddingRight: this.gutter / 2 + 'px'
                     };
+                }
+
+                // 4.5.0
+                if (this.flex) {
+                    style.flex = parseFlex(this.flex);
                 }
 
                 return style;

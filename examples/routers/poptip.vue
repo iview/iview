@@ -14,12 +14,15 @@
         </Poptip>
 
         <Poptip title="Title" content="content" confirm>
-           <Button>hover</Button>
+            <Button>hover</Button>
         </Poptip>
+        <div v-for="i in 3000" :key="i">
+            <Poptip title="Title" content="content" :transfer="true" >
+                <Button>Hover {{ i }}</Button>
+            </Poptip>
+        </div>
     </div>
 </template>
 <script>
-    export default {
-
-    };
+export default {};
 </script>

@@ -41,6 +41,7 @@
                 :data-transfer="transfer"
                 :transfer="transfer"
                 :class="dropClasses"
+                :eventsEnabled="eventsEnabled"
             >
                 <transition name="fade">
                     <div
@@ -84,7 +85,7 @@
                         <div :class="[prefixCls + '-confirm']">
                             <span :class="confirmColorClasses">
                                 <template v-if="editable">
-                                    <i-input :value="formatColor" size="small" @on-enter="handleEditColor" @on-blur="handleEditColor"></i-input>
+                                    <i-input ref="editColorInput" :value="formatColor" size="small" @on-enter="handleEditColor" @on-blur="handleEditColor"></i-input>
                                 </template>
                                 <template v-else>{{formatColor}}</template>
                             </span>
@@ -231,13 +232,18 @@ export default {
         },
         transferClassName: {
             type: String
+        },
+        // 4.6.0
+        eventsEnabled: {
+            type: Boolean,
+            default: false
         }
     },
 
     data() {
         return {
-            val: changeColor(this.value),
-            currentValue: this.value,
+            val: changeColor(this.value || ''),
+            currentValue: this.value || '',
             dragging: false,
             visible: false,
             recommendedColor: [
@@ -403,10 +409,10 @@ export default {
 
     watch: {
         value(newVal) {
-            this.val = changeColor(newVal);
+            this.val = changeColor(newVal || '');
         },
         visible(val) {
-            this.val = changeColor(this.value);
+            this.val = changeColor(this.value || '');
             this.$refs.drop[val ? 'update' : 'destroy']();
             this.$emit('on-open-change', Boolean(val));
         },
@@ -424,7 +430,9 @@ export default {
         handleClose(event) {
             if (this.visible) {
                 if (this.dragging || event.type === 'mousedown') {
-                    event.preventDefault();
+                    if (this.$refs.editColorInput && event.target !== this.$refs.editColorInput.$el.querySelector('input')) {
+                        event.preventDefault();
+                    }
                     return;
                 }
 

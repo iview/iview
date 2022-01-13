@@ -30,8 +30,8 @@
         },
         data () {
             return {
-                currentValue: this.value,
-                childrens: []
+                currentValue: this.value || [],
+                children: []
             };
         },
         computed: {
@@ -49,10 +49,10 @@
         },
         methods: {
             updateModel (update) {
-                this.childrens = findComponentsDownward(this, 'Checkbox');
-                if (this.childrens) {
-                    const { value } = this;
-                    this.childrens.forEach(child => {
+                this.children = findComponentsDownward(this, 'Checkbox');
+                if (this.children) {
+                    const value = this.value || [];
+                    this.children.forEach(child => {
                         child.model = value;
 
                         if (update) {

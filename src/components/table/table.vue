@@ -48,7 +48,7 @@
                     </tbody>
                 </table>
             </div>
-            <div :class="[prefixCls + '-fixed']" :style="fixedTableStyle" v-if="isLeftFixed">
+            <div :class="fixedTableClasses" :style="fixedTableStyle" v-if="isLeftFixed">
                 <div :class="fixedHeaderClasses" v-if="showHeader">
                     <table-head
                         fixed="left"
@@ -84,7 +84,7 @@
                     :style="{ 'margin-top': showHorizontalScrollBar ? scrollBarWidth + 'px' : 0 }"
                 />
             </div>
-            <div :class="[prefixCls + '-fixed-right']" :style="fixedRightTableStyle" v-if="isRightFixed">
+            <div :class="fixedRightTableClasses" :style="fixedRightTableStyle" v-if="isRightFixed">
                 <div :class="fixedHeaderClasses" v-if="showHeader">
                     <table-head
                         fixed="right"
@@ -244,6 +244,11 @@
                 },
                 default: 'dark'
             },
+            // 4.5.0
+            tooltipMaxWidth: {
+                type: Number,
+                default: 300
+            },
             // #5380 开启后，:key 强制更新，否则使用 index
             // 4.1 开始支持 String，指定具体字段
             rowKey: {
@@ -290,6 +295,13 @@
             showContextMenu: {
                 type: Boolean,
                 default: false
+            },
+            // 4.7.0
+            fixedShadow: {
+                validator (value) {
+                    return oneOf(value, ['auto', 'show', 'hide']);
+                },
+                default: 'show'
             }
         },
         data () {
@@ -322,7 +334,9 @@
                 contextMenuStyles: {
                     top: 0,
                     left: 0
-                }
+                },
+                scrollOnTheLeft: false,
+                scrollOnTheRight: false
             };
         },
         computed: {
@@ -367,6 +381,22 @@
                         [`${prefixCls}-border`]: this.border,
                         [`${prefixCls}-stripe`]: this.stripe,
                         [`${prefixCls}-with-fixed-top`]: !!this.height
+                    }
+                ];
+            },
+            fixedTableClasses () {
+                return [
+                    `${prefixCls}-fixed`,
+                    {
+                        [`${prefixCls}-fixed-shadow`]: this.fixedShadow === 'show' || (this.fixedShadow === 'auto' && !this.scrollOnTheLeft)
+                    }
+                ];
+            },
+            fixedRightTableClasses () {
+                return [
+                    `${prefixCls}-fixed-right`,
+                    {
+                        [`${prefixCls}-fixed-shadow`]: this.fixedShadow === 'show' || (this.fixedShadow === 'auto' && !this.scrollOnTheRight)
                     }
                 ];
             },
@@ -467,7 +497,9 @@
                 let style = {};
                 if (this.bodyHeight !== 0) {
                     let height = this.bodyHeight - (this.showHorizontalScrollBar?this.scrollBarWidth:0);
-                    style.height = this.showHorizontalScrollBar ? `${height}px` : `${height - 1}px`;
+                    const bodyHeight = this.showHorizontalScrollBar ? `${height}px` : `${height - 1}px`;
+                    if (this.height) style.height = bodyHeight;
+                    else if (this.maxHeight) style.maxHeight = bodyHeight;
                 }
                 return style;
             },
@@ -646,6 +678,15 @@
                 this.tableWidth = this.cloneColumns.map(cell => cell._width).reduce((a, b) => a + b, 0) + (this.showVerticalScrollBar?this.scrollBarWidth:0) + 1;
                 this.columnsWidth = columnsWidth;
                 this.fixedHeader();
+
+                // 4.7.0 auto fixed shadow
+                if (this.fixedShadow === 'auto') {
+                    this.$nextTick(() => {
+                        const $body = this.$refs.body;
+                        this.scrollOnTheLeft = $body.scrollLeft === 0;
+                        this.scrollOnTheRight = $body.scrollWidth === $body.scrollLeft + $body.clientWidth;
+                    });
+                }
             },
             handleMouseIn (_index, rowKey) {
                 if (this.disabledHover) return;
@@ -1031,6 +1072,10 @@
                 this.cloneColumns.forEach((col) => col._filterVisible = false);
             },
             handleBodyScroll (event) {
+                // 4.7.0
+                this.scrollOnTheLeft = event.target.scrollLeft === 0;
+                this.scrollOnTheRight = event.target.scrollWidth === event.target.scrollLeft + event.target.clientWidth;
+
                 if (this.showHeader) this.$refs.header.scrollLeft = event.target.scrollLeft;
                 if (this.isLeftFixed) this.$refs.fixedBody.scrollTop = event.target.scrollTop;
                 if (this.isRightFixed) this.$refs.fixedRightBody.scrollTop = event.target.scrollTop;

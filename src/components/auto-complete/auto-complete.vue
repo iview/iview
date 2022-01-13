@@ -17,7 +17,10 @@
         @on-open-change="handleOpenChange"
         @on-select="handleSelect"
         @on-clickoutside="handleClickOutside"
-        :transfer="transfer">
+        :transfer="transfer"
+        :capture="capture"
+        :eventsEnabled="eventsEnabled"
+    >
         <slot name="input">
             <i-input
                 :element-id="elementId"
@@ -109,6 +112,18 @@
             },
             transferClassName: {
                 type: String
+            },
+            // 4.6.0
+            capture: {
+                type: Boolean,
+                default () {
+                    return !this.$IVIEW ? true : this.$IVIEW.capture;
+                }
+            },
+            // 4.6.0
+            eventsEnabled: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -121,7 +136,7 @@
             inputIcon () {
                 let icon = '';
                 if (this.clearable && this.currentValue && !this.disabled) {
-                    icon = 'ios-close';
+                    icon = 'ios-close-circle';
                 } else if (this.icon) {
                     icon = this.icon;
                 }

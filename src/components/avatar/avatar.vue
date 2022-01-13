@@ -45,7 +45,8 @@
                 prefixCls: prefixCls,
                 scale: 1,
                 childrenWidth: 0,
-                isSlotShow: false
+                isSlotShow: false,
+                slotTemp: null
             };
         },
         computed: {
@@ -85,6 +86,11 @@
                 return style;
             }
         },
+        watch: {
+            size (val, oldVal) {
+                if (val !== oldVal) this.setScale();
+            }
+        },
         methods: {
             setScale () {
                 this.isSlotShow = !this.src && !this.icon;
@@ -104,11 +110,17 @@
                 this.$emit('on-error', e);
             }
         },
+        beforeCreate () {
+            this.slotTemp = this.$slots.default;
+        },
         mounted () {
             this.setScale();
         },
         updated () {
-            this.setScale();
+            if (this.$slots.default !== this.slotTemp) {
+                this.slotTemp = this.$slots.default;
+                this.setScale();
+            }
         }
     };
 </script>

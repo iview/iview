@@ -7,6 +7,10 @@ const Popper = isServer ? function() {} : require('popper.js/dist/umd/popper.js'
 
 export default {
     props: {
+        eventsEnabled: {
+            type: Boolean,
+            default: false
+        },
         placement: {
             type: String,
             default: 'bottom'
@@ -65,11 +69,6 @@ export default {
                 this.$emit('on-popper-show');
             } else {
                 this.$emit('on-popper-hide');
-
-                // 如果不初始化popper 则在隐藏之后注销
-                if (!this.$IVIEW.initPopper) {
-                    this.doDestroy();
-                }
             }
             this.$emit('input', val);
         }
@@ -90,6 +89,8 @@ export default {
             if (this.popperJS && this.popperJS.hasOwnProperty('destroy')) {
                 this.popperJS.destroy();
             }
+            
+            options.eventsEnabled = this.eventsEnabled;
 
             options.placement = this.placement;
 
@@ -112,11 +113,12 @@ export default {
         doDestroy() {
             if (isServer) return;
             if (this.visible) return;
-            if (this.popperJS) {
-                this.popperJS.destroy();
-            }
+            this.popperJS.destroy();
             this.popperJS = null;
         }
+    },
+    updated (){
+        this.$nextTick(()=>this.updatePopper());
     },
     beforeDestroy() {
         if (isServer) return;

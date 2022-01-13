@@ -37,7 +37,8 @@
         &:after {
             content: '';
             display: table-cell;
-            position: relative;
+            // Chrome 91 #913
+            //position: relative;
             top: 50%;
             width: 50%;
             border-top: 1px solid @border-color-split;
@@ -99,5 +100,10 @@
         &:after {
             border-style: dashed none none;
         }
+    }
+    &-plain&-with-text, &-plain&-with-text-left, &-plain&-with-text-right {
+        color: @text-color;
+        font-weight: normal;
+        font-size: @font-size-base;
     }
 }

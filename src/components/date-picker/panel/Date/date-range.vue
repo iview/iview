@@ -296,7 +296,12 @@
             },
             changePanelDate(panel, type, increment, updateOtherPanel = true){
                 const current = new Date(this[`${panel}PanelDate`]);
-                current[`set${type}`](current[`get${type}`]() + increment);
+                // fix https://github.com/view-design/ViewUI/issues/418
+                // 强行把左视图日期设置为1号
+                // FullYear 不能设置https://github.com/iview/iview/issues/6600
+                if (type === 'FullYear') current[`set${type}`](current[`get${type}`]() + increment);
+                else current[`set${type}`](current[`get${type}`]() + increment, 1);
+
                 this[`${panel}PanelDate`] = current;
 
                 if (!updateOtherPanel) return;

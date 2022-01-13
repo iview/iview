@@ -22,9 +22,15 @@
                 <span>Windows</span>
             </Radio>
         </Radio-group>
-        <Radio-group v-model="button2" type="button" size="large">
+        <Radio-group v-model="button2" type="button" size="large" button-style="solid">
             <Radio label="北京"></Radio>
             <Radio label="上海" disabled></Radio>
+            <Radio label="深圳"></Radio>
+            <Radio label="杭州"></Radio>
+        </Radio-group>
+        <Radio-group v-model="button2" type="button" size="large">
+            <Radio label="北京"></Radio>
+            <Radio label="上海"></Radio>
             <Radio label="深圳"></Radio>
             <Radio label="杭州"></Radio>
         </Radio-group>
