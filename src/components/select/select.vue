@@ -87,7 +87,7 @@
                     </ul>
                 </Scroll>
 
-                <functional-options
+                <!-- <functional-options
                     v-if="(!remote) || (remote && !loading)"
                     :options="selectOptions"
                     :slot-update-hook="updateSlotOptions"
@@ -104,7 +104,7 @@
                         {{ query }}
                         <Icon type="md-return-left" :class="prefixCls + '-item-enter'" />
                     </li>
-                </ul>
+                </ul> -->
 
                 <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
                 <template #header><slot name="header"></slot></template>
