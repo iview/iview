@@ -73,7 +73,7 @@
                     :disabled="!scrollLoad"
                     :show-loader="false"
                     :on-reach-bottom="onScrollRequest">
-                    <ul :class="prefixCls + '-dropdown-list'">
+                    <!-- <ul :class="prefixCls + '-dropdown-list'">
                         <li :class="prefixCls + '-item'" v-if="showCreateItem" @click="handleCreateItem">
                             {{ query }}
                             <Icon type="md-return-left" :class="prefixCls + '-item-enter'" />
@@ -84,28 +84,26 @@
                             :slot-update-hook="updateSlotOptions"
                             :slot-options="slotOptions"
                         ></functional-options>
+                    </ul> -->
+                    <functional-options
+                        v-if="(!remote) || (remote && !loading)"
+                        :options="selectOptions"
+                        :slot-update-hook="updateSlotOptions"
+                        :slot-options="slotOptions"
+                        :class="prefixCls + '-dropdown-list'"
+                    >
+                        <li :class="prefixCls + '-item'" v-if="showCreateItem" @click="handleCreateItem">
+                            {{ query }}
+                            <Icon type="md-return-left" :class="prefixCls + '-item-enter'" />
+                        </li>
+                    </functional-options>
+                    <ul :class="prefixCls + '-dropdown-list'" v-else>
+                        <li :class="prefixCls + '-item'" v-if="showCreateItem" @click="handleCreateItem">
+                            {{ query }}
+                            <Icon type="md-return-left" :class="prefixCls + '-item-enter'" />
+                        </li>
                     </ul>
                 </Scroll>
-
-                <!-- <functional-options
-                    v-if="(!remote) || (remote && !loading)"
-                    :options="selectOptions"
-                    :slot-update-hook="updateSlotOptions"
-                    :slot-options="slotOptions"
-                    :class="prefixCls + '-dropdown-list'"
-                >
-                    <li :class="prefixCls + '-item'" v-if="showCreateItem" @click="handleCreateItem">
-                        {{ query }}
-                        <Icon type="md-return-left" :class="prefixCls + '-item-enter'" />
-                    </li>
-                </functional-options>
-                <ul :class="prefixCls + '-dropdown-list'" v-else>
-                    <li :class="prefixCls + '-item'" v-if="showCreateItem" @click="handleCreateItem">
-                        {{ query }}
-                        <Icon type="md-return-left" :class="prefixCls + '-item-enter'" />
-                    </li>
-                </ul> -->
-
                 <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
                 <template #header><slot name="header"></slot></template>
                 <template #footer><slot name="footer"></slot></template>
