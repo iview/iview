@@ -83,6 +83,7 @@
                             :options="selectOptions"
                             :slot-update-hook="updateSlotOptions"
                             :slot-options="slotOptions"
+                            :class="prefixCls + '-dropdown-list'"
                         ></functional-options>
                     </ul> -->
                     <functional-options
@@ -140,7 +141,7 @@
 
     const findOptionsInVNode = (node) => {
         const opts = node.componentOptions;
-        if (opts && optionRegexp.test(opts.tag)) return [node];
+        if (opts && opts.tag.match(optionRegexp)) return [node];
         if (!node.children && (!opts || !opts.children)) return [];
         const children = [...(node.children || []), ...(opts && opts.children || [])];
         const options = children.reduce(
@@ -414,7 +415,6 @@
                 lastRemoteQuery: '',
                 unchangedQuery: true,
                 hasExpectedValue: false,
-                isTyping: false,  // #728
                 preventRemoteCall: false,
                 filterQueryChange: false,  // #4273
             };
@@ -491,13 +491,11 @@
                 return selectOptions && selectOptions.length === 0 && (!remote || (remote && !loading));
             },
             publicValue(){
-                // 改变 labelInValue 实现，解决 bug:Select，label-in-value时，搜索、多选，先选一个，再选第二个，会替代第一个
-                // if (this.labelInValue){
-                //     return this.multiple ? this.values : this.values[0];
-                // } else {
-                //     return this.multiple ? this.values.map(option => option.value) : (this.values[0] || {}).value;
-                // }
-                return this.multiple ? this.values.map(option => option.value) : (this.values[0] || {}).value;
+                if (this.labelInValue){
+                    return this.multiple ? this.values : this.values[0];
+                } else {
+                    return this.multiple ? this.values.map(option => option.value) : (this.values[0] || {}).value;
+                }
             },
             canBeCleared(){
                 const uiStateMatch = this.hasMouseHoverHead || this.active;
@@ -532,11 +530,11 @@
 
                     const cOptions = option.componentOptions;
                     if (!cOptions) continue;
-                    if (optionGroupRegexp.test(cOptions.tag)){
+                    if (cOptions.tag.match(optionGroupRegexp)){
                         let children = cOptions.children;
 
                         // remove filtered children
-                        if (this.filterable && this.isTyping){  // #728 let option show full when reclick it
+                        if (this.filterable){
                             children = children.filter(
                                 ({componentOptions}) => this.validateOption(componentOptions)
                             );
@@ -668,8 +666,6 @@
             },
             hideMenu () {
                 this.toggleMenu(null, false);
-                // fix #728
-                this.isTyping = false;
                 setTimeout(() => this.unchangedQuery = true, ANIMATION_TIMEOUT);
             },
             onClickOutside(event){
@@ -832,7 +828,6 @@
                 }, ANIMATION_TIMEOUT);
             },
             onQueryChange(query) {
-                this.isTyping = true;
                 if (query.length > 0 && query !== this.query) {
                   // in 'AutoComplete', when set an initial value asynchronously,
                   // the 'dropdown list' should be stay hidden.
@@ -878,8 +873,12 @@
                         label: query,
                         tag: undefined
                     };
-                    // 单选（和多选，#926）时如果不在 nextTick 里执行，无法赋值
-                    this.$nextTick(() => this.onOptionClick(option));
+                    if (this.multiple) {
+                        this.onOptionClick(option);
+                    } else {
+                        // 单选时如果不在 nextTick 里执行，无法赋值
+                        this.$nextTick(() => this.onOptionClick(option));
+                    }
                 }
             }
         },
@@ -899,29 +898,14 @@
                 const newValue = JSON.stringify(now);
                 const oldValue = JSON.stringify(before);
                 // v-model is always just the value, event with labelInValue === true
-                // const vModelValue = (this.publicValue && this.labelInValue === false) ?
-                //     (this.multiple ? this.publicValue.map(({value}) => value) : this.publicValue.value) :
-                //     this.publicValue;
-                // 改变 labelInValue 的实现：直接在 emit 时改数据
-                let vModelValue = this.publicValue;
+                const vModelValue = (this.publicValue && this.labelInValue) ?
+                    (this.multiple ? this.publicValue.map(({value}) => value) : this.publicValue.value) :
+                    this.publicValue;
                 const shouldEmitInput = newValue !== oldValue && vModelValue !== this.value;
                 if (shouldEmitInput) {
-                    let emitValue = this.publicValue;
-                    if (this.labelInValue) {
-                        if (this.multiple) {
-                            emitValue = this.values;
-                        } else {
-                            emitValue = this.values[0];
-                        }
-                    }
-
-                    // Form 重置时，如果初始值是 null，也置为 null，而不是 []
-                    if (Array.isArray(vModelValue) && !vModelValue.length && this.value === null) vModelValue = null;
-                    else if (vModelValue === undefined && this.value === null) vModelValue = null;
-
                     this.$emit('input', vModelValue); // to update v-model
-                    this.$emit('on-change', emitValue);
-                    this.dispatch('FormItem', 'on-form-change', emitValue);
+                    this.$emit('on-change', this.publicValue);
+                    this.dispatch('FormItem', 'on-form-change', this.publicValue);
                 }
             },
             query (query) {
