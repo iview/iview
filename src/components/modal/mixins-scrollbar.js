@@ -1,5 +1,5 @@
 // used for Modal & $Spin & Drawer
-import { getScrollBarSize } from '../../utils/assist';
+import { getScrollBarSize, findComponentsUpward, findBrothersComponents } from '../../utils/assist';
 export default {
     props: {
         lockScroll: {
@@ -23,6 +23,12 @@ export default {
             let masks = document.getElementsByClassName('ivu-modal-mask') || [];
             return Array.from(masks).every(m => m.style.display === 'none' || m.classList.contains('fade-leave-to'));
         },
+        // 父级或兄弟组件是否存在打开的并且时不可滚动的Drawer组件
+        checkIsExistVisibleAndNoScrollableDrawer () {
+            const brotherDrawers = findBrothersComponents(this, 'Drawer') || [];
+            const parentDrawers = findComponentsUpward(this, 'Drawer') || [];
+            return [...brotherDrawers, ...parentDrawers].some(item => item.visible && !item.scrollable);
+        },
         setScrollBar () {
             if (this.bodyIsOverflowing && this.scrollBarWidth !== undefined) {
                 document.body.style.paddingRight = `${this.scrollBarWidth}px`;
@@ -39,7 +45,7 @@ export default {
         },
         removeScrollEffect() {
             if (!this.lockScroll) return;
-            if (this.checkMaskInVisible()) {
+            if (this.checkMaskInVisible() && !this.checkIsExistVisibleAndNoScrollableDrawer()) {
                 document.body.style.overflow = '';
                 this.resetScrollBar();
             }

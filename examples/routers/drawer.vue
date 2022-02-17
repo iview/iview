@@ -5,7 +5,7 @@
         <Button @click="visible3 = true">show3</Button>
 
         <div style="width: 500px;height:500px;background: green;position: relative;">
-            <Drawer v-model="visible" placement="left" :before-close="handleBeforeClose" draggable inner :transfer="false" width="50" @on-resize-width="hrw" title="抽屉标题" :styles="styles" @on-close="handleClose">
+            <Drawer name="drawer1" v-model="visible" placement="left" :before-close="handleBeforeClose" draggable inner :transfer="false" width="50" @on-resize-width="hrw" title="抽屉标题" :styles="styles" @on-close="handleClose">
                 <p>一些内容</p>
                 <p>一些内容</p>
                 <p>一些内容</p>
@@ -66,7 +66,7 @@
 
 
 
-        <Drawer v-model="visible2" draggable title="抽屉标题" placement="right">
+        <Drawer name="drawer2" v-model="visible2" draggable title="抽屉标题" placement="right">
             <p>一些内容</p>
             <p>一些内容</p>
             <p>一些内容</p>
@@ -125,7 +125,7 @@
             <p>一些内容</p>
             <p>一些内容22</p>
         </Drawer>
-        <Drawer v-model="visible3" draggable placement="left">
+        <Drawer scrollable  name="drawer3" v-model="visible3" draggable placement="left">
             <p>一些内容</p>
             <p>一些内容</p>
             <p>一些内容</p>
@@ -183,7 +183,10 @@
             <p>一些内容</p>
             <p>一些内容</p>
             <p>一些内容22</p>
+            <Button @click="modal1 = true">嵌套的modal</Button>
         </Drawer>
+        <Modal v-model="modal1" title="modal1">modal1</Modal>
+        <div v-for="item in 200" :key="item">{{ item }}</div>
     </div>
 </template>
 
@@ -200,7 +203,8 @@
                 },
                 ms: {
                     backgroundColor: 'rgba(255,0,255,0.5)'
-                }
+                },
+                modal1: false,
             };
         },
         methods: {
