@@ -493,17 +493,14 @@
 
             validateOption({children, elm, propsData}){
                 const label = propsData.label || '';
+                const value = propsData.value || ''
                 const textContent = (elm && elm.textContent) || (children || []).reduce((str, node) => {
                     const nodeText = node.elm ? node.elm.textContent : node.text;
                     return `${str} ${nodeText}`;
                 }, '') || '';
-                const stringValues = [label, textContent];
+                const accessValue = [label, textContent, value];
                 const query = this.query.toLowerCase().trim();
-                const findValuesIndex = stringValues.findIndex(item=>{
-                    let itemToLowerCase = item.toLowerCase();
-                    return itemToLowerCase.includes(query);
-                });
-                return findValuesIndex === -1 ? false : true;
+                return accessValue.some(str => str.toLowerCase().includes(query))
             },
 
             toggleMenu (e, force) {
@@ -725,7 +722,7 @@
             value(value){
                 const {getInitialValue, getOptionData, publicValue, values} = this;
                 this.checkUpdateStatus();
-                const vModelValue = (publicValue && this.labelInValue) ? 
+                const vModelValue = (publicValue && this.labelInValue) ?
                                     (this.multiple ? publicValue.map(({value}) => value) : publicValue.value) : publicValue;
                 if (value === '') this.values = [];
                 else if (checkValuesNotEqual(value,vModelValue,values)) {
