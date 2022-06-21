@@ -2,10 +2,13 @@ import Modal from './confirm';
 
 let modalInstance;
 
-function getModalInstance (render = undefined) {
+function getModalInstance (options) {
+    const render = ('render' in options) ? options.render : undefined;
+    const title= ('title' in options)?options.title:undefined;
     modalInstance = modalInstance || Modal.newInstance({
         closable: false,
         maskClosable: false,
+        title:title,
         footerHide: true,
         render: render
     });
@@ -14,13 +17,12 @@ function getModalInstance (render = undefined) {
 }
 
 function confirm (options) {
-    const render = ('render' in options) ? options.render : undefined;
-    let instance  = getModalInstance(render);
+    let instance  = getModalInstance(options);
 
     options.onRemove = function () {
         modalInstance = null;
     };
-
+    options.title=undefined;
     instance.show(options);
 }
 
