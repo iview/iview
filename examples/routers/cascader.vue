@@ -52,7 +52,7 @@
                     }else if(item.level === 2){
                         item.children=[{label: '故宫3级',value:'gugong3',level: 3}]
                     }
-                    item.loading = false;
+                    this.$delete(item, 'loading');
                     callback();
                 }, 600);
             }
