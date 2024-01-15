@@ -167,6 +167,7 @@
         },
         beforeDestroy () {
             this.clearCloseTimer();
+            clearTimeout(this.closeTimer);
         }
     };
 </script>

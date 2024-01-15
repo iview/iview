@@ -331,6 +331,7 @@
         beforeDestroy () {
 //            window.removeEventListener('resize', this.handleResize, false);
             off(window, 'resize', this.handleResize);
+            clearInterval(this.timer);
         }
     };
 </script>
