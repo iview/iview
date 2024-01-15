@@ -163,6 +163,11 @@
                 this.$off('on-form-change', this.onFieldChange);
                 this.$on('on-form-blur', this.onFieldBlur);
                 this.$on('on-form-change', this.onFieldChange);
+
+                this.$once('hook:beforeDestroy', () => {
+                    this.$off('on-form-blur', this.onFieldBlur);
+                    this.$off('on-form-change', this.onFieldChange);
+                });
             },
             getRules () {
                 let formRules = this.form.rules;

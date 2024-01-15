@@ -403,6 +403,11 @@ export default {
     mounted() {
         this.$on('on-escape-keydown', this.closer);
         this.$on('on-dragging', this.setDragging);
+
+        this.$once('hook:beforeDestroy', () => {
+            this.$off('on-escape-keydown', this.closer);
+            this.$off('on-dragging', this.setDragging);
+        });
     },
 
     methods: {

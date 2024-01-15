@@ -302,6 +302,7 @@
                 $children.removeEventListener('focus', this.handleFocus, false);
                 $children.removeEventListener('blur', this.handleBlur, false);
             }
+            clearTimeout(this.enterTimer);
         }
     };
 </script>

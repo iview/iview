@@ -135,6 +135,10 @@
             if (this.always) {
                 this.updatePopper();
             }
+        },
+
+        beforeDestroy() {
+            clearTimeout(this.timeout);
         }
     };
 </script>

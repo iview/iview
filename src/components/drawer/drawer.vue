@@ -260,6 +260,7 @@
             off(document, 'mousemove', this.handleMousemove);
             off(document, 'mouseup', this.handleMouseup);
             this.removeScrollEffect();
+            clearTimeout(this.timer);
         },
         watch: {
             value (val) {

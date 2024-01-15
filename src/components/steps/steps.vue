@@ -124,6 +124,11 @@
             this.updateSteps();
             this.$on('append', this.debouncedAppendRemove());
             this.$on('remove', this.debouncedAppendRemove());
+
+            this.$once('hook:beforeDestroy', () => {
+                this.$off('append', this.debouncedAppendRemove());
+                this.$off('remove', this.debouncedAppendRemove());
+            });
         },
         watch: {
             current () {
