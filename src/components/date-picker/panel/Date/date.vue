@@ -36,6 +36,7 @@
                     v-if="currentView !== 'time'"
                     :table-date="panelDate"
                     :show-week-numbers="showWeekNumbers"
+                    :week-start-day="weekStartDay"
                     :value="dates"
                     :selection-mode="selectionMode"
                     :disabled-date="disabledDate"

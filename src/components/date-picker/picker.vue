@@ -55,6 +55,7 @@
                         :start-date="startDate"
                         :split-panels="splitPanels"
                         :show-week-numbers="showWeekNumbers"
+                        :week-start-day="weekStartDay"
                         :picker-type="type"
                         :multiple="multiple"
                         :focused-date="focusedDate"
@@ -166,6 +167,10 @@
             showWeekNumbers: {
                 type: Boolean,
                 default: false
+            },
+            weekStartDay: {
+                type: Number,
+                default:0
             },
             startDate: {
                 type: Date

@@ -40,6 +40,10 @@ export default {
             type: Boolean,
             default: false
         },
+        weekStartDay: {
+            type: Number,
+            default: 0
+        },
         startDate: {
             type: Date
         },

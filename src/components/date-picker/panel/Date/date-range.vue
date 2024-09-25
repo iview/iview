@@ -40,6 +40,7 @@
                     :disabled-date="disabledDate"
                     :range-state="rangeState"
                     :show-week-numbers="showWeekNumbers"
+                    :week-start-day="weekStartDay"
                     :value="preSelecting.left ? [dates[0]] : dates"
                     :focused-date="focusedDate"
 
@@ -81,6 +82,7 @@
                     :range-state="rangeState"
                     :disabled-date="disabledDate"
                     :show-week-numbers="showWeekNumbers"
+                    :week-start-day="weekStartDay"
                     :value="preSelecting.right ? [dates[dates.length - 1]] : dates"
                     :focused-date="focusedDate"
 

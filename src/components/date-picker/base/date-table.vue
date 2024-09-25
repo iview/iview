@@ -33,7 +33,11 @@
             showWeekNumbers: {
                 type: Boolean,
                 default: false
-            },
+          },
+          weekStartDay: {
+                type: Number,
+                default: 0
+          },
         },
         data () {
             return {
@@ -50,11 +54,11 @@
                 ];
             },
             calendar(){
-                const weekStartDay = Number(this.t('i.datepicker.weekStartDay'));
+                const weekStartDay = this.weekStartDay || Number(this.t('i.datepicker.weekStartDay'));
                 return new jsCalendar.Generator({onlyDays: !this.showWeekNumbers, weekStart: weekStartDay});
             },
             headerDays () {
-                const weekStartDay = Number(this.t('i.datepicker.weekStartDay'));
+                const weekStartDay = this.weekStartDay || Number(this.t('i.datepicker.weekStartDay'));
                 const translatedDays = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'].map(item => {
                     return this.t('i.datepicker.weeks.' + item);
                 });
