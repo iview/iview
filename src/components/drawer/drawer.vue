@@ -1,10 +1,10 @@
 <template>
     <div v-transfer-dom :data-transfer="transfer">
         <transition name="fade">
-            <div :class="maskClasses" :style="maskStyle" v-if="mask && visible" @click="handleMask"></div>
+            <div :class="maskClasses" :style="maskStyles" v-if="mask && visible" @click="handleMask"></div>
         </transition>
-        <div :class="wrapClasses" @click="handleWrapClick">
-            <transition :name="'move-' + placement">
+        <div :class="wrapClasses" :style="wrapStyles" @click="handleWrapClick">
+            <transition :name="'move-' + placement" @after-leave="animationFinish">
                 <div :class="classes" :style="mainStyles" v-if="visible">
                     <div :class="contentClasses" ref="content">
                         <a class="ivu-drawer-close" v-if="closable" @click="close">
@@ -37,6 +37,7 @@
     import ScrollbarMixins from '../modal/mixins-scrollbar';
 
     import { on, off } from '../../utils/dom';
+    import { moveToOverlayTop, removeFromOverlayStack, refreshOverlayStack } from '../../utils/overlay-manager';
 
     const prefixCls = 'ivu-drawer';
 
@@ -119,7 +120,8 @@
                 dragWidth: this.width,
                 wrapperWidth: this.width,
                 wrapperLeft: 0,
-                minWidth: 256
+                minWidth: 256,
+                drawerIndex: 0
             };
         },
         computed: {
@@ -134,6 +136,16 @@
                         [`${prefixCls}-wrap-dragging`]: this.canMove
                     }
                 ];
+            },
+            wrapStyles () {
+                return {
+                    zIndex: this.drawerIndex
+                };
+            },
+            maskStyles () {
+                return Object.assign({}, this.maskStyle, {
+                    zIndex: this.drawerIndex
+                });
             },
             mainStyles () {
                 let style = {};
@@ -238,10 +250,20 @@
                 // 防止鼠标选中抽屉中文字，造成拖动trigger触发浏览器原生拖动行为
                 window.getSelection().removeAllRanges();
             },
+            handleDrawerTop () {
+                if (this.visible) moveToOverlayTop(this, 'drawerIndex', 'zIndex');
+            },
+            handleDrawerRemove () {
+                removeFromOverlayStack(this);
+            },
+            animationFinish () {
+                if (!this.visible) this.handleDrawerRemove();
+            },
         },
         mounted () {
             if (this.visible) {
                 this.wrapShow = true;
+                this.handleDrawerTop();
             }
 
             let showHead = true;
@@ -259,6 +281,7 @@
         beforeDestroy () {
             off(document, 'mousemove', this.handleMousemove);
             off(document, 'mouseup', this.handleMouseup);
+            this.handleDrawerRemove();
             this.removeScrollEffect();
         },
         watch: {
@@ -282,6 +305,7 @@
                         }
                     }, 300);
                 } else {
+                    this.handleDrawerTop();
                     if (this.timer) clearTimeout(this.timer);
                     this.wrapShow = true;
                     if (!this.scrollable) {
@@ -303,6 +327,9 @@
                 if (this.$slots.header === undefined) {
                     this.showHead = !!val;
                 }
+            },
+            zIndex () {
+                if (this.visible) refreshOverlayStack();
             },
             width (val) {
                 this.dragWidth = val;
