@@ -39,8 +39,7 @@
 
     import { on, off } from '../../utils/dom';
     import { findComponentsDownward } from '../../utils/assist';
-
-    import { transferIndex as modalIndex, transferIncrease as modalIncrease } from '../../utils/transfer-queue';
+    import { moveToOverlayTop, removeFromOverlayStack, isOverlayTop, refreshOverlayStack } from '../../utils/overlay-manager';
 
     const prefixCls = 'ivu-modal';
 
@@ -142,7 +141,7 @@
                     dragY: null,
                     dragging: false
                 },
-                modalIndex: this.handleGetModalIndex(),  // for Esc close the top modal
+                modalIndex: 0,  // for Esc close the top modal
                 isMouseTriggerIn: false, // #5800
             };
         },
@@ -159,7 +158,7 @@
             },
             wrapStyles () {
                 return {
-                    zIndex: this.modalIndex + this.zIndex
+                    zIndex: this.modalIndex
                 };
             },
             maskClasses () {
@@ -273,7 +272,7 @@
                 this.$emit('on-ok');
             },
             EscClose (e) {
-                if (this.visible && this.closable) {
+                if (this.visible && this.closable && isOverlayTop(this)) {
                     if (e.keyCode === 27) {
                         const $Modals = findComponentsDownward(this.$root, 'Modal').filter(item => item.$data.visible && item.$props.closable);
 
@@ -288,6 +287,7 @@
                 }
             },
             animationFinish() {
+                if (!this.visible) this.handleModalRemove();
                 this.$emit('on-hidden');
             },
             handleMoveStart (event) {
@@ -335,19 +335,22 @@
                 off(window, 'mousemove', this.handleMoveMove);
                 off(window, 'mouseup', this.handleMoveEnd);
             },
-            handleGetModalIndex () {
-                modalIncrease();
-                return modalIndex;
+            handleModalTop () {
+                if (this.visible) moveToOverlayTop(this, 'modalIndex', 'zIndex');
+            },
+            handleModalRemove () {
+                removeFromOverlayStack(this);
             },
             handleClickModal () {
-                if (this.draggable) {
-                    this.modalIndex = this.handleGetModalIndex();
+                if (this.draggable && this.visible) {
+                    this.handleModalTop();
                 }
             }
         },
         mounted () {
             if (this.visible) {
                 this.wrapShow = true;
+                this.handleModalTop();
             }
 
             let showHead = true;
@@ -363,6 +366,7 @@
         },
         beforeDestroy () {
             document.removeEventListener('keydown', this.EscClose);
+            this.handleModalRemove();
             this.removeScrollEffect();
         },
         watch: {
@@ -377,7 +381,7 @@
                         this.removeScrollEffect();
                     }, 300);
                 } else {
-                    this.modalIndex = this.handleGetModalIndex();
+                    this.handleModalTop();
 
                     if (this.timer) clearTimeout(this.timer);
                     this.wrapShow = true;
@@ -400,6 +404,9 @@
                 } else {
                     this.removeScrollEffect();
                 }
+            },
+            zIndex () {
+                if (this.visible) refreshOverlayStack();
             },
             title (val) {
                 if (this.$slots.header === undefined) {

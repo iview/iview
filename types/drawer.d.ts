@@ -54,6 +54,11 @@ export declare class Drawer extends Vue {
      */
     placement?: 'left' | 'right';
     /**
+     * 层级
+     * @default 1000
+     */
+    'z-index'?: number;
+    /**
      * 抽屉中间层的样式
      * @default true
      */
