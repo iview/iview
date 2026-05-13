@@ -263,6 +263,9 @@
             cancel () {
                 this.close();
             },
+            stopButtonLoading () {
+                this.buttonLoading = false;
+            },
             ok () {
                 if (this.loading) {
                     this.buttonLoading = true;
@@ -270,7 +273,7 @@
                     this.visible = false;
                     this.$emit('input', false);
                 }
-                this.$emit('on-ok');
+                this.$emit('on-ok', this.stopButtonLoading);
             },
             EscClose (e) {
                 if (this.visible && this.closable) {

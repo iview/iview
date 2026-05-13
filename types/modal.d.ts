@@ -4,6 +4,8 @@
 // Definitions: https://github.com/yangdan8/iview.git
 import Vue, { VNode, CreateElement } from "vue";
 
+export declare type ModalLoadingDone = () => void;
+
 export declare class Modal extends Vue {
     /**
      * 消息
@@ -125,7 +127,7 @@ export declare class Modal extends Vue {
     /**
      * 点击确定的回调
      */
-    $emit(eventName: "on-ok"): this;
+    $emit(eventName: "on-ok", done?: ModalLoadingDone): this;
     /**
      * 开关变化时触发，返回当前的状态
      */
@@ -204,7 +206,7 @@ export declare class ModalConfig {
     /**
      * 点击确定的回调
      */
-    onOk?: () => void;
+    onOk?: (done?: ModalLoadingDone) => void;
     /**
      * 点击取消的回调，只在Modal.confirm()下有效
      */

@@ -173,7 +173,9 @@ Modal.newInstance = properties => {
                     this.$children[0].visible = false;
                     this.remove();
                 }
-                this.onOk();
+                this.onOk(() => {
+                    this.buttonLoading = false;
+                });
             },
             remove () {
                 this.closing = true;
