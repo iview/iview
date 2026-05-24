@@ -144,7 +144,10 @@
                 } else {
                     this.visible = false;
                 }
-                this.$emit('on-ok');
+                this.$emit('on-ok', this.removeLoading);
+            },
+            removeLoading () {
+                this.buttonLoading = false;
             },
             EscClose (e) {
                 if (this.visible && this.closable) {

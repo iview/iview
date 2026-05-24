@@ -80,7 +80,9 @@ Modal.newInstance = properties => {
                     this.visible = false;
                     this.remove();
                 }
-                this.onOk();
+                this.onOk(() => {
+                    this.buttonLoading = false;
+                });
             },
             remove () {
                 setTimeout(() => {
