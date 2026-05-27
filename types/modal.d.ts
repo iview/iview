@@ -204,7 +204,7 @@ export declare class ModalConfig {
     /**
      * 点击确定的回调
      */
-    onOk?: () => void;
+    onOk?: () => void | Promise<any>;
     /**
      * 点击取消的回调，只在Modal.confirm()下有效
      */

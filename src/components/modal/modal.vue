@@ -263,14 +263,33 @@
             cancel () {
                 this.close();
             },
+            getOkResult () {
+                const ok = this.$listeners && this.$listeners['on-ok'];
+                if (ok) {
+                    return ok();
+                }
+                this.$emit('on-ok');
+            },
+            isPromise (value) {
+                return value && typeof value.then === 'function';
+            },
             ok () {
                 if (this.loading) {
+                    const okResult = this.getOkResult();
                     this.buttonLoading = true;
+                    if (this.isPromise(okResult)) {
+                        okResult.then(() => {
+                            this.visible = false;
+                            this.$emit('input', false);
+                        }).catch(() => {
+                            this.buttonLoading = false;
+                        });
+                    }
                 } else {
                     this.visible = false;
                     this.$emit('input', false);
+                    this.$emit('on-ok');
                 }
-                this.$emit('on-ok');
             },
             EscClose (e) {
                 if (this.visible && this.closable) {
