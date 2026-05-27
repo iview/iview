@@ -168,12 +168,21 @@ Modal.newInstance = properties => {
             ok () {
                 if (this.closing) return;
                 if (this.loading) {
+                    const okResult = this.onOk();
                     this.buttonLoading = true;
+                    if (okResult && typeof okResult.then === 'function') {
+                        okResult.then(() => {
+                            this.$children[0].visible = false;
+                            this.remove();
+                        }).catch(() => {
+                            this.buttonLoading = false;
+                        });
+                    }
                 } else {
                     this.$children[0].visible = false;
                     this.remove();
+                    this.onOk();
                 }
-                this.onOk();
             },
             remove () {
                 this.closing = true;
