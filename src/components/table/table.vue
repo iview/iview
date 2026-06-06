@@ -212,15 +212,16 @@
         },
         data () {
             const colsWithId = this.makeColumnsId(this.columns);
+            const cloneColumns = this.makeColumns(colsWithId);
             return {
                 ready: false,
                 tableWidth: 0,
                 columnsWidth: {},
                 prefixCls: prefixCls,
                 compiledUids: [],
-                objData: this.makeObjData(),     // checkbox or highlight-row
+                objData: this.makeObjData(cloneColumns),     // checkbox or highlight-row
                 rebuildData: [],    // for sort or filter
-                cloneColumns: this.makeColumns(colsWithId),
+                cloneColumns: cloneColumns,
                 columnRows: this.makeColumnRows(false, colsWithId),
                 leftFixedColumnRows: this.makeColumnRows('left', colsWithId),
                 rightFixedColumnRows: this.makeColumnRows('right', colsWithId),
@@ -379,6 +380,10 @@
             },
             isRightFixed () {
                 return this.columns.some(col => col.fixed && col.fixed === 'right');
+            },
+            expandKeepAlive () {
+                const column = this.getExpandColumn();
+                return !!(column && column.keepAlive);
             }
         },
         methods: {
@@ -566,6 +571,9 @@
                 }
                 const status = !data._isExpanded;
                 this.objData[_index]._isExpanded = status;
+                if (status && this.expandKeepAlive) {
+                    this.objData[_index]._isExpandKeepAlive = true;
+                }
                 this.$emit('on-expand', JSON.parse(JSON.stringify(this.cloneData[_index])), status);
                 
                 if(this.height || this.maxHeight){
@@ -838,8 +846,14 @@
                 this.cloneColumns.forEach(col => data = this.filterData(data, col));
                 return data;
             },
-            makeObjData () {
+            getExpandColumn (columns = this.cloneColumns) {
+                if (!columns || !columns.length) return null;
+                return columns.find(column => column.type === 'expand') || null;
+            },
+            makeObjData (columns = this.cloneColumns) {
                 let data = {};
+                const expandColumn = this.getExpandColumn(columns);
+                const expandKeepAlive = !!(expandColumn && expandColumn.keepAlive);
                 this.data.forEach((row, index) => {
                     const newRow = deepCopy(row);// todo 直接替换
                     newRow._isHover = false;
@@ -858,6 +872,7 @@
                     } else {
                         newRow._isExpanded = false;
                     }
+                    newRow._isExpandKeepAlive = expandKeepAlive && newRow._isExpanded;
                     if (newRow._highlight) {
                         newRow._isHighlight = newRow._highlight;
                     } else {

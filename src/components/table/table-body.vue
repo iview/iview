@@ -29,7 +29,10 @@
                         ></table-cell>
                     </td>
                 </table-tr>
-                <tr v-if="rowExpanded(row._index)" :class="{[prefixCls + '-expanded-hidden']: fixed}">
+                <tr
+                    v-if="renderExpandRow(row._index)"
+                    v-show="showExpandRow(row._index)"
+                    :class="{[prefixCls + '-expanded-hidden']: fixed}">
                     <td :colspan="columns.length" :class="prefixCls + '-expanded-cell'">
                         <Expand :key="rowKey ? row._rowKey : index" :row="row" :render="expandRender" :index="row._index"></Expand>
                     </td>
@@ -81,6 +84,16 @@
                     }
                 }
                 return render;
+            },
+            expandColumn () {
+                for (let i = 0; i < this.columns.length; i++) {
+                    const column = this.columns[i];
+                    if (column.type && column.type === 'expand') return column;
+                }
+                return null;
+            },
+            expandKeepAlive () {
+                return !!(this.expandColumn && this.expandColumn.keepAlive);
             }
         },
         methods: {
@@ -92,6 +105,14 @@
             },
             rowExpanded(_index){
                 return this.objData[_index] && this.objData[_index]._isExpanded;
+            },
+            renderExpandRow (_index) {
+                const data = this.objData[_index];
+                if (!data) return false;
+                return this.expandKeepAlive ? (data._isExpanded || data._isExpandKeepAlive) : data._isExpanded;
+            },
+            showExpandRow (_index) {
+                return this.expandKeepAlive ? this.rowExpanded(_index) : true;
             },
             handleMouseIn (_index) {
                 this.$parent.handleMouseIn(_index);

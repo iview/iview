@@ -216,6 +216,12 @@ export declare class TableColumn {
      */
     type?: "index" | "selection" | "expand" | "html";
     /**
+     * 仅在 expand 类型列下生效。开启后，展开行内容在收起时不会销毁，
+     * 再次展开会复用上一次的组件实例。
+     * @default false
+     */
+    keepAlive?: boolean;
+    /**
      * 列头显示文字
      * @default #
      */
