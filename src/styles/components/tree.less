@@ -45,6 +45,32 @@
             background-color: tint(@primary-color, 80%);
         }
     }
+    &-node-content {
+        position: relative;
+        display: inline-block;
+        border-radius: @btn-border-radius-small;
+    }
+    &-node-dragging {
+        opacity: .5;
+    }
+    &-node-drop-inner {
+        background-color: tint(@primary-color, 90%);
+    }
+    &-node-drop-before:before,
+    &-node-drop-after:after {
+        position: absolute;
+        right: 0;
+        left: 0;
+        height: 2px;
+        background-color: @primary-color;
+        content: '';
+    }
+    &-node-drop-before:before {
+        top: -2px;
+    }
+    &-node-drop-after:after {
+        bottom: -2px;
+    }
     &-arrow{
         cursor: pointer;
         width: 12px;
