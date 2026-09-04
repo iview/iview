@@ -60,6 +60,10 @@
                             </Poptip>
                         </template>
                     </div>
+                    <span
+                        v-if="isColumnResizable(rowIndex, index)"
+                        :class="[prefixCls + '-resize-handle']"
+                        @mousedown.stop.prevent="startColumnResize($event, rowIndex, index)"></span>
                 </th>
 
                 <th v-if="$parent.showVerticalScrollBar && rowIndex===0" :class='scrollBarCellClass()' :rowspan="headRows.length"></th>
@@ -75,6 +79,7 @@
     import renderHeader from './header';
     import Mixin from './mixin';
     import Locale from '../../mixins/locale';
+    import { on, off } from '../../utils/dom';
 
     export default {
         name: 'TableHead',
@@ -93,6 +98,11 @@
             },
             columnRows: Array,
             fixedColumnRows: Array
+        },
+        data () {
+            return {
+                columnResizeState: null
+            };
         },
         computed: {
             styles () {
@@ -212,6 +222,55 @@
             handleFilterHide (index) {
                 this.$parent.handleFilterHide(index);
             },
+            isColumnResizable (rowIndex, index) {
+                const column = this.getColumn(rowIndex, index);
+                return !!(column && column.resizable && !column.children);
+            },
+            startColumnResize (event, rowIndex, index) {
+                if (event.button !== 0) return;
+
+                const column = this.getColumn(rowIndex, index);
+                if (!column || !column.resizable || column.children) return;
+
+                const width = Number(column._width || column.width);
+                if (!width) return;
+
+                this.columnResizeState = {
+                    column,
+                    startX: event.clientX,
+                    startWidth: width,
+                    width
+                };
+
+                on(document, 'mousemove', this.handleColumnResize);
+                on(document, 'mouseup', this.finishColumnResize);
+                document.body.classList.add(`${this.prefixCls}-resizing`);
+            },
+            handleColumnResize (event) {
+                const state = this.columnResizeState;
+                if (!state) return;
+
+                const minWidth = Number(state.column.minWidth) || 40;
+                const maxWidth = Number(state.column.maxWidth) || Infinity;
+                const width = Math.min(maxWidth, Math.max(minWidth, state.startWidth + event.clientX - state.startX));
+
+                if (width === state.width) return;
+                state.width = width;
+                this.$parent.resizeColumn(state.column._index, width);
+            },
+            finishColumnResize (event) {
+                const state = this.columnResizeState;
+                this.removeColumnResizeListeners();
+                if (!state) return;
+
+                this.columnResizeState = null;
+                this.$parent.finishColumnResize(state.column._index, state.width, state.startWidth, event);
+            },
+            removeColumnResizeListeners () {
+                off(document, 'mousemove', this.handleColumnResize);
+                off(document, 'mouseup', this.finishColumnResize);
+                if (document.body) document.body.classList.remove(`${this.prefixCls}-resizing`);
+            },
             // 因为表头嵌套不是深拷贝，所以没有 _ 开头的方法，在 isGroup 下用此列
             getColumn (rowIndex, index) {
                 const isGroup = this.columnRows.length > 1;
@@ -223,6 +282,9 @@
                     return this.headRows[rowIndex][index];
                 }
             }
+        },
+        beforeDestroy () {
+            this.removeColumnResizeListeners();
         }
     };
 </script>
