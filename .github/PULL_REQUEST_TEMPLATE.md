@@ -1,4 +1,24 @@
-<!-- 目前请提交 PR 到 2.0 分支 | Please send PR to 2.0 branch -->
-<!-- 请不要提交 dist 的内容 | Please do not commit dist file -->
-<!-- 请先运行 npm install 和 npm test，通过测试后再提交您的 pr -->
-<!-- Please run `npm install` and `npm test` to test your changes before submitting a pull request -->
+## What does this change?
+
+<!-- Explain the user-visible behavior and link the approved issue. -->
+
+Closes #
+
+## Verification
+
+- [ ] I targeted the `2.0` branch and did not commit generated `dist` files.
+- [ ] I ran `npm run verify:components`.
+- [ ] I ran the relevant unit tests (or explained below why they are not applicable).
+- [ ] I documented new or changed public APIs.
+- [ ] I tested keyboard and accessibility behavior for UI changes.
+- [ ] This component was approved and claimed before implementation, or this PR does not add a component.
+
+### Commands and results
+
+```text
+
+```
+
+### Screenshots or demo
+
+<!-- Required for visual changes. Include normal, hover/focus, disabled, and error states as applicable. -->

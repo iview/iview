@@ -31,7 +31,8 @@
         "lint": "eslint --fix --ext .js,.vue src",
         "tslint": "tslint --type-check --fix --project .",
         "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
-        "test": "npm run lint && npm run tslint && npm run unit",
+        "verify:components": "node scripts/verify-component-inventory.js",
+        "test": "npm run verify:components && npm run lint && npm run tslint && npm run unit",
         "prepare": "npm run dist"
     },
     "repository": {
