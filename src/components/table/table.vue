@@ -385,6 +385,20 @@
             rowClsName (index) {
                 return this.rowClassName(this.data[index], index);
             },
+            resizeColumn (index, width) {
+                const column = this.cloneColumns.find(item => item._index === index);
+                if (!column) return;
+
+                column.width = width;
+                column._width = width;
+                this.handleResize();
+            },
+            finishColumnResize (index, width, oldWidth, event) {
+                const column = this.cloneColumns.find(item => item._index === index);
+                if (!column) return;
+
+                this.$emit('on-column-width-resize', width, oldWidth, deepCopy(column), event);
+            },
             handleResize () {
                     //let tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
                 let tableWidth = this.$el.offsetWidth - 1;

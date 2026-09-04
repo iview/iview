@@ -111,6 +111,7 @@
 
     th {
         height: 40px;
+        position: relative;
         white-space: nowrap;
         overflow: hidden;
         background-color: @table-thead-bg;
@@ -202,6 +203,21 @@
     }
     &-hidden{
         visibility: hidden;
+    }
+    &-resize-handle{
+        position: absolute;
+        top: 0;
+        right: -2px;
+        width: 5px;
+        height: 100%;
+        cursor: col-resize;
+        user-select: none;
+        z-index: 1;
+    }
+    &-resizing,
+    &-resizing *{
+        cursor: col-resize !important;
+        user-select: none;
     }
     th &-cell{
         display: inline-block;

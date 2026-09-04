@@ -180,6 +180,20 @@ export declare class Table extends Vue {
      */
     $emit(eventName: "on-drag-drop", index1: number, index2: number): this;
     /**
+     * 拖动列头调整列宽结束时触发
+     * newWidth：调整后的列宽
+     * oldWidth：调整前的列宽
+     * column：当前列数据
+     * event：鼠标事件
+     */
+    $emit(
+        eventName: "on-column-width-resize",
+        newWidth: number,
+        oldWidth: number,
+        column: object,
+        event: MouseEvent
+    ): this;
+    /**
      * 导出数据
      */
     exportCsv(params: TableExportCsvParams): void;
@@ -228,6 +242,11 @@ export declare class TableColumn {
      * 列宽
      */
     width?: number;
+    /**
+     * 是否允许拖动列头调整列宽
+     * @default false
+     */
+    resizable?: boolean;
     /**
      * 最小列宽
      */
