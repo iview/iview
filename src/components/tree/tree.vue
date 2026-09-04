@@ -7,6 +7,7 @@
             visible
             :multiple="multiple"
             :show-checkbox="showCheckbox"
+            :draggable="draggable"
             :children-key="childrenKey">
         </Tree-node>
         <div :class="[prefixCls + '-empty']" v-if="!stateTree.length">{{ localeEmptyText }}</div>
@@ -63,6 +64,16 @@
             render: {
                 type: Function
             },
+            draggable: {
+                type: Boolean,
+                default: false
+            },
+            allowDrag: {
+                type: Function
+            },
+            allowDrop: {
+                type: Function
+            },
 
         },
         data () {
@@ -70,6 +81,11 @@
                 prefixCls: prefixCls,
                 stateTree: this.data,
                 flatState: [],
+                dragState: {
+                    draggingNode: null,
+                    dropNode: null,
+                    dropType: null
+                }
             };
         },
         watch: {
@@ -195,6 +211,118 @@
                 this.updateTreeDown(node, {checked, indeterminate: false}); // reset `indeterminate` when going down
 
                 this.$emit('on-check-change', this.getCheckedNodes(), node);
+            },
+            isDragAllowed (node) {
+                return !this.allowDrag || this.allowDrag(node) !== false;
+            },
+            isDescendant (parent, node) {
+                const children = parent && parent[this.childrenKey];
+                if (!children) return false;
+                return children.some(child => child === node || this.isDescendant(child, node));
+            },
+            findNodeLocation (node, nodes = this.stateTree, parent = null) {
+                for (let index = 0; index < nodes.length; index++) {
+                    if (nodes[index] === node) return { nodes, index, parent };
+                    const children = nodes[index][this.childrenKey];
+                    if (children) {
+                        const location = this.findNodeLocation(node, children, nodes[index]);
+                        if (location) return location;
+                    }
+                }
+                return null;
+            },
+            getDropType (event) {
+                const target = event.currentTarget;
+                if (!target || !target.getBoundingClientRect) return 'inner';
+                const rect = target.getBoundingClientRect();
+                if (!rect.height) return 'inner';
+                const offset = event.clientY - rect.top;
+                if (offset < rect.height / 3) return 'before';
+                if (offset > rect.height * 2 / 3) return 'after';
+                return 'inner';
+            },
+            canDrop (draggingNode, dropNode, dropType) {
+                if (!draggingNode || !dropNode || draggingNode === dropNode) return false;
+                if (this.isDescendant(draggingNode, dropNode)) return false;
+                return !this.allowDrop || this.allowDrop(draggingNode, dropNode, dropType) !== false;
+            },
+            handleDragStart (event, node) {
+                if (!this.draggable || !this.isDragAllowed(node)) {
+                    event.preventDefault();
+                    return;
+                }
+                this.dragState.draggingNode = node;
+                if (event.dataTransfer) {
+                    event.dataTransfer.effectAllowed = 'move';
+                    event.dataTransfer.setData('text/plain', String(node.nodeKey));
+                }
+                this.$emit('on-drag-start', node, event);
+            },
+            handleDragEnter (event, node) {
+                const dragNode = this.dragState.draggingNode;
+                const dropType = this.getDropType(event);
+                if (!this.canDrop(dragNode, node, dropType)) return;
+                event.preventDefault();
+                this.$emit('on-drag-enter', dragNode, node, event);
+            },
+            handleDragOver (event, node) {
+                const dragNode = this.dragState.draggingNode;
+                const dropType = this.getDropType(event);
+                if (!this.canDrop(dragNode, node, dropType)) {
+                    this.dragState.dropNode = null;
+                    this.dragState.dropType = null;
+                    return;
+                }
+                event.preventDefault();
+                if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
+                this.dragState.dropNode = node;
+                this.dragState.dropType = dropType;
+                this.$emit('on-drag-over', dragNode, node, event);
+            },
+            handleDragLeave (event, node) {
+                if (event.currentTarget && event.relatedTarget && event.currentTarget.contains(event.relatedTarget)) return;
+                if (this.dragState.dropNode === node) {
+                    this.dragState.dropNode = null;
+                    this.dragState.dropType = null;
+                }
+                this.$emit('on-drag-leave', this.dragState.draggingNode, node, event);
+            },
+            moveNode (draggingNode, dropNode, dropType) {
+                const source = this.findNodeLocation(draggingNode);
+                const target = this.findNodeLocation(dropNode);
+                if (!source || !target) return false;
+
+                source.nodes.splice(source.index, 1);
+                if (dropType === 'inner') {
+                    if (!dropNode[this.childrenKey]) this.$set(dropNode, this.childrenKey, []);
+                    dropNode[this.childrenKey].push(draggingNode);
+                    this.$set(dropNode, 'expand', true);
+                } else {
+                    const updatedTarget = this.findNodeLocation(dropNode);
+                    const insertAt = updatedTarget.index + (dropType === 'after' ? 1 : 0);
+                    updatedTarget.nodes.splice(insertAt, 0, draggingNode);
+                }
+                this.flatState = this.compileFlatState();
+                return true;
+            },
+            handleDrop (event, node) {
+                const draggingNode = this.dragState.draggingNode;
+                const dropType = this.dragState.dropNode === node
+                    ? this.dragState.dropType
+                    : this.getDropType(event);
+                if (!this.canDrop(draggingNode, node, dropType)) return;
+                event.preventDefault();
+                if (this.moveNode(draggingNode, node, dropType)) {
+                    this.$emit('on-drop', draggingNode, node, dropType, event);
+                }
+                this.dragState.dropNode = null;
+                this.dragState.dropType = null;
+            },
+            handleDragEnd (event, node) {
+                this.$emit('on-drag-end', node, this.dragState.dropNode, event);
+                this.dragState.draggingNode = null;
+                this.dragState.dropNode = null;
+                this.dragState.dropType = null;
             }
         },
         created(){

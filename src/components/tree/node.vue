@@ -2,19 +2,29 @@
     <collapse-transition :appear="appear">
         <ul :class="classes">
             <li>
-                <span :class="arrowClasses" @click="handleExpand">
-                    <Icon v-if="showArrow" :type="arrowType" :custom="customArrowType" :size="arrowSize" />
-                    <Icon v-if="showLoading" type="ios-loading" class="ivu-load-loop" />
+                <span
+                        :class="nodeClasses"
+                        :draggable="isDraggable"
+                        @dragstart.stop="handleDragStart"
+                        @dragenter.stop="handleDragEnter"
+                        @dragover.stop="handleDragOver"
+                        @dragleave.stop="handleDragLeave"
+                        @drop.stop="handleDrop"
+                        @dragend.stop="handleDragEnd">
+                    <span :class="arrowClasses" @click="handleExpand">
+                        <Icon v-if="showArrow" :type="arrowType" :custom="customArrowType" :size="arrowSize" />
+                        <Icon v-if="showLoading" type="ios-loading" class="ivu-load-loop" />
+                    </span>
+                    <Checkbox
+                            v-if="showCheckbox"
+                            :value="data.checked"
+                            :indeterminate="data.indeterminate"
+                            :disabled="data.disabled || data.disableCheckbox"
+                            @click.native.prevent="handleCheck"></Checkbox>
+                    <Render v-if="data.render" :render="data.render" :data="data" :node="node"></Render>
+                    <Render v-else-if="isParentRender" :render="parentRender" :data="data" :node="node"></Render>
+                    <span v-else :class="titleClasses" @click="handleSelect">{{ data.title }}</span>
                 </span>
-                <Checkbox
-                        v-if="showCheckbox"
-                        :value="data.checked"
-                        :indeterminate="data.indeterminate"
-                        :disabled="data.disabled || data.disableCheckbox"
-                        @click.native.prevent="handleCheck"></Checkbox>
-                <Render v-if="data.render" :render="data.render" :data="data" :node="node"></Render>
-                <Render v-else-if="isParentRender" :render="parentRender" :data="data" :node="node"></Render>
-                <span v-else :class="titleClasses" @click="handleSelect">{{ data.title }}</span>
                 <Tree-node
                         v-if="data.expand"
                         :appear="appearByClickArrow"
@@ -22,6 +32,7 @@
                         :key="i"
                         :data="item"
                         :multiple="multiple"
+                        :draggable="draggable"
                         :show-checkbox="showCheckbox"
                         :children-key="childrenKey">
                 </Tree-node>
@@ -63,6 +74,10 @@
                 type: Boolean,
                 default: false
             },
+            draggable: {
+                type: Boolean,
+                default: false
+            },
             appear: {
                 type: Boolean,
                 default: false
@@ -81,6 +96,21 @@
                 return [
                     `${prefixCls}-children`
                 ];
+            },
+            nodeClasses () {
+                const dragState = this.TreeInstance.dragState;
+                return [
+                    `${prefixCls}-node-content`,
+                    {
+                        [`${prefixCls}-node-dragging`]: dragState.draggingNode === this.data,
+                        [`${prefixCls}-node-drop-before`]: dragState.dropNode === this.data && dragState.dropType === 'before',
+                        [`${prefixCls}-node-drop-inner`]: dragState.dropNode === this.data && dragState.dropType === 'inner',
+                        [`${prefixCls}-node-drop-after`]: dragState.dropNode === this.data && dragState.dropType === 'after'
+                    }
+                ];
+            },
+            isDraggable () {
+                return this.draggable && this.TreeInstance.isDragAllowed(this.data);
             },
             selectedCls () {
                 return [
@@ -218,6 +248,24 @@
                     nodeKey: this.data.nodeKey
                 };
                 this.dispatch('Tree', 'on-check', changes);
+            },
+            handleDragStart (event) {
+                this.TreeInstance.handleDragStart(event, this.data);
+            },
+            handleDragEnter (event) {
+                this.TreeInstance.handleDragEnter(event, this.data);
+            },
+            handleDragOver (event) {
+                this.TreeInstance.handleDragOver(event, this.data);
+            },
+            handleDragLeave (event) {
+                this.TreeInstance.handleDragLeave(event, this.data);
+            },
+            handleDrop (event) {
+                this.TreeInstance.handleDrop(event, this.data);
+            },
+            handleDragEnd (event) {
+                this.TreeInstance.handleDragEnd(event, this.data);
             }
         }
     };

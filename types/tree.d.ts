@@ -34,6 +34,19 @@ export declare class Tree extends Vue {
      */
     render?: (h?: CreateElement) => void;
     /**
+     * 是否开启节点拖拽
+     * @default false
+     */
+    draggable?: boolean;
+    /**
+     * 判断节点是否允许拖拽
+     */
+    "allow-drag"?: (node: TreeChild) => boolean;
+    /**
+     * 判断节点是否允许放置
+     */
+    "allow-drop"?: (draggingNode: TreeChild, dropNode: TreeChild, type: TreeDropType) => boolean;
+    /**
      * 定义子节点键
      * @default children
      */
@@ -63,6 +76,12 @@ export declare class Tree extends Vue {
      * @default  当前节点的数据
      */
     $emit(eventName: "on-toggle-expand", value: TreeChild): this;
+    $emit(eventName: "on-drag-start", node: TreeChild, event: DragEvent): this;
+    $emit(eventName: "on-drag-enter", draggingNode: TreeChild, dropNode: TreeChild, event: DragEvent): this;
+    $emit(eventName: "on-drag-leave", draggingNode: TreeChild, dropNode: TreeChild, event: DragEvent): this;
+    $emit(eventName: "on-drag-over", draggingNode: TreeChild, dropNode: TreeChild, event: DragEvent): this;
+    $emit(eventName: "on-drag-end", node: TreeChild, dropNode: TreeChild | null, event: DragEvent): this;
+    $emit(eventName: "on-drop", draggingNode: TreeChild, dropNode: TreeChild, type: TreeDropType, event: DragEvent): this;
     /**
      * 获取被勾选的节点
      */
@@ -76,6 +95,8 @@ export declare class Tree extends Vue {
      */
     getCheckedAndIndeterminateNodes(): any[];
 }
+
+export type TreeDropType = "before" | "inner" | "after";
 
 export declare class TreeChild extends Vue {
     /**
