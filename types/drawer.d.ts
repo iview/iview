@@ -36,6 +36,11 @@ export declare class Drawer extends Vue {
      */
     mask?: boolean;
     /**
+     * Base z-index for shared overlay ordering.
+     * Defaults to the wrapper's stylesheet z-index (normally 1000).
+     */
+    'z-index'?: number;
+    /**
      * 遮罩层样式
      */
     'mask-style'?: object;

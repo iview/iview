@@ -1,9 +1,9 @@
 <template>
     <div v-transfer-dom :data-transfer="transfer">
         <transition name="fade">
-            <div :class="maskClasses" :style="maskStyle" v-if="mask && visible" @click="handleMask"></div>
+            <div :class="maskClasses" :style="maskStyles" v-if="mask && visible" @click="handleMask"></div>
         </transition>
-        <div :class="wrapClasses" @click="handleWrapClick">
+        <div :class="wrapClasses" :style="wrapStyles" ref="wrap" @click="handleWrapClick">
             <transition :name="'move-' + placement">
                 <div :class="classes" :style="mainStyles" v-if="visible">
                     <div :class="contentClasses" ref="content">
@@ -37,6 +37,7 @@
     import ScrollbarMixins from '../modal/mixins-scrollbar';
 
     import { on, off } from '../../utils/dom';
+    import { transferIndex as drawerIndex, transferIncrease as drawerIncrease } from '../../utils/transfer-queue';
 
     const prefixCls = 'ivu-drawer';
 
@@ -86,8 +87,7 @@
                 default: 'right'
             },
             zIndex: {
-                type: Number,
-                default: 1000
+                type: Number
             },
             transfer: {
                 type: Boolean,
@@ -113,6 +113,8 @@
             return {
                 prefixCls: prefixCls,
                 visible: this.value,
+                drawerIndex: this.value ? this.handleGetDrawerIndex() : 0,
+                baseZIndex: null,
                 wrapShow: false,
                 showHead: true,
                 canMove: false,
@@ -123,6 +125,17 @@
             };
         },
         computed: {
+            wrapStyles () {
+                // Read the theme's base before adding an inline stacking value.
+                if (this.baseZIndex === null) return {};
+                const baseZIndex = this.zIndex === undefined ? this.baseZIndex : this.zIndex;
+                return {
+                    zIndex: baseZIndex + this.drawerIndex
+                };
+            },
+            maskStyles () {
+                return Object.assign({}, this.wrapStyles, this.maskStyle);
+            },
             wrapClasses () {
                 return [
                     `${prefixCls}-wrap`,
@@ -176,6 +189,10 @@
             }
         },
         methods: {
+            handleGetDrawerIndex () {
+                drawerIncrease();
+                return drawerIndex;
+            },
             close () {
                 if (!this.beforeClose) {
                     return this.handleClose();
@@ -240,6 +257,9 @@
             },
         },
         mounted () {
+            const baseZIndex = parseInt(window.getComputedStyle(this.$refs.wrap).zIndex, 10);
+            this.baseZIndex = isNaN(baseZIndex) ? 1000 : baseZIndex;
+
             if (this.visible) {
                 this.wrapShow = true;
             }
@@ -282,6 +302,7 @@
                         }
                     }, 300);
                 } else {
+                    this.drawerIndex = this.handleGetDrawerIndex();
                     if (this.timer) clearTimeout(this.timer);
                     this.wrapShow = true;
                     if (!this.scrollable) {
